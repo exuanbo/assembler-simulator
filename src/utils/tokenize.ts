@@ -1,4 +1,4 @@
-import { ARGS_COUNT } from '../constants'
+import { ARGS_COUNT } from './constants'
 
 const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
 
@@ -50,7 +50,7 @@ export const parseLables = (statements: Statement[]): Array<[string, number]> =>
     })
     .filter(excludeUndefined)
 
-interface Label {
+export interface Label {
   [name: string]: number
 }
 
