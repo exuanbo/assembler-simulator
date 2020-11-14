@@ -6,8 +6,8 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "preact build --no-prerender --no-sw",
-    "dev": "preact watch --no-sw",
+    "build": "preact build && rimraf build/ssr-build",
+    "dev": "preact watch",
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
     "test": "yarn lint && yarn build && jest --no-cache"
