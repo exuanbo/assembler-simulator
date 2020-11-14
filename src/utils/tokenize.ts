@@ -1,21 +1,12 @@
 import { ARGS_COUNT } from '../constants'
 
-type ExcludesUndefined = <T>(s: T | undefined) => s is T
-
-export interface Label {
-  [name: string]: number
-}
+const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
 
 type Keyword = keyof typeof ARGS_COUNT
 
 export interface Statement {
   key: Keyword | string
   args: string[] | null | undefined
-}
-
-interface TokenizeResult {
-  labels: Label
-  statements: Statement[]
 }
 
 export const parseStatement = (code: string): Statement[] =>
@@ -47,7 +38,7 @@ export const parseStatement = (code: string): Statement[] =>
 
       return { key: keyword, args: [args] }
     })
-    .filter((Boolean as unknown) as ExcludesUndefined)
+    .filter(excludeUndefined)
 
 export const parseLables = (statements: Statement[]): Array<[string, number]> =>
   statements
@@ -57,7 +48,16 @@ export const parseLables = (statements: Statement[]): Array<[string, number]> =>
       }
       return undefined
     })
-    .filter((Boolean as unknown) as ExcludesUndefined)
+    .filter(excludeUndefined)
+
+interface Label {
+  [name: string]: number
+}
+
+interface TokenizeResult {
+  labels: Label
+  statements: Statement[]
+}
 
 export const tokenize = (code: string): TokenizeResult => {
   const statements = parseStatement(code)
