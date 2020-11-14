@@ -6,8 +6,8 @@
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "preact build",
-    "dev": "preact watch",
+    "build": "preact build --template src/template.html",
+    "dev": "preact watch --template src/template.html",
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
     "test": "yarn lint && yarn build && jest --no-cache"
