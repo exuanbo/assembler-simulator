@@ -26,10 +26,10 @@ export const parseStatement = (code: string): Statement[] =>
         return undefined
       }
 
-      const statement = stmt.split(';')[0].trim()
+      const statement = stmt.replace(/\s*;.*/, '')
 
       if (statement.endsWith(':')) {
-        return { key: statement.split(':')[0], args: undefined }
+        return { key: statement.slice(0, -1), args: undefined }
       }
 
       const firstWhitespacePos = statement.search(/\s/)
@@ -38,15 +38,14 @@ export const parseStatement = (code: string): Statement[] =>
       }
 
       const keyword = statement.slice(0, firstWhitespacePos).toUpperCase()
-      const args = statement.slice(firstWhitespacePos)
+      const args = statement.slice(firstWhitespacePos).replace(/\s/g, '')
 
       const commaPos = args.search(/,/)
       if (commaPos > 0) {
-        const parsedArgs = args.split(',').map(arg => arg.trim())
-        return { key: keyword, args: parsedArgs }
+        return { key: keyword, args: args.split(',') }
       }
 
-      return { key: keyword, args: [args.trim()] }
+      return { key: keyword, args: [args] }
     })
     .filter((Boolean as unknown) as ExcludesUndefined)
 
