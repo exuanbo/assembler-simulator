@@ -1,5 +1,7 @@
 import { FunctionalComponent, h } from 'preact'
 import { Card, Input } from 'antd'
+import 'antd/es/card/style'
+import 'antd/es/input/style'
 
 const { TextArea } = Input
 

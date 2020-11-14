@@ -1,6 +1,5 @@
 /* eslint react/jsx-pascal-case: [2, { ignore: ['RAM', 'VDU'] }] */
 import { FunctionalComponent, h } from 'preact'
-import 'antd/dist/antd.css'
 import { Row, Col } from 'antd'
 import CodeArea from './codeArea'
 import Memory from './memory'
