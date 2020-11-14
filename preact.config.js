@@ -2,6 +2,8 @@ import path from 'path'
 
 export default {
   webpack(config, env, helpers) {
+    config.output.publicPath = ''
+
     if (env.production && config.performance) {
       config.performance.hints = false
     }
