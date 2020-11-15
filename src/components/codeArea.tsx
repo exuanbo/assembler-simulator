@@ -25,6 +25,7 @@ const CodeArea: FunctionalComponent<Props> = ({ onInput }: Props) => {
           setValue(value)
           onInput(value)
         }}
+        spellCheck="false"
       />
     </Card>
   )
