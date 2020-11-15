@@ -1,3 +1,22 @@
+const enum ArgTypeEnum {
+  Number,
+  Address,
+  Register,
+  RegisterPointer,
+  Illegal
+}
+
+export type ArgType = keyof typeof ArgTypeEnum
+
+const enum RegisterEnum {
+  AL,
+  BL,
+  CL,
+  DL
+}
+
+export type Register = keyof typeof RegisterEnum
+
 export const ARGS_COUNT = {
   MOV: 2,
   ADD: 2,
@@ -6,38 +25,40 @@ export const ARGS_COUNT = {
   DIV: 2,
   INC: 1,
   DEC: 1,
-  AND: 2,
-  OR: 2,
-  XOR: 2,
-  NOT: 1,
-  ROL: 1,
-  ROR: 1,
-  SHL: 1,
-  SHR: 1,
   CMP: 2,
   JMP: 1,
   JZ: 1,
   JNZ: 1,
-  JS: 1,
-  JNS: 1,
-  JO: 1,
-  JNO: 1,
-  CALL: 1,
-  RET: 0,
-  INT: 1,
-  IRET: 0,
-  PUSH: 1,
-  POP: 1,
-  PUSHF: 0,
-  POPF: 0,
-  IN: 1,
-  OUT: 1,
-  CLO: 0,
-  HALT: 0,
-  NOP: 0,
-  STI: 0,
-  CLI: 0,
-  ORG: 1,
-  DB: 1,
   END: 0
+}
+
+export const OPCODE_MAPPING = {
+  ADD: [0xa0, 0xb0],
+  SUB: [0xa1, 0xb1],
+  MUL: [0xa2, 0xb2],
+  DIV: [0xa3, 0xb6],
+  INC: 0xa4,
+  DEC: 0x05
+}
+
+type RegisterCodes = {
+  [name in Register]: number
+}
+
+export const REGISTER_CODES: RegisterCodes = {
+  AL: 0x00,
+  BL: 0x01,
+  CL: 0x02,
+  DL: 0x03
+}
+
+type Regex = {
+  [regexType in Exclude<ArgType, 'Illegal'>]: RegExp
+}
+
+export const REGEX: Regex = {
+  Number: /^([0-9A-F]{1,2})$/,
+  Address: /^\[([0-9A-F]{1,2})\]$/,
+  Register: /^([ABCD]L)$/,
+  RegisterPointer: /^\[([ABCD]L)\]$/
 }
