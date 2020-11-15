@@ -7,8 +7,8 @@ const Headbar: FunctionalComponent = () => (
   <span style={{ padding: '0 2em' }}>
     <Space size="middle">
       <h1 style={{ marginBottom: 0, fontSize: '1.25em' }}>Samphire Online</h1>
-      <Button>Assemble</Button>
       <Button>Run</Button>
+      <Button>Stop</Button>
       <Button>Reset</Button>
     </Space>
   </span>
