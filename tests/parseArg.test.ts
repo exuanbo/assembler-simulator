@@ -1,4 +1,4 @@
-import { REGISTER_CODES } from '../src/utils/constants'
+import { ArgType, REGISTER_CODE } from '../src/utils/constants'
 import {
   strToHex,
   getRegisterCode,
@@ -9,7 +9,7 @@ import {
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
 const ILLEGAL_ARGS = ['001', 'el', '[el]']
-const PARSED_ILLEGAL_ARG: ParsedArg = { type: 'Illegal', value: null }
+const PARSED_ILLEGAL_ARG: ParsedArg = { type: ArgType.Illegal, value: null }
 
 describe('util functions', () => {
   HEX_NUMBER_STRINGS.forEach((num, index) => {
@@ -22,7 +22,7 @@ describe('util functions', () => {
     expect(strToHex('not_a_hex_number')).toBe(NaN)
   })
 
-  Object.entries(REGISTER_CODES).forEach(([register, code]) => {
+  Object.entries(REGISTER_CODE).forEach(([register, code]) => {
     it(`should get register '${register}' code`, () => {
       expect(getRegisterCode(register)).toBe(code)
     })
@@ -37,7 +37,7 @@ describe('parseArg', () => {
   HEX_NUMBER_STRINGS.forEach((num, index) => {
     it(`should parse number '${num}'`, () => {
       const exp: ParsedArg = {
-        type: 'Number',
+        type: ArgType.Number,
         value: HEX_NUMBERS[index]
       }
       const res = parseArg(num)
@@ -46,7 +46,7 @@ describe('parseArg', () => {
 
     it(`should parse address '[${num}]'`, () => {
       const exp: ParsedArg = {
-        type: 'Address',
+        type: ArgType.Address,
         value: HEX_NUMBERS[index]
       }
       const res = parseArg(`[${num}]`)
@@ -54,10 +54,10 @@ describe('parseArg', () => {
     })
   })
 
-  Object.keys(REGISTER_CODES).forEach(registor => {
+  Object.keys(REGISTER_CODE).forEach(registor => {
     it(`should parse valid register '${registor}'`, () => {
       const exp: ParsedArg = {
-        type: 'Register',
+        type: ArgType.Register,
         value: getRegisterCode(registor)
       }
       const res = parseArg(registor)
@@ -66,7 +66,7 @@ describe('parseArg', () => {
 
     it(`should parse valid register pointer '[${registor}]'`, () => {
       const exp: ParsedArg = {
-        type: 'RegisterPointer',
+        type: ArgType.RegisterPointer,
         value: getRegisterCode(registor)
       }
       const res = parseArg(`[${registor}]`)

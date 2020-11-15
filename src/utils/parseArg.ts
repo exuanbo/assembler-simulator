@@ -1,9 +1,15 @@
-import { ArgType, Register, REGISTER_CODES, REGEX } from './constants'
+import {
+  ArgType,
+  Register,
+  RegisterCode,
+  ARG_TYPE_REGEX,
+  REGISTER_CODE
+} from './constants'
 
 export const strToHex = (str: string): number => Number.parseInt(str, 16)
 
-export const getRegisterCode = (registerName: string): number =>
-  REGISTER_CODES[registerName.toUpperCase() as Register]
+export const getRegisterCode = (registerName: string): RegisterCode =>
+  REGISTER_CODE[registerName.toUpperCase() as Register]
 
 export interface ParsedArg {
   type: ArgType
@@ -19,7 +25,9 @@ const getMatcher = (token: string) => (
   const match = token.match(regex)?.[1]
   if (match !== undefined) {
     const getValue =
-      type === 'Number' || type === 'Address' ? strToHex : getRegisterCode
+      type === ArgType.Number || type === ArgType.Address
+        ? strToHex
+        : getRegisterCode
     return {
       type,
       value: getValue(match)
@@ -30,28 +38,39 @@ const getMatcher = (token: string) => (
 export const parseArg = (token: string): ParsedArg => {
   const matcher = getMatcher(token)
 
-  const matchNumber = matcher(REGEX.Number, 'Number')
+  const matchNumber = matcher(ARG_TYPE_REGEX.Number, ArgType.Number)
   if (matchNumber !== undefined) {
     return matchNumber
   }
 
-  const matchAddress = matcher(REGEX.Address, 'Address')
+  const matchAddress = matcher(ARG_TYPE_REGEX.Address, ArgType.Address)
   if (matchAddress !== undefined) {
     return matchAddress
   }
 
-  const matchRegister = matcher(REGEX.Register, 'Register')
+  const matchRegister = matcher(ARG_TYPE_REGEX.Register, ArgType.Register)
   if (matchRegister !== undefined) {
     return matchRegister
   }
 
-  const matchRegisterPointer = matcher(REGEX.RegisterPointer, 'RegisterPointer')
+  const matchRegisterPointer = matcher(
+    ARG_TYPE_REGEX.RegisterPointer,
+    ArgType.RegisterPointer
+  )
   if (matchRegisterPointer !== undefined) {
     return matchRegisterPointer
   }
 
   return {
-    type: 'Illegal',
+    type: ArgType.Illegal,
     value: null
   }
 }
+
+// class ArgError extends Error {
+//   constructor(instruction: string, args: string[]) {
+//     super()
+//     this.stack = `${instruction} ${args.join(', ')}`
+//     this.message = `Invalid argument at '${this.stack}'`
+//   }
+// }

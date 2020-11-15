@@ -1,64 +1,94 @@
-const enum ArgTypeEnum {
-  Number,
-  Address,
-  Register,
-  RegisterPointer,
-  Illegal
+const enum Keyword {
+  MOV = 'MOV',
+  ADD = 'ADD',
+  SUB = 'SUB',
+  MUL = 'MUL',
+  DIV = 'DIV',
+  INC = 'INC',
+  DEC = 'DEC',
+  CMP = 'CMP',
+  JMP = 'JMP',
+  JZ = 'JZ',
+  JNZ = 'JNZ',
+  END = 'END'
 }
 
-export type ArgType = keyof typeof ArgTypeEnum
+type ArgsCount = 0 | 1 | 2
 
-const enum RegisterEnum {
-  AL,
-  BL,
-  CL,
-  DL
+export const ARGS_COUNT: { [keyword in Keyword]: ArgsCount } = {
+  [Keyword.MOV]: 2,
+  [Keyword.ADD]: 2,
+  [Keyword.SUB]: 2,
+  [Keyword.MUL]: 2,
+  [Keyword.DIV]: 2,
+  [Keyword.INC]: 1,
+  [Keyword.DEC]: 1,
+  [Keyword.CMP]: 2,
+  [Keyword.JMP]: 1,
+  [Keyword.JZ]: 1,
+  [Keyword.JNZ]: 1,
+  [Keyword.END]: 0
 }
 
-export type Register = keyof typeof RegisterEnum
-
-export const ARGS_COUNT = {
-  MOV: 2,
-  ADD: 2,
-  SUB: 2,
-  MUL: 2,
-  DIV: 2,
-  INC: 1,
-  DEC: 1,
-  CMP: 2,
-  JMP: 1,
-  JZ: 1,
-  JNZ: 1,
-  END: 0
+export const enum ArgType {
+  Number = 'Number',
+  Address = 'Address',
+  Register = 'Register',
+  RegisterPointer = 'RegisterPointer',
+  Illegal = 'Illegal'
 }
 
-export const OPCODE_MAPPING = {
-  ADD: [0xa0, 0xb0],
-  SUB: [0xa1, 0xb1],
-  MUL: [0xa2, 0xb2],
-  DIV: [0xa3, 0xb6],
-  INC: 0xa4,
-  DEC: 0x05
+type ValidArgTypeRegex = {
+  [argType in Exclude<ArgType, ArgType.Illegal>]: RegExp
 }
 
-type RegisterCodes = {
-  [name in Register]: number
+export const ARG_TYPE_REGEX: ValidArgTypeRegex = {
+  [ArgType.Number]: /^([0-9A-F]{1,2})$/,
+  [ArgType.Address]: /^\[([0-9A-F]{1,2})\]$/,
+  [ArgType.Register]: /^([ABCD]L)$/,
+  [ArgType.RegisterPointer]: /^\[([ABCD]L)\]$/
 }
 
-export const REGISTER_CODES: RegisterCodes = {
-  AL: 0x00,
-  BL: 0x01,
-  CL: 0x02,
-  DL: 0x03
+export const enum Register {
+  AL = 'AL',
+  BL = 'BL',
+  CL = 'CL',
+  DL = 'DL'
 }
 
-type Regex = {
-  [regexType in Exclude<ArgType, 'Illegal'>]: RegExp
+export type RegisterCode = 0x00 | 0x01 | 0x02 | 0x03
+
+export const REGISTER_CODE: { [name in Register]: RegisterCode } = {
+  [Register.AL]: 0x00,
+  [Register.BL]: 0x01,
+  [Register.CL]: 0x02,
+  [Register.DL]: 0x03
 }
 
-export const REGEX: Regex = {
-  Number: /^([0-9A-F]{1,2})$/,
-  Address: /^\[([0-9A-F]{1,2})\]$/,
-  Register: /^([ABCD]L)$/,
-  RegisterPointer: /^\[([ABCD]L)\]$/
+type OpcodeMappingValue = [number, number] | number
+
+type OpcodeMapping = {
+  [keyword in Extract<
+    Keyword,
+    | Keyword.ADD
+    | Keyword.SUB
+    | Keyword.MUL
+    | Keyword.DIV
+    | Keyword.INC
+    | Keyword.DEC
+  >]: OpcodeMappingValue
 }
+
+export const OPCODE_MAPPING: OpcodeMapping = {
+  [Keyword.ADD]: [0xa0, 0xb0],
+  [Keyword.SUB]: [0xa1, 0xb1],
+  [Keyword.MUL]: [0xa2, 0xb2],
+  [Keyword.DIV]: [0xa3, 0xb6],
+  [Keyword.INC]: 0xa4,
+  [Keyword.DEC]: 0x05
+}
+
+export type ArithmeticOpcode = Pick<
+  typeof OPCODE_MAPPING,
+  Keyword.ADD | Keyword.SUB | Keyword.MUL | Keyword.DIV
+>
