@@ -1,5 +1,5 @@
 import excludeUndefined from './excludeUndefined'
-import { JUMP_KEYWORDS } from './constants'
+import { JumpKeyword } from './constants'
 export interface Statement {
   key: string
   args: [string, string] | [string] | undefined
@@ -83,7 +83,7 @@ export const calcLabels = (
   statements.map((statement, index) => {
     Object.entries(lables).forEach(([label, position]) => {
       const { key, args } = statement
-      if (key in JUMP_KEYWORDS && args?.length === 1 && args[0] === label) {
+      if (key in JumpKeyword && args?.length === 1 && args[0] === label) {
         statement.args = [(position - index).toString(16)]
       }
     })

@@ -13,6 +13,12 @@ export enum Keyword {
   END = 'END'
 }
 
+export enum JumpKeyword {
+  JMP = Keyword.JMP,
+  JZ = Keyword.JZ,
+  JNZ = Keyword.JNZ
+}
+
 export type ArithmeticKeyword = Extract<
   Keyword,
   Keyword.ADD | Keyword.SUB | Keyword.MUL | Keyword.DIV
@@ -27,14 +33,6 @@ export type StaticOpcodeKeyword = Extract<
   | Keyword.JNZ
   | Keyword.END
 >
-
-type JumpKeyword = Extract<Keyword, Keyword.JMP | Keyword.JZ | Keyword.JNZ>
-
-export const JUMP_KEYWORDS: JumpKeyword[] = [
-  Keyword.JMP,
-  Keyword.JZ,
-  Keyword.JNZ
-]
 
 type OpcodeMappingValue = [number, number] | number
 
