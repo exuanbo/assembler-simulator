@@ -114,13 +114,16 @@ export const getOpcode = (
   }
 }
 
-export type ParseSingleStatementResult = Array<number | string> | undefined
+const isIllegal = (arg: ParsedArg | undefined): boolean =>
+  arg !== undefined && arg.type === ArgType.Illegal
+
+export type ParseSingleStatementResult = number[] | undefined
 
 export const parseSingleStatement = (
   statement: Statement
 ): ParseSingleStatementResult => {
   const { key, args } = statement
-  if (key === 'END') {
+  if (key === Keyword.END) {
     return [0x00]
   }
 
@@ -128,11 +131,20 @@ export const parseSingleStatement = (
     const [arg1, arg2] = args
     const parsedArg1 = parseArg(arg1)
     const parsedArg2 = (arg2 !== undefined && parseArg(arg2)) || undefined
+
+    ;[parsedArg1, parsedArg2].forEach(arg => {
+      if (isIllegal(arg)) {
+        throw new Error(`Illegal argument '${(arg as ParsedArg).value}'`)
+      }
+    })
+
     const opcode = getOpcode(key, parsedArg1, parsedArg2)
 
-    return [opcode, parsedArg1.value, parsedArg2?.value].filter(
-      excludeUndefined
-    )
+    return [
+      opcode,
+      parsedArg1.value as number,
+      parsedArg2?.value as number
+    ].filter(excludeUndefined)
   }
 
   return undefined
