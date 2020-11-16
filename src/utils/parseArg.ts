@@ -66,11 +66,3 @@ export const parseArg = (token: string): ParsedArg => {
     value: null
   }
 }
-
-// class ArgError extends Error {
-//   constructor(instruction: string, args: string[]) {
-//     super()
-//     this.stack = `${instruction} ${args.join(', ')}`
-//     this.message = `Invalid argument at '${this.stack}'`
-//   }
-// }

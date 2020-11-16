@@ -1,4 +1,4 @@
-const enum Keyword {
+export const enum Keyword {
   MOV = 'MOV',
   ADD = 'ADD',
   SUB = 'SUB',
@@ -12,6 +12,11 @@ const enum Keyword {
   JNZ = 'JNZ',
   END = 'END'
 }
+
+export type ArithmeticKeyword = Extract<
+  Keyword,
+  Keyword.ADD | Keyword.SUB | Keyword.MUL | Keyword.DIV
+>
 
 type ArgsCount = 0 | 1 | 2
 
@@ -87,8 +92,3 @@ export const OPCODE_MAPPING: OpcodeMapping = {
   [Keyword.INC]: 0xa4,
   [Keyword.DEC]: 0x05
 }
-
-export type ArithmeticOpcode = Pick<
-  typeof OPCODE_MAPPING,
-  Keyword.ADD | Keyword.SUB | Keyword.MUL | Keyword.DIV
->
