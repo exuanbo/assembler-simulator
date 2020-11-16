@@ -5,8 +5,8 @@ import {
   getCompareOpcode,
   getStaticOpcode,
   getOpcode,
-  GenerateOpcodesFromStatementsResult,
-  generateOpcodesFromStatements
+  GenerateOpcodesFromStatementResult,
+  generateOpcodesFromStatement
 } from '../src/utils/assembler'
 import {
   Keyword,
@@ -195,7 +195,7 @@ describe('getOpcode', () => {
   })
 })
 
-const statementOpcodes: GenerateOpcodesFromStatementsResult[] = [
+const statementOpcodes: GenerateOpcodesFromStatementResult[] = [
   [0xd0, 0x03, 0x0a],
   [0xd0, 0x00, 0x00],
   [0xd0, 0x01, 0xc0],
@@ -216,7 +216,7 @@ describe('generateOpcodesFromStatements', () => {
     it(`should work with '${key}${
       (args !== undefined && args !== null && ` ${args.join(', ')}`) || ''
     }' on line ${index}`, () => {
-      const res = generateOpcodesFromStatements(statement)
+      const res = generateOpcodesFromStatement(statement)
       expect(res).toStrictEqual(statementOpcodes[index])
     })
   })

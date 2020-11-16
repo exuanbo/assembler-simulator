@@ -117,11 +117,11 @@ export const getOpcode = (
 const isIllegal = (arg: ParsedArg | undefined): boolean =>
   arg !== undefined && arg.type === ArgType.Illegal
 
-export type GenerateOpcodesFromStatementsResult = number[] | undefined
+export type GenerateOpcodesFromStatementResult = number[] | undefined
 
-export const generateOpcodesFromStatements = (
+export const generateOpcodesFromStatement = (
   statement: Statement
-): GenerateOpcodesFromStatementsResult => {
+): GenerateOpcodesFromStatementResult => {
   const { key, args } = statement
   if (key === Keyword.END) {
     return [0x00]
