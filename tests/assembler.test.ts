@@ -5,7 +5,7 @@ import {
   getCompareOpcode,
   getStaticOpcode,
   getOpcode,
-  ParseSingleStatementResult,
+  GenerateOpcodesFromStatementsResult,
   generateOpcodesFromStatements
 } from '../src/utils/assembler'
 import {
@@ -195,7 +195,7 @@ describe('getOpcode', () => {
   })
 })
 
-const statementOpcodes: ParseSingleStatementResult[] = [
+const statementOpcodes: GenerateOpcodesFromStatementsResult[] = [
   [0xd0, 0x03, 0x0a],
   [0xd0, 0x00, 0x00],
   [0xd0, 0x01, 0xc0],
@@ -210,7 +210,7 @@ const statementOpcodes: ParseSingleStatementResult[] = [
   [0x00]
 ]
 
-describe('parseSingleStatement', () => {
+describe('generateOpcodesFromStatements', () => {
   statementsAfterCalcLables.forEach((statement, index) => {
     const { key, args } = statement
     it(`should work with '${key}${
