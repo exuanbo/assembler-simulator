@@ -75,7 +75,7 @@ export const getCompareOpcode = (
   }
 }
 
-const getStaticOpcode = (keyword: StaticOpcodeKeyword): number =>
+export const getStaticOpcode = (keyword: StaticOpcodeKeyword): number =>
   OPCODE_MAPPING[Keyword[keyword]] as number
 
 export const getOpcode = (

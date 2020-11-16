@@ -1,12 +1,15 @@
 import {
   generateAddressArr,
-  getArithmeticOpcode,
   getMovOpcode,
+  getArithmeticOpcode,
+  getCompareOpcode,
+  getStaticOpcode,
   getOpcode
 } from '../src/utils/assembler'
 import {
   Keyword,
   ArithmeticKeyword,
+  StaticOpcodeKeyword,
   ArgType,
   OPCODE_MAPPING
 } from '../src/utils/constants'
@@ -33,36 +36,16 @@ const arithmeticKeywords: ArithmeticKeyword[] = [
   Keyword.DIV
 ]
 
-describe('getArithmeticOpcode', () => {
-  arithmeticKeywords.forEach(keyword => {
-    it(`should works with '${keyword}' when 'src.type === ArgType.Register'`, () => {
-      const res = getArithmeticOpcode(
-        keyword,
-        { type: ArgType.Register, value: 0x00 },
-        { type: ArgType.Register, value: 0x01 }
-      )
-      expect(res).toBe((OPCODE_MAPPING[keyword] as [number, number])[0])
-    })
+const getDynamicOpcode = (keyword: ArithmeticKeyword): [number, number] =>
+  OPCODE_MAPPING[Keyword[keyword]] as [number, number]
 
-    it(`should works with '${keyword}' when 'src.type === ArgType.Number'`, () => {
-      const res = getArithmeticOpcode(
-        keyword,
-        { type: ArgType.Register, value: 0x00 },
-        { type: ArgType.Number, value: 0x01 }
-      )
-      expect(res).toBe((OPCODE_MAPPING[keyword] as [number, number])[1])
-    })
-
-    it(`should return undefined with '${keyword}' if arg is invalid`, () => {
-      const res = getArithmeticOpcode(
-        keyword,
-        { type: ArgType.Register, value: 0x00 },
-        { type: ArgType.Address, value: 0x01 }
-      )
-      expect(res).toBe(undefined)
-    })
-  })
-})
+const staticOpcodeKeywords: StaticOpcodeKeyword[] = [
+  Keyword.INC,
+  Keyword.DEC,
+  Keyword.JMP,
+  Keyword.JZ,
+  Keyword.JNZ
+]
 
 describe('getMoveOpcode', () => {
   it('should works when move register <- number', () => {
@@ -106,15 +89,76 @@ describe('getMoveOpcode', () => {
   })
 })
 
-describe('getOpcode', () => {
+describe('getArithmeticOpcode', () => {
   arithmeticKeywords.forEach(keyword => {
-    it(`should return correct opcode with '${keyword}'`, () => {
-      const res = getOpcode(
+    it(`should works with '${keyword}' when 'src.type === ArgType.Register'`, () => {
+      const res = getArithmeticOpcode(
         keyword,
         { type: ArgType.Register, value: 0x00 },
         { type: ArgType.Register, value: 0x01 }
       )
-      expect(res).toBe((OPCODE_MAPPING[keyword] as [number, number])[0])
+      expect(res).toBe(getDynamicOpcode(keyword)[0])
+    })
+
+    it(`should works with '${keyword}' when 'src.type === ArgType.Number'`, () => {
+      const res = getArithmeticOpcode(
+        keyword,
+        { type: ArgType.Register, value: 0x00 },
+        { type: ArgType.Number, value: 0x01 }
+      )
+      expect(res).toBe(getDynamicOpcode(keyword)[1])
+    })
+
+    it(`should return undefined with '${keyword}' if arg is invalid`, () => {
+      const res = getArithmeticOpcode(
+        keyword,
+        { type: ArgType.Register, value: 0x00 },
+        { type: ArgType.Address, value: 0x01 }
+      )
+      expect(res).toBe(undefined)
+    })
+  })
+})
+
+describe('getCompareOpcode', () => {
+  it(`should works when compare with 'arg2.type === ArgType.Register'`, () => {
+    const res = getCompareOpcode(
+      { type: ArgType.Register, value: 0x00 },
+      { type: ArgType.Register, value: 0x01 }
+    )
+    expect(res).toBe(0xda)
+  })
+
+  it(`should works when compare with 'arg2.type === ArgType.Address'`, () => {
+    const res = getCompareOpcode(
+      { type: ArgType.Register, value: 0x00 },
+      { type: ArgType.Address, value: 0x01 }
+    )
+    expect(res).toBe(0xdc)
+  })
+
+  it(`should works when compare with 'arg2.type === ArgType.Address'`, () => {
+    const res = getCompareOpcode(
+      { type: ArgType.Register, value: 0x00 },
+      { type: ArgType.Number, value: 0x01 }
+    )
+    expect(res).toBe(0xdb)
+  })
+
+  it(`should return undefined if arg1 in invalid`, () => {
+    const res = getCompareOpcode(
+      { type: ArgType.Address, value: 0x00 },
+      { type: ArgType.Register, value: 0x01 }
+    )
+    expect(res).toBe(undefined)
+  })
+})
+
+describe('getOpcode', () => {
+  staticOpcodeKeywords.forEach(keyword => {
+    it(`should return correct opcode with '${keyword}' AL`, () => {
+      const res = getOpcode(keyword, { type: ArgType.Register, value: 0x00 })
+      expect(res).toBe(getStaticOpcode(keyword))
     })
   })
 
@@ -125,5 +169,25 @@ describe('getOpcode', () => {
       { type: ArgType.Number, value: 0x01 }
     )
     expect(res).toBe(0xd0)
+  })
+
+  arithmeticKeywords.forEach(keyword => {
+    it(`should return correct opcode with '${keyword}'`, () => {
+      const res = getOpcode(
+        keyword,
+        { type: ArgType.Register, value: 0x00 },
+        { type: ArgType.Register, value: 0x01 }
+      )
+      expect(res).toBe(getDynamicOpcode(keyword)[0])
+    })
+  })
+
+  it("should return correct opcode with 'CMP'", () => {
+    const res = getOpcode(
+      Keyword.CMP,
+      { type: ArgType.Register, value: 0x00 },
+      { type: ArgType.Register, value: 0x01 }
+    )
+    expect(res).toBe(0xda)
   })
 })
