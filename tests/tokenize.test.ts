@@ -51,7 +51,7 @@ const labels: Array<[string, number]> = [
 describe('parseStatement', () => {
   it('should parse code to return statements', () => {
     const res = parseStatement(code)
-    expect(res).toEqual(statements)
+    expect(res).toStrictEqual(statements)
   })
 
   it('should throw error', () => {
@@ -67,7 +67,7 @@ describe('parseStatement', () => {
 describe('parseLables', () => {
   it('should parse statements to return lables', () => {
     const res = parseLables(statements)
-    expect(res).toEqual(labels)
+    expect(res).toStrictEqual(labels)
   })
 })
 

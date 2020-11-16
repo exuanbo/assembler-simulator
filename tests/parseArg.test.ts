@@ -44,7 +44,7 @@ describe('parseArg', () => {
         value: HEX_NUMBERS[index]
       }
       const res = parseArg(num)
-      expect(res).toEqual(exp)
+      expect(res).toStrictEqual(exp)
     })
 
     it(`should parse address '[${num}]'`, () => {
@@ -53,7 +53,7 @@ describe('parseArg', () => {
         value: HEX_NUMBERS[index]
       }
       const res = parseArg(`[${num}]`)
-      expect(res).toEqual(exp)
+      expect(res).toStrictEqual(exp)
     })
   })
 
@@ -64,7 +64,7 @@ describe('parseArg', () => {
         value: getRegisterCode(registor)
       }
       const res = parseArg(registor)
-      expect(res).toEqual(exp)
+      expect(res).toStrictEqual(exp)
     })
 
     it(`should parse valid register pointer '[${registor}]'`, () => {
@@ -73,13 +73,13 @@ describe('parseArg', () => {
         value: getRegisterCode(registor)
       }
       const res = parseArg(`[${registor}]`)
-      expect(res).toEqual(exp)
+      expect(res).toStrictEqual(exp)
     })
   })
 
   ILLEGAL_ARGS.forEach(arg => {
     it(`should parse '${arg}' return illegal arg`, () => {
-      expect(parseArg(arg)).toEqual(PARSED_ILLEGAL_ARG)
+      expect(parseArg(arg)).toStrictEqual(PARSED_ILLEGAL_ARG)
     })
   })
 })
