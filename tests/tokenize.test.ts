@@ -83,6 +83,8 @@ const labelTuples: Array<[string, number]> = [
   ['FIN', 11]
 ]
 
+export const labels = Object.fromEntries(labelTuples)
+
 describe('parseStatement', () => {
   it('should parse code to return statements', () => {
     const res = parseStatements(code)
@@ -109,10 +111,7 @@ describe('parseLables', () => {
 
 describe('calcLabels', () => {
   it('should calculate labels', () => {
-    const res = calcLabels(
-      statementsAfterLabelParsed,
-      Object.fromEntries(labelTuples)
-    )
+    const res = calcLabels(statementsAfterLabelParsed, labels)
     expect(res).toStrictEqual(statementsAfterCalcLables)
   })
 })
