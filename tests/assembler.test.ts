@@ -241,4 +241,9 @@ describe('generateOpcodesFromStatements', () => {
       }
     })
   })
+
+  it('should return undefined if args is undefined', () => {
+    const res = generateOpcodesFromStatement({ key: 'MOV', args: undefined })
+    expect(res).toStrictEqual(undefined)
+  })
 })
