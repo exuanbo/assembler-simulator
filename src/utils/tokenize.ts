@@ -15,10 +15,6 @@ export const parseStatement = (code: string): Statement[] =>
 
       const statement = stmt.replace(/\s*;.*/, '').toUpperCase()
 
-      if (statement.endsWith(':')) {
-        return { key: statement.slice(0, -1), args: undefined }
-      }
-
       const firstWhitespacePos = statement.search(/\s/)
       if (firstWhitespacePos < 0) {
         return { key: statement, args: undefined }
@@ -45,8 +41,8 @@ export const parseStatement = (code: string): Statement[] =>
 export const parseLables = (statements: Statement[]): Array<[string, number]> =>
   statements
     .map((stmt: Statement, index: number): [string, number] | undefined => {
-      if (stmt.key !== 'END' && stmt.args === undefined) {
-        return [stmt.key, index]
+      if (stmt.key.endsWith(':') && stmt.args === undefined) {
+        return [stmt.key.slice(0, -1), index]
       }
       return undefined
     })
@@ -56,7 +52,7 @@ export interface Label {
   [name: string]: number
 }
 
-interface TokenizeResult {
+export interface TokenizeResult {
   labels: Label
   statements: Statement[]
 }

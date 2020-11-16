@@ -29,7 +29,7 @@ export const statements: Statement[] = [
   { key: 'MOV', args: ['AL', '0'] },
   { key: 'MOV', args: ['BL', 'C0'] },
 
-  { key: 'LOOP', args: undefined },
+  { key: 'LOOP:', args: undefined },
   { key: 'ADD', args: ['AL', '30'] },
   { key: 'MOV', args: ['[BL]', 'AL'] },
   { key: 'SUB', args: ['AL', '30'] },
@@ -39,7 +39,7 @@ export const statements: Statement[] = [
   { key: 'JZ', args: ['FIN'] },
   { key: 'JMP', args: ['LOOP'] },
 
-  { key: 'FIN', args: undefined },
+  { key: 'FIN:', args: undefined },
   { key: 'END', args: undefined }
 ]
 
