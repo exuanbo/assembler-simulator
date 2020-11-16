@@ -13,7 +13,7 @@ export const parseStatement = (code: string): Statement[] =>
         return undefined
       }
 
-      const statement = stmt.replace(/\s*;.*/, '')
+      const statement = stmt.replace(/\s*;.*/, '').toUpperCase()
 
       if (statement.endsWith(':')) {
         return { key: statement.slice(0, -1), args: undefined }

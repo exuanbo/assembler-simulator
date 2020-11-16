@@ -24,28 +24,28 @@ fin:         ; A label we can jump to when the loop is done
 END          ; End of the program
 `
 
-const statements: Statement[] = [
-  { key: 'MOV', args: ['dl', 'A'] },
-  { key: 'MOV', args: ['al', '0'] },
-  { key: 'MOV', args: ['bl', 'C0'] },
+export const statements: Statement[] = [
+  { key: 'MOV', args: ['DL', 'A'] },
+  { key: 'MOV', args: ['AL', '0'] },
+  { key: 'MOV', args: ['BL', 'C0'] },
 
-  { key: 'loop', args: undefined },
-  { key: 'ADD', args: ['al', '30'] },
-  { key: 'MOV', args: ['[bl]', 'al'] },
-  { key: 'SUB', args: ['al', '30'] },
-  { key: 'INC', args: ['al'] },
-  { key: 'INC', args: ['bl'] },
-  { key: 'CMP', args: ['al', 'dl'] },
-  { key: 'JZ', args: ['fin'] },
-  { key: 'JMP', args: ['loop'] },
+  { key: 'LOOP', args: undefined },
+  { key: 'ADD', args: ['AL', '30'] },
+  { key: 'MOV', args: ['[BL]', 'AL'] },
+  { key: 'SUB', args: ['AL', '30'] },
+  { key: 'INC', args: ['AL'] },
+  { key: 'INC', args: ['BL'] },
+  { key: 'CMP', args: ['AL', 'DL'] },
+  { key: 'JZ', args: ['FIN'] },
+  { key: 'JMP', args: ['LOOP'] },
 
   { key: 'fin', args: undefined },
   { key: 'END', args: null }
 ]
 
 const labels: Array<[string, number]> = [
-  ['loop', 3],
-  ['fin', 12]
+  ['LOOP', 3],
+  ['FIN', 12]
 ]
 
 describe('parseStatement', () => {
