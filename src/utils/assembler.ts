@@ -1,4 +1,4 @@
-import { Statement } from './tokenize'
+import { Statement, Labels, TokenizeResult } from './tokenize'
 import { ParsedArg, parseArg } from './parseArg'
 import excludeUndefined from './excludeUndefined'
 import {
@@ -148,4 +148,31 @@ export const generateOpcodesFromStatement = (
   }
 
   return undefined
+}
+
+interface AssembleResult {
+  address: number[]
+  labels: Labels
+}
+
+export const assemble = (tokenizedCode: TokenizeResult): AssembleResult => {
+  const address = generateAddressArr(true)
+  const { labels, statements } = tokenizedCode
+
+  let addressPos = 0
+
+  statements.forEach(statement => {
+    const opcodes = generateOpcodesFromStatement(statement)
+    if (opcodes !== undefined) {
+      opcodes.forEach(opcode => {
+        address[addressPos] = opcode
+        addressPos++
+      })
+    }
+  })
+
+  return {
+    address,
+    labels
+  }
 }

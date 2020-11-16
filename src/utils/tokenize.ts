@@ -99,7 +99,7 @@ export const calcLabels = (
     return statement
   })
 
-interface TokenizeResult extends Result {
+export interface TokenizeResult extends Result {
   labels: Labels
 }
 

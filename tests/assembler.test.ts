@@ -7,7 +7,8 @@ import {
   getStaticOpcode,
   getOpcode,
   GenerateOpcodesFromStatementResult,
-  generateOpcodesFromStatement
+  generateOpcodesFromStatement,
+  assemble
 } from '../src/utils/assembler'
 import {
   Keyword,
@@ -16,7 +17,7 @@ import {
   ArgType,
   OPCODE_MAPPING
 } from '../src/utils/constants'
-import { statementsAfterCalcLables } from './tokenize.test'
+import { statementsAfterCalcLables, labels } from './tokenize.test'
 import { statementToString } from './utils'
 
 describe('generateAddressArr', () => {
@@ -245,5 +246,23 @@ describe('generateOpcodesFromStatements', () => {
   it('should return undefined if args is undefined', () => {
     const res = generateOpcodesFromStatement({ key: 'MOV', args: undefined })
     expect(res).toStrictEqual(undefined)
+  })
+})
+
+// eslint-disable-next-line prettier/prettier
+const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 0, 0x30, 0xd4, 0x01, 0, 0xb1, 0, 0x30, 0xa4, 0, 0xa4, 0x01, 0xda, 0, 0x03, 0xc1, 0x04, 0xc0, 0xee, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20]
+
+describe('assemble', () => {
+  statementsAfterCalcLables.forEach((statement, index) => {
+    it(`should assemble single line '${statementToString(statement)}'`, () => {
+      const res = assemble({ statements: [statement], labels: {} })
+      const opcodes = statementOpcodes[index] as number[]
+      expect(res.address.slice(0, opcodes.length)).toStrictEqual(opcodes)
+    })
+  })
+
+  it('should assemble code', () => {
+    const res = assemble({ statements: statementsAfterCalcLables, labels })
+    expect(res.address).toStrictEqual(assembledAddress)
   })
 })
