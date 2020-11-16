@@ -11,7 +11,7 @@ import Lables from './labels'
 import Memory from './memory'
 import RAM from './ram'
 import VDU from './vdu'
-import { tokenize, Label } from '../utils/tokenize'
+import { tokenize, Labels } from '../utils/tokenize'
 
 const { Header, Content } = Layout
 
@@ -19,7 +19,7 @@ const App: FunctionalComponent = () => {
   const [code, setCode] = useState('')
   const [lables, setLabels] = useState({})
 
-  const getLabels = (code: string): Label => tokenize(code).labels
+  const getLabels = (code: string): Labels => tokenize(code).labels
 
   useEffect(() => {
     setLabels(getLabels(code))

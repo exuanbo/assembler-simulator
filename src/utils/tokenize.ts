@@ -72,8 +72,12 @@ export const parseLables = (statements: Statement[]): ParseLablesResult => {
   }
 }
 
+export interface Labels {
+  [name: string]: number
+}
+
 export interface TokenizeResult extends Result {
-  labels: { [name: string]: number }
+  labels: Labels
 }
 
 export const tokenize = (code: string): TokenizeResult => {

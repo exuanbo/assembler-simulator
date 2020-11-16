@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from 'preact'
 import { Card } from 'antd'
 import 'antd/es/card/style'
-import { Label } from '../utils/tokenize'
+import { Labels } from '../utils/tokenize'
 
 interface Props {
-  value: Label
+  value: Labels
 }
 
 const Lables: FunctionalComponent<Props> = ({ value }: Props) => {
