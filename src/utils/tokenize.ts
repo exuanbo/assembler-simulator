@@ -2,7 +2,7 @@ const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
 
 export interface Statement {
   key: string
-  args: string[] | null | undefined
+  args: [string, string] | [string] | null | undefined
 }
 
 export const parseStatement = (code: string): Statement[] =>
@@ -29,7 +29,13 @@ export const parseStatement = (code: string): Statement[] =>
 
       const commaPos = args.search(/,/)
       if (commaPos > 0) {
-        return { key: keyword, args: args.split(',') }
+        const splitArgs = args.split(',')
+        if (splitArgs.length > 2) {
+          throw new Error(
+            `Redundant arguments '${splitArgs.splice(2).join(', ')}'`
+          )
+        }
+        return { key: keyword, args: splitArgs as [string, string] }
       }
 
       return { key: keyword, args: [args] }
@@ -56,13 +62,17 @@ interface TokenizeResult {
 }
 
 export const tokenize = (code: string): TokenizeResult => {
-  const statements = parseStatement(code)
+  try {
+    const statements = parseStatement(code)
 
-  const lablesArr = parseLables(statements)
-  const labels = Object.fromEntries(lablesArr) as Label
+    const lablesArr = parseLables(statements)
+    const labels = Object.fromEntries(lablesArr) as Label
 
-  return {
-    labels,
-    statements
+    return {
+      labels,
+      statements
+    }
+  } catch (err) {
+    throw new Error(`Failed to tokenize: ${(err as Error).message}`)
   }
 }

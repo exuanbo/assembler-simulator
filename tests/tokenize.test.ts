@@ -1,4 +1,9 @@
-import { Statement, parseStatement, parseLables } from '../src/utils/tokenize'
+import {
+  Statement,
+  parseStatement,
+  parseLables,
+  tokenize
+} from '../src/utils/tokenize'
 
 const code = `
 mov dl, A    ; Move A(hex) or 10 in decimal into dl, to compare to al so we can break the loop when done
@@ -43,12 +48,36 @@ const labels: Array<[string, number]> = [
   ['fin', 12]
 ]
 
-it('should parse code to return statements', () => {
-  const res = parseStatement(code)
-  expect(res).toEqual(statements)
+describe('parseStatement', () => {
+  it('should parse code to return statements', () => {
+    const res = parseStatement(code)
+    expect(res).toEqual(statements)
+  })
+
+  it('should throw error', () => {
+    expect.assertions(1)
+    try {
+      parseStatement('mov al, A, B')
+    } catch (err) {
+      expect(err.message).toBe("Redundant arguments 'B'")
+    }
+  })
 })
 
-it('should parse statements to return lables', () => {
-  const res = parseLables(statements)
-  expect(res).toEqual(labels)
+describe('parseLables', () => {
+  it('should parse statements to return lables', () => {
+    const res = parseLables(statements)
+    expect(res).toEqual(labels)
+  })
+})
+
+describe('tokenize', () => {
+  it("should catch error from 'parseStatement'", () => {
+    expect.assertions(1)
+    try {
+      tokenize('mov al, A, B')
+    } catch (err) {
+      expect(err.message).toBe("Failed to tokenize: Redundant arguments 'B'")
+    }
+  })
 })
