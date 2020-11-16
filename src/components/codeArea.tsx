@@ -7,10 +7,10 @@ import 'antd/es/input/style'
 const { TextArea } = Input
 
 interface Props {
-  onInput: (code: string) => void
+  onChange: (code: string) => void
 }
 
-const CodeArea: FunctionalComponent<Props> = ({ onInput }: Props) => {
+const CodeArea: FunctionalComponent<Props> = ({ onChange }: Props) => {
   const [value, setValue] = useState('')
 
   return (
@@ -19,11 +19,10 @@ const CodeArea: FunctionalComponent<Props> = ({ onInput }: Props) => {
         autoSize={{ minRows: 25 }}
         style={{ width: '100%' }}
         value={value}
-        onInput={event => {
-          const { target } = event
-          const { value } = target as HTMLTextAreaElement
+        onChange={event => {
+          const { value } = event.target as HTMLTextAreaElement
           setValue(value)
-          onInput(value)
+          onChange(value)
         }}
         spellCheck="false"
       />

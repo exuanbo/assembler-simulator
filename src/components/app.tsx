@@ -33,7 +33,7 @@ const App: FunctionalComponent = () => {
       <Content>
         <Row>
           <Col span={12}>
-            <CodeArea onInput={setCode} />
+            <CodeArea onChange={setCode} />
           </Col>
           <Col span={12}>
             <Lables value={lables} />
