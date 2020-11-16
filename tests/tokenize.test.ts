@@ -44,7 +44,7 @@ const statements: Statement[] = [
   { key: 'END', args: undefined }
 ]
 
-export const statementsAfterLabelParsed: Statement[] = [
+const statementsAfterLabelParsed: Statement[] = [
   { key: 'MOV', args: ['DL', 'A'] },
   { key: 'MOV', args: ['AL', '0'] },
   { key: 'MOV', args: ['BL', 'C0'] },
