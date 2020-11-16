@@ -1,4 +1,6 @@
-import { ParsedArg } from './parseArg'
+import { Statement } from './tokenize'
+import { ParsedArg, parseArg } from './parseArg'
+import excludeUndefined from './excludeUndefined'
 import {
   Keyword,
   ArithmeticKeyword,
@@ -110,4 +112,28 @@ export const getOpcode = (
     case Keyword.CMP:
       return getCompareOpcode(arg1, arg2)
   }
+}
+
+export type ParseSingleStatementResult = Array<number | string> | undefined
+
+export const parseSingleStatement = (
+  statement: Statement
+): ParseSingleStatementResult => {
+  const { key, args } = statement
+  if (key === 'END') {
+    return [0x00]
+  }
+
+  if (args !== undefined) {
+    const [arg1, arg2] = args
+    const parsedArg1 = parseArg(arg1)
+    const parsedArg2 = (arg2 !== undefined && parseArg(arg2)) || undefined
+    const opcode = getOpcode(key, parsedArg1, parsedArg2)
+
+    return [opcode, parsedArg1.value, parsedArg2?.value].filter(
+      excludeUndefined
+    )
+  }
+
+  return undefined
 }
