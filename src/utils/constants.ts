@@ -73,15 +73,7 @@ export const REGISTER_CODE: { [name in Register]: RegisterCode } = {
 type OpcodeMappingValue = [number, number] | number
 
 type OpcodeMapping = {
-  [keyword in Extract<
-    Keyword,
-    | Keyword.ADD
-    | Keyword.SUB
-    | Keyword.MUL
-    | Keyword.DIV
-    | Keyword.INC
-    | Keyword.DEC
-  >]: OpcodeMappingValue
+  [keyword in Exclude<Keyword, Keyword.MOV | Keyword.CMP>]: OpcodeMappingValue
 }
 
 export const OPCODE_MAPPING: OpcodeMapping = {
@@ -90,5 +82,9 @@ export const OPCODE_MAPPING: OpcodeMapping = {
   [Keyword.MUL]: [0xa2, 0xb2],
   [Keyword.DIV]: [0xa3, 0xb6],
   [Keyword.INC]: 0xa4,
-  [Keyword.DEC]: 0x05
+  [Keyword.DEC]: 0xa5,
+  [Keyword.JMP]: 0xc0,
+  [Keyword.JZ]: 0xc1,
+  [Keyword.JNZ]: 0xc2,
+  [Keyword.END]: 0x00
 }
