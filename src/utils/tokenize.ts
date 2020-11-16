@@ -84,7 +84,16 @@ export const calcLabels = (
     Object.entries(lables).forEach(([label, position]) => {
       const { key, args } = statement
       if (key in JumpKeyword && args?.length === 1 && args[0] === label) {
-        statement.args = [(position - index).toString(16)]
+        const [smaller, greater] = [index, position].sort((a, b) => a - b)
+        const absDistance = statements
+          .slice(smaller, greater)
+          .map(statement => (statement.args as string[]).length + 1)
+          .reduce((acc, cur) => acc + cur)
+        const realDistance =
+          smaller === index ? absDistance : 0x100 - absDistance
+        statement.args = [
+          realDistance.toString(16).padStart(2, '0').toUpperCase()
+        ]
       }
     })
     return statement
