@@ -1,11 +1,7 @@
-import { ARGS_COUNT } from './constants'
-
 const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
 
-type Keyword = keyof typeof ARGS_COUNT
-
 export interface Statement {
-  key: Keyword | string
+  key: string
   args: string[] | null | undefined
 }
 
