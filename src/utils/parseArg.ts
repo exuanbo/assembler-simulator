@@ -13,7 +13,7 @@ export const getRegisterCode = (registerName: string): RegisterCode =>
 
 export interface ParsedArg {
   type: ArgType
-  value: number | null
+  value: number | undefined
 }
 
 type MatcherResult = ParsedArg | undefined
@@ -63,6 +63,6 @@ export const parseArg = (token: string): ParsedArg => {
 
   return {
     type: ArgType.Illegal,
-    value: null
+    value: undefined
   }
 }

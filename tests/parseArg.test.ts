@@ -9,7 +9,10 @@ import {
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
 const ILLEGAL_ARGS = ['001', 'el', '[el]']
-const PARSED_ILLEGAL_ARG: ParsedArg = { type: ArgType.Illegal, value: null }
+const PARSED_ILLEGAL_ARG: ParsedArg = {
+  type: ArgType.Illegal,
+  value: undefined
+}
 
 describe('util functions', () => {
   HEX_NUMBER_STRINGS.forEach((num, index) => {
