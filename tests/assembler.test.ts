@@ -1,3 +1,4 @@
+import { Statement } from '../src/utils/tokenize'
 import {
   generateAddressArr,
   getMovOpcode,
@@ -210,6 +211,12 @@ const statementOpcodes: GenerateOpcodesFromStatementResult[] = [
   [0x00]
 ]
 
+const statementsWithIllegalArgs: Statement[] = [
+  { key: 'MOV', args: ['ALL', 'BL'] },
+  { key: 'ADD', args: ['AL', 'BLL'] },
+  { key: 'INC', args: ['ABC'] }
+]
+
 describe('generateOpcodesFromStatements', () => {
   statementsAfterCalcLables.forEach((statement, index) => {
     const { key, args } = statement
@@ -218,6 +225,20 @@ describe('generateOpcodesFromStatements', () => {
     }' on line ${index}`, () => {
       const res = generateOpcodesFromStatement(statement)
       expect(res).toStrictEqual(statementOpcodes[index])
+    })
+  })
+
+  statementsWithIllegalArgs.forEach((statement, index) => {
+    const { key, args } = statement
+    it(`should throw an error with '${key} ${args?.join(', ') ?? ''}'`, () => {
+      expect.assertions(1)
+      try {
+        generateOpcodesFromStatement(statement)
+      } catch (err) {
+        expect((err as Error).message).toBe(
+          `Illegal argument '${(args as string[])[index > 1 ? 0 : index]}'`
+        )
+      }
     })
   })
 })
