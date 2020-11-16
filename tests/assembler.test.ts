@@ -33,7 +33,7 @@ describe('generateAddressArr', () => {
 })
 
 describe('getMoveOpcode', () => {
-  it('should works when move register <- number', () => {
+  it('should work when move register <- number', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
@@ -41,7 +41,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd0)
   })
 
-  it('should works when move register <- address', () => {
+  it('should work when move register <- address', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Address, value: 0x01 }
@@ -49,7 +49,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd1)
   })
 
-  it('should works when move register <- registerPointer', () => {
+  it('should work when move register <- registerPointer', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.RegisterPointer, value: 0x01 }
@@ -57,7 +57,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd3)
   })
 
-  it('should works when move address <- register', () => {
+  it('should work when move address <- register', () => {
     const res = getMovOpcode(
       { type: ArgType.Address, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -65,7 +65,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd2)
   })
 
-  it('should works when move registerPointer <- register', () => {
+  it('should work when move registerPointer <- register', () => {
     const res = getMovOpcode(
       { type: ArgType.RegisterPointer, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -86,7 +86,7 @@ const getDynamicOpcode = (keyword: ArithmeticKeyword): [number, number] =>
 
 describe('getArithmeticOpcode', () => {
   arithmeticKeywords.forEach(keyword => {
-    it(`should works with '${keyword}' when 'src.type === ArgType.Register'`, () => {
+    it(`should work with '${keyword}' when 'src.type === ArgType.Register'`, () => {
       const res = getArithmeticOpcode(
         keyword,
         { type: ArgType.Register, value: 0x00 },
@@ -95,7 +95,7 @@ describe('getArithmeticOpcode', () => {
       expect(res).toBe(getDynamicOpcode(keyword)[0])
     })
 
-    it(`should works with '${keyword}' when 'src.type === ArgType.Number'`, () => {
+    it(`should work with '${keyword}' when 'src.type === ArgType.Number'`, () => {
       const res = getArithmeticOpcode(
         keyword,
         { type: ArgType.Register, value: 0x00 },
@@ -116,7 +116,7 @@ describe('getArithmeticOpcode', () => {
 })
 
 describe('getCompareOpcode', () => {
-  it(`should works when compare with 'arg2.type === ArgType.Register'`, () => {
+  it(`should work when compare with 'arg2.type === ArgType.Register'`, () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -124,7 +124,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xda)
   })
 
-  it(`should works when compare with 'arg2.type === ArgType.Address'`, () => {
+  it(`should work when compare with 'arg2.type === ArgType.Address'`, () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Address, value: 0x01 }
@@ -132,7 +132,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xdc)
   })
 
-  it(`should works when compare with 'arg2.type === ArgType.Address'`, () => {
+  it(`should work when compare with 'arg2.type === ArgType.Address'`, () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
