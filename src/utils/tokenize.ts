@@ -2,7 +2,7 @@ const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
 
 export interface Statement {
   key: string
-  args: [string, string] | [string] | null | undefined
+  args: [string, string] | [string] | undefined
 }
 
 export const parseStatement = (code: string): Statement[] =>
@@ -21,7 +21,7 @@ export const parseStatement = (code: string): Statement[] =>
 
       const firstWhitespacePos = statement.search(/\s/)
       if (firstWhitespacePos < 0) {
-        return { key: statement, args: null }
+        return { key: statement, args: undefined }
       }
 
       const keyword = statement.slice(0, firstWhitespacePos).toUpperCase()
@@ -45,7 +45,7 @@ export const parseStatement = (code: string): Statement[] =>
 export const parseLables = (statements: Statement[]): Array<[string, number]> =>
   statements
     .map((stmt: Statement, index: number): [string, number] | undefined => {
-      if (stmt.args === undefined) {
+      if (stmt.key !== 'END' && stmt.args === undefined) {
         return [stmt.key, index]
       }
       return undefined

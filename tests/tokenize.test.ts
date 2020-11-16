@@ -39,8 +39,8 @@ export const statements: Statement[] = [
   { key: 'JZ', args: ['FIN'] },
   { key: 'JMP', args: ['LOOP'] },
 
-  { key: 'fin', args: undefined },
-  { key: 'END', args: null }
+  { key: 'FIN', args: undefined },
+  { key: 'END', args: undefined }
 ]
 
 const labels: Array<[string, number]> = [
