@@ -17,6 +17,7 @@ import {
   OPCODE_MAPPING
 } from '../src/utils/constants'
 import { statementsAfterCalcLables } from './tokenize.test'
+import { statementToString } from './utils'
 
 describe('generateAddressArr', () => {
   it('should generate address array', () => {
@@ -219,18 +220,17 @@ const statementsWithIllegalArgs: Statement[] = [
 
 describe('generateOpcodesFromStatements', () => {
   statementsAfterCalcLables.forEach((statement, index) => {
-    const { key, args } = statement
-    it(`should work with '${key}${
-      (args !== undefined && args !== null && ` ${args.join(', ')}`) || ''
-    }' on line ${index}`, () => {
+    it(`should work with '${statementToString(
+      statement
+    )}' on line ${index}`, () => {
       const res = generateOpcodesFromStatement(statement)
       expect(res).toStrictEqual(statementOpcodes[index])
     })
   })
 
   statementsWithIllegalArgs.forEach((statement, index) => {
-    const { key, args } = statement
-    it(`should throw an error with '${key} ${args?.join(', ') ?? ''}'`, () => {
+    const { args } = statement
+    it(`should throw an error with '${statementToString(statement)}'`, () => {
       expect.assertions(1)
       try {
         generateOpcodesFromStatement(statement)
