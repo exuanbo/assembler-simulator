@@ -2,6 +2,7 @@ import {
   Statement,
   parseStatements,
   parseLables,
+  calcLabels,
   tokenize
 } from '../src/utils/tokenize'
 
@@ -60,6 +61,23 @@ export const statementsAfterLabelParsed: Statement[] = [
   { key: 'END', args: undefined }
 ]
 
+export const statementsAfterCalcLables: Statement[] = [
+  { key: 'MOV', args: ['DL', 'A'] },
+  { key: 'MOV', args: ['AL', '0'] },
+  { key: 'MOV', args: ['BL', 'C0'] },
+  // LOOP
+  { key: 'ADD', args: ['AL', '30'] },
+  { key: 'MOV', args: ['[BL]', 'AL'] },
+  { key: 'SUB', args: ['AL', '30'] },
+  { key: 'INC', args: ['AL'] },
+  { key: 'INC', args: ['BL'] },
+  { key: 'CMP', args: ['AL', 'DL'] },
+  { key: 'JZ', args: ['04'] },
+  { key: 'JMP', args: ['EE'] },
+  // FIN
+  { key: 'END', args: undefined }
+]
+
 const labelTuples: Array<[string, number]> = [
   ['LOOP', 3],
   ['FIN', 11]
@@ -86,6 +104,16 @@ describe('parseLables', () => {
     const res = parseLables(parseStatements(code))
     expect(res.labelTuples).toStrictEqual(labelTuples)
     expect(res.statements).toStrictEqual(statementsAfterLabelParsed)
+  })
+})
+
+describe('calcLabels', () => {
+  it('should calculate labels', () => {
+    const res = calcLabels(
+      statementsAfterLabelParsed,
+      Object.fromEntries(labelTuples)
+    )
+    expect(res).toStrictEqual(statementsAfterCalcLables)
   })
 })
 

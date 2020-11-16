@@ -28,6 +28,14 @@ export type StaticOpcodeKeyword = Extract<
   | Keyword.END
 >
 
+type JumpKeyword = Extract<Keyword, Keyword.JMP | Keyword.JZ | Keyword.JNZ>
+
+export const JUMP_KEYWORDS: JumpKeyword[] = [
+  Keyword.JMP,
+  Keyword.JZ,
+  Keyword.JNZ
+]
+
 type OpcodeMappingValue = [number, number] | number
 
 type OpcodeMapping = {

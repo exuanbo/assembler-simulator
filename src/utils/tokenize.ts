@@ -1,4 +1,5 @@
 import excludeUndefined from './excludeUndefined'
+import { JUMP_KEYWORDS } from './constants'
 export interface Statement {
   key: string
   args: [string, string] | [string] | undefined
@@ -75,15 +76,29 @@ export interface Labels {
   [name: string]: number
 }
 
-export interface TokenizeResult extends Result {
+export const calcLabels = (
+  statements: Statement[],
+  lables: Labels
+): Statement[] =>
+  statements.map((statement, index) => {
+    Object.entries(lables).forEach(([label, position]) => {
+      const { key, args } = statement
+      if (key in JUMP_KEYWORDS && args?.length === 1 && args[0] === label) {
+        statement.args = [(position - index).toString(16)]
+      }
+    })
+    return statement
+  })
+
+interface TokenizeResult extends Result {
   labels: Labels
 }
 
 export const tokenize = (code: string): TokenizeResult => {
   try {
-    const res = parseLables(parseStatements(code))
-    const labels = Object.fromEntries(res.labelTuples)
-    const { statements } = res
+    const parseResult = parseLables(parseStatements(code))
+    const labels = Object.fromEntries(parseResult.labelTuples)
+    const statements = calcLabels(parseResult.statements, labels)
 
     return {
       labels,

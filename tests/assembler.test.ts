@@ -15,7 +15,7 @@ import {
   ArgType,
   OPCODE_MAPPING
 } from '../src/utils/constants'
-import { statementsAfterLabelParsed } from './tokenize.test'
+import { statementsAfterCalcLables } from './tokenize.test'
 
 describe('generateAddressArr', () => {
   it('should generate address array', () => {
@@ -205,15 +205,15 @@ const statementOpcodes: ParseSingleStatementResult[] = [
   [0xa4, 0x00],
   [0xa4, 0x01],
   [0xda, 0x00, 0x03],
-  [0xc1, 'FIN'],
-  [0xc0, 'LOOP'],
+  [0xc1, 0x04],
+  [0xc0, 0xee],
   [0x00]
 ]
 
 describe('parseSingleStatement', () => {
-  statementsAfterLabelParsed.forEach((statement, index) => {
+  statementsAfterCalcLables.forEach((statement, index) => {
     const { key, args } = statement
-    it(`should works with '${key}${
+    it(`should work with '${key}${
       (args !== undefined && args !== null && ` ${args.join(', ')}`) || ''
     }' on line ${index}`, () => {
       const res = parseSingleStatement(statement)
