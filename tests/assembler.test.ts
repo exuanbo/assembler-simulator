@@ -6,7 +6,7 @@ import {
   getStaticOpcode,
   getOpcode,
   ParseSingleStatementResult,
-  parseSingleStatement
+  generateOpcodesFromStatements
 } from '../src/utils/assembler'
 import {
   Keyword,
@@ -216,7 +216,7 @@ describe('parseSingleStatement', () => {
     it(`should work with '${key}${
       (args !== undefined && args !== null && ` ${args.join(', ')}`) || ''
     }' on line ${index}`, () => {
-      const res = parseSingleStatement(statement)
+      const res = generateOpcodesFromStatements(statement)
       expect(res).toStrictEqual(statementOpcodes[index])
     })
   })

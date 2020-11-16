@@ -119,7 +119,7 @@ const isIllegal = (arg: ParsedArg | undefined): boolean =>
 
 export type ParseSingleStatementResult = number[] | undefined
 
-export const parseSingleStatement = (
+export const generateOpcodesFromStatements = (
   statement: Statement
 ): ParseSingleStatementResult => {
   const { key, args } = statement
