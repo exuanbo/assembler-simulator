@@ -5,7 +5,7 @@ export interface Statement {
   args: [string, string] | [string] | undefined
 }
 
-export const parseStatement = (code: string): Statement[] =>
+export const parseStatements = (code: string): Statement[] =>
   code
     .split('\n')
     .map((stmt: string): Statement | undefined => {
@@ -38,31 +38,49 @@ export const parseStatement = (code: string): Statement[] =>
     })
     .filter(excludeUndefined)
 
-export const parseLables = (statements: Statement[]): Array<[string, number]> =>
-  statements
-    .map((stmt: Statement, index: number): [string, number] | undefined => {
-      if (stmt.key.endsWith(':') && stmt.args === undefined) {
-        return [stmt.key.slice(0, -1), index]
+interface Result {
+  statements: Statement[]
+}
+
+interface ParseLablesResult extends Result {
+  labelTuples: Array<[string, number]>
+}
+
+export const parseLables = (statements: Statement[]): ParseLablesResult => {
+  const isLabel = (statement: Statement): boolean =>
+    statement.key.endsWith(':') && statement.args === undefined
+
+  let labelsCount = 0
+
+  const labelTuples = statements
+    .map((statement, index): [string, number] | undefined => {
+      if (isLabel(statement)) {
+        labelsCount++
+        return [statement.key.slice(0, -1), index - labelsCount + 1]
       }
       return undefined
     })
     .filter(excludeUndefined)
 
-export interface Label {
-  [name: string]: number
+  const filteredStatements = statements
+    .map(statement => (isLabel(statement) ? undefined : statement))
+    .filter(excludeUndefined)
+
+  return {
+    labelTuples,
+    statements: filteredStatements
+  }
 }
 
-export interface TokenizeResult {
-  labels: Label
-  statements: Statement[]
+export interface TokenizeResult extends Result {
+  labels: { [name: string]: number }
 }
 
 export const tokenize = (code: string): TokenizeResult => {
   try {
-    const statements = parseStatement(code)
-
-    const lablesArr = parseLables(statements)
-    const labels = Object.fromEntries(lablesArr) as Label
+    const res = parseLables(parseStatements(code))
+    const labels = Object.fromEntries(res.labelTuples)
+    const { statements } = res
 
     return {
       labels,

@@ -1,6 +1,6 @@
 import {
   Statement,
-  parseStatement,
+  parseStatements,
   parseLables,
   tokenize
 } from '../src/utils/tokenize'
@@ -24,7 +24,7 @@ fin:         ; A label we can jump to when the loop is done
 END          ; End of the program
 `
 
-export const statements: Statement[] = [
+const statements: Statement[] = [
   { key: 'MOV', args: ['DL', 'A'] },
   { key: 'MOV', args: ['AL', '0'] },
   { key: 'MOV', args: ['BL', 'C0'] },
@@ -43,21 +43,38 @@ export const statements: Statement[] = [
   { key: 'END', args: undefined }
 ]
 
-const labels: Array<[string, number]> = [
+export const statementsAfterLabelParsed: Statement[] = [
+  { key: 'MOV', args: ['DL', 'A'] },
+  { key: 'MOV', args: ['AL', '0'] },
+  { key: 'MOV', args: ['BL', 'C0'] },
+  // LOOP
+  { key: 'ADD', args: ['AL', '30'] },
+  { key: 'MOV', args: ['[BL]', 'AL'] },
+  { key: 'SUB', args: ['AL', '30'] },
+  { key: 'INC', args: ['AL'] },
+  { key: 'INC', args: ['BL'] },
+  { key: 'CMP', args: ['AL', 'DL'] },
+  { key: 'JZ', args: ['FIN'] },
+  { key: 'JMP', args: ['LOOP'] },
+  // FIN
+  { key: 'END', args: undefined }
+]
+
+const labelTuples: Array<[string, number]> = [
   ['LOOP', 3],
-  ['FIN', 12]
+  ['FIN', 11]
 ]
 
 describe('parseStatement', () => {
   it('should parse code to return statements', () => {
-    const res = parseStatement(code)
+    const res = parseStatements(code)
     expect(res).toStrictEqual(statements)
   })
 
   it('should throw error', () => {
     expect.assertions(1)
     try {
-      parseStatement('mov al, A, B')
+      parseStatements('mov al, A, B')
     } catch (err) {
       expect(err.message).toBe("Redundant arguments 'B'")
     }
@@ -66,8 +83,9 @@ describe('parseStatement', () => {
 
 describe('parseLables', () => {
   it('should parse statements to return lables', () => {
-    const res = parseLables(statements)
-    expect(res).toStrictEqual(labels)
+    const res = parseLables(parseStatements(code))
+    expect(res.labelTuples).toStrictEqual(labelTuples)
+    expect(res.statements).toStrictEqual(statementsAfterLabelParsed)
   })
 })
 
