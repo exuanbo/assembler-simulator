@@ -1,5 +1,4 @@
-const excludeUndefined = <T>(item: T | undefined): item is T => Boolean(item)
-
+import excludeUndefined from './excludeUndefined'
 export interface Statement {
   key: string
   args: [string, string] | [string] | undefined
