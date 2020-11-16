@@ -4,5 +4,8 @@
     "POPF",
     "PUSHF",
     "antd"
-  ]
+  ],
+  "files.watcherExclude": {
+    "**/node_modules/**/*": true
+  }
 }
