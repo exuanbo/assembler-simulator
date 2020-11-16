@@ -8,11 +8,7 @@ import {
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
-const ILLEGAL_ARGS = ['001', 'el', '[el]']
-const PARSED_ILLEGAL_ARG: ParsedArg = {
-  type: ArgType.Illegal,
-  value: undefined
-}
+const ILLEGAL_ARGS = ['001', 'el', '[el]', 'start']
 
 describe('util functions', () => {
   HEX_NUMBER_STRINGS.forEach((num, index) => {
@@ -79,7 +75,7 @@ describe('parseArg', () => {
 
   ILLEGAL_ARGS.forEach(arg => {
     it(`should parse '${arg}' return illegal arg`, () => {
-      expect(parseArg(arg)).toStrictEqual(PARSED_ILLEGAL_ARG)
+      expect(parseArg(arg)).toStrictEqual({ type: ArgType.Illegal, value: arg })
     })
   })
 })

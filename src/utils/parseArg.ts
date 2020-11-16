@@ -13,15 +13,13 @@ export const getRegisterCode = (registerName: string): RegisterCode =>
 
 export interface ParsedArg {
   type: ArgType
-  value: number | undefined
+  value: number | string
 }
-
-type MatcherResult = ParsedArg | undefined
 
 const getMatcher = (token: string) => (
   regex: RegExp,
   type: ArgType
-): MatcherResult => {
+): ParsedArg | undefined => {
   const match = token.match(regex)?.[1]
   if (match !== undefined) {
     const getValue =
@@ -63,6 +61,6 @@ export const parseArg = (token: string): ParsedArg => {
 
   return {
     type: ArgType.Illegal,
-    value: undefined
+    value: token
   }
 }
