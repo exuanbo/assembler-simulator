@@ -150,15 +150,10 @@ export const generateOpcodesFromStatement = (
   return undefined
 }
 
-interface AssembleResult {
-  address: number[]
-  labels: Labels
-}
+export const assemble = (tokenizedCode: TokenizeResult): number[] => {
+  const { statements } = tokenizedCode
 
-export const assemble = (tokenizedCode: TokenizeResult): AssembleResult => {
   const address = generateAddressArr(true)
-  const { labels, statements } = tokenizedCode
-
   let addressPos = 0
 
   statements.forEach(statement => {
@@ -171,8 +166,5 @@ export const assemble = (tokenizedCode: TokenizeResult): AssembleResult => {
     }
   })
 
-  return {
-    address,
-    labels
-  }
+  return address
 }

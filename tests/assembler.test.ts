@@ -255,14 +255,14 @@ const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 
 describe('assemble', () => {
   statementsAfterCalcLables.forEach((statement, index) => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
-      const res = assemble({ statements: [statement], labels: {} })
+      const address = assemble({ statements: [statement], labels: {} })
       const opcodes = statementOpcodes[index] as number[]
-      expect(res.address.slice(0, opcodes.length)).toStrictEqual(opcodes)
+      expect(address.slice(0, opcodes.length)).toStrictEqual(opcodes)
     })
   })
 
   it('should assemble code', () => {
-    const res = assemble({ statements: statementsAfterCalcLables, labels })
-    expect(res.address).toStrictEqual(assembledAddress)
+    const address = assemble({ statements: statementsAfterCalcLables, labels })
+    expect(address).toStrictEqual(assembledAddress)
   })
 })
