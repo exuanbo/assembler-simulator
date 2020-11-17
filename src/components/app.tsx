@@ -36,10 +36,10 @@ const App: FunctionalComponent = () => {
             <CodeArea onChange={setCode} />
           </Col>
           <Col span={12}>
-            <Lables value={lables} />
             <Memory />
             <RAM />
             <VDU />
+            <Lables value={lables} />
           </Col>
         </Row>
       </Content>
