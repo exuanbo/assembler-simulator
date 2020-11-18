@@ -1,4 +1,4 @@
-import { Statement, Labels, TokenizeResult } from './tokenize'
+import { Statement, TokenizeResult } from './tokenize'
 import { ParsedArg, parseArg } from './parseArg'
 import excludeUndefined from './excludeUndefined'
 import {
