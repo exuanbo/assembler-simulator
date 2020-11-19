@@ -24,7 +24,8 @@
   "dependencies": {
     "antd": "4.8.4",
     "preact": "10.5.7",
-    "preact-render-to-string": "5.1.12"
+    "preact-render-to-string": "5.1.12",
+    "precoil": "0.0.2"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "3.0.0",

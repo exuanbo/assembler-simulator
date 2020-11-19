@@ -8394,6 +8394,11 @@ preact@10.5.7:
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.5.7.tgz#f1d84725539e18f7ccbea937cf3db5895661dbd3"
   integrity sha512-4oEpz75t/0UNcwmcsjk+BIcDdk68oao+7kxcpc1hQPNs2Oo3ZL9xFz8UBf350mxk/VEdD41L5b4l2dE3Ug3RYg==
 
+precoil@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/precoil/-/precoil-0.0.2.tgz#2394211d4f7d4aef7762c5978a8f4115ea8c15a5"
+  integrity sha512-9JRvnQepOKRM3g0c6fHP8ZL+/3T/bfesxWUtXbYRUg5I4DI98BJcH2dKaG9j1BMBwby9461K7MttPW79+WuJQQ==
+
 prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
