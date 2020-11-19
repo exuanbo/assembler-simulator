@@ -20,7 +20,7 @@ const getMatcher = (token: string) => (
   regex: RegExp,
   type: ArgType
 ): ParsedArg | undefined => {
-  const match = token.match(regex)?.[1]
+  const match = regex.exec(token)?.[1]
   if (match !== undefined) {
     const getValue =
       type === ArgType.Number || type === ArgType.Address
