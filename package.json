@@ -2,7 +2,10 @@
   "name": "samphire-ts",
   "private": "true",
   "scripts": {
-    "build": "preact build --template src/template.html",
+    "preact:build": "preact build --template src/template.html",
+    "purgecss": "node scripts/purgecss.js",
+    "build:clean": "rimraf build/ssr-build size-plugin.json",
+    "build": "yarn preact:build && yarn purgecss && yarn build:clean",
     "dev": "preact watch --template src/template.html",
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
