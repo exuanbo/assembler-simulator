@@ -1,7 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
 import { Space, Button } from 'antd'
-import 'antd/es/space/style'
-import 'antd/es/button/style'
 
 const Headbar: FunctionalComponent = () => (
   <span style={{ padding: '0 2em' }}>

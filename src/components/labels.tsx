@@ -1,6 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
 import { Card } from 'antd'
-import 'antd/es/card/style'
 import { Labels } from '../utils/tokenize'
 
 interface Props {
