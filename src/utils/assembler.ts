@@ -10,7 +10,9 @@ import {
 } from './constants'
 
 export const generateAddressArr = (withVDU: boolean): number[] =>
-  [...Array(0x100)].map((_, index) => (withVDU && index >= 0xc0 ? 0x20 : 0x00))
+  [...(Array(0x100) as never[])].map((_, index) =>
+    withVDU && index >= 0xc0 ? 0x20 : 0x00
+  )
 
 type MovOpcode = 0xd0 | 0xd1 | 0xd3 | 0xd2 | 0xd4 | undefined
 
