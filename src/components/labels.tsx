@@ -1,13 +1,12 @@
 import { FunctionalComponent, h } from 'preact'
+import { usePrecoilState } from 'precoil'
 import { Card } from 'antd'
-import { Labels } from '../utils/tokenize'
+import { labelsState } from './app'
 
-interface Props {
-  value: Labels
-}
+const Lables: FunctionalComponent = () => {
+  const [lables] = usePrecoilState(labelsState)
 
-const Lables: FunctionalComponent<Props> = ({ value }: Props) => {
-  const labelTuple = Object.entries(value)
+  const labelTuple = Object.entries(lables)
   return (
     <Card type="inner" title="Lables">
       {labelTuple.length > 0 ? (

@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import { useState, useEffect } from 'preact/hooks'
+import { PrecoilRoot, atom } from 'precoil'
 import 'antd/dist/antd.css'
 import { Layout, Row, Col } from 'antd'
 import Headbar from './headbar'
@@ -8,21 +8,15 @@ import Lables from './labels'
 import Memory from './memory'
 import RAM from './ram'
 import VDU from './vdu'
-import { tokenize, Labels } from '../utils/tokenize'
+import { Labels } from '../utils/tokenize'
 
 const { Header, Content } = Layout
 
-const App: FunctionalComponent = () => {
-  const [code, setCode] = useState('')
-  const [lables, setLabels] = useState({})
+export const codeState = atom<string>('')
+export const labelsState = atom<Labels>({})
 
-  const getLabels = (code: string): Labels => tokenize(code).labels
-
-  useEffect(() => {
-    setLabels(getLabels(code))
-  }, [code])
-
-  return (
+const App: FunctionalComponent = () => (
+  <PrecoilRoot>
     <Layout>
       <Header style={{ padding: 0, backgroundColor: '#fafafa' }}>
         <Headbar />
@@ -30,18 +24,18 @@ const App: FunctionalComponent = () => {
       <Content>
         <Row>
           <Col span={12}>
-            <CodeArea onChange={setCode} />
+            <CodeArea />
           </Col>
           <Col span={12}>
             <Memory />
             <RAM />
             <VDU />
-            <Lables value={lables} />
+            <Lables />
           </Col>
         </Row>
       </Content>
     </Layout>
-  )
-}
+  </PrecoilRoot>
+)
 
 export default App
