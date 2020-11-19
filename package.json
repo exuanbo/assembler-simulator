@@ -1,10 +1,6 @@
 {
   "name": "samphire-ts",
-  "version": "0.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
+  "private": "true",
   "scripts": {
     "build": "preact build --template src/template.html",
     "dev": "preact watch --template src/template.html",
@@ -16,7 +12,6 @@
     "type": "git",
     "url": "git+https://github.com/exuanbo/samphire-ts.git"
   },
-  "keywords": [],
   "author": "exuanbo",
   "license": "MIT",
   "bugs": {
