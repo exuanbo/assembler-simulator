@@ -39,6 +39,9 @@ const Log: FunctionalComponent = () => {
           </table>
         ) : null}
         <style jsx>{`
+          th {
+            text-align: inherit;
+          }
           .label-index {
             text-align: center;
           }
