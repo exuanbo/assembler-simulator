@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from 'preact'
 import { usePrecoilState } from 'precoil'
 import { Card } from 'antd'
-import { labelsState } from './app'
+import { labelState } from './app'
 
 const Lables: FunctionalComponent = () => {
-  const [lables] = usePrecoilState(labelsState)
+  const [lables] = usePrecoilState(labelState)
 
   const labelTuple = Object.entries(lables)
   return (

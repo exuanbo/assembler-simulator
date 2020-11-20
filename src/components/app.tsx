@@ -4,16 +4,17 @@ import 'antd/dist/antd.css'
 import { Layout, Row, Col } from 'antd'
 import Headbar from './headbar'
 import CodeArea from './codeArea'
-import Lables from './labels'
 import Memory from './memory'
 import RAM from './ram'
 import VDU from './vdu'
-import { Labels } from '../utils/tokenize'
+import Log from './log'
+import { Statement, Labels } from '../utils/tokenize'
 
 const { Header, Content } = Layout
 
 export const codeState = atom<string>('')
-export const labelsState = atom<Labels>({})
+export const labelState = atom<Labels>({})
+export const statementState = atom<Statement[]>([])
 
 const App: FunctionalComponent = () => (
   <PrecoilRoot>
@@ -30,7 +31,7 @@ const App: FunctionalComponent = () => (
             <Memory />
             <RAM />
             <VDU />
-            <Lables />
+            <Log />
           </Col>
         </Row>
       </Content>
