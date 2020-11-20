@@ -19,7 +19,7 @@ const CodeArea: FunctionalComponent = () => {
   }, [code])
 
   return (
-    <Card type="inner" title="Code">
+    <Card title="Code">
       <TextArea
         autoSize={{ minRows: 25 }}
         style={{ width: '100%' }}

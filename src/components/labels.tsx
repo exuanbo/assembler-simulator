@@ -8,7 +8,7 @@ const Lables: FunctionalComponent = () => {
 
   const labelTuple = Object.entries(lables)
   return (
-    <Card type="inner" title="Lables">
+    <Card title="Lables">
       {labelTuple.length > 0 ? (
         <table>
           <thead>
