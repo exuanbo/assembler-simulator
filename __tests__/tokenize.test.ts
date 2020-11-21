@@ -1,6 +1,7 @@
 import {
   Statement,
   parseStatements,
+  calcAddress,
   parseLables,
   calcLabels,
   tokenize
@@ -78,12 +79,10 @@ export const statementsAfterCalcLables: Statement[] = [
   { key: 'END', args: undefined }
 ]
 
-const labelTuples: Array<[string, number]> = [
-  ['LOOP', 3],
-  ['FIN', 11]
+export const labelTuples: Array<[string, number]> = [
+  ['LOOP', 9],
+  ['FIN', 29]
 ]
-
-export const labels = Object.fromEntries(labelTuples)
 
 describe('parseStatement', () => {
   it('should parse code to return statements', () => {
@@ -101,9 +100,19 @@ describe('parseStatement', () => {
   })
 })
 
+describe('calcAddress', () => {
+  it('should return the right address', () => {
+    const loopAddress = calcAddress(statementsAfterLabelParsed, 3)
+    expect(loopAddress).toBe(9)
+
+    const finAddress = calcAddress(statementsAfterLabelParsed, 12)
+    expect(finAddress).toBe(29 + 1)
+  })
+})
+
 describe('parseLables', () => {
   it('should parse statements to return lables', () => {
-    const res = parseLables(parseStatements(code))
+    const res = parseLables(statements)
     expect(res.labelTuples).toStrictEqual(labelTuples)
     expect(res.statements).toStrictEqual(statementsAfterLabelParsed)
   })
@@ -111,8 +120,11 @@ describe('parseLables', () => {
 
 describe('calcLabels', () => {
   it('should calculate labels', () => {
-    const res = calcLabels(statementsAfterLabelParsed, labels)
-    expect(res).toStrictEqual(statementsAfterCalcLables)
+    const res = calcLabels({
+      statements: statementsAfterLabelParsed,
+      labelTuples
+    })
+    expect(res.statements).toStrictEqual(statementsAfterCalcLables)
   })
 })
 

@@ -1,5 +1,6 @@
-import excludeUndefined from './excludeUndefined'
+import { excludeUndefined, decToHex } from './helper'
 import { JumpKeyword } from './constants'
+
 export interface Statement {
   key: string
   args: [string, string] | [string] | undefined
@@ -38,25 +39,34 @@ export const parseStatements = (code: string): Statement[] =>
     })
     .filter(excludeUndefined)
 
-interface Result {
+/**
+ * [name, address]
+ */
+export type LabelTuple = [string, number]
+
+export interface TokenizeResult {
   statements: Statement[]
+  labelTuples: LabelTuple[]
 }
 
-interface ParseLablesResult extends Result {
-  labelTuples: Array<[string, number]>
-}
+const isLabel = (statement: Statement): boolean =>
+  statement.key.endsWith(':') && statement.args === undefined
 
-export const parseLables = (statements: Statement[]): ParseLablesResult => {
-  const isLabel = (statement: Statement): boolean =>
-    statement.key.endsWith(':') && statement.args === undefined
+export const calcAddress = (statements: Statement[], index: number): number =>
+  statements
+    .slice(0, index)
+    .map(s => (s.args?.length ?? 0) + 1)
+    .reduce((acc, cur) => acc + cur)
 
+export const parseLables = (statements: Statement[]): TokenizeResult => {
   let labelsCount = 0
 
   const labelTuples = statements
-    .map((statement, index): [string, number] | undefined => {
+    .map((statement, index): LabelTuple | undefined => {
       if (isLabel(statement)) {
+        const labelAddress = calcAddress(statements, index) - labelsCount
         labelsCount++
-        return [statement.key.slice(0, -1), index - labelsCount + 1]
+        return [statement.key.slice(0, -1), labelAddress]
       }
       return undefined
     })
@@ -72,45 +82,38 @@ export const parseLables = (statements: Statement[]): ParseLablesResult => {
   }
 }
 
-export interface Labels {
-  [name: string]: number
-}
-
-export const calcLabels = (
-  statements: Statement[],
-  lables: Labels
-): Statement[] =>
-  statements.map((statement, index) => {
-    Object.entries(lables).forEach(([label, position]) => {
+export const calcLabels = ({
+  statements,
+  labelTuples
+}: TokenizeResult): TokenizeResult => {
+  const newStatements = statements.map((statement, index) => {
+    labelTuples.forEach(([label, labelAddress]) => {
       const { key, args } = statement
       if (key in JumpKeyword && args?.length === 1 && args[0] === label) {
-        const [smaller, greater] = [index, position].sort((a, b) => a - b)
-        const absDistance = statements
-          .slice(smaller, greater)
-          .map(statement => (statement.args as string[]).length + 1)
-          .reduce((acc, cur) => acc + cur)
-        const realDistance =
-          smaller === index ? absDistance : 0x100 - absDistance
-        statement.args = [
-          realDistance.toString(16).padStart(2, '0').toUpperCase()
-        ]
+        const statementAddress = calcAddress(statements, index)
+        const relDistance = labelAddress - statementAddress
+        const absDistance = relDistance > 0 ? relDistance : 0x100 + relDistance
+        const labelValue = decToHex(absDistance)
+        statement.args = [labelValue]
       }
+      return undefined
     })
     return statement
   })
 
-export interface TokenizeResult extends Result {
-  labels: Labels
+  return {
+    labelTuples,
+    statements: newStatements
+  }
 }
 
 export const tokenize = (code: string): TokenizeResult => {
   try {
-    const parseResult = parseLables(parseStatements(code))
-    const labels = Object.fromEntries(parseResult.labelTuples)
-    const statements = calcLabels(parseResult.statements, labels)
-
+    const { statements, labelTuples } = calcLabels(
+      parseLables(parseStatements(code))
+    )
     return {
-      labels,
+      labelTuples,
       statements
     }
   } catch (err) {

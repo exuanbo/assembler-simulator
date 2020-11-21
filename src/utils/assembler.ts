@@ -1,6 +1,6 @@
 import { Statement, TokenizeResult } from './tokenize'
 import { ParsedArg, parseArg } from './parseArg'
-import excludeUndefined from './excludeUndefined'
+import { excludeUndefined } from './helper'
 import {
   Keyword,
   ArithmeticKeyword,

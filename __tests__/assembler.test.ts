@@ -17,7 +17,7 @@ import {
   ArgType,
   OPCODE_MAPPING
 } from '../src/utils/constants'
-import { statementsAfterCalcLables, labels } from './tokenize.test'
+import { statementsAfterCalcLables, labelTuples } from './tokenize.test'
 import { statementToString } from './utils'
 
 describe('generateAddressArr', () => {
@@ -255,14 +255,17 @@ const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 
 describe('assemble', () => {
   statementsAfterCalcLables.forEach((statement, index) => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
-      const address = assemble({ statements: [statement], labels: {} })
+      const address = assemble({ statements: [statement], labelTuples: [] })
       const opcodes = statementOpcodes[index] as number[]
       expect(address.slice(0, opcodes.length)).toStrictEqual(opcodes)
     })
   })
 
   it('should assemble code', () => {
-    const address = assemble({ statements: statementsAfterCalcLables, labels })
+    const address = assemble({
+      statements: statementsAfterCalcLables,
+      labelTuples
+    })
     expect(address).toStrictEqual(assembledAddress)
   })
 })
