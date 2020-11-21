@@ -19,5 +19,5 @@ const tsxArr = fs
   .map(fn => path.join(tsxpath, fn))
 
 postcss([purgecss({ content: [html, ...tsxArr] })])
-  .process(css)
+  .process(css, { from: undefined })
   .then(res => fs.writeFileSync(filepath, res.css))
