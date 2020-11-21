@@ -8,6 +8,6 @@ module.exports = mergeObj(require('ts-standardx/.eslintrc.js'), {
     }
   },
   rules: {
-    'react/jsx-pascal-case': ['error', { ignore: ['RAM', 'VDU'] }]
+    'react/jsx-pascal-case': ['error', { ignore: ['CPU', 'RAM', 'VDU'] }]
   }
 })

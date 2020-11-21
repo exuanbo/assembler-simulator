@@ -1,15 +1,20 @@
 import { FunctionalComponent, h } from 'preact'
-import { Space, Button } from 'antd'
 
 const Headbar: FunctionalComponent = () => (
-  <span style={{ padding: '0 2em' }}>
-    <Space size="middle">
-      <h1 style={{ marginBottom: 0, fontSize: '1.25em' }}>Samphire Online</h1>
-      <Button>Run</Button>
-      <Button>Stop</Button>
-      <Button>Reset</Button>
-    </Space>
-  </span>
+  <nav className="navbar block">
+    <div className="navbar-brand">
+      <h1 className="title" style={{ lineHeight: '2em' }}>
+        Samphire Online
+      </h1>
+    </div>
+    <div className="navbar-menu">
+      <div className="navbar-item buttons">
+        <button className="button">Run</button>
+        <button className="button">Stop</button>
+        <button className="button">Reset</button>
+      </div>
+    </div>
+  </nav>
 )
 
 export default Headbar

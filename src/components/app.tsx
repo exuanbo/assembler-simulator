@@ -1,41 +1,54 @@
 import { FunctionalComponent, h } from 'preact'
 import { PrecoilRoot, atom } from 'precoil'
-import 'antd/dist/antd.css'
-import { Layout, Row, Col } from 'antd'
+import 'bulma/bulma.sass'
 import Headbar from './headbar'
 import CodeArea from './codeArea'
-import Memory from './memory'
+import CPU from './cpu'
 import RAM from './ram'
 import VDU from './vdu'
 import Log from './log'
-import { Statement, Labels } from '../utils/tokenize'
+import { Statement, LabelTuple } from '../utils/tokenize'
 
-const { Header, Content } = Layout
+const defaultCode = `mov al, 5A
+mov bl, D3
 
-export const codeState = atom<string>('')
-export const labelState = atom<Labels>({})
+loop:
+mov [bl], al
+dec al
+cmp al, 40
+jz done
+inc bl
+jz reset
+jmp loop
+
+reset:
+mov bl, c0
+jmp loop
+
+done:
+end
+`
+
+export const codeState = atom<string>(defaultCode)
+export const labelState = atom<LabelTuple[]>([])
 export const statementState = atom<Statement[]>([])
 
 const App: FunctionalComponent = () => (
   <PrecoilRoot>
-    <Layout>
-      <Header style={{ padding: 0, backgroundColor: '#fafafa' }}>
-        <Headbar />
-      </Header>
-      <Content>
-        <Row>
-          <Col span={12}>
-            <CodeArea />
-          </Col>
-          <Col span={12}>
-            <Memory />
-            <RAM />
-            <VDU />
-            <Log />
-          </Col>
-        </Row>
-      </Content>
-    </Layout>
+    <section className="section">
+      <Headbar />
+      <div className="columns block">
+        <div className="column">
+          <CodeArea />
+        </div>
+        <div className="column">
+          <CPU />
+          <RAM />
+          <VDU />
+          <Log />
+        </div>
+      </div>
+    </section>
   </PrecoilRoot>
 )
 
