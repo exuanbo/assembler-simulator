@@ -14,6 +14,11 @@ const CodeArea: FunctionalComponent = () => {
 
   const textArea = useRef<HTMLTextAreaElement>()
 
+  // TODO fix this workaround
+  useEffect(() => {
+    textArea.current.spellcheck = false
+  }, [])
+
   useEffect(() => {
     const timeoutID = setTimeout(() => {
       const tokens = tokenize(code)
@@ -33,7 +38,6 @@ const CodeArea: FunctionalComponent = () => {
         ref={textArea}
         className="textarea"
         rows={20}
-        spellcheck={false}
         style={{ fontFamily: "'Fira Code', monospace" }}
         value={code}
         onChange={event => {

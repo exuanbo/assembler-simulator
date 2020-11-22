@@ -12,7 +12,6 @@ module.exports = mergeObj(require('ts-standardx/.eslintrc.js'), {
     'react/jsx-sort-props': [
       'error',
       { callbacksLast: true, shorthandFirst: true, reservedFirst: true }
-    ],
-    'react/no-unknown-property': ['error', { ignore: ['spellcheck'] }]
+    ]
   }
 })
