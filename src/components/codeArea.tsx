@@ -34,7 +34,7 @@ const CodeArea: FunctionalComponent = () => {
         className="textarea"
         rows={20}
         spellcheck={false}
-        style={{ fontFamily: 'monospace' }}
+        style={{ fontFamily: "'Fira Code', monospace" }}
         value={code}
         onChange={event => {
           const { value } = event.target as HTMLTextAreaElement
