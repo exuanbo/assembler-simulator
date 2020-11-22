@@ -12,7 +12,7 @@ const Tokens: FunctionalComponent = () => {
   const [show, setShow] = useState(false)
 
   return (
-    <Card title="Tokens" Icon={Eye} onIconClick={() => setShow(!show)}>
+    <Card Icon={Eye} title="Tokens" onIconClick={() => setShow(!show)}>
       {show ? (
         <div className="columns">
           <div className="column">

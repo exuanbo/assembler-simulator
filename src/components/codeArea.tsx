@@ -33,7 +33,6 @@ const CodeArea: FunctionalComponent = () => {
         ref={textArea}
         className="textarea"
         rows={20}
-        /* eslint react/no-unknown-property: [2, { ignore: ['spellcheck'] }] */
         spellcheck={false}
         style={{ fontFamily: 'monospace' }}
         value={code}
