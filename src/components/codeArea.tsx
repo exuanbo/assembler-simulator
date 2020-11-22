@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import { useEffect } from 'preact/hooks'
+import { useEffect, useRef } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
 import { codeState, labelState, statementState, addressState } from './app'
 import Card from './card'
@@ -11,6 +11,8 @@ const CodeArea: FunctionalComponent = () => {
   const setLabels = usePrecoilState(labelState)[1]
   const setStatements = usePrecoilState(statementState)[1]
   const setAdress = usePrecoilState(addressState)[1]
+
+  const textArea = useRef<HTMLTextAreaElement>()
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
@@ -28,6 +30,7 @@ const CodeArea: FunctionalComponent = () => {
   return (
     <Card title="Code">
       <textarea
+        ref={textArea}
         className="textarea"
         rows={20}
         /* eslint react/no-unknown-property: [2, { ignore: ['spellcheck'] }] */
@@ -37,6 +40,18 @@ const CodeArea: FunctionalComponent = () => {
         onChange={event => {
           const { value } = event.target as HTMLTextAreaElement
           setCode(value)
+        }}
+        onKeyDown={event => {
+          if (event.keyCode === 9) {
+            event.preventDefault()
+            const { current } = textArea
+            const { selectionStart, selectionEnd, value } = current
+            current.value =
+              value.substring(0, selectionStart) +
+              '\t' +
+              value.substring(selectionEnd)
+            current.selectionStart = current.selectionEnd = selectionStart + 1
+          }
         }}
       />
     </Card>
