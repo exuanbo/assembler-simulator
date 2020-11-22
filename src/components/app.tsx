@@ -36,7 +36,7 @@ export const addressState = atom<number[]>([])
 
 const App: FunctionalComponent = () => (
   <PrecoilRoot>
-    <section className="section">
+    <section className="section pt-4">
       <Headbar />
       <div className="columns block">
         <div className="column">

@@ -32,6 +32,7 @@ const CodeArea: FunctionalComponent = () => {
         rows={20}
         /* eslint react/no-unknown-property: [2, { ignore: ['spellcheck'] }] */
         spellcheck={false}
+        style={{ fontFamily: 'monospace' }}
         value={code}
         onChange={event => {
           const { value } = event.target as HTMLTextAreaElement
