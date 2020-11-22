@@ -1,16 +1,34 @@
 import { ComponentChildren, FunctionalComponent, h } from 'preact'
 
 interface Props {
+  className?: string
   title: string
+  Icon?: any
+  onIconClick?: () => void
   children?: ComponentChildren
+  [prop: string]: unknown
 }
 
-const Card: FunctionalComponent<Props> = ({ title, children }: Props) => (
-  <div className="card block">
+const Card: FunctionalComponent<Props> = ({
+  className,
+  title,
+  Icon,
+  onIconClick,
+  children,
+  ...props
+}: Props) => (
+  <div className={`card block ${className ?? ''}`} {...props}>
     <header className="card-header">
-      <div className="card-header-title">{title}</div>
+      <span className="card-header-title">{title}</span>
+      {Icon !== undefined ? (
+        <span className="card-header-icon" onClick={onIconClick}>
+          <Icon />
+        </span>
+      ) : null}
     </header>
-    <div className="card-content">{children}</div>
+    {children !== undefined ? (
+      <div className="card-content">{children}</div>
+    ) : null}
   </div>
 )
 

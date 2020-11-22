@@ -6,7 +6,7 @@ import CodeArea from './codeArea'
 import CPU from './cpu'
 import RAM from './ram'
 import VDU from './vdu'
-import Log from './log'
+import Tokens from './tokens'
 import { Statement, LabelTuple } from '../utils/tokenize'
 
 const defaultCode = `mov al, 5A
@@ -32,6 +32,7 @@ end
 export const codeState = atom<string>(defaultCode)
 export const labelState = atom<LabelTuple[]>([])
 export const statementState = atom<Statement[]>([])
+export const addressState = atom<number[]>([])
 
 const App: FunctionalComponent = () => (
   <PrecoilRoot>
@@ -42,10 +43,10 @@ const App: FunctionalComponent = () => (
           <CodeArea />
         </div>
         <div className="column">
+          <VDU />
           <CPU />
           <RAM />
-          <VDU />
-          <Log />
+          <Tokens />
         </div>
       </div>
     </section>
