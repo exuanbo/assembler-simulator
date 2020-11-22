@@ -22,6 +22,7 @@ export default {
       'babel-loader'
     )[0]
     const babelConfig = balbelLoaderWrapper.rule.options
+
     babelConfig.plugins.push(require.resolve('styled-jsx/babel'))
   }
 }
