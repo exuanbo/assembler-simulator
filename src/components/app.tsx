@@ -9,7 +9,7 @@ import VDU from './vdu'
 import Tokens from './tokens'
 import { Statement, LabelTuple } from '../utils/tokenize'
 
-const defaultCode = `mov al, 5A
+const DEFAULT_INPUT = `mov al, 5A
 mov bl, D3
 
 loop:
@@ -29,7 +29,7 @@ done:
 end
 `
 
-export const codeState = atom<string>(defaultCode)
+export const codeState = atom<string>(DEFAULT_INPUT)
 export const labelState = atom<LabelTuple[]>([])
 export const statementState = atom<Statement[]>([])
 export const addressState = atom<number[]>([])
