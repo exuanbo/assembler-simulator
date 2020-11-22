@@ -136,8 +136,7 @@ export const generateOpcodesFromStatement = (
 
     ;[parsedArg1, parsedArg2].forEach(arg => {
       if (isIllegal(arg)) {
-        // throw new Error(`Illegal argument '${(arg as ParsedArg).value}'`)
-        console.log(`Illegal argument '${(arg as ParsedArg).value}'`)
+        throw new Error(`Illegal argument '${(arg as ParsedArg).value}'`)
       }
     })
 
@@ -160,12 +159,16 @@ export const assemble = (tokenizedCode: TokenizeResult): number[] => {
   let addressPos = 0
 
   statements.forEach(statement => {
-    const opcodes = generateOpcodesFromStatement(statement)
-    if (opcodes !== undefined) {
-      opcodes.forEach(opcode => {
-        address[addressPos] = opcode
-        addressPos++
-      })
+    try {
+      const opcodes = generateOpcodesFromStatement(statement)
+      if (opcodes !== undefined) {
+        opcodes.forEach(opcode => {
+          address[addressPos] = opcode
+          addressPos++
+        })
+      }
+    } catch (err) {
+      console.log((err as Error).message)
     }
   })
 
