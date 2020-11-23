@@ -2,15 +2,14 @@ import { FunctionalComponent, h } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
 import './web-font.css'
-import { codeState, labelState, statementState, addressState } from './app'
+import { codeState, tokenState, addressState } from './app'
 import Card from './card'
 import { tokenize } from '../utils/tokenize'
 import { assemble } from '../utils/assembler'
 
 const CodeArea: FunctionalComponent = () => {
   const [code, setCode] = usePrecoilState(codeState)
-  const setLabels = usePrecoilState(labelState)[1]
-  const setStatements = usePrecoilState(statementState)[1]
+  const setTokens = usePrecoilState(tokenState)[1]
   const setAdress = usePrecoilState(addressState)[1]
 
   const textArea = useRef<HTMLTextAreaElement>()
@@ -24,8 +23,7 @@ const CodeArea: FunctionalComponent = () => {
     const timeoutID = setTimeout(() => {
       const tokens = tokenize(code)
       const { statements, labelTuples } = tokens
-      setLabels(labelTuples)
-      setStatements(statements)
+      setTokens({ statements, labelTuples })
       const address = assemble(tokens)
       setAdress(address)
     }, 500)

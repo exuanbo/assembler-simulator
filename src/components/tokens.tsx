@@ -1,14 +1,14 @@
 import { FunctionalComponent, h } from 'preact'
 import { useState } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
-import { labelState, statementState } from './app'
+import { tokenState } from './app'
 import Card from './card'
 import Eye from './svg/eye-solid'
 import { decToHex } from '../utils/helper'
 
 const Tokens: FunctionalComponent = () => {
-  const [labelTuple] = usePrecoilState(labelState)
-  const [statements] = usePrecoilState(statementState)
+  const [tokens] = usePrecoilState(tokenState)
+  const { statements, labelTuples } = tokens
   const [show, setShow] = useState(false)
 
   return (
@@ -41,7 +41,7 @@ const Tokens: FunctionalComponent = () => {
           </div>
           <div className="column">
             <Card className="colum" title="Labels">
-              {labelTuple.length > 0 ? (
+              {labelTuples.length > 0 ? (
                 <table className="table is-striped is-narrow is-fullwidth">
                   <thead>
                     <tr>
@@ -50,7 +50,7 @@ const Tokens: FunctionalComponent = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {labelTuple.map(([name, address]) => (
+                    {labelTuples.map(([name, address]) => (
                       <tr key={name}>
                         <td>{name}</td>
                         <td>{decToHex(address)}</td>

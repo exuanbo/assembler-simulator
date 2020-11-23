@@ -7,7 +7,7 @@ import CPU from './cpu'
 import RAM from './ram'
 import VDU from './vdu'
 import Tokens from './tokens'
-import { Statement, LabelTuple } from '../utils/tokenize'
+import { TokenizeResult } from '../utils/tokenize'
 
 const DEFAULT_INPUT = `mov al, 5A
 mov bl, D3
@@ -30,8 +30,10 @@ end
 `
 
 export const codeState = atom<string>(DEFAULT_INPUT)
-export const labelState = atom<LabelTuple[]>([])
-export const statementState = atom<Statement[]>([])
+export const tokenState = atom<TokenizeResult>({
+  statements: [],
+  labelTuples: []
+})
 export const addressState = atom<number[]>([])
 
 const App: FunctionalComponent = () => (
