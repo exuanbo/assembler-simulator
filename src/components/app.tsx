@@ -35,6 +35,7 @@ export const tokenState = atom<TokenizeResult>({
   labelTuples: []
 })
 export const addressState = atom<number[]>([])
+export const errorState = atom<string | null>(null)
 
 const App: FunctionalComponent = () => (
   <PrecoilRoot>

@@ -4,6 +4,7 @@ import { usePrecoilState } from 'precoil'
 import './web-font.css'
 import { codeState, tokenState, addressState } from './app'
 import Card from './card'
+import Status from './status'
 import { tokenize } from '../utils/tokenize'
 import { assemble } from '../utils/assembler'
 
@@ -37,7 +38,6 @@ const CodeArea: FunctionalComponent = () => {
         ref={textArea}
         className="textarea"
         rows={20}
-        style={{ fontFamily: "'Jetbrains Mono', monospace" }}
         value={code}
         onChange={event => {
           const { value } = event.target as HTMLTextAreaElement
@@ -56,6 +56,14 @@ const CodeArea: FunctionalComponent = () => {
           }
         }}
       />
+      <style jsx>{`
+        textarea {
+          font-family: 'Jetbrains Mono', monospace;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      `}</style>
+      <Status />
     </Card>
   )
 }
