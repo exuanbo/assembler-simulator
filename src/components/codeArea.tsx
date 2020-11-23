@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
+import './web-font.css'
 import { codeState, labelState, statementState, addressState } from './app'
 import Card from './card'
 import { tokenize } from '../utils/tokenize'
@@ -38,7 +39,7 @@ const CodeArea: FunctionalComponent = () => {
         ref={textArea}
         className="textarea"
         rows={20}
-        style={{ fontFamily: "'Fira Code', monospace" }}
+        style={{ fontFamily: "'Jetbrains Mono', monospace" }}
         value={code}
         onChange={event => {
           const { value } = event.target as HTMLTextAreaElement
