@@ -6,7 +6,7 @@ export interface Statement {
   args: [string, string] | [string] | undefined
 }
 
-export const parseStatements = (code: string): Statement[] =>
+export const parseStatements = (code: string): Statement[] | never =>
   code
     .split('\n')
     .map((stmt: string): Statement | undefined => {
@@ -107,7 +107,7 @@ export const calcLabels = ({
   }
 }
 
-export const tokenize = (code: string): TokenizeResult => {
+export const tokenize = (code: string): TokenizeResult | never => {
   try {
     const { statements, labelTuples } = calcLabels(
       parseLables(parseStatements(code))

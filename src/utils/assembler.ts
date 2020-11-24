@@ -123,7 +123,7 @@ export type GenerateOpcodesFromStatementResult = number[] | undefined
 
 export const generateOpcodesFromStatement = (
   statement: Statement
-): GenerateOpcodesFromStatementResult => {
+): GenerateOpcodesFromStatementResult | never => {
   const { key, args } = statement
   if (key === Keyword.END) {
     return [0x00]
