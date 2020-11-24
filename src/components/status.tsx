@@ -9,14 +9,14 @@ const Status: FunctionalComponent = () => {
     <>
       <div
         className={`has-text-white-bis ${
-          error === null ? 'has-background-success' : 'has-background-danger'
+          error === null ? 'has-background-info' : 'has-background-danger'
         }`}>
-        {error === null ? 'Looks good so far :D' : status}
+        {error === null ? 'Looks good so far :D' : error}
       </div>
       <style jsx>{`
         div {
           width: 100%;
-          padding: 0.075rem 0.875rem 0.175rem 0.875rem;
+          padding: 0.075rem 0.85rem 0.175rem 0.85rem;
           border-radius: 0 0 4px 4px;
         }
       `}</style>
