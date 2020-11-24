@@ -135,7 +135,7 @@ describe('tokenize', () => {
       tokenize('mov al, A, B')
     } catch (err) {
       expect((err as Error).message).toBe(
-        "Failed to tokenize: Redundant argument 'B'"
+        "Tokenize failed: Redundant argument 'B'"
       )
     }
   })

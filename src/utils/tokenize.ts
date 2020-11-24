@@ -120,6 +120,6 @@ export const tokenize = (code: string): TokenizeResult | never => {
       statements
     }
   } catch (err) {
-    throw new Error(`Failed to tokenize: ${(err as Error).message}`)
+    throw new Error(`Tokenize failed: ${(err as Error).message}`)
   }
 }
