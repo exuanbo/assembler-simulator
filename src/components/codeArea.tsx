@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
 import './web-font.css'
-import { codeState, tokenState, addressState } from './app'
+import { codeState, tokenState, addressState, errorState } from './app'
 import Card from './card'
 import Status from './status'
 import { tokenize } from '../utils/tokenize'
@@ -12,6 +12,7 @@ const CodeArea: FunctionalComponent = () => {
   const [code, setCode] = usePrecoilState(codeState)
   const setTokens = usePrecoilState(tokenState)[1]
   const setAdress = usePrecoilState(addressState)[1]
+  const setError = usePrecoilState(errorState)[1]
 
   const textArea = useRef<HTMLTextAreaElement>()
 
@@ -21,11 +22,16 @@ const CodeArea: FunctionalComponent = () => {
   }, [])
 
   const handleCodeChange = (): void => {
-    const tokens = tokenize(code)
-    const { statements, labelTuples } = tokens
-    setTokens({ statements, labelTuples })
-    const address = assemble(tokens)
-    setAdress(address)
+    try {
+      const tokens = tokenize(code)
+      const { statements, labelTuples } = tokens
+      setTokens({ statements, labelTuples })
+      const address = assemble(tokens)
+      setAdress(address)
+      setError(null)
+    } catch (err) {
+      setError((err as Error).message)
+    }
   }
 
   useEffect(() => {

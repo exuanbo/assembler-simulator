@@ -152,7 +152,7 @@ export const generateOpcodesFromStatement = (
   return undefined
 }
 
-export const assemble = (tokenizedCode: TokenizeResult): Uint8Array => {
+export const assemble = (tokenizedCode: TokenizeResult): Uint8Array | never => {
   const { statements } = tokenizedCode
 
   const address = generateAddressArr(true)
@@ -168,7 +168,7 @@ export const assemble = (tokenizedCode: TokenizeResult): Uint8Array => {
         })
       }
     } catch (err) {
-      console.log((err as Error).message)
+      throw new Error(`Assemble failed: ${(err as Error).message}`)
     }
   })
 
