@@ -119,7 +119,7 @@ describe('getArithmeticOpcode', () => {
 })
 
 describe('getCompareOpcode', () => {
-  it(`should work when compare with 'arg2.type === ArgType.Register'`, () => {
+  it("should work when compare with 'arg2.type === ArgType.Register'", () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -127,7 +127,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xda)
   })
 
-  it(`should work when compare with 'arg2.type === ArgType.Address'`, () => {
+  it("should work when compare with 'arg2.type === ArgType.Address'", () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Address, value: 0x01 }
@@ -135,7 +135,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xdc)
   })
 
-  it(`should work when compare with 'arg2.type === ArgType.Address'`, () => {
+  it("should work when compare with 'arg2.type === ArgType.Address'", () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
@@ -143,7 +143,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xdb)
   })
 
-  it(`should return undefined if arg1 in invalid`, () => {
+  it('should return undefined if arg1 in invalid', () => {
     const res = getCompareOpcode(
       { type: ArgType.Address, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
