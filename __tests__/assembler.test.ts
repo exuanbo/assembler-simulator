@@ -237,7 +237,7 @@ describe('generateOpcodesFromStatements', () => {
         generateOpcodesFromStatement(statement)
       } catch (err) {
         expect((err as Error).message).toBe(
-          `Illegal argument '${(args as string[])[index > 1 ? 0 : index]}'`
+          `Invalid argument '${(args as string[])[index > 1 ? 0 : index]}'`
         )
       }
     })
@@ -257,7 +257,7 @@ describe('assemble', () => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
       const address = assemble({ statements: [statement], labelTuples: [] })
       const opcodes = statementOpcodes[index] as number[]
-      expect(address.slice(0, opcodes.length)).toStrictEqual(opcodes)
+      expect(Array.from(address.slice(0, opcodes.length))).toEqual(opcodes)
     })
   })
 
@@ -266,6 +266,6 @@ describe('assemble', () => {
       statements: statementsAfterCalcLables,
       labelTuples
     })
-    expect(address).toStrictEqual(assembledAddress)
+    expect(Array.from(address)).toEqual(assembledAddress)
   })
 })
