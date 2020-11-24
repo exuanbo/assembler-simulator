@@ -20,15 +20,16 @@ const CodeArea: FunctionalComponent = () => {
     textArea.current.spellcheck = false
   }, [])
 
-  useEffect(() => {
-    const timeoutID = setTimeout(() => {
-      const tokens = tokenize(code)
-      const { statements, labelTuples } = tokens
-      setTokens({ statements, labelTuples })
-      const address = assemble(tokens)
-      setAdress(address)
-    }, 500)
+  const handleCodeChange = (): void => {
+    const tokens = tokenize(code)
+    const { statements, labelTuples } = tokens
+    setTokens({ statements, labelTuples })
+    const address = assemble(tokens)
+    setAdress(address)
+  }
 
+  useEffect(() => {
+    const timeoutID = setTimeout(handleCodeChange, 500)
     return () => clearTimeout(timeoutID)
   }, [code])
 
