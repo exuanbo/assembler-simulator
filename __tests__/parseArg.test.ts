@@ -74,8 +74,8 @@ describe('parseArg', () => {
   })
 
   ILLEGAL_ARGS.forEach(arg => {
-    it(`should parse '${arg}' return illegal arg`, () => {
-      expect(parseArg(arg)).toStrictEqual({ type: ArgType.Illegal, value: arg })
+    it(`should parse '${arg}' return invalid arg`, () => {
+      expect(parseArg(arg)).toStrictEqual({ type: ArgType.Invalid, value: arg })
     })
   })
 })

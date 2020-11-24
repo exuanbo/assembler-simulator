@@ -60,7 +60,7 @@ export const parseArg = (token: string): ParsedArg => {
   }
 
   return {
-    type: ArgType.Illegal,
+    type: ArgType.Invalid,
     value: token
   }
 }

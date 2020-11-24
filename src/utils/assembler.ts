@@ -116,8 +116,8 @@ export const getOpcode = (
   }
 }
 
-const isIllegal = (arg: ParsedArg | undefined): boolean =>
-  arg !== undefined && arg.type === ArgType.Illegal
+const isInvalid = (arg: ParsedArg | undefined): boolean =>
+  arg !== undefined && arg.type === ArgType.Invalid
 
 export type GenerateOpcodesFromStatementResult = number[] | undefined
 
@@ -135,8 +135,8 @@ export const generateOpcodesFromStatement = (
     const parsedArg2 = (arg2 !== undefined && parseArg(arg2)) || undefined
 
     ;[parsedArg1, parsedArg2].forEach(arg => {
-      if (isIllegal(arg)) {
-        throw new Error(`Illegal argument '${(arg as ParsedArg).value}'`)
+      if (isInvalid(arg)) {
+        throw new Error(`Invalid argument '${(arg as ParsedArg).value}'`)
       }
     })
 

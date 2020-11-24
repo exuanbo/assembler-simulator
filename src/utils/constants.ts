@@ -75,11 +75,11 @@ export enum ArgType {
   Address = 'Address',
   Register = 'Register',
   RegisterPointer = 'RegisterPointer',
-  Illegal = 'Illegal'
+  Invalid = 'Invalid'
 }
 
 type ValidArgTypeRegex = {
-  [argType in Exclude<ArgType, ArgType.Illegal>]: RegExp
+  [argType in Exclude<ArgType, ArgType.Invalid>]: RegExp
 }
 
 export const ARG_TYPE_REGEX: ValidArgTypeRegex = {
