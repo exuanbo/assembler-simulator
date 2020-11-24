@@ -34,7 +34,7 @@ export const tokenState = atom<TokenizeResult>({
   statements: [],
   labelTuples: []
 })
-export const addressState = atom<number[]>([])
+export const addressState = atom<Uint8Array>(new Uint8Array(0))
 export const errorState = atom<string | null>(null)
 
 const App: FunctionalComponent = () => (

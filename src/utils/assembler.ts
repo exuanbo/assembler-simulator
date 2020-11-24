@@ -9,10 +9,10 @@ import {
   ArgType
 } from './constants'
 
-export const generateAddressArr = (withVDU: boolean): number[] =>
-  Array(0x100)
-    .fill(undefined)
-    .map((_, index) => (withVDU && index >= 0xc0 ? 0x20 : 0x00))
+export const generateAddressArr = (withVDU: boolean): Uint8Array =>
+  new Uint8Array(0x100).map((_, index) =>
+    withVDU && index >= 0xc0 ? 0x20 : 0x00
+  )
 
 type MovOpcode = 0xd0 | 0xd1 | 0xd3 | 0xd2 | 0xd4 | undefined
 
@@ -152,7 +152,7 @@ export const generateOpcodesFromStatement = (
   return undefined
 }
 
-export const assemble = (tokenizedCode: TokenizeResult): number[] => {
+export const assemble = (tokenizedCode: TokenizeResult): Uint8Array => {
   const { statements } = tokenizedCode
 
   const address = generateAddressArr(true)

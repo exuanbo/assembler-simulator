@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from 'preact'
 import { usePrecoilState } from 'precoil'
 import Card from './card'
 import { addressState } from './app'
-import { decToHex, splitPerChunk } from '../utils/helper'
+import { decToHex, splitUint8ArrayPerChunk } from '../utils/helper'
 
 const RAM: FunctionalComponent = () => {
   const [address] = usePrecoilState(addressState)
@@ -11,7 +11,7 @@ const RAM: FunctionalComponent = () => {
     <Card title="RAM">
       <table className="table is-narrow is-fullwidth">
         <tbody>
-          {splitPerChunk(address, 0x10).map((addrArr, arrIndex) => (
+          {splitUint8ArrayPerChunk(address, 0x10).map((addrArr, arrIndex) => (
             <tr key={`row-${arrIndex}`}>
               {addrArr.map((addr, addrIndex) => (
                 <td key={`row-${arrIndex}-${addrIndex}`}>{decToHex(addr)}</td>
