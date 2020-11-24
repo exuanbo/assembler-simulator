@@ -95,7 +95,7 @@ describe('parseStatement', () => {
     try {
       parseStatements('mov al, A, B')
     } catch (err) {
-      expect((err as Error).message).toBe("Redundant arguments 'B'")
+      expect((err as Error).message).toBe("Redundant argument 'B'")
     }
   })
 })
@@ -135,7 +135,7 @@ describe('tokenize', () => {
       tokenize('mov al, A, B')
     } catch (err) {
       expect((err as Error).message).toBe(
-        "Failed to tokenize: Redundant arguments 'B'"
+        "Failed to tokenize: Redundant argument 'B'"
       )
     }
   })
