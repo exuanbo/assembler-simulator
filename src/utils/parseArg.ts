@@ -9,7 +9,7 @@ import {
 export const strToHex = (str: string): number => Number.parseInt(str, 16)
 
 export const getRegisterCode = (registerName: string): RegisterCode =>
-  REGISTER_CODE[registerName.toUpperCase() as Register]
+  REGISTER_CODE[registerName as Register]
 
 export interface ParsedArg {
   type: ArgType

@@ -21,7 +21,7 @@ export const parseStatements = (code: string): Statement[] | never =>
         return { key: statement, args: undefined }
       }
 
-      const keyword = statement.slice(0, firstWhitespacePos).toUpperCase()
+      const keyword = statement.slice(0, firstWhitespacePos)
       const args = statement.slice(firstWhitespacePos).replace(/\s/g, '')
 
       const commaPos = args.search(/,/)
