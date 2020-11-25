@@ -3,7 +3,7 @@ import { ComponentChildren, FunctionalComponent, h } from 'preact'
 interface Props {
   className?: string
   title: string
-  Icon?: any
+  Icon?: () => h.JSX.Element
   onIconClick?: () => void
   children?: ComponentChildren
   [prop: string]: unknown
