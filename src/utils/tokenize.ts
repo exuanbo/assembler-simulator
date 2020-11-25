@@ -10,11 +10,11 @@ export const parseStatements = (code: string): Statement[] | never =>
   code
     .split('\n')
     .map((stmt: string): Statement | undefined => {
-      if (stmt.length === 0) {
+      const statement = stmt.replace(/;.*/, '').trim().toUpperCase()
+
+      if (statement.length === 0) {
         return undefined
       }
-
-      const statement = stmt.replace(/\s*;.*/, '').toUpperCase()
 
       const firstWhitespacePos = statement.search(/\s/)
       if (firstWhitespacePos < 0) {
