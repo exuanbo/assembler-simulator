@@ -78,11 +78,9 @@ export enum ArgType {
   Invalid = 'Invalid'
 }
 
-type ValidArgTypeRegex = {
-  [argType in Exclude<ArgType, ArgType.Invalid>]: RegExp
-}
+export type ValidArgType = Exclude<ArgType, ArgType.Invalid>
 
-export const ARG_TYPE_REGEX: ValidArgTypeRegex = {
+export const ARG_TYPE_REGEX: { [argType in ValidArgType]: RegExp } = {
   [ArgType.Number]: /^([0-9A-F]{1,2})$/,
   [ArgType.Address]: /^\[([0-9A-F]{1,2})\]$/,
   [ArgType.Register]: /^([ABCD]L)$/,

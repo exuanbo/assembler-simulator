@@ -1,10 +1,12 @@
 import {
   ArgType,
+  ValidArgType,
+  ARG_TYPE_REGEX,
   Register,
   RegisterCode,
-  ARG_TYPE_REGEX,
   REGISTER_CODE
 } from './constants'
+import { omit } from './helper'
 
 export const strToHex = (str: string): number => Number.parseInt(str, 16)
 
@@ -13,54 +15,41 @@ export const getRegisterCode = (registerName: string): RegisterCode =>
 
 export interface ParsedArg {
   type: ArgType
-  value: number | string
+  value: number
 }
 
-const getMatcher = (token: string) => (
-  regex: RegExp,
-  type: ArgType
+export const getArgMatcher = (token: string) => (
+  type: ValidArgType
 ): ParsedArg | undefined => {
-  const match = regex.exec(token)?.[1]
-  if (match !== undefined) {
-    const getValue =
-      type === ArgType.Number || type === ArgType.Address
-        ? strToHex
-        : getRegisterCode
+  const regex = ARG_TYPE_REGEX[type]
+  const matchResult = regex.exec(token)?.[1]
+  if (matchResult !== undefined) {
+    const value = (() => {
+      switch (type) {
+        case ArgType.Number:
+        case ArgType.Address:
+          return strToHex(matchResult)
+        case ArgType.Register:
+        case ArgType.RegisterPointer:
+          return getRegisterCode(matchResult)
+      }
+    })() as number
     return {
       type,
-      value: getValue(match)
+      value
     }
   }
 }
 
-export const parseArg = (token: string): ParsedArg => {
-  const matcher = getMatcher(token)
+export const parseArg = (token: string): ParsedArg | never => {
+  const matchArg = getArgMatcher(token)
 
-  const matchNumber = matcher(ARG_TYPE_REGEX.Number, ArgType.Number)
-  if (matchNumber !== undefined) {
-    return matchNumber
+  for (const argType of Object.values(omit(ArgType, 'Invalid'))) {
+    const match = matchArg(argType)
+    if (match !== undefined) {
+      return match
+    }
   }
 
-  const matchAddress = matcher(ARG_TYPE_REGEX.Address, ArgType.Address)
-  if (matchAddress !== undefined) {
-    return matchAddress
-  }
-
-  const matchRegister = matcher(ARG_TYPE_REGEX.Register, ArgType.Register)
-  if (matchRegister !== undefined) {
-    return matchRegister
-  }
-
-  const matchRegisterPointer = matcher(
-    ARG_TYPE_REGEX.RegisterPointer,
-    ArgType.RegisterPointer
-  )
-  if (matchRegisterPointer !== undefined) {
-    return matchRegisterPointer
-  }
-
-  return {
-    type: ArgType.Invalid,
-    value: token
-  }
+  throw new Error(`Invalid argument '${token}'`)
 }

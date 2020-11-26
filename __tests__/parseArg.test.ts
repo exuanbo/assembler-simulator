@@ -3,12 +3,14 @@ import {
   strToHex,
   getRegisterCode,
   ParsedArg,
+  getArgMatcher,
   parseArg
 } from '../src/utils/parseArg'
+import { omit } from '../src/utils/helper'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
-const ILLEGAL_ARGS = ['001', 'el', '[el]', 'start']
+const INVALID_ARGS = ['001', 'el', '[el]', 'start']
 
 describe('util functions', () => {
   HEX_NUMBER_STRINGS.forEach((num, index) => {
@@ -29,6 +31,57 @@ describe('util functions', () => {
 
   it('should return undefined if given string is not a register name', () => {
     expect(getRegisterCode('not_a_register_name')).toBe(undefined)
+  })
+})
+
+describe('getMatcher', () => {
+  HEX_NUMBER_STRINGS.forEach((numString, index) => {
+    it(`should get matcher for number '${numString}'`, () => {
+      const exp: ParsedArg = {
+        type: ArgType.Number,
+        value: HEX_NUMBERS[index]
+      }
+      const res = getArgMatcher(numString)(ArgType.Number)
+      expect(res).toStrictEqual(exp)
+    })
+
+    it(`should get matcher for address '[${numString}]'`, () => {
+      const exp: ParsedArg = {
+        type: ArgType.Address,
+        value: HEX_NUMBERS[index]
+      }
+      const res = getArgMatcher(`[${numString}]`)(ArgType.Address)
+      expect(res).toStrictEqual(exp)
+    })
+  })
+
+  Object.keys(REGISTER_CODE).forEach(registor => {
+    it(`should get matcher for valid register '${registor}'`, () => {
+      const exp: ParsedArg = {
+        type: ArgType.Register,
+        value: getRegisterCode(registor)
+      }
+      const res = getArgMatcher(registor)(ArgType.Register)
+      expect(res).toStrictEqual(exp)
+    })
+
+    it(`should get matcher for valid register pointer '[${registor}]'`, () => {
+      const exp: ParsedArg = {
+        type: ArgType.RegisterPointer,
+        value: getRegisterCode(registor)
+      }
+      const res = getArgMatcher(`[${registor}]`)(ArgType.RegisterPointer)
+      expect(res).toStrictEqual(exp)
+    })
+  })
+
+  INVALID_ARGS.forEach(arg => {
+    Object.values(Object.values(omit(ArgType, 'Invalid'))).forEach(argType => {
+      it(`should return undefined for invalid arg '${arg}'`, () => {
+        const res = getArgMatcher(arg)(argType)
+        expect(res).toBe(undefined)
+      })
+    })
   })
 })
 
@@ -73,9 +126,14 @@ describe('parseArg', () => {
     })
   })
 
-  ILLEGAL_ARGS.forEach(arg => {
-    it(`should parse '${arg}' return invalid arg`, () => {
-      expect(parseArg(arg)).toStrictEqual({ type: ArgType.Invalid, value: arg })
+  INVALID_ARGS.forEach(arg => {
+    it(`should parse '${arg}' and throw an error`, () => {
+      expect.assertions(1)
+      try {
+        parseArg(arg)
+      } catch (err) {
+        expect(err.message).toBe(`Invalid argument '${arg}'`)
+      }
     })
   })
 })
