@@ -1,4 +1,4 @@
-import { Statement } from '../src/utils/tokenize'
+import { Statement } from '../src/core/tokenize'
 
 export const statementToString = (statement: Statement): string => {
   const { key, args } = statement

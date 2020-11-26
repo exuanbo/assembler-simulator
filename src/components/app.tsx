@@ -7,7 +7,7 @@ import CPU from './cpu'
 import RAM from './ram'
 import VDU from './vdu'
 import Tokens from './tokens'
-import { TokenizeResult } from '../utils/tokenize'
+import { TokenizeResult } from '../core/tokenize'
 
 const DEFAULT_INPUT = `mov al, 5A
 mov bl, D3

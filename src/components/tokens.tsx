@@ -3,8 +3,8 @@ import { useState } from 'preact/hooks'
 import { usePrecoilState } from 'precoil'
 import { tokenState } from './app'
 import Card from './card'
-import Eye from './svg/eye-solid'
-import { decToHex } from '../utils/helper'
+import Eye from './icons/eye-solid'
+import { decToHex } from '../utils'
 
 const Tokens: FunctionalComponent = () => {
   const [tokens] = usePrecoilState(tokenState)

@@ -1,4 +1,4 @@
-import { excludeUndefined, decToHex } from './helper'
+import { excludeUndefined, decToHex } from '../utils'
 import { JumpKeyword } from './constants'
 
 export interface Statement {

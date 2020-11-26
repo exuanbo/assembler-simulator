@@ -1,12 +1,12 @@
-import { ArgType, REGISTER_CODE } from '../src/utils/constants'
+import { ArgType, REGISTER_CODE } from '../src/core/constants'
 import {
   strToHex,
   getRegisterCode,
   ParsedArg,
   getArgMatcher,
   parseArg
-} from '../src/utils/parseArg'
-import { omit } from '../src/utils/helper'
+} from '../src/core/parseArg'
+import { omit } from '../src/utils'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']

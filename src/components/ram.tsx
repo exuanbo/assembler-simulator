@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from 'preact'
 import { usePrecoilState } from 'precoil'
 import Card from './card'
 import { addressState } from './app'
-import { decToHex, splitUint8ArrayPerChunk } from '../utils/helper'
+import { decToHex, splitUint8ArrayPerChunk } from '../utils'
 
 const RAM: FunctionalComponent = () => {
   const [address] = usePrecoilState(addressState)

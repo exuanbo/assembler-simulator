@@ -5,7 +5,7 @@ import {
   parseLables,
   calcLabels,
   tokenize
-} from '../src/utils/tokenize'
+} from '../src/core/tokenize'
 
 const code = `
 mov dl, A    ; Move A(hex) or 10 in decimal into dl, to compare to al so we can break the loop when done

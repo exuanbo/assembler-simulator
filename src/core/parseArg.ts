@@ -6,7 +6,7 @@ import {
   RegisterCode,
   REGISTER_CODE
 } from './constants'
-import { omit } from './helper'
+import { omit } from '../utils'
 
 export const strToHex = (str: string): number => Number.parseInt(str, 16)
 

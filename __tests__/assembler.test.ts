@@ -1,4 +1,4 @@
-import { Statement } from '../src/utils/tokenize'
+import { Statement } from '../src/core/tokenize'
 import {
   generateAddressArr,
   getMovOpcode,
@@ -9,14 +9,14 @@ import {
   GenerateOpcodesFromStatementResult,
   generateOpcodesFromStatement,
   assemble
-} from '../src/utils/assembler'
+} from '../src/core/assembler'
 import {
   Keyword,
   ArithmeticKeyword,
   StaticOpcodeKeyword,
   ArgType,
   OPCODE_MAPPING
-} from '../src/utils/constants'
+} from '../src/core/constants'
 import { statementsAfterCalcLables, labelTuples } from './tokenize.test'
 import { statementToString } from './utils'
 
