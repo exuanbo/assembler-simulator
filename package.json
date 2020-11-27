@@ -40,5 +40,8 @@
     "ts-jest": "26.4.4",
     "ts-standardx": "0.5.1",
     "typescript": "4.1.2"
+  },
+  "resolutions": {
+    "**/**/chokidar": "3.x"
   }
 }
