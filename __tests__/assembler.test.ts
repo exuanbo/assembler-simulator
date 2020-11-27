@@ -17,8 +17,11 @@ import {
   ArgType,
   OPCODE_MAPPING
 } from '../src/core/constants'
-import { statementsAfterCalcLables, labelTuples } from './tokenize.test'
 import { statementToString } from './utils'
+import {
+  STATEMENTS_WITH_LABEL_VALUE_CALCULATED,
+  LABEL_TUPLES
+} from './constants'
 
 describe('generateAddressArr', () => {
   it('should generate address array', () => {
@@ -220,7 +223,7 @@ const statementsWithIllegalArgs: Statement[] = [
 ]
 
 describe('generateOpcodesFromStatements', () => {
-  statementsAfterCalcLables.forEach((statement, index) => {
+  STATEMENTS_WITH_LABEL_VALUE_CALCULATED.forEach((statement, index) => {
     it(`should work with '${statementToString(
       statement
     )}' on line ${index}`, () => {
@@ -253,7 +256,7 @@ describe('generateOpcodesFromStatements', () => {
 const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 0, 0x30, 0xd4, 0x01, 0, 0xb1, 0, 0x30, 0xa4, 0, 0xa4, 0x01, 0xda, 0, 0x03, 0xc1, 0x04, 0xc0, 0xee, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20]
 
 describe('assemble', () => {
-  statementsAfterCalcLables.forEach((statement, index) => {
+  STATEMENTS_WITH_LABEL_VALUE_CALCULATED.forEach((statement, index) => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
       const address = assemble({ statements: [statement], labelTuples: [] })
       const opcodes = statementOpcodes[index] as number[]
@@ -263,8 +266,8 @@ describe('assemble', () => {
 
   it('should assemble code', () => {
     const address = assemble({
-      statements: statementsAfterCalcLables,
-      labelTuples
+      statements: STATEMENTS_WITH_LABEL_VALUE_CALCULATED,
+      labelTuples: LABEL_TUPLES
     })
     expect(Array.from(address)).toEqual(assembledAddress)
   })
