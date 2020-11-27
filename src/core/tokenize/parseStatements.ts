@@ -25,9 +25,7 @@ export const parseStatements = (code: string): Statement[] | never =>
         if (splitArgs.length > 2) {
           const rest = splitArgs.splice(2)
           throw new Error(
-            `Redundant argument${rest.length > 1 ? 's' : ''} '${rest.join(
-              ', '
-            )}'`
+            `Redundant argument${rest.length > 1 ? 's' : ''} ${rest.join(', ')}`
           )
         }
         return { key: keyword, args: splitArgs as [string, string] }

@@ -17,14 +17,10 @@ export interface TokenizeResult {
 }
 
 export const tokenize = (code: string): TokenizeResult | never => {
-  try {
-    const { statements, labelTuples } = parseLables(parseStatements(code))
+  const { statements, labelTuples } = parseLables(parseStatements(code))
 
-    return {
-      labelTuples,
-      statements
-    }
-  } catch (err) {
-    throw new Error(`Tokenize failed: ${(err as Error).message}`)
+  return {
+    labelTuples,
+    statements
   }
 }
