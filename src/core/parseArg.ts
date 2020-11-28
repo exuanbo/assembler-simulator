@@ -1,17 +1,6 @@
-import {
-  ArgType,
-  ValidArgType,
-  ARG_TYPE_REGEX,
-  Register,
-  RegisterCode,
-  REGISTER_CODE
-} from './constants'
-import { omit } from '../utils'
+import { ArgType, ARG_TYPE_REGEX, Register, REGISTER_CODE } from './constants'
 
 export const strToHex = (str: string): number => Number.parseInt(str, 16)
-
-export const getRegisterCode = (registerName: string): RegisterCode =>
-  REGISTER_CODE[registerName as Register]
 
 export interface ParsedArg {
   type: ArgType
@@ -19,7 +8,7 @@ export interface ParsedArg {
 }
 
 export const getArgMatcher = (token: string) => (
-  type: ValidArgType
+  type: ArgType
 ): ParsedArg | undefined => {
   const regex = ARG_TYPE_REGEX[type]
   const matchResult = regex.exec(token)?.[1]
@@ -31,9 +20,9 @@ export const getArgMatcher = (token: string) => (
           return strToHex(matchResult)
         case ArgType.Register:
         case ArgType.RegisterPointer:
-          return getRegisterCode(matchResult)
+          return REGISTER_CODE[matchResult as Register]
       }
-    })() as number
+    })()
     return {
       type,
       value
@@ -44,12 +33,12 @@ export const getArgMatcher = (token: string) => (
 export const parseArg = (token: string): ParsedArg | never => {
   const matchArg = getArgMatcher(token)
 
-  for (const argType of Object.values(omit(ArgType, 'Invalid'))) {
+  for (const argType of Object.values(ArgType)) {
     const match = matchArg(argType)
     if (match !== undefined) {
       return match
     }
   }
 
-  throw new Error(`Invalid argument '${token}'`)
+  throw new Error(`Invalid argument ${token}`)
 }

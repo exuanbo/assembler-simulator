@@ -4,20 +4,19 @@ import {
   getMovOpcode,
   getArithmeticOpcode,
   getCompareOpcode,
-  getStaticOpcode,
   getOpcode,
-  GenerateOpcodesFromStatementResult,
   generateOpcodesFromStatement,
   assemble
 } from '../src/core/assembler'
 import {
-  Keyword,
-  ArithmeticKeyword,
-  StaticOpcodeKeyword,
-  ArgType,
-  OPCODE_MAPPING
+  Instruction,
+  ArithmeticInstruction,
+  DIRECT_ARITHMETIC_OPCODE_MAP,
+  ImmediateArithmeticInstruction,
+  IMMEDIATE_ARITHMETIC_OPCODE_MAP,
+  ArgType
 } from '../src/core/constants'
-import { statementToString } from './utils'
+import { statementToString, expectError } from './utils'
 import {
   STATEMENTS_WITH_LABEL_VALUE_CALCULATED,
   LABEL_TUPLES
@@ -39,7 +38,7 @@ describe('generateAddressArr', () => {
 })
 
 describe('getMoveOpcode', () => {
-  it('should work when move register <- number', () => {
+  it('should work when MOV register <- number', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
@@ -47,7 +46,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd0)
   })
 
-  it('should work when move register <- address', () => {
+  it('should work when MOV register <- address', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Address, value: 0x01 }
@@ -55,7 +54,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd1)
   })
 
-  it('should work when move register <- registerPointer', () => {
+  it('should work when MOV register <- registerPointer', () => {
     const res = getMovOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.RegisterPointer, value: 0x01 }
@@ -63,7 +62,7 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd3)
   })
 
-  it('should work when move address <- register', () => {
+  it('should work when MOV address <- register', () => {
     const res = getMovOpcode(
       { type: ArgType.Address, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -71,58 +70,94 @@ describe('getMoveOpcode', () => {
     expect(res).toBe(0xd2)
   })
 
-  it('should work when move registerPointer <- register', () => {
+  it('should work when MOV registerPointer <- register', () => {
     const res = getMovOpcode(
       { type: ArgType.RegisterPointer, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
     )
     expect(res).toBe(0xd4)
   })
-})
 
-const arithmeticKeywords: ArithmeticKeyword[] = [
-  Keyword.ADD,
-  Keyword.SUB,
-  Keyword.MUL,
-  Keyword.DIV
-]
+  it('should throw error when MOV number <- register', () => {
+    expectError(() => {
+      getMovOpcode(
+        { type: ArgType.Number, value: 0x00 },
+        { type: ArgType.Register, value: 0x01 }
+      )
+    }, 'The first argument of MOV can not be number. Got 00')
+  })
 
-const getDynamicOpcode = (keyword: ArithmeticKeyword): [number, number] =>
-  OPCODE_MAPPING[Keyword[keyword]] as [number, number]
-
-describe('getArithmeticOpcode', () => {
-  arithmeticKeywords.forEach(keyword => {
-    it(`should work with '${keyword}' when 'src.type === ArgType.Register'`, () => {
-      const res = getArithmeticOpcode(
-        keyword,
+  it('should throw error when MOV register <- register', () => {
+    expectError(() => {
+      getMovOpcode(
         { type: ArgType.Register, value: 0x00 },
         { type: ArgType.Register, value: 0x01 }
       )
-      expect(res).toBe(getDynamicOpcode(keyword)[0])
+    }, 'The second argument of MOV can not be register. Got BL')
+  })
+
+  it('should throw error when MOV address <- number', () => {
+    expectError(() => {
+      getMovOpcode(
+        { type: ArgType.Address, value: 0xc0 },
+        { type: ArgType.Number, value: 0x01 }
+      )
+    }, 'The second argument of MOV must be register. Got 01')
+  })
+})
+
+describe('getArithmeticOpcode', () => {
+  Object.keys(DIRECT_ARITHMETIC_OPCODE_MAP).forEach(instruction => {
+    it(`should work with ${instruction} register, register`, () => {
+      const res = getArithmeticOpcode(
+        instruction as ArithmeticInstruction,
+        { type: ArgType.Register, value: 0x00 },
+        { type: ArgType.Register, value: 0x01 }
+      )
+      expect(res).toBe(
+        DIRECT_ARITHMETIC_OPCODE_MAP[instruction as ArithmeticInstruction]
+      )
     })
 
-    it(`should work with '${keyword}' when 'src.type === ArgType.Number'`, () => {
+    it(`should throw error when '${instruction}' address, number`, () => {
+      expectError(() => {
+        getArithmeticOpcode(
+          instruction as ArithmeticInstruction,
+          { type: ArgType.Address, value: 0xc0 },
+          { type: ArgType.Number, value: 0x01 }
+        )
+      }, `The first argument of ${instruction} must be register. Got [C0]`)
+    })
+
+    it(`should throw error when '${instruction}' register, address`, () => {
+      expectError(() => {
+        getArithmeticOpcode(
+          instruction as ArithmeticInstruction,
+          { type: ArgType.Register, value: 0x00 },
+          { type: ArgType.Address, value: 0xc0 }
+        )
+      }, `The second argument of ${instruction} must be register or number. Got [C0]`)
+    })
+  })
+
+  Object.keys(IMMEDIATE_ARITHMETIC_OPCODE_MAP).forEach(instruction => {
+    it(`should work with ${instruction} register, number`, () => {
       const res = getArithmeticOpcode(
-        keyword,
+        instruction as ImmediateArithmeticInstruction,
         { type: ArgType.Register, value: 0x00 },
         { type: ArgType.Number, value: 0x01 }
       )
-      expect(res).toBe(getDynamicOpcode(keyword)[1])
-    })
-
-    it(`should return undefined with '${keyword}' if arg is invalid`, () => {
-      const res = getArithmeticOpcode(
-        keyword,
-        { type: ArgType.Register, value: 0x00 },
-        { type: ArgType.Address, value: 0x01 }
+      expect(res).toBe(
+        IMMEDIATE_ARITHMETIC_OPCODE_MAP[
+          instruction as ImmediateArithmeticInstruction
+        ]
       )
-      expect(res).toBe(undefined)
     })
   })
 })
 
 describe('getCompareOpcode', () => {
-  it("should work when compare with 'arg2.type === ArgType.Register'", () => {
+  it('should work when CMP register, register', () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
@@ -130,7 +165,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xda)
   })
 
-  it("should work when compare with 'arg2.type === ArgType.Address'", () => {
+  it('should work when CMP register, address', () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Address, value: 0x01 }
@@ -138,7 +173,7 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xdc)
   })
 
-  it("should work when compare with 'arg2.type === ArgType.Address'", () => {
+  it('should work when CMP register, number', () => {
     const res = getCompareOpcode(
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
@@ -146,62 +181,71 @@ describe('getCompareOpcode', () => {
     expect(res).toBe(0xdb)
   })
 
-  it('should return undefined if arg1 in invalid', () => {
-    const res = getCompareOpcode(
-      { type: ArgType.Address, value: 0x00 },
-      { type: ArgType.Register, value: 0x01 }
-    )
-    expect(res).toBe(undefined)
+  it('should throw error when CMP address, register ', () => {
+    expectError(() => {
+      getCompareOpcode(
+        { type: ArgType.Address, value: 0xc0 },
+        { type: ArgType.Register, value: 0x00 }
+      )
+    }, 'The first argument of CMP must be register. Got [C0]')
+  })
+
+  it('should throw error when CMP register, [register] ', () => {
+    expectError(() => {
+      getCompareOpcode(
+        { type: ArgType.Register, value: 0x00 },
+        { type: ArgType.RegisterPointer, value: 0x01 }
+      )
+    }, 'The second argument of CMP can not be address with register. Got [BL]')
   })
 })
 
-const staticOpcodeKeywords: StaticOpcodeKeyword[] = [
-  Keyword.INC,
-  Keyword.DEC,
-  Keyword.JMP,
-  Keyword.JZ,
-  Keyword.JNZ
-]
-
 describe('getOpcode', () => {
-  staticOpcodeKeywords.forEach(keyword => {
-    it(`should return correct opcode with '${keyword}' AL`, () => {
-      const res = getOpcode(keyword, { type: ArgType.Register, value: 0x00 })
-      expect(res).toBe(getStaticOpcode(keyword))
-    })
-  })
-
-  it("should return correct opcode with 'MOV'", () => {
+  it('should return correct opcode with MOV', () => {
     const res = getOpcode(
-      Keyword.MOV,
+      Instruction.MOV,
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Number, value: 0x01 }
     )
     expect(res).toBe(0xd0)
   })
 
-  arithmeticKeywords.forEach(keyword => {
-    it(`should return correct opcode with '${keyword}'`, () => {
-      const res = getOpcode(
-        keyword,
-        { type: ArgType.Register, value: 0x00 },
-        { type: ArgType.Register, value: 0x01 }
-      )
-      expect(res).toBe(getDynamicOpcode(keyword)[0])
-    })
+  it('should return correct opcode with ADD', () => {
+    const res = getOpcode(
+      Instruction.ADD,
+      { type: ArgType.Register, value: 0x00 },
+      { type: ArgType.Number, value: 0x01 }
+    )
+    expect(res).toBe(0xb0)
   })
 
-  it("should return correct opcode with 'CMP'", () => {
+  it('should return correct opcode with INC', () => {
+    const res = getOpcode(Instruction.INC, {
+      type: ArgType.Register,
+      value: 0x00
+    })
+    expect(res).toBe(0xa4)
+  })
+
+  it('should return correct opcode with CMP', () => {
     const res = getOpcode(
-      Keyword.CMP,
+      Instruction.CMP,
       { type: ArgType.Register, value: 0x00 },
       { type: ArgType.Register, value: 0x01 }
     )
     expect(res).toBe(0xda)
   })
+
+  it('should return correct opcode with JMP', () => {
+    const res = getOpcode(Instruction.JMP, {
+      type: ArgType.Number,
+      value: 0x01
+    })
+    expect(res).toBe(0xc0)
+  })
 })
 
-const statementOpcodes: GenerateOpcodesFromStatementResult[] = [
+const statementOpcodes = [
   [0xd0, 0x03, 0x0a],
   [0xd0, 0x00, 0x00],
   [0xd0, 0x01, 0xc0],
@@ -217,9 +261,9 @@ const statementOpcodes: GenerateOpcodesFromStatementResult[] = [
 ]
 
 const statementsWithIllegalArgs: Statement[] = [
-  { key: 'MOV', args: ['ALL', 'BL'] },
-  { key: 'ADD', args: ['AL', 'BLL'] },
-  { key: 'INC', args: ['ABC'] }
+  { instruction: Instruction.MOV, args: ['ALL', 'BL'] },
+  { instruction: Instruction.ADD, args: ['AL', 'BLL'] },
+  { instruction: Instruction.INC, args: ['ABC'] }
 ]
 
 describe('generateOpcodesFromStatements', () => {
@@ -239,16 +283,19 @@ describe('generateOpcodesFromStatements', () => {
       try {
         generateOpcodesFromStatement(statement)
       } catch (err) {
-        expect((err as Error).message).toBe(
-          `Invalid argument '${(args as string[])[index > 1 ? 0 : index]}'`
+        expect(err.message).toBe(
+          `Invalid argument ${(args as string[])[index > 1 ? 0 : index]}`
         )
       }
     })
   })
 
-  it('should return undefined if args is undefined', () => {
-    const res = generateOpcodesFromStatement({ key: 'MOV', args: undefined })
-    expect(res).toStrictEqual(undefined)
+  it('should return 0 if instruction is END', () => {
+    const res = generateOpcodesFromStatement({
+      instruction: Instruction.END,
+      args: undefined
+    })
+    expect(res).toStrictEqual([0])
   })
 })
 

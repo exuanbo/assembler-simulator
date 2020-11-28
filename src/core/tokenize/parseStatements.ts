@@ -1,36 +1,64 @@
-import { Statement } from '.'
+import { StatementWithLabels } from '.'
+import { Instruction, ARGS_COUNT } from '../constants'
 import { excludeUndefined } from '../../utils'
 
-export const parseStatements = (code: string): Statement[] | never =>
+export const parseStatements = (code: string): StatementWithLabels[] | never =>
   code
     .split('\n')
-    .map((stmt: string): Statement | undefined => {
+    .map((stmt: string): StatementWithLabels | undefined => {
       const statement = stmt.replace(/;.*/, '').trim().toUpperCase()
 
       if (statement.length === 0) {
         return undefined
       }
 
-      const firstWhitespacePos = statement.search(/\s/)
-      if (firstWhitespacePos < 0) {
-        return { key: statement, args: undefined }
+      if (statement.endsWith(':')) {
+        return { instruction: statement, args: undefined }
       }
 
-      const keyword = statement.slice(0, firstWhitespacePos)
-      const args = statement.slice(firstWhitespacePos).replace(/\s/g, '')
+      const firstWhitespace = statement.search(/\s/)
 
-      const commaPos = args.search(/,/)
-      if (commaPos > 0) {
-        const splitArgs = args.split(',')
-        if (splitArgs.length > 2) {
-          const rest = splitArgs.splice(2)
-          throw new Error(
-            `Redundant argument${rest.length > 1 ? 's' : ''} ${rest.join(', ')}`
-          )
-        }
-        return { key: keyword, args: splitArgs as [string, string] }
+      const instruction = statement.slice(
+        0,
+        firstWhitespace === -1 ? statement.length : firstWhitespace
+      )
+
+      if (!(instruction in Instruction)) {
+        throw new Error(`Invalid instruction ${instruction}`)
       }
 
-      return { key: keyword, args: [args] }
+      if (instruction === Instruction.END) {
+        return { instruction, args: undefined }
+      }
+
+      const args = statement
+        .slice(firstWhitespace)
+        .replace(/\s/g, '')
+        .split(',')
+        .filter(arg => arg !== '')
+
+      const argsCount = args.length
+
+      if (argsCount > 2) {
+        const rest = args.splice(2)
+        throw new Error(
+          `Redundant argument${rest.length > 1 ? 's' : ''} ${rest.join(', ')}`
+        )
+      }
+
+      const expectedArgsCount = ARGS_COUNT[instruction as Instruction]
+
+      if (argsCount !== expectedArgsCount) {
+        throw new Error(
+          `Expect ${instruction} to have ${expectedArgsCount} argument${
+            expectedArgsCount > 1 ? 's' : ''
+          }. Got ${argsCount}`
+        )
+      }
+
+      return {
+        instruction,
+        args: argsCount > 1 ? [args[0], args[1]] : [args[0]]
+      }
     })
     .filter(excludeUndefined)

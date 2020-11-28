@@ -1,4 +1,5 @@
-import { Statement } from '../src/core/tokenize'
+import { StatementWithLabels, Statement } from '../src/core/tokenize'
+import { Instruction } from '../src/core/constants'
 
 export const CODE = `
 mov dl, A    ; Move A(hex) or 10 in decimal into dl, to compare to al so we can break the loop when done
@@ -19,57 +20,57 @@ fin:         ; A label we can jump to when the loop is done
 END          ; End of the program
 `
 
-export const STATEMENTS: Statement[] = [
-  { key: 'MOV', args: ['DL', 'A'] },
-  { key: 'MOV', args: ['AL', '0'] },
-  { key: 'MOV', args: ['BL', 'C0'] },
+export const STATEMENTS: StatementWithLabels[] = [
+  { instruction: 'MOV', args: ['DL', 'A'] },
+  { instruction: 'MOV', args: ['AL', '0'] },
+  { instruction: 'MOV', args: ['BL', 'C0'] },
 
-  { key: 'LOOP:', args: undefined },
-  { key: 'ADD', args: ['AL', '30'] },
-  { key: 'MOV', args: ['[BL]', 'AL'] },
-  { key: 'SUB', args: ['AL', '30'] },
-  { key: 'INC', args: ['AL'] },
-  { key: 'INC', args: ['BL'] },
-  { key: 'CMP', args: ['AL', 'DL'] },
-  { key: 'JZ', args: ['FIN'] },
-  { key: 'JMP', args: ['LOOP'] },
+  { instruction: 'LOOP:', args: undefined },
+  { instruction: 'ADD', args: ['AL', '30'] },
+  { instruction: 'MOV', args: ['[BL]', 'AL'] },
+  { instruction: 'SUB', args: ['AL', '30'] },
+  { instruction: 'INC', args: ['AL'] },
+  { instruction: 'INC', args: ['BL'] },
+  { instruction: 'CMP', args: ['AL', 'DL'] },
+  { instruction: 'JZ', args: ['FIN'] },
+  { instruction: 'JMP', args: ['LOOP'] },
 
-  { key: 'FIN:', args: undefined },
-  { key: 'END', args: undefined }
+  { instruction: 'FIN:', args: undefined },
+  { instruction: 'END', args: undefined }
 ]
 
 export const STATEMENTS_WITH_LABEL_PARSED: Statement[] = [
-  { key: 'MOV', args: ['DL', 'A'] },
-  { key: 'MOV', args: ['AL', '0'] },
-  { key: 'MOV', args: ['BL', 'C0'] },
+  { instruction: Instruction.MOV, args: ['DL', 'A'] },
+  { instruction: Instruction.MOV, args: ['AL', '0'] },
+  { instruction: Instruction.MOV, args: ['BL', 'C0'] },
   // LOOP
-  { key: 'ADD', args: ['AL', '30'] },
-  { key: 'MOV', args: ['[BL]', 'AL'] },
-  { key: 'SUB', args: ['AL', '30'] },
-  { key: 'INC', args: ['AL'] },
-  { key: 'INC', args: ['BL'] },
-  { key: 'CMP', args: ['AL', 'DL'] },
-  { key: 'JZ', args: ['FIN'] },
-  { key: 'JMP', args: ['LOOP'] },
+  { instruction: Instruction.ADD, args: ['AL', '30'] },
+  { instruction: Instruction.MOV, args: ['[BL]', 'AL'] },
+  { instruction: Instruction.SUB, args: ['AL', '30'] },
+  { instruction: Instruction.INC, args: ['AL'] },
+  { instruction: Instruction.INC, args: ['BL'] },
+  { instruction: Instruction.CMP, args: ['AL', 'DL'] },
+  { instruction: Instruction.JZ, args: ['FIN'] },
+  { instruction: Instruction.JMP, args: ['LOOP'] },
   // FIN
-  { key: 'END', args: undefined }
+  { instruction: Instruction.END, args: undefined }
 ]
 
 export const STATEMENTS_WITH_LABEL_VALUE_CALCULATED: Statement[] = [
-  { key: 'MOV', args: ['DL', 'A'] },
-  { key: 'MOV', args: ['AL', '0'] },
-  { key: 'MOV', args: ['BL', 'C0'] },
+  { instruction: Instruction.MOV, args: ['DL', 'A'] },
+  { instruction: Instruction.MOV, args: ['AL', '0'] },
+  { instruction: Instruction.MOV, args: ['BL', 'C0'] },
   // LOOP
-  { key: 'ADD', args: ['AL', '30'] },
-  { key: 'MOV', args: ['[BL]', 'AL'] },
-  { key: 'SUB', args: ['AL', '30'] },
-  { key: 'INC', args: ['AL'] },
-  { key: 'INC', args: ['BL'] },
-  { key: 'CMP', args: ['AL', 'DL'] },
-  { key: 'JZ', args: ['04'] },
-  { key: 'JMP', args: ['EE'] },
+  { instruction: Instruction.ADD, args: ['AL', '30'] },
+  { instruction: Instruction.MOV, args: ['[BL]', 'AL'] },
+  { instruction: Instruction.SUB, args: ['AL', '30'] },
+  { instruction: Instruction.INC, args: ['AL'] },
+  { instruction: Instruction.INC, args: ['BL'] },
+  { instruction: Instruction.CMP, args: ['AL', 'DL'] },
+  { instruction: Instruction.JZ, args: ['04'] },
+  { instruction: Instruction.JMP, args: ['EE'] },
   // FIN
-  { key: 'END', args: undefined }
+  { instruction: Instruction.END, args: undefined }
 ]
 
 export const LABEL_TUPLES: Array<[string, number]> = [

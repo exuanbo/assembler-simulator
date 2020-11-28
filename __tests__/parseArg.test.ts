@@ -1,12 +1,10 @@
 import { ArgType, REGISTER_CODE } from '../src/core/constants'
 import {
   strToHex,
-  getRegisterCode,
   ParsedArg,
   getArgMatcher,
   parseArg
 } from '../src/core/parseArg'
-import { omit } from '../src/utils'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
@@ -21,16 +19,6 @@ describe('util functions', () => {
 
   it('should return NaN if given string is not a hex number', () => {
     expect(strToHex('not_a_hex_number')).toBe(NaN)
-  })
-
-  Object.entries(REGISTER_CODE).forEach(([register, code]) => {
-    it(`should get register '${register}' code`, () => {
-      expect(getRegisterCode(register)).toBe(code)
-    })
-  })
-
-  it('should return undefined if given string is not a register name', () => {
-    expect(getRegisterCode('not_a_register_name')).toBe(undefined)
   })
 })
 
@@ -55,28 +43,28 @@ describe('getMatcher', () => {
     })
   })
 
-  Object.keys(REGISTER_CODE).forEach(registor => {
-    it(`should get matcher for valid register '${registor}'`, () => {
+  Object.entries(REGISTER_CODE).forEach(([registerName, registerCode]) => {
+    it(`should get matcher for valid register '${registerName}'`, () => {
       const exp: ParsedArg = {
         type: ArgType.Register,
-        value: getRegisterCode(registor)
+        value: registerCode
       }
-      const res = getArgMatcher(registor)(ArgType.Register)
+      const res = getArgMatcher(registerName)(ArgType.Register)
       expect(res).toStrictEqual(exp)
     })
 
-    it(`should get matcher for valid register pointer '[${registor}]'`, () => {
+    it(`should get matcher for valid register pointer '[${registerName}]'`, () => {
       const exp: ParsedArg = {
         type: ArgType.RegisterPointer,
-        value: getRegisterCode(registor)
+        value: registerCode
       }
-      const res = getArgMatcher(`[${registor}]`)(ArgType.RegisterPointer)
+      const res = getArgMatcher(`[${registerName}]`)(ArgType.RegisterPointer)
       expect(res).toStrictEqual(exp)
     })
   })
 
   INVALID_ARGS.forEach(arg => {
-    Object.values(Object.values(omit(ArgType, 'Invalid'))).forEach(argType => {
+    Object.values(Object.values(ArgType)).forEach(argType => {
       it(`should return undefined for invalid arg '${arg}'`, () => {
         const res = getArgMatcher(arg)(argType)
         expect(res).toBe(undefined)
@@ -106,22 +94,22 @@ describe('parseArg', () => {
     })
   })
 
-  Object.keys(REGISTER_CODE).forEach(registor => {
-    it(`should parse valid register '${registor}'`, () => {
+  Object.entries(REGISTER_CODE).forEach(([registorName, registerCode]) => {
+    it(`should parse valid register '${registorName}'`, () => {
       const exp: ParsedArg = {
         type: ArgType.Register,
-        value: getRegisterCode(registor)
+        value: registerCode
       }
-      const res = parseArg(registor)
+      const res = parseArg(registorName)
       expect(res).toStrictEqual(exp)
     })
 
-    it(`should parse valid register pointer '[${registor}]'`, () => {
+    it(`should parse valid register pointer '[${registorName}]'`, () => {
       const exp: ParsedArg = {
         type: ArgType.RegisterPointer,
-        value: getRegisterCode(registor)
+        value: registerCode
       }
-      const res = parseArg(`[${registor}]`)
+      const res = parseArg(`[${registorName}]`)
       expect(res).toStrictEqual(exp)
     })
   })
@@ -132,7 +120,7 @@ describe('parseArg', () => {
       try {
         parseArg(arg)
       } catch (err) {
-        expect(err.message).toBe(`Invalid argument '${arg}'`)
+        expect(err.message).toBe(`Invalid argument ${arg}`)
       }
     })
   })

@@ -29,7 +29,7 @@ const Tokens: FunctionalComponent = () => {
                   <tbody>
                     {statements.map((statement, index) => (
                       <tr key={index}>
-                        <td>{statement.key}</td>
+                        <td>{statement.instruction}</td>
                         <td>{statement.args?.[0] ?? null}</td>
                         <td>{statement.args?.[1] ?? null}</td>
                       </tr>

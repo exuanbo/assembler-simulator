@@ -1,4 +1,4 @@
-export enum Keyword {
+export enum Instruction {
   MOV = 'MOV',
   ADD = 'ADD',
   SUB = 'SUB',
@@ -13,74 +13,93 @@ export enum Keyword {
   END = 'END'
 }
 
-export enum JumpKeyword {
-  JMP = Keyword.JMP,
-  JZ = Keyword.JZ,
-  JNZ = Keyword.JNZ
-}
+export type MovOpcode = 0xd0 | 0xd1 | 0xd3 | 0xd2 | 0xd4
 
-export type ArithmeticKeyword = Extract<
-  Keyword,
-  Keyword.ADD | Keyword.SUB | Keyword.MUL | Keyword.DIV
+export type ArithmeticInstruction = Extract<
+  Instruction,
+  | Instruction.ADD
+  | Instruction.SUB
+  | Instruction.MUL
+  | Instruction.DIV
+  | Instruction.INC
+  | Instruction.DEC
 >
 
-export type StaticOpcodeKeyword = Extract<
-  Keyword,
-  | Keyword.INC
-  | Keyword.DEC
-  | Keyword.JMP
-  | Keyword.JZ
-  | Keyword.JNZ
-  | Keyword.END
+export type ArithmeticOpcode =
+  | DirectArithmeticOpcode
+  | ImmediateArithmeticOpcode
+
+export type ImmediateArithmeticInstruction = Extract<
+  Instruction,
+  Instruction.ADD | Instruction.SUB | Instruction.MUL | Instruction.DIV
 >
 
-type OpcodeMappingValue = [number, number] | number
+type DirectArithmeticOpcode = 0xa0 | 0xa1 | 0xa2 | 0xa3 | 0xa4 | 0xa5
 
-type OpcodeMapping = {
-  [keyword in Exclude<Keyword, Keyword.MOV | Keyword.CMP>]: OpcodeMappingValue
+export const DIRECT_ARITHMETIC_OPCODE_MAP: {
+  [instr in ArithmeticInstruction]: DirectArithmeticOpcode
+} = {
+  [Instruction.ADD]: 0xa0,
+  [Instruction.SUB]: 0xa1,
+  [Instruction.MUL]: 0xa2,
+  [Instruction.DIV]: 0xa3,
+  [Instruction.INC]: 0xa4,
+  [Instruction.DEC]: 0xa5
 }
 
-export const OPCODE_MAPPING: OpcodeMapping = {
-  [Keyword.ADD]: [0xa0, 0xb0],
-  [Keyword.SUB]: [0xa1, 0xb1],
-  [Keyword.MUL]: [0xa2, 0xb2],
-  [Keyword.DIV]: [0xa3, 0xb6],
-  [Keyword.INC]: 0xa4,
-  [Keyword.DEC]: 0xa5,
-  [Keyword.JMP]: 0xc0,
-  [Keyword.JZ]: 0xc1,
-  [Keyword.JNZ]: 0xc2,
-  [Keyword.END]: 0x00
+type ImmediateArithmeticOpcode = 0xb0 | 0xb1 | 0xb2 | 0xb6
+
+export const IMMEDIATE_ARITHMETIC_OPCODE_MAP: {
+  [instr in ImmediateArithmeticInstruction]: ImmediateArithmeticOpcode
+} = {
+  [Instruction.ADD]: 0xb0,
+  [Instruction.SUB]: 0xb1,
+  [Instruction.MUL]: 0xb2,
+  [Instruction.DIV]: 0xb6
+}
+
+export type CompareOpcode = 0xda | 0xdc | 0xdb
+
+type BranchInstruction = Extract<
+  Instruction,
+  Instruction.JMP | Instruction.JZ | Instruction.JNZ
+>
+
+type BranchOpcode = 0xc0 | 0xc1 | 0xc2
+
+export const BRANCH_OPCODE_MAP: {
+  [instr in BranchInstruction]: BranchOpcode
+} = {
+  [Instruction.JMP]: 0xc0,
+  [Instruction.JZ]: 0xc1,
+  [Instruction.JNZ]: 0xc2
 }
 
 type ArgsCount = 0 | 1 | 2
 
-export const ARGS_COUNT: { [keyword in Keyword]: ArgsCount } = {
-  [Keyword.MOV]: 2,
-  [Keyword.ADD]: 2,
-  [Keyword.SUB]: 2,
-  [Keyword.MUL]: 2,
-  [Keyword.DIV]: 2,
-  [Keyword.INC]: 1,
-  [Keyword.DEC]: 1,
-  [Keyword.CMP]: 2,
-  [Keyword.JMP]: 1,
-  [Keyword.JZ]: 1,
-  [Keyword.JNZ]: 1,
-  [Keyword.END]: 0
+export const ARGS_COUNT: { [instr in Instruction]: ArgsCount } = {
+  [Instruction.MOV]: 2,
+  [Instruction.ADD]: 2,
+  [Instruction.SUB]: 2,
+  [Instruction.MUL]: 2,
+  [Instruction.DIV]: 2,
+  [Instruction.INC]: 1,
+  [Instruction.DEC]: 1,
+  [Instruction.CMP]: 2,
+  [Instruction.JMP]: 1,
+  [Instruction.JZ]: 1,
+  [Instruction.JNZ]: 1,
+  [Instruction.END]: 0
 }
 
 export enum ArgType {
   Number = 'Number',
   Address = 'Address',
   Register = 'Register',
-  RegisterPointer = 'RegisterPointer',
-  Invalid = 'Invalid'
+  RegisterPointer = 'RegisterPointer'
 }
 
-export type ValidArgType = Exclude<ArgType, ArgType.Invalid>
-
-export const ARG_TYPE_REGEX: { [argType in ValidArgType]: RegExp } = {
+export const ARG_TYPE_REGEX: { [argType in ArgType]: RegExp } = {
   [ArgType.Number]: /^([0-9A-F]{1,2})$/,
   [ArgType.Address]: /^\[([0-9A-F]{1,2})\]$/,
   [ArgType.Register]: /^([ABCD]L)$/,
@@ -94,7 +113,7 @@ export enum Register {
   DL = 'DL'
 }
 
-export type RegisterCode = 0x00 | 0x01 | 0x02 | 0x03
+type RegisterCode = 0x00 | 0x01 | 0x02 | 0x03
 
 export const REGISTER_CODE: { [name in Register]: RegisterCode } = {
   [Register.AL]: 0x00,

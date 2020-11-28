@@ -1,12 +1,18 @@
 import { Statement, TokenizeResult } from './tokenize'
 import { ParsedArg, parseArg } from './parseArg'
-import { excludeUndefined } from '../utils'
+import { excludeUndefined, decToHex } from '../utils'
 import {
-  Keyword,
-  ArithmeticKeyword,
-  StaticOpcodeKeyword,
-  OPCODE_MAPPING,
-  ArgType
+  Instruction,
+  MovOpcode,
+  ArithmeticInstruction,
+  ArithmeticOpcode,
+  ImmediateArithmeticInstruction,
+  DIRECT_ARITHMETIC_OPCODE_MAP,
+  IMMEDIATE_ARITHMETIC_OPCODE_MAP,
+  CompareOpcode,
+  BRANCH_OPCODE_MAP,
+  ArgType,
+  REGISTER_CODE
 } from './constants'
 
 export const generateAddressArr = (withVDU: boolean): Uint8Array =>
@@ -14,9 +20,43 @@ export const generateAddressArr = (withVDU: boolean): Uint8Array =>
     withVDU && index >= 0xc0 ? 0x20 : 0x00
   )
 
-type MovOpcode = 0xd0 | 0xd1 | 0xd3 | 0xd2 | 0xd4 | undefined
+// TODO test
+export const getRegistorName = (registerCode: number): string => {
+  const registerName = Object.entries(REGISTER_CODE)
+    .map(([name, code]) => {
+      if (code === registerCode) {
+        return name
+      }
+      return undefined
+    })
+    .filter(excludeUndefined)[0]
+  return registerName
+}
 
-export const getMovOpcode = (dest: ParsedArg, src: ParsedArg): MovOpcode => {
+// TODO test
+export const restoreArg = (arg: ParsedArg): string => {
+  const hexValue = decToHex(arg.value)
+  switch (arg.type) {
+    case ArgType.Number:
+      return `${hexValue}`
+    case ArgType.Address:
+      return `[${hexValue}]`
+    case ArgType.Register:
+      return getRegistorName(arg.value)
+    case ArgType.RegisterPointer:
+      return `[${getRegistorName(arg.value)}]`
+  }
+}
+
+export const getMovOpcode = (
+  dest: ParsedArg,
+  src: ParsedArg
+): MovOpcode | never => {
+  if (dest.type === ArgType.Number) {
+    throw new Error(
+      `The first argument of MOV can not be number. Got ${restoreArg(dest)}`
+    )
+  }
   switch (dest.type) {
     case ArgType.Register:
       switch (src.type) {
@@ -26,106 +66,111 @@ export const getMovOpcode = (dest: ParsedArg, src: ParsedArg): MovOpcode => {
           return 0xd1
         case ArgType.RegisterPointer:
           return 0xd3
+        case ArgType.Register:
+        default:
+          throw new Error(
+            `The second argument of MOV can not be register. Got ${restoreArg(
+              src
+            )}`
+          )
       }
-      break
-
     case ArgType.Address:
-      if (src.type === ArgType.Register) {
-        return 0xd2
-      }
-      break
-
     case ArgType.RegisterPointer:
       if (src.type === ArgType.Register) {
-        return 0xd4
+        return dest.type === ArgType.Address ? 0xd2 : 0xd4
       }
+      throw new Error(
+        `The second argument of MOV must be register. Got ${restoreArg(src)}`
+      )
   }
 }
-
-type GetOpcodeResult = number | undefined
 
 export const getArithmeticOpcode = (
-  token: ArithmeticKeyword,
+  token: ArithmeticInstruction,
   dest: ParsedArg,
-  src: ParsedArg
-): GetOpcodeResult => {
-  switch (dest.type) {
+  src: ParsedArg | undefined
+): ArithmeticOpcode | never => {
+  if (dest.type !== ArgType.Register) {
+    throw new Error(
+      `The first argument of ${token} must be register. Got ${restoreArg(dest)}`
+    )
+  }
+
+  if (src === undefined) {
+    return DIRECT_ARITHMETIC_OPCODE_MAP[token]
+  }
+
+  switch (src.type) {
     case ArgType.Register:
-      switch (src.type) {
-        case ArgType.Register:
-          return (OPCODE_MAPPING[token] as [number, number])[0]
-        case ArgType.Number:
-          return (OPCODE_MAPPING[token] as [number, number])[1]
-      }
+      return DIRECT_ARITHMETIC_OPCODE_MAP[token]
+    case ArgType.Number:
+      return IMMEDIATE_ARITHMETIC_OPCODE_MAP[
+        token as ImmediateArithmeticInstruction
+      ]
+    case ArgType.Address:
+    case ArgType.RegisterPointer:
+      throw new Error(
+        `The second argument of ${token} must be register or number. Got ${restoreArg(
+          src
+        )}`
+      )
   }
 }
-
-type CompareOpcode = 0xda | 0xdc | 0xdb | undefined
 
 export const getCompareOpcode = (
   arg1: ParsedArg,
   arg2: ParsedArg
-): CompareOpcode => {
-  switch (arg1.type) {
+): CompareOpcode | never => {
+  if (arg1.type !== ArgType.Register) {
+    throw new Error(
+      `The first argument of CMP must be register. Got ${restoreArg(arg1)}`
+    )
+  }
+  switch (arg2.type) {
     case ArgType.Register:
-      switch (arg2.type) {
-        case ArgType.Register:
-          return 0xda
-        case ArgType.Address:
-          return 0xdc
-        case ArgType.Number:
-          return 0xdb
-      }
+      return 0xda
+    case ArgType.Number:
+      return 0xdb
+    case ArgType.Address:
+      return 0xdc
+    case ArgType.RegisterPointer:
+      throw new Error(
+        `The second argument of CMP can not be address with register. Got ${restoreArg(
+          arg2
+        )}`
+      )
   }
 }
-
-export const getStaticOpcode = (keyword: StaticOpcodeKeyword): number =>
-  OPCODE_MAPPING[Keyword[keyword]] as number
 
 export const getOpcode = (
-  token: Keyword | string,
+  instruction: Exclude<Instruction, 'END'>,
   arg1: ParsedArg,
   arg2?: ParsedArg
-): GetOpcodeResult => {
-  if (arg2 === undefined) {
-    switch (token) {
-      case Keyword.INC:
-        return getStaticOpcode(Keyword.INC)
-      case Keyword.DEC:
-        return getStaticOpcode(Keyword.DEC)
-      case Keyword.JMP:
-        return getStaticOpcode(Keyword.JMP)
-      case Keyword.JZ:
-        return getStaticOpcode(Keyword.JZ)
-      case Keyword.JNZ:
-        return getStaticOpcode(Keyword.JNZ)
-    }
-    return
-  }
-
-  switch (token) {
-    case Keyword.MOV:
-      return getMovOpcode(arg1, arg2)
-    case Keyword.ADD:
-    case Keyword.SUB:
-    case Keyword.MUL:
-    case Keyword.DIV:
-      return getArithmeticOpcode(token, arg1, arg2)
-    case Keyword.CMP:
-      return getCompareOpcode(arg1, arg2)
+): number => {
+  switch (instruction) {
+    case Instruction.MOV:
+      return getMovOpcode(arg1, arg2!)
+    case Instruction.ADD:
+    case Instruction.SUB:
+    case Instruction.MUL:
+    case Instruction.DIV:
+    case Instruction.INC:
+    case Instruction.DEC:
+      return getArithmeticOpcode(instruction, arg1, arg2)
+    case Instruction.CMP:
+      return getCompareOpcode(arg1, arg2!)
+    case Instruction.JMP:
+    case Instruction.JZ:
+    case Instruction.JNZ:
+      return BRANCH_OPCODE_MAP[instruction]
   }
 }
-
-const isInvalid = (arg: ParsedArg | undefined): boolean =>
-  arg !== undefined && arg.type === ArgType.Invalid
-
-export type GenerateOpcodesFromStatementResult = number[] | undefined
 
 export const generateOpcodesFromStatement = (
   statement: Statement
-): GenerateOpcodesFromStatementResult | never => {
-  const { key, args } = statement
-  if (key === Keyword.END) {
+): number[] | undefined => {
+  const { instruction, args } = statement
+  if (instruction === Instruction.END) {
     return [0x00]
   }
 
@@ -134,13 +179,7 @@ export const generateOpcodesFromStatement = (
     const parsedArg1 = parseArg(arg1)
     const parsedArg2 = (arg2 !== undefined && parseArg(arg2)) || undefined
 
-    ;[parsedArg1, parsedArg2].forEach(arg => {
-      if (isInvalid(arg)) {
-        throw new Error(`Invalid argument '${(arg as ParsedArg).value}'`)
-      }
-    })
-
-    const opcode = getOpcode(key, parsedArg1, parsedArg2)
+    const opcode = getOpcode(instruction, parsedArg1, parsedArg2)
 
     return [
       opcode,
@@ -159,16 +198,12 @@ export const assemble = (tokenizedCode: TokenizeResult): Uint8Array | never => {
   let addressPos = 0
 
   statements.forEach(statement => {
-    try {
-      const opcodes = generateOpcodesFromStatement(statement)
-      if (opcodes !== undefined) {
-        opcodes.forEach(opcode => {
-          address[addressPos] = opcode
-          addressPos++
-        })
-      }
-    } catch (err) {
-      throw new Error(`Assemble failed: ${(err as Error).message}`)
+    const opcodes = generateOpcodesFromStatement(statement)
+    if (opcodes !== undefined) {
+      opcodes.forEach(opcode => {
+        address[addressPos] = opcode
+        addressPos++
+      })
     }
   })
 

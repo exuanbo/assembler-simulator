@@ -1,11 +1,14 @@
-import { Statement, LabelTuple, TokenizeResult } from '.'
+import { StatementWithLabels, Statement, LabelTuple, TokenizeResult } from '.'
 import { excludeUndefined, decToHex } from '../../utils'
-import { JumpKeyword } from '../constants'
+import { Instruction } from '../constants'
 
-const isLabel = (statement: Statement): boolean =>
-  statement.key.endsWith(':') && statement.args === undefined
+const isLabel = (statement: StatementWithLabels): boolean =>
+  statement.instruction.endsWith(':') && statement.args === undefined
 
-export const calcAddress = (index: number, statements: Statement[]): number =>
+export const calcAddress = (
+  index: number,
+  statements: StatementWithLabels[]
+): number =>
   statements
     .slice(0, index)
     .map(s => (s.args?.length ?? 0) + 1)
@@ -17,8 +20,14 @@ export const calcLabelValueInStatements = (
 ): Statement[] =>
   statements.map((statement, index) => {
     labelTuples.forEach(([label, labelAddress]) => {
-      const { key, args } = statement
-      if (key in JumpKeyword && args?.length === 1 && args[0] === label) {
+      const { instruction, args } = statement
+      if (
+        [Instruction.JMP, Instruction.JZ, Instruction.JNZ].some(
+          instr => instr === instruction
+        ) &&
+        args?.length === 1 &&
+        args[0] === label
+      ) {
         const statementAddress = calcAddress(index, statements)
         const relDistance = labelAddress - statementAddress
         const absDistance = relDistance > 0 ? relDistance : 0x100 + relDistance
@@ -29,7 +38,9 @@ export const calcLabelValueInStatements = (
     return statement
   })
 
-export const parseLables = (statements: Statement[]): TokenizeResult => {
+export const parseLables = (
+  statements: StatementWithLabels[]
+): TokenizeResult => {
   let labelsCount = 0
 
   const labelTuples = statements
@@ -37,7 +48,7 @@ export const parseLables = (statements: Statement[]): TokenizeResult => {
       if (isLabel(statement)) {
         const labelAddress = calcAddress(index, statements) - labelsCount
         labelsCount++
-        return [statement.key.slice(0, -1), labelAddress]
+        return [statement.instruction.slice(0, -1), labelAddress]
       }
       return undefined
     })
@@ -45,7 +56,7 @@ export const parseLables = (statements: Statement[]): TokenizeResult => {
 
   const filteredStatements = statements
     .map(statement => (isLabel(statement) ? undefined : statement))
-    .filter(excludeUndefined)
+    .filter(excludeUndefined) as Statement[]
 
   const resultStatements = calcLabelValueInStatements(
     labelTuples,
