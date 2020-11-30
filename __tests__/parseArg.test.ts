@@ -1,26 +1,9 @@
 import { ArgType, REGISTER_CODE } from '../src/core/constants'
-import {
-  strToHex,
-  ParsedArg,
-  getArgMatcher,
-  parseArg
-} from '../src/core/parseArg'
+import { ParsedArg, getArgMatcher, parseArg } from '../src/core/parseArg'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
 const INVALID_ARGS = ['001', 'el', '[el]', 'start']
-
-describe('util functions', () => {
-  HEX_NUMBER_STRINGS.forEach((num, index) => {
-    it(`should turn string '${num}' to corresponding hex number`, () => {
-      expect(strToHex(num)).toBe(HEX_NUMBERS[index])
-    })
-  })
-
-  it('should return NaN if given string is not a hex number', () => {
-    expect(strToHex('not_a_hex_number')).toBe(NaN)
-  })
-})
 
 describe('getMatcher', () => {
   HEX_NUMBER_STRINGS.forEach((numString, index) => {

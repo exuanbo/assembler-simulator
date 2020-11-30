@@ -1,7 +1,5 @@
 import { ArgType, ARG_TYPE_REGEX, Register, REGISTER_CODE } from './constants'
 
-export const strToHex = (str: string): number => Number.parseInt(str, 16)
-
 export interface ParsedArg {
   type: ArgType
   value: number
@@ -17,7 +15,7 @@ export const getArgMatcher = (token: string) => (
       switch (type) {
         case ArgType.Number:
         case ArgType.Address:
-          return strToHex(matchResult)
+          return Number.parseInt(matchResult, 16)
         case ArgType.Register:
         case ArgType.RegisterPointer:
           return REGISTER_CODE[matchResult as Register]
