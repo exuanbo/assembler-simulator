@@ -6,7 +6,7 @@ import { codeState, tokenState, addressState, errorState } from './app'
 import Card from './card'
 import Status from './status'
 import { tokenize } from '../core/tokenize'
-import { assemble } from '../core/assembler'
+import { assemble } from '../core/assemble'
 
 const CodeArea: FunctionalComponent = () => {
   const [code, setCode] = useAtom(codeState)

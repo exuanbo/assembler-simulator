@@ -1,4 +1,4 @@
-import { ArgType, ARG_TYPE_REGEX, Register, REGISTER_CODE } from './constants'
+import { ArgType, ARG_TYPE_REGEX, Register, REGISTER_CODE } from '../constants'
 
 export interface ParsedArg {
   type: ArgType
