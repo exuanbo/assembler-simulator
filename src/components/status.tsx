@@ -1,9 +1,9 @@
 import { Fragment, FunctionalComponent, h } from 'preact'
-import { usePrecoilState } from 'precoil'
+import { useAtom } from 'precoil'
 import { errorState } from './app'
 
 const Status: FunctionalComponent = () => {
-  const [error] = usePrecoilState(errorState)
+  const [error] = useAtom(errorState)
 
   return (
     <>

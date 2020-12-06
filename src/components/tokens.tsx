@@ -1,15 +1,15 @@
 import { FunctionalComponent, h } from 'preact'
 import { useState } from 'preact/hooks'
-import { usePrecoilState } from 'precoil'
+import { useAtom } from 'precoil'
 import { tokenState } from './app'
 import Card from './card'
 import Eye from './icons/eye-solid'
 import { decToHex } from '../utils'
 
 const Tokens: FunctionalComponent = () => {
-  const [tokens] = usePrecoilState(tokenState)
-  const { statements, labelTuples } = tokens
   const [show, setShow] = useState(false)
+  const [tokens] = useAtom(tokenState)
+  const { statements, labelTuples } = tokens
 
   return (
     <Card Icon={Eye} title="Tokens" onIconClick={() => setShow(!show)}>

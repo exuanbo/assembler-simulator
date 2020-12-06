@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
-import { PrecoilRoot, atom } from 'precoil'
+import { atom } from 'precoil'
 import 'bulma/bulma.sass'
 import Headbar from './headbar'
 import CodeArea from './codeArea'
@@ -38,22 +38,20 @@ export const addressState = atom<Uint8Array>(new Uint8Array(0))
 export const errorState = atom<string | null>(null)
 
 const App: FunctionalComponent = () => (
-  <PrecoilRoot>
-    <section className="section pt-4">
-      <Headbar />
-      <div className="columns block">
-        <div className="column">
-          <CodeArea />
-        </div>
-        <div className="column">
-          <VDU />
-          <CPU />
-          <RAM />
-          <Tokens />
-        </div>
+  <section className="section pt-4">
+    <Headbar />
+    <div className="columns block">
+      <div className="column">
+        <CodeArea />
       </div>
-    </section>
-  </PrecoilRoot>
+      <div className="column">
+        <VDU />
+        <CPU />
+        <RAM />
+        <Tokens />
+      </div>
+    </div>
+  </section>
 )
 
 export default App
