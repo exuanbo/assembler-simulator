@@ -1,6 +1,5 @@
-const { mergeObj } = require('standard-engine-ts')
-
-module.exports = mergeObj(require('ts-standardx/.eslintrc.js'), {
+module.exports = {
+  extends: ['./node_modules/ts-standardx/.eslintrc.js'],
   settings: {
     react: {
       pragma: 'h'
@@ -13,4 +12,4 @@ module.exports = mergeObj(require('ts-standardx/.eslintrc.js'), {
       { callbacksLast: true, shorthandFirst: true, reservedFirst: true }
     ]
   }
-})
+}
