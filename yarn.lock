@@ -3806,12 +3806,12 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-ejs-loader@^0.3.3:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/ejs-loader/-/ejs-loader-0.3.7.tgz#82d3cd0a3d3f64d519332b95f9b8a7897c9fcaf4"
-  integrity sha512-K1HBDWXQZkcIAnP5h65kWsD7o7NABvHswOH49rVHX7POGaTM2kYQfkFZVn4ZQeiRnzqbtf07LxSitOVRdR98GA==
+ejs-loader@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ejs-loader/-/ejs-loader-0.5.0.tgz#ebed0afaedd0a58c07fcc810cf001df3c24d6399"
+  integrity sha512-iirFqlP3tiFoedNZ7dQcjvechunl054VbW6Ki38T/pabgXMAncduSE0ZXLeVGn1NbmcUJF9Z5TC0EvQ4RIpP9Q==
   dependencies:
-    loader-utils "^0.2.7"
+    loader-utils "^2.0.0"
     lodash "^4.17.15"
 
 ejs@^2.6.1:
@@ -6466,7 +6466,7 @@ loader-utils@1.2.3:
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
-loader-utils@^0.2.16, loader-utils@^0.2.7:
+loader-utils@^0.2.16:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   integrity sha1-+G5jdNQyBabmxg6RlvF8Apm/s0g=
@@ -8080,10 +8080,10 @@ postcss@^8.2.1:
     nanoid "^3.1.20"
     source-map "^0.6.1"
 
-preact-cli@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.0.3.tgz#b3cb0a229a5226e0983ef12dbf2ece97502b3938"
-  integrity sha512-U4WY+nUmKvedr+/V2HrC77kQIkKvFYvmdCppfCPlJ8xRmfo1J1soaYccGC6cy+C6+6YzvDQtIPKuSH+aVGjMfQ==
+preact-cli@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/preact-cli/-/preact-cli-3.0.5.tgz#e7bd78d3fe58cd375b61bf0348621e19dfa16705"
+  integrity sha512-Oc9HOjwX/3Zk1eXkmP7TMmtqbaROl7F0RWZ2Ni5Q/grmx3yBLJmarkUcOSKabkI/Usw2dU3RVju32Q3Pvy5qIw==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -8108,7 +8108,7 @@ preact-cli@3.0.3:
     critters-webpack-plugin "^2.5.0"
     cross-spawn-promise "^0.10.1"
     css-loader "^3.1.0"
-    ejs-loader "^0.3.3"
+    ejs-loader "^0.5.0"
     envinfo "^7.3.1"
     esm "^3.2.25"
     fast-async "^6.3.7"
