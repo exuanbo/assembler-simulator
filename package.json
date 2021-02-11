@@ -35,7 +35,7 @@
     "preact-cli": "3.0.5",
     "rimraf": "3.0.2",
     "sass": "1.32.7",
-    "sass-loader": "10.1.0",
+    "sass-loader": "10.1.1",
     "styled-jsx": "3.3.2",
     "ts-jest": "26.4.4",
     "ts-standardx": "0.6.0",
