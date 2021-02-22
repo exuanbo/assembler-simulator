@@ -1,7 +1,6 @@
 import { FunctionalComponent, h } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
 import { useAtom } from 'precoil'
-import './web-font.css'
 import { codeState, tokenState, addressState, errorState } from './app'
 import Card from './card'
 import Status from './status'
@@ -63,6 +62,14 @@ const CodeArea: FunctionalComponent = () => {
         }}
       />
       <style jsx>{`
+        @font-face {
+          font-family: 'Jetbrains Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono@2.225/fonts/webfonts/JetBrainsMono-Regular.woff2')
+            format('woff2');
+        }
         textarea {
           font-family: 'Jetbrains Mono', monospace;
           border-bottom-left-radius: 0;
