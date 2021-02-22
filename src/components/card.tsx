@@ -6,7 +6,6 @@ interface Props {
   Icon?: () => h.JSX.Element
   onIconClick?: () => void
   children?: ComponentChildren
-  [prop: string]: unknown
 }
 
 const Card: FunctionalComponent<Props> = ({
@@ -14,10 +13,10 @@ const Card: FunctionalComponent<Props> = ({
   title,
   Icon,
   onIconClick,
-  children,
-  ...props
+  children
 }: Props) => (
-  <div className={`card block ${className ?? ''}`} {...props}>
+  <div
+    className={`card block${className !== undefined ? ` ${className}` : ''}`}>
     <header className="card-header">
       <span className="card-header-title">{title}</span>
       {Icon !== undefined ? (
