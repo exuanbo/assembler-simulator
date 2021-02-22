@@ -1,23 +1,35 @@
 const fs = require('fs')
 const path = require('path')
-const postcss = require('postcss')
-const purgecss = require('@fullhuman/postcss-purgecss')
+const { PurgeCSS } = require('purgecss')
+const purgecssFromHtml = require('purgecss-from-html')
 
-const rootpath = process.cwd()
-const tsxpath = path.join(rootpath, 'src/components')
-const buildpath = path.join(rootpath, 'build')
+const rootPath = process.cwd()
+const tsxPath = path.join(rootPath, 'src', 'components')
+const buildPath = path.join(rootPath, 'build')
 
-const filename = fs.readdirSync(buildpath).filter(fn => fn.endsWith('.css'))[0]
-const filepath = path.join(buildpath, filename)
+const htmlFilePath = path.join(buildPath, 'index.html')
 
-const css = fs.readFileSync(filepath, 'utf-8')
+const tsxPathArr = fs
+  .readdirSync(tsxPath)
+  .filter(fileName => fileName.endsWith('.tsx'))
+  .map(fileName => path.join(tsxPath, fileName))
 
-const html = path.join(buildpath, 'index.html')
-const tsxArr = fs
-  .readdirSync(tsxpath)
-  .filter(fn => fn.endsWith('.tsx'))
-  .map(fn => path.join(tsxpath, fn))
+const cssFileName = fs
+  .readdirSync(buildPath)
+  .filter(fn => fn.endsWith('.css'))[0]
+const cssFilePath = path.join(buildPath, cssFileName)
 
-postcss([purgecss({ content: [html, ...tsxArr] })])
-  .process(css, { from: undefined })
-  .then(res => fs.writeFileSync(filepath, res.css))
+;(async () => {
+  const result = await new PurgeCSS().purge({
+    content: [htmlFilePath, ...tsxPathArr],
+    css: [cssFilePath],
+    extractors: [
+      {
+        extractor: purgecssFromHtml,
+        extensions: ['html']
+      }
+    ]
+  })
+
+  fs.writeFileSync(cssFilePath, result[0].css)
+})()
