@@ -3,7 +3,7 @@ import { useState } from 'preact/hooks'
 import { tokenState } from './app'
 import Card from './card'
 import Eye from './icons/eye-solid'
-import { decToHex } from '../utils'
+import { decToHex } from '../core/utils'
 
 const Tokens: FunctionalComponent = () => {
   const [show, setShow] = useState(false)

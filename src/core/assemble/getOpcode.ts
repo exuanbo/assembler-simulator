@@ -1,5 +1,5 @@
 import { ParsedArg } from './parseArg'
-import { excludeUndefined, decToHex } from '../../utils'
+import { excludeUndefined, decToHex } from '../utils'
 import {
   Instruction,
   MovOpcode,

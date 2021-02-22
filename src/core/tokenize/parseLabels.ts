@@ -1,5 +1,5 @@
 import { StatementWithLabels, Statement, LabelTuple, TokenizeResult } from '.'
-import { excludeUndefined, decToHex } from '../../utils'
+import { excludeUndefined, decToHex } from '../utils'
 import { Instruction } from '../constants'
 
 const isLabel = (statement: StatementWithLabels): boolean =>

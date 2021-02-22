@@ -1,6 +1,6 @@
 import { StatementWithLabels } from '.'
 import { Instruction, ARGS_COUNT } from '../constants'
-import { excludeUndefined } from '../../utils'
+import { excludeUndefined } from '../utils'
 
 export const parseStatements = (code: string): StatementWithLabels[] | never =>
   code
