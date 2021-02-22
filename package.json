@@ -5,11 +5,11 @@
     "preact:build": "preact build --template src/template.html",
     "purgecss": "node scripts/purgecss.js",
     "build:clean": "rimraf build/ssr-build size-plugin.json",
-    "build": "yarn preact:build && yarn purgecss && yarn build:clean",
+    "build": "npm run preact:build && npm run purgecss && npm run build:clean",
     "dev": "preact watch --template src/template.html",
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
-    "test": "yarn lint && yarn build && jest --no-cache"
+    "test": "npm run lint && npm run build && jest --no-cache"
   },
   "repository": {
     "type": "git",
