@@ -1,11 +1,10 @@
 import { FunctionalComponent, h } from 'preact'
-import { useAtom } from 'precoil'
 import Card from './card'
 import { addressState } from './app'
 import { decToHex, splitUint8ArrayPerChunk } from '../utils'
 
 const RAM: FunctionalComponent = () => {
-  const [address] = useAtom(addressState)
+  const [address] = addressState.useState()
 
   return (
     <Card title="RAM">

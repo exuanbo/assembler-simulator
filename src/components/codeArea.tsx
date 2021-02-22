@@ -1,6 +1,5 @@
 import { FunctionalComponent, h } from 'preact'
 import { useEffect, useRef } from 'preact/hooks'
-import { useAtom } from 'precoil'
 import { codeState, tokenState, addressState, errorState } from './app'
 import Card from './card'
 import Status from './status'
@@ -8,10 +7,10 @@ import { tokenize } from '../core/tokenize'
 import { assemble } from '../core/assemble'
 
 const CodeArea: FunctionalComponent = () => {
-  const [code, setCode] = useAtom(codeState)
-  const setTokens = useAtom(tokenState)[1]
-  const setAdress = useAtom(addressState)[1]
-  const setError = useAtom(errorState)[1]
+  const [code, setCode] = codeState.useState()
+  const [, setTokens] = tokenState.useState()
+  const [, setAdress] = addressState.useState()
+  const [, setError] = errorState.useState()
 
   const textArea = useRef<HTMLTextAreaElement>()
 
