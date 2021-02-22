@@ -4,7 +4,7 @@ const Headbar: FunctionalComponent = () => (
   <nav className="navbar block">
     <div className="navbar-brand">
       <h1 className="title" style={{ lineHeight: '2em' }}>
-        Samphire Online
+        Assembler Simulator
       </h1>
     </div>
     <div className="navbar-menu">
