@@ -1,14 +1,8 @@
-import {
-  generateAddressArr,
-  getOpcodesFromStatemet,
-  assemble
-} from '../../src/core/assemble'
-import { Instruction } from '../../src/core/constants'
+import { generateAddressArr, assemble } from '../../src/core/assemble'
 import { statementToString } from '../utils'
 import {
   STATEMENTS_WITH_LABEL_VALUE,
   STATEMENTS_OPCODES,
-  STATEMENTS_WITH_ILLEGAL_OPERANDS,
   LABEL_TUPLES
 } from '../constants'
 
@@ -24,39 +18,6 @@ describe('generateAddressArr', () => {
     expect(res.length).toBe(0x100)
     expect(res[0xc0]).toBe(0x20)
     expect(res[0xff]).toBe(0x20)
-  })
-})
-
-describe('getOpcodesFromStatemet', () => {
-  STATEMENTS_WITH_LABEL_VALUE.forEach((statement, index) => {
-    it(`should work with '${statementToString(
-      statement
-    )}' on line ${index}`, () => {
-      const res = getOpcodesFromStatemet(statement)
-      expect(res).toStrictEqual(STATEMENTS_OPCODES[index])
-    })
-  })
-
-  STATEMENTS_WITH_ILLEGAL_OPERANDS.forEach((statement, index) => {
-    const { operands } = statement
-    it(`should throw an error with '${statementToString(statement)}'`, () => {
-      expect.assertions(1)
-      try {
-        getOpcodesFromStatemet(statement)
-      } catch (err) {
-        expect(err.message).toBe(
-          `Invalid operand ${operands?.[index > 1 ? 0 : index]}`
-        )
-      }
-    })
-  })
-
-  it('should return 0 if instruction is END', () => {
-    const res = getOpcodesFromStatemet({
-      instruction: Instruction.END,
-      operands: null
-    })
-    expect(res).toStrictEqual([0])
   })
 })
 

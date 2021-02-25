@@ -1,4 +1,6 @@
 import type { Operand } from './parseOperand'
+import { parseOperand } from './parseOperand'
+import type { Statement } from '../tokenize'
 import { excludeUndefined, decToHex } from '../utils'
 import type {
   MovOpcode,
@@ -170,4 +172,28 @@ export const getOpcode = (
     case Instruction.JNZ:
       return BRANCH_OPCODE_MAP[instruction]
   }
+}
+
+export const getOpcodesFromStatemet = (
+  statement: Statement
+): number[] | null => {
+  const { instruction, operands } = statement
+  if (instruction === Instruction.END) {
+    return [0x00]
+  }
+
+  if (operands !== null) {
+    const [operand1, operand2] = operands
+    const parsedOperand1 = parseOperand(operand1)
+    const parsedOperand2 =
+      (operand2 !== undefined && parseOperand(operand2)) || undefined
+
+    const opcode = getOpcode(instruction, parsedOperand1, parsedOperand2)
+
+    return [opcode, parsedOperand1.value, parsedOperand2?.value].filter(
+      excludeUndefined
+    )
+  }
+
+  return null
 }

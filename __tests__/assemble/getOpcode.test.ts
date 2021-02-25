@@ -2,7 +2,8 @@ import {
   getMovOpcode,
   getArithmeticOpcode,
   getCompareOpcode,
-  getOpcode
+  getOpcode,
+  getOpcodesFromStatemet
 } from '../../src/core/assemble/getOpcode'
 import type {
   ArithmeticInstruction,
@@ -14,7 +15,12 @@ import {
   IMMEDIATE_ARITHMETIC_OPCODE_MAP,
   OperandType
 } from '../../src/core/constants'
-import { expectError } from '../utils'
+import {
+  STATEMENTS_WITH_LABEL_VALUE,
+  STATEMENTS_OPCODES,
+  STATEMENTS_WITH_ILLEGAL_OPERANDS
+} from '../constants'
+import { statementToString, expectError } from '../utils'
 
 describe('getMoveOpcode', () => {
   it('should work when MOV register <- number', () => {
@@ -221,5 +227,38 @@ describe('getOpcode', () => {
       value: 0x01
     })
     expect(res).toBe(0xc0)
+  })
+})
+
+describe('getOpcodesFromStatemet', () => {
+  STATEMENTS_WITH_LABEL_VALUE.forEach((statement, index) => {
+    it(`should work with '${statementToString(
+      statement
+    )}' on line ${index}`, () => {
+      const res = getOpcodesFromStatemet(statement)
+      expect(res).toStrictEqual(STATEMENTS_OPCODES[index])
+    })
+  })
+
+  STATEMENTS_WITH_ILLEGAL_OPERANDS.forEach((statement, index) => {
+    const { operands } = statement
+    it(`should throw an error with '${statementToString(statement)}'`, () => {
+      expect.assertions(1)
+      try {
+        getOpcodesFromStatemet(statement)
+      } catch (err) {
+        expect(err.message).toBe(
+          `Invalid operand ${operands?.[index > 1 ? 0 : index]}`
+        )
+      }
+    })
+  })
+
+  it('should return 0 if instruction is END', () => {
+    const res = getOpcodesFromStatemet({
+      instruction: Instruction.END,
+      operands: null
+    })
+    expect(res).toStrictEqual([0])
   })
 })
