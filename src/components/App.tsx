@@ -1,10 +1,10 @@
 import React from 'react'
-import Headbar from './components/Headbar'
-import CodeArea from './components/CodeArea'
-import IODevices from './components/IODevices'
-import CPURegisters from './components/CPURegisters'
-import Memory from './components/Memory'
-import Tokens from './components/Tokens'
+import Headbar from './Headbar'
+import CodeArea from './CodeArea'
+import IODevices from './IODevices'
+import CPURegisters from './CPURegisters'
+import Memory from './Memory'
+import Tokens from './Tokens'
 
 const App: React.FC = () => (
   <div className="flex flex-col w-screen h-screen divide-y">
