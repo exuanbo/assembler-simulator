@@ -1,19 +1,22 @@
 import type { StatementWithLabels } from '.'
-import { Instruction, ARGS_COUNT } from '../constants'
+import { Instruction, INSTRUCTION_OPERANDS_COUNT_MAP } from '../constants'
 import { excludeUndefined } from '../utils'
+
+const isValidInstruction = (instruction: string): instruction is Instruction =>
+  instruction in Instruction
 
 export const parseStatements = (code: string): StatementWithLabels[] | never =>
   code
     .split('\n')
-    .map((stmt: string): StatementWithLabels | undefined => {
-      const statement = stmt.replace(/;.*/, '').trim().toUpperCase()
+    .map((line): StatementWithLabels | undefined => {
+      const statement = line.replace(/;.*/, '').trim().toUpperCase()
 
       if (statement.length === 0) {
         return undefined
       }
 
       if (statement.endsWith(':')) {
-        return { instruction: statement, args: undefined }
+        return { instruction: statement, operands: null }
       }
 
       const firstWhitespace = statement.search(/\s/)
@@ -23,42 +26,39 @@ export const parseStatements = (code: string): StatementWithLabels[] | never =>
         firstWhitespace === -1 ? statement.length : firstWhitespace
       )
 
-      if (!(instruction in Instruction)) {
+      if (!isValidInstruction(instruction)) {
         throw new Error(`Invalid instruction ${instruction}`)
       }
 
       if (instruction === Instruction.END) {
-        return { instruction, args: undefined }
+        return { instruction, operands: null }
       }
 
-      const args = statement
+      const operands = statement
         .slice(firstWhitespace)
         .replace(/\s/g, '')
         .split(',')
-        .filter(arg => arg !== '')
+        .filter(operand => operand.length > 0)
 
-      const argsCount = args.length
+      const operandsCount = operands.length
 
-      if (argsCount > 2) {
-        const rest = args.splice(2)
-        throw new Error(
-          `Redundant argument${rest.length > 1 ? 's' : ''} ${rest.join(', ')}`
-        )
+      if (operandsCount > 2) {
+        throw new Error(`Got ${operandsCount} (> 2) operands`)
       }
 
-      const expectedArgsCount = ARGS_COUNT[instruction as Instruction]
+      const expectedOperandsCount = INSTRUCTION_OPERANDS_COUNT_MAP[instruction]
 
-      if (argsCount !== expectedArgsCount) {
+      if (operandsCount !== expectedOperandsCount) {
         throw new Error(
-          `Expect ${instruction} to have ${expectedArgsCount} argument${
-            expectedArgsCount > 1 ? 's' : ''
-          }. Got ${argsCount}`
+          `Expect ${instruction} to have ${expectedOperandsCount} operand${
+            expectedOperandsCount > 1 ? 's' : ''
+          }, but got ${operandsCount}`
         )
       }
 
       return {
         instruction,
-        args: argsCount > 1 ? [args[0], args[1]] : [args[0]]
+        operands: operandsCount > 1 ? [operands[0], operands[1]] : [operands[0]]
       }
     })
     .filter(excludeUndefined)

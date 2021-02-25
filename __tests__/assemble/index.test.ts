@@ -1,13 +1,14 @@
-import type { Statement } from '../../src/core/tokenize'
 import {
   generateAddressArr,
-  generateOpcodesFromStatement,
+  getOpcodesFromStatemet,
   assemble
 } from '../../src/core/assemble'
 import { Instruction } from '../../src/core/constants'
 import { statementToString } from '../utils'
 import {
-  STATEMENTS_WITH_LABEL_VALUE_CALCULATED,
+  STATEMENTS_WITH_LABEL_VALUE,
+  STATEMENTS_OPCODES,
+  STATEMENTS_WITH_ILLEGAL_OPERANDS,
   LABEL_TUPLES
 } from '../constants'
 
@@ -26,55 +27,34 @@ describe('generateAddressArr', () => {
   })
 })
 
-const statementOpcodes = [
-  [0xd0, 0x03, 0x0a],
-  [0xd0, 0x00, 0x00],
-  [0xd0, 0x01, 0xc0],
-  [0xb0, 0x00, 0x30],
-  [0xd4, 0x01, 0x00],
-  [0xb1, 0x00, 0x30],
-  [0xa4, 0x00],
-  [0xa4, 0x01],
-  [0xda, 0x00, 0x03],
-  [0xc1, 0x04],
-  [0xc0, 0xee],
-  [0x00]
-]
-
-const statementsWithIllegalArgs: Statement[] = [
-  { instruction: Instruction.MOV, args: ['ALL', 'BL'] },
-  { instruction: Instruction.ADD, args: ['AL', 'BLL'] },
-  { instruction: Instruction.INC, args: ['ABC'] }
-]
-
-describe('generateOpcodesFromStatements', () => {
-  STATEMENTS_WITH_LABEL_VALUE_CALCULATED.forEach((statement, index) => {
+describe('getOpcodesFromStatemet', () => {
+  STATEMENTS_WITH_LABEL_VALUE.forEach((statement, index) => {
     it(`should work with '${statementToString(
       statement
     )}' on line ${index}`, () => {
-      const res = generateOpcodesFromStatement(statement)
-      expect(res).toStrictEqual(statementOpcodes[index])
+      const res = getOpcodesFromStatemet(statement)
+      expect(res).toStrictEqual(STATEMENTS_OPCODES[index])
     })
   })
 
-  statementsWithIllegalArgs.forEach((statement, index) => {
-    const { args } = statement
+  STATEMENTS_WITH_ILLEGAL_OPERANDS.forEach((statement, index) => {
+    const { operands } = statement
     it(`should throw an error with '${statementToString(statement)}'`, () => {
       expect.assertions(1)
       try {
-        generateOpcodesFromStatement(statement)
+        getOpcodesFromStatemet(statement)
       } catch (err) {
         expect(err.message).toBe(
-          `Invalid argument ${(args as string[])[index > 1 ? 0 : index]}`
+          `Invalid operand ${operands?.[index > 1 ? 0 : index]}`
         )
       }
     })
   })
 
   it('should return 0 if instruction is END', () => {
-    const res = generateOpcodesFromStatement({
+    const res = getOpcodesFromStatemet({
       instruction: Instruction.END,
-      args: undefined
+      operands: null
     })
     expect(res).toStrictEqual([0])
   })
@@ -84,17 +64,17 @@ describe('generateOpcodesFromStatements', () => {
 const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 0, 0x30, 0xd4, 0x01, 0, 0xb1, 0, 0x30, 0xa4, 0, 0xa4, 0x01, 0xda, 0, 0x03, 0xc1, 0x04, 0xc0, 0xee, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20]
 
 describe('assemble', () => {
-  STATEMENTS_WITH_LABEL_VALUE_CALCULATED.forEach((statement, index) => {
+  STATEMENTS_WITH_LABEL_VALUE.forEach((statement, index) => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
       const address = assemble({ statements: [statement], labelTuples: [] })
-      const opcodes = statementOpcodes[index] as number[]
+      const opcodes = STATEMENTS_OPCODES[index]
       expect(Array.from(address.slice(0, opcodes.length))).toEqual(opcodes)
     })
   })
 
   it('should assemble code', () => {
     const address = assemble({
-      statements: STATEMENTS_WITH_LABEL_VALUE_CALCULATED,
+      statements: STATEMENTS_WITH_LABEL_VALUE,
       labelTuples: LABEL_TUPLES
     })
     expect(Array.from(address)).toEqual(assembledAddress)

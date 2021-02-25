@@ -4,7 +4,7 @@ import type { Instruction } from '../constants'
 
 export interface StatementWithLabels {
   instruction: string
-  args: [string, string] | [string] | undefined
+  operands: [string, string] | [string] | null
 }
 
 export interface Statement extends StatementWithLabels {

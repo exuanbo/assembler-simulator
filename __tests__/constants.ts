@@ -1,4 +1,8 @@
-import type { StatementWithLabels, Statement } from '../src/core/tokenize'
+import type {
+  StatementWithLabels,
+  Statement,
+  LabelTuple
+} from '../src/core/tokenize'
 import { Instruction } from '../src/core/constants'
 
 export const CODE = `
@@ -21,59 +25,80 @@ END          ; End of the program
 `
 
 export const STATEMENTS: StatementWithLabels[] = [
-  { instruction: 'MOV', args: ['DL', 'A'] },
-  { instruction: 'MOV', args: ['AL', '0'] },
-  { instruction: 'MOV', args: ['BL', 'C0'] },
+  { instruction: 'MOV', operands: ['DL', 'A'] },
+  { instruction: 'MOV', operands: ['AL', '0'] },
+  { instruction: 'MOV', operands: ['BL', 'C0'] },
 
-  { instruction: 'LOOP:', args: undefined },
-  { instruction: 'ADD', args: ['AL', '30'] },
-  { instruction: 'MOV', args: ['[BL]', 'AL'] },
-  { instruction: 'SUB', args: ['AL', '30'] },
-  { instruction: 'INC', args: ['AL'] },
-  { instruction: 'INC', args: ['BL'] },
-  { instruction: 'CMP', args: ['AL', 'DL'] },
-  { instruction: 'JZ', args: ['FIN'] },
-  { instruction: 'JMP', args: ['LOOP'] },
+  { instruction: 'LOOP:', operands: null },
+  { instruction: 'ADD', operands: ['AL', '30'] },
+  { instruction: 'MOV', operands: ['[BL]', 'AL'] },
+  { instruction: 'SUB', operands: ['AL', '30'] },
+  { instruction: 'INC', operands: ['AL'] },
+  { instruction: 'INC', operands: ['BL'] },
+  { instruction: 'CMP', operands: ['AL', 'DL'] },
+  { instruction: 'JZ', operands: ['FIN'] },
+  { instruction: 'JMP', operands: ['LOOP'] },
 
-  { instruction: 'FIN:', args: undefined },
-  { instruction: 'END', args: undefined }
+  { instruction: 'FIN:', operands: null },
+  { instruction: 'END', operands: null }
 ]
 
 export const STATEMENTS_WITH_LABEL_PARSED: Statement[] = [
-  { instruction: Instruction.MOV, args: ['DL', 'A'] },
-  { instruction: Instruction.MOV, args: ['AL', '0'] },
-  { instruction: Instruction.MOV, args: ['BL', 'C0'] },
+  { instruction: Instruction.MOV, operands: ['DL', 'A'] },
+  { instruction: Instruction.MOV, operands: ['AL', '0'] },
+  { instruction: Instruction.MOV, operands: ['BL', 'C0'] },
   // LOOP
-  { instruction: Instruction.ADD, args: ['AL', '30'] },
-  { instruction: Instruction.MOV, args: ['[BL]', 'AL'] },
-  { instruction: Instruction.SUB, args: ['AL', '30'] },
-  { instruction: Instruction.INC, args: ['AL'] },
-  { instruction: Instruction.INC, args: ['BL'] },
-  { instruction: Instruction.CMP, args: ['AL', 'DL'] },
-  { instruction: Instruction.JZ, args: ['FIN'] },
-  { instruction: Instruction.JMP, args: ['LOOP'] },
+  { instruction: Instruction.ADD, operands: ['AL', '30'] },
+  { instruction: Instruction.MOV, operands: ['[BL]', 'AL'] },
+  { instruction: Instruction.SUB, operands: ['AL', '30'] },
+  { instruction: Instruction.INC, operands: ['AL'] },
+  { instruction: Instruction.INC, operands: ['BL'] },
+  { instruction: Instruction.CMP, operands: ['AL', 'DL'] },
+  { instruction: Instruction.JZ, operands: ['FIN'] },
+  { instruction: Instruction.JMP, operands: ['LOOP'] },
   // FIN
-  { instruction: Instruction.END, args: undefined }
+  { instruction: Instruction.END, operands: null }
 ]
 
-export const STATEMENTS_WITH_LABEL_VALUE_CALCULATED: Statement[] = [
-  { instruction: Instruction.MOV, args: ['DL', 'A'] },
-  { instruction: Instruction.MOV, args: ['AL', '0'] },
-  { instruction: Instruction.MOV, args: ['BL', 'C0'] },
+export const STATEMENTS_WITH_LABEL_VALUE: Statement[] = [
+  { instruction: Instruction.MOV, operands: ['DL', 'A'] },
+  { instruction: Instruction.MOV, operands: ['AL', '0'] },
+  { instruction: Instruction.MOV, operands: ['BL', 'C0'] },
   // LOOP
-  { instruction: Instruction.ADD, args: ['AL', '30'] },
-  { instruction: Instruction.MOV, args: ['[BL]', 'AL'] },
-  { instruction: Instruction.SUB, args: ['AL', '30'] },
-  { instruction: Instruction.INC, args: ['AL'] },
-  { instruction: Instruction.INC, args: ['BL'] },
-  { instruction: Instruction.CMP, args: ['AL', 'DL'] },
-  { instruction: Instruction.JZ, args: ['04'] },
-  { instruction: Instruction.JMP, args: ['EE'] },
+  { instruction: Instruction.ADD, operands: ['AL', '30'] },
+  { instruction: Instruction.MOV, operands: ['[BL]', 'AL'] },
+  { instruction: Instruction.SUB, operands: ['AL', '30'] },
+  { instruction: Instruction.INC, operands: ['AL'] },
+  { instruction: Instruction.INC, operands: ['BL'] },
+  { instruction: Instruction.CMP, operands: ['AL', 'DL'] },
+  { instruction: Instruction.JZ, operands: ['04'] },
+  { instruction: Instruction.JMP, operands: ['EE'] },
   // FIN
-  { instruction: Instruction.END, args: undefined }
+  { instruction: Instruction.END, operands: null }
 ]
 
-export const LABEL_TUPLES: Array<[string, number]> = [
+export const STATEMENTS_OPCODES = [
+  [0xd0, 0x03, 0x0a],
+  [0xd0, 0x00, 0x00],
+  [0xd0, 0x01, 0xc0],
+  [0xb0, 0x00, 0x30],
+  [0xd4, 0x01, 0x00],
+  [0xb1, 0x00, 0x30],
+  [0xa4, 0x00],
+  [0xa4, 0x01],
+  [0xda, 0x00, 0x03],
+  [0xc1, 0x04],
+  [0xc0, 0xee],
+  [0x00]
+]
+
+export const STATEMENTS_WITH_ILLEGAL_OPERANDS: Statement[] = [
+  { instruction: Instruction.MOV, operands: ['ALL', 'BL'] },
+  { instruction: Instruction.ADD, operands: ['AL', 'BLL'] },
+  { instruction: Instruction.INC, operands: ['ABC'] }
+]
+
+export const LABEL_TUPLES: LabelTuple[] = [
   ['LOOP', 9],
   ['FIN', 29]
 ]

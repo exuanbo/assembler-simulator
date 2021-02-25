@@ -1,4 +1,4 @@
-import type { ParsedArg } from './parseArg'
+import type { Operand } from './parseOperand'
 import { excludeUndefined, decToHex } from '../utils'
 import type {
   MovOpcode,
@@ -12,83 +12,91 @@ import {
   DIRECT_ARITHMETIC_OPCODE_MAP,
   IMMEDIATE_ARITHMETIC_OPCODE_MAP,
   BRANCH_OPCODE_MAP,
-  ArgType,
-  REGISTER_CODE
+  OperandType,
+  REGISTER_CODE_MAP
 } from '../constants'
 
 // TODO test
 export const getRegistorName = (registerCode: number): string => {
-  const registerName = Object.entries(REGISTER_CODE)
-    .map(([name, code]) => {
-      if (code === registerCode) {
-        return name
+  const [registerName] = Object.entries(REGISTER_CODE_MAP)
+    .map(([registerName, mappedCode]) => {
+      if (mappedCode === registerCode) {
+        return registerName
       }
       return undefined
     })
-    .filter(excludeUndefined)[0]
+    .filter(excludeUndefined)
+
   return registerName
 }
 
 // TODO test
-export const restoreArg = (arg: ParsedArg): string => {
-  const hexValue = decToHex(arg.value)
-  switch (arg.type) {
-    case ArgType.Number:
+export const restoreOperand = (operand: Operand): string => {
+  const hexValue = decToHex(operand.value)
+  switch (operand.type) {
+    case OperandType.Number:
       return `${hexValue}`
-    case ArgType.Address:
+    case OperandType.Address:
       return `[${hexValue}]`
-    case ArgType.Register:
-      return getRegistorName(arg.value)
-    case ArgType.RegisterPointer:
-      return `[${getRegistorName(arg.value)}]`
+    case OperandType.Register:
+      return getRegistorName(operand.value)
+    case OperandType.RegisterPointer:
+      return `[${getRegistorName(operand.value)}]`
   }
 }
 
 export const getMovOpcode = (
-  dest: ParsedArg,
-  src: ParsedArg
+  target: Operand,
+  src: Operand
 ): MovOpcode | never => {
-  if (dest.type === ArgType.Number) {
+  if (target.type === OperandType.Number) {
     throw new Error(
-      `The first argument of MOV can not be number. Got ${restoreArg(dest)}`
+      `The first operand of MOV can not be number, but got ${restoreOperand(
+        target
+      )}`
     )
   }
-  switch (dest.type) {
-    case ArgType.Register:
+
+  switch (target.type) {
+    case OperandType.Register:
       switch (src.type) {
-        case ArgType.Number:
+        case OperandType.Number:
           return 0xd0
-        case ArgType.Address:
+        case OperandType.Address:
           return 0xd1
-        case ArgType.RegisterPointer:
+        case OperandType.RegisterPointer:
           return 0xd3
-        case ArgType.Register:
+        case OperandType.Register:
         default:
           throw new Error(
-            `The second argument of MOV can not be register. Got ${restoreArg(
+            `The second operand of MOV can not be register, but got ${restoreOperand(
               src
             )}`
           )
       }
-    case ArgType.Address:
-    case ArgType.RegisterPointer:
-      if (src.type === ArgType.Register) {
-        return dest.type === ArgType.Address ? 0xd2 : 0xd4
+    case OperandType.Address:
+    case OperandType.RegisterPointer:
+      if (src.type === OperandType.Register) {
+        return target.type === OperandType.Address ? 0xd2 : 0xd4
       }
       throw new Error(
-        `The second argument of MOV must be register. Got ${restoreArg(src)}`
+        `The second operand of MOV must be register, but got ${restoreOperand(
+          src
+        )}`
       )
   }
 }
 
 export const getArithmeticOpcode = (
   token: ArithmeticInstruction,
-  dest: ParsedArg,
-  src: ParsedArg | undefined
+  target: Operand,
+  src: Operand | undefined
 ): ArithmeticOpcode | never => {
-  if (dest.type !== ArgType.Register) {
+  if (target.type !== OperandType.Register) {
     throw new Error(
-      `The first argument of ${token} must be register. Got ${restoreArg(dest)}`
+      `The first operand of ${token} must be register, but got ${restoreOperand(
+        target
+      )}`
     )
   }
 
@@ -97,16 +105,16 @@ export const getArithmeticOpcode = (
   }
 
   switch (src.type) {
-    case ArgType.Register:
+    case OperandType.Register:
       return DIRECT_ARITHMETIC_OPCODE_MAP[token]
-    case ArgType.Number:
+    case OperandType.Number:
       return IMMEDIATE_ARITHMETIC_OPCODE_MAP[
         token as ImmediateArithmeticInstruction
       ]
-    case ArgType.Address:
-    case ArgType.RegisterPointer:
+    case OperandType.Address:
+    case OperandType.RegisterPointer:
       throw new Error(
-        `The second argument of ${token} must be register or number. Got ${restoreArg(
+        `The second operand of ${token} must be register or number, but got ${restoreOperand(
           src
         )}`
       )
@@ -114,25 +122,27 @@ export const getArithmeticOpcode = (
 }
 
 export const getCompareOpcode = (
-  arg1: ParsedArg,
-  arg2: ParsedArg
+  operand1: Operand,
+  operand2: Operand
 ): CompareOpcode | never => {
-  if (arg1.type !== ArgType.Register) {
+  if (operand1.type !== OperandType.Register) {
     throw new Error(
-      `The first argument of CMP must be register. Got ${restoreArg(arg1)}`
+      `The first operand of CMP must be register, but got ${restoreOperand(
+        operand1
+      )}`
     )
   }
-  switch (arg2.type) {
-    case ArgType.Register:
+  switch (operand2.type) {
+    case OperandType.Register:
       return 0xda
-    case ArgType.Number:
+    case OperandType.Number:
       return 0xdb
-    case ArgType.Address:
+    case OperandType.Address:
       return 0xdc
-    case ArgType.RegisterPointer:
+    case OperandType.RegisterPointer:
       throw new Error(
-        `The second argument of CMP can not be address with register. Got ${restoreArg(
-          arg2
+        `The second operand of CMP can not be address with register, but got ${restoreOperand(
+          operand2
         )}`
       )
   }
@@ -140,21 +150,21 @@ export const getCompareOpcode = (
 
 export const getOpcode = (
   instruction: Exclude<Instruction, 'END'>,
-  arg1: ParsedArg,
-  arg2?: ParsedArg
+  operand1: Operand,
+  operand2?: Operand
 ): number => {
   switch (instruction) {
     case Instruction.MOV:
-      return getMovOpcode(arg1, arg2!)
+      return getMovOpcode(operand1, operand2!)
     case Instruction.ADD:
     case Instruction.SUB:
     case Instruction.MUL:
     case Instruction.DIV:
     case Instruction.INC:
     case Instruction.DEC:
-      return getArithmeticOpcode(instruction, arg1, arg2)
+      return getArithmeticOpcode(instruction, operand1, operand2)
     case Instruction.CMP:
-      return getCompareOpcode(arg1, arg2!)
+      return getCompareOpcode(operand1, operand2!)
     case Instruction.JMP:
     case Instruction.JZ:
     case Instruction.JNZ:

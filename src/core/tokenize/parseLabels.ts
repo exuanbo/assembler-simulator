@@ -7,41 +7,52 @@ import type {
 import { excludeUndefined, decToHex } from '../utils'
 import { Instruction } from '../constants'
 
-const isLabel = (statement: StatementWithLabels): boolean =>
-  statement.instruction.endsWith(':') && statement.args === undefined
-
-export const calcAddress = (
-  index: number,
+export const getCurrentStatementAddress = (
+  currentIndex: number,
   statements: StatementWithLabels[]
 ): number =>
   statements
-    .slice(0, index)
-    .map(s => (s.args?.length ?? 0) + 1)
+    .slice(0, currentIndex)
+    .map(statement => 1 + (statement.operands?.length ?? 0))
     .reduce((acc, cur) => acc + cur)
 
-export const calcLabelValueInStatements = (
+interface JumpStatement extends Statement {
+  operands: [string]
+}
+
+const isJumpStatement = (statement: Statement): statement is JumpStatement =>
+  [Instruction.JMP, Instruction.JZ, Instruction.JNZ].some(
+    instruction => statement.instruction === instruction
+  )
+
+export const setLabelValue = (
   labelTuples: LabelTuple[],
   statements: Statement[]
 ): Statement[] =>
-  statements.map((statement, index) => {
-    labelTuples.forEach(([label, labelAddress]) => {
-      const { instruction, args } = statement
-      if (
-        [Instruction.JMP, Instruction.JZ, Instruction.JNZ].some(
-          instr => instr === instruction
-        ) &&
-        args?.length === 1 &&
-        args[0] === label
-      ) {
-        const statementAddress = calcAddress(index, statements)
-        const relDistance = labelAddress - statementAddress
-        const absDistance = relDistance > 0 ? relDistance : 0x100 + relDistance
-        const labelValue = decToHex(absDistance)
-        statement.args = [labelValue]
-      }
-    })
+  statements.map((statement, statementIndex) => {
+    if (isJumpStatement(statement)) {
+      labelTuples.forEach(([labelName, labelAddress]) => {
+        if (statement.operands[0] === labelName) {
+          const statementAddress = getCurrentStatementAddress(
+            statementIndex,
+            statements
+          )
+          const relativeDistance = labelAddress - statementAddress
+          const absoluteDistance =
+            relativeDistance > 0 ? relativeDistance : 0x100 + relativeDistance
+          const labelValue = decToHex(absoluteDistance)
+
+          statement.operands = [labelValue]
+        }
+      })
+    }
+
     return statement
   })
+
+const isValidStatement = (
+  statement: StatementWithLabels
+): statement is Statement => !statement.instruction.endsWith(':')
 
 export const parseLables = (
   statements: StatementWithLabels[]
@@ -49,24 +60,23 @@ export const parseLables = (
   let labelsCount = 0
 
   const labelTuples = statements
-    .map((statement, index): LabelTuple | undefined => {
-      if (isLabel(statement)) {
-        const labelAddress = calcAddress(index, statements) - labelsCount
+    .map((statement, statementIndex): LabelTuple | undefined => {
+      if (!isValidStatement(statement)) {
+        const labelAddress =
+          getCurrentStatementAddress(statementIndex, statements) - labelsCount
+
         labelsCount++
+
         return [statement.instruction.slice(0, -1), labelAddress]
       }
+
       return undefined
     })
     .filter(excludeUndefined)
 
-  const filteredStatements = statements
-    .map(statement => (isLabel(statement) ? undefined : statement))
-    .filter(excludeUndefined) as Statement[]
+  const validStatements = statements.filter(isValidStatement)
 
-  const resultStatements = calcLabelValueInStatements(
-    labelTuples,
-    filteredStatements
-  )
+  const resultStatements = setLabelValue(labelTuples, validStatements)
 
   return {
     statements: resultStatements,

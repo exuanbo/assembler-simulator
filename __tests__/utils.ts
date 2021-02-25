@@ -1,8 +1,10 @@
 import type { Statement } from '../src/core/tokenize'
 
 export const statementToString = (statement: Statement): string => {
-  const { instruction, args } = statement
-  return `${instruction}${(args !== undefined && ` ${args.join(', ')}`) || ''}`
+  const { instruction, operands } = statement
+  return `${instruction}${
+    (operands !== null && ` ${operands.join(', ')}`) || ''
+  }`
 }
 
 export const expectError = (cb: () => void, msg: string): void => {

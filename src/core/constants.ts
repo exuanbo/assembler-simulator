@@ -37,7 +37,7 @@ export type ImmediateArithmeticInstruction = Extract<
 type DirectArithmeticOpcode = 0xa0 | 0xa1 | 0xa2 | 0xa3 | 0xa4 | 0xa5
 
 export const DIRECT_ARITHMETIC_OPCODE_MAP: {
-  [instr in ArithmeticInstruction]: DirectArithmeticOpcode
+  [instruction in ArithmeticInstruction]: DirectArithmeticOpcode
 } = {
   [Instruction.ADD]: 0xa0,
   [Instruction.SUB]: 0xa1,
@@ -50,7 +50,7 @@ export const DIRECT_ARITHMETIC_OPCODE_MAP: {
 type ImmediateArithmeticOpcode = 0xb0 | 0xb1 | 0xb2 | 0xb6
 
 export const IMMEDIATE_ARITHMETIC_OPCODE_MAP: {
-  [instr in ImmediateArithmeticInstruction]: ImmediateArithmeticOpcode
+  [instruction in ImmediateArithmeticInstruction]: ImmediateArithmeticOpcode
 } = {
   [Instruction.ADD]: 0xb0,
   [Instruction.SUB]: 0xb1,
@@ -68,16 +68,18 @@ type BranchInstruction = Extract<
 type BranchOpcode = 0xc0 | 0xc1 | 0xc2
 
 export const BRANCH_OPCODE_MAP: {
-  [instr in BranchInstruction]: BranchOpcode
+  [instruction in BranchInstruction]: BranchOpcode
 } = {
   [Instruction.JMP]: 0xc0,
   [Instruction.JZ]: 0xc1,
   [Instruction.JNZ]: 0xc2
 }
 
-type ArgsCount = 0 | 1 | 2
+type OperandsCount = 0 | 1 | 2
 
-export const ARGS_COUNT: { [instr in Instruction]: ArgsCount } = {
+export const INSTRUCTION_OPERANDS_COUNT_MAP: {
+  [instruction in Instruction]: OperandsCount
+} = {
   [Instruction.MOV]: 2,
   [Instruction.ADD]: 2,
   [Instruction.SUB]: 2,
@@ -92,18 +94,20 @@ export const ARGS_COUNT: { [instr in Instruction]: ArgsCount } = {
   [Instruction.END]: 0
 }
 
-export enum ArgType {
+export enum OperandType {
   Number = 'Number',
   Address = 'Address',
   Register = 'Register',
   RegisterPointer = 'RegisterPointer'
 }
 
-export const ARG_TYPE_REGEX: { [argType in ArgType]: RegExp } = {
-  [ArgType.Number]: /^([0-9A-F]{1,2})$/,
-  [ArgType.Address]: /^\[([0-9A-F]{1,2})\]$/,
-  [ArgType.Register]: /^([ABCD]L)$/,
-  [ArgType.RegisterPointer]: /^\[([ABCD]L)\]$/
+export const OPERAND_TYPE_REGEX_MAP: {
+  [operandType in OperandType]: RegExp
+} = {
+  [OperandType.Number]: /^([0-9A-F]{1,2})$/,
+  [OperandType.Address]: /^\[([0-9A-F]{1,2})\]$/,
+  [OperandType.Register]: /^([ABCD]L)$/,
+  [OperandType.RegisterPointer]: /^\[([ABCD]L)\]$/
 }
 
 export enum Register {
@@ -115,7 +119,7 @@ export enum Register {
 
 type RegisterCode = 0x00 | 0x01 | 0x02 | 0x03
 
-export const REGISTER_CODE: { [name in Register]: RegisterCode } = {
+export const REGISTER_CODE_MAP: { [register in Register]: RegisterCode } = {
   [Register.AL]: 0x00,
   [Register.BL]: 0x01,
   [Register.CL]: 0x02,

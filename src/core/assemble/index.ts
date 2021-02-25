@@ -1,4 +1,4 @@
-import { parseArg } from './parseArg'
+import { parseOperand } from './parseOperand'
 import { getOpcode } from './getOpcode'
 import type { Statement, TokenizeResult } from '../tokenize'
 import { Instruction } from '../constants'
@@ -9,43 +9,40 @@ export const generateAddressArr = (withVDU: boolean): Uint8Array =>
     withVDU && index >= 0xc0 ? 0x20 : 0x00
   )
 
-export const generateOpcodesFromStatement = (
+export const getOpcodesFromStatemet = (
   statement: Statement
-): number[] | undefined => {
-  const { instruction, args } = statement
+): number[] | null => {
+  const { instruction, operands } = statement
   if (instruction === Instruction.END) {
     return [0x00]
   }
 
-  if (args !== undefined) {
-    const [arg1, arg2] = args
-    const parsedArg1 = parseArg(arg1)
-    const parsedArg2 = (arg2 !== undefined && parseArg(arg2)) || undefined
+  if (operands !== null) {
+    const [operand1, operand2] = operands
+    const parsedOperand1 = parseOperand(operand1)
+    const parsedOperand2 =
+      (operand2 !== undefined && parseOperand(operand2)) || undefined
 
-    const opcode = getOpcode(instruction, parsedArg1, parsedArg2)
+    const opcode = getOpcode(instruction, parsedOperand1, parsedOperand2)
 
-    return [
-      opcode,
-      parsedArg1.value as number,
-      parsedArg2?.value as number
-    ].filter(excludeUndefined)
+    return [opcode, parsedOperand1.value, parsedOperand2?.value].filter(
+      excludeUndefined
+    )
   }
 
-  return undefined
+  return null
 }
 
 export const assemble = (tokenizedCode: TokenizeResult): Uint8Array | never => {
-  const { statements } = tokenizedCode
-
   const address = generateAddressArr(true)
-  let addressPos = 0
+  let addressIndex = 0
 
-  statements.forEach(statement => {
-    const opcodes = generateOpcodesFromStatement(statement)
-    if (opcodes !== undefined) {
+  tokenizedCode.statements.forEach(statement => {
+    const opcodes = getOpcodesFromStatemet(statement)
+    if (opcodes !== null) {
       opcodes.forEach(opcode => {
-        address[addressPos] = opcode
-        addressPos++
+        address[addressIndex] = opcode
+        addressIndex++
       })
     }
   })

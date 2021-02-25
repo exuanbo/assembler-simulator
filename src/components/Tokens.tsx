@@ -26,19 +26,19 @@ const Tokens: React.FC = () => {
                   <thead>
                     <tr className="text-left">
                       <th>Instruction</th>
-                      <th>Arg1</th>
-                      <th>Arg2</th>
+                      <th>Operand</th>
+                      <th>Operand</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tokens.statements.map((statement, statementIndex) => (
                       <tr key={`statement-${statementIndex}`}>
                         <td>{statement.instruction}</td>
-                        {statement.args?.map((arg, argIndex) => (
+                        {statement.operands?.map((operand, operandIndex) => (
                           <td
-                            key={`statement-${statementIndex}-arg-${argIndex}`}
+                            key={`statement-${statementIndex}-operand-${operandIndex}`}
                             className="font-mono">
-                            {arg}
+                            {operand}
                           </td>
                         ))}
                       </tr>
@@ -59,10 +59,10 @@ const Tokens: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tokens.labelTuples.map(([name, address]) => (
-                      <tr key={`label-${name}`}>
-                        <td>{name}</td>
-                        <td className="font-mono">{decToHex(address)}</td>
+                    {tokens.labelTuples.map(([labelName, labelAddress]) => (
+                      <tr key={`label-${labelName}`}>
+                        <td>{labelName}</td>
+                        <td className="font-mono">{decToHex(labelAddress)}</td>
                       </tr>
                     ))}
                   </tbody>
