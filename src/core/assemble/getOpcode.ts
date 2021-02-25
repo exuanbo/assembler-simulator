@@ -1,14 +1,16 @@
-import { ParsedArg } from './parseArg'
+import type { ParsedArg } from './parseArg'
 import { excludeUndefined, decToHex } from '../utils'
-import {
-  Instruction,
+import type {
   MovOpcode,
   ArithmeticInstruction,
   ArithmeticOpcode,
   ImmediateArithmeticInstruction,
+  CompareOpcode
+} from '../constants'
+import {
+  Instruction,
   DIRECT_ARITHMETIC_OPCODE_MAP,
   IMMEDIATE_ARITHMETIC_OPCODE_MAP,
-  CompareOpcode,
   BRANCH_OPCODE_MAP,
   ArgType,
   REGISTER_CODE

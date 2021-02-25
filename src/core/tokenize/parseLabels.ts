@@ -1,4 +1,9 @@
-import { StatementWithLabels, Statement, LabelTuple, TokenizeResult } from '.'
+import type {
+  StatementWithLabels,
+  Statement,
+  LabelTuple,
+  TokenizeResult
+} from '.'
 import { excludeUndefined, decToHex } from '../utils'
 import { Instruction } from '../constants'
 

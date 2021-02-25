@@ -1,5 +1,5 @@
 import { atom } from 'precoil'
-import { TokenizeResult } from './core/tokenize'
+import type { TokenizeResult } from './core/tokenize'
 import { generateAddressArr } from './core/assemble'
 
 const DEFAULT_INPUT = `mov al, 5A

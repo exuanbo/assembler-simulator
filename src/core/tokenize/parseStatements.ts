@@ -1,4 +1,4 @@
-import { StatementWithLabels } from '.'
+import type { StatementWithLabels } from '.'
 import { Instruction, ARGS_COUNT } from '../constants'
 import { excludeUndefined } from '../utils'
 

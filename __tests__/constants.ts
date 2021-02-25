@@ -1,4 +1,4 @@
-import { StatementWithLabels, Statement } from '../src/core/tokenize'
+import type { StatementWithLabels, Statement } from '../src/core/tokenize'
 import { Instruction } from '../src/core/constants'
 
 export const CODE = `

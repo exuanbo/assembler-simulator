@@ -1,9 +1,6 @@
 import { ArgType, REGISTER_CODE } from '../../src/core/constants'
-import {
-  ParsedArg,
-  getArgMatcher,
-  parseArg
-} from '../../src/core/assemble/parseArg'
+import type { ParsedArg } from '../../src/core/assemble/parseArg'
+import { getArgMatcher, parseArg } from '../../src/core/assemble/parseArg'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']

@@ -1,6 +1,6 @@
 import { parseStatements } from './parseStatements'
 import { parseLables } from './parseLabels'
-import { Instruction } from '../constants'
+import type { Instruction } from '../constants'
 
 interface StatementWithoutInstruction {
   args: [string, string] | [string] | undefined

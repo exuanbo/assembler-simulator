@@ -1,6 +1,6 @@
 import { parseArg } from './parseArg'
 import { getOpcode } from './getOpcode'
-import { Statement, TokenizeResult } from '../tokenize'
+import type { Statement, TokenizeResult } from '../tokenize'
 import { Instruction } from '../constants'
 import { excludeUndefined } from '../utils'
 

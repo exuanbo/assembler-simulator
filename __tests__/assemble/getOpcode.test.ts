@@ -4,11 +4,13 @@ import {
   getCompareOpcode,
   getOpcode
 } from '../../src/core/assemble/getOpcode'
+import type {
+  ArithmeticInstruction,
+  ImmediateArithmeticInstruction
+} from '../../src/core/constants'
 import {
   Instruction,
-  ArithmeticInstruction,
   DIRECT_ARITHMETIC_OPCODE_MAP,
-  ImmediateArithmeticInstruction,
   IMMEDIATE_ARITHMETIC_OPCODE_MAP,
   ArgType
 } from '../../src/core/constants'

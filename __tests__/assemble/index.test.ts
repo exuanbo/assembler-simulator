@@ -1,4 +1,4 @@
-import { Statement } from '../../src/core/tokenize'
+import type { Statement } from '../../src/core/tokenize'
 import {
   generateAddressArr,
   generateOpcodesFromStatement,
