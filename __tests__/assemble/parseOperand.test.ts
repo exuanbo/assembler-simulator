@@ -1,9 +1,9 @@
-import { OperandType, REGISTER_CODE_MAP } from '../../src/core/constants'
 import type { Operand } from '../../src/core/assemble/parseOperand'
 import {
   getOperandMatcher,
   parseOperand
 } from '../../src/core/assemble/parseOperand'
+import { OperandType, REGISTER_CODE_MAP } from '../../src/core/constants'
 
 const HEX_NUMBERS = [0x00, 0x09, 0x1f]
 const HEX_NUMBER_STRINGS = ['00', '09', '1F']
