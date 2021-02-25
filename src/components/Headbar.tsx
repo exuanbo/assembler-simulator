@@ -28,7 +28,7 @@ const Headbar: React.FC<Props> = ({ className }) => (
         href="https://github.com/exuanbo/assembler-simulator"
         rel="noopener noreferrer"
         target="_blank">
-        <Github className="h-4.8" />
+        <Github style={{ height: '1.2rem' }} />
       </a>
     </div>
   </nav>
