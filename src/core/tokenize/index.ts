@@ -2,15 +2,12 @@ import { parseStatements } from './parseStatements'
 import { parseLables } from './parseLabels'
 import type { Instruction } from '../constants'
 
-interface StatementWithoutInstruction {
+export interface StatementWithLabels {
+  instruction: string
   args: [string, string] | [string] | undefined
 }
 
-export interface StatementWithLabels extends StatementWithoutInstruction {
-  instruction: string
-}
-
-export interface Statement extends StatementWithoutInstruction {
+export interface Statement extends StatementWithLabels {
   instruction: Instruction
 }
 
