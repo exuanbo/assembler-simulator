@@ -186,7 +186,7 @@ export const getOpcodesFromStatemet = (
     const [operand1, operand2] = operands
     const parsedOperand1 = parseOperand(operand1)
     const parsedOperand2 =
-      (operand2 !== undefined && parseOperand(operand2)) || undefined
+      operand2 !== undefined ? parseOperand(operand2) : undefined
 
     const opcode = getOpcode(instruction, parsedOperand1, parsedOperand2)
 
