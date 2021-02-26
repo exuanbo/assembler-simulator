@@ -11,21 +11,15 @@ export interface Statement extends StatementWithLabels {
   instruction: Instruction
 }
 
-/**
- * [name, address]
- */
-export type LabelTuple = [string, number]
+export interface Label {
+  name: string
+  address: number
+}
 
 export interface TokenizeResult {
   statements: Statement[]
-  labelTuples: LabelTuple[]
+  labels: Label[]
 }
 
-export const tokenize = (code: string): TokenizeResult | never => {
-  const { statements, labelTuples } = parseLabels(parseStatements(code))
-
-  return {
-    statements,
-    labelTuples
-  }
-}
+export const tokenize = (code: string): TokenizeResult | never =>
+  parseLabels(parseStatements(code))

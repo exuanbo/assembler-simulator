@@ -26,7 +26,7 @@ export const codeState = atom(DEFAULT_INPUT)
 
 export const tokenState = atom<TokenizeResult>({
   statements: [],
-  labelTuples: []
+  labels: []
 })
 
 export const addressState = atom(generateAddressArr(true))

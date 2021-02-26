@@ -3,7 +3,7 @@ import { statementToString } from '../utils'
 import {
   STATEMENTS_WITH_LABEL_VALUE,
   STATEMENTS_OPCODES,
-  LABEL_TUPLES
+  LABELS
 } from '../constants'
 
 describe('generateAddressArr', () => {
@@ -27,7 +27,7 @@ const assembledAddress = [0xd0, 0x03, 0x0a, 0xd0, 0, 0, 0xd0, 0x01, 0xc0, 0xb0, 
 describe('assemble', () => {
   STATEMENTS_WITH_LABEL_VALUE.forEach((statement, index) => {
     it(`should assemble single line '${statementToString(statement)}'`, () => {
-      const address = assemble({ statements: [statement], labelTuples: [] })
+      const address = assemble({ statements: [statement], labels: [] })
       const opcodes = STATEMENTS_OPCODES[index]
       expect(Array.from(address.slice(0, opcodes.length))).toEqual(opcodes)
     })
@@ -36,7 +36,7 @@ describe('assemble', () => {
   it('should assemble code', () => {
     const address = assemble({
       statements: STATEMENTS_WITH_LABEL_VALUE,
-      labelTuples: LABEL_TUPLES
+      labels: LABELS
     })
     expect(Array.from(address)).toEqual(assembledAddress)
   })

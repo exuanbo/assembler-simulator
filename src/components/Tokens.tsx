@@ -6,7 +6,7 @@ import { decToHex } from '../core/utils'
 
 const Tokens: React.FC = () => {
   const [show, setShow] = useState(true)
-  const [tokens] = tokenState.useState()
+  const [{ statements, labels }] = tokenState.useState()
 
   return (
     <Card
@@ -21,7 +21,7 @@ const Tokens: React.FC = () => {
         <div className="flex divide-x">
           <Card className="flex-1" title="Statements">
             <div className="px-3 py-1 border-b">
-              {tokens.statements.length > 0 ? (
+              {statements.length > 0 ? (
                 <table className="w-full text-sm leading-narrow">
                   <thead>
                     <tr className="text-left">
@@ -31,7 +31,7 @@ const Tokens: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tokens.statements.map((statement, statementIndex) => (
+                    {statements.map((statement, statementIndex) => (
                       <tr key={`statement-${statementIndex}`}>
                         <td>{statement.instruction}</td>
                         {statement.operands?.map((operand, operandIndex) => (
@@ -50,7 +50,7 @@ const Tokens: React.FC = () => {
           </Card>
           <Card className="flex-1" title="Labels">
             <div className="px-3 py-1 border-b">
-              {tokens.labelTuples.length > 0 ? (
+              {labels.length > 0 ? (
                 <table className="w-full text-sm leading-narrow">
                   <thead>
                     <tr className="text-left">
@@ -59,10 +59,10 @@ const Tokens: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tokens.labelTuples.map(([labelName, labelAddress]) => (
-                      <tr key={`label-${labelName}`}>
-                        <td>{labelName}</td>
-                        <td className="font-mono">{decToHex(labelAddress)}</td>
+                    {labels.map((label, labelIndex) => (
+                      <tr key={`label-${labelIndex}`}>
+                        <td>{label.name}</td>
+                        <td className="font-mono">{decToHex(label.address)}</td>
                       </tr>
                     ))}
                   </tbody>

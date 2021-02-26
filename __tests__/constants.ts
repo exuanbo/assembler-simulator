@@ -1,7 +1,7 @@
 import type {
   StatementWithLabels,
   Statement,
-  LabelTuple
+  Label
 } from '../src/core/tokenize'
 import { Instruction } from '../src/core/constants'
 
@@ -98,7 +98,7 @@ export const STATEMENTS_WITH_ILLEGAL_OPERANDS: Statement[] = [
   { instruction: Instruction.INC, operands: ['ABC'] }
 ]
 
-export const LABEL_TUPLES: LabelTuple[] = [
-  ['LOOP', 9],
-  ['FIN', 29]
+export const LABELS: Label[] = [
+  { name: 'LOOP', address: 9 },
+  { name: 'FIN', address: 29 }
 ]

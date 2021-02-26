@@ -1,9 +1,4 @@
-import type {
-  StatementWithLabels,
-  Statement,
-  LabelTuple,
-  TokenizeResult
-} from '.'
+import type { StatementWithLabels, Statement, Label, TokenizeResult } from '.'
 import { excludeUndefined, decToHex } from '../utils'
 import { Instruction } from '../constants'
 
@@ -26,18 +21,18 @@ const isJumpStatement = (statement: Statement): statement is JumpStatement =>
   )
 
 export const setLabelValue = (
-  labelTuples: LabelTuple[],
+  labels: Label[],
   statements: Statement[]
 ): Statement[] =>
   statements.map((statement, statementIndex) => {
     if (isJumpStatement(statement)) {
-      labelTuples.forEach(([labelName, labelAddress]) => {
-        if (statement.operands[0] === labelName) {
+      labels.forEach(label => {
+        if (statement.operands[0] === label.name) {
           const statementAddress = getCurrentStatementAddress(
             statementIndex,
             statements
           )
-          const relativeDistance = labelAddress - statementAddress
+          const relativeDistance = label.address - statementAddress
           const absoluteDistance =
             relativeDistance > 0 ? relativeDistance : 0x100 + relativeDistance
           const labelValue = decToHex(absoluteDistance)
@@ -59,15 +54,18 @@ export const parseLabels = (
 ): TokenizeResult => {
   let labelsCount = 0
 
-  const labelTuples = statements
-    .map((statement, statementIndex): LabelTuple | undefined => {
+  const labels = statements
+    .map((statement, statementIndex): Label | undefined => {
       if (!isValidStatement(statement)) {
         const labelAddress =
           getCurrentStatementAddress(statementIndex, statements) - labelsCount
 
         labelsCount++
 
-        return [statement.instruction.slice(0, -1), labelAddress]
+        return {
+          name: statement.instruction.slice(0, -1),
+          address: labelAddress
+        }
       }
 
       return undefined
@@ -76,10 +74,10 @@ export const parseLabels = (
 
   const validStatements = statements.filter(isValidStatement)
 
-  const resultStatements = setLabelValue(labelTuples, validStatements)
+  const resultStatements = setLabelValue(labels, validStatements)
 
   return {
     statements: resultStatements,
-    labelTuples
+    labels
   }
 }
