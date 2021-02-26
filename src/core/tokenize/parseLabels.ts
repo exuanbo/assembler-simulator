@@ -54,7 +54,7 @@ const isValidStatement = (
   statement: StatementWithLabels
 ): statement is Statement => !statement.instruction.endsWith(':')
 
-export const parseLables = (
+export const parseLabels = (
   statements: StatementWithLabels[]
 ): TokenizeResult => {
   let labelsCount = 0

@@ -1,5 +1,5 @@
 import { parseStatements } from './parseStatements'
-import { parseLables } from './parseLabels'
+import { parseLabels } from './parseLabels'
 import type { Instruction } from '../constants'
 
 export interface StatementWithLabels {
@@ -22,7 +22,7 @@ export interface TokenizeResult {
 }
 
 export const tokenize = (code: string): TokenizeResult | never => {
-  const { statements, labelTuples } = parseLables(parseStatements(code))
+  const { statements, labelTuples } = parseLabels(parseStatements(code))
 
   return {
     statements,

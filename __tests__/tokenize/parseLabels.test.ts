@@ -1,7 +1,7 @@
 import {
   getCurrentStatementAddress,
   setLabelValue,
-  parseLables
+  parseLabels
 } from '../../src/core/tokenize/parseLabels'
 import {
   STATEMENTS,
@@ -33,9 +33,9 @@ describe('setLabelValue', () => {
   })
 })
 
-describe('parseLables', () => {
+describe('parseLabels', () => {
   it('should parse statements to return labels', () => {
-    const res = parseLables(STATEMENTS)
+    const res = parseLabels(STATEMENTS)
     expect(res.labelTuples).toStrictEqual(LABEL_TUPLES)
     expect(res.statements).toStrictEqual(STATEMENTS_WITH_LABEL_VALUE)
   })
