@@ -8,8 +8,8 @@ export const splitUint8ArrayPerChunk = (
   arr: Uint8Array,
   perChunk: number
 ): number[][] =>
-  arr.reduce((resArr: number[][], item, index) => {
-    const chunkIndex = Math.floor(index / perChunk)
+  arr.reduce((resArr: number[][], item, itemIndex) => {
+    const chunkIndex = Math.floor(itemIndex / perChunk)
     if (resArr[chunkIndex] === undefined) {
       resArr[chunkIndex] = []
     }
