@@ -29,11 +29,6 @@ export type ArithmeticOpcode =
   | DirectArithmeticOpcode
   | ImmediateArithmeticOpcode
 
-export type ImmediateArithmeticInstruction = Extract<
-  Instruction,
-  Instruction.ADD | Instruction.SUB | Instruction.MUL | Instruction.DIV
->
-
 type DirectArithmeticOpcode = 0xa0 | 0xa1 | 0xa2 | 0xa3 | 0xa4 | 0xa5
 
 export const DIRECT_ARITHMETIC_OPCODE_MAP: {
@@ -46,6 +41,11 @@ export const DIRECT_ARITHMETIC_OPCODE_MAP: {
   [Instruction.INC]: 0xa4,
   [Instruction.DEC]: 0xa5
 }
+
+export type ImmediateArithmeticInstruction = Extract<
+  Instruction,
+  Instruction.ADD | Instruction.SUB | Instruction.MUL | Instruction.DIV
+>
 
 type ImmediateArithmeticOpcode = 0xb0 | 0xb1 | 0xb2 | 0xb6
 
