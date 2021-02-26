@@ -19,28 +19,23 @@ export const parseStatements = (code: string): StatementWithLabels[] | never =>
         return { instruction: statement, operands: null }
       }
 
-      const firstWhitespace = statement.search(/\s/)
+      const firstWhitespaceIndex = statement.search(/\s/)
 
       const instruction = statement.slice(
         0,
-        firstWhitespace === -1 ? statement.length : firstWhitespace
+        firstWhitespaceIndex === -1 ? statement.length : firstWhitespaceIndex
       )
 
       if (!isValidInstruction(instruction)) {
         throw new Error(`Invalid instruction ${instruction}`)
       }
 
-      if (instruction === Instruction.END) {
-        return { instruction, operands: null }
-      }
+      const operands =
+        firstWhitespaceIndex === -1
+          ? null
+          : statement.slice(firstWhitespaceIndex).replace(/\s/g, '').split(',')
 
-      const operands = statement
-        .slice(firstWhitespace)
-        .replace(/\s/g, '')
-        .split(',')
-        .filter(operand => operand.length > 0)
-
-      const operandsCount = operands.length
+      const operandsCount = operands?.length ?? 0
 
       if (operandsCount > 2) {
         throw new Error(`Got ${operandsCount} (> 2) operands`)
@@ -58,7 +53,12 @@ export const parseStatements = (code: string): StatementWithLabels[] | never =>
 
       return {
         instruction,
-        operands: operandsCount > 1 ? [operands[0], operands[1]] : [operands[0]]
+        operands:
+          operands !== null
+            ? operandsCount > 1
+              ? [operands[0], operands[1]]
+              : [operands[0]]
+            : null
       }
     })
     .filter(excludeUndefined)
