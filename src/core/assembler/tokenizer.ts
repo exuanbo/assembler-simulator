@@ -42,24 +42,24 @@ export class Token {
   }
 }
 
-type Matcher = (input: string, index: number) => Token | null
+type TokenMatcher = (input: string, index: number) => Token | null
 
-const createMatcher =
-  (regex: RegExp, type: TokenType): Matcher =>
+const createTokenMatcher =
+  (regex: RegExp, type: TokenType): TokenMatcher =>
   (input: string, index: number) => {
     const match = regex.exec(input.substring(index))
     return match === null ? null : new Token(type, match[0], index)
   }
 
-const matchWhitespace = createMatcher(/^\s+/, TokenType.Whitespace)
-const matchComment = createMatcher(/^;.*/, TokenType.Comment)
-const matchDigits = createMatcher(/^\d+(?=,|;|\s+)/, TokenType.Digits)
-const matchAddress = createMatcher(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address)
-const matchString = createMatcher(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String)
-const matchComma = createMatcher(/^,/, TokenType.Comma)
-const matchUnknown = createMatcher(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
+const matchWhitespace = createTokenMatcher(/^\s+/, TokenType.Whitespace)
+const matchComment = createTokenMatcher(/^;.*/, TokenType.Comment)
+const matchDigits = createTokenMatcher(/^\d+(?=,|;|\s+)/, TokenType.Digits)
+const matchAddress = createTokenMatcher(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address)
+const matchString = createTokenMatcher(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String)
+const matchComma = createTokenMatcher(/^,/, TokenType.Comma)
+const matchUnknown = createTokenMatcher(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
 
-const matchers = [
+const tokenMatchers = [
   matchWhitespace,
   matchComment,
   matchDigits,
@@ -73,8 +73,8 @@ export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   let index = 0
   while (index < input.length) {
-    matchers.some(match => {
-      const token = match(input, index)
+    tokenMatchers.some(matchToken => {
+      const token = matchToken(input, index)
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           if (token.type === TokenType.Address || token.type === TokenType.Unknown) {
