@@ -30,14 +30,14 @@ export class Token {
     this.length = value.length
   }
 
-  public static getOriginalValue(token: Token): string {
-    switch (token.type) {
+  public getOriginalValue(): string {
+    switch (this.type) {
       case TokenType.Address:
-        return `[${token.value}]`
+        return `[${this.value}]`
       case TokenType.String:
-        return `"${token.value}"`
+        return `"${this.value}"`
       default:
-        return token.value
+        return this.value
     }
   }
 }

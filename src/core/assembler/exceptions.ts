@@ -1,4 +1,4 @@
-import { Token } from './tokenizer'
+import type { Token } from './tokenizer'
 import { OperandType, normalizeOperandType } from './parser'
 
 export abstract class AssembleError extends Error {
@@ -10,7 +10,7 @@ export abstract class AssembleError extends Error {
 export class StatementError extends AssembleError {
   constructor(token: Token) {
     super(
-      `Expected instruction or label: ${Token.getOriginalValue(token)}`,
+      `Expected instruction or label: ${token.getOriginalValue()}`,
       token.position,
       token.length
     )
@@ -48,13 +48,13 @@ export class InvalidNumberError extends AssembleError {
 export class OperandTypeError extends AssembleError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes.map(t => normalizeOperandType(t)).join(' or ')
-    super(`Expected ${types}: ${Token.getOriginalValue(token)}`, token.position, token.length)
+    super(`Expected ${types}: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }
 
 export class MissingCommaError extends AssembleError {
   constructor(token: Token) {
-    super(`Expected ,: ${Token.getOriginalValue(token)}`, token.position, token.length)
+    super(`Expected ,: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }
 
