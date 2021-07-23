@@ -1,5 +1,6 @@
 import type { Token } from './tokenizer'
-import { OperandType, normalizeOperandType } from './parser'
+import type { OperandType } from './parser'
+import { normalizeType } from '../utils'
 
 export abstract class AssembleError extends Error {
   constructor(msg: string, public position: number, public length: number) {
@@ -47,7 +48,7 @@ export class InvalidNumberError extends AssembleError {
 
 export class OperandTypeError extends AssembleError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
-    const types = expectedTypes.map(t => normalizeOperandType(t)).join(' or ')
+    const types = expectedTypes.map(t => normalizeType(t)).join(' or ')
     super(`Expected ${types}: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }

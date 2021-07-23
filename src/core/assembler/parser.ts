@@ -31,9 +31,6 @@ export enum OperandType {
   String = 'STRING'
 }
 
-export const normalizeOperandType = (operandType: OperandType): string =>
-  operandType.toLowerCase().split('_').join(' ')
-
 class Operand {
   public type: OperandType
   public value: number | string
