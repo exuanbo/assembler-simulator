@@ -7,12 +7,6 @@ export abstract class AssembleError extends Error {
   }
 }
 
-export class InvalidTokenError extends AssembleError {
-  constructor(token: string, position: number) {
-    super(`Invalid token: ${token}`, position, 1)
-  }
-}
-
 export class StatementError extends AssembleError {
   constructor(token: Token) {
     super(

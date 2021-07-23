@@ -1,10 +1,10 @@
-import { InvalidTokenError } from './exceptions'
-
 export enum TokenType {
-  Comma = 'COMMA',
-  String = 'STRING',
-  Address = 'ADDRESS',
+  Whitespace = 'WHITESPACE',
+  Comment = 'COMMENT',
   Digits = 'DIGITS',
+  Address = 'ADDRESS',
+  String = 'STRING',
+  Comma = 'COMMA',
   Unknown = 'UNKNOWN'
 }
 
@@ -16,134 +16,77 @@ export class Token {
 
   constructor(type: TokenType, value: string, position: number) {
     this.type = type
-    this.value = value
+    switch (type) {
+      case TokenType.Address:
+        this.value = value.replace(/[[\]]/g, '')
+        break
+      case TokenType.String:
+        this.value = value.replace(/"/g, '')
+        break
+      default:
+        this.value = value
+    }
     this.position = position
     this.length = value.length
-    if (type === TokenType.String || type === TokenType.Address) {
-      this.length += 2
-    }
   }
 
   public static getOriginalValue(token: Token): string {
     switch (token.type) {
-      case TokenType.String:
-        return `"${token.value}"`
       case TokenType.Address:
         return `[${token.value}]`
+      case TokenType.String:
+        return `"${token.value}"`
       default:
         return token.value
     }
   }
 }
 
-type Tokenizer = (input: string, current: number) => [consumedChars: number, token: Token | null]
+type Matcher = (input: string, index: number) => Token | null
 
-const WHITESPACE = /\s/
-const RETURN = /[\r\n]/
-const TOKEN_SEPARATOR = /[\s,]/
-const DIGITS = /[0-9]/
-const UNKNOWN = /["0-9:a-zA-Z[\]_]/
-
-const skipWhitespace: Tokenizer = (input, current) =>
-  WHITESPACE.test(input[current]) ? [1, null] : [0, null]
-
-const skipComment: Tokenizer = (input, current) => {
-  let consumedChars = 0
-  let char = input[current]
-  if (char === ';') {
-    consumedChars++
-    char = input[current + consumedChars]
-    while (char !== undefined && !RETURN.test(char)) {
-      consumedChars++
-      char = input[current + consumedChars]
-    }
-  }
-  return [consumedChars, null]
-}
-
-const tokenizeCharacter =
-  (type: TokenType, value: string): Tokenizer =>
-  (input, current) =>
-    value === input[current] ? [1, new Token(type, value, current)] : [0, null]
-
-const tokenizeComma = tokenizeCharacter(TokenType.Comma, ',')
-
-const tokenizeEnclosed =
-  (type: TokenType, start: string, end: string): Tokenizer =>
-  (input, current) => {
-    let consumedChars = 0
-    let char = input[current]
-    if (char === start) {
-      let value = ''
-      consumedChars++
-      char = input[current + consumedChars]
-      while (char !== end) {
-        if (char === undefined || RETURN.test(char)) {
-          return [0, null]
-        }
-        value += char
-        consumedChars++
-        char = input[current + consumedChars]
-      }
-      consumedChars++
-      return [consumedChars, new Token(type, value, current)]
-    }
-    return [0, null]
+const createMatcher =
+  (regex: RegExp, type: TokenType): Matcher =>
+  (input: string, index: number) => {
+    const match = regex.exec(input.substring(index))
+    return match === null ? null : new Token(type, match[0], index)
   }
 
-const tokenizeString = tokenizeEnclosed(TokenType.String, '"', '"')
-const tokenizeAddress = tokenizeEnclosed(TokenType.Address, '[', ']')
+const matchWhitespace = createMatcher(/^\s+/, TokenType.Whitespace)
+const matchComment = createMatcher(/^;.*/, TokenType.Comment)
+const matchDigits = createMatcher(/^\d+(?=,|;|\s+)/, TokenType.Digits)
+const matchAddress = createMatcher(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address)
+const matchString = createMatcher(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String)
+const matchComma = createMatcher(/^,/, TokenType.Comma)
+const matchUnknown = createMatcher(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
 
-const tokenizePattern =
-  (type: TokenType, pattern: RegExp): Tokenizer =>
-  (input, current) => {
-    let consumedChars = 0
-    let char = input[current]
-    if (pattern.test(char)) {
-      let value = ''
-      do {
-        value += char
-        consumedChars++
-        char = input[current + consumedChars]
-      } while (char !== undefined && pattern.test(char))
-      if (char === undefined || TOKEN_SEPARATOR.test(char)) {
-        return [consumedChars, new Token(type, value, current)]
-      }
-    }
-    return [0, null]
-  }
-
-const tokenizeDigits = tokenizePattern(TokenType.Digits, DIGITS)
-const tokenizeUnknown = tokenizePattern(TokenType.Unknown, UNKNOWN)
-
-const tokenizers = [
-  skipWhitespace,
-  skipComment,
-  tokenizeComma,
-  tokenizeString,
-  tokenizeAddress,
-  tokenizeDigits,
-  tokenizeUnknown
+const matchers = [
+  matchWhitespace,
+  matchComment,
+  matchDigits,
+  matchAddress,
+  matchString,
+  matchComma,
+  matchUnknown
 ]
 
 export const tokenize = (input: string): Token[] => {
-  let currentIndex = 0
   const tokens: Token[] = []
-  while (currentIndex < input.length) {
-    const isTokenized = tokenizers.some(tokenizer => {
-      const [consumedChars, token] = tokenizer(input, currentIndex)
-      currentIndex += consumedChars
+  let index = 0
+  while (index < input.length) {
+    matchers.some(match => {
+      const token = match(input, index)
       if (token !== null) {
-        if (token.type === TokenType.Address || token.type === TokenType.Unknown) {
-          token.value = token.value.toUpperCase()
+        if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
+          if (token.type === TokenType.Address || token.type === TokenType.Unknown) {
+            token.value = token.value.toUpperCase()
+          }
+          tokens.push(token)
         }
-        tokens.push(token)
+        index += token.length
+        return true
       }
-      return consumedChars > 0
+      return false
     })
-    if (!isTokenized) {
-      throw new InvalidTokenError(input[currentIndex], currentIndex)
-    }
   }
   return tokens
 }
