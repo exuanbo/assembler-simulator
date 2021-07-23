@@ -47,7 +47,7 @@ type TokenMatcher = (input: string, index: number) => Token | null
 const createTokenMatcher =
   (regex: RegExp, type: TokenType): TokenMatcher =>
   (input: string, index: number) => {
-    const match = regex.exec(input.substring(index))
+    const match = regex.exec(input.slice(index))
     return match === null ? null : new Token(type, match[0], index)
   }
 
