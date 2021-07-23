@@ -127,26 +127,22 @@ const tokenizers = [
 ]
 
 export const tokenize = (input: string): Token[] => {
-  let current = 0
+  let currentIndex = 0
   const tokens: Token[] = []
-  while (current < input.length) {
-    const tokenized = tokenizers.some(tokenizer => {
-      let matched = false
-      const [consumedChars, token] = tokenizer(input, current)
-      if (consumedChars > 0) {
-        matched = true
-        current += consumedChars
-      }
+  while (currentIndex < input.length) {
+    const isTokenized = tokenizers.some(tokenizer => {
+      const [consumedChars, token] = tokenizer(input, currentIndex)
+      currentIndex += consumedChars
       if (token !== null) {
         if (token.type === TokenType.Address || token.type === TokenType.Unknown) {
           token.value = token.value.toUpperCase()
         }
         tokens.push(token)
       }
-      return matched
+      return consumedChars > 0
     })
-    if (!tokenized) {
-      throw new InvalidTokenError(input[current], current)
+    if (!isTokenized) {
+      throw new InvalidTokenError(input[currentIndex], currentIndex)
     }
   }
   return tokens
