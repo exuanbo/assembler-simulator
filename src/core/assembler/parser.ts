@@ -86,8 +86,8 @@ const parseLabel = (tokens: Token[], current: number): string | null => {
   return identifier
 }
 
-const NUMBER = /^[0-9A-F]+$/
-const REGISTER = /^[ABCD]L$/
+const NUMBER = /^[\dA-F]+$/
+const REGISTER = /^[A-D]L$/
 
 const createSingleOperandParser =
   (tokens: Token[], current: number) =>
