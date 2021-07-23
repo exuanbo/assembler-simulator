@@ -69,22 +69,31 @@ class Statement {
   ) {}
 }
 
-const isLabelValid = (value: string): boolean => /^[A-Z_].*/.test(value)
+const LABEL_START = /^[A-Z_]/
+
+const validateLabel = (token: Token): void => {
+  if (!LABEL_START.test(token.value)) {
+    throw new InvalidLabelError(token)
+  }
+}
 
 const parseLabel = (tokens: Token[], index: number): string | null => {
   const token = tokens[index]
   if (!token.value.endsWith(':')) {
     return null
   }
-  const identifier = token.value.slice(0, -1)
-  if (!isLabelValid(identifier)) {
-    throw new InvalidLabelError(identifier, token.position)
-  }
-  return identifier
+  validateLabel(token)
+  return token.value.slice(0, -1)
 }
 
 const NUMBER = /^[\dA-F]+$/
 const REGISTER = /^[A-D]L$/
+
+const validateNumber = (token: Token): void => {
+  if (hexToDec(token.value) > 255) {
+    throw new InvalidNumberError(token)
+  }
+}
 
 const createSingleOperandParser =
   (tokens: Token[], index: number) =>
@@ -108,6 +117,7 @@ const createSingleOperandParser =
       case TokenType.Address:
         if (isExpected(OperandType.Address) || isExpected(OperandType.RegisterAddress)) {
           if (NUMBER.test(token.value)) {
+            validateNumber(token)
             return createOperand(OperandType.Address)
           }
           if (REGISTER.test(token.value)) {
@@ -118,35 +128,27 @@ const createSingleOperandParser =
         break
       case TokenType.Digits:
         if (isExpected(OperandType.Number)) {
-          if (hexToDec(token.value) > 255) {
-            throw new InvalidNumberError(token)
-          }
+          validateNumber(token)
           return createOperand(OperandType.Number)
         }
         break
       case TokenType.Unknown:
         if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
-          if (hexToDec(token.value) > 255) {
-            throw new InvalidNumberError(token)
-          }
+          validateNumber(token)
           return createOperand(OperandType.Number)
         }
         if (isExpected(OperandType.Register) && REGISTER.test(token.value)) {
           return createOperand(OperandType.Register)
         }
         if (isExpected(OperandType.Label)) {
-          const identifier = token.value
-          if (!isLabelValid(identifier)) {
-            throw new InvalidLabelError(identifier, token.position)
-          }
+          validateLabel(token)
           return createOperand(OperandType.Label)
         }
     }
     throw new OperandTypeError(token, ...expectedTypes)
   }
 
-const checkComma = (tokens: Token[], index: number): void => {
-  const token = tokens[index]
+const checkComma = (token: Token): void => {
   if (token === undefined) {
     throw new MissingEndError()
   }
@@ -162,7 +164,7 @@ const createDoubleOperandsParser =
     const parseOperand = createSingleOperandParser.bind(null, tokens)
 
     const firstOperand = parseOperand(index)(...firstExpectedTypes)
-    checkComma(tokens, index + 1)
+    checkComma(tokens[index + 1])
     const secondOperand = parseOperand(index + 2)(...secondExpectedTypes)
     return [firstOperand, secondOperand]
   }

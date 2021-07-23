@@ -19,20 +19,19 @@ export class StatementError extends AssembleError {
 }
 
 export class InvalidLabelError extends AssembleError {
-  constructor(identifier: string, position: number) {
-    super(`Label should start with a charactor or _: ${identifier}`, position, identifier.length)
+  constructor(token: Token) {
+    const identifier = token.value.endsWith(':') ? token.value.slice(-1) : token.value
+    super(
+      `Label should start with a charactor or _: ${identifier}`,
+      token.position,
+      identifier.length
+    )
   }
 }
 
 export class MissingEndError extends AssembleError {
   constructor() {
     super('Expected END at the end of the source code', 0, 0)
-  }
-}
-
-export class AddressError extends AssembleError {
-  constructor(token: Token) {
-    super(`Expected a number or register: ${token.value}`, token.position + 1, token.length - 1)
   }
 }
 
@@ -43,6 +42,12 @@ export class InvalidNumberError extends AssembleError {
       token.position,
       token.length
     )
+  }
+}
+
+export class AddressError extends AssembleError {
+  constructor(token: Token) {
+    super(`Expected a number or register: ${token.value}`, token.position + 1, token.length - 1)
   }
 }
 
