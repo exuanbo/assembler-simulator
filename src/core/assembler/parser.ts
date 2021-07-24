@@ -169,24 +169,20 @@ const createDoubleOperandsParser =
     return [firstOperand, secondOperand]
   }
 
-const parseStatement = (
-  tokens: Token[],
-  index: number
-): [statement: Statement, consumedCount: number] => {
-  let consumedCount = 0
+const parseStatement = (tokens: Token[], index: number): Statement => {
   let token = tokens[index]
 
   const label = parseLabel(tokens, index)
   if (label !== null) {
-    consumedCount++
-    token = tokens[index + consumedCount]
+    index++
+    token = tokens[index]
   }
 
   if (token.type !== TokenType.Unknown || !(token.value in Instruction)) {
     throw new StatementError(token)
   }
 
-  consumedCount++
+  index++
 
   const instruction = token.value as Instruction
   const operands: Operand[] = []
@@ -239,7 +235,7 @@ const parseStatement = (
       let operand: Operand
       let instrOpcode: Opcode | null
 
-      const parseOperand = createSingleOperandParser(tokens, index + consumedCount)
+      const parseOperand = createSingleOperandParser(tokens, index)
 
       switch (instruction as InstructionWithOneOperand) {
         case Instruction.INC:
@@ -331,8 +327,6 @@ const parseStatement = (
           instrOpcode = null
       }
 
-      consumedCount++
-
       operands.push(operand)
       if (instrOpcode !== null) {
         opcodes.push(instrOpcode)
@@ -345,7 +339,7 @@ const parseStatement = (
       let secondOperand: Operand
       let instrOpcode: Opcode
 
-      const parseOperands = createDoubleOperandsParser(tokens, index + consumedCount)
+      const parseOperands = createDoubleOperandsParser(tokens, index)
 
       switch (instruction as InstructionWithTwoOperands) {
         case Instruction.ADD:
@@ -547,8 +541,6 @@ const parseStatement = (
           }
       }
 
-      consumedCount += 3
-
       operands.push(firstOperand, secondOperand)
       opcodes.push(instrOpcode)
       length = secondOperand.token.position + secondOperand.token.length - position
@@ -570,17 +562,22 @@ const parseStatement = (
     }
   })
 
-  const statement = new Statement(label, instruction, operands, opcodes, position, length)
-  return [statement, consumedCount]
+  return new Statement(label, instruction, operands, opcodes, position, length)
 }
+
+const getConsumedTokensCount = (statement: Statement): number =>
+  /* label */ (statement.label !== null ? 1 : 0) +
+  /* instruction */ 1 +
+  /* operands */ statement.operands.length +
+  /* comma */ (statement.operands.length === 2 ? 1 : 0)
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
   let index = 0
   while (index < tokens.length) {
-    const [statement, consumedCount] = parseStatement(tokens, index)
+    const statement = parseStatement(tokens, index)
     statements.push(statement)
-    index += consumedCount
+    index += getConsumedTokensCount(statement)
   }
   if (statements[statements.length - 1].instruction !== Instruction.END) {
     throw new MissingEndError()
