@@ -146,9 +146,7 @@ export enum Opcode {
   STI = 0xfc
 }
 
-type OperandsCount = 0 | 1 | 2
-
-export const INSTRUCTION_OPERANDS_COUNT_MAP: Record<Instruction, OperandsCount> = {
+export const INSTRUCTION_OPERANDS_COUNT_MAP = {
   [Instruction.END]: 0,
 
   // Arithmetic
@@ -268,9 +266,7 @@ export enum Register {
   DL = 'DL'
 }
 
-type RegisterCode = 0x00 | 0x01 | 0x02 | 0x03
-
-export const REGISTER_CODE_MAP: Record<Register, RegisterCode> = {
+export const REGISTER_CODE_MAP = {
   [Register.AL]: 0x00,
   [Register.BL]: 0x01,
   [Register.CL]: 0x02,
