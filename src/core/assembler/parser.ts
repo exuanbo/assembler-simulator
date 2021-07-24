@@ -31,12 +31,12 @@ export enum OperandType {
   String = 'STRING'
 }
 
-class Operand {
-  public type: OperandType
+class Operand<T extends OperandType = OperandType> {
+  public type: T
   public value: number | string
   public token: Token
 
-  constructor(type: OperandType, token: Token) {
+  constructor(type: T, token: Token) {
     this.type = type
     switch (type) {
       case OperandType.Number:
@@ -51,7 +51,8 @@ class Operand {
         // TODO does `NaN` makes sense here?
         this.value = NaN
         break
-      case OperandType.String:
+      default:
+        // case OperandType.String:
         this.value = token.value
     }
     this.token = token
@@ -97,14 +98,14 @@ const validateNumber = (token: Token): void => {
 
 const createSingleOperandParser =
   (tokens: Token[], index: number) =>
-  (...expectedTypes: OperandType[]): Operand => {
+  <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
     const token = tokens[index]
     if (token === undefined) {
       throw new MissingEndError()
     }
 
     const isExpected = (type: OperandType): boolean => expectedTypes.some(t => t === type)
-    const createOperand = (type: OperandType): Operand => new Operand(type, token)
+    const createOperand = (type: OperandType): Operand<T> => new Operand(type as T, token)
 
     switch (token.type) {
       case TokenType.Comma:
@@ -157,25 +158,28 @@ const checkComma = (token: Token): void => {
   }
 }
 
-type SecondOperandErrorCallback = (firstOperandType: OperandType, secondOperandToken: Token) => void
+type SecondOperandErrorCallback<T extends OperandType> = (
+  firstOperandType: T,
+  secondOperandToken: Token
+) => void
 
 const createDoubleOperandsParser =
   (tokens: Token[], index: number) =>
-  (...firstExpectedTypes: OperandType[]) =>
-  (
-    ...secondExpectedTypes: [...OperandType[], OperandType | SecondOperandErrorCallback]
-  ): [first: Operand, second: Operand] => {
+  <T1 extends OperandType>(...firstExpectedTypes: T1[]) =>
+  <T2 extends OperandType>(
+    ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
+  ): [first: Operand<T1>, second: Operand<T2>] => {
     const parseOperand = createSingleOperandParser.bind(null, tokens)
 
     const firstOperand = parseOperand(index)(...firstExpectedTypes)
     checkComma(tokens[index + 1])
-    let secondOperand: Operand
-    let callback: SecondOperandErrorCallback | undefined
+    let secondOperand: Operand<T2>
+    let callback: SecondOperandErrorCallback<T1> | undefined
     if (typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function') {
-      callback = secondExpectedTypes.pop() as SecondOperandErrorCallback
+      callback = secondExpectedTypes.pop() as SecondOperandErrorCallback<T1>
     }
     try {
-      secondOperand = parseOperand(index + 2)(...(secondExpectedTypes as OperandType[]))
+      secondOperand = parseOperand(index + 2)(...(secondExpectedTypes as T2[]))
     } catch (e) {
       if (e instanceof OperandTypeError && callback !== undefined) {
         callback(firstOperand.type, tokens[index + 2])
@@ -248,7 +252,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       break
     }
     case 1: {
-      let operand: Operand
+      let operand
       let instrOpcode: Opcode | null
 
       const parseOperand = createSingleOperandParser(tokens, index)
@@ -351,8 +355,8 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       break
     }
     case 2: {
-      let firstOperand: Operand
-      let secondOperand: Operand
+      let firstOperand
+      let secondOperand
       let instrOpcode: Opcode
 
       const parseOperands = createDoubleOperandsParser(tokens, index)
@@ -370,8 +374,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.ADD_NUM_TO_REG
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.SUB:
@@ -386,8 +388,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.SUB_NUM_FROM_REG
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.MUL:
@@ -402,8 +402,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.MUL_REG_BY_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.DIV:
@@ -418,8 +416,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.DIV_REG_BY_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.MOD:
@@ -434,8 +430,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.MOD_REG_BY_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.AND:
@@ -450,8 +444,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.AND_REG_WITH_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.OR:
@@ -466,8 +458,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.OR_REG_WITH_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.XOR:
@@ -482,8 +472,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Number:
               instrOpcode = Opcode.XOR_REG_WITH_NUM
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.MOV:
@@ -530,8 +518,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
                 case OperandType.RegisterAddress:
                   instrOpcode = Opcode.MOV_REG_ADDR_TO_REG
                   break
-                default:
-                  throw new Error('Unreachable')
               }
               break
             case OperandType.Address:
@@ -546,8 +532,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               }
               instrOpcode = Opcode.MOV_REG_TO_REG_ADDR
               break
-            default:
-              throw new Error('Unreachable')
           }
           break
         case Instruction.CMP:
@@ -566,8 +550,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Address:
               instrOpcode = Opcode.CMP_REG_WITH_ADDR
               break
-            default:
-              throw new Error('Unreachable')
           }
       }
 
