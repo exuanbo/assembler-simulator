@@ -60,14 +60,44 @@ class Operand<T extends OperandType = OperandType> {
 }
 
 class Statement {
+  public label: string | null
+  public instruction: Instruction
+  public operands: Operand[]
+  public opcodes: number[]
+  public position: number
+  public length: number
+
   constructor(
-    public label: string | null,
-    public instruction: Instruction,
-    public operands: Operand[],
-    public opcodes: number[],
-    public position: number,
-    public length: number
-  ) {}
+    label: string | null,
+    instruction: Instruction,
+    operands: Operand[],
+    opcodes: number[],
+    position: number
+  ) {
+    this.label = label
+    this.instruction = instruction
+    this.operands = operands
+    this.opcodes = opcodes
+    this.position = position
+    this.length = this.getLength()
+  }
+
+  private getLength(): number {
+    if (this.operands.length > 0) {
+      const lastOperand = this.operands[this.operands.length - 1]
+      return lastOperand.token.position + lastOperand.token.length - this.position
+    }
+    return this.instruction.length
+  }
+
+  public getConsumedTokensCount(): number {
+    return (
+      /* label */ (this.label !== null ? 1 : 0) +
+      /* instruction */ 1 +
+      /* operands */ this.operands.length +
+      /* comma */ (this.operands.length === 2 ? 1 : 0)
+    )
+  }
 }
 
 const LABEL_START = /^[A-Z_]/
@@ -208,7 +238,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   const operands: Operand[] = []
   const opcodes: number[] = []
   const position = token.position
-  let length: number
 
   const operandsCount = INSTRUCTION_OPERANDS_COUNT_MAP[instruction]
   switch (operandsCount) {
@@ -248,7 +277,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       }
 
       opcodes.push(instrOpcode)
-      length = instruction.length
       break
     }
     case 1: {
@@ -351,7 +379,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       if (instrOpcode !== null) {
         opcodes.push(instrOpcode)
       }
-      length = operand.token.position + operand.token.length - position
       break
     }
     case 2: {
@@ -555,7 +582,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
 
       operands.push(firstOperand, secondOperand)
       opcodes.push(instrOpcode)
-      length = secondOperand.token.position + secondOperand.token.length - position
     }
   }
 
@@ -574,14 +600,8 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     }
   })
 
-  return new Statement(label, instruction, operands, opcodes, position, length)
+  return new Statement(label, instruction, operands, opcodes, position)
 }
-
-const getConsumedTokensCount = (statement: Statement): number =>
-  /* label */ (statement.label !== null ? 1 : 0) +
-  /* instruction */ 1 +
-  /* operands */ statement.operands.length +
-  /* comma */ (statement.operands.length === 2 ? 1 : 0)
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
@@ -589,7 +609,7 @@ export const parse = (tokens: Token[]): Statement[] => {
   while (index < tokens.length) {
     const statement = parseStatement(tokens, index)
     statements.push(statement)
-    index += getConsumedTokensCount(statement)
+    index += statement.getConsumedTokensCount()
   }
   if (statements[statements.length - 1].instruction !== Instruction.END) {
     throw new MissingEndError()
