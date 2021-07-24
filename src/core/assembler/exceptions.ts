@@ -53,7 +53,18 @@ export class AddressError extends AssembleError {
 
 export class OperandTypeError extends AssembleError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
-    const types = expectedTypes.map(t => normalizeType(t)).join(' or ')
+    const types = expectedTypes
+      .map(t => normalizeType(t))
+      .reduce((acc, cur, index) => {
+        switch (index) {
+          case 0:
+            return cur
+          case expectedTypes.length - 1:
+            return `${acc} or ${cur}`
+          default:
+            return `${acc}, ${cur}`
+        }
+      }, '')
     super(`Expected ${types}: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }
