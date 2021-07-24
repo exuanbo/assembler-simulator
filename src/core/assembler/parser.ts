@@ -157,15 +157,31 @@ const checkComma = (token: Token): void => {
   }
 }
 
+type SecondOperandErrorCallback = (firstOperandType: OperandType, secondOperandToken: Token) => void
+
 const createDoubleOperandsParser =
   (tokens: Token[], index: number) =>
   (...firstExpectedTypes: OperandType[]) =>
-  (...secondExpectedTypes: OperandType[]): [first: Operand, second: Operand] => {
+  (
+    ...secondExpectedTypes: [...OperandType[], OperandType | SecondOperandErrorCallback]
+  ): [first: Operand, second: Operand] => {
     const parseOperand = createSingleOperandParser.bind(null, tokens)
 
     const firstOperand = parseOperand(index)(...firstExpectedTypes)
     checkComma(tokens[index + 1])
-    const secondOperand = parseOperand(index + 2)(...secondExpectedTypes)
+    let secondOperand: Operand
+    let callback: SecondOperandErrorCallback | undefined
+    if (typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function') {
+      callback = secondExpectedTypes.pop() as SecondOperandErrorCallback
+    }
+    try {
+      secondOperand = parseOperand(index + 2)(...(secondExpectedTypes as OperandType[]))
+    } catch (e) {
+      if (e instanceof OperandTypeError && callback !== undefined) {
+        callback(firstOperand.type, tokens[index + 2])
+      }
+      throw e
+    }
     return [firstOperand, secondOperand]
   }
 
@@ -479,7 +495,21 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             OperandType.Number,
             OperandType.Register,
             OperandType.Address,
-            OperandType.RegisterAddress
+            OperandType.RegisterAddress,
+            (firstOperandType, secondOperandToken) => {
+              switch (firstOperandType) {
+                case OperandType.Register:
+                  throw new OperandTypeError(
+                    secondOperandToken,
+                    OperandType.Number,
+                    OperandType.Address,
+                    OperandType.RegisterAddress
+                  )
+                case OperandType.Address:
+                case OperandType.RegisterAddress:
+                  throw new OperandTypeError(secondOperandToken, OperandType.Register)
+              }
+            }
           )
           switch (firstOperand.type) {
             case OperandType.Register:
