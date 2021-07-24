@@ -18,10 +18,8 @@ export class Token {
     this.type = type
     switch (type) {
       case TokenType.Address:
-        this.value = value.replace(/[[\]]/g, '')
-        break
       case TokenType.String:
-        this.value = value.replace(/"/g, '')
+        this.value = value.slice(1, -1)
         break
       default:
         this.value = value
