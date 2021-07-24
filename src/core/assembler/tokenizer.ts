@@ -40,31 +40,21 @@ export class Token {
   }
 }
 
-type TokenMatcher = (input: string, index: number) => Token | null
-
-const createTokenMatcher =
-  (regex: RegExp, type: TokenType): TokenMatcher =>
-  (input: string, index: number) => {
+const matchRegex =
+  (regex: RegExp, type: TokenType) =>
+  (input: string, index: number): Token | null => {
     const match = regex.exec(input.slice(index))
     return match === null ? null : new Token(type, match[0], index)
   }
 
-const matchWhitespace = createTokenMatcher(/^\s+/, TokenType.Whitespace)
-const matchComment = createTokenMatcher(/^;.*/, TokenType.Comment)
-const matchDigits = createTokenMatcher(/^\d+(?=,|;|\s+)/, TokenType.Digits)
-const matchAddress = createTokenMatcher(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address)
-const matchString = createTokenMatcher(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String)
-const matchComma = createTokenMatcher(/^,/, TokenType.Comma)
-const matchUnknown = createTokenMatcher(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
-
 const tokenMatchers = [
-  matchWhitespace,
-  matchComment,
-  matchDigits,
-  matchAddress,
-  matchString,
-  matchComma,
-  matchUnknown
+  matchRegex(/^\s+/, TokenType.Whitespace),
+  matchRegex(/^;.*/, TokenType.Comment),
+  matchRegex(/^\d+(?=,|;|\s+)/, TokenType.Digits),
+  matchRegex(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address),
+  matchRegex(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String),
+  matchRegex(/^,/, TokenType.Comma),
+  matchRegex(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
 ]
 
 export const tokenize = (input: string): Token[] => {
