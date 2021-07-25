@@ -57,6 +57,24 @@ class Operand<T extends OperandType = OperandType> {
     }
     this.token = token
   }
+
+  public static getOpcodes(...operands: Operand[]): number[] {
+    // TODO report bug
+    // eslint-disable-next-line array-callback-return
+    return operands.reduce<number[]>((opcodes, operand) => {
+      switch (operand.type) {
+        case OperandType.Number:
+        case OperandType.Register:
+        case OperandType.Address:
+        case OperandType.RegisterAddress:
+          return [...opcodes, operand.value as number]
+        case OperandType.Label:
+          return opcodes
+        case OperandType.String:
+          return [...opcodes, ...stringToAscii(operand.value as string)]
+      }
+    }, [])
+  }
 }
 
 class Statement {
@@ -585,20 +603,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     }
   }
 
-  operands.forEach(operand => {
-    switch (operand.type) {
-      case OperandType.Number:
-      case OperandType.Register:
-      case OperandType.Address:
-      case OperandType.RegisterAddress:
-        opcodes.push(operand.value as number)
-        break
-      case OperandType.Label:
-        break
-      case OperandType.String:
-        opcodes.push(...stringToAscii(operand.value as string))
-    }
-  })
+  if (instruction !== Instruction.ORG) {
+    opcodes.push(...Operand.getOpcodes(...operands))
+  }
 
   return new Statement(label, instruction, operands, opcodes, position)
 }
