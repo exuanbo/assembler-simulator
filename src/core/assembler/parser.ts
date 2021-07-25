@@ -236,7 +236,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   }
 
   const token = tokens[index]
-
+  if (token === undefined) {
+    throw new MissingEndError()
+  }
   if (token.type !== TokenType.Unknown || !(token.value in Instruction)) {
     throw new StatementError(token)
   }
