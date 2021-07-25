@@ -37,13 +37,13 @@ export enum OperandType {
   Register = 'REGISTER',
   Address = 'ADDRESS',
   RegisterAddress = 'REGISTER_ADDRESS',
-  Label = 'LABEL',
-  String = 'STRING'
+  String = 'STRING',
+  Label = 'LABEL'
 }
 
 class Operand<T extends OperandType = OperandType> {
   public type: T
-  public value: number | string
+  public value: number | number[] | undefined
   public token: Token
 
   constructor(type: T, token: Token) {
@@ -57,33 +57,13 @@ class Operand<T extends OperandType = OperandType> {
       case OperandType.RegisterAddress:
         this.value = REGISTER_CODE_MAP[token.value as Register]
         break
-      case OperandType.Label:
-        // TODO does `NaN` makes sense here?
-        this.value = NaN
+      case OperandType.String:
+        this.value = stringToAscii(token.value)
         break
-      default:
-        // case OperandType.String:
-        this.value = token.value
+      case OperandType.Label:
+        this.value = undefined
     }
     this.token = token
-  }
-
-  public static getOpcodes(...operands: Operand[]): number[] {
-    // TODO report bug
-    // eslint-disable-next-line array-callback-return
-    return operands.reduce<number[]>((opcodes, operand) => {
-      switch (operand.type) {
-        case OperandType.Number:
-        case OperandType.Register:
-        case OperandType.Address:
-        case OperandType.RegisterAddress:
-          return [...opcodes, operand.value as number]
-        case OperandType.Label:
-          return opcodes
-        case OperandType.String:
-          return [...opcodes, ...stringToAscii(operand.value as string)]
-      }
-    }, [])
   }
 }
 
@@ -615,7 +595,17 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   }
 
   if (instruction !== Instruction.ORG) {
-    opcodes.push(...Operand.getOpcodes(...operands))
+    opcodes.push(
+      ...operands.reduce<number[]>((resultArr, operand) => {
+        if (operand.value === undefined) {
+          return resultArr
+        }
+        if (typeof operand.value === 'number') {
+          return [...resultArr, operand.value]
+        }
+        return [...resultArr, ...operand.value]
+      }, [])
+    )
   }
 
   return new Statement(label, instruction, operands, opcodes, position)
