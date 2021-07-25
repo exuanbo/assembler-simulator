@@ -1,5 +1,5 @@
 import type { Token } from './tokenizer'
-import type { OperandType } from './parser'
+import type { Label, OperandType } from './parser'
 import { normalizeType } from '../utils'
 
 export abstract class AssemblerError extends Error {
@@ -82,8 +82,8 @@ export class MissingCommaError extends AssemblerError {
 }
 
 export class DuplicateLabelError extends AssemblerError {
-  constructor(identifier: string, position: number) {
-    super(`Duplicate label: ${identifier}`, position, identifier.length)
+  constructor(label: Label) {
+    super(`Duplicate label: ${label.identifier}`, label.token.position, label.identifier.length)
   }
 }
 
