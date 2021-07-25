@@ -248,13 +248,12 @@ const createDoubleOperandsParser =
   }
 
 const parseStatement = (tokens: Token[], index: number): Statement => {
-  let token = tokens[index]
-
   const label = parseLabel(tokens, index)
   if (label !== null) {
     index++
-    token = tokens[index]
   }
+
+  const token = tokens[index]
 
   if (token.type !== TokenType.Unknown || !(token.value in Instruction)) {
     throw new StatementError(token)
