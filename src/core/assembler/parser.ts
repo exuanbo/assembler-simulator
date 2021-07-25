@@ -149,7 +149,7 @@ const NUMBER = /^[\dA-F]+$/
 const REGISTER = /^[A-D]L$/
 
 const validateNumber = (token: Token): void => {
-  if (hexToDec(token.value) > 255) {
+  if (hexToDec(token.value) > 0xff) {
     throw new InvalidNumberError(token)
   }
 }
