@@ -2,13 +2,13 @@ import type { Token } from './tokenizer'
 import type { OperandType } from './parser'
 import { normalizeType } from '../utils'
 
-export abstract class AssembleError extends Error {
+export abstract class AssemblerError extends Error {
   constructor(msg: string, public position: number, public length: number) {
     super(msg)
   }
 }
 
-export class StatementError extends AssembleError {
+export class StatementError extends AssemblerError {
   constructor(token: Token) {
     super(
       `Expected instruction or label: ${token.getOriginalValue()}`,
@@ -18,7 +18,7 @@ export class StatementError extends AssembleError {
   }
 }
 
-export class InvalidLabelError extends AssembleError {
+export class InvalidLabelError extends AssemblerError {
   constructor(token: Token) {
     const identifier = token.value.endsWith(':') ? token.value.slice(-1) : token.value
     super(
@@ -29,13 +29,13 @@ export class InvalidLabelError extends AssembleError {
   }
 }
 
-export class MissingEndError extends AssembleError {
+export class MissingEndError extends AssemblerError {
   constructor() {
     super('Expected END at the end of the source code', 0, 0)
   }
 }
 
-export class InvalidNumberError extends AssembleError {
+export class InvalidNumberError extends AssemblerError {
   constructor(token: Token) {
     super(
       `Number should be hexadecimal and less than 256: ${token.value}`,
@@ -45,7 +45,7 @@ export class InvalidNumberError extends AssembleError {
   }
 }
 
-export class AddressError extends AssembleError {
+export class AddressError extends AssemblerError {
   constructor(token: Token) {
     const value = token.value.length > 0 ? token.value : ']'
     const length = token.value.length > 0 ? token.value.length : 1
@@ -57,7 +57,7 @@ export class AddressError extends AssembleError {
   }
 }
 
-export class OperandTypeError extends AssembleError {
+export class OperandTypeError extends AssemblerError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map(t => normalizeType(t))
@@ -75,19 +75,19 @@ export class OperandTypeError extends AssembleError {
   }
 }
 
-export class MissingCommaError extends AssembleError {
+export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
     super(`Expected ,: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }
 
-export class DuplicateLabelError extends AssembleError {
+export class DuplicateLabelError extends AssemblerError {
   constructor(identifier: string, position: number) {
     super(`Duplicate label: ${identifier}`, position, identifier.length)
   }
 }
 
-export class LabelNotExistError extends AssembleError {
+export class LabelNotExistError extends AssemblerError {
   constructor(identifier: string, position: number) {
     super(`Label does not exist: ${identifier}`, position, identifier.length)
   }
