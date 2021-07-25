@@ -1,10 +1,11 @@
 export enum TokenType {
   Whitespace = 'WHITESPACE',
   Comment = 'COMMENT',
+  Comma = 'COMMA',
   Digits = 'DIGITS',
+  Register = 'REGISTER',
   Address = 'ADDRESS',
   String = 'STRING',
-  Comma = 'COMMA',
   Unknown = 'UNKNOWN'
 }
 
@@ -50,10 +51,11 @@ const matchRegex =
 const tokenMatchers = [
   matchRegex(/^\s+/, TokenType.Whitespace),
   matchRegex(/^;.*/, TokenType.Comment),
+  matchRegex(/^,/, TokenType.Comma),
   matchRegex(/^\d+(?=,|;|\s+)/, TokenType.Digits),
+  matchRegex(/^[a-dA-D][lL](?=,|;|\s+)/, TokenType.Register),
   matchRegex(/^\[\S*?\](?=,|;|\s+)/, TokenType.Address),
   matchRegex(/^"[^\r\n]*?"(?=,|;|\s+)/, TokenType.String),
-  matchRegex(/^,/, TokenType.Comma),
   matchRegex(/^\S+?(?=,|;|\s+)/, TokenType.Unknown)
 ]
 
@@ -65,8 +67,11 @@ export const tokenize = (input: string): Token[] => {
       const token = matchToken(input, index)
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
-          if (token.type === TokenType.Address || token.type === TokenType.Unknown) {
-            token.value = token.value.toUpperCase()
+          switch (token.type) {
+            case TokenType.Register:
+            case TokenType.Address:
+            case TokenType.Unknown:
+              token.value = token.value.toUpperCase()
           }
           tokens.push(token)
         }

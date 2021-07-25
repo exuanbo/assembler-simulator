@@ -145,14 +145,14 @@ const parseLabel = (tokens: Token[], index: number): Label | null => {
   return new Label(token)
 }
 
-const NUMBER = /^[\dA-F]+$/
-const REGISTER = /^[A-D]L$/
-
 const validateNumber = (token: Token): void => {
   if (hexToDec(token.value) > 0xff) {
     throw new InvalidNumberError(token)
   }
 }
+
+const NUMBER = /^[\dA-F]+$/
+const REGISTER = /^[A-D]L$/
 
 const createSingleOperandParser =
   (tokens: Token[], index: number) =>
@@ -168,9 +168,15 @@ const createSingleOperandParser =
     switch (token.type) {
       case TokenType.Comma:
         break
-      case TokenType.String:
-        if (isExpected(OperandType.String)) {
-          return createOperand(OperandType.String)
+      case TokenType.Digits:
+        if (isExpected(OperandType.Number)) {
+          validateNumber(token)
+          return createOperand(OperandType.Number)
+        }
+        break
+      case TokenType.Register:
+        if (isExpected(OperandType.Register)) {
+          return createOperand(OperandType.Register)
         }
         break
       case TokenType.Address:
@@ -185,19 +191,15 @@ const createSingleOperandParser =
           throw new AddressError(token)
         }
         break
-      case TokenType.Digits:
-        if (isExpected(OperandType.Number)) {
-          validateNumber(token)
-          return createOperand(OperandType.Number)
+      case TokenType.String:
+        if (isExpected(OperandType.String)) {
+          return createOperand(OperandType.String)
         }
         break
       case TokenType.Unknown:
         if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
           validateNumber(token)
           return createOperand(OperandType.Number)
-        }
-        if (isExpected(OperandType.Register) && REGISTER.test(token.value)) {
-          return createOperand(OperandType.Register)
         }
         if (isExpected(OperandType.Label)) {
           validateLabel(token)
