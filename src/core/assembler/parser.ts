@@ -22,6 +22,16 @@ import {
   REGISTER_CODE_MAP
 } from '../constants'
 
+export class Label {
+  public identifier: string
+  public token: Token
+
+  constructor(token: Token) {
+    this.identifier = token.value.slice(0, -1)
+    this.token = token
+  }
+}
+
 export enum OperandType {
   Number = 'NUMBER',
   Register = 'REGISTER',
@@ -77,8 +87,8 @@ class Operand<T extends OperandType = OperandType> {
   }
 }
 
-class Statement {
-  public label: string | null
+export class Statement {
+  public label: Label | null
   public instruction: Instruction
   public operands: Operand[]
   public opcodes: number[]
@@ -86,7 +96,7 @@ class Statement {
   public length: number
 
   constructor(
-    label: string | null,
+    label: Label | null,
     instruction: Instruction,
     operands: Operand[],
     opcodes: number[],
@@ -126,13 +136,13 @@ const validateLabel = (token: Token): void => {
   }
 }
 
-const parseLabel = (tokens: Token[], index: number): string | null => {
+const parseLabel = (tokens: Token[], index: number): Label | null => {
   const token = tokens[index]
   if (!token.value.endsWith(':')) {
     return null
   }
   validateLabel(token)
-  return token.value.slice(0, -1)
+  return new Label(token)
 }
 
 const NUMBER = /^[\dA-F]+$/
