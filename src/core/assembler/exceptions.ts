@@ -88,7 +88,7 @@ export class DuplicateLabelError extends AssemblerError {
 }
 
 export class LabelNotExistError extends AssemblerError {
-  constructor(identifier: string, position: number) {
-    super(`Label does not exist: ${identifier}`, position, identifier.length)
+  constructor(token: Token) {
+    super(`Label does not exist: ${token.value}`, token.position, token.length)
   }
 }
