@@ -47,7 +47,13 @@ export class InvalidNumberError extends AssembleError {
 
 export class AddressError extends AssembleError {
   constructor(token: Token) {
-    super(`Expected a number or register: ${token.value}`, token.position + 1, token.length - 1)
+    const value = token.value.length > 0 ? token.value : ']'
+    const length = token.value.length > 0 ? token.value.length : 1
+    super(
+      `Expected a number or register: ${value}`,
+      token.position + /* opening bracket */ 1,
+      length
+    )
   }
 }
 
