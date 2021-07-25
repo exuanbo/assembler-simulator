@@ -1,5 +1,5 @@
 import { TokenType, Token } from './tokenizer'
-import { hexToDec, stringToAscii } from '../utils'
+import { hexToDec, stringToASCII } from '../utils'
 import {
   InvalidLabelError,
   StatementError,
@@ -58,7 +58,7 @@ class Operand<T extends OperandType = OperandType> {
         this.value = REGISTER_CODE_MAP[token.value as Register]
         break
       case OperandType.String:
-        this.value = stringToAscii(token.value)
+        this.value = stringToASCII(token.value)
         break
       case OperandType.Label:
         this.value = undefined

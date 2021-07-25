@@ -2,7 +2,7 @@ export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
 
-export const stringToAscii = (str: string): number[] =>
+export const stringToASCII = (str: string): number[] =>
   str.split('').map(char => char.charCodeAt(0))
 
 export const normalizeType = (type: string): string => type.toLowerCase().split('_').join(' ')
