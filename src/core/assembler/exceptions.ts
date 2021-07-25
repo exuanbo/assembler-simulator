@@ -61,8 +61,8 @@ export class OperandTypeError extends AssemblerError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map(t => normalizeType(t))
-      .reduce((acc, cur, index) => {
-        switch (index) {
+      .reduce((acc, cur, idx) => {
+        switch (idx) {
           case 0:
             return cur
           case expectedTypes.length - 1:
