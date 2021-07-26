@@ -600,7 +600,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     opcodes.push(
       ...operands.reduce<number[]>(
         (resultArr, operand) =>
-          operand.value === undefined ? resultArr : resultArr.concat(operand.value),
+          operand.value !== undefined ? resultArr.concat(operand.value) : resultArr,
         []
       )
     )

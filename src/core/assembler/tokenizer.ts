@@ -45,7 +45,7 @@ const matchRegex =
   (regex: RegExp, type: TokenType) =>
   (input: string, index: number): Token | null => {
     const match = regex.exec(input.slice(index))
-    return match === null ? null : new Token(type, match[0], index)
+    return match !== null ? new Token(type, match[0], index) : null
   }
 
 const tokenMatchers = [
@@ -65,6 +65,7 @@ export const tokenize = (input: string): Token[] => {
   while (index < input.length) {
     tokenMatchers.some(matchToken => {
       const token = matchToken(input, index)
+      // TODO `const isMatched = token !== null`
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           switch (token.type) {
