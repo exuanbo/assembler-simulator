@@ -47,12 +47,10 @@ export class InvalidNumberError extends AssemblerError {
 
 export class AddressError extends AssemblerError {
   constructor(token: Token) {
-    const value = token.value.length > 0 ? token.value : ']'
-    const length = token.value.length > 0 ? token.value.length : 1
     super(
-      `Expected a number or register: ${value}`,
+      `Expected a number or register: ${token.value.length > 0 ? token.value : ']'}`,
       token.position + /* opening bracket */ 1,
-      length
+      token.value.length > 0 ? token.value.length : 1
     )
   }
 }
@@ -77,7 +75,7 @@ export class OperandTypeError extends AssemblerError {
 
 export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected ,: ${token.getOriginalValue()}`, token.position, token.length)
+    super(`Expected comma: ${token.getOriginalValue()}`, token.position, token.length)
   }
 }
 
