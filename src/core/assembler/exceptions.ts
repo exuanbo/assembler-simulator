@@ -85,6 +85,12 @@ export class DuplicateLabelError extends AssemblerError {
   }
 }
 
+export class AssembleError extends AssemblerError {
+  constructor() {
+    super('Can not generate code beyond the end of RAM', 0, 0)
+  }
+}
+
 export class LabelNotExistError extends AssemblerError {
   constructor(token: Token) {
     super(`Label does not exist: ${token.value}`, token.position, token.length)
