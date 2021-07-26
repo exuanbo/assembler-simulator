@@ -41,9 +41,11 @@ export class Token {
   }
 }
 
+type TokenMatcher = (input: string, index: number) => Token | null
+
 const matchRegex =
-  (regex: RegExp, type: TokenType) =>
-  (input: string, index: number): Token | null => {
+  (regex: RegExp, type: TokenType): TokenMatcher =>
+  (input, index) => {
     const match = regex.exec(input.slice(index))
     return match !== null ? new Token(type, match[0], index) : null
   }
