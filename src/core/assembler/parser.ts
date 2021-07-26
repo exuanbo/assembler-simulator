@@ -198,8 +198,8 @@ const checkComma = (token: Token): void => {
   }
 }
 
-type SecondOperandErrorCallback<T extends OperandType> = (
-  firstOperandType: T,
+type SecondOperandErrorCallback<T1 extends OperandType> = (
+  firstOperandType: T1,
   secondOperandToken: Token
 ) => void
 
@@ -208,7 +208,7 @@ const createDoubleOperandsParser =
   <T1 extends OperandType>(...firstExpectedTypes: T1[]) =>
   <T2 extends OperandType>(
     ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
-  ): [first: Operand<T1>, second: Operand<T2>] => {
+  ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
     const parseOperand = createSingleOperandParser.bind(null, tokens)
 
     const firstOperand = parseOperand(index)(...firstExpectedTypes)
