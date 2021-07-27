@@ -599,13 +599,12 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   if (instruction !== Instruction.ORG) {
     opcodes.push(
       ...operands.reduce<number[]>(
-        (resultArr, operand) =>
-          operand.value !== undefined ? resultArr.concat(operand.value) : resultArr,
+        (operandsOpcodes, operand) =>
+          operand.value !== undefined ? operandsOpcodes.concat(operand.value) : operandsOpcodes,
         []
       )
     )
   }
-
   return new Statement(label, instruction, operands, opcodes, position)
 }
 
