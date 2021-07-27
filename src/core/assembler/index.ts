@@ -6,7 +6,8 @@ import { Instruction } from '../constants'
 
 const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
   const [, labelAddressMap] = statements.reduce(
-    ([addressPointer, labelAddressMap], { label, instruction, operands, opcodes }) => {
+    ([addressPointer, labelAddressMap], statement) => {
+      const { label, instruction, operands, opcodes } = statement
       if (label !== null) {
         if (labelAddressMap.has(label.identifier)) {
           throw new DuplicateLabelError(label)
@@ -22,7 +23,7 @@ const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
         opcodes.length +
         (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
       if (nextAddressPointer > 0xff) {
-        throw new AssembleError()
+        throw new AssembleError(statement)
       }
       return [nextAddressPointer, labelAddressMap]
     },

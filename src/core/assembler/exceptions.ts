@@ -1,5 +1,5 @@
 import type { Token } from './tokenizer'
-import type { Label, OperandType } from './parser'
+import type { Label, OperandType, Statement } from './parser'
 import { normalizeType } from '../utils'
 
 export abstract class AssemblerError extends Error {
@@ -86,8 +86,8 @@ export class DuplicateLabelError extends AssemblerError {
 }
 
 export class AssembleError extends AssemblerError {
-  constructor() {
-    super('Can not generate code beyond the end of RAM', 0, 0)
+  constructor(statement: Statement) {
+    super('Can not generate code beyond the end of RAM', statement.position, statement.length)
   }
 }
 
