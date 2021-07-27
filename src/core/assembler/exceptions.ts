@@ -20,9 +20,9 @@ export class StatementError extends AssemblerError {
 
 export class InvalidLabelError extends AssemblerError {
   constructor(token: Token) {
-    const identifier = token.value.endsWith(':') ? token.value.slice(-1) : token.value
+    const identifier = token.value.endsWith(':') ? token.value.slice(0, -1) : token.value
     super(
-      `Label should start with a charactor or _: ${identifier}`,
+      `Label should start with a charactor or underscore: ${identifier}`,
       token.position,
       identifier.length
     )
@@ -38,7 +38,7 @@ export class MissingEndError extends AssemblerError {
 export class InvalidNumberError extends AssemblerError {
   constructor(token: Token) {
     super(
-      `Number should be hexadecimal and less than 256: ${token.value}`,
+      `Number should be hexadecimal and less than or equal to FF: ${token.value}`,
       token.position,
       token.length
     )
