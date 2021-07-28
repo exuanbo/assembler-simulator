@@ -8,9 +8,9 @@ export const stringToASCII = (str: string): number[] =>
 export const normalizeType = (type: string): string => type.toLowerCase().split('_').join(' ')
 
 export const splitUint8ArrayPerChunk = (arr: Uint8Array, perChunk: number): number[][] =>
-  arr.reduce((resArr: number[][], item, itemIndex) => {
-    const chunkIndex = Math.floor(itemIndex / perChunk)
-    resArr[chunkIndex] = resArr[chunkIndex] ?? []
-    resArr[chunkIndex].push(item)
-    return resArr
+  arr.reduce<number[][]>((matrix, value, index) => {
+    const chunkIndex = Math.floor(index / perChunk)
+    matrix[chunkIndex] = matrix[chunkIndex] ?? []
+    matrix[chunkIndex].push(value)
+    return matrix
   }, [])
