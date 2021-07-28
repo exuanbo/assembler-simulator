@@ -1,27 +1,23 @@
 import React, { useEffect, useRef } from 'react'
 import Status from './Status'
-import { codeState, tokenState, addressState, errorState } from '../atoms'
-import { tokenize } from '../core/tokenize'
-import { assemble } from '../core/assemble'
+import { codeState, memoryState, errorState } from '../atoms'
+import { assemble } from '../core/assembler'
 
 interface Props {
-  className: string
+  className?: string
 }
 
-const CodeArea: React.FC<Props> = ({ className }) => {
+const CodeArea = ({ className }: Props): JSX.Element => {
   const [code, setCode] = codeState.useState()
-  const [, setTokens] = tokenState.useState()
-  const [, setAdress] = addressState.useState()
+  const [, setMemory] = memoryState.useState()
   const [, setError] = errorState.useState()
 
   const textArea = useRef<HTMLTextAreaElement>(null)
 
   const handleCodeChange = (): void => {
     try {
-      const newTokens = tokenize(code)
-      setTokens(newTokens)
-      const newAddress = assemble(newTokens)
-      setAdress(newAddress)
+      const [data] = assemble(code)
+      setMemory(data)
       setError(null)
     } catch (err) {
       setError(err.message)
@@ -51,10 +47,7 @@ const CodeArea: React.FC<Props> = ({ className }) => {
             const { current } = textArea
             if (current !== null) {
               const { selectionStart, selectionEnd, value } = current
-              current.value =
-                value.substring(0, selectionStart) +
-                '\t' +
-                value.substring(selectionEnd)
+              current.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd)
               current.selectionStart = current.selectionEnd = selectionStart + 1
             }
           }

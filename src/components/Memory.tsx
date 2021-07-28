@@ -1,14 +1,18 @@
 import React from 'react'
 import Card from './Card'
-import { addressState } from '../atoms'
+import { memoryState } from '../atoms'
 import { decToHex, splitUint8ArrayPerChunk } from '../core/utils'
 
-const Memory: React.FC = () => {
-  const [address] = addressState.useState()
+interface Props {
+  className?: string
+}
+
+const Memory = ({ className }: Props): JSX.Element => {
+  const [address] = memoryState.useState()
   const addressMatrix = splitUint8ArrayPerChunk(address, 0x10)
 
   return (
-    <Card title="Memory">
+    <Card className={className} title="Memory">
       <table className="w-full font-mono text-sm leading-tight divide-y">
         <thead>
           <tr className="divide-x bg-gray-50">
@@ -23,13 +27,9 @@ const Memory: React.FC = () => {
         <tbody className="divide-y">
           {addressMatrix.map((row, rowIndex) => (
             <tr key={`row-${rowIndex}`} className="divide-x">
-              <td className="text-center bg-gray-50">
-                {decToHex(rowIndex)[1]}
-              </td>
+              <td className="text-center bg-gray-50">{decToHex(rowIndex)[1]}</td>
               {row.map((addr, addrIndex) => (
-                <td
-                  key={`row-${rowIndex}-col-${addrIndex}`}
-                  className="text-center">
+                <td key={`row-${rowIndex}-col-${addrIndex}`} className="text-center">
                   {decToHex(addr)}
                 </td>
               ))}

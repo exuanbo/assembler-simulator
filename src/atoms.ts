@@ -1,6 +1,4 @@
 import { atom } from 'precoil'
-import type { TokenizeResult } from './core/tokenize'
-import { generateAddressArr } from './core/assemble'
 
 const DEFAULT_INPUT = `mov al, 5A
 mov bl, D3
@@ -24,11 +22,6 @@ end
 
 export const codeState = atom(DEFAULT_INPUT)
 
-export const tokenState = atom<TokenizeResult>({
-  statements: [],
-  labels: []
-})
-
-export const addressState = atom(generateAddressArr(true))
+export const memoryState = atom(new Uint8Array(0x100))
 
 export const errorState = atom<string | null>(null)

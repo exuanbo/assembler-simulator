@@ -2,12 +2,11 @@ import React from 'react'
 import { Play, Forward, Redo, Github } from './Icons'
 
 interface Props {
-  className: string
+  className?: string
 }
 
-const Headbar: React.FC<Props> = ({ className }) => (
-  <nav
-    className={`flex items-center justify-between h-10 px-3 bg-gray-50 ${className}`}>
+const Headbar = ({ className }: Props): JSX.Element => (
+  <nav className={`flex items-center justify-between h-10 px-3 bg-gray-50 ${className}`}>
     <div className="flex space-x-3">
       <button className="flex items-center space-x-1 focus:outline-none">
         <Play aria-hidden="true" className="h-4 -ml-1" />

@@ -1,6 +1,14 @@
 import React from 'react'
 import Card from './Card'
 
-const CPURegisters: React.FC = () => <Card title="CPU Registers" />
+interface Props {
+  className?: string
+}
+
+const CPURegisters = ({ className }: Props): JSX.Element => (
+  <Card className={className} title="CPU Registers">
+    <div />
+  </Card>
+)
 
 export default CPURegisters
