@@ -203,9 +203,7 @@ const parseDoubleOperands =
   <T2 extends OperandType>(
     ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
-    const parseOperand = parseSingleOperand.bind(null, tokens)
-
-    const firstOperand = parseOperand(index)(...firstExpectedTypes)
+    const firstOperand = parseSingleOperand(tokens, index)(...firstExpectedTypes)
     checkComma(tokens[index + 1])
     const secondOperand = ((): Operand<T2> => {
       const callback =
@@ -213,7 +211,7 @@ const parseDoubleOperands =
           ? (secondExpectedTypes.pop() as SecondOperandErrorCallback<T1>)
           : undefined
       try {
-        return parseOperand(index + 2)(...(secondExpectedTypes as T2[]))
+        return parseSingleOperand(tokens, index + 2)(...(secondExpectedTypes as T2[]))
       } catch (e) {
         if (e instanceof OperandTypeError && callback !== undefined) {
           callback(firstOperand.type, tokens[index + 2])
