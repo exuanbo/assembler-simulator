@@ -63,15 +63,14 @@ export const tokenize = (input: string): Token[] => {
   while (index < input.length) {
     tokenMatchers.some(matchToken => {
       const token = matchToken(input, index)
-      // TODO `const isMatched = token !== null`
-      if (token !== null) {
+      const isMatched = token !== null
+      if (isMatched) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
         index += token.length
-        return true
       }
-      return false
+      return isMatched
     })
   }
   return tokens
