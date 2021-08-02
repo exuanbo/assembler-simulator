@@ -3,8 +3,13 @@ import type { Label, OperandType, Statement } from './parser'
 import { normalizeType } from '../utils'
 
 export abstract class AssemblerError extends Error {
-  constructor(msg: string, public position: number, public length: number) {
+  public position: number
+  public length: number
+
+  constructor(msg: string, position: number, length: number) {
     super(msg)
+    this.position = position
+    this.length = length
   }
 }
 
