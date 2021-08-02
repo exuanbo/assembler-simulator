@@ -1,5 +1,5 @@
-import { TokenType, Token } from './tokenizer'
-import { hexToDec, stringToASCII } from '../utils'
+import type { Token } from './tokenizer'
+import { TokenType } from './tokenizer'
 import {
   InvalidLabelError,
   StatementError,
@@ -9,26 +9,26 @@ import {
   OperandTypeError,
   MissingCommaError
 } from './exceptions'
-import type {
-  InstructionWithNoOperand,
-  InstructionWithOneOperand,
-  InstructionWithTwoOperands
-} from '../constants'
+import { hexToDec, stringToASCII } from '../utils'
+import type { InstructionWithOneOperand, InstructionWithTwoOperands } from '../constants'
 import {
   Instruction,
-  Opcode,
   INSTRUCTION_OPERANDS_COUNT_MAP,
+  InstrOpcode,
   Register,
   REGISTER_CODE_MAP
 } from '../constants'
 
-export class Label {
-  public identifier: string
-  public token: Token
+export interface Label {
+  identifier: string
+  token: Token
+}
 
-  constructor(token: Token) {
-    this.identifier = token.value.slice(0, -1)
-    this.token = token
+const createLabel = (token: Token): Label => {
+  const identifier = token.value.slice(0, -1)
+  return {
+    identifier,
+    token
   }
 }
 
@@ -41,70 +41,64 @@ export enum OperandType {
   Label = 'LABEL'
 }
 
-class Operand<T extends OperandType = OperandType> {
-  public type: T
-  public value: number | number[] | undefined
-  public token: Token
+interface Operand<T extends OperandType = OperandType> {
+  type: T
+  value: number | number[] | undefined
+  token: Token
+}
 
-  constructor(type: T, token: Token) {
-    this.type = type
+const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
+  const value = ((): Operand['value'] => {
     switch (type) {
       case OperandType.Number:
       case OperandType.Address:
-        this.value = hexToDec(token.value)
-        break
+        return hexToDec(token.value)
       case OperandType.Register:
       case OperandType.RegisterAddress:
-        this.value = REGISTER_CODE_MAP[token.value as Register]
-        break
+        return REGISTER_CODE_MAP[token.value as Register]
       case OperandType.String:
-        this.value = stringToASCII(token.value)
-        break
+        return stringToASCII(token.value)
       case OperandType.Label:
-        this.value = undefined
+        return undefined
     }
-    this.token = token
+  })()
+  return {
+    type,
+    value,
+    token
   }
 }
 
-export class Statement {
-  public label: Label | null
-  public instruction: Instruction
-  public operands: Operand[]
-  public opcodes: number[]
-  public position: number
-  public length: number
+export interface Statement {
+  label: Label | null
+  instruction: Instruction
+  operands: Operand[]
+  opcodes: number[]
+  position: number
+  length: number
+}
 
-  constructor(
-    label: Label | null,
-    instruction: Instruction,
-    operands: Operand[],
-    opcodes: number[],
-    position: number
-  ) {
-    this.label = label
-    this.instruction = instruction
-    this.operands = operands
-    this.opcodes = opcodes
-    this.position = position
-    this.length = this.getLength()
-  }
-
-  private getLength(): number {
-    if (this.operands.length > 0) {
-      const lastOperand = this.operands[this.operands.length - 1]
-      return lastOperand.token.position + lastOperand.token.length - this.position
+const createStatement = (
+  label: Label | null,
+  instruction: Instruction,
+  operands: Operand[],
+  opcodes: number[],
+  position: number
+): Statement => {
+  const length = ((): number => {
+    if (operands.length > 0) {
+      const lastOperand = operands[operands.length - 1]
+      return lastOperand.token.position + lastOperand.token.length - position
     }
-    return this.instruction.length
-  }
-
-  public get consumedTokensCount(): number {
-    return (
-      /* label */ (this.label !== null ? 1 : 0) +
-      /* instruction */ 1 +
-      /* operands */ this.operands.length +
-      /* comma */ (this.operands.length === 2 ? 1 : 0)
-    )
+    return instruction.length
+  })()
+  return {
+    label,
+    instruction,
+    operands,
+    opcodes,
+    position,
+    length
   }
 }
 
@@ -122,7 +116,7 @@ const parseLabel = (tokens: Token[], index: number): Label | null => {
     return null
   }
   validateLabel(token)
-  return new Label(token)
+  return createLabel(token)
 }
 
 const validateNumber = (token: Token): void => {
@@ -134,7 +128,7 @@ const validateNumber = (token: Token): void => {
 const NUMBER = /^[\dA-F]+$/
 const REGISTER = /^[A-D]L$/
 
-const createSingleOperandParser =
+const parseSingleOperand =
   (tokens: Token[], index: number) =>
   <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
     const token = tokens[index]
@@ -143,7 +137,7 @@ const createSingleOperandParser =
     }
 
     const isExpected = (type: OperandType): boolean => expectedTypes.some(t => t === type)
-    const createOperand = (type: OperandType): Operand<T> => new Operand(type as T, token)
+    const createOperandOf = (type: OperandType): Operand<T> => createOperand(type as T, token)
 
     switch (token.type) {
       case TokenType.Comma:
@@ -151,39 +145,39 @@ const createSingleOperandParser =
       case TokenType.Digits:
         if (isExpected(OperandType.Number)) {
           validateNumber(token)
-          return createOperand(OperandType.Number)
+          return createOperandOf(OperandType.Number)
         }
         break
       case TokenType.Register:
         if (isExpected(OperandType.Register)) {
-          return createOperand(OperandType.Register)
+          return createOperandOf(OperandType.Register)
         }
         break
       case TokenType.Address:
         if (isExpected(OperandType.Address) || isExpected(OperandType.RegisterAddress)) {
           if (NUMBER.test(token.value)) {
             validateNumber(token)
-            return createOperand(OperandType.Address)
+            return createOperandOf(OperandType.Address)
           }
           if (REGISTER.test(token.value)) {
-            return createOperand(OperandType.RegisterAddress)
+            return createOperandOf(OperandType.RegisterAddress)
           }
           throw new AddressError(token)
         }
         break
       case TokenType.String:
         if (isExpected(OperandType.String)) {
-          return createOperand(OperandType.String)
+          return createOperandOf(OperandType.String)
         }
         break
       case TokenType.Unknown:
         if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
           validateNumber(token)
-          return createOperand(OperandType.Number)
+          return createOperandOf(OperandType.Number)
         }
         if (isExpected(OperandType.Label)) {
           validateLabel(token)
-          return createOperand(OperandType.Label)
+          return createOperandOf(OperandType.Label)
         }
     }
     throw new OperandTypeError(token, ...expectedTypes)
@@ -203,29 +197,30 @@ type SecondOperandErrorCallback<T1 extends OperandType> = (
   secondOperandToken: Token
 ) => void
 
-const createDoubleOperandsParser =
+const parseDoubleOperands =
   (tokens: Token[], index: number) =>
   <T1 extends OperandType>(...firstExpectedTypes: T1[]) =>
   <T2 extends OperandType>(
     ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
-    const parseOperand = createSingleOperandParser.bind(null, tokens)
+    const parseOperand = parseSingleOperand.bind(null, tokens)
 
     const firstOperand = parseOperand(index)(...firstExpectedTypes)
     checkComma(tokens[index + 1])
-    let secondOperand: Operand<T2>
-    let callback: SecondOperandErrorCallback<T1> | undefined
-    if (typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function') {
-      callback = secondExpectedTypes.pop() as SecondOperandErrorCallback<T1>
-    }
-    try {
-      secondOperand = parseOperand(index + 2)(...(secondExpectedTypes as T2[]))
-    } catch (e) {
-      if (e instanceof OperandTypeError && callback !== undefined) {
-        callback(firstOperand.type, tokens[index + 2])
+    const secondOperand = ((): Operand<T2> => {
+      const callback =
+        typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function'
+          ? (secondExpectedTypes.pop() as SecondOperandErrorCallback<T1>)
+          : undefined
+      try {
+        return parseOperand(index + 2)(...(secondExpectedTypes as T2[]))
+      } catch (e) {
+        if (e instanceof OperandTypeError && callback !== undefined) {
+          callback(firstOperand.type, tokens[index + 2])
+        }
+        throw e
       }
-      throw e
-    }
+    })()
     return [firstOperand, secondOperand]
   }
 
@@ -253,129 +248,96 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   const operandsCount = INSTRUCTION_OPERANDS_COUNT_MAP[instruction]
   switch (operandsCount) {
     case 0: {
-      let instrOpcode: Opcode
-
-      switch (instruction as InstructionWithNoOperand) {
-        case Instruction.END:
-          instrOpcode = Opcode.END
-          break
-        case Instruction.PUSHF:
-          instrOpcode = Opcode.PUSHF
-          break
-        case Instruction.POPF:
-          instrOpcode = Opcode.POPF
-          break
-        case Instruction.RET:
-          instrOpcode = Opcode.POPF
-          break
-        case Instruction.IRET:
-          instrOpcode = Opcode.IRET
-          break
-        case Instruction.HALT:
-          instrOpcode = Opcode.HALT
-          break
-        case Instruction.NOP:
-          instrOpcode = Opcode.NOP
-          break
-        case Instruction.CLO:
-          instrOpcode = Opcode.CLO
-          break
-        case Instruction.CLI:
-          instrOpcode = Opcode.CLI
-          break
-        case Instruction.STI:
-          instrOpcode = Opcode.STI
-      }
-
+      const instrOpcode = InstrOpcode[instruction as keyof typeof InstrOpcode]
       opcodes.push(instrOpcode)
       break
     }
     case 1: {
       let operand
-      let instrOpcode: Opcode | null
+      let instrOpcode: InstrOpcode | null
 
-      const parseOperand = createSingleOperandParser(tokens, index)
+      const parseOperand = parseSingleOperand(tokens, index)
 
       switch (instruction as InstructionWithOneOperand) {
         case Instruction.INC:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.INC_REG
+          instrOpcode = InstrOpcode.INC_REG
           break
         case Instruction.DEC:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.DEC_REG
+          instrOpcode = InstrOpcode.DEC_REG
           break
         case Instruction.NOT:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.NOT_REG
+          instrOpcode = InstrOpcode.NOT_REG
           break
         case Instruction.ROL:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.ROL_REG
+          instrOpcode = InstrOpcode.ROL_REG
           break
         case Instruction.ROR:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.ROR_REG
+          instrOpcode = InstrOpcode.ROR_REG
           break
         case Instruction.SHL:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.SHL_REG
+          instrOpcode = InstrOpcode.SHL_REG
           break
         case Instruction.SHR:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.SHR_REG
+          instrOpcode = InstrOpcode.SHR_REG
           break
         case Instruction.JMP:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JMP
+          instrOpcode = InstrOpcode.JMP
           break
         case Instruction.JZ:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JZ
+          instrOpcode = InstrOpcode.JZ
           break
         case Instruction.JNZ:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JNZ
+          instrOpcode = InstrOpcode.JNZ
           break
         case Instruction.JS:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JS
+          instrOpcode = InstrOpcode.JS
           break
         case Instruction.JNS:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JNS
+          instrOpcode = InstrOpcode.JNS
           break
         case Instruction.JO:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JO
+          instrOpcode = InstrOpcode.JO
           break
         case Instruction.JNO:
           operand = parseOperand(OperandType.Label)
-          instrOpcode = Opcode.JNO
+          instrOpcode = InstrOpcode.JNO
           break
         case Instruction.PUSH:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.PUSH_FROM_REG
+          instrOpcode = InstrOpcode.PUSH_FROM_REG
           break
         case Instruction.POP:
           operand = parseOperand(OperandType.Register)
-          instrOpcode = Opcode.POP_TO_REG
+          instrOpcode = InstrOpcode.POP_TO_REG
           break
         case Instruction.CALL:
           operand = parseOperand(OperandType.Number)
-          instrOpcode = Opcode.CALL_ADDR_NUM
+          instrOpcode = InstrOpcode.CALL_ADDR_NUM
           break
         case Instruction.INT:
           operand = parseOperand(OperandType.Number)
-          instrOpcode = Opcode.INT_ADDR_NUM
+          instrOpcode = InstrOpcode.INT_ADDR_NUM
           break
         case Instruction.IN:
           operand = parseOperand(OperandType.Number)
-          instrOpcode = Opcode.IN_FROM_PORT_TO_AL
+          instrOpcode = InstrOpcode.IN_FROM_PORT_TO_AL
           break
         case Instruction.OUT:
           operand = parseOperand(OperandType.Number)
-          instrOpcode = Opcode.OUT_FROM_AL_TO_PORT
+          instrOpcode = InstrOpcode.OUT_FROM_AL_TO_PORT
           break
         case Instruction.ORG:
           operand = parseOperand(OperandType.Number)
@@ -395,9 +357,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     case 2: {
       let firstOperand
       let secondOperand
-      let instrOpcode: Opcode
+      let instrOpcode: InstrOpcode
 
-      const parseOperands = createDoubleOperandsParser(tokens, index)
+      const parseOperands = parseDoubleOperands(tokens, index)
 
       switch (instruction as InstructionWithTwoOperands) {
         case Instruction.ADD:
@@ -407,10 +369,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.ADD_REG_TO_REG
+              instrOpcode = InstrOpcode.ADD_REG_TO_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.ADD_NUM_TO_REG
+              instrOpcode = InstrOpcode.ADD_NUM_TO_REG
               break
           }
           break
@@ -421,10 +383,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.SUB_REG_FROM_REG
+              instrOpcode = InstrOpcode.SUB_REG_FROM_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.SUB_NUM_FROM_REG
+              instrOpcode = InstrOpcode.SUB_NUM_FROM_REG
               break
           }
           break
@@ -435,10 +397,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.MUL_REG_BY_REG
+              instrOpcode = InstrOpcode.MUL_REG_BY_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.MUL_REG_BY_NUM
+              instrOpcode = InstrOpcode.MUL_REG_BY_NUM
               break
           }
           break
@@ -449,10 +411,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.DIV_REG_BY_REG
+              instrOpcode = InstrOpcode.DIV_REG_BY_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.DIV_REG_BY_NUM
+              instrOpcode = InstrOpcode.DIV_REG_BY_NUM
               break
           }
           break
@@ -463,10 +425,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.MOD_REG_BY_REG
+              instrOpcode = InstrOpcode.MOD_REG_BY_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.MOD_REG_BY_NUM
+              instrOpcode = InstrOpcode.MOD_REG_BY_NUM
               break
           }
           break
@@ -477,10 +439,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.AND_REG_WITH_REG
+              instrOpcode = InstrOpcode.AND_REG_WITH_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.AND_REG_WITH_NUM
+              instrOpcode = InstrOpcode.AND_REG_WITH_NUM
               break
           }
           break
@@ -491,10 +453,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.OR_REG_WITH_REG
+              instrOpcode = InstrOpcode.OR_REG_WITH_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.OR_REG_WITH_NUM
+              instrOpcode = InstrOpcode.OR_REG_WITH_NUM
               break
           }
           break
@@ -505,10 +467,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.XOR_REG_WITH_REG
+              instrOpcode = InstrOpcode.XOR_REG_WITH_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.XOR_REG_WITH_NUM
+              instrOpcode = InstrOpcode.XOR_REG_WITH_NUM
               break
           }
           break
@@ -541,7 +503,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
             case OperandType.Register:
               switch (secondOperand.type) {
                 case OperandType.Number:
-                  instrOpcode = Opcode.MOV_NUM_TO_REG
+                  instrOpcode = InstrOpcode.MOV_NUM_TO_REG
                   break
                 case OperandType.Register:
                   throw new OperandTypeError(
@@ -551,10 +513,10 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
                     OperandType.RegisterAddress
                   )
                 case OperandType.Address:
-                  instrOpcode = Opcode.MOV_ADDR_TO_REG
+                  instrOpcode = InstrOpcode.MOV_ADDR_TO_REG
                   break
                 case OperandType.RegisterAddress:
-                  instrOpcode = Opcode.MOV_REG_ADDR_TO_REG
+                  instrOpcode = InstrOpcode.MOV_REG_ADDR_TO_REG
                   break
               }
               break
@@ -562,13 +524,13 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               if (secondOperand.type !== OperandType.Register) {
                 throw new OperandTypeError(secondOperand.token, OperandType.Register)
               }
-              instrOpcode = Opcode.MOV_REG_TO_ADDR
+              instrOpcode = InstrOpcode.MOV_REG_TO_ADDR
               break
             case OperandType.RegisterAddress:
               if (secondOperand.type !== OperandType.Register) {
                 throw new OperandTypeError(secondOperand.token, OperandType.Register)
               }
-              instrOpcode = Opcode.MOV_REG_TO_REG_ADDR
+              instrOpcode = InstrOpcode.MOV_REG_TO_REG_ADDR
               break
           }
           break
@@ -580,13 +542,13 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              instrOpcode = Opcode.CMP_REG_WITH_REG
+              instrOpcode = InstrOpcode.CMP_REG_WITH_REG
               break
             case OperandType.Number:
-              instrOpcode = Opcode.CMP_REG_WITH_NUM
+              instrOpcode = InstrOpcode.CMP_REG_WITH_NUM
               break
             case OperandType.Address:
-              instrOpcode = Opcode.CMP_REG_WITH_ADDR
+              instrOpcode = InstrOpcode.CMP_REG_WITH_ADDR
               break
           }
       }
@@ -605,7 +567,17 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       )
     )
   }
-  return new Statement(label, instruction, operands, opcodes, position)
+  return createStatement(label, instruction, operands, opcodes, position)
+}
+
+const getConsumedTokensCount = (statement: Statement): number => {
+  const { label, operands } = statement
+  return (
+    /* label */ (label !== null ? 1 : 0) +
+    /* instruction */ 1 +
+    /* operands */ operands.length +
+    /* comma */ (operands.length === 2 ? 1 : 0)
+  )
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
@@ -614,7 +586,7 @@ export const parse = (tokens: Token[]): Statement[] => {
   while (index < tokens.length) {
     const statement = parseStatement(tokens, index)
     statements.push(statement)
-    index += statement.consumedTokensCount
+    index += getConsumedTokensCount(statement)
   }
   if (statements[statements.length - 1].instruction !== Instruction.END) {
     throw new MissingEndError()

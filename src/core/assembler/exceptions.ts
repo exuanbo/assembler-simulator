@@ -1,4 +1,5 @@
 import type { Token } from './tokenizer'
+import { TokenType } from './tokenizer'
 import type { Label, OperandType, Statement } from './parser'
 import { normalizeType } from '../utils'
 
@@ -13,9 +14,20 @@ export abstract class AssemblerError extends Error {
   }
 }
 
+const getOriginalValue = (token: Token): string => {
+  switch (token.type) {
+    case TokenType.Address:
+      return `[${token.value}]`
+    case TokenType.String:
+      return `"${token.value}"`
+    default:
+      return token.value
+  }
+}
+
 export class StatementError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected instruction or label: ${token.originalValue}`, token.position, token.length)
+    super(`Expected instruction or label: ${getOriginalValue(token)}`, token.position, token.length)
   }
 }
 
@@ -70,13 +82,13 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${token.originalValue}`, token.position, token.length)
+    super(`Expected ${types}: ${getOriginalValue(token)}`, token.position, token.length)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected comma: ${token.originalValue}`, token.position, token.length)
+    super(`Expected comma: ${getOriginalValue(token)}`, token.position, token.length)
   }
 }
 

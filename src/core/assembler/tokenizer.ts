@@ -9,35 +9,31 @@ export enum TokenType {
   Unknown = 'UNKNOWN'
 }
 
-export class Token {
-  public type: TokenType
-  public value: string
-  public position: number
-  public length: number
+export interface Token {
+  type: TokenType
+  value: string
+  position: number
+  length: number
+}
 
-  constructor(type: TokenType, value: string, position: number) {
-    this.type = type
+const createToken = (type: TokenType, value: string, position: number): Token => {
+  const tokenValue = ((): string => {
+    const normalizedValue = value.replace(/^[["](.*)["\]]$/, '$1')
     switch (type) {
+      case TokenType.Register:
       case TokenType.Address:
-      case TokenType.String:
-        this.value = value.slice(1, -1)
-        break
+      case TokenType.Unknown:
+        return normalizedValue.toUpperCase()
       default:
-        this.value = value
+        return normalizedValue
     }
-    this.position = position
-    this.length = value.length
-  }
-
-  public get originalValue(): string {
-    switch (this.type) {
-      case TokenType.Address:
-        return `[${this.value}]`
-      case TokenType.String:
-        return `"${this.value}"`
-      default:
-        return this.value
-    }
+  })()
+  const length = value.length
+  return {
+    type,
+    value: tokenValue,
+    position,
+    length
   }
 }
 
@@ -47,7 +43,7 @@ const matchRegex =
   (regex: RegExp, type: TokenType): TokenMatcher =>
   (input, index) => {
     const match = regex.exec(input.slice(index))
-    return match !== null ? new Token(type, match[0], index) : null
+    return match !== null ? createToken(type, match[0], index) : null
   }
 
 const tokenMatchers = [
@@ -70,12 +66,6 @@ export const tokenize = (input: string): Token[] => {
       // TODO `const isMatched = token !== null`
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
-          switch (token.type) {
-            case TokenType.Register:
-            case TokenType.Address:
-            case TokenType.Unknown:
-              token.value = token.value.toUpperCase()
-          }
           tokens.push(token)
         }
         index += token.length

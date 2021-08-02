@@ -63,7 +63,108 @@ export enum Instruction {
   STI = 'STI'
 }
 
-export enum Opcode {
+export const INSTRUCTION_OPERANDS_COUNT_MAP = {
+  [Instruction.END]: 0,
+
+  // Arithmetic
+  [Instruction.ADD]: 2,
+  [Instruction.SUB]: 2,
+  [Instruction.MUL]: 2,
+  [Instruction.DIV]: 2,
+  [Instruction.MOD]: 2,
+  [Instruction.INC]: 1,
+  [Instruction.DEC]: 1,
+
+  // Logic
+  [Instruction.AND]: 2,
+  [Instruction.OR]: 2,
+  [Instruction.XOR]: 2,
+  [Instruction.NOT]: 1,
+
+  // Bitwise
+  [Instruction.ROL]: 1,
+  [Instruction.ROR]: 1,
+  [Instruction.SHL]: 1,
+  [Instruction.SHR]: 1,
+
+  // Jump
+  [Instruction.JMP]: 1,
+  [Instruction.JZ]: 1,
+  [Instruction.JNZ]: 1,
+  [Instruction.JS]: 1,
+  [Instruction.JNS]: 1,
+  [Instruction.JO]: 1,
+  [Instruction.JNO]: 1,
+
+  // Move
+  [Instruction.MOV]: 2,
+
+  // Compare
+  [Instruction.CMP]: 2,
+
+  // Stack
+  [Instruction.PUSH]: 1,
+  [Instruction.POP]: 1,
+  [Instruction.PUSHF]: 0,
+  [Instruction.POPF]: 0,
+
+  // Procedures and Interrupts
+  [Instruction.CALL]: 1,
+  [Instruction.RET]: 0,
+  [Instruction.INT]: 1,
+  [Instruction.IRET]: 0,
+
+  // Input and Output
+  [Instruction.IN]: 1,
+  [Instruction.OUT]: 1,
+
+  // Miscellaneous
+  [Instruction.HALT]: 0,
+  [Instruction.NOP]: 0,
+  [Instruction.CLO]: 0,
+  [Instruction.ORG]: 1,
+  [Instruction.DB]: 1,
+  [Instruction.CLI]: 0,
+  [Instruction.STI]: 0
+} as const
+
+export type InstructionWithOneOperand =
+  | Instruction.INC
+  | Instruction.DEC
+  | Instruction.NOT
+  | Instruction.ROL
+  | Instruction.ROR
+  | Instruction.SHL
+  | Instruction.SHR
+  | Instruction.JMP
+  | Instruction.JZ
+  | Instruction.JNZ
+  | Instruction.JS
+  | Instruction.JNS
+  | Instruction.JO
+  | Instruction.JNO
+  | Instruction.PUSH
+  | Instruction.POP
+  | Instruction.CALL
+  | Instruction.INT
+  | Instruction.IN
+  | Instruction.OUT
+  | Instruction.ORG
+  | Instruction.DB
+
+export type InstructionWithTwoOperands =
+  | Instruction.ADD
+  | Instruction.SUB
+  | Instruction.MUL
+  | Instruction.DIV
+  | Instruction.MOD
+  | Instruction.AND
+  | Instruction.OR
+  | Instruction.XOR
+  | Instruction.MOV
+  | Instruction.CMP
+
+export enum InstrOpcode {
   END = 0x00,
 
   // Direct Arithmetic
@@ -145,119 +246,6 @@ export enum Opcode {
   CLI = 0xfd,
   STI = 0xfc
 }
-
-export const INSTRUCTION_OPERANDS_COUNT_MAP = {
-  [Instruction.END]: 0,
-
-  // Arithmetic
-  [Instruction.ADD]: 2,
-  [Instruction.SUB]: 2,
-  [Instruction.MUL]: 2,
-  [Instruction.DIV]: 2,
-  [Instruction.MOD]: 2,
-  [Instruction.INC]: 1,
-  [Instruction.DEC]: 1,
-
-  // Logic
-  [Instruction.AND]: 2,
-  [Instruction.OR]: 2,
-  [Instruction.XOR]: 2,
-  [Instruction.NOT]: 1,
-
-  // Bitwise
-  [Instruction.ROL]: 1,
-  [Instruction.ROR]: 1,
-  [Instruction.SHL]: 1,
-  [Instruction.SHR]: 1,
-
-  // Jump
-  [Instruction.JMP]: 1,
-  [Instruction.JZ]: 1,
-  [Instruction.JNZ]: 1,
-  [Instruction.JS]: 1,
-  [Instruction.JNS]: 1,
-  [Instruction.JO]: 1,
-  [Instruction.JNO]: 1,
-
-  // Move
-  [Instruction.MOV]: 2,
-
-  // Compare
-  [Instruction.CMP]: 2,
-
-  // Stack
-  [Instruction.PUSH]: 1,
-  [Instruction.POP]: 1,
-  [Instruction.PUSHF]: 0,
-  [Instruction.POPF]: 0,
-
-  // Procedures and Interrupts
-  [Instruction.CALL]: 1,
-  [Instruction.RET]: 0,
-  [Instruction.INT]: 1,
-  [Instruction.IRET]: 0,
-
-  // Input and Output
-  [Instruction.IN]: 1,
-  [Instruction.OUT]: 1,
-
-  // Miscellaneous
-  [Instruction.HALT]: 0,
-  [Instruction.NOP]: 0,
-  [Instruction.CLO]: 0,
-  [Instruction.ORG]: 1,
-  [Instruction.DB]: 1,
-  [Instruction.CLI]: 0,
-  [Instruction.STI]: 0
-} as const
-
-export type InstructionWithNoOperand =
-  | Instruction.END
-  | Instruction.PUSHF
-  | Instruction.POPF
-  | Instruction.RET
-  | Instruction.IRET
-  | Instruction.HALT
-  | Instruction.NOP
-  | Instruction.CLO
-  | Instruction.CLI
-  | Instruction.STI
-
-export type InstructionWithOneOperand =
-  | Instruction.INC
-  | Instruction.DEC
-  | Instruction.NOT
-  | Instruction.ROL
-  | Instruction.ROR
-  | Instruction.SHL
-  | Instruction.SHR
-  | Instruction.JMP
-  | Instruction.JZ
-  | Instruction.JNZ
-  | Instruction.JS
-  | Instruction.JNS
-  | Instruction.JO
-  | Instruction.JNO
-  | Instruction.PUSH
-  | Instruction.POP
-  | Instruction.CALL
-  | Instruction.INT
-  | Instruction.IN
-  | Instruction.OUT
-  | Instruction.ORG
-  | Instruction.DB
-
-export type InstructionWithTwoOperands =
-  | Instruction.ADD
-  | Instruction.SUB
-  | Instruction.MUL
-  | Instruction.DIV
-  | Instruction.MOD
-  | Instruction.AND
-  | Instruction.OR
-  | Instruction.XOR
-  | Instruction.MOV
-  | Instruction.CMP
 
 export enum Register {
   AL = 'AL',
