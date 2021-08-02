@@ -98,7 +98,7 @@ export class Statement {
     return this.instruction.length
   }
 
-  public getConsumedTokensCount(): number {
+  public get consumedTokensCount(): number {
     return (
       /* label */ (this.label !== null ? 1 : 0) +
       /* instruction */ 1 +
@@ -614,7 +614,7 @@ export const parse = (tokens: Token[]): Statement[] => {
   while (index < tokens.length) {
     const statement = parseStatement(tokens, index)
     statements.push(statement)
-    index += statement.getConsumedTokensCount()
+    index += statement.consumedTokensCount
   }
   if (statements[statements.length - 1].instruction !== Instruction.END) {
     throw new MissingEndError()

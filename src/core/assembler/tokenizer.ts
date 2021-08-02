@@ -29,7 +29,7 @@ export class Token {
     this.length = value.length
   }
 
-  public getOriginalValue(): string {
+  public get originalValue(): string {
     switch (this.type) {
       case TokenType.Address:
         return `[${this.value}]`

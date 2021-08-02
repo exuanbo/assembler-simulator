@@ -15,11 +15,7 @@ export abstract class AssemblerError extends Error {
 
 export class StatementError extends AssemblerError {
   constructor(token: Token) {
-    super(
-      `Expected instruction or label: ${token.getOriginalValue()}`,
-      token.position,
-      token.length
-    )
+    super(`Expected instruction or label: ${token.originalValue}`, token.position, token.length)
   }
 }
 
@@ -74,13 +70,13 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${token.getOriginalValue()}`, token.position, token.length)
+    super(`Expected ${types}: ${token.originalValue}`, token.position, token.length)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected comma: ${token.getOriginalValue()}`, token.position, token.length)
+    super(`Expected comma: ${token.originalValue}`, token.position, token.length)
   }
 }
 
