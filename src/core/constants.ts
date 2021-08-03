@@ -248,15 +248,8 @@ export enum Opcode {
 }
 
 export enum Register {
-  AL = 'AL',
-  BL = 'BL',
-  CL = 'CL',
-  DL = 'DL'
+  AL,
+  BL,
+  CL,
+  DL
 }
-
-export const REGISTER_TO_MACHINE_CODE_MAP = {
-  [Register.AL]: 0x00,
-  [Register.BL]: 0x01,
-  [Register.CL]: 0x02,
-  [Register.DL]: 0x03
-} as const

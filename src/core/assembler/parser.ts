@@ -11,13 +11,7 @@ import {
 } from './exceptions'
 import { hexToDec, stringToASCII } from '../utils'
 import type { MnemonicWithOneOperand, MnemonicWithTwoOperands } from '../constants'
-import {
-  Mnemonic,
-  MNEMONIC_TO_OPERANDS_COUNT_MAP,
-  Opcode,
-  Register,
-  REGISTER_TO_MACHINE_CODE_MAP
-} from '../constants'
+import { Mnemonic, MNEMONIC_TO_OPERANDS_COUNT_MAP, Opcode, Register } from '../constants'
 
 export interface Label {
   identifier: string
@@ -67,7 +61,7 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return hexToDec(token.value)
       case OperandType.Register:
       case OperandType.RegisterAddress:
-        return REGISTER_TO_MACHINE_CODE_MAP[token.value as Register]
+        return Register[token.value as keyof typeof Register]
       case OperandType.String:
         return stringToASCII(token.value)
       case OperandType.Label:
