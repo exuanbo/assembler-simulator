@@ -26,8 +26,12 @@ const getOriginalValue = (token: Token): string => {
 }
 
 export class StatementError extends AssemblerError {
-  constructor(token: Token) {
-    super(`Expected instruction or label: ${getOriginalValue(token)}`, token.position, token.length)
+  constructor(token: Token, hasLabel: boolean) {
+    super(
+      `Expected ${hasLabel ? '' : 'label or '}instruction: ${getOriginalValue(token)}`,
+      token.position,
+      token.length
+    )
   }
 }
 

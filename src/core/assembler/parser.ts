@@ -242,7 +242,8 @@ const parseDoubleOperands =
 
 const parseStatement = (tokens: Token[], index: number): Statement => {
   const label = parseLabel(tokens, index)
-  if (label !== null) {
+  const hasLabel = label !== null
+  if (hasLabel) {
     index++
   }
 
@@ -251,7 +252,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     throw new MissingEndError()
   }
   if (token.type !== TokenType.Unknown || !(token.value in Mnemonic)) {
-    throw new StatementError(token)
+    throw new StatementError(token, hasLabel)
   }
 
   index++
