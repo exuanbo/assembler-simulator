@@ -1,7 +1,12 @@
 import { tokenize } from './tokenizer'
 import type { Statement } from './parser'
 import { OperandType, parse } from './parser'
-import { DuplicateLabelError, AssembleError, LabelNotExistError } from './exceptions'
+import {
+  DuplicateLabelError,
+  EndOfMemoryError,
+  LabelNotExistError,
+  JumpDistanceError
+} from './exceptions'
 import { Instruction } from '../constants'
 
 const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
@@ -23,7 +28,7 @@ const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
         opcodes.length +
         (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
       if (nextAddress > 0xff) {
-        throw new AssembleError(statement)
+        throw new EndOfMemoryError(statement)
       }
       return [nextAddress, labelToAddressMap]
     },
@@ -48,6 +53,9 @@ export const assemble = (input: string): [Map<number, number>, Map<number, State
           throw new LabelNotExistError(firstOperand.token)
         }
         const distance = labelAddress - address
+        if (distance < -128 || distance > 127) {
+          throw new JumpDistanceError(firstOperand.token)
+        }
         const unsignedDistance = distance < 0 ? 0x100 + distance : distance
         opcodes.push(unsignedDistance)
       }

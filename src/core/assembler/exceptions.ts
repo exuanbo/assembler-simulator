@@ -98,7 +98,7 @@ export class DuplicateLabelError extends AssemblerError {
   }
 }
 
-export class AssembleError extends AssemblerError {
+export class EndOfMemoryError extends AssemblerError {
   constructor(statement: Statement) {
     super('Can not generate code beyond the end of RAM', statement.position, statement.length)
   }
@@ -107,5 +107,15 @@ export class AssembleError extends AssemblerError {
 export class LabelNotExistError extends AssemblerError {
   constructor(token: Token) {
     super(`Label does not exist: ${token.value}`, token.position, token.length)
+  }
+}
+
+export class JumpDistanceError extends AssemblerError {
+  constructor(token: Token) {
+    super(
+      `Jump distance should be between -128 and 127: ${token.value}`,
+      token.position,
+      token.length
+    )
   }
 }
