@@ -7,12 +7,12 @@ import {
   LabelNotExistError,
   JumpDistanceError
 } from './exceptions'
-import { Instruction } from '../constants'
+import { Mnemonic } from '../constants'
 
 const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
   const [, labelToAddressMap] = statements.reduce(
     ([address, labelToAddressMap], statement) => {
-      const { label, instruction, operands, opcodes } = statement
+      const { label, instruction, operands, machineCodes } = statement
       if (label !== null) {
         if (labelToAddressMap.has(label.identifier)) {
           throw new DuplicateLabelError(label)
@@ -20,12 +20,12 @@ const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
         labelToAddressMap.set(label.identifier, address)
       }
       const firstOperand = operands[0]
-      if (instruction === Instruction.ORG) {
+      if (instruction.mnemonic === Mnemonic.ORG) {
         return [firstOperand.value as number, labelToAddressMap]
       }
       const nextAddress =
         address +
-        opcodes.length +
+        machineCodes.length +
         (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
       if (nextAddress > 0xff) {
         throw new EndOfMemoryError(statement)
@@ -40,12 +40,12 @@ const getLabelToAddressMap = (statements: Statement[]): Map<string, number> => {
 export const assemble = (input: string): [Map<number, number>, Map<number, Statement>] => {
   const statements = parse(tokenize(input))
   const labelToAddressMap = getLabelToAddressMap(statements)
-  const [, addressToOpcodeMap, addressToStatementMap] = statements.reduce(
-    ([address, addressToOpcodeMap, addressToStatementMap], statement) => {
-      const { instruction, operands, opcodes } = statement
+  const [, addressToMachineCodeMap, addressToStatementMap] = statements.reduce(
+    ([address, addressToMachineCodeMap, addressToStatementMap], statement) => {
+      const { instruction, operands, machineCodes } = statement
       const firstOperand = operands[0]
-      if (instruction === Instruction.ORG) {
-        return [firstOperand.value as number, addressToOpcodeMap, addressToStatementMap]
+      if (instruction.mnemonic === Mnemonic.ORG) {
+        return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
       if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
         const labelAddress = labelToAddressMap.get(firstOperand.token.value)
@@ -57,15 +57,15 @@ export const assemble = (input: string): [Map<number, number>, Map<number, State
           throw new JumpDistanceError(firstOperand.token)
         }
         const unsignedDistance = distance < 0 ? 0x100 + distance : distance
-        opcodes.push(unsignedDistance)
+        machineCodes.push(unsignedDistance)
       }
-      opcodes.forEach((opcode, index) => {
-        addressToOpcodeMap.set(address + index, opcode)
+      machineCodes.forEach((machineCode, index) => {
+        addressToMachineCodeMap.set(address + index, machineCode)
       })
       addressToStatementMap.set(address, statement)
-      return [address + opcodes.length, addressToOpcodeMap, addressToStatementMap]
+      return [address + machineCodes.length, addressToMachineCodeMap, addressToStatementMap]
     },
     [0, new Map<number, number>(), new Map<number, Statement>()]
   )
-  return [addressToOpcodeMap, addressToStatementMap]
+  return [addressToMachineCodeMap, addressToStatementMap]
 }

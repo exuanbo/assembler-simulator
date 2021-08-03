@@ -1,4 +1,4 @@
-export enum Instruction {
+export enum Mnemonic {
   END = 'END',
 
   // Arithmetic
@@ -63,108 +63,108 @@ export enum Instruction {
   STI = 'STI'
 }
 
-export const INSTRUCTION_OPERANDS_COUNT_MAP = {
-  [Instruction.END]: 0,
+export const MNEMONIC_TO_OPERANDS_COUNT_MAP = {
+  [Mnemonic.END]: 0,
 
   // Arithmetic
-  [Instruction.ADD]: 2,
-  [Instruction.SUB]: 2,
-  [Instruction.MUL]: 2,
-  [Instruction.DIV]: 2,
-  [Instruction.MOD]: 2,
-  [Instruction.INC]: 1,
-  [Instruction.DEC]: 1,
+  [Mnemonic.ADD]: 2,
+  [Mnemonic.SUB]: 2,
+  [Mnemonic.MUL]: 2,
+  [Mnemonic.DIV]: 2,
+  [Mnemonic.MOD]: 2,
+  [Mnemonic.INC]: 1,
+  [Mnemonic.DEC]: 1,
 
   // Logic
-  [Instruction.AND]: 2,
-  [Instruction.OR]: 2,
-  [Instruction.XOR]: 2,
-  [Instruction.NOT]: 1,
+  [Mnemonic.AND]: 2,
+  [Mnemonic.OR]: 2,
+  [Mnemonic.XOR]: 2,
+  [Mnemonic.NOT]: 1,
 
   // Bitwise
-  [Instruction.ROL]: 1,
-  [Instruction.ROR]: 1,
-  [Instruction.SHL]: 1,
-  [Instruction.SHR]: 1,
+  [Mnemonic.ROL]: 1,
+  [Mnemonic.ROR]: 1,
+  [Mnemonic.SHL]: 1,
+  [Mnemonic.SHR]: 1,
 
   // Jump
-  [Instruction.JMP]: 1,
-  [Instruction.JZ]: 1,
-  [Instruction.JNZ]: 1,
-  [Instruction.JS]: 1,
-  [Instruction.JNS]: 1,
-  [Instruction.JO]: 1,
-  [Instruction.JNO]: 1,
+  [Mnemonic.JMP]: 1,
+  [Mnemonic.JZ]: 1,
+  [Mnemonic.JNZ]: 1,
+  [Mnemonic.JS]: 1,
+  [Mnemonic.JNS]: 1,
+  [Mnemonic.JO]: 1,
+  [Mnemonic.JNO]: 1,
 
   // Move
-  [Instruction.MOV]: 2,
+  [Mnemonic.MOV]: 2,
 
   // Compare
-  [Instruction.CMP]: 2,
+  [Mnemonic.CMP]: 2,
 
   // Stack
-  [Instruction.PUSH]: 1,
-  [Instruction.POP]: 1,
-  [Instruction.PUSHF]: 0,
-  [Instruction.POPF]: 0,
+  [Mnemonic.PUSH]: 1,
+  [Mnemonic.POP]: 1,
+  [Mnemonic.PUSHF]: 0,
+  [Mnemonic.POPF]: 0,
 
   // Procedures and Interrupts
-  [Instruction.CALL]: 1,
-  [Instruction.RET]: 0,
-  [Instruction.INT]: 1,
-  [Instruction.IRET]: 0,
+  [Mnemonic.CALL]: 1,
+  [Mnemonic.RET]: 0,
+  [Mnemonic.INT]: 1,
+  [Mnemonic.IRET]: 0,
 
   // Input and Output
-  [Instruction.IN]: 1,
-  [Instruction.OUT]: 1,
+  [Mnemonic.IN]: 1,
+  [Mnemonic.OUT]: 1,
 
   // Miscellaneous
-  [Instruction.HALT]: 0,
-  [Instruction.NOP]: 0,
-  [Instruction.CLO]: 0,
-  [Instruction.ORG]: 1,
-  [Instruction.DB]: 1,
-  [Instruction.CLI]: 0,
-  [Instruction.STI]: 0
+  [Mnemonic.HALT]: 0,
+  [Mnemonic.NOP]: 0,
+  [Mnemonic.CLO]: 0,
+  [Mnemonic.ORG]: 1,
+  [Mnemonic.DB]: 1,
+  [Mnemonic.CLI]: 0,
+  [Mnemonic.STI]: 0
 } as const
 
-export type InstructionWithOneOperand =
-  | Instruction.INC
-  | Instruction.DEC
-  | Instruction.NOT
-  | Instruction.ROL
-  | Instruction.ROR
-  | Instruction.SHL
-  | Instruction.SHR
-  | Instruction.JMP
-  | Instruction.JZ
-  | Instruction.JNZ
-  | Instruction.JS
-  | Instruction.JNS
-  | Instruction.JO
-  | Instruction.JNO
-  | Instruction.PUSH
-  | Instruction.POP
-  | Instruction.CALL
-  | Instruction.INT
-  | Instruction.IN
-  | Instruction.OUT
-  | Instruction.ORG
-  | Instruction.DB
+export type MnemonicWithOneOperand =
+  | Mnemonic.INC
+  | Mnemonic.DEC
+  | Mnemonic.NOT
+  | Mnemonic.ROL
+  | Mnemonic.ROR
+  | Mnemonic.SHL
+  | Mnemonic.SHR
+  | Mnemonic.JMP
+  | Mnemonic.JZ
+  | Mnemonic.JNZ
+  | Mnemonic.JS
+  | Mnemonic.JNS
+  | Mnemonic.JO
+  | Mnemonic.JNO
+  | Mnemonic.PUSH
+  | Mnemonic.POP
+  | Mnemonic.CALL
+  | Mnemonic.INT
+  | Mnemonic.IN
+  | Mnemonic.OUT
+  | Mnemonic.ORG
+  | Mnemonic.DB
 
-export type InstructionWithTwoOperands =
-  | Instruction.ADD
-  | Instruction.SUB
-  | Instruction.MUL
-  | Instruction.DIV
-  | Instruction.MOD
-  | Instruction.AND
-  | Instruction.OR
-  | Instruction.XOR
-  | Instruction.MOV
-  | Instruction.CMP
+export type MnemonicWithTwoOperands =
+  | Mnemonic.ADD
+  | Mnemonic.SUB
+  | Mnemonic.MUL
+  | Mnemonic.DIV
+  | Mnemonic.MOD
+  | Mnemonic.AND
+  | Mnemonic.OR
+  | Mnemonic.XOR
+  | Mnemonic.MOV
+  | Mnemonic.CMP
 
-export enum InstrOpcode {
+export enum Opcode {
   END = 0x00,
 
   // Direct Arithmetic
@@ -254,7 +254,7 @@ export enum Register {
   DL = 'DL'
 }
 
-export const REGISTER_CODE_MAP = {
+export const REGISTER_TO_MACHINE_CODE_MAP = {
   [Register.AL]: 0x00,
   [Register.BL]: 0x01,
   [Register.CL]: 0x02,
