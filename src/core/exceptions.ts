@@ -1,16 +1,4 @@
 import type { Token, Label, OperandType, Statement } from './assembler'
-import { TokenType } from './assembler'
-
-const getTokenOriginalValue = (token: Token): string => {
-  switch (token.type) {
-    case TokenType.Address:
-      return `[${token.value}]`
-    case TokenType.String:
-      return `"${token.value}"`
-    default:
-      return token.value
-  }
-}
 
 export abstract class AssemblerError extends Error {
   public position: number
@@ -26,7 +14,7 @@ export abstract class AssemblerError extends Error {
 export class StatementError extends AssemblerError {
   constructor(token: Token, hasLabel: boolean) {
     super(
-      `Expected ${hasLabel ? '' : 'label or '}instruction: ${getTokenOriginalValue(token)}`,
+      `Expected ${hasLabel ? '' : 'label or '}instruction: ${token.originalValue}`,
       token.position,
       token.length
     )
@@ -35,11 +23,11 @@ export class StatementError extends AssemblerError {
 
 export class InvalidLabelError extends AssemblerError {
   constructor(token: Token) {
-    const identifier = token.value.endsWith(':') ? token.value.slice(0, -1) : token.value
+    const identifier = token.originalValue.replace(/:$/, '')
     super(
       `Label should start with a charactor or underscore: ${identifier}`,
       token.position,
-      identifier.length
+      identifier.length > 0 ? identifier.length : 1
     )
   }
 }
@@ -53,7 +41,7 @@ export class MissingEndError extends AssemblerError {
 export class InvalidNumberError extends AssemblerError {
   constructor(token: Token) {
     super(
-      `Number should be hexadecimal and less than or equal to FF: ${token.value}`,
+      `Number should be hexadecimal and less than or equal to FF: ${token.originalValue}`,
       token.position,
       token.length
     )
@@ -62,10 +50,11 @@ export class InvalidNumberError extends AssemblerError {
 
 export class AddressError extends AssemblerError {
   constructor(token: Token) {
+    const addressValue = token.originalValue.replace(/^\[(.*)]$/, '$1')
     super(
-      `Expected a number or register: ${token.value.length > 0 ? token.value : ']'}`,
+      `Expected a number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
       token.position + /* opening bracket */ 1,
-      token.value.length > 0 ? token.value.length : 1
+      addressValue.length > 0 ? addressValue.length : 1
     )
   }
 }
@@ -84,13 +73,13 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${getTokenOriginalValue(token)}`, token.position, token.length)
+    super(`Expected ${types}: ${token.originalValue}`, token.position, token.length)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected comma: ${getTokenOriginalValue(token)}`, token.position, token.length)
+    super(`Expected comma: ${token.originalValue}`, token.position, token.length)
   }
 }
 
@@ -108,14 +97,14 @@ export class EndOfMemoryError extends AssemblerError {
 
 export class LabelNotExistError extends AssemblerError {
   constructor(token: Token) {
-    super(`Label does not exist: ${token.value}`, token.position, token.length)
+    super(`Label does not exist: ${token.originalValue}`, token.position, token.length)
   }
 }
 
 export class JumpDistanceError extends AssemblerError {
   constructor(token: Token) {
     super(
-      `Jump distance should be between -128 and 127: ${token.value}`,
+      `Jump distance should be between -128 and 127: ${token.originalValue}`,
       token.position,
       token.length
     )

@@ -12,6 +12,7 @@ export enum TokenType {
 export interface Token {
   type: TokenType
   value: string
+  originalValue: string
   position: number
   length: number
 }
@@ -32,6 +33,7 @@ const createToken = (type: TokenType, value: string, position: number): Token =>
   return {
     type,
     value: tokenValue,
+    originalValue: value,
     position,
     length
   }
