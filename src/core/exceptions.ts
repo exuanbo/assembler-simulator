@@ -1,6 +1,16 @@
 import type { Token, Label, OperandType, Statement } from './assembler'
 import { TokenType } from './assembler'
-import { normalizeType } from './utils'
+
+const getTokenOriginalValue = (token: Token): string => {
+  switch (token.type) {
+    case TokenType.Address:
+      return `[${token.value}]`
+    case TokenType.String:
+      return `"${token.value}"`
+    default:
+      return token.value
+  }
+}
 
 export abstract class AssemblerError extends Error {
   public position: number
@@ -13,21 +23,10 @@ export abstract class AssemblerError extends Error {
   }
 }
 
-const getOriginalValue = (token: Token): string => {
-  switch (token.type) {
-    case TokenType.Address:
-      return `[${token.value}]`
-    case TokenType.String:
-      return `"${token.value}"`
-    default:
-      return token.value
-  }
-}
-
 export class StatementError extends AssemblerError {
   constructor(token: Token, hasLabel: boolean) {
     super(
-      `Expected ${hasLabel ? '' : 'label or '}instruction: ${getOriginalValue(token)}`,
+      `Expected ${hasLabel ? '' : 'label or '}instruction: ${getTokenOriginalValue(token)}`,
       token.position,
       token.length
     )
@@ -74,7 +73,7 @@ export class AddressError extends AssemblerError {
 export class OperandTypeError extends AssemblerError {
   constructor(token: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
-      .map(t => normalizeType(t))
+      .map(type => type.toLowerCase().split('_').join(' '))
       .reduce((acc, cur, idx) => {
         switch (idx) {
           case 0:
@@ -85,13 +84,13 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${getOriginalValue(token)}`, token.position, token.length)
+    super(`Expected ${types}: ${getTokenOriginalValue(token)}`, token.position, token.length)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
   constructor(token: Token) {
-    super(`Expected comma: ${getOriginalValue(token)}`, token.position, token.length)
+    super(`Expected comma: ${getTokenOriginalValue(token)}`, token.position, token.length)
   }
 }
 
