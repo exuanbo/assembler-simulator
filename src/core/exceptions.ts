@@ -1,7 +1,6 @@
-import type { Token } from './tokenizer'
-import { TokenType } from './tokenizer'
-import type { Label, OperandType, Statement } from './parser'
-import { normalizeType } from '../utils'
+import type { Token, Label, OperandType, Statement } from './assembler'
+import { TokenType } from './assembler'
+import { normalizeType } from './utils'
 
 export abstract class AssemblerError extends Error {
   public position: number

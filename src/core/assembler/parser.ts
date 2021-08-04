@@ -8,7 +8,7 @@ import {
   InvalidNumberError,
   OperandTypeError,
   MissingCommaError
-} from './exceptions'
+} from '../exceptions'
 import { hexToDec, stringToASCII } from '../utils'
 import type { MnemonicWithOneOperand, MnemonicWithTwoOperands } from '../constants'
 import { Mnemonic, MNEMONIC_TO_OPERANDS_COUNT_MAP, Opcode, Register } from '../constants'

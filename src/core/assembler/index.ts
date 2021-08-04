@@ -6,8 +6,11 @@ import {
   EndOfMemoryError,
   LabelNotExistError,
   JumpDistanceError
-} from './exceptions'
+} from '../exceptions'
 import { Mnemonic } from '../constants'
+
+export * from './tokenizer'
+export * from './parser'
 
 type LabelToAddressMap = Map<string, number>
 
