@@ -1,5 +1,6 @@
 import type { Token } from './tokenizer'
 import { TokenType } from './tokenizer'
+import type { AssemblerError } from '../exceptions'
 import {
   InvalidLabelError,
   StatementError,
@@ -116,10 +117,11 @@ const createStatement = (
 
 const LABEL_START = /^[A-Z_]/
 
-const validateLabel = (token: Token): void => {
+const validateLabel = (token: Token): AssemblerError | null => {
   if (!LABEL_START.test(token.value)) {
-    throw new InvalidLabelError(token)
+    return new InvalidLabelError(token)
   }
+  return null
 }
 
 const parseLabel = (tokens: Token[], index: number): Label | null => {
@@ -127,14 +129,18 @@ const parseLabel = (tokens: Token[], index: number): Label | null => {
   if (!token.value.endsWith(':')) {
     return null
   }
-  validateLabel(token)
+  const labelError = validateLabel(token)
+  if (labelError !== null) {
+    throw labelError
+  }
   return createLabel(token)
 }
 
-const validateNumber = (token: Token): void => {
+const validateNumber = (token: Token): AssemblerError | null => {
   if (hexToDec(token.value) > 0xff) {
-    throw new InvalidNumberError(token)
+    return new InvalidNumberError(token)
   }
+  return null
 }
 
 const NUMBER = /^[\dA-F]+$/
@@ -156,7 +162,10 @@ const parseSingleOperand =
         break
       case TokenType.Digits:
         if (isExpected(OperandType.Number)) {
-          validateNumber(token)
+          const numberError = validateNumber(token)
+          if (numberError !== null) {
+            throw numberError
+          }
           return createOperandOf(OperandType.Number)
         }
         break
@@ -168,7 +177,10 @@ const parseSingleOperand =
       case TokenType.Address:
         if (isExpected(OperandType.Address) || isExpected(OperandType.RegisterAddress)) {
           if (NUMBER.test(token.value)) {
-            validateNumber(token)
+            const numberError = validateNumber(token)
+            if (numberError !== null) {
+              throw numberError
+            }
             return createOperandOf(OperandType.Address)
           }
           if (REGISTER.test(token.value)) {
@@ -184,24 +196,31 @@ const parseSingleOperand =
         break
       case TokenType.Unknown:
         if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
-          validateNumber(token)
+          const numberError = validateNumber(token)
+          if (numberError !== null) {
+            throw numberError
+          }
           return createOperandOf(OperandType.Number)
         }
         if (isExpected(OperandType.Label)) {
-          validateLabel(token)
+          const labelError = validateLabel(token)
+          if (labelError !== null) {
+            throw labelError
+          }
           return createOperandOf(OperandType.Label)
         }
     }
     throw new OperandTypeError(token, ...expectedTypes)
   }
 
-const checkComma = (token: Token): void => {
+const checkComma = (token: Token): AssemblerError | null => {
   if (token === undefined) {
-    throw new MissingEndError()
+    return new MissingEndError()
   }
   if (token.type !== TokenType.Comma) {
-    throw new MissingCommaError(token)
+    return new MissingCommaError(token)
   }
+  return null
 }
 
 type SecondOperandErrorCallback<T1 extends OperandType> = (
@@ -216,7 +235,10 @@ const parseDoubleOperands =
     ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
     const firstOperand = parseSingleOperand(tokens, index)(...firstExpectedTypes)
-    checkComma(tokens[index + 1])
+    const error = checkComma(tokens[index + 1])
+    if (error !== null) {
+      throw error
+    }
     const secondOperand = ((): Operand<T2> => {
       const callback =
         typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function'
@@ -224,11 +246,11 @@ const parseDoubleOperands =
           : undefined
       try {
         return parseSingleOperand(tokens, index + 2)(...(secondExpectedTypes as T2[]))
-      } catch (e) {
-        if (e instanceof OperandTypeError && callback !== undefined) {
+      } catch (error) {
+        if (error instanceof OperandTypeError && callback !== undefined) {
           callback(firstOperand.type, tokens[index + 2])
         }
-        throw e
+        throw error
       }
     })()
     return [firstOperand, secondOperand]
