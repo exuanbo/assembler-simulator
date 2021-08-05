@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tokenizer should skip comment at the end of the line 1`] = `
+Array [
+  Object {
+    "length": 5,
+    "originalValue": "done:",
+    "position": 0,
+    "type": "UNKNOWN",
+    "value": "DONE:",
+  },
+  Object {
+    "length": 3,
+    "originalValue": "end",
+    "position": 25,
+    "type": "UNKNOWN",
+    "value": "END",
+  },
+]
+`;
+
+exports[`tokenizer should skip line with comment 1`] = `
+Array [
+  Object {
+    "length": 3,
+    "originalValue": "end",
+    "position": 20,
+    "type": "UNKNOWN",
+    "value": "END",
+  },
+]
+`;
+
+exports[`tokenizer should skip whitespace 1`] = `
+Array [
+  Object {
+    "length": 5,
+    "originalValue": "done:",
+    "position": 3,
+    "type": "UNKNOWN",
+    "value": "DONE:",
+  },
+  Object {
+    "length": 3,
+    "originalValue": "end",
+    "position": 11,
+    "type": "UNKNOWN",
+    "value": "END",
+  },
+]
+`;
+
+exports[`tokenizer should tokenize address 1`] = `
+Array [
+  Object {
+    "length": 2,
+    "originalValue": "[]",
+    "position": 0,
+    "type": "ADDRESS",
+    "value": "",
+  },
+  Object {
+    "length": 4,
+    "originalValue": "[00]",
+    "position": 3,
+    "type": "ADDRESS",
+    "value": "00",
+  },
+  Object {
+    "length": 4,
+    "originalValue": "[al]",
+    "position": 8,
+    "type": "ADDRESS",
+    "value": "AL",
+  },
+]
+`;
+
+exports[`tokenizer should tokenize comma 1`] = `
+Array [
+  Object {
+    "length": 1,
+    "originalValue": ",",
+    "position": 0,
+    "type": "COMMA",
+    "value": ",",
+  },
+  Object {
+    "length": 1,
+    "originalValue": ",",
+    "position": 2,
+    "type": "COMMA",
+    "value": ",",
+  },
+  Object {
+    "length": 1,
+    "originalValue": ",",
+    "position": 3,
+    "type": "COMMA",
+    "value": ",",
+  },
+]
+`;
+
+exports[`tokenizer should tokenize digits 1`] = `
+Array [
+  Object {
+    "length": 1,
+    "originalValue": "0",
+    "position": 0,
+    "type": "DIGITS",
+    "value": "0",
+  },
+  Object {
+    "length": 2,
+    "originalValue": "01",
+    "position": 2,
+    "type": "DIGITS",
+    "value": "01",
+  },
+  Object {
+    "length": 3,
+    "originalValue": "002",
+    "position": 5,
+    "type": "DIGITS",
+    "value": "002",
+  },
+]
+`;
+
+exports[`tokenizer should tokenize register 1`] = `
+Array [
+  Object {
+    "length": 2,
+    "originalValue": "al",
+    "position": 0,
+    "type": "REGISTER",
+    "value": "AL",
+  },
+  Object {
+    "length": 2,
+    "originalValue": "Bl",
+    "position": 3,
+    "type": "REGISTER",
+    "value": "BL",
+  },
+  Object {
+    "length": 2,
+    "originalValue": "cL",
+    "position": 6,
+    "type": "REGISTER",
+    "value": "CL",
+  },
+  Object {
+    "length": 2,
+    "originalValue": "DL",
+    "position": 9,
+    "type": "REGISTER",
+    "value": "DL",
+  },
+]
+`;
+
+exports[`tokenizer should tokenize string 1`] = `
+Array [
+  Object {
+    "length": 2,
+    "originalValue": "\\"\\"",
+    "position": 0,
+    "type": "STRING",
+    "value": "",
+  },
+  Object {
+    "length": 18,
+    "originalValue": "\\"this is a string\\"",
+    "position": 3,
+    "type": "STRING",
+    "value": "this is a string",
+  },
+]
+`;

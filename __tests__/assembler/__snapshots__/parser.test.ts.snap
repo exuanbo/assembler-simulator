@@ -1,0 +1,2111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser should parse compare instruction 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 218,
+      "token": Object {
+        "length": 3,
+        "originalValue": "cmp",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "CMP",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      218,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 5,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 9,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 1,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 219,
+      "token": Object {
+        "length": 3,
+        "originalValue": "cmp",
+        "position": 12,
+        "type": "UNKNOWN",
+        "value": "CMP",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      219,
+      2,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 16,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "01",
+          "position": 20,
+          "type": "DIGITS",
+          "value": "01",
+        },
+        "type": "NUMBER",
+        "value": 1,
+      },
+    ],
+    "position": 12,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 220,
+      "token": Object {
+        "length": 3,
+        "originalValue": "cmp",
+        "position": 23,
+        "type": "UNKNOWN",
+        "value": "CMP",
+      },
+    },
+    "label": null,
+    "length": 12,
+    "machineCodes": Array [
+      220,
+      3,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 27,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "[02]",
+          "position": 31,
+          "type": "ADDRESS",
+          "value": "02",
+        },
+        "type": "ADDRESS",
+        "value": 2,
+      },
+    ],
+    "position": 23,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 36,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 36,
+  },
+]
+`;
+
+exports[`parser should parse direct arithmetic instruction 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 160,
+      "token": Object {
+        "length": 3,
+        "originalValue": "add",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "ADD",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      160,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 5,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 9,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 1,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 161,
+      "token": Object {
+        "length": 3,
+        "originalValue": "sub",
+        "position": 12,
+        "type": "UNKNOWN",
+        "value": "SUB",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      161,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 16,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 20,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+    ],
+    "position": 12,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 162,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mul",
+        "position": 23,
+        "type": "UNKNOWN",
+        "value": "MUL",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      162,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 27,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 31,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 23,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 163,
+      "token": Object {
+        "length": 3,
+        "originalValue": "div",
+        "position": 34,
+        "type": "UNKNOWN",
+        "value": "DIV",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      163,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 38,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 42,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+    ],
+    "position": 34,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 166,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mod",
+        "position": 45,
+        "type": "UNKNOWN",
+        "value": "MOD",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      166,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 49,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 53,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 45,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 170,
+      "token": Object {
+        "length": 3,
+        "originalValue": "and",
+        "position": 56,
+        "type": "UNKNOWN",
+        "value": "AND",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      170,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 60,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 64,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+    ],
+    "position": 56,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 171,
+      "token": Object {
+        "length": 2,
+        "originalValue": "or",
+        "position": 67,
+        "type": "UNKNOWN",
+        "value": "OR",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      171,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 70,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 74,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 67,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 172,
+      "token": Object {
+        "length": 3,
+        "originalValue": "xor",
+        "position": 77,
+        "type": "UNKNOWN",
+        "value": "XOR",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      172,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 81,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 85,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+    ],
+    "position": 77,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 88,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 88,
+  },
+]
+`;
+
+exports[`parser should parse immediate arithmetic instruction 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 176,
+      "token": Object {
+        "length": 3,
+        "originalValue": "add",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "ADD",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      176,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 5,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "01",
+          "position": 9,
+          "type": "DIGITS",
+          "value": "01",
+        },
+        "type": "NUMBER",
+        "value": 1,
+      },
+    ],
+    "position": 1,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 177,
+      "token": Object {
+        "length": 3,
+        "originalValue": "sub",
+        "position": 12,
+        "type": "UNKNOWN",
+        "value": "SUB",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      177,
+      1,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 16,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "02",
+          "position": 20,
+          "type": "DIGITS",
+          "value": "02",
+        },
+        "type": "NUMBER",
+        "value": 2,
+      },
+    ],
+    "position": 12,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 178,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mul",
+        "position": 23,
+        "type": "UNKNOWN",
+        "value": "MUL",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      178,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 27,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "03",
+          "position": 31,
+          "type": "DIGITS",
+          "value": "03",
+        },
+        "type": "NUMBER",
+        "value": 3,
+      },
+    ],
+    "position": 23,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 179,
+      "token": Object {
+        "length": 3,
+        "originalValue": "div",
+        "position": 34,
+        "type": "UNKNOWN",
+        "value": "DIV",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      179,
+      3,
+      4,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 38,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "04",
+          "position": 42,
+          "type": "DIGITS",
+          "value": "04",
+        },
+        "type": "NUMBER",
+        "value": 4,
+      },
+    ],
+    "position": 34,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 182,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mod",
+        "position": 45,
+        "type": "UNKNOWN",
+        "value": "MOD",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      182,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 49,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "01",
+          "position": 53,
+          "type": "DIGITS",
+          "value": "01",
+        },
+        "type": "NUMBER",
+        "value": 1,
+      },
+    ],
+    "position": 45,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 186,
+      "token": Object {
+        "length": 3,
+        "originalValue": "and",
+        "position": 56,
+        "type": "UNKNOWN",
+        "value": "AND",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      186,
+      1,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 60,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "02",
+          "position": 64,
+          "type": "DIGITS",
+          "value": "02",
+        },
+        "type": "NUMBER",
+        "value": 2,
+      },
+    ],
+    "position": 56,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 187,
+      "token": Object {
+        "length": 2,
+        "originalValue": "or",
+        "position": 67,
+        "type": "UNKNOWN",
+        "value": "OR",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      187,
+      2,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 70,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "03",
+          "position": 74,
+          "type": "DIGITS",
+          "value": "03",
+        },
+        "type": "NUMBER",
+        "value": 3,
+      },
+    ],
+    "position": 67,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 188,
+      "token": Object {
+        "length": 3,
+        "originalValue": "xor",
+        "position": 77,
+        "type": "UNKNOWN",
+        "value": "XOR",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      188,
+      3,
+      4,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 81,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "04",
+          "position": 85,
+          "type": "DIGITS",
+          "value": "04",
+        },
+        "type": "NUMBER",
+        "value": 4,
+      },
+    ],
+    "position": 77,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 88,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 88,
+  },
+]
+`;
+
+exports[`parser should parse instruction with 1 operand 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 164,
+      "token": Object {
+        "length": 3,
+        "originalValue": "inc",
+        "position": 8,
+        "type": "UNKNOWN",
+        "value": "INC",
+      },
+    },
+    "label": Object {
+      "identifier": "START",
+      "token": Object {
+        "length": 6,
+        "originalValue": "start:",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "START:",
+      },
+    },
+    "length": 6,
+    "machineCodes": Array [
+      164,
+      0,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 12,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+    ],
+    "position": 8,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 165,
+      "token": Object {
+        "length": 3,
+        "originalValue": "dec",
+        "position": 15,
+        "type": "UNKNOWN",
+        "value": "DEC",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      165,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 19,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 15,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 173,
+      "token": Object {
+        "length": 3,
+        "originalValue": "not",
+        "position": 22,
+        "type": "UNKNOWN",
+        "value": "NOT",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      173,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 26,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+    ],
+    "position": 22,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 154,
+      "token": Object {
+        "length": 3,
+        "originalValue": "rol",
+        "position": 29,
+        "type": "UNKNOWN",
+        "value": "ROL",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      154,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 33,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+    ],
+    "position": 29,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 155,
+      "token": Object {
+        "length": 3,
+        "originalValue": "ror",
+        "position": 36,
+        "type": "UNKNOWN",
+        "value": "ROR",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      155,
+      0,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 40,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+    ],
+    "position": 36,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 156,
+      "token": Object {
+        "length": 3,
+        "originalValue": "shl",
+        "position": 43,
+        "type": "UNKNOWN",
+        "value": "SHL",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      156,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 47,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 43,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 157,
+      "token": Object {
+        "length": 3,
+        "originalValue": "shr",
+        "position": 50,
+        "type": "UNKNOWN",
+        "value": "SHR",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      157,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 54,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+    ],
+    "position": 50,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 192,
+      "token": Object {
+        "length": 3,
+        "originalValue": "jmp",
+        "position": 57,
+        "type": "UNKNOWN",
+        "value": "JMP",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      192,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 61,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 57,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 193,
+      "token": Object {
+        "length": 2,
+        "originalValue": "jz",
+        "position": 67,
+        "type": "UNKNOWN",
+        "value": "JZ",
+      },
+    },
+    "label": null,
+    "length": 8,
+    "machineCodes": Array [
+      193,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 70,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 67,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 194,
+      "token": Object {
+        "length": 3,
+        "originalValue": "jnz",
+        "position": 76,
+        "type": "UNKNOWN",
+        "value": "JNZ",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      194,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 80,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 76,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 195,
+      "token": Object {
+        "length": 2,
+        "originalValue": "js",
+        "position": 86,
+        "type": "UNKNOWN",
+        "value": "JS",
+      },
+    },
+    "label": null,
+    "length": 8,
+    "machineCodes": Array [
+      195,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 89,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 86,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 196,
+      "token": Object {
+        "length": 3,
+        "originalValue": "jns",
+        "position": 95,
+        "type": "UNKNOWN",
+        "value": "JNS",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      196,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 99,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 95,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 197,
+      "token": Object {
+        "length": 2,
+        "originalValue": "jo",
+        "position": 105,
+        "type": "UNKNOWN",
+        "value": "JO",
+      },
+    },
+    "label": null,
+    "length": 8,
+    "machineCodes": Array [
+      197,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 108,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 105,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 198,
+      "token": Object {
+        "length": 3,
+        "originalValue": "jno",
+        "position": 114,
+        "type": "UNKNOWN",
+        "value": "JNO",
+      },
+    },
+    "label": null,
+    "length": 9,
+    "machineCodes": Array [
+      198,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 5,
+          "originalValue": "start",
+          "position": 118,
+          "type": "UNKNOWN",
+          "value": "START",
+        },
+        "type": "LABEL",
+        "value": undefined,
+      },
+    ],
+    "position": 114,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 224,
+      "token": Object {
+        "length": 4,
+        "originalValue": "push",
+        "position": 124,
+        "type": "UNKNOWN",
+        "value": "PUSH",
+      },
+    },
+    "label": null,
+    "length": 7,
+    "machineCodes": Array [
+      224,
+      0,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 129,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+    ],
+    "position": 124,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 225,
+      "token": Object {
+        "length": 3,
+        "originalValue": "pop",
+        "position": 132,
+        "type": "UNKNOWN",
+        "value": "POP",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      225,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 136,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+    ],
+    "position": 132,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 202,
+      "token": Object {
+        "length": 4,
+        "originalValue": "call",
+        "position": 139,
+        "type": "UNKNOWN",
+        "value": "CALL",
+      },
+    },
+    "label": null,
+    "length": 6,
+    "machineCodes": Array [
+      202,
+      0,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "0",
+          "position": 144,
+          "type": "DIGITS",
+          "value": "0",
+        },
+        "type": "NUMBER",
+        "value": 0,
+      },
+    ],
+    "position": 139,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 204,
+      "token": Object {
+        "length": 3,
+        "originalValue": "int",
+        "position": 146,
+        "type": "UNKNOWN",
+        "value": "INT",
+      },
+    },
+    "label": null,
+    "length": 5,
+    "machineCodes": Array [
+      204,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "1",
+          "position": 150,
+          "type": "DIGITS",
+          "value": "1",
+        },
+        "type": "NUMBER",
+        "value": 1,
+      },
+    ],
+    "position": 146,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 240,
+      "token": Object {
+        "length": 2,
+        "originalValue": "in",
+        "position": 152,
+        "type": "UNKNOWN",
+        "value": "IN",
+      },
+    },
+    "label": null,
+    "length": 4,
+    "machineCodes": Array [
+      240,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "2",
+          "position": 155,
+          "type": "DIGITS",
+          "value": "2",
+        },
+        "type": "NUMBER",
+        "value": 2,
+      },
+    ],
+    "position": 152,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 241,
+      "token": Object {
+        "length": 3,
+        "originalValue": "out",
+        "position": 157,
+        "type": "UNKNOWN",
+        "value": "OUT",
+      },
+    },
+    "label": null,
+    "length": 5,
+    "machineCodes": Array [
+      241,
+      3,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "3",
+          "position": 161,
+          "type": "DIGITS",
+          "value": "3",
+        },
+        "type": "NUMBER",
+        "value": 3,
+      },
+    ],
+    "position": 157,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": null,
+      "token": Object {
+        "length": 3,
+        "originalValue": "org",
+        "position": 163,
+        "type": "UNKNOWN",
+        "value": "ORG",
+      },
+    },
+    "label": null,
+    "length": 5,
+    "machineCodes": Array [
+      4,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "4",
+          "position": 167,
+          "type": "DIGITS",
+          "value": "4",
+        },
+        "type": "NUMBER",
+        "value": 4,
+      },
+    ],
+    "position": 163,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": null,
+      "token": Object {
+        "length": 2,
+        "originalValue": "db",
+        "position": 169,
+        "type": "UNKNOWN",
+        "value": "DB",
+      },
+    },
+    "label": null,
+    "length": 4,
+    "machineCodes": Array [
+      5,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 1,
+          "originalValue": "5",
+          "position": 172,
+          "type": "DIGITS",
+          "value": "5",
+        },
+        "type": "NUMBER",
+        "value": 5,
+      },
+    ],
+    "position": 169,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": null,
+      "token": Object {
+        "length": 2,
+        "originalValue": "db",
+        "position": 174,
+        "type": "UNKNOWN",
+        "value": "DB",
+      },
+    },
+    "label": null,
+    "length": 7,
+    "machineCodes": Array [
+      54,
+      55,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "\\"67\\"",
+          "position": 177,
+          "type": "STRING",
+          "value": "67",
+        },
+        "type": "STRING",
+        "value": Array [
+          54,
+          55,
+        ],
+      },
+    ],
+    "position": 174,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 182,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 182,
+  },
+]
+`;
+
+exports[`parser should parse instruction with no operand 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 234,
+      "token": Object {
+        "length": 5,
+        "originalValue": "pushf",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "PUSHF",
+      },
+    },
+    "label": null,
+    "length": 5,
+    "machineCodes": Array [
+      234,
+    ],
+    "operands": Array [],
+    "position": 1,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 235,
+      "token": Object {
+        "length": 4,
+        "originalValue": "popf",
+        "position": 7,
+        "type": "UNKNOWN",
+        "value": "POPF",
+      },
+    },
+    "label": null,
+    "length": 4,
+    "machineCodes": Array [
+      235,
+    ],
+    "operands": Array [],
+    "position": 7,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 203,
+      "token": Object {
+        "length": 3,
+        "originalValue": "ret",
+        "position": 12,
+        "type": "UNKNOWN",
+        "value": "RET",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      203,
+    ],
+    "operands": Array [],
+    "position": 12,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 205,
+      "token": Object {
+        "length": 4,
+        "originalValue": "iret",
+        "position": 16,
+        "type": "UNKNOWN",
+        "value": "IRET",
+      },
+    },
+    "label": null,
+    "length": 4,
+    "machineCodes": Array [
+      205,
+    ],
+    "operands": Array [],
+    "position": 16,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 4,
+        "originalValue": "halt",
+        "position": 21,
+        "type": "UNKNOWN",
+        "value": "HALT",
+      },
+    },
+    "label": null,
+    "length": 4,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 21,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 255,
+      "token": Object {
+        "length": 3,
+        "originalValue": "nop",
+        "position": 26,
+        "type": "UNKNOWN",
+        "value": "NOP",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      255,
+    ],
+    "operands": Array [],
+    "position": 26,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 254,
+      "token": Object {
+        "length": 3,
+        "originalValue": "clo",
+        "position": 30,
+        "type": "UNKNOWN",
+        "value": "CLO",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      254,
+    ],
+    "operands": Array [],
+    "position": 30,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 253,
+      "token": Object {
+        "length": 3,
+        "originalValue": "cli",
+        "position": 34,
+        "type": "UNKNOWN",
+        "value": "CLI",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      253,
+    ],
+    "operands": Array [],
+    "position": 34,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 252,
+      "token": Object {
+        "length": 3,
+        "originalValue": "sti",
+        "position": 38,
+        "type": "UNKNOWN",
+        "value": "STI",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      252,
+    ],
+    "operands": Array [],
+    "position": 38,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 42,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 42,
+  },
+]
+`;
+
+exports[`parser should parse move instruction 1`] = `
+Array [
+  Object {
+    "instruction": Object {
+      "opcode": 208,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mov",
+        "position": 1,
+        "type": "UNKNOWN",
+        "value": "MOV",
+      },
+    },
+    "label": null,
+    "length": 10,
+    "machineCodes": Array [
+      208,
+      0,
+      1,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "al",
+          "position": 5,
+          "type": "REGISTER",
+          "value": "AL",
+        },
+        "type": "REGISTER",
+        "value": 0,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "01",
+          "position": 9,
+          "type": "DIGITS",
+          "value": "01",
+        },
+        "type": "NUMBER",
+        "value": 1,
+      },
+    ],
+    "position": 1,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 209,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mov",
+        "position": 12,
+        "type": "UNKNOWN",
+        "value": "MOV",
+      },
+    },
+    "label": null,
+    "length": 12,
+    "machineCodes": Array [
+      209,
+      1,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "bl",
+          "position": 16,
+          "type": "REGISTER",
+          "value": "BL",
+        },
+        "type": "REGISTER",
+        "value": 1,
+      },
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "[02]",
+          "position": 20,
+          "type": "ADDRESS",
+          "value": "02",
+        },
+        "type": "ADDRESS",
+        "value": 2,
+      },
+    ],
+    "position": 12,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 210,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mov",
+        "position": 25,
+        "type": "UNKNOWN",
+        "value": "MOV",
+      },
+    },
+    "label": null,
+    "length": 12,
+    "machineCodes": Array [
+      210,
+      3,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "[03]",
+          "position": 29,
+          "type": "ADDRESS",
+          "value": "03",
+        },
+        "type": "ADDRESS",
+        "value": 3,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 35,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+    ],
+    "position": 25,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 211,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mov",
+        "position": 38,
+        "type": "UNKNOWN",
+        "value": "MOV",
+      },
+    },
+    "label": null,
+    "length": 12,
+    "machineCodes": Array [
+      211,
+      3,
+      0,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "dl",
+          "position": 42,
+          "type": "REGISTER",
+          "value": "DL",
+        },
+        "type": "REGISTER",
+        "value": 3,
+      },
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "[al]",
+          "position": 46,
+          "type": "ADDRESS",
+          "value": "AL",
+        },
+        "type": "REGISTER_ADDRESS",
+        "value": 0,
+      },
+    ],
+    "position": 38,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 212,
+      "token": Object {
+        "length": 3,
+        "originalValue": "mov",
+        "position": 51,
+        "type": "UNKNOWN",
+        "value": "MOV",
+      },
+    },
+    "label": null,
+    "length": 12,
+    "machineCodes": Array [
+      212,
+      1,
+      2,
+    ],
+    "operands": Array [
+      Object {
+        "token": Object {
+          "length": 4,
+          "originalValue": "[bl]",
+          "position": 55,
+          "type": "ADDRESS",
+          "value": "BL",
+        },
+        "type": "REGISTER_ADDRESS",
+        "value": 1,
+      },
+      Object {
+        "token": Object {
+          "length": 2,
+          "originalValue": "cl",
+          "position": 61,
+          "type": "REGISTER",
+          "value": "CL",
+        },
+        "type": "REGISTER",
+        "value": 2,
+      },
+    ],
+    "position": 51,
+  },
+  Object {
+    "instruction": Object {
+      "opcode": 0,
+      "token": Object {
+        "length": 3,
+        "originalValue": "end",
+        "position": 64,
+        "type": "UNKNOWN",
+        "value": "END",
+      },
+    },
+    "label": null,
+    "length": 3,
+    "machineCodes": Array [
+      0,
+    ],
+    "operands": Array [],
+    "position": 64,
+  },
+]
+`;

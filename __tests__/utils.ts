@@ -1,17 +1,14 @@
-import type { Statement } from '../src/core/tokenize'
-
-export const statementToString = (statement: Statement): string => {
-  const { instruction, operands } = statement
-  return `${instruction}${
-    (operands !== null && ` ${operands.join(', ')}`) || ''
-  }`
-}
+import { AssemblerError, RuntimeError } from '../src/core/exceptions'
 
 export const expectError = (cb: () => void, msg: string): void => {
-  expect.assertions(1)
   try {
     cb()
+    throw new Error(`Expected error with message: ${msg}`)
   } catch (err) {
-    expect(err.message).toBe(msg)
+    if (err instanceof AssemblerError || err instanceof RuntimeError) {
+      expect(err.message).toBe(msg)
+    } else {
+      throw err
+    }
   }
 }
