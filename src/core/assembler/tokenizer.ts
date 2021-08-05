@@ -52,11 +52,11 @@ const tokenMatchers = [
   matchRegex(/^\s+/, TokenType.Whitespace),
   matchRegex(/^;.*/, TokenType.Comment),
   matchRegex(/^,/, TokenType.Comma),
-  matchRegex(/^\d+(?=[\s,;])/, TokenType.Digits),
-  matchRegex(/^[a-dA-D][lL](?=[\s,;])/, TokenType.Register),
-  matchRegex(/^\[\S*?\](?=[\s,;])/, TokenType.Address),
-  matchRegex(/^"[^\r\n]*?"(?=[\s,;])/, TokenType.String),
-  matchRegex(/^[^\s,;]+/, TokenType.Unknown)
+  matchRegex(/^\d+\b/, TokenType.Digits),
+  matchRegex(/^[a-dA-D][lL]\b/, TokenType.Register),
+  matchRegex(/^\[\S*?\](?=[\s;,]|$)/, TokenType.Address),
+  matchRegex(/^"[^\r\n]*?"(?=[\s;,]|$)/, TokenType.String),
+  matchRegex(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
 export const tokenize = (input: string): Token[] => {
