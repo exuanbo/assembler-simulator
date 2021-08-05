@@ -1,4 +1,5 @@
 import type { Token, Label, OperandType, Statement } from './assembler'
+import { trimBrackets } from './utils'
 
 export abstract class AssemblerError extends Error {
   public position: number
@@ -40,8 +41,9 @@ export class MissingEndError extends AssemblerError {
 
 export class InvalidNumberError extends AssemblerError {
   constructor(token: Token) {
+    const numberValue = trimBrackets(token.originalValue)
     super(
-      `Number should be hexadecimal and less than or equal to FF: ${token.originalValue}`,
+      `Number should be hexadecimal and less than or equal to FF: ${numberValue}`,
       token.position,
       token.length
     )
@@ -50,7 +52,7 @@ export class InvalidNumberError extends AssemblerError {
 
 export class AddressError extends AssemblerError {
   constructor(token: Token) {
-    const addressValue = token.originalValue.replace(/^\[(.*)]$/, '$1')
+    const addressValue = trimBrackets(token.originalValue)
     super(
       `Expected a number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
       token.position + /* opening bracket */ 1,
