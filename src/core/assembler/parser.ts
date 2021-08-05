@@ -601,7 +601,10 @@ export const parse = (tokens: Token[]): Statement[] => {
     statements.push(statement)
     index += getConsumedTokensCount(statement)
   }
-  if (statements[statements.length - 1].instruction.opcode !== Opcode.END) {
+  if (
+    statements.length === 0 ||
+    statements[statements.length - 1].instruction.opcode !== Opcode.END
+  ) {
     throw new MissingEndError()
   }
   return statements
