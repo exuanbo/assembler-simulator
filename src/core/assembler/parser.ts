@@ -156,8 +156,6 @@ const parseSingleOperand =
     const createOperandOf = (type: OperandType): Operand<T> => createOperand(type as T, token)
 
     switch (token.type) {
-      case TokenType.Comma:
-        break
       case TokenType.Digits:
         if (isExpected(OperandType.Number)) {
           const numberError = validateNumber(token)
@@ -173,7 +171,7 @@ const parseSingleOperand =
         }
         break
       case TokenType.Address:
-        if (isExpected(OperandType.Address) || isExpected(OperandType.RegisterAddress)) {
+        if (isExpected(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
           if (NUMBER.test(token.value)) {
             const numberError = validateNumber(token)
             if (numberError !== null) {
