@@ -28,13 +28,11 @@ const createLabel = (token: Token): Label => {
 }
 
 interface Instruction {
-  mnemonic: Mnemonic
   opcode: Opcode | null
   token: Token
 }
 
-const createInstruction = (mnemonic: Mnemonic, token: Token): Instruction => ({
-  mnemonic,
+const createInstruction = (token: Token): Instruction => ({
   opcode: null,
   token
 })
@@ -103,7 +101,7 @@ const createStatement = (
       const lastOperand = operands[operands.length - 1]
       return lastOperand.token.position + lastOperand.token.length - position
     }
-    return instruction.mnemonic.length
+    return instruction.token.value.length
   })()
   return {
     label,
@@ -273,11 +271,12 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
 
   index++
 
-  const mnemonic = token.value as Mnemonic
-  const instruction = createInstruction(mnemonic, token)
+  const instruction = createInstruction(token)
   const operands: Operand[] = []
 
+  const mnemonic = token.value as Mnemonic
   const operandsCount = MNEMONIC_TO_OPERANDS_COUNT_MAP[mnemonic]
+
   switch (operandsCount) {
     case 0: {
       instruction.opcode = Opcode[mnemonic as keyof typeof Opcode]
@@ -602,7 +601,7 @@ export const parse = (tokens: Token[]): Statement[] => {
     statements.push(statement)
     index += getConsumedTokensCount(statement)
   }
-  if (statements[statements.length - 1].instruction.mnemonic !== Mnemonic.END) {
+  if (statements[statements.length - 1].instruction.opcode !== Opcode.END) {
     throw new MissingEndError()
   }
   return statements

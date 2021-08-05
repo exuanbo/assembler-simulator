@@ -25,7 +25,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
       labelToAddressMap.set(label.identifier, address)
     }
     const firstOperand = operands[0]
-    if (instruction.mnemonic === Mnemonic.ORG) {
+    if (instruction.token.value === Mnemonic.ORG) {
       return firstOperand.value as number
     }
     const nextAddress =
@@ -53,7 +53,7 @@ export const assemble = (input: string): AssembleResult => {
   statements.reduce((address, statement) => {
     const { instruction, operands, machineCodes } = statement
     const firstOperand = operands[0]
-    if (instruction.mnemonic === Mnemonic.ORG) {
+    if (instruction.token.value === Mnemonic.ORG) {
       return firstOperand.value as number
     }
     if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
