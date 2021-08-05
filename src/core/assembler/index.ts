@@ -16,7 +16,7 @@ type LabelToAddressMap = Map<string, number>
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   const labelToAddressMap: LabelToAddressMap = new Map()
-  statements.reduce((address, statement) => {
+  statements.reduce((address, statement, index) => {
     const { label, instruction, operands, machineCodes } = statement
     if (label !== null) {
       if (labelToAddressMap.has(label.identifier)) {
@@ -32,7 +32,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
       address +
       machineCodes.length +
       (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
-    if (nextAddress > 0xff) {
+    if (nextAddress > 0xff && index !== statements.length - 1) {
       throw new EndOfMemoryError(statement)
     }
     return nextAddress
