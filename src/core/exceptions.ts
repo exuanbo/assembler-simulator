@@ -112,3 +112,11 @@ export class JumpDistanceError extends AssemblerError {
     )
   }
 }
+
+export abstract class RuntimeError extends Error {}
+
+export class InvalidRegisterError extends RuntimeError {
+  constructor(value: number) {
+    super(`Invalid register: ${value}`)
+  }
+}

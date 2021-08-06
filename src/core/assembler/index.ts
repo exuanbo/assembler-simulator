@@ -40,7 +40,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   return labelToAddressMap
 }
 
-type AddressToMachineCodeMap = Map<number, number>
+export type AddressToMachineCodeMap = Map<number, number>
 type AddressToStatementMap = Map<number, Statement>
 
 type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
