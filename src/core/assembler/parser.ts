@@ -32,10 +32,13 @@ interface Instruction {
   token: Token
 }
 
-const createInstruction = (token: Token): Instruction => ({
-  opcode: null,
-  token
-})
+const createInstruction = (token: Token): Instruction => {
+  const opcode = null
+  return {
+    opcode,
+    token
+  }
+}
 
 export enum OperandType {
   Number = 'NUMBER',
