@@ -1,4 +1,5 @@
 import { atom } from 'precoil'
+import { initMemory } from './core'
 
 const DEFAULT_INPUT = `mov al, 5A
 mov bl, D3
@@ -22,6 +23,6 @@ end
 
 export const codeState = atom(DEFAULT_INPUT)
 
-export const memoryState = atom(new Uint8Array(0x100))
+export const memoryState = atom(initMemory())
 
 export const errorState = atom<string | null>(null)

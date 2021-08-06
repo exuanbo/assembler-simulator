@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import Status from './Status'
 import { codeState, memoryState, errorState } from '../atoms'
-import { assemble } from '../core/assembler'
+import { assemble, initMemoryFrom } from '../core'
 
 interface Props {
   className?: string
@@ -16,11 +16,15 @@ const CodeArea = ({ className }: Props): JSX.Element => {
 
   const handleCodeChange = (): void => {
     try {
-      const [data] = assemble(code)
-      setMemory(data)
+      const [addressToOpcodeMap] = assemble(code)
+      setMemory(initMemoryFrom(addressToOpcodeMap))
       setError(null)
     } catch (err) {
-      setError(err.message)
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        throw err
+      }
     }
   }
 

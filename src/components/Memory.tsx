@@ -1,15 +1,15 @@
 import React from 'react'
 import Card from './Card'
 import { memoryState } from '../atoms'
-import { decToHex, splitUint8ArrayPerChunk } from '../core/utils'
+import { decToHex, splitArrayPerChunk } from '../core/utils'
 
 interface Props {
   className?: string
 }
 
 const Memory = ({ className }: Props): JSX.Element => {
-  const [address] = memoryState.useState()
-  const addressMatrix = splitUint8ArrayPerChunk(address, 0x10)
+  const [memory] = memoryState.useState()
+  const machineCodesMatrix = splitArrayPerChunk(memory, 0x10)
 
   return (
     <Card className={className} title="Memory">
@@ -17,20 +17,20 @@ const Memory = ({ className }: Props): JSX.Element => {
         <thead>
           <tr className="divide-x bg-gray-50">
             <th />
-            {addressMatrix[0].map((_, colIndex) => (
-              <th key={`col-index-${colIndex}`} className="text-center">
+            {machineCodesMatrix[0].map((_, colIndex) => (
+              <th key={`col-${colIndex}`} className="text-center">
                 {decToHex(colIndex)[1]}
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="divide-y">
-          {addressMatrix.map((row, rowIndex) => (
+          {machineCodesMatrix.map((row, rowIndex) => (
             <tr key={`row-${rowIndex}`} className="divide-x">
               <td className="text-center bg-gray-50">{decToHex(rowIndex)[1]}</td>
-              {row.map((addr, addrIndex) => (
-                <td key={`row-${rowIndex}-col-${addrIndex}`} className="text-center">
-                  {decToHex(addr)}
+              {row.map((machineCode, colIndex) => (
+                <td key={`row-${rowIndex}-col-${colIndex}`} className="text-center">
+                  {decToHex(machineCode)}
                 </td>
               ))}
             </tr>
