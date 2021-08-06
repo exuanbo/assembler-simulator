@@ -7,10 +7,9 @@ export const stringToASCII = (str: string): number[] =>
 
 export const trimBrackets = (str: string): string => str.replace(/^\[(.*)]$/, '$1')
 
-export const splitUint8ArrayPerChunk = (arr: Uint8Array, perChunk: number): number[][] =>
-  arr.reduce<number[][]>((matrix, value, index) => {
+export const splitArrayPerChunk = (array: number[], perChunk: number): number[][] =>
+  array.reduce<number[][]>((result, value, index) => {
     const chunkIndex = Math.floor(index / perChunk)
-    matrix[chunkIndex] = matrix[chunkIndex] ?? []
-    matrix[chunkIndex].push(value)
-    return matrix
+    result[chunkIndex] = result[chunkIndex]?.concat([value]) ?? [value]
+    return result
   }, [])
