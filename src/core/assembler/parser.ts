@@ -222,36 +222,27 @@ const checkComma = (token: Token): AssemblerError | null => {
   return null
 }
 
-type SecondOperandErrorCallback<T1 extends OperandType> = (
-  firstOperandType: T1,
-  secondOperandToken: Token
-) => void
-
 const parseDoubleOperands =
   (tokens: Token[], index: number) =>
-  <T1 extends OperandType>(...firstExpectedTypes: T1[]) =>
-  <T2 extends OperandType>(
-    ...secondExpectedTypes: [...T2[], T2 | SecondOperandErrorCallback<T1>]
+  <T1 extends OperandType, T2 extends OperandType>(
+    ...expectedTypes: Array<[firstOperandType: T1, secondOperandType: T2]>
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
-    const firstOperand = parseSingleOperand(tokens, index)(...firstExpectedTypes)
+    const firstOperandTypes = expectedTypes.reduce<T1[]>(
+      (result, [firstOperandType]) =>
+        result.includes(firstOperandType) ? result : result.concat([firstOperandType]),
+      []
+    )
+    const firstOperand = parseSingleOperand(tokens, index)(...firstOperandTypes)
     const error = checkComma(tokens[index + 1])
     if (error !== null) {
       throw error
     }
-    const secondOperand = ((): Operand<T2> => {
-      const callback =
-        typeof secondExpectedTypes[secondExpectedTypes.length - 1] === 'function'
-          ? (secondExpectedTypes.pop() as SecondOperandErrorCallback<T1>)
-          : undefined
-      try {
-        return parseSingleOperand(tokens, index + 2)(...(secondExpectedTypes as T2[]))
-      } catch (error) {
-        if (error instanceof OperandTypeError && callback !== undefined) {
-          callback(firstOperand.type, tokens[index + 2])
-        }
-        throw error
-      }
-    })()
+    const secondOperandTypes = expectedTypes.reduce<T2[]>(
+      (result, [firstOperandType, secondOperandType]) =>
+        firstOperandType === firstOperand.type ? result.concat([secondOperandType]) : result,
+      []
+    )
+    const secondOperand = parseSingleOperand(tokens, index + 2)(...secondOperandTypes)
     return [firstOperand, secondOperand]
   }
 
@@ -387,9 +378,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
 
       switch (mnemonic as MnemonicWithTwoOperands) {
         case Mnemonic.ADD:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -400,9 +391,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.SUB:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -413,9 +404,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.MUL:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -426,9 +417,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.DIV:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -439,9 +430,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.MOD:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -452,9 +443,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.AND:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -465,9 +456,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.OR:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -478,9 +469,9 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           }
           break
         case Mnemonic.XOR:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -492,28 +483,11 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           break
         case Mnemonic.MOV:
           ;[firstOperand, secondOperand] = parseOperands(
-            OperandType.Register,
-            OperandType.Address,
-            OperandType.RegisterAddress
-          )(
-            OperandType.Number,
-            OperandType.Register,
-            OperandType.Address,
-            OperandType.RegisterAddress,
-            (firstOperandType, secondOperandToken) => {
-              switch (firstOperandType) {
-                case OperandType.Register:
-                  throw new OperandTypeError(
-                    secondOperandToken,
-                    OperandType.Number,
-                    OperandType.Address,
-                    OperandType.RegisterAddress
-                  )
-                case OperandType.Address:
-                case OperandType.RegisterAddress:
-                  throw new OperandTypeError(secondOperandToken, OperandType.Register)
-              }
-            }
+            [OperandType.Register, OperandType.Number],
+            [OperandType.Register, OperandType.Address],
+            [OperandType.Address, OperandType.Register],
+            [OperandType.Register, OperandType.RegisterAddress],
+            [OperandType.RegisterAddress, OperandType.Register]
           )
           switch (firstOperand.type) {
             case OperandType.Register:
@@ -521,13 +495,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
                 case OperandType.Number:
                   instruction.opcode = Opcode.MOV_NUM_TO_REG
                   break
-                case OperandType.Register:
-                  throw new OperandTypeError(
-                    secondOperand.token,
-                    OperandType.Number,
-                    OperandType.Address,
-                    OperandType.RegisterAddress
-                  )
                 case OperandType.Address:
                   instruction.opcode = Opcode.MOV_ADDR_TO_REG
                   break
@@ -536,23 +503,17 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               }
               break
             case OperandType.Address:
-              if (secondOperand.type !== OperandType.Register) {
-                throw new OperandTypeError(secondOperand.token, OperandType.Register)
-              }
               instruction.opcode = Opcode.MOV_REG_TO_ADDR
               break
             case OperandType.RegisterAddress:
-              if (secondOperand.type !== OperandType.Register) {
-                throw new OperandTypeError(secondOperand.token, OperandType.Register)
-              }
               instruction.opcode = Opcode.MOV_REG_TO_REG_ADDR
           }
           break
         case Mnemonic.CMP:
-          ;[firstOperand, secondOperand] = parseOperands(OperandType.Register)(
-            OperandType.Register,
-            OperandType.Number,
-            OperandType.Address
+          ;[firstOperand, secondOperand] = parseOperands(
+            [OperandType.Register, OperandType.Register],
+            [OperandType.Register, OperandType.Number],
+            [OperandType.Register, OperandType.Address]
           )
           switch (secondOperand.type) {
             case OperandType.Register:
