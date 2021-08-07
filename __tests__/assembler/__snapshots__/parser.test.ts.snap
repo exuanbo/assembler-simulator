@@ -15,11 +15,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      218,
-      0,
-      1,
-    ],
+    "machineCodes": Array [218, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -59,11 +55,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      219,
-      2,
-      1,
-    ],
+    "machineCodes": Array [219, 2, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -103,11 +95,7 @@ Array [
     },
     "label": null,
     "length": 12,
-    "machineCodes": Array [
-      220,
-      3,
-      2,
-    ],
+    "machineCodes": Array [220, 3, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -147,9 +135,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 36,
   },
@@ -171,11 +157,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      160,
-      0,
-      1,
-    ],
+    "machineCodes": Array [160, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -215,11 +197,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      161,
-      2,
-      3,
-    ],
+    "machineCodes": Array [161, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -259,11 +237,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      162,
-      0,
-      1,
-    ],
+    "machineCodes": Array [162, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -303,11 +277,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      163,
-      2,
-      3,
-    ],
+    "machineCodes": Array [163, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -347,11 +317,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      166,
-      0,
-      1,
-    ],
+    "machineCodes": Array [166, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -391,11 +357,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      170,
-      2,
-      3,
-    ],
+    "machineCodes": Array [170, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -435,11 +397,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      171,
-      0,
-      1,
-    ],
+    "machineCodes": Array [171, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -479,11 +437,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      172,
-      2,
-      3,
-    ],
+    "machineCodes": Array [172, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -523,9 +477,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 88,
   },
@@ -547,11 +499,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      176,
-      0,
-      1,
-    ],
+    "machineCodes": Array [176, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -591,11 +539,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      177,
-      1,
-      2,
-    ],
+    "machineCodes": Array [177, 1, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -635,11 +579,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      178,
-      2,
-      3,
-    ],
+    "machineCodes": Array [178, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -679,11 +619,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      179,
-      3,
-      4,
-    ],
+    "machineCodes": Array [179, 3, 4],
     "operands": Array [
       Object {
         "token": Object {
@@ -723,11 +659,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      182,
-      0,
-      1,
-    ],
+    "machineCodes": Array [182, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -767,11 +699,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      186,
-      1,
-      2,
-    ],
+    "machineCodes": Array [186, 1, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -811,11 +739,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      187,
-      2,
-      3,
-    ],
+    "machineCodes": Array [187, 2, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -855,11 +779,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      188,
-      3,
-      4,
-    ],
+    "machineCodes": Array [188, 3, 4],
     "operands": Array [
       Object {
         "token": Object {
@@ -899,9 +819,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 88,
   },
@@ -932,10 +850,7 @@ Array [
       },
     },
     "length": 6,
-    "machineCodes": Array [
-      164,
-      0,
-    ],
+    "machineCodes": Array [164, 0],
     "operands": Array [
       Object {
         "token": Object {
@@ -964,10 +879,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      165,
-      1,
-    ],
+    "machineCodes": Array [165, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -996,10 +908,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      173,
-      2,
-    ],
+    "machineCodes": Array [173, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -1028,10 +937,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      154,
-      3,
-    ],
+    "machineCodes": Array [154, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -1060,10 +966,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      155,
-      0,
-    ],
+    "machineCodes": Array [155, 0],
     "operands": Array [
       Object {
         "token": Object {
@@ -1092,10 +995,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      156,
-      1,
-    ],
+    "machineCodes": Array [156, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -1124,10 +1024,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      157,
-      2,
-    ],
+    "machineCodes": Array [157, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -1156,9 +1053,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      192,
-    ],
+    "machineCodes": Array [192],
     "operands": Array [
       Object {
         "token": Object {
@@ -1187,9 +1082,7 @@ Array [
     },
     "label": null,
     "length": 8,
-    "machineCodes": Array [
-      193,
-    ],
+    "machineCodes": Array [193],
     "operands": Array [
       Object {
         "token": Object {
@@ -1218,9 +1111,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      194,
-    ],
+    "machineCodes": Array [194],
     "operands": Array [
       Object {
         "token": Object {
@@ -1249,9 +1140,7 @@ Array [
     },
     "label": null,
     "length": 8,
-    "machineCodes": Array [
-      195,
-    ],
+    "machineCodes": Array [195],
     "operands": Array [
       Object {
         "token": Object {
@@ -1280,9 +1169,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      196,
-    ],
+    "machineCodes": Array [196],
     "operands": Array [
       Object {
         "token": Object {
@@ -1311,9 +1198,7 @@ Array [
     },
     "label": null,
     "length": 8,
-    "machineCodes": Array [
-      197,
-    ],
+    "machineCodes": Array [197],
     "operands": Array [
       Object {
         "token": Object {
@@ -1342,9 +1227,7 @@ Array [
     },
     "label": null,
     "length": 9,
-    "machineCodes": Array [
-      198,
-    ],
+    "machineCodes": Array [198],
     "operands": Array [
       Object {
         "token": Object {
@@ -1373,10 +1256,7 @@ Array [
     },
     "label": null,
     "length": 7,
-    "machineCodes": Array [
-      224,
-      0,
-    ],
+    "machineCodes": Array [224, 0],
     "operands": Array [
       Object {
         "token": Object {
@@ -1405,10 +1285,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      225,
-      1,
-    ],
+    "machineCodes": Array [225, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -1437,10 +1314,7 @@ Array [
     },
     "label": null,
     "length": 6,
-    "machineCodes": Array [
-      202,
-      0,
-    ],
+    "machineCodes": Array [202, 0],
     "operands": Array [
       Object {
         "token": Object {
@@ -1469,10 +1343,7 @@ Array [
     },
     "label": null,
     "length": 5,
-    "machineCodes": Array [
-      204,
-      1,
-    ],
+    "machineCodes": Array [204, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -1501,10 +1372,7 @@ Array [
     },
     "label": null,
     "length": 4,
-    "machineCodes": Array [
-      240,
-      2,
-    ],
+    "machineCodes": Array [240, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -1533,10 +1401,7 @@ Array [
     },
     "label": null,
     "length": 5,
-    "machineCodes": Array [
-      241,
-      3,
-    ],
+    "machineCodes": Array [241, 3],
     "operands": Array [
       Object {
         "token": Object {
@@ -1565,9 +1430,7 @@ Array [
     },
     "label": null,
     "length": 5,
-    "machineCodes": Array [
-      4,
-    ],
+    "machineCodes": Array [4],
     "operands": Array [
       Object {
         "token": Object {
@@ -1596,9 +1459,7 @@ Array [
     },
     "label": null,
     "length": 4,
-    "machineCodes": Array [
-      5,
-    ],
+    "machineCodes": Array [5],
     "operands": Array [
       Object {
         "token": Object {
@@ -1627,10 +1488,7 @@ Array [
     },
     "label": null,
     "length": 7,
-    "machineCodes": Array [
-      54,
-      55,
-    ],
+    "machineCodes": Array [54, 55],
     "operands": Array [
       Object {
         "token": Object {
@@ -1641,10 +1499,7 @@ Array [
           "value": "67",
         },
         "type": "STRING",
-        "value": Array [
-          54,
-          55,
-        ],
+        "value": Array [54, 55],
       },
     ],
     "position": 174,
@@ -1662,9 +1517,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 182,
   },
@@ -1686,9 +1539,7 @@ Array [
     },
     "label": null,
     "length": 5,
-    "machineCodes": Array [
-      234,
-    ],
+    "machineCodes": Array [234],
     "operands": Array [],
     "position": 1,
   },
@@ -1705,9 +1556,7 @@ Array [
     },
     "label": null,
     "length": 4,
-    "machineCodes": Array [
-      235,
-    ],
+    "machineCodes": Array [235],
     "operands": Array [],
     "position": 7,
   },
@@ -1724,9 +1573,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      203,
-    ],
+    "machineCodes": Array [203],
     "operands": Array [],
     "position": 12,
   },
@@ -1743,9 +1590,7 @@ Array [
     },
     "label": null,
     "length": 4,
-    "machineCodes": Array [
-      205,
-    ],
+    "machineCodes": Array [205],
     "operands": Array [],
     "position": 16,
   },
@@ -1762,9 +1607,7 @@ Array [
     },
     "label": null,
     "length": 4,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 21,
   },
@@ -1781,9 +1624,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      255,
-    ],
+    "machineCodes": Array [255],
     "operands": Array [],
     "position": 26,
   },
@@ -1800,9 +1641,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      254,
-    ],
+    "machineCodes": Array [254],
     "operands": Array [],
     "position": 30,
   },
@@ -1819,9 +1658,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      253,
-    ],
+    "machineCodes": Array [253],
     "operands": Array [],
     "position": 34,
   },
@@ -1838,9 +1675,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      252,
-    ],
+    "machineCodes": Array [252],
     "operands": Array [],
     "position": 38,
   },
@@ -1857,9 +1692,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 42,
   },
@@ -1881,11 +1714,7 @@ Array [
     },
     "label": null,
     "length": 10,
-    "machineCodes": Array [
-      208,
-      0,
-      1,
-    ],
+    "machineCodes": Array [208, 0, 1],
     "operands": Array [
       Object {
         "token": Object {
@@ -1925,11 +1754,7 @@ Array [
     },
     "label": null,
     "length": 12,
-    "machineCodes": Array [
-      209,
-      1,
-      2,
-    ],
+    "machineCodes": Array [209, 1, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -1969,11 +1794,7 @@ Array [
     },
     "label": null,
     "length": 12,
-    "machineCodes": Array [
-      210,
-      3,
-      2,
-    ],
+    "machineCodes": Array [210, 3, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -2013,11 +1834,7 @@ Array [
     },
     "label": null,
     "length": 12,
-    "machineCodes": Array [
-      211,
-      3,
-      0,
-    ],
+    "machineCodes": Array [211, 3, 0],
     "operands": Array [
       Object {
         "token": Object {
@@ -2057,11 +1874,7 @@ Array [
     },
     "label": null,
     "length": 12,
-    "machineCodes": Array [
-      212,
-      1,
-      2,
-    ],
+    "machineCodes": Array [212, 1, 2],
     "operands": Array [
       Object {
         "token": Object {
@@ -2101,9 +1914,7 @@ Array [
     },
     "label": null,
     "length": 3,
-    "machineCodes": Array [
-      0,
-    ],
+    "machineCodes": Array [0],
     "operands": Array [],
     "position": 64,
   },
