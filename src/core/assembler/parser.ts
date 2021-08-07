@@ -397,7 +397,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.ADD_NUM_TO_REG
-              break
           }
           break
         case Mnemonic.SUB:
@@ -411,7 +410,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.SUB_NUM_FROM_REG
-              break
           }
           break
         case Mnemonic.MUL:
@@ -425,7 +423,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.MUL_REG_BY_NUM
-              break
           }
           break
         case Mnemonic.DIV:
@@ -439,7 +436,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.DIV_REG_BY_NUM
-              break
           }
           break
         case Mnemonic.MOD:
@@ -453,7 +449,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.MOD_REG_BY_NUM
-              break
           }
           break
         case Mnemonic.AND:
@@ -467,7 +462,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.AND_REG_WITH_NUM
-              break
           }
           break
         case Mnemonic.OR:
@@ -481,7 +475,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.OR_REG_WITH_NUM
-              break
           }
           break
         case Mnemonic.XOR:
@@ -495,7 +488,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Number:
               instruction.opcode = Opcode.XOR_REG_WITH_NUM
-              break
           }
           break
         case Mnemonic.MOV:
@@ -541,7 +533,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
                   break
                 case OperandType.RegisterAddress:
                   instruction.opcode = Opcode.MOV_REG_ADDR_TO_REG
-                  break
               }
               break
             case OperandType.Address:
@@ -555,7 +546,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
                 throw new OperandTypeError(secondOperand.token, OperandType.Register)
               }
               instruction.opcode = Opcode.MOV_REG_TO_REG_ADDR
-              break
           }
           break
         case Mnemonic.CMP:
@@ -573,7 +563,6 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
               break
             case OperandType.Address:
               instruction.opcode = Opcode.CMP_REG_WITH_ADDR
-              break
           }
       }
 
