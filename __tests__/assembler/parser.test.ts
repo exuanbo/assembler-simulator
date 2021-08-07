@@ -202,10 +202,16 @@ end
     }).toThrowError('Number should be hexadecimal and less than or equal to FF: fff')
   })
 
+  it('should throw OperandTypeError if token does not match any operand types', () => {
+    expect(() => {
+      parse('inc unknown')
+    }).toThrowError('Expected register: unknown')
+  })
+
   it('should throw OperandTypeError with one expected type', () => {
     expect(() => {
-      parse('inc 01')
-    }).toThrowError('Expected register: 01')
+      parse('inc [01]')
+    }).toThrowError('Expected register: [01]')
   })
 
   it('should throw OperandTypeError with more than one expected types', () => {
