@@ -1,3 +1,4 @@
+import { produce, enableMapSet } from 'immer'
 import { tokenize } from './tokenizer'
 import type { Statement } from './parser'
 import { OperandType, parse } from './parser'
@@ -12,31 +13,41 @@ import { Mnemonic } from '../constants'
 export * from './tokenizer'
 export * from './parser'
 
+enableMapSet()
+
 type LabelToAddressMap = Map<string, number>
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
-  const labelToAddressMap: LabelToAddressMap = new Map()
-  statements.reduce((address, statement, index) => {
-    const { label, instruction, operands, machineCodes } = statement
-    if (label !== null) {
-      if (labelToAddressMap.has(label.identifier)) {
-        throw new DuplicateLabelError(label)
+  const [, labelToAddressMap] = statements.reduce<[number, LabelToAddressMap]>(
+    ([address, labelToAddressMap], statement, index) => {
+      const { label, instruction, operands, machineCodes } = statement
+      const firstOperand = operands[0]
+      const getNextAddress = (): number => {
+        const nextAddress =
+          address +
+          machineCodes.length +
+          (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
+        if (nextAddress > 0xff && index !== statements.length - 1) {
+          throw new EndOfMemoryError(statement)
+        }
+        return nextAddress
       }
-      labelToAddressMap.set(label.identifier, address)
-    }
-    const firstOperand = operands[0]
-    if (instruction.token.value === Mnemonic.ORG) {
-      return firstOperand.value as number
-    }
-    const nextAddress =
-      address +
-      machineCodes.length +
-      (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
-    if (nextAddress > 0xff && index !== statements.length - 1) {
-      throw new EndOfMemoryError(statement)
-    }
-    return nextAddress
-  }, 0)
+      return [
+        instruction.token.value === Mnemonic.ORG
+          ? (firstOperand.value as number)
+          : getNextAddress(),
+        produce(labelToAddressMap, draft => {
+          if (label !== null) {
+            if (draft.has(label.identifier)) {
+              throw new DuplicateLabelError(label)
+            }
+            draft.set(label.identifier, address)
+          }
+        })
+      ]
+    },
+    [0, new Map()]
+  )
   return labelToAddressMap
 }
 
@@ -46,33 +57,42 @@ type AddressToStatementMap = Map<number, Statement>
 type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
 
 export const assemble = (input: string): AssembleResult => {
-  const addressToMachineCodeMap: AddressToMachineCodeMap = new Map()
-  const addressToStatementMap: AddressToStatementMap = new Map()
   const statements = parse(tokenize(input))
   const labelToAddressMap = getLabelToAddressMap(statements)
-  statements.reduce((address, statement) => {
-    const { instruction, operands, machineCodes } = statement
-    const firstOperand = operands[0]
-    if (instruction.token.value === Mnemonic.ORG) {
-      return firstOperand.value as number
-    }
-    if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
-      const labelAddress = labelToAddressMap.get(firstOperand.token.value)
-      if (labelAddress === undefined) {
-        throw new LabelNotExistError(firstOperand.token)
+  const [, addressToMachineCodeMap, addressToStatementMap] = statements.reduce<
+    [number, ...AssembleResult]
+  >(
+    ([address, addressToMachineCodeMap, addressToStatementMap], statement) => {
+      const { instruction, operands, machineCodes } = statement
+      const firstOperand = operands[0]
+      if (instruction.token.value === Mnemonic.ORG) {
+        return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
-      const distance = labelAddress - address
-      if (distance < -128 || distance > 127) {
-        throw new JumpDistanceError(firstOperand.token)
+      if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
+        const labelAddress = labelToAddressMap.get(firstOperand.token.value)
+        if (labelAddress === undefined) {
+          throw new LabelNotExistError(firstOperand.token)
+        }
+        const distance = labelAddress - address
+        if (distance < -128 || distance > 127) {
+          throw new JumpDistanceError(firstOperand.token)
+        }
+        const unsignedDistance = distance < 0 ? 0x100 + distance : distance
+        machineCodes.push(unsignedDistance)
       }
-      const unsignedDistance = distance < 0 ? 0x100 + distance : distance
-      machineCodes.push(unsignedDistance)
-    }
-    machineCodes.forEach((machineCode, index) => {
-      addressToMachineCodeMap.set(address + index, machineCode)
-    })
-    addressToStatementMap.set(address, statement)
-    return address + machineCodes.length
-  }, 0)
+      return [
+        address + machineCodes.length,
+        produce(addressToMachineCodeMap, draft => {
+          machineCodes.forEach((machineCode, index) => {
+            draft.set(address + index, machineCode)
+          })
+        }),
+        produce(addressToStatementMap, draft => {
+          draft.set(address, statement)
+        })
+      ]
+    },
+    [0, new Map(), new Map()]
+  )
   return [addressToMachineCodeMap, addressToStatementMap]
 }
