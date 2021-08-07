@@ -1,5 +1,4 @@
 import { assemble, initMemoryFrom } from '../../src/core'
-import { expectError } from '../utils'
 
 export const INPUT = `
 ; --------------------------------------------------------------
@@ -87,33 +86,33 @@ describe('assembler', () => {
   })
 
   it('should throw DuplicateLabelError', () => {
-    expectError(() => {
+    expect(() => {
       assemble(`
 start: inc al
 start: dec bl
 end
 `)
-    }, 'Duplicate label: START')
+    }).toThrowError('Duplicate label: START')
   })
 
   it('should throw EndOfMemoryError', () => {
-    expectError(() => {
+    expect(() => {
       assemble(`
 org ff
 inc al
 end
 `)
-    }, 'Can not generate code beyond the end of RAM')
+    }).toThrowError('Can not generate code beyond the end of RAM')
   })
 
   it('should throw LabelNotExistError', () => {
-    expectError(() => {
+    expect(() => {
       assemble('jmp start end')
-    }, 'Label does not exist: start')
+    }).toThrowError('Label does not exist: start')
   })
 
   it('should throw JumpDistanceError', () => {
-    expectError(() => {
+    expect(() => {
       assemble(`
 start:
 inc al
@@ -121,6 +120,6 @@ org fd
 jmp start
 end
 `)
-    }, 'Jump distance should be between -128 and 127: start')
+    }).toThrowError('Jump distance should be between -128 and 127: start')
   })
 })

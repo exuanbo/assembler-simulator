@@ -1,6 +1,5 @@
 import type { Statement } from '../../src/core/assembler'
 import { tokenize, parse as _parse } from '../../src/core/assembler'
-import { expectError } from '../utils'
 
 const parse = (input: string): Statement[] => _parse(tokenize(input))
 
@@ -110,139 +109,141 @@ end
     ).toMatchSnapshot()
   })
 
-  it('should throw InvalidLabelError', () => {
-    expectError(() => {
+  const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should start with a charactor or underscore: '
+
+  it('should throw InvalidLabelError if label identifier is illegal', () => {
+    expect(() => {
       parse('!done: end')
-    }, 'Label should start with a charactor or underscore: !done')
+    }).toThrowError(INVALID_LABEL_ERROR_MSG_PREFIX + '!done')
 
-    expectError(() => {
+    expect(() => {
       parse(': end')
-    }, 'Label should start with a charactor or underscore: ')
+    }).toThrowError(INVALID_LABEL_ERROR_MSG_PREFIX)
 
-    expectError(() => {
+    expect(() => {
       parse('jmp !start end')
-    }, 'Label should start with a charactor or underscore: !start')
+    }).toThrowError(INVALID_LABEL_ERROR_MSG_PREFIX + '!start')
   })
 
-  const tokensKnown = [',', '01', 'al', '[bl]', '"cl"']
+  const TOKENS_KNOWN = [',', '01', 'al', '[bl]', '"cl"'] as const
 
-  it('should throw StatementError without label', () => {
-    tokensKnown.forEach(token => {
-      expectError(() => {
+  it('should throw StatementError if both label and instruction are missing', () => {
+    TOKENS_KNOWN.forEach(token => {
+      expect(() => {
         parse(`${token} end`)
-      }, `Expected label or instruction: ${token}`)
+      }).toThrowError(`Expected label or instruction: ${token}`)
     })
   })
 
-  it('should throw StatementError with label', () => {
-    tokensKnown.forEach(token => {
-      expectError(() => {
+  it('should throw StatementError if label exists but instruction is missing', () => {
+    TOKENS_KNOWN.forEach(token => {
+      expect(() => {
         parse(`start: ${token} end`)
-      }, `Expected instruction: ${token}`)
+      }).toThrowError(`Expected instruction: ${token}`)
     })
   })
 
   const MISSING_END_ERROR_MSG = 'Expected END at the end of the source code'
 
-  it('should throw MissingEndError when missing operand', () => {
-    expectError(() => {
+  it('should throw MissingEndError if the first operand is missing at the end', () => {
+    expect(() => {
       parse('mov')
-    }, MISSING_END_ERROR_MSG)
+    }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  it('should throw MissingEndError when missing comma', () => {
-    expectError(() => {
+  it('should throw MissingEndError if the comma between two operands is missing at the end', () => {
+    expect(() => {
       parse('mov al')
-    }, MISSING_END_ERROR_MSG)
+    }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  it('should throw MissingEndError when missing instruction', () => {
-    expectError(() => {
+  it('should throw MissingEndError if instruction is missing at the end', () => {
+    expect(() => {
       parse('start:')
-    }, MISSING_END_ERROR_MSG)
+    }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  it('should throw MissingEndError when parsing is completed', () => {
-    expectError(() => {
+  it('should throw MissingEndError if END is missing at the end', () => {
+    expect(() => {
       parse('mov al, 01')
-    }, MISSING_END_ERROR_MSG)
+    }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  it('should throw AddressError when address is invalid', () => {
-    expectError(() => {
+  it('should throw AddressError if address is invalid', () => {
+    expect(() => {
       parse('mov [gg], al')
-    }, 'Expected a number or register: gg')
+    }).toThrowError('Expected a number or register: gg')
   })
 
-  it('should throw AddressError when address is empty', () => {
-    expectError(() => {
+  it('should throw AddressError if address is empty', () => {
+    expect(() => {
       parse('mov [], al')
-    }, 'Expected a number or register: ]')
+    }).toThrowError('Expected a number or register: ]')
   })
 
   it('should throw InvalidNumberError', () => {
-    expectError(() => {
+    expect(() => {
       parse('mov al, 100')
-    }, 'Number should be hexadecimal and less than or equal to FF: 100')
+    }).toThrowError('Number should be hexadecimal and less than or equal to FF: 100')
   })
 
-  it('should throw InvalidNumberError when parsing address', () => {
-    expectError(() => {
+  it('should throw InvalidNumberError when parsing address with number', () => {
+    expect(() => {
       parse('mov [100], al')
-    }, 'Number should be hexadecimal and less than or equal to FF: 100')
+    }).toThrowError('Number should be hexadecimal and less than or equal to FF: 100')
   })
 
   it('should throw InvalidNumberError when parsing non-digit number', () => {
-    expectError(() => {
+    expect(() => {
       parse('mov al, fff')
-    }, 'Number should be hexadecimal and less than or equal to FF: fff')
+    }).toThrowError('Number should be hexadecimal and less than or equal to FF: fff')
   })
 
   it('should throw OperandTypeError with one expected type', () => {
-    expectError(() => {
+    expect(() => {
       parse('inc 01')
-    }, 'Expected register: 01')
+    }).toThrowError('Expected register: 01')
   })
 
   it('should throw OperandTypeError with more than one expected types', () => {
-    expectError(() => {
+    expect(() => {
       parse('mov 01')
-    }, 'Expected register, address or register address: 01')
+    }).toThrowError('Expected register, address or register address: 01')
   })
 
-  describe('move instruction', () => {
-    it('should throw OperandTypeError when parsing second operand', () => {
-      expectError(() => {
+  describe('when parsing move instruction', () => {
+    it('should throw OperandTypeError if second operand is of wrong type', () => {
+      expect(() => {
         parse('mov al, "bl"')
-      }, 'Expected number, address or register address: "bl"')
+      }).toThrowError('Expected number, address or register address: "bl"')
 
-      expectError(() => {
+      expect(() => {
         parse('mov [al], "01"')
-      }, 'Expected register: "01"')
+      }).toThrowError('Expected register: "01"')
 
-      expectError(() => {
+      expect(() => {
         parse('mov [01], "02"')
-      }, 'Expected register: "02"')
+      }).toThrowError('Expected register: "02"')
     })
 
-    it('should throw OperandTypeError when the types of the two operands are not allowed', () => {
-      expectError(() => {
+    it('should throw OperandTypeError if the types of two operands are not allowed', () => {
+      expect(() => {
         parse('mov al, bl')
-      }, 'Expected number, address or register address: bl')
+      }).toThrowError('Expected number, address or register address: bl')
 
-      expectError(() => {
+      expect(() => {
         parse('mov [01], 02')
-      }, 'Expected register: 02')
+      }).toThrowError('Expected register: 02')
 
-      expectError(() => {
+      expect(() => {
         parse('mov [al], 01')
-      }, 'Expected register: 01')
+      }).toThrowError('Expected register: 01')
     })
   })
 
   it('should throw MissingCommaError', () => {
-    expectError(() => {
+    expect(() => {
       parse('mov al 01')
-    }, 'Expected comma: 01')
+    }).toThrowError('Expected comma: 01')
   })
 })
