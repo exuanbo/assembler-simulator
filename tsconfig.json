@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "jsx": "react",
-    "noEmit": true,
-    "isolatedModules": true,
-
     "strict": true,
 
+    "module": "ESNext",
     "moduleResolution": "node",
     "types": ["vite/client", "jest"],
-    "allowSyntheticDefaultImports": true,
 
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "noEmit": true,
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+
+    "jsx": "react",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "target": "ESNext",
+
+    "skipLibCheck": true
   },
   "include": ["src/**/*"]
 }
