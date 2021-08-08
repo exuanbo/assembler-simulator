@@ -9,6 +9,7 @@ import {
   JumpDistanceError
 } from '../exceptions'
 import { Mnemonic } from '../constants'
+import { exp } from '../../common/utils'
 
 export * from './tokenizer'
 export * from './parser'
@@ -20,28 +21,27 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     ([address, labelToAddressMap], statement, index) => {
       const { label, instruction, operands, machineCodes } = statement
       const firstOperand = operands[0]
-      const getNextAddress = (): number => {
-        const nextAddress =
-          address +
-          machineCodes.length +
-          (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
-        if (nextAddress > 0xff && index !== statements.length - 1) {
-          throw new EndOfMemoryError(statement)
-        }
-        return nextAddress
-      }
       return [
         instruction.token.value === Mnemonic.ORG
           ? (firstOperand.value as number)
-          : getNextAddress(),
-        produce(labelToAddressMap, draft => {
-          if (label !== null) {
-            if (draft[label.identifier] !== undefined) {
-              throw new DuplicateLabelError(label)
-            }
-            draft[label.identifier] = address
-          }
-        })
+          : exp<number>(() => {
+              const nextAddress =
+                address +
+                machineCodes.length +
+                (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
+              if (nextAddress > 0xff && index !== statements.length - 1) {
+                throw new EndOfMemoryError(statement)
+              }
+              return nextAddress
+            }),
+        label === null
+          ? labelToAddressMap
+          : produce(labelToAddressMap, draft => {
+              if (draft[label.identifier] !== undefined) {
+                throw new DuplicateLabelError(label)
+              }
+              draft[label.identifier] = address
+            })
       ]
     },
     [0, {}]

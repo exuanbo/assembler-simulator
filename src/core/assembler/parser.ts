@@ -10,7 +10,7 @@ import {
   OperandTypeError,
   MissingCommaError
 } from '../exceptions'
-import { hexToDec, stringToASCII } from '../../common/utils'
+import { exp, hexToDec, stringToASCII } from '../../common/utils'
 import type { MnemonicWithOneOperand, MnemonicWithTwoOperands } from '../constants'
 import { Mnemonic, MNEMONIC_TO_OPERANDS_COUNT_MAP, Opcode, Register } from '../constants'
 
@@ -56,7 +56,7 @@ interface Operand<T extends OperandType = OperandType> {
 }
 
 const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
-  const value = ((): Operand['value'] => {
+  const value = exp<Operand['value']>(() => {
     switch (type) {
       case OperandType.Number:
       case OperandType.Address:
@@ -69,7 +69,7 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
       case OperandType.Label:
         return undefined
     }
-  })()
+  })
   return {
     type,
     value,
@@ -99,13 +99,13 @@ const createStatement = (
     )
   )
   const position = instruction.token.position
-  const length = ((): number => {
+  const length = exp<number>(() => {
     if (operands.length > 0) {
       const lastOperand = operands[operands.length - 1]
       return lastOperand.token.position + lastOperand.token.length - position
     }
     return instruction.token.value.length
-  })()
+  })
   return {
     label,
     instruction,

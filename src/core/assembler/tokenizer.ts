@@ -1,3 +1,5 @@
+import { exp } from '../../common/utils'
+
 export enum TokenType {
   Whitespace = 'WHITESPACE',
   Comment = 'COMMENT',
@@ -18,7 +20,7 @@ export interface Token {
 }
 
 const createToken = (type: TokenType, value: string, position: number): Token => {
-  const tokenValue = ((): string => {
+  const tokenValue = exp<string>(() => {
     const normalizedValue = value.replace(/^[["](.*)["\]]$/, '$1')
     switch (type) {
       case TokenType.Register:
@@ -28,7 +30,7 @@ const createToken = (type: TokenType, value: string, position: number): Token =>
       default:
         return normalizedValue
     }
-  })()
+  })
   const length = value.length
   return {
     type,

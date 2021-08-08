@@ -1,5 +1,7 @@
 import { produce } from 'immer'
 
+export const exp = <T>(fn: () => T): T => fn()
+
 export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
