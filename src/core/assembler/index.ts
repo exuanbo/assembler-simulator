@@ -1,7 +1,6 @@
 import { produce } from 'immer'
 import { tokenize } from './tokenizer'
-import type { Statement } from './parser'
-import { OperandType, parse } from './parser'
+import { OperandType, Statement, parse } from './parser'
 import {
   DuplicateLabelError,
   EndOfMemoryError,

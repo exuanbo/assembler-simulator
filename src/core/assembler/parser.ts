@@ -1,7 +1,6 @@
-import type { Token } from './tokenizer'
-import { TokenType } from './tokenizer'
-import type { AssemblerError } from '../exceptions'
+import { TokenType, Token } from './tokenizer'
 import {
+  AssemblerError,
   InvalidLabelError,
   StatementError,
   MissingEndError,
@@ -10,9 +9,15 @@ import {
   OperandTypeError,
   MissingCommaError
 } from '../exceptions'
+import {
+  Mnemonic,
+  MNEMONIC_TO_OPERANDS_COUNT_MAP,
+  MnemonicWithOneOperand,
+  MnemonicWithTwoOperands,
+  Opcode,
+  Register
+} from '../constants'
 import { exp, hexToDec, stringToASCII } from '../../common/utils'
-import type { MnemonicWithOneOperand, MnemonicWithTwoOperands } from '../constants'
-import { Mnemonic, MNEMONIC_TO_OPERANDS_COUNT_MAP, Opcode, Register } from '../constants'
 
 export interface Label {
   identifier: string
