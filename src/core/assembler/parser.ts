@@ -10,7 +10,7 @@ import {
   OperandTypeError,
   MissingCommaError
 } from '../exceptions'
-import { hexToDec, stringToASCII } from '../utils'
+import { hexToDec, stringToASCII } from '../../common/utils'
 import type { MnemonicWithOneOperand, MnemonicWithTwoOperands } from '../constants'
 import { Mnemonic, MNEMONIC_TO_OPERANDS_COUNT_MAP, Opcode, Register } from '../constants'
 

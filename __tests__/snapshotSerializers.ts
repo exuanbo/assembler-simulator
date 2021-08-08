@@ -1,4 +1,4 @@
-import { decToHex, splitArrayPerChunk } from '../src/core/utils'
+import { decToHex, splitArrayPerChunk } from '../src/common/utils'
 
 const SEPARATOR = ', '
 

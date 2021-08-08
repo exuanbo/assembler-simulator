@@ -1,5 +1,5 @@
 import React from 'react'
-import { Play, Forward, Redo, Github } from './Icons'
+import { Play, Forward, Redo, Github } from '../icons'
 
 interface Props {
   className?: string

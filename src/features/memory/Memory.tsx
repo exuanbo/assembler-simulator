@@ -1,14 +1,15 @@
 import React from 'react'
-import Card from './Card'
-import { memoryState } from '../atoms'
-import { decToHex, splitArrayPerChunk } from '../core/utils'
+import Card from '../../common/components/Card'
+import { useAppSelector } from '../../app/hooks'
+import { selectMemoryData } from './memorySlice'
+import { decToHex, splitArrayPerChunk } from '../../common/utils'
 
 interface Props {
   className?: string
 }
 
 const Memory = ({ className }: Props): JSX.Element => {
-  const [memory] = memoryState.useState()
+  const memory = useAppSelector(selectMemoryData)
   const machineCodesMatrix = splitArrayPerChunk(memory, 0x10)
 
   return (

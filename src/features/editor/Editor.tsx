@@ -1,39 +1,19 @@
-import React, { useEffect, useRef } from 'react'
-import Status from './Status'
-import { codeState, memoryState, errorState } from '../atoms'
-import { assemble, initMemoryFrom } from '../core'
+import React, { useState, useRef } from 'react'
+import EditorStatus from './EditorStatus'
+import { useAppSelector } from '../../app/hooks'
+import { selectCode } from './editorSlice'
+import { useAssembler } from '../assembler/hooks'
 
 interface Props {
   className?: string
 }
 
-const CodeArea = ({ className }: Props): JSX.Element => {
-  const [code, setCode] = codeState.useState()
-  const [, setMemory] = memoryState.useState()
-  const [, setError] = errorState.useState()
+const Editor = ({ className }: Props): JSX.Element => {
+  const [code, setCode] = useState(useAppSelector(selectCode))
 
   const textArea = useRef<HTMLTextAreaElement>(null)
 
-  const handleCodeChange = (): void => {
-    try {
-      const [addressToOpcodeMap] = assemble(code)
-      setMemory(initMemoryFrom(addressToOpcodeMap))
-      setError(null)
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message)
-      } else {
-        throw err
-      }
-    }
-  }
-
-  useEffect(() => {
-    const timeoutID = setTimeout(handleCodeChange, 200)
-    return () => {
-      clearTimeout(timeoutID)
-    }
-  }, [code])
+  useAssembler(code)
 
   return (
     <div className={`flex flex-col ${className}`}>
@@ -57,9 +37,9 @@ const CodeArea = ({ className }: Props): JSX.Element => {
           }
         }}
       />
-      <Status />
+      <EditorStatus />
     </div>
   )
 }
 
-export default CodeArea
+export default Editor
