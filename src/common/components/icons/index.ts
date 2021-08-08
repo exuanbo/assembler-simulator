@@ -1,6 +1,6 @@
 export { default as Play } from './Play'
 export { default as Forward } from './Forward'
 export { default as Redo } from './Redo'
-export { default as Github } from './Github'
+export { default as GithubAlt } from './GithubAlt'
 export { default as EyeClose } from './EyeClose'
 export { default as EyeOpen } from './EyeOpen'

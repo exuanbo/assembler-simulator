@@ -1,11 +1,11 @@
 import React from 'react'
-import { Play, Forward, Redo, Github } from '../icons'
+import { Play, Forward, Redo, GithubAlt } from '../../common/components/icons'
 
 interface Props {
   className?: string
 }
 
-const Headbar = ({ className }: Props): JSX.Element => (
+const HeaderBar = ({ className }: Props): JSX.Element => (
   <nav className={`flex items-center justify-between h-10 px-3 bg-gray-50 ${className}`}>
     <div className="flex space-x-3">
       <button className="flex items-center space-x-1 focus:outline-none">
@@ -27,10 +27,10 @@ const Headbar = ({ className }: Props): JSX.Element => (
         href="https://github.com/exuanbo/assembler-simulator"
         rel="noopener noreferrer"
         target="_blank">
-        <Github style={{ height: '1.2rem' }} />
+        <GithubAlt style={{ height: '1.2rem' }} />
       </a>
     </div>
   </nav>
 )
 
-export default Headbar
+export default HeaderBar
