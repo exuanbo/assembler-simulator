@@ -1,10 +1,10 @@
 import type { Statement } from '../../src/core/assembler'
-import { tokenize, parse as _parse } from '../../src/core/assembler'
+import { tokenize, parse as __parse } from '../../src/core/assembler'
 import { shortArrayOfNumbersSerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArrayOfNumbersSerializer)
 
-const parse = (input: string): Statement[] => _parse(tokenize(input))
+const parse = (input: string): Statement[] => __parse(tokenize(input))
 
 describe('parser', () => {
   it('should parse instruction with no operand', () => {
