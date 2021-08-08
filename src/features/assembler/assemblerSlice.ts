@@ -17,7 +17,7 @@ export const assemblerSlice = createSlice({
   name: 'assembler',
   initialState,
   reducers: {
-    setState: (_, action: PayloadAction<AssemblerState>) => action.payload
+    setState: (_state, action: PayloadAction<AssemblerState>) => action.payload
   }
 })
 

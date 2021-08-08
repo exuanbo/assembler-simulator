@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { useAppDispatch } from '../../app/hooks'
-import { setCode as setEditorCode } from '../editor/editorSlice'
+import { setInput as setEditorInput } from '../editor/editorSlice'
 import { assemble } from '../../core'
 import { setState as setAssemblerState } from './assemblerSlice'
 import { setData as setMemoryData } from '../memory/memorySlice'
 import { AssemblerError } from '../../core/exceptions'
 
-export const useAssembler = (code: string): void => {
+export const useAssembler = (input: string): void => {
   const dispatch = useAppDispatch()
 
-  const handleCodeChange = (): void => {
-    dispatch(setEditorCode(code))
+  const handleInputChange = (): void => {
+    dispatch(setEditorInput(input))
     try {
-      const [addressToOpcodeMap, addressToStatementMap] = assemble(code)
+      const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
       dispatch(setAssemblerState({ addressToStatementMap, error: null }))
       dispatch(setMemoryData(addressToOpcodeMap))
     } catch (err) {
@@ -25,9 +25,9 @@ export const useAssembler = (code: string): void => {
   }
 
   useEffect(() => {
-    const timeoutID = setTimeout(handleCodeChange, 200)
+    const timeoutID = setTimeout(handleInputChange, 200)
     return () => {
       clearTimeout(timeoutID)
     }
-  }, [code])
+  }, [input])
 }

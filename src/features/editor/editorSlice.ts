@@ -2,25 +2,25 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 
 interface EditorState {
-  code: string
+  input: string
 }
 
 const initialState: EditorState = {
-  code: ''
+  input: ''
 }
 
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    setCode: (state, action: PayloadAction<string>) => {
-      state.code = action.payload
+    setInput: (state, action: PayloadAction<string>) => {
+      state.input = action.payload
     }
   }
 })
 
-export const selectCode = (state: RootState): string => state.editor.code
+export const selectInput = (state: RootState): string => state.editor.input
 
-export const { setCode } = editorSlice.actions
+export const { setInput } = editorSlice.actions
 
 export default editorSlice.reducer

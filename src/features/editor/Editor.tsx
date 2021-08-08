@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import EditorStatus from './EditorStatus'
 import { useAppSelector } from '../../app/hooks'
-import { selectCode } from './editorSlice'
+import { selectInput } from './editorSlice'
 import { useAssembler } from '../assembler/hooks'
 
 interface Props {
@@ -9,11 +9,11 @@ interface Props {
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
-  const [code, setCode] = useState(useAppSelector(selectCode))
+  const [input, setInput] = useState(useAppSelector(selectInput))
 
   const textArea = useRef<HTMLTextAreaElement>(null)
 
-  useAssembler(code)
+  useAssembler(input)
 
   return (
     <div className={`flex flex-col ${className}`}>
@@ -21,9 +21,9 @@ const Editor = ({ className }: Props): JSX.Element => {
         ref={textArea}
         className="w-full h-full px-3 py-1 font-mono resize-none focus:outline-none"
         spellCheck={false}
-        value={code}
+        value={input}
         onChange={event => {
-          setCode(event.target.value)
+          setInput(event.target.value)
         }}
         onKeyDown={event => {
           if (event.key === 'Tab') {
