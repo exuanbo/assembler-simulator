@@ -4,5 +4,6 @@ import WindiCSS from 'vite-plugin-windicss'
 import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
+  base: './',
   plugins: [reactRefresh(), WindiCSS(), legacy()]
 })
