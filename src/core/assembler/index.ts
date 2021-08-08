@@ -1,4 +1,4 @@
-import { produce, enableMapSet } from 'immer'
+import { produce } from 'immer'
 import { tokenize } from './tokenizer'
 import type { Statement } from './parser'
 import { OperandType, parse } from './parser'
@@ -13,9 +13,7 @@ import { Mnemonic } from '../constants'
 export * from './tokenizer'
 export * from './parser'
 
-enableMapSet()
-
-type LabelToAddressMap = Map<string, number>
+type LabelToAddressMap = Record<string, number>
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   const [, labelToAddressMap] = statements.reduce<[number, LabelToAddressMap]>(
@@ -38,21 +36,21 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
           : getNextAddress(),
         produce(labelToAddressMap, draft => {
           if (label !== null) {
-            if (draft.has(label.identifier)) {
+            if (draft[label.identifier] !== undefined) {
               throw new DuplicateLabelError(label)
             }
-            draft.set(label.identifier, address)
+            draft[label.identifier] = address
           }
         })
       ]
     },
-    [0, new Map()]
+    [0, {}]
   )
   return labelToAddressMap
 }
 
-export type AddressToMachineCodeMap = Map<number, number>
-type AddressToStatementMap = Map<number, Statement>
+export type AddressToMachineCodeMap = Record<number, number>
+export type AddressToStatementMap = Record<number, Statement>
 
 type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
 
@@ -69,7 +67,7 @@ export const assemble = (input: string): AssembleResult => {
         return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
       if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
-        const labelAddress = labelToAddressMap.get(firstOperand.token.value)
+        const labelAddress = labelToAddressMap[firstOperand.token.value]
         if (labelAddress === undefined) {
           throw new LabelNotExistError(firstOperand.token)
         }
@@ -84,15 +82,15 @@ export const assemble = (input: string): AssembleResult => {
         address + machineCodes.length,
         produce(addressToMachineCodeMap, draft => {
           machineCodes.forEach((machineCode, index) => {
-            draft.set(address + index, machineCode)
+            draft[address + index] = machineCode
           })
         }),
         produce(addressToStatementMap, draft => {
-          draft.set(address, statement)
+          draft[address] = statement
         })
       ]
     },
-    [0, new Map(), new Map()]
+    [0, {}, {}]
   )
   return [addressToMachineCodeMap, addressToStatementMap]
 }

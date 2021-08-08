@@ -5,8 +5,8 @@ export const initMemory = (): number[] =>
 
 export const initMemoryFrom = (map: AddressToMachineCodeMap): number[] => {
   const memory = initMemory()
-  map.forEach((machineCode, address) => {
-    memory[address] = machineCode
+  Object.entries(map).forEach(([address, machineCode]) => {
+    memory[Number.parseInt(address)] = machineCode
   })
   return memory
 }
