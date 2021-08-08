@@ -2,11 +2,13 @@ import type { Token, Label, OperandType, Statement } from './assembler'
 import { trimBrackets } from './utils'
 
 export abstract class AssemblerError extends Error {
+  public message: string
   public position: number
   public length: number
 
-  constructor(msg: string, position: number, length: number) {
-    super(msg)
+  constructor(message: string, position: number, length: number) {
+    super()
+    this.message = message
     this.position = position
     this.length = length
   }
@@ -113,7 +115,14 @@ export class JumpDistanceError extends AssemblerError {
   }
 }
 
-export abstract class RuntimeError extends Error {}
+export abstract class RuntimeError extends Error {
+  public message: string
+
+  constructor(message: string) {
+    super()
+    this.message = message
+  }
+}
 
 export class InvalidRegisterError extends RuntimeError {
   constructor(value: number) {
