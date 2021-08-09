@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import { setInput as setEditorInput } from '../editor/editorSlice'
-import { assemble } from '../../core'
+import { assemble } from './core'
 import { setState as setAssemblerState } from './assemblerSlice'
 import { setData as setMemoryData } from '../memory/memorySlice'
-import { AssemblerError } from '../../core/exceptions'
+import { AssemblerError } from '../../common/exceptions'
 
 export const useAssembler = (input: string): void => {
   const dispatch = useAppDispatch()

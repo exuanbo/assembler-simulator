@@ -1,4 +1,4 @@
-import type { AddressToMachineCodeMap } from './assembler'
+import type { AddressToMachineCodeMap } from '../assembler/core'
 
 export const initMemory = (): number[] =>
   [...Array(0x100)].map((_, address) => (address < 0xc0 ? 0 : 0x20))

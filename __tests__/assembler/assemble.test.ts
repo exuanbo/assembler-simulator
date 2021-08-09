@@ -1,4 +1,5 @@
-import { assemble, initMemoryFrom } from '../../src/core'
+import { assemble } from '../../src/features/assembler/core'
+import { initMemoryFrom } from '../../src/features/memory/core'
 
 export const INPUT = `
 ; --------------------------------------------------------------

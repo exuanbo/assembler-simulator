@@ -1,6 +1,6 @@
 import { produce } from 'immer'
-import { InvalidRegisterError } from './exceptions'
-import { Opcode, Register } from './constants'
+import { InvalidRegisterError } from '../../common/exceptions'
+import { Opcode, Register } from '../../common/constants'
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
 

@@ -1,5 +1,5 @@
-import type { Token, Label, OperandType, Statement } from './assembler'
-import { trimBrackets } from '../common/utils'
+import type { Token, Label, OperandType, Statement } from '../features/assembler/core'
+import { trimBrackets } from './utils'
 
 export abstract class AssemblerError extends Error {
   public message: string

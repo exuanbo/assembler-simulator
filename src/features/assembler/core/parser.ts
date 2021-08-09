@@ -8,7 +8,7 @@ import {
   InvalidNumberError,
   OperandTypeError,
   MissingCommaError
-} from '../exceptions'
+} from '../../../common/exceptions'
 import {
   Mnemonic,
   MNEMONIC_TO_OPERANDS_COUNT_MAP,
@@ -16,8 +16,8 @@ import {
   MnemonicWithTwoOperands,
   Opcode,
   Register
-} from '../constants'
-import { exp, hexToDec, stringToASCII } from '../../common/utils'
+} from '../../../common/constants'
+import { exp, hexToDec, stringToASCII } from '../../../common/utils'
 
 export interface Label {
   identifier: string

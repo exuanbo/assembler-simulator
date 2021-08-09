@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { initMemory, initMemoryFrom } from '../../core'
-import type { AddressToMachineCodeMap } from '../../core/assembler'
+import { initMemory, initMemoryFrom } from './core'
+import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
 
 interface MemoryState {

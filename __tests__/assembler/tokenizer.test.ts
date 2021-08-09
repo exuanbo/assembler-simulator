@@ -1,4 +1,4 @@
-import { tokenize } from '../../src/core/assembler'
+import { tokenize } from '../../src/features/assembler/core'
 
 describe('tokenizer', () => {
   it('should skip whitespace', () => {

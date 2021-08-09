@@ -6,9 +6,9 @@ import {
   EndOfMemoryError,
   LabelNotExistError,
   JumpDistanceError
-} from '../exceptions'
-import { Mnemonic } from '../constants'
-import { exp } from '../../common/utils'
+} from '../../../common/exceptions'
+import { Mnemonic } from '../../../common/constants'
+import { exp } from '../../../common/utils'
 
 export * from './tokenizer'
 export * from './parser'

@@ -1,4 +1,4 @@
-import { exp } from '../../common/utils'
+import { exp } from '../../../common/utils'
 
 export enum TokenType {
   Whitespace = 'WHITESPACE',
