@@ -15,6 +15,6 @@ export const splitArrayPerChunk = (array: number[], perChunk: number): number[][
   array.reduce<number[][]>((result, value, index) => {
     const chunkIndex = Math.floor(index / perChunk)
     return produce(result, draft => {
-      draft[chunkIndex] = draft[chunkIndex]?.concat([value]) ?? [value]
+      draft[chunkIndex] = [...(draft[chunkIndex] ?? []), value]
     })
   }, [])

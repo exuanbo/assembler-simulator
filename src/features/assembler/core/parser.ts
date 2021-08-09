@@ -96,13 +96,14 @@ const createStatement = (
   instruction: Instruction,
   operands: Operand[]
 ): Statement => {
-  const machineCodes = (instruction.opcode !== null ? [instruction.opcode] : []).concat(
-    operands.reduce<number[]>(
+  const machineCodes = [
+    ...(instruction.opcode !== null ? [instruction.opcode] : []),
+    ...operands.reduce<number[]>(
       (operandValues, operand) =>
         operand.value !== undefined ? operandValues.concat(operand.value) : operandValues,
       []
     )
-  )
+  ]
   const position = instruction.token.position
   const length = exp<number>(() => {
     if (operands.length > 0) {
@@ -214,7 +215,7 @@ const parseDoubleOperands =
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
     const firstOperandTypes = expectedTypes.reduce<T1[]>(
       (result, [firstOperandType]) =>
-        result.includes(firstOperandType) ? result : result.concat([firstOperandType]),
+        result.includes(firstOperandType) ? result : [...result, firstOperandType],
       []
     )
     const firstOperand = parseSingleOperand(tokens, index)(...firstOperandTypes)
@@ -224,7 +225,7 @@ const parseDoubleOperands =
     }
     const secondOperandTypes = expectedTypes.reduce<T2[]>(
       (result, [firstOperandType, secondOperandType]) =>
-        firstOperandType === firstOperand.type ? result.concat([secondOperandType]) : result,
+        firstOperandType === firstOperand.type ? [...result, secondOperandType] : result,
       []
     )
     const secondOperand = parseSingleOperand(tokens, index + 2)(...secondOperandTypes)
