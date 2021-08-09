@@ -2,9 +2,9 @@ import { produce } from 'immer'
 import { assemble } from '../src/features/assembler/core'
 import { initMemoryFrom } from '../src/features/memory/core'
 import { initCPU, step } from '../src/features/cpu/core'
-import { shortArrayOfNumbersSerializer, memorySerializer } from './snapshotSerializers'
+import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 
-expect.addSnapshotSerializer(shortArrayOfNumbersSerializer)
+expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
 
 const getMemory = (input: string): number[] => {

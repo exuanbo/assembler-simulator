@@ -1,7 +1,7 @@
 import { Statement, tokenize, parse as __parse } from '../../src/features/assembler/core'
-import { shortArrayOfNumbersSerializer } from '../snapshotSerializers'
+import { shortArraySerializer } from '../snapshotSerializers'
 
-expect.addSnapshotSerializer(shortArrayOfNumbersSerializer)
+expect.addSnapshotSerializer(shortArraySerializer)
 
 const parse = (input: string): Statement[] => __parse(tokenize(input))
 
