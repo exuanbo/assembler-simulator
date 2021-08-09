@@ -123,11 +123,11 @@ const createStatement = (
 
 const LABEL_START = /^[A-Z_]/
 
-const validateLabel = (token: Token): AssemblerError | null => {
+const validateLabel = (token: Token): Token => {
   if (!LABEL_START.test(token.value)) {
-    return new InvalidLabelError(token)
+    throw new InvalidLabelError(token)
   }
-  return null
+  return token
 }
 
 const parseLabel = (tokens: Token[], index: number): Label | null => {
@@ -135,18 +135,14 @@ const parseLabel = (tokens: Token[], index: number): Label | null => {
   if (!token.value.endsWith(':')) {
     return null
   }
-  const labelError = validateLabel(token)
-  if (labelError !== null) {
-    throw labelError
-  }
-  return createLabel(token)
+  return createLabel(validateLabel(token))
 }
 
-const validateNumber = (token: Token): AssemblerError | null => {
+const validateNumber = (token: Token): Token => {
   if (hexToDec(token.value) > 0xff) {
-    return new InvalidNumberError(token)
+    throw new InvalidNumberError(token)
   }
-  return null
+  return token
 }
 
 const NUMBER = /^[\dA-F]+$/
@@ -161,57 +157,41 @@ const parseSingleOperand =
     }
 
     const isExpected = (type: OperandType): boolean => expectedTypes.some(t => t === type)
-    const createOperandOf = (type: OperandType): Operand<T> => createOperand(type as T, token)
+    const __createOperand = (type: OperandType, token: Token): Operand<T> => createOperand(type as T, token) // eslint-disable-line
 
     switch (token.type) {
       case TokenType.Digits:
         if (isExpected(OperandType.Number)) {
-          const numberError = validateNumber(token)
-          if (numberError !== null) {
-            throw numberError
-          }
-          return createOperandOf(OperandType.Number)
+          return __createOperand(OperandType.Number, validateNumber(token))
         }
         break
       case TokenType.Register:
         if (isExpected(OperandType.Register)) {
-          return createOperandOf(OperandType.Register)
+          return __createOperand(OperandType.Register, token)
         }
         break
       case TokenType.Address:
         if (isExpected(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
           if (NUMBER.test(token.value)) {
-            const numberError = validateNumber(token)
-            if (numberError !== null) {
-              throw numberError
-            }
-            return createOperandOf(OperandType.Address)
+            return __createOperand(OperandType.Address, validateNumber(token))
           }
           if (REGISTER.test(token.value)) {
-            return createOperandOf(OperandType.RegisterAddress)
+            return __createOperand(OperandType.RegisterAddress, token)
           }
           throw new AddressError(token)
         }
         break
       case TokenType.String:
         if (isExpected(OperandType.String)) {
-          return createOperandOf(OperandType.String)
+          return __createOperand(OperandType.String, token)
         }
         break
       case TokenType.Unknown:
         if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
-          const numberError = validateNumber(token)
-          if (numberError !== null) {
-            throw numberError
-          }
-          return createOperandOf(OperandType.Number)
+          return __createOperand(OperandType.Number, validateNumber(token))
         }
         if (isExpected(OperandType.Label)) {
-          const labelError = validateLabel(token)
-          if (labelError !== null) {
-            throw labelError
-          }
-          return createOperandOf(OperandType.Label)
+          return __createOperand(OperandType.Label, validateLabel(token))
         }
     }
     throw new OperandTypeError(token, ...expectedTypes)
