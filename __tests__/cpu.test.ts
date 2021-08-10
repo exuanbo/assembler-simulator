@@ -33,6 +33,14 @@ describe('cpu', () => {
         expect(step(cpu, memory)).toMatchSnapshot()
       })
 
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 0, 0, 0]
+        })
+        const memory = getMemory('add al, 02 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
+
       it('should set only zero flag', () => {
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0xff, 1, 0, 0]
@@ -64,6 +72,14 @@ describe('cpu', () => {
           draft.gpr = [3, 2, 0, 0]
         })
         const memory = getMemory('sub al, bl end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
+
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [3, 0, 0, 0]
+        })
+        const memory = getMemory('sub al, 02 end')
         expect(step(cpu, memory)).toMatchSnapshot()
       })
 
@@ -100,6 +116,14 @@ describe('cpu', () => {
         const memory = getMemory('mul al, bl end')
         expect(step(cpu, memory)).toMatchSnapshot()
       })
+
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [0xff, 0, 0, 0]
+        })
+        const memory = getMemory('mul al, 04 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
     })
 
     describe('with DIV', () => {
@@ -111,13 +135,24 @@ describe('cpu', () => {
         expect(step(cpu, memory)).toMatchSnapshot()
       })
 
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [3, 0, 0, 0]
+        })
+        const memory = getMemory('div al, 02 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
+
       it('should throw DivideByZeroError if divisor is zero', () => {
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [3, 0, 0, 0]
         })
-        const memory = getMemory('div al, bl end')
         expect(() => {
-          step(cpu, memory)
+          step(cpu, getMemory('div al, bl end'))
+        }).toThrowError('Can not divide by zero')
+
+        expect(() => {
+          step(cpu, getMemory('div al, 00 end'))
         }).toThrowError('Can not divide by zero')
       })
     })
@@ -147,13 +182,25 @@ describe('cpu', () => {
         expect(step(cpu, memory)).toMatchSnapshot()
       })
 
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [5, 0, 0, 0]
+        })
+        const memory = getMemory('mod al, 03 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
+
       it('should throw DivideByZeroError if divisor is zero', () => {
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
-        const memory = getMemory('mod al, bl end')
+
         expect(() => {
-          step(cpu, memory)
+          step(cpu, getMemory('mod al, bl end'))
+        }).toThrowError('Can not divide by zero')
+
+        expect(() => {
+          step(cpu, getMemory('mod al, 00 end'))
         }).toThrowError('Can not divide by zero')
       })
     })
@@ -166,6 +213,14 @@ describe('cpu', () => {
         const memory = getMemory('and al, bl end')
         expect(step(cpu, memory)).toMatchSnapshot()
       })
+
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [5, 0, 0, 0]
+        })
+        const memory = getMemory('and al, 03 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
     })
 
     describe('with OR', () => {
@@ -176,6 +231,14 @@ describe('cpu', () => {
         const memory = getMemory('or al, bl end')
         expect(step(cpu, memory)).toMatchSnapshot()
       })
+
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [5, 0, 0, 0]
+        })
+        const memory = getMemory('or al, 03 end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
     })
 
     describe('with XOR', () => {
@@ -184,6 +247,14 @@ describe('cpu', () => {
           draft.gpr = [5, 3, 0, 0]
         })
         const memory = getMemory('xor al, bl end')
+        expect(step(cpu, memory)).toMatchSnapshot()
+      })
+
+      it('should operate on register and number', () => {
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [5, 0, 0, 0]
+        })
+        const memory = getMemory('xor al, 03 end')
         expect(step(cpu, memory)).toMatchSnapshot()
       })
     })

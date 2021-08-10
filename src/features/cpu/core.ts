@@ -87,6 +87,7 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
+// TODO reverse parameters order
 export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[]] =>
   produce([__cpu, __memory], ([cpu, memory]) => {
     const getGPR = (register: Register): number => cpu.gpr[register]
@@ -115,7 +116,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
     /**
      * @modifies {@link cpu.ip}
      */
-    const getNextOpcode = (): number => {
+    const getNextMachineCode = (): number => {
       incIP()
       return loadFromMemory(cpu.ip)
     }
@@ -124,11 +125,14 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
 
     switch (opcode) {
       case Opcode.END:
+        // TODO setHalted()
         cpu.isHalted = true
         break
+
+      // Direct Arithmetic
       case Opcode.ADD_REG_TO_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) + getGPR(srcReg),
           getGPR(destReg)
@@ -139,8 +143,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.SUB_REG_FROM_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) - getGPR(srcReg),
           getGPR(destReg)
@@ -151,8 +155,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.MUL_REG_BY_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) * getGPR(srcReg),
           getGPR(destReg)
@@ -163,8 +167,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.DIV_REG_BY_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           exp<number>(() => {
             const divisor = getGPR(srcReg)
@@ -181,7 +185,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.INC_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(getGPR(destReg) + 1, getGPR(destReg))
         setGPR(destReg, result)
         setSR(flags)
@@ -189,7 +193,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.DEC_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(getGPR(destReg) - 1, getGPR(destReg))
         setGPR(destReg, result)
         setSR(flags)
@@ -197,8 +201,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.MOD_REG_BY_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           exp<number>(() => {
             const divisor = getGPR(srcReg)
@@ -215,8 +219,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.AND_REG_WITH_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) & getGPR(srcReg),
           getGPR(destReg)
@@ -227,8 +231,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.OR_REG_WITH_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) | getGPR(srcReg),
           getGPR(destReg)
@@ -239,8 +243,8 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.XOR_REG_WITH_REG: {
-        const destReg = checkGPR(getNextOpcode())
-        const srcReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           getGPR(destReg) ^ getGPR(srcReg),
           getGPR(destReg)
@@ -251,7 +255,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.NOT_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(~getGPR(destReg), getGPR(destReg))
         setGPR(destReg, result)
         setSR(flags)
@@ -259,7 +263,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.ROL_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           exp<number>(() => {
             const value = getGPR(destReg)
@@ -274,7 +278,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.ROR_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(
           exp<number>(() => {
             const value = getGPR(destReg)
@@ -289,7 +293,7 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.SHL_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(getGPR(destReg) << 1, getGPR(destReg))
         setGPR(destReg, result)
         setSR(flags)
@@ -297,8 +301,98 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
         break
       }
       case Opcode.SHR_REG: {
-        const destReg = checkGPR(getNextOpcode())
+        const destReg = checkGPR(getNextMachineCode())
         const [result, flags] = checkOperationResult(getGPR(destReg) >> 1, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+
+      // Immediate Arithmetic
+      case Opcode.ADD_NUM_TO_REG: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) + value, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.SUB_NUM_FROM_REG: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) - value, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.MUL_REG_BY_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) * value, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.DIV_REG_BY_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(
+          exp<number>(() => {
+            if (value === 0) {
+              throw new DivideByZeroError()
+            }
+            return Math.floor(getGPR(destReg) / value)
+          }),
+          getGPR(destReg)
+        )
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.MOD_REG_BY_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(
+          exp<number>(() => {
+            if (value === 0) {
+              throw new DivideByZeroError()
+            }
+            return getGPR(destReg) % value
+          }),
+          getGPR(destReg)
+        )
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.AND_REG_WITH_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) & value, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.OR_REG_WITH_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) | value, getGPR(destReg))
+        setGPR(destReg, result)
+        setSR(flags)
+        incIP()
+        break
+      }
+      case Opcode.XOR_REG_WITH_NUM: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        const [result, flags] = checkOperationResult(getGPR(destReg) ^ value, getGPR(destReg))
         setGPR(destReg, result)
         setSR(flags)
         incIP()
