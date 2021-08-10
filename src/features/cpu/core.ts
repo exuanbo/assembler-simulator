@@ -22,7 +22,7 @@ enum Flag {
 
 type SR = [zero: boolean, overflow: boolean, sign: boolean, interrupt: boolean]
 
-interface CPU {
+export interface CPU {
   gpr: GPR
   ip: number
   sp: number
