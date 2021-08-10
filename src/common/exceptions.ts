@@ -129,3 +129,27 @@ export class InvalidRegisterError extends RuntimeError {
     super(`Invalid register: ${value}`)
   }
 }
+
+export class RunBeyondEndOfMemory extends RuntimeError {
+  constructor() {
+    super('Can not execute code beyond the end of RAM')
+  }
+}
+
+export class StackOverflowError extends RuntimeError {
+  constructor() {
+    super('Stack Overflow')
+  }
+}
+
+export class StackUnderflowError extends RuntimeError {
+  constructor() {
+    super('Stack Underflow')
+  }
+}
+
+export class DivideByZeroError extends RuntimeError {
+  constructor() {
+    super('Can not divide by zero')
+  }
+}

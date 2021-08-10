@@ -1,5 +1,12 @@
 import { produce } from 'immer'
 
+export type Head<T extends unknown[]> = T extends [...infer Head, unknown] ? Head : unknown[]
+
+export const sign8bit = (unsigned: number): number =>
+  unsigned >= 0x80 ? unsigned - 0xff - 1 : unsigned
+
+export const unsign8bit = (signed: number): number => (signed < 0 ? signed + 0xff + 1 : signed)
+
 export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
