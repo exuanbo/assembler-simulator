@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { initMemory, initMemoryFrom } from './core'
+import { init, initFrom } from './core'
 import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
 
@@ -8,7 +8,7 @@ interface MemoryState {
 }
 
 const initialState: MemoryState = {
-  data: initMemory()
+  data: init()
 }
 
 export const memorySlice = createSlice({
@@ -16,7 +16,7 @@ export const memorySlice = createSlice({
   initialState,
   reducers: {
     setData: (state, action: PayloadAction<AddressToMachineCodeMap>) => {
-      state.data = initMemoryFrom(action.payload)
+      state.data = initFrom(action.payload)
     }
   }
 })

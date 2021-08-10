@@ -30,7 +30,7 @@ interface CPU {
   isHalted: boolean
 }
 
-export const initCPU = (): CPU => {
+export const init = (): CPU => {
   return {
     gpr: [0, 0, 0, 0],
     ip: 0,

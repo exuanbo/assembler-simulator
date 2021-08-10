@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { assemble } from '../src/features/assembler/core'
-import { initMemoryFrom } from '../src/features/memory/core'
-import { initCPU, step } from '../src/features/cpu/core'
+import { init as initCPU, step } from '../src/features/cpu/core'
+import { initFrom as initMemoryFrom } from '../src/features/memory/core'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)
