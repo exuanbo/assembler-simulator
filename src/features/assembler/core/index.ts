@@ -3,7 +3,7 @@ import { tokenize } from './tokenizer'
 import { OperandType, Statement, parse } from './parser'
 import {
   DuplicateLabelError,
-  EndOfMemoryError,
+  AssembleEndOfMemoryError,
   LabelNotExistError,
   JumpDistanceError
 } from '../../../common/exceptions'
@@ -29,7 +29,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
                 machineCodes.length +
                 (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
               if (nextAddress > 0xff && index !== statements.length - 1) {
-                throw new EndOfMemoryError(statement)
+                throw new AssembleEndOfMemoryError(statement)
               }
               return nextAddress
             }),

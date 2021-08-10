@@ -93,7 +93,7 @@ export class DuplicateLabelError extends AssemblerError {
   }
 }
 
-export class EndOfMemoryError extends AssemblerError {
+export class AssembleEndOfMemoryError extends AssemblerError {
   constructor(statement: Statement) {
     super('Can not generate code beyond the end of RAM', statement.position, statement.length)
   }
