@@ -3,9 +3,9 @@ import React from 'react'
 interface Props {
   children: React.ReactNode
   title: string
-  className?: string
-  Icon?: () => JSX.Element
-  onIconClick?: () => void
+  className?: string | undefined
+  Icon?: (() => JSX.Element) | undefined
+  onIconClick?: (() => void) | undefined
 }
 
 const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (
