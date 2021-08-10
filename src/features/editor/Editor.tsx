@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import EditorStatus from './EditorStatus'
 import { useAppSelector } from '../../app/hooks'
-import { selectInput } from './editorSlice'
+import { selectEditortInput } from './editorSlice'
 import { useAssembler } from '../assembler/hooks'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
-  const [input, setInput] = useState(useAppSelector(selectInput))
+  const [input, setInput] = useState(useAppSelector(selectEditortInput))
 
   const textArea = useRef<HTMLTextAreaElement>(null)
 

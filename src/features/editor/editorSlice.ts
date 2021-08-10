@@ -19,7 +19,7 @@ export const editorSlice = createSlice({
   }
 })
 
-export const selectInput = (state: RootState): string => state.editor.input
+export const selectEditortInput = (state: RootState): string => state.editor.input
 
 export const { setInput } = editorSlice.actions
 
