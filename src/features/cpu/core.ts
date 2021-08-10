@@ -7,7 +7,7 @@ import {
   DivideByZeroError
 } from '../../common/exceptions'
 import { Opcode, Register } from '../../common/constants'
-import { Head, unsign8bit, exp } from '../../common/utils'
+import { Head, unsign8, exp } from '../../common/utils'
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
 
@@ -71,7 +71,7 @@ const checkOperationResult = (
   result: number,
   previousValue: number
 ): [result: number, flags: Partial<SR>] => {
-  const finalResult = result > 0xff ? result % 0x100 : unsign8bit(result)
+  const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
   const flags: Head<SR> = [false, false, false]
   if (finalResult === 0) {
     flags[Flag.Zero] = true
