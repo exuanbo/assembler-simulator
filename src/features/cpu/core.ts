@@ -7,7 +7,7 @@ import {
   DivideByZeroError
 } from '../../common/exceptions'
 import { Opcode, Register } from '../../common/constants'
-import { Head, unsign8, exp } from '../../common/utils'
+import { Head, sign8, unsign8, exp } from '../../common/utils'
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
 
@@ -113,8 +113,8 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
     const setIP = (address: number): void => {
       cpu.ip = address
     }
-    const incIP = (): void => {
-      setIP(checkIP(cpu.ip + 1))
+    const incIP = (value?: number): void => {
+      setIP(checkIP(cpu.ip + (value ?? 1)))
     }
 
     /**
@@ -125,7 +125,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       return loadFromMemory(cpu.ip)
     }
 
-    // const getSR = (flag: Flag): boolean => cpu.sr[flag]
+    const getSR = (flag: Flag): boolean => cpu.sr[flag]
     const setSR = (flags: Partial<SR>): void => {
       Object.assign(cpu.sr, flags)
     }
@@ -137,6 +137,10 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       const [finalResult, flags] = checkOperationResult(result, previousValue)
       setSR(flags)
       return finalResult
+    }
+
+    const jumpIf = (predicate: boolean, distance: number): void => {
+      incIP(predicate ? distance - 1 : 1)
     }
 
     const opcode = loadFromMemory(cpu.ip)
@@ -328,6 +332,43 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         const value = getNextMachineCode()
         setGPR(destReg, getOperationResult(getGPR(destReg) ^ value, getGPR(destReg)))
         incIP()
+        break
+      }
+
+      // Jump
+      case Opcode.JMP: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(true, distance)
+        break
+      }
+      case Opcode.JZ: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(getSR(Flag.Zero), distance)
+        break
+      }
+      case Opcode.JNZ: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(!getSR(Flag.Zero), distance)
+        break
+      }
+      case Opcode.JS: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(getSR(Flag.Sign), distance)
+        break
+      }
+      case Opcode.JNS: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(!getSR(Flag.Sign), distance)
+        break
+      }
+      case Opcode.JO: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(getSR(Flag.Overflow), distance)
+        break
+      }
+      case Opcode.JNO: {
+        const distance = sign8(getNextMachineCode())
+        jumpIf(!getSR(Flag.Overflow), distance)
         break
       }
     }

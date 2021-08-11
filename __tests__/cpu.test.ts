@@ -7,12 +7,12 @@ import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
 
-const initialCPU = initCPU()
-
 const getMemory = (input: string): number[] => {
   const [addressToMachineCodeMap] = assemble(input)
   return initMemoryFrom(addressToMachineCodeMap)
 }
+
+const initialCPU = initCPU()
 
 describe('cpu', () => {
   describe('step', () => {
@@ -298,6 +298,111 @@ describe('cpu', () => {
         draft.gpr = [1, 0, 0, 0]
       })
       expect(step(memory, cpu)).toMatchSnapshot()
+    })
+
+    describe('with JMP', () => {
+      it('should jump forward', () => {
+        const memory = getMemory('jmp done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should jump backward', () => {
+        const memory = getMemory('start: add al, bl jmp start end')
+        const cpu = produce(initialCPU, draft => {
+          draft.ip = 3
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JZ', () => {
+      it('should jump', () => {
+        const memory = getMemory('jz done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[0] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('jz done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JNZ', () => {
+      it('should jump', () => {
+        const memory = getMemory('jnz done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('jnz done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[0] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JS', () => {
+      it('should jump', () => {
+        const memory = getMemory('js done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[2] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('js done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JNS', () => {
+      it('should jump', () => {
+        const memory = getMemory('jns done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('jns done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[2] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JO', () => {
+      it('should jump', () => {
+        const memory = getMemory('jo done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[1] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('jo done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+    })
+
+    describe('with JNO', () => {
+      it('should jump', () => {
+        const memory = getMemory('jno done add al, bl done: end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should not jump', () => {
+        const memory = getMemory('jno done add al, bl done: end')
+        const cpu = produce(initialCPU, draft => {
+          draft.sr[1] = true
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
     })
   })
 })
