@@ -96,9 +96,15 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-// TODO reverse parameters order
-export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[]] =>
-  produce([__cpu, __memory], ([cpu, memory]) => {
+export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CPU] =>
+  produce([__memory, __cpu], ([memory, cpu]) => {
+    const loadFromMemory = (address: number): number => {
+      return memory[address]
+    }
+    // const storeToMemory = (address: number, machineCode: number): void => {
+    //   memory[address] = machineCode
+    // }
+
     const getGPR = (register: Register): number => cpu.gpr[register]
     const setGPR = (register: Register, value: number): void => {
       cpu.gpr[register] = value
@@ -109,6 +115,14 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
     }
     const incIP = (): void => {
       setIP(checkIP(cpu.ip + 1))
+    }
+
+    /**
+     * @modifies {@link cpu.ip}
+     */
+    const getNextMachineCode = (): number => {
+      incIP()
+      return loadFromMemory(cpu.ip)
     }
 
     // const getSR = (flag: Flag): boolean => cpu.sr[flag]
@@ -123,21 +137,6 @@ export const step = (__cpu: CPU, __memory: number[]): [cpu: CPU, memory: number[
       const [finalResult, flags] = checkOperationResult(result, previousValue)
       setSR(flags)
       return finalResult
-    }
-
-    const loadFromMemory = (address: number): number => {
-      return memory[address]
-    }
-    // const storeToMemory = (address: number, machineCode: number): void => {
-    //   memory[address] = machineCode
-    // }
-
-    /**
-     * @modifies {@link cpu.ip}
-     */
-    const getNextMachineCode = (): number => {
-      incIP()
-      return loadFromMemory(cpu.ip)
     }
 
     const opcode = loadFromMemory(cpu.ip)
