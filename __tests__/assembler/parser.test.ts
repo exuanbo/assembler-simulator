@@ -111,7 +111,7 @@ end
     ).toMatchSnapshot()
   })
 
-  const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should start with a charactor or underscore: '
+  const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should contain only letter or underscore: '
 
   it('should throw InvalidLabelError if label identifier is illegal', () => {
     expect(() => {

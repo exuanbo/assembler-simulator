@@ -28,7 +28,7 @@ export class InvalidLabelError extends AssemblerError {
   constructor(token: Token) {
     const identifier = token.originalValue.replace(/:$/, '')
     super(
-      `Label should start with a charactor or underscore: ${identifier}`,
+      `Label should contain only letter or underscore: ${identifier}`,
       token.position,
       identifier.length > 0 ? identifier.length : 1
     )

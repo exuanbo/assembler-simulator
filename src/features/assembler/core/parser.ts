@@ -122,10 +122,10 @@ const createStatement = (
   }
 }
 
-const LABEL_START = /^[A-Z_]/
+const LABEL = /^[A-Z_]+:?$/
 
 const validateLabel = (token: Token): Token => {
-  if (!LABEL_START.test(token.value)) {
+  if (!LABEL.test(token.value)) {
     throw new InvalidLabelError(token)
   }
   return token
