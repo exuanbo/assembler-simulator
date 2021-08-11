@@ -18,6 +18,5 @@
     "target": "ESNext",
 
     "skipLibCheck": true
-  },
-  "include": ["src/**/*"]
+  }
 }
