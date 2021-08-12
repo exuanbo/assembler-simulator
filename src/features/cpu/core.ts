@@ -110,19 +110,18 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       cpu.gpr[register] = value
     }
 
+    const getIP = (): number => cpu.ip
+    const getNextIP = (): number => getIP() + 1
     const setIP = (address: number): void => {
       cpu.ip = address
-    }
-    const incIP = (value?: number): void => {
-      setIP(checkIP(cpu.ip + (value ?? 1)))
     }
 
     /**
      * @modifies {@link cpu.ip}
      */
-    const getNextMachineCode = (): number => {
-      incIP()
-      return loadFromMemory(cpu.ip)
+    const incIP = (value?: number): number => {
+      setIP(checkIP(getIP() + (value ?? 1)))
+      return getIP()
     }
 
     const getSR = (flag: Flag): boolean => cpu.sr[flag]
@@ -139,11 +138,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       return finalResult
     }
 
-    const jumpIf = (predicate: boolean, distance: number): void => {
-      incIP(predicate ? distance - 1 : 1)
-    }
-
-    const opcode = loadFromMemory(cpu.ip)
+    const opcode = loadFromMemory(getIP())
 
     switch (opcode) {
       case Opcode.END:
@@ -153,29 +148,29 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
 
       // Direct Arithmetic
       case Opcode.ADD_REG_TO_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) + getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.SUB_REG_FROM_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) - getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.MUL_REG_BY_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) * getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.DIV_REG_BY_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
           getOperationResult(divide(getGPR(destReg), getGPR(srcReg)), getGPR(destReg))
@@ -184,20 +179,20 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         break
       }
       case Opcode.INC_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) + 1, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.DEC_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) - 1, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.MOD_REG_BY_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
           getOperationResult(modulo(getGPR(destReg), getGPR(srcReg)), getGPR(destReg))
@@ -206,34 +201,34 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         break
       }
       case Opcode.AND_REG_WITH_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) & getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.OR_REG_WITH_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) | getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.XOR_REG_WITH_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) ^ getGPR(srcReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.NOT_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(~getGPR(destReg), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.ROL_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
           getOperationResult(
@@ -249,7 +244,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         break
       }
       case Opcode.ROR_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
           getOperationResult(
@@ -265,13 +260,13 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         break
       }
       case Opcode.SHL_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) << 1, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.SHR_REG: {
-        const destReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, getOperationResult(getGPR(destReg) >> 1, getGPR(destReg)))
         incIP()
         break
@@ -279,57 +274,57 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
 
       // Immediate Arithmetic
       case Opcode.ADD_NUM_TO_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) + value, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.SUB_NUM_FROM_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) - value, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.MUL_REG_BY_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) * value, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.DIV_REG_BY_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(divide(getGPR(destReg), value), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.MOD_REG_BY_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(modulo(getGPR(destReg), value), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.AND_REG_WITH_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) & value, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.OR_REG_WITH_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) | value, getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.XOR_REG_WITH_NUM: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, getOperationResult(getGPR(destReg) ^ value, getGPR(destReg)))
         incIP()
         break
@@ -337,45 +332,45 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
 
       // Jump
       case Opcode.JMP: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(true, distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(distance)
         break
       }
       case Opcode.JZ: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(getSR(Flag.Zero), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(getSR(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JNZ: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(!getSR(Flag.Zero), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(!getSR(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JS: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(getSR(Flag.Sign), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(getSR(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JNS: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(!getSR(Flag.Sign), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(!getSR(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JO: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(getSR(Flag.Overflow), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(getSR(Flag.Overflow) ? distance : 2)
         break
       }
       case Opcode.JNO: {
-        const distance = sign8(getNextMachineCode())
-        jumpIf(!getSR(Flag.Overflow), distance)
+        const distance = sign8(loadFromMemory(getNextIP()))
+        incIP(!getSR(Flag.Overflow) ? distance : 2)
         break
       }
 
       // Immediate Move
       case Opcode.MOV_NUM_TO_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const value = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
         setGPR(destReg, value)
         incIP()
         break
@@ -383,15 +378,15 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
 
       // Direct Move
       case Opcode.MOV_ADDR_TO_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const address = getNextMachineCode()
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const address = loadFromMemory(incIP())
         setGPR(destReg, loadFromMemory(address))
         incIP()
         break
       }
       case Opcode.MOV_REG_TO_ADDR: {
-        const address = getNextMachineCode()
-        const srcReg = checkGPR(getNextMachineCode())
+        const address = loadFromMemory(incIP())
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         storeToMemory(address, getGPR(srcReg))
         incIP()
         break
@@ -399,15 +394,15 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
 
       // Indirect Move
       case Opcode.MOV_REG_ADDR_TO_REG: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, loadFromMemory(getGPR(srcReg)))
         incIP()
         break
       }
       case Opcode.MOV_REG_TO_REG_ADDR: {
-        const destReg = checkGPR(getNextMachineCode())
-        const srcReg = checkGPR(getNextMachineCode())
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        const srcReg = checkGPR(loadFromMemory(incIP()))
         storeToMemory(getGPR(destReg), getGPR(srcReg))
         incIP()
         break
