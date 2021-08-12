@@ -440,5 +440,31 @@ describe('cpu', () => {
         expect(step(memory, cpu)).toMatchSnapshot()
       })
     })
+
+    describe('with CMP', () => {
+      it('should compare two registers', () => {
+        const memory = getMemory('cmp al, bl end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 1, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should compare register and number', () => {
+        const memory = getMemory('cmp al, 02 end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 0, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should compare register and number from address', () => {
+        const memory = getMemory('cmp al, [02] end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [3, 0, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+    })
   })
 })

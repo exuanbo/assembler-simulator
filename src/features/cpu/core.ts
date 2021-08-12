@@ -407,5 +407,35 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         incIP()
         break
       }
+
+      // Direct Register Comparison
+      case Opcode.CMP_REG_WITH_REG: {
+        const reg1 = checkGPR(loadFromMemory(incIP()))
+        const reg2 = checkGPR(loadFromMemory(incIP()))
+        const [, flags] = checkOperationResult(getGPR(reg1) - getGPR(reg2), getGPR(reg1))
+        setSR(flags)
+        incIP()
+        break
+      }
+
+      // Immediate Comparison
+      case Opcode.CMP_REG_WITH_NUM: {
+        const reg = checkGPR(loadFromMemory(incIP()))
+        const value = loadFromMemory(incIP())
+        const [, flags] = checkOperationResult(getGPR(reg) - value, getGPR(reg))
+        setSR(flags)
+        incIP()
+        break
+      }
+
+      // Direct Memory Comparison
+      case Opcode.CMP_REG_WITH_ADDR: {
+        const reg = checkGPR(loadFromMemory(incIP()))
+        const address = loadFromMemory(incIP())
+        const [, flags] = checkOperationResult(getGPR(reg) - loadFromMemory(address), getGPR(reg))
+        setSR(flags)
+        incIP()
+        break
+      }
     }
   })
