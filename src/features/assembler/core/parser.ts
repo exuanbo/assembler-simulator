@@ -539,7 +539,7 @@ export const parse = (tokens: Token[]): Statement[] => {
     index += getConsumedTokensCount(statement)
   }
   if (
-    statements.length === 0 ||
+    statements.length > 0 &&
     statements[statements.length - 1].instruction.opcode !== Opcode.END
   ) {
     throw new MissingEndError()
