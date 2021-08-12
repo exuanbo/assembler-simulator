@@ -101,9 +101,9 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
     const loadFromMemory = (address: number): number => {
       return memory[address]
     }
-    // const storeToMemory = (address: number, machineCode: number): void => {
-    //   memory[address] = machineCode
-    // }
+    const storeToMemory = (address: number, machineCode: number): void => {
+      memory[address] = machineCode
+    }
 
     const getGPR = (register: Register): number => cpu.gpr[register]
     const setGPR = (register: Register, value: number): void => {
@@ -369,6 +369,47 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       case Opcode.JNO: {
         const distance = sign8(getNextMachineCode())
         jumpIf(!getSR(Flag.Overflow), distance)
+        break
+      }
+
+      // Immediate Move
+      case Opcode.MOV_NUM_TO_REG: {
+        const destReg = checkGPR(getNextMachineCode())
+        const value = getNextMachineCode()
+        setGPR(destReg, value)
+        incIP()
+        break
+      }
+
+      // Direct Move
+      case Opcode.MOV_ADDR_TO_REG: {
+        const destReg = checkGPR(getNextMachineCode())
+        const address = getNextMachineCode()
+        setGPR(destReg, loadFromMemory(address))
+        incIP()
+        break
+      }
+      case Opcode.MOV_REG_TO_ADDR: {
+        const address = getNextMachineCode()
+        const srcReg = checkGPR(getNextMachineCode())
+        storeToMemory(address, getGPR(srcReg))
+        incIP()
+        break
+      }
+
+      // Indirect Move
+      case Opcode.MOV_REG_ADDR_TO_REG: {
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
+        setGPR(destReg, loadFromMemory(getGPR(srcReg)))
+        incIP()
+        break
+      }
+      case Opcode.MOV_REG_TO_REG_ADDR: {
+        const destReg = checkGPR(getNextMachineCode())
+        const srcReg = checkGPR(getNextMachineCode())
+        storeToMemory(getGPR(destReg), getGPR(srcReg))
+        incIP()
         break
       }
     }

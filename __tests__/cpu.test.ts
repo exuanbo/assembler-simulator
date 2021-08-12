@@ -404,5 +404,41 @@ describe('cpu', () => {
         expect(step(memory, cpu)).toMatchSnapshot()
       })
     })
+
+    describe('with MOV', () => {
+      it('should move number to register', () => {
+        const memory = getMemory('mov al, 01 end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should move number from address to register', () => {
+        const memory = getMemory('mov al, [02] end')
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should move number from register to address', () => {
+        const memory = getMemory('mov [03], al end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 0, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should move number from register address to register', () => {
+        const memory = getMemory('mov al, [bl] end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [0, 2, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should move number from register to register address', () => {
+        const memory = getMemory('mov [al], bl end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [3, 1, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+    })
   })
 })
