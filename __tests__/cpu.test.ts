@@ -466,5 +466,29 @@ describe('cpu', () => {
         expect(step(memory, cpu)).toMatchSnapshot()
       })
     })
+
+    describe('with PUSH', () => {
+      it('should push to stack', () => {
+        const memory = getMemory('push al end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 0, 0, 0]
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
+
+      it('should throw StackOverflowError', () => {
+        const memory = getMemory('push al end')
+        const cpu = produce(initialCPU, draft => {
+          draft.gpr = [1, 0, 0, 0]
+          draft.sp = 0
+        })
+        expect(() => step(memory, cpu)).toThrowError('Stack overflow')
+      })
+
+      it('should throw StackUnderflowError', () => {
+        const memory = getMemory('pop al end')
+        expect(() => step(memory, initialCPU)).toThrowError('Stack underflow')
+      })
+    })
   })
 })

@@ -138,13 +138,13 @@ export class RunBeyondEndOfMemory extends RuntimeError {
 
 export class StackOverflowError extends RuntimeError {
   constructor() {
-    super('Stack Overflow')
+    super('Stack overflow')
   }
 }
 
 export class StackUnderflowError extends RuntimeError {
   constructor() {
-    super('Stack Underflow')
+    super('Stack underflow')
   }
 }
 

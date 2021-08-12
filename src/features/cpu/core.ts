@@ -2,8 +2,8 @@ import { produce } from 'immer'
 import {
   InvalidRegisterError,
   RunBeyondEndOfMemory,
-  // StackOverflowError,
-  // StackUnderflowError,
+  StackOverflowError,
+  StackUnderflowError,
   DivideByZeroError
 } from '../../common/exceptions'
 import { Opcode, Register } from '../../common/constants'
@@ -54,18 +54,18 @@ const checkIP = (address: number): number => {
   return address
 }
 
-// const checkSP = (address: number): number => {
-//   if (address < 0) {
-//     throw new StackOverflowError()
-//   }
-//   if (address > MAX_SP) {
-//     throw new StackUnderflowError()
-//   }
-//   return address
-// }
+const checkSP = (address: number): number => {
+  if (address < 0) {
+    throw new StackOverflowError()
+  }
+  if (address > MAX_SP) {
+    throw new StackUnderflowError()
+  }
+  return address
+}
 
 // const getFlagsValue = (sr: SR): number =>
-//   sr.reduce((result, isSet, flag) => (isSet ? result + 0b10 ** flag : result), 0)
+//   sr.reduce((result, isSet, flag) => (isSet ? result + 0b10 ** (flag + 1) : result), 0)
 
 const checkDivisor = (value: number): number => {
   if (value === 0) {
@@ -124,6 +124,19 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       return getIP()
     }
 
+    const getSP = (): number => cpu.sp
+    const setSP = (address: number): void => {
+      cpu.sp = address
+    }
+    const push = (value: number): void => {
+      storeToMemory(getSP(), value)
+      setSP(checkSP(getSP() - 1))
+    }
+    const pop = (): number => {
+      setSP(checkSP(getSP() + 1))
+      return loadFromMemory(getSP())
+    }
+
     const getSR = (flag: Flag): boolean => cpu.sr[flag]
     const setSR = (flags: Partial<SR>): void => {
       Object.assign(cpu.sr, flags)
@@ -132,6 +145,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
     /**
      * @modifies {@link cpu.sr}
      */
+    // TODO: refactor
     const getOperationResult = (result: number, previousValue: number): number => {
       const [finalResult, flags] = checkOperationResult(result, previousValue)
       setSR(flags)
@@ -434,6 +448,20 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         const address = loadFromMemory(incIP())
         const [, flags] = checkOperationResult(getGPR(reg) - loadFromMemory(address), getGPR(reg))
         setSR(flags)
+        incIP()
+        break
+      }
+
+      // Stack
+      case Opcode.PUSH_FROM_REG: {
+        const srcReg = checkGPR(loadFromMemory(incIP()))
+        push(getGPR(srcReg))
+        incIP()
+        break
+      }
+      case Opcode.POP_TO_REG: {
+        const destReg = checkGPR(loadFromMemory(incIP()))
+        setGPR(destReg, pop())
         incIP()
         break
       }
