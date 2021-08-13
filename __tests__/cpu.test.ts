@@ -484,6 +484,18 @@ describe('cpu', () => {
         })
         expect(() => step(memory, cpu)).toThrowError('Stack overflow')
       })
+    })
+
+    describe('with POP', () => {
+      it('should pop to register from stack', () => {
+        const memory = produce(getMemory('pop al end'), draft => {
+          draft[0xbf] = 1
+        })
+        const cpu = produce(initialCPU, draft => {
+          draft.sp = 0xbf - 1
+        })
+        expect(step(memory, cpu)).toMatchSnapshot()
+      })
 
       it('should throw StackUnderflowError', () => {
         const memory = getMemory('pop al end')
