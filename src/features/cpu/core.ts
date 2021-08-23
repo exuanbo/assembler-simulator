@@ -64,8 +64,17 @@ const checkSP = (address: number): number => {
   return address
 }
 
-// const getFlagsValue = (sr: SR): number =>
-//   sr.reduce((result, isSet, flag) => (isSet ? result + 0b10 ** (flag + 1) : result), 0)
+const getFlagsValue = (sr: SR): number =>
+  sr.reduce((value, isSet, flag) => (isSet ? value + 0b10 ** (flag + 1) : value), 0)
+
+const getFlagsFromValue = (value: number): SR => {
+  const valueStr = value.toString(2).padStart(5, '0')
+  return valueStr
+    .slice(-5, -1)
+    .split('')
+    .map(val => val === '1')
+    .reduceRight<boolean[]>((flags, isSet) => [...flags, isSet], []) as SR
+}
 
 const checkDivisor = (value: number): number => {
   if (value === 0) {
@@ -137,7 +146,8 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       return loadFromMemory(getSP())
     }
 
-    const getSR = (flag: Flag): boolean => cpu.sr[flag]
+    const getSR = (): SR => cpu.sr
+    const isFlagSet = (flag: Flag): boolean => getSR()[flag]
     const setSR = (flags: Partial<SR>): void => {
       Object.assign(cpu.sr, flags)
     }
@@ -352,32 +362,32 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       }
       case Opcode.JZ: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(getSR(Flag.Zero) ? distance : 2)
+        incIP(isFlagSet(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JNZ: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!getSR(Flag.Zero) ? distance : 2)
+        incIP(!isFlagSet(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JS: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(getSR(Flag.Sign) ? distance : 2)
+        incIP(isFlagSet(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JNS: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!getSR(Flag.Sign) ? distance : 2)
+        incIP(!isFlagSet(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JO: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(getSR(Flag.Overflow) ? distance : 2)
+        incIP(isFlagSet(Flag.Overflow) ? distance : 2)
         break
       }
       case Opcode.JNO: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!getSR(Flag.Overflow) ? distance : 2)
+        incIP(!isFlagSet(Flag.Overflow) ? distance : 2)
         break
       }
 
@@ -462,6 +472,16 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       case Opcode.POP_TO_REG: {
         const destReg = checkGPR(loadFromMemory(incIP()))
         setGPR(destReg, pop())
+        incIP()
+        break
+      }
+      case Opcode.PUSHF: {
+        push(getFlagsValue(getSR()))
+        incIP()
+        break
+      }
+      case Opcode.POPF: {
+        setSR(getFlagsFromValue(pop()))
         incIP()
         break
       }

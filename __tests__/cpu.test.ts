@@ -502,5 +502,23 @@ describe('cpu', () => {
         expect(() => step(memory, initialCPU)).toThrowError('Stack underflow')
       })
     })
+
+    it('with PUSHF should push SR to stack', () => {
+      const memory = getMemory('pushf end')
+      const cpu = produce(initialCPU, draft => {
+        draft.sr = [false, true, true, false]
+      })
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
+
+    it('with POPF should restore SR from stack', () => {
+      const memory = produce(getMemory('popf end'), draft => {
+        draft[0xbf] = 0x0c
+      })
+      const cpu = produce(initialCPU, draft => {
+        draft.sp = 0xbf - 1
+      })
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
   })
 })
