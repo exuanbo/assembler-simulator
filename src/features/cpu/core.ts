@@ -201,7 +201,10 @@ export const step = (...args: StepArgs): StepResult =>
       return finalResult
     }
 
-    const setSignal = <S extends keyof Signals>(signal: S, value: Signals[S]): void => {
+    const setSignal = <S extends keyof Signals>(
+      signal: S,
+      value: NonNullable<Signals[S]>
+    ): void => {
       ;(signals ?? (draft[2] = {}))[signal] = value
     }
     const getInput = (): number | undefined => signals?.input
