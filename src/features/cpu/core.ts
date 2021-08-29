@@ -128,8 +128,8 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
     /**
      * @modifies {@link cpu.ip}
      */
-    const incIP = (value?: number): number => {
-      setIP(checkIP(getIP() + (value ?? 1)))
+    const incIP = (value = 1): number => {
+      setIP(checkIP(getIP() + value))
       return getIP()
     }
 
