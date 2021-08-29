@@ -515,7 +515,8 @@ export const step = (...args: StepArgs): StepResult =>
         break
       }
       case Opcode.POPF: {
-        setSR(getFlagsFromValue(pop()))
+        const flags = getFlagsFromValue(pop())
+        setSR(flags)
         incIP()
         break
       }
