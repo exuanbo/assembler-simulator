@@ -83,10 +83,10 @@ const checkDivisor = (value: number): number => {
   return value
 }
 
-const divide = (dividend: number, divisor: number): number =>
+const divideBy = (divisor: number, dividend: number): number =>
   Math.floor(dividend / checkDivisor(divisor))
 
-const modulo = (dividend: number, divisor: number): number => dividend % checkDivisor(divisor)
+const moduloBy = (divisor: number, dividend: number): number => dividend % checkDivisor(divisor)
 
 const checkOperationResult = (
   result: number,
@@ -197,7 +197,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
-          getOperationResult(divide(getGPR(destReg), getGPR(srcReg)), getGPR(destReg))
+          getOperationResult(divideBy(getGPR(srcReg), getGPR(destReg)), getGPR(destReg))
         )
         incIP()
         break
@@ -219,7 +219,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         const srcReg = checkGPR(loadFromMemory(incIP()))
         setGPR(
           destReg,
-          getOperationResult(modulo(getGPR(destReg), getGPR(srcReg)), getGPR(destReg))
+          getOperationResult(moduloBy(getGPR(srcReg), getGPR(destReg)), getGPR(destReg))
         )
         incIP()
         break
@@ -258,7 +258,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
           getOperationResult(
             exp<number>(() => {
               const value = getGPR(destReg)
-              const MSB = divide(value, 0x80)
+              const MSB = divideBy(0x80, value)
               return (value << 1) + MSB
             }),
             getGPR(destReg)
@@ -274,7 +274,7 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
           getOperationResult(
             exp<number>(() => {
               const value = getGPR(destReg)
-              const LSB = modulo(value, 2)
+              const LSB = moduloBy(2, value)
               return LSB * 0x80 + (value >> 1)
             }),
             getGPR(destReg)
@@ -321,14 +321,14 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       case Opcode.DIV_REG_BY_NUM: {
         const destReg = checkGPR(loadFromMemory(incIP()))
         const value = loadFromMemory(incIP())
-        setGPR(destReg, getOperationResult(divide(getGPR(destReg), value), getGPR(destReg)))
+        setGPR(destReg, getOperationResult(divideBy(value, getGPR(destReg)), getGPR(destReg)))
         incIP()
         break
       }
       case Opcode.MOD_REG_BY_NUM: {
         const destReg = checkGPR(loadFromMemory(incIP()))
         const value = loadFromMemory(incIP())
-        setGPR(destReg, getOperationResult(modulo(getGPR(destReg), value), getGPR(destReg)))
+        setGPR(destReg, getOperationResult(moduloBy(value, getGPR(destReg)), getGPR(destReg)))
         incIP()
         break
       }
