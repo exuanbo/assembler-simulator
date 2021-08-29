@@ -201,6 +201,9 @@ export const step = (...args: StepArgs): StepResult =>
       return finalResult
     }
 
+    const setSignal = <S extends keyof Signals>(signal: S, value: Signals[S]): void => {
+      ;(signals ?? (draft[2] = {}))[signal] = value
+    }
     const getInput = (): number | undefined => signals?.input
     const resetInput = (): void => {
       delete signals!.input
@@ -209,7 +212,7 @@ export const step = (...args: StepArgs): StepResult =>
       }
     }
     const setPort = (type: PortType, port: number): void => {
-      ;(draft[2] ?? (draft[2] = {}))[`${type}Port`] = port
+      setSignal(`${type}Port`, port)
     }
 
     /* -------------------------------------------------------------------------- */
@@ -545,6 +548,7 @@ export const step = (...args: StepArgs): StepResult =>
           setPort(PortType.Input, port)
           break
         }
+        // TODO: if port !== signals.inputPort
         setGPR(Register.AL, input)
         incIP(2)
         resetInput()
