@@ -111,6 +111,10 @@ const checkOperationResult = (
 
 export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CPU] =>
   produce([__memory, __cpu], ([memory, cpu]) => {
+    /* -------------------------------------------------------------------------- */
+    /*                                    Init                                    */
+    /* -------------------------------------------------------------------------- */
+
     const loadFromMemory = (address: number): number => {
       return memory[address]
     }
@@ -170,6 +174,10 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       setSR(flags)
       return finalResult
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                     Run                                    */
+    /* -------------------------------------------------------------------------- */
 
     const opcode = loadFromMemory(getIP())
 
