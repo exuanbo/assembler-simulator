@@ -485,5 +485,17 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
         incIP()
         break
       }
+
+      // Procedures and Interrupts
+      case Opcode.CALL_ADDR_NUM: {
+        const destAddr = loadFromMemory(incIP())
+        push(incIP())
+        setIP(destAddr)
+        break
+      }
+      case Opcode.RET: {
+        setIP(pop())
+        break
+      }
     }
   })

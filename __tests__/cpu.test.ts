@@ -520,5 +520,21 @@ describe('cpu', () => {
       })
       expect(step(memory, cpu)).toMatchSnapshot()
     })
+
+    it('with CALL should jump to address', () => {
+      const memory = getMemory('call 50 end')
+      const cpu = initialCPU
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
+
+    it('with RET should return', () => {
+      const memory = produce(getMemory('ret end'), draft => {
+        draft[0xbf] = 0x10
+      })
+      const cpu = produce(initialCPU, draft => {
+        draft.sp = 0xbf - 1
+      })
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
   })
 })
