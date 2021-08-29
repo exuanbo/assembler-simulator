@@ -4,10 +4,6 @@ export const add = (addend: number, augend: number): number => augend + addend
 
 export const substract = (subtrahend: number, minuend: number): number => minuend - subtrahend
 
-export const increase = (n: number): number => add(1, n)
-
-export const decrease = (n: number): number => substract(1, n)
-
 export const multiply = (multiplier: number, multiplicand: number): number =>
   multiplicand * multiplier
 
@@ -20,6 +16,10 @@ const checkDivisor = (value: number): number => {
 
 export const divide = (divisor: number, dividend: number): number =>
   Math.floor(dividend / checkDivisor(divisor))
+
+export const increase = (n: number): number => add(1, n)
+
+export const decrease = (n: number): number => substract(1, n)
 
 export const modulo = (divisor: number, dividend: number): number =>
   dividend % checkDivisor(divisor)

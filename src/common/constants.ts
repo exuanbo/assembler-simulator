@@ -6,9 +6,9 @@ export enum Mnemonic {
   SUB = 'SUB',
   MUL = 'MUL',
   DIV = 'DIV',
-  MOD = 'MOD',
   INC = 'INC',
   DEC = 'DEC',
+  MOD = 'MOD',
 
   // Logic
   AND = 'AND',
@@ -55,12 +55,12 @@ export enum Mnemonic {
 
   // Miscellaneous
   HALT = 'HALT',
-  NOP = 'NOP',
-  CLO = 'CLO',
-  ORG = 'ORG',
-  DB = 'DB',
+  STI = 'STI',
   CLI = 'CLI',
-  STI = 'STI'
+  CLO = 'CLO',
+  NOP = 'NOP',
+  ORG = 'ORG',
+  DB = 'DB'
 }
 
 export const MNEMONIC_TO_OPERANDS_COUNT_MAP = {
@@ -71,9 +71,9 @@ export const MNEMONIC_TO_OPERANDS_COUNT_MAP = {
   [Mnemonic.SUB]: 2,
   [Mnemonic.MUL]: 2,
   [Mnemonic.DIV]: 2,
-  [Mnemonic.MOD]: 2,
   [Mnemonic.INC]: 1,
   [Mnemonic.DEC]: 1,
+  [Mnemonic.MOD]: 2,
 
   // Logic
   [Mnemonic.AND]: 2,
@@ -120,12 +120,12 @@ export const MNEMONIC_TO_OPERANDS_COUNT_MAP = {
 
   // Miscellaneous
   [Mnemonic.HALT]: 0,
-  [Mnemonic.NOP]: 0,
-  [Mnemonic.CLO]: 0,
-  [Mnemonic.ORG]: 1,
-  [Mnemonic.DB]: 1,
+  [Mnemonic.STI]: 0,
   [Mnemonic.CLI]: 0,
-  [Mnemonic.STI]: 0
+  [Mnemonic.CLO]: 0,
+  [Mnemonic.NOP]: 0,
+  [Mnemonic.ORG]: 1,
+  [Mnemonic.DB]: 1
 } as const
 
 export type MnemonicWithOneOperand =
@@ -241,10 +241,10 @@ export enum Opcode {
 
   // Miscellaneous
   HALT = 0x00,
-  NOP = 0xff,
-  CLO = 0xfe,
+  STI = 0xfc,
   CLI = 0xfd,
-  STI = 0xfc
+  CLO = 0xfe,
+  NOP = 0xff
 }
 
 export enum Register {
