@@ -25,8 +25,9 @@ describe('cpu', () => {
     })
 
     describe('with ADD', () => {
+      const memory = getMemory('add al, bl end')
+
       it('should operate on two registers', () => {
-        const memory = getMemory('add al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [1, 2, 0, 0]
         })
@@ -42,7 +43,6 @@ describe('cpu', () => {
       })
 
       it('should set only zero flag', () => {
-        const memory = getMemory('add al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0xff, 1, 0, 0]
         })
@@ -50,7 +50,6 @@ describe('cpu', () => {
       })
 
       it('should only set sign flag', () => {
-        const memory = getMemory('add al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0x80, 1, 0, 0]
         })
@@ -58,7 +57,6 @@ describe('cpu', () => {
       })
 
       it('should set both overflow and sign flag', () => {
-        const memory = getMemory('add al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0x7f, 1, 0, 0]
         })
@@ -67,8 +65,9 @@ describe('cpu', () => {
     })
 
     describe('with SUB', () => {
+      const memory = getMemory('sub al, bl end')
+
       it('should operate on two registers', () => {
-        const memory = getMemory('sub al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [3, 2, 0, 0]
         })
@@ -84,7 +83,6 @@ describe('cpu', () => {
       })
 
       it('should set only zero flag', () => {
-        const memory = getMemory('sub al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [1, 1, 0, 0]
         })
@@ -92,7 +90,6 @@ describe('cpu', () => {
       })
 
       it('should set only overflow flag', () => {
-        const memory = getMemory('sub al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0x80, 1, 0, 0]
         })
@@ -100,7 +97,6 @@ describe('cpu', () => {
       })
 
       it('should only set sign flag', () => {
-        const memory = getMemory('sub al, bl end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [0x81, 1, 0, 0]
         })
@@ -468,8 +464,9 @@ describe('cpu', () => {
     })
 
     describe('with PUSH', () => {
+      const memory = getMemory('push al end')
+
       it('should push to stack', () => {
-        const memory = getMemory('push al end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [1, 0, 0, 0]
         })
@@ -477,7 +474,6 @@ describe('cpu', () => {
       })
 
       it('should throw StackOverflowError', () => {
-        const memory = getMemory('push al end')
         const cpu = produce(initialCPU, draft => {
           draft.gpr = [1, 0, 0, 0]
           draft.sp = 0
@@ -487,8 +483,10 @@ describe('cpu', () => {
     })
 
     describe('with POP', () => {
+      const __memory = getMemory('pop al end')
+
       it('should pop to register from stack', () => {
-        const memory = produce(getMemory('pop al end'), draft => {
+        const memory = produce(__memory, draft => {
           draft[0xbf] = 1
         })
         const cpu = produce(initialCPU, draft => {
@@ -498,8 +496,9 @@ describe('cpu', () => {
       })
 
       it('should throw StackUnderflowError', () => {
-        const memory = getMemory('pop al end')
-        expect(() => step(memory, initialCPU)).toThrowError('Stack underflow')
+        expect(() => {
+          step(__memory, initialCPU)
+        }).toThrowError('Stack underflow')
       })
     })
 
