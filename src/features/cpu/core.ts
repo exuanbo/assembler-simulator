@@ -205,7 +205,7 @@ export const step = (...args: StepArgs): StepResult =>
       ;(signals ?? (draft[2] = {}))[signal] = value
     }
     const getInput = (): number | undefined => signals?.input
-    const resetInput = (): void => {
+    const clearInput = (): void => {
       delete signals!.input
       if (Object.keys(signals!).length === 0) {
         draft.pop()
@@ -551,7 +551,7 @@ export const step = (...args: StepArgs): StepResult =>
         // TODO: if port !== signals.inputPort
         setGPR(Register.AL, input)
         incIP(2)
-        resetInput()
+        clearInput()
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
