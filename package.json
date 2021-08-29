@@ -27,17 +27,17 @@
     "react-redux": "7.2.4"
   },
   "devDependencies": {
-    "@types/jest": "26.0.24",
-    "@types/react": "17.0.16",
+    "@types/jest": "27.0.1",
+    "@types/react": "17.0.19",
     "@types/react-dom": "17.0.9",
     "@vitejs/plugin-legacy": "1.5.1",
     "@vitejs/plugin-react-refresh": "1.3.6",
-    "jest": "27.0.6",
-    "ts-jest": "27.0.4",
+    "jest": "27.1.0",
+    "ts-jest": "27.0.5",
     "ts-standardx": "0.8.0-0",
-    "typescript": "4.4.0-beta",
-    "vite": "2.4.4",
-    "vite-plugin-windicss": "1.2.7",
+    "typescript": "4.4.2",
+    "vite": "2.5.1",
+    "vite-plugin-windicss": "1.3.0",
     "windicss": "3.1.7"
   }
 }
