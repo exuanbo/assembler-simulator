@@ -20,7 +20,8 @@ import {
   InvalidRegisterError,
   RunBeyondEndOfMemory,
   StackOverflowError,
-  StackUnderflowError
+  StackUnderflowError,
+  PortError
 } from '../../common/exceptions'
 import { Opcode, Register } from '../../common/constants'
 import { Head, sign8, unsign8 } from '../../common/utils'
@@ -43,6 +44,7 @@ export interface CPU {
   ip: number
   sp: number
   sr: SR
+  // TODO: isFault
   isHalted: boolean
 }
 
@@ -109,8 +111,32 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CPU] =>
-  produce([__memory, __cpu], ([memory, cpu]) => {
+interface Signals {
+  input?: number
+  inputPort?: number
+  outputPort?: number
+  interrupt?: boolean
+}
+
+enum PortType {
+  Input = 'input',
+  Output = 'output'
+}
+
+const checkPort = (value: number): number => {
+  if (value < 0 || value > 0x0f) {
+    throw new PortError()
+  }
+  return value
+}
+
+type StepArgs = [memory: number[], cpu: CPU, signals?: Signals]
+type StepResult = StepArgs
+
+export const step = (...args: StepArgs): StepResult =>
+  produce(args, draft => {
+    const [memory, cpu, signals] = draft
+
     /* -------------------------------------------------------------------------- */
     /*                                    Init                                    */
     /* -------------------------------------------------------------------------- */
@@ -173,6 +199,17 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       )
       setSR(flags)
       return finalResult
+    }
+
+    const getInput = (): number | undefined => signals?.input
+    const resetInput = (): void => {
+      delete signals!.input
+      if (Object.keys(signals!).length === 0) {
+        draft.pop()
+      }
+    }
+    const setPort = (type: PortType, port: number): void => {
+      ;(draft[2] ?? (draft[2] = {}))[`${type}Port`] = port
     }
 
     /* -------------------------------------------------------------------------- */
@@ -497,6 +534,25 @@ export const step = (__memory: number[], __cpu: CPU): [memory: number[], cpu: CP
       case Opcode.IRET: {
         // TODO: is it actually the same as `RET`?
         setIP(pop())
+        break
+      }
+
+      // Input and Output
+      case Opcode.IN_FROM_PORT_TO_AL: {
+        const input = getInput()
+        if (input === undefined) {
+          const port = checkPort(loadFromMemory(getNextIP()))
+          setPort(PortType.Input, port)
+          break
+        }
+        setGPR(Register.AL, input)
+        incIP(2)
+        resetInput()
+        break
+      }
+      case Opcode.OUT_FROM_AL_TO_PORT: {
+        const port = checkPort(loadFromMemory(getNextIP()))
+        setPort(PortType.Output, port)
         break
       }
     }

@@ -153,3 +153,9 @@ export class DivideByZeroError extends RuntimeError {
     super('Can not divide by zero')
   }
 }
+
+export class PortError extends RuntimeError {
+  constructor() {
+    super('I/O ports between 0 and F are available.')
+  }
+}

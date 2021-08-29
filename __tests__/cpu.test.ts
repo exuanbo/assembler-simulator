@@ -552,5 +552,29 @@ describe('cpu', () => {
       })
       expect(step(memory, cpu)).toMatchSnapshot()
     })
+
+    describe('with IN', () => {
+      const memory = getMemory('in 00 end')
+
+      it('should create signal with input port', () => {
+        expect(step(memory, initialCPU)).toMatchSnapshot()
+      })
+
+      it('should read input from signal and move to AL', () => {
+        expect(step(memory, initialCPU, { input: 0x61 })).toMatchSnapshot()
+      })
+
+      it('should throw PortError', () => {
+        const memory = getMemory('in 10 end')
+        expect(() => {
+          step(memory, initialCPU)
+        }).toThrow('I/O ports between 0 and F are available.')
+      })
+    })
+
+    it('with OUT should create signal with output port', () => {
+      const memory = getMemory('out 01 end')
+      expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
   })
 })
