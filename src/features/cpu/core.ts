@@ -551,7 +551,8 @@ export const step = (...args: StepArgs): StepResult =>
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
-        const port = checkPort(loadFromMemory(getNextIP()))
+        const port = checkPort(loadFromMemory(incIP()))
+        incIP()
         setPort(PortType.Output, port)
         break
       }
