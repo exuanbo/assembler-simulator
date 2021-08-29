@@ -523,12 +523,28 @@ describe('cpu', () => {
 
     it('with CALL should jump to address', () => {
       const memory = getMemory('call 50 end')
-      const cpu = initialCPU
-      expect(step(memory, cpu)).toMatchSnapshot()
+      expect(step(memory, initialCPU)).toMatchSnapshot()
     })
 
     it('with RET should return', () => {
       const memory = produce(getMemory('ret end'), draft => {
+        draft[0xbf] = 0x10
+      })
+      const cpu = produce(initialCPU, draft => {
+        draft.sp = 0xbf - 1
+      })
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
+
+    it('with INT should jump to address', () => {
+      const memory = produce(getMemory('int 03 end'), draft => {
+        draft[0x03] = 0x50
+      })
+      expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
+
+    it('with IRET should return', () => {
+      const memory = produce(getMemory('iret end'), draft => {
         draft[0xbf] = 0x10
       })
       const cpu = produce(initialCPU, draft => {
