@@ -1,5 +1,9 @@
 import { produce } from 'immer'
 
+export type NullablePartial<T> = {
+  [P in keyof T]?: T[P] | undefined
+}
+
 export type Head<T extends unknown[]> = T extends [...infer Head, unknown] ? Head : unknown[]
 
 export const sign8 = (unsigned: number): number =>

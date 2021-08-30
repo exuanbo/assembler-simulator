@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import { assemble } from '../src/features/assembler/core'
-import { init as initCPU, step } from '../src/features/cpu/core'
+import { CPU, init as initCPU, step as __step } from '../src/features/cpu/core'
 import { initFrom as initMemoryFrom } from '../src/features/memory/core'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 
@@ -13,6 +13,12 @@ const getMemory = (input: string): number[] => {
 }
 
 const initialCPU = initCPU()
+
+const step = (
+  memory: number[],
+  cpu: CPU,
+  signals: Parameters<typeof __step>[2] = {}
+): ReturnType<typeof __step> => __step(memory, cpu, signals)
 
 describe('cpu', () => {
   describe('step', () => {
@@ -560,7 +566,7 @@ describe('cpu', () => {
       })
 
       it('should read input from signal and move to AL', () => {
-        expect(step(memory, initialCPU, { input: 0x61 })).toMatchSnapshot()
+        expect(step(memory, initialCPU, { input: 0x61, inputPort: 0x00 })).toMatchSnapshot()
       })
 
       it('should throw PortError', () => {
@@ -574,6 +580,19 @@ describe('cpu', () => {
     it('with OUT should create signal with output port', () => {
       const memory = getMemory('out 01 end')
       expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
+
+    it('should call INT if interrupt flag is set and receives an interrupt signal', () => {
+      const memory = getMemory(`
+jmp done
+db 50
+done:
+end
+`)
+      const cpu = produce(initialCPU, draft => {
+        draft.sr = [false, false, false, true]
+      })
+      expect(step(memory, cpu, { interrupt: true })).toMatchSnapshot()
     })
   })
 })

@@ -23,8 +23,8 @@ import {
   StackUnderflowError,
   PortError
 } from '../../common/exceptions'
-import { Opcode, Register } from '../../common/constants'
-import { Head, sign8, unsign8 } from '../../common/utils'
+import { Opcode, Register, HARDWARE_INTERRUPT_VECTOR_ADDR } from '../../common/constants'
+import { NullablePartial, Head, sign8, unsign8 } from '../../common/utils'
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
 
@@ -44,7 +44,6 @@ export interface CPU {
   ip: number
   sp: number
   sr: SR
-  // TODO: isFault
   isHalted: boolean
 }
 
@@ -111,12 +110,12 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-interface Signals {
-  input?: number
-  inputPort?: number
-  outputPort?: number
-  interrupt?: boolean
-}
+type Signals = NullablePartial<{
+  input: number
+  inputPort: number
+  outputPort: number
+  interrupt: boolean
+}>
 
 enum PortType {
   Input = 'input',
@@ -130,7 +129,7 @@ const checkPort = (value: number): number => {
   return value
 }
 
-type StepArgs = [memory: number[], cpu: CPU, signals?: Signals]
+type StepArgs = [memory: number[], cpu: CPU, signals: Signals]
 type StepResult = StepArgs
 
 export const step = (...args: StepArgs): StepResult =>
@@ -154,7 +153,7 @@ export const step = (...args: StepArgs): StepResult =>
     }
 
     const getIP = (): number => cpu.ip
-    const getNextIP = (): number => getIP() + 1
+    const getNextIP = (by = 1): number => getIP() + by
     const setIP = (address: number): void => {
       cpu.ip = address
     }
@@ -162,8 +161,8 @@ export const step = (...args: StepArgs): StepResult =>
     /**
      * @modifies {@link cpu.ip}
      */
-    const incIP = (value = 1): number => {
-      setIP(checkIP(getIP() + value))
+    const incIP = (by = 1): number => {
+      setIP(checkIP(getIP() + by))
       return getIP()
     }
 
@@ -181,10 +180,10 @@ export const step = (...args: StepArgs): StepResult =>
     }
 
     const getSR = (): SR => cpu.sr
-    const isFlagSet = (flag: Flag): boolean => getSR()[flag]
     const setSR = (flags: Partial<SR>): void => {
       Object.assign(cpu.sr, flags)
     }
+    const isFlagSet = (flag: Flag): boolean => getSR()[flag]
 
     /**
      * @modifies {@link cpu.sr}
@@ -201,34 +200,28 @@ export const step = (...args: StepArgs): StepResult =>
       return finalResult
     }
 
-    const setSignal = <S extends keyof Signals>(
-      signal: S,
-      value: NonNullable<Signals[S]>
-    ): void => {
-      ;(signals ?? (draft[2] = {}))[signal] = value
+    const setHalted = (): void => {
+      cpu.isHalted = true
     }
-    const getInput = (): number | undefined => signals?.input
+
+    const getInput = (): number | undefined => signals.input
+    const getPort = (type: PortType): number | undefined => signals[`${type}Port`]
     const setPort = (type: PortType, port: number): void => {
-      setSignal(`${type}Port`, port)
+      draft[2][`${type}Port`] = port
     }
-    const resetIO = (): void => {
-      if (signals!.interrupt !== undefined) {
-        draft[2] = { interrupt: signals!.interrupt }
-      } else {
-        draft.pop()
-      }
-    }
+    const getInterruptSignal = (): boolean => signals.interrupt!
 
     /* -------------------------------------------------------------------------- */
     /*                                     Run                                    */
     /* -------------------------------------------------------------------------- */
 
-    const opcode = loadFromMemory(getIP())
+    const shouldTrapHardwareInterrupt = getInterruptSignal() && isFlagSet(Flag.Interrupt)
+
+    const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR_NUM : loadFromMemory(getIP())
 
     switch (opcode) {
       case Opcode.END:
-        // TODO setHalted()
-        cpu.isHalted = true
+        setHalted()
         break
 
       // Direct Arithmetic
@@ -524,8 +517,8 @@ export const step = (...args: StepArgs): StepResult =>
 
       // Procedures and Interrupts
       case Opcode.CALL_ADDR_NUM: {
-        const address = loadFromMemory(incIP())
-        push(incIP())
+        const address = loadFromMemory(getNextIP())
+        push(getNextIP(2))
         setIP(address)
         break
       }
@@ -534,13 +527,17 @@ export const step = (...args: StepArgs): StepResult =>
         break
       }
       case Opcode.INT_ADDR_NUM: {
-        const address = loadFromMemory(incIP())
-        push(incIP())
+        if (shouldTrapHardwareInterrupt) {
+          push(getIP())
+          setIP(loadFromMemory(HARDWARE_INTERRUPT_VECTOR_ADDR))
+          break
+        }
+        const address = loadFromMemory(getNextIP())
+        push(getNextIP(2))
         setIP(loadFromMemory(address))
         break
       }
       case Opcode.IRET: {
-        // TODO: is it actually the same as `RET`?
         setIP(pop())
         break
       }
@@ -548,15 +545,13 @@ export const step = (...args: StepArgs): StepResult =>
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
         const input = getInput()
-        if (input === undefined) {
-          const port = checkPort(loadFromMemory(getNextIP()))
-          setPort(PortType.Input, port)
+        const requiredPort = checkPort(loadFromMemory(getNextIP()))
+        if (input === undefined || requiredPort !== getPort(PortType.Input)) {
+          setPort(PortType.Input, requiredPort)
           break
         }
-        // TODO: if port !== signals.inputPort
         setGPR(Register.AL, input)
         incIP(2)
-        resetIO()
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {

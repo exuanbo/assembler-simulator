@@ -253,3 +253,5 @@ export enum Register {
   CL,
   DL
 }
+
+export const HARDWARE_INTERRUPT_VECTOR_ADDR = 2 as const
