@@ -115,6 +115,7 @@ type Signals = NullablePartial<{
   inputPort: number
   outputPort: number
   interrupt: boolean
+  closeWindows: boolean
 }>
 
 enum PortType {
@@ -133,9 +134,7 @@ type StepArgs = [memory: number[], cpu: CPU, signals: Signals]
 type StepResult = StepArgs
 
 export const step = (...args: StepArgs): StepResult =>
-  produce(args, draft => {
-    const [memory, cpu, signals] = draft
-
+  produce(args, ([memory, cpu, signals]) => {
     /* -------------------------------------------------------------------------- */
     /*                                    Init                                    */
     /* -------------------------------------------------------------------------- */
@@ -184,6 +183,9 @@ export const step = (...args: StepArgs): StepResult =>
       Object.assign(cpu.sr, flags)
     }
     const isFlagSet = (flag: Flag): boolean => getSR()[flag]
+    const setFlag = (flag: Flag, value: boolean): void => {
+      getSR()[flag] = value
+    }
 
     /**
      * @modifies {@link cpu.sr}
@@ -204,12 +206,21 @@ export const step = (...args: StepArgs): StepResult =>
       cpu.isHalted = true
     }
 
+    const setSignal = <S extends keyof Signals>(
+      signalName: S,
+      value: NonNullable<Signals[S]>
+    ): void => {
+      signals[signalName] = value
+    }
     const getInput = (): number | undefined => signals.input
     const getPort = (type: PortType): number | undefined => signals[`${type}Port`]
     const setPort = (type: PortType, port: number): void => {
-      draft[2][`${type}Port`] = port
+      setSignal(`${type}Port`, port)
     }
     const getInterruptSignal = (): boolean => signals.interrupt!
+    const setCloseWindowsSignal = (): void => {
+      setSignal('closeWindows', true)
+    }
 
     /* -------------------------------------------------------------------------- */
     /*                                     Run                                    */
@@ -221,6 +232,7 @@ export const step = (...args: StepArgs): StepResult =>
 
     switch (opcode) {
       case Opcode.END:
+      case Opcode.HALT:
         setHalted()
         break
 
@@ -558,6 +570,27 @@ export const step = (...args: StepArgs): StepResult =>
         const port = checkPort(loadFromMemory(incIP()))
         incIP()
         setPort(PortType.Output, port)
+        break
+      }
+
+      // Miscellaneous
+      case Opcode.STI: {
+        setFlag(Flag.Interrupt, true)
+        incIP()
+        break
+      }
+      case Opcode.CLI: {
+        setFlag(Flag.Interrupt, false)
+        incIP()
+        break
+      }
+      case Opcode.CLO: {
+        setCloseWindowsSignal()
+        incIP()
+        break
+      }
+      case Opcode.NOP: {
+        incIP()
         break
       }
     }

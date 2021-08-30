@@ -594,5 +594,28 @@ end
       })
       expect(step(memory, cpu, { interrupt: true })).toMatchSnapshot()
     })
+
+    it('with STI should set interrupt flag', () => {
+      const memory = getMemory('sti end')
+      expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
+
+    it('with CLI should unset interrupt flag', () => {
+      const memory = getMemory('cli end')
+      const cpu = produce(initialCPU, draft => {
+        draft.sr = [false, false, false, true]
+      })
+      expect(step(memory, cpu)).toMatchSnapshot()
+    })
+
+    it('with CLO should create closeWindows signal', () => {
+      const memory = getMemory('clo end')
+      expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
+
+    it('with NOP should do nothing', () => {
+      const memory = getMemory('nop end')
+      expect(step(memory, initialCPU)).toMatchSnapshot()
+    })
   })
 })
