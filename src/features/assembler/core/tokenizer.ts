@@ -1,3 +1,4 @@
+import { Mnemonic } from '../../../common/constants'
 import { exp } from '../../../common/utils'
 
 export enum TokenType {
@@ -72,7 +73,7 @@ export const tokenize = (input: string): Token[] => {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
-        index += token.length
+        index += token.value === Mnemonic.END ? input.length : token.length
       }
       return isMatched
     })
