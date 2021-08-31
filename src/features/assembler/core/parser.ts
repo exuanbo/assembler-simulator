@@ -18,7 +18,7 @@ import {
   Opcode,
   Register
 } from '../../../common/constants'
-import { exp, hexToDec, stringToASCII } from '../../../common/utils'
+import { call, hexToDec, stringToASCII } from '../../../common/utils'
 
 export interface Label extends Locatable {
   identifier: string
@@ -67,7 +67,7 @@ export interface Operand<T extends OperandType = OperandType> extends Locatable 
 }
 
 const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
-  const value = exp<Operand['value']>(() => {
+  const value = call((): Operand['value'] => {
     switch (type) {
       case OperandType.Number:
       case OperandType.Address:

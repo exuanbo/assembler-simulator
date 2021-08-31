@@ -8,7 +8,7 @@ import {
   JumpDistanceError
 } from '../../../common/exceptions'
 import { Mnemonic } from '../../../common/constants'
-import { exp } from '../../../common/utils'
+import { call } from '../../../common/utils'
 
 export * from './types'
 export * from './tokenizer'
@@ -24,7 +24,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
       return [
         instruction.mnemonic === Mnemonic.ORG
           ? (firstOperand.value as number)
-          : exp<number>(() => {
+          : call((): number => {
               const nextAddress =
                 address +
                 machineCodes.length +

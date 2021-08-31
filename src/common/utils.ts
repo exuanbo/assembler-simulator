@@ -28,4 +28,4 @@ export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
     })
   }, [])
 
-export const exp = <T>(fn: () => T): T => fn()
+export const call = <T>(fn: () => T): T => fn()
