@@ -11,9 +11,9 @@ const App = (): JSX.Element => (
     <div className="flex h-full divide-x">
       <Editor className="flex-1" />
       <div className="flex flex-col flex-1 divide-y">
+        <CPURegisters />
+        <Memory />
         <IODevices className="flex-1" />
-        <CPURegisters className="flex-1" />
-        <Memory className="flex-1" />
       </div>
     </div>
   </div>
