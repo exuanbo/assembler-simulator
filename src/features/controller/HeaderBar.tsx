@@ -6,7 +6,7 @@ interface Props {
 }
 
 const HeaderBar = ({ className }: Props): JSX.Element => (
-  <nav className={`flex items-center justify-between h-10 bg-gray-100 ${className}`}>
+  <nav className={`flex items-center justify-between h-10 bg-gray-100 mb-0.5 shadow ${className}`}>
     <div className="flex h-full pl-2 space-x-3">
       <button className="flex items-center space-x-1 focus:outline-none">
         <Play aria-hidden="true" className="h-4 -ml-1" />

@@ -6,7 +6,7 @@ import CPURegisters from '../features/cpu/CPURegisters'
 import Memory from '../features/memory/Memory'
 
 const App = (): JSX.Element => (
-  <div className="flex flex-col w-screen h-screen divide-y">
+  <div className="flex flex-col w-screen h-screen">
     <HeaderBar className="flex-none" />
     <div className="flex h-full divide-x">
       <Editor className="flex-1" />
