@@ -2,21 +2,19 @@ import { tokenize } from '../../src/features/assembler/core'
 
 describe('tokenizer', () => {
   it('should skip whitespace', () => {
-    expect(tokenize(' \t\n' + 'done:' + ' \t\n' + 'end')).toMatchSnapshot()
+    expect(tokenize(' \t\ndone: \t\nend')).toMatchSnapshot()
   })
 
   it('should skip line with comment', () => {
-    expect(tokenize('; this is a comment' + '\n' + 'end')).toMatchSnapshot()
+    expect(tokenize('; this is a comment\nend')).toMatchSnapshot()
   })
 
   it('should skip comment at the end of the line', () => {
-    expect(
-      tokenize('done:' + '; this is a comment' + '\n' + 'end' + '; this is another comment')
-    ).toMatchSnapshot()
+    expect(tokenize('done:; this is a comment\nend; this is another comment')).toMatchSnapshot()
   })
 
   it('should tokenize comma', () => {
-    expect(tokenize(',' + '\n' + ',,')).toMatchSnapshot()
+    expect(tokenize(',\n,,')).toMatchSnapshot()
   })
 
   it('should tokenize digits', () => {

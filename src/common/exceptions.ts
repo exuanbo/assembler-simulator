@@ -1,72 +1,75 @@
-import type { Token, Label, OperandType, Statement } from '../features/assembler/core'
+import type {
+  SourceLocation,
+  Token,
+  Label,
+  OperandType,
+  Operand,
+  Statement
+} from '../features/assembler/core'
 import { trimBrackets } from './utils'
 
 export abstract class AssemblerError extends Error {
   public message: string
-  public position: number
-  public length: number
+  public start: number | undefined
+  public end: number | undefined
+  public loc: SourceLocation | undefined
 
-  constructor(message: string, position: number, length: number) {
+  constructor(message: string, start?: number, end?: number, loc?: SourceLocation) {
     super()
     this.message = message
-    this.position = position
-    this.length = length
+    this.start = start
+    this.end = end
+    this.loc = loc
   }
 }
 
 export class StatementError extends AssemblerError {
-  constructor(token: Token, hasLabel: boolean) {
-    super(
-      `Expected ${hasLabel ? '' : 'label or '}instruction: ${token.originalValue}`,
-      token.position,
-      token.length
-    )
+  constructor({ raw, start, end, loc }: Token, hasLabel: boolean) {
+    super(`Expected ${hasLabel ? '' : 'label or '}instruction: ${raw}`, start, end, loc)
   }
 }
 
 export class InvalidLabelError extends AssemblerError {
-  constructor(token: Token) {
-    const identifier = token.originalValue.replace(/:$/, '')
-    super(
-      `Label should contain only letter or underscore: ${identifier}`,
-      token.position,
-      identifier.length > 0 ? identifier.length : 1
-    )
+  constructor({ raw, start, end, loc }: Token) {
+    const identifier = raw.replace(/:$/, '')
+    super(`Label should contain only letter or underscore: ${identifier}`, start, end, loc)
   }
 }
 
 export class MissingEndError extends AssemblerError {
   constructor() {
-    super('Expected END at the end of the source code', 0, 0)
+    super('Expected END at the end of the source code')
   }
 }
 
 export class InvalidNumberError extends AssemblerError {
-  constructor(token: Token) {
-    const numberValue = trimBrackets(token.originalValue)
+  constructor({ raw, start, end, loc }: Token) {
+    const numberValue = trimBrackets(raw)
     super(
       `Number should be hexadecimal and less than or equal to FF: ${numberValue}`,
-      token.position,
-      token.length
+      start,
+      end,
+      loc
     )
   }
 }
 
 export class AddressError extends AssemblerError {
-  constructor(token: Token) {
-    const addressValue = trimBrackets(token.originalValue)
+  constructor({ raw, start, end, loc }: Token) {
+    const addressValue = trimBrackets(raw)
     super(
       `Expected a number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
-      token.position + /* opening bracket */ 1,
-      addressValue.length > 0 ? addressValue.length : 1
+      start,
+      end,
+      loc
     )
   }
 }
 
 export class OperandTypeError extends AssemblerError {
-  constructor(token: Token, ...expectedTypes: OperandType[]) {
+  constructor({ raw, start, end, loc }: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
-      .map(type => type.toLowerCase().split('_').join(' '))
+      .map(type => type.replace(/[A-Z]/g, char => ` ${char.toLowerCase()}`).trimStart())
       .reduce((acc, cur, idx) => {
         switch (idx) {
           case 0:
@@ -77,41 +80,37 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${token.originalValue}`, token.position, token.length)
+    super(`Expected ${types}: ${raw}`, start, end, loc)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
-  constructor(token: Token) {
-    super(`Expected comma: ${token.originalValue}`, token.position, token.length)
+  constructor({ raw, start, end, loc }: Token) {
+    super(`Expected comma: ${raw}`, start, end, loc)
   }
 }
 
 export class DuplicateLabelError extends AssemblerError {
-  constructor(label: Label) {
-    super(`Duplicate label: ${label.identifier}`, label.token.position, label.identifier.length)
+  constructor({ identifier, start, end, loc }: Label) {
+    super(`Duplicate label: ${identifier}`, start, end, loc)
   }
 }
 
 export class AssembleEndOfMemoryError extends AssemblerError {
-  constructor(statement: Statement) {
-    super('Can not generate code beyond the end of RAM', statement.position, statement.length)
+  constructor({ start, end, loc }: Statement) {
+    super('Can not generate code beyond the end of RAM', start, end, loc)
   }
 }
 
 export class LabelNotExistError extends AssemblerError {
-  constructor(token: Token) {
-    super(`Label does not exist: ${token.originalValue}`, token.position, token.length)
+  constructor({ raw, start, end, loc }: Operand) {
+    super(`Label does not exist: ${raw}`, start, end, loc)
   }
 }
 
 export class JumpDistanceError extends AssemblerError {
-  constructor(token: Token) {
-    super(
-      `Jump distance should be between -128 and 127: ${token.originalValue}`,
-      token.position,
-      token.length
-    )
+  constructor({ raw, start, end, loc }: Operand) {
+    super(`Jump distance should be between -128 and 127: ${raw}`, start, end, loc)
   }
 }
 

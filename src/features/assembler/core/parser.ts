@@ -1,3 +1,4 @@
+import type { Locatable } from './types'
 import { TokenType, Token } from './tokenizer'
 import {
   AssemblerError,
@@ -19,45 +20,50 @@ import {
 } from '../../../common/constants'
 import { exp, hexToDec, stringToASCII } from '../../../common/utils'
 
-export interface Label {
+export interface Label extends Locatable {
   identifier: string
-  token: Token
 }
 
-const createLabel = (token: Token): Label => {
-  const identifier = token.value.slice(0, -1)
+const createLabel = ({ value, start, end, loc }: Token): Label => {
+  const identifier = value.slice(0, -1)
   return {
     identifier,
-    token
+    start,
+    end,
+    loc
   }
 }
 
-interface Instruction {
+interface Instruction extends Locatable {
   opcode: Opcode | null
-  token: Token
+  mnemonic: string
 }
 
-const createInstruction = (token: Token): Instruction => {
+const createInstruction = ({ value, start, end, loc }: Token): Instruction => {
   const opcode = null
   return {
     opcode,
-    token
+    mnemonic: value,
+    start,
+    end,
+    loc
   }
 }
 
 export enum OperandType {
-  Number = 'NUMBER',
-  Register = 'REGISTER',
-  Address = 'ADDRESS',
-  RegisterAddress = 'REGISTER_ADDRESS',
-  String = 'STRING',
-  Label = 'LABEL'
+  Number = 'Number',
+  Register = 'Register',
+  Address = 'Address',
+  RegisterAddress = 'RegisterAddress',
+  String = 'String',
+  Label = 'Label'
 }
 
-interface Operand<T extends OperandType = OperandType> {
+export interface Operand<T extends OperandType = OperandType> extends Locatable {
   type: T
   value: number | number[] | undefined
-  token: Token
+  rawValue: string
+  raw: string
 }
 
 const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
@@ -75,20 +81,23 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return undefined
     }
   })
+  const { value: rawValue, raw, start, end, loc } = token
   return {
     type,
     value,
-    token
+    rawValue,
+    raw,
+    start,
+    end,
+    loc
   }
 }
 
-export interface Statement {
+export interface Statement extends Locatable {
   label: Label | null
   instruction: Instruction
   operands: Operand[]
   machineCodes: number[]
-  position: number
-  length: number
 }
 
 const createStatement = (
@@ -104,21 +113,21 @@ const createStatement = (
       []
     )
   ]
-  const position = instruction.token.position
-  const length = exp<number>(() => {
-    if (operands.length > 0) {
-      const lastOperand = operands[operands.length - 1]
-      return lastOperand.token.position + lastOperand.token.length - position
-    }
-    return instruction.token.value.length
-  })
+  const start = instruction.start
+  const lastNode = operands.length > 0 ? operands[operands.length - 1] : instruction
+  const end = lastNode.end
+  const loc = {
+    start: instruction.loc.start,
+    end: lastNode.loc.end
+  }
   return {
     label,
     instruction,
     operands,
     machineCodes,
-    position,
-    length
+    start,
+    end,
+    loc
   }
 }
 

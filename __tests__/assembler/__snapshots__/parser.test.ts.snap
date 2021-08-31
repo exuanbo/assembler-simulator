@@ -3,141 +3,247 @@
 exports[`parser should parse compare instruction 1`] = `
 Array [
   Object {
+    "end": 11,
     "instruction": Object {
-      "opcode": 218,
-      "token": Object {
-        "length": 3,
-        "originalValue": "cmp",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "CMP",
+      "end": 4,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
       },
+      "mnemonic": "CMP",
+      "opcode": 218,
+      "start": 1,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
     "machineCodes": Array [218, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 5,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 7,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 5,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 9,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 9,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 1,
+    "start": 1,
   },
   Object {
+    "end": 22,
     "instruction": Object {
-      "opcode": 219,
-      "token": Object {
-        "length": 3,
-        "originalValue": "cmp",
-        "position": 12,
-        "type": "UNKNOWN",
-        "value": "CMP",
+      "end": 15,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "CMP",
+      "opcode": 219,
+      "start": 12,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+    },
     "machineCodes": Array [219, 2, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 16,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 18,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 16,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "01",
-          "position": 20,
-          "type": "DIGITS",
-          "value": "01",
+        "end": 22,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 2,
+          },
         },
-        "type": "NUMBER",
+        "raw": "01",
+        "rawValue": "01",
+        "start": 20,
+        "type": "Number",
         "value": 1,
       },
     ],
-    "position": 12,
+    "start": 12,
   },
   Object {
+    "end": 35,
     "instruction": Object {
-      "opcode": 220,
-      "token": Object {
-        "length": 3,
-        "originalValue": "cmp",
-        "position": 23,
-        "type": "UNKNOWN",
-        "value": "CMP",
+      "end": 26,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "CMP",
+      "opcode": 220,
+      "start": 23,
     },
     "label": null,
-    "length": 12,
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [220, 3, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 27,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 29,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 27,
+        "type": "Register",
         "value": 3,
       },
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "[02]",
-          "position": 31,
-          "type": "ADDRESS",
-          "value": "02",
+        "end": 35,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 3,
+          },
         },
-        "type": "ADDRESS",
+        "raw": "[02]",
+        "rawValue": "02",
+        "start": 31,
+        "type": "Address",
         "value": 2,
       },
     ],
-    "position": 23,
+    "start": 23,
   },
   Object {
+    "end": 39,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 36,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 39,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 36,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 36,
+    "start": 36,
   },
 ]
 `;
@@ -145,341 +251,597 @@ Array [
 exports[`parser should parse direct arithmetic instruction 1`] = `
 Array [
   Object {
+    "end": 11,
     "instruction": Object {
-      "opcode": 160,
-      "token": Object {
-        "length": 3,
-        "originalValue": "add",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "ADD",
+      "end": 4,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
       },
+      "mnemonic": "ADD",
+      "opcode": 160,
+      "start": 1,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
     "machineCodes": Array [160, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 5,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 7,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 5,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 9,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 9,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 1,
+    "start": 1,
   },
   Object {
+    "end": 22,
     "instruction": Object {
-      "opcode": 161,
-      "token": Object {
-        "length": 3,
-        "originalValue": "sub",
-        "position": 12,
-        "type": "UNKNOWN",
-        "value": "SUB",
+      "end": 15,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "SUB",
+      "opcode": 161,
+      "start": 12,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+    },
     "machineCodes": Array [161, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 16,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 18,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 16,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 20,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 22,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 20,
+        "type": "Register",
         "value": 3,
       },
     ],
-    "position": 12,
+    "start": 12,
   },
   Object {
+    "end": 33,
     "instruction": Object {
-      "opcode": 162,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mul",
-        "position": 23,
-        "type": "UNKNOWN",
-        "value": "MUL",
+      "end": 26,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "MUL",
+      "opcode": 162,
+      "start": 23,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [162, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 27,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 29,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 27,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 31,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 33,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 31,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 23,
+    "start": 23,
   },
   Object {
+    "end": 44,
     "instruction": Object {
-      "opcode": 163,
-      "token": Object {
-        "length": 3,
-        "originalValue": "div",
-        "position": 34,
-        "type": "UNKNOWN",
-        "value": "DIV",
+      "end": 37,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "DIV",
+      "opcode": 163,
+      "start": 34,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [163, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 38,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 40,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 4,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 38,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 42,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 44,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 4,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 42,
+        "type": "Register",
         "value": 3,
       },
     ],
-    "position": 34,
+    "start": 34,
   },
   Object {
+    "end": 55,
     "instruction": Object {
-      "opcode": 166,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mod",
-        "position": 45,
-        "type": "UNKNOWN",
-        "value": "MOD",
+      "end": 48,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 5,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 5,
+        },
       },
+      "mnemonic": "MOD",
+      "opcode": 166,
+      "start": 45,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 5,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 5,
+      },
+    },
     "machineCodes": Array [166, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 49,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 51,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 5,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 49,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 53,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 55,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 5,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 53,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 45,
+    "start": 45,
   },
   Object {
+    "end": 66,
     "instruction": Object {
-      "opcode": 170,
-      "token": Object {
-        "length": 3,
-        "originalValue": "and",
-        "position": 56,
-        "type": "UNKNOWN",
-        "value": "AND",
+      "end": 59,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 6,
+        },
       },
+      "mnemonic": "AND",
+      "opcode": 170,
+      "start": 56,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 6,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 6,
+      },
+    },
     "machineCodes": Array [170, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 60,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 62,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 6,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 6,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 60,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 64,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 66,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 6,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 6,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 64,
+        "type": "Register",
         "value": 3,
       },
     ],
-    "position": 56,
+    "start": 56,
   },
   Object {
+    "end": 76,
     "instruction": Object {
-      "opcode": 171,
-      "token": Object {
-        "length": 2,
-        "originalValue": "or",
-        "position": 67,
-        "type": "UNKNOWN",
-        "value": "OR",
+      "end": 69,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 7,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 7,
+        },
       },
+      "mnemonic": "OR",
+      "opcode": 171,
+      "start": 67,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 7,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 7,
+      },
+    },
     "machineCodes": Array [171, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 70,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 72,
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 7,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 7,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 70,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 74,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 76,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 7,
+          },
+          "start": Object {
+            "column": 7,
+            "line": 7,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 74,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 67,
+    "start": 67,
   },
   Object {
+    "end": 87,
     "instruction": Object {
-      "opcode": 172,
-      "token": Object {
-        "length": 3,
-        "originalValue": "xor",
-        "position": 77,
-        "type": "UNKNOWN",
-        "value": "XOR",
+      "end": 80,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 8,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 8,
+        },
       },
+      "mnemonic": "XOR",
+      "opcode": 172,
+      "start": 77,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 8,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 8,
+      },
+    },
     "machineCodes": Array [172, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 81,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 83,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 8,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 8,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 81,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 85,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 87,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 8,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 8,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 85,
+        "type": "Register",
         "value": 3,
       },
     ],
-    "position": 77,
+    "start": 77,
   },
   Object {
+    "end": 91,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 88,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 91,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 9,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 9,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 88,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 9,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 9,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 88,
+    "start": 88,
   },
 ]
 `;
@@ -487,341 +849,597 @@ Array [
 exports[`parser should parse immediate arithmetic instruction 1`] = `
 Array [
   Object {
+    "end": 11,
     "instruction": Object {
-      "opcode": 176,
-      "token": Object {
-        "length": 3,
-        "originalValue": "add",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "ADD",
+      "end": 4,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
       },
+      "mnemonic": "ADD",
+      "opcode": 176,
+      "start": 1,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
     "machineCodes": Array [176, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 5,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 7,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 5,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "01",
-          "position": 9,
-          "type": "DIGITS",
-          "value": "01",
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+          },
         },
-        "type": "NUMBER",
+        "raw": "01",
+        "rawValue": "01",
+        "start": 9,
+        "type": "Number",
         "value": 1,
       },
     ],
-    "position": 1,
+    "start": 1,
   },
   Object {
+    "end": 22,
     "instruction": Object {
-      "opcode": 177,
-      "token": Object {
-        "length": 3,
-        "originalValue": "sub",
-        "position": 12,
-        "type": "UNKNOWN",
-        "value": "SUB",
+      "end": 15,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "SUB",
+      "opcode": 177,
+      "start": 12,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+    },
     "machineCodes": Array [177, 1, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 16,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 18,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 16,
+        "type": "Register",
         "value": 1,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "02",
-          "position": 20,
-          "type": "DIGITS",
-          "value": "02",
+        "end": 22,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 2,
+          },
         },
-        "type": "NUMBER",
+        "raw": "02",
+        "rawValue": "02",
+        "start": 20,
+        "type": "Number",
         "value": 2,
       },
     ],
-    "position": 12,
+    "start": 12,
   },
   Object {
+    "end": 33,
     "instruction": Object {
-      "opcode": 178,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mul",
-        "position": 23,
-        "type": "UNKNOWN",
-        "value": "MUL",
+      "end": 26,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "MUL",
+      "opcode": 178,
+      "start": 23,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [178, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 27,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 29,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 27,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "03",
-          "position": 31,
-          "type": "DIGITS",
-          "value": "03",
+        "end": 33,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 3,
+          },
         },
-        "type": "NUMBER",
+        "raw": "03",
+        "rawValue": "03",
+        "start": 31,
+        "type": "Number",
         "value": 3,
       },
     ],
-    "position": 23,
+    "start": 23,
   },
   Object {
+    "end": 44,
     "instruction": Object {
-      "opcode": 179,
-      "token": Object {
-        "length": 3,
-        "originalValue": "div",
-        "position": 34,
-        "type": "UNKNOWN",
-        "value": "DIV",
+      "end": 37,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "DIV",
+      "opcode": 179,
+      "start": 34,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [179, 3, 4],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 38,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 40,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 4,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 38,
+        "type": "Register",
         "value": 3,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "04",
-          "position": 42,
-          "type": "DIGITS",
-          "value": "04",
+        "end": 44,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 4,
+          },
         },
-        "type": "NUMBER",
+        "raw": "04",
+        "rawValue": "04",
+        "start": 42,
+        "type": "Number",
         "value": 4,
       },
     ],
-    "position": 34,
+    "start": 34,
   },
   Object {
+    "end": 55,
     "instruction": Object {
-      "opcode": 182,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mod",
-        "position": 45,
-        "type": "UNKNOWN",
-        "value": "MOD",
+      "end": 48,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 5,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 5,
+        },
       },
+      "mnemonic": "MOD",
+      "opcode": 182,
+      "start": 45,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 5,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 5,
+      },
+    },
     "machineCodes": Array [182, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 49,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 51,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 5,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 49,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "01",
-          "position": 53,
-          "type": "DIGITS",
-          "value": "01",
+        "end": 55,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 5,
+          },
         },
-        "type": "NUMBER",
+        "raw": "01",
+        "rawValue": "01",
+        "start": 53,
+        "type": "Number",
         "value": 1,
       },
     ],
-    "position": 45,
+    "start": 45,
   },
   Object {
+    "end": 66,
     "instruction": Object {
-      "opcode": 186,
-      "token": Object {
-        "length": 3,
-        "originalValue": "and",
-        "position": 56,
-        "type": "UNKNOWN",
-        "value": "AND",
+      "end": 59,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 6,
+        },
       },
+      "mnemonic": "AND",
+      "opcode": 186,
+      "start": 56,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 6,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 6,
+      },
+    },
     "machineCodes": Array [186, 1, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 60,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 62,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 6,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 6,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 60,
+        "type": "Register",
         "value": 1,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "02",
-          "position": 64,
-          "type": "DIGITS",
-          "value": "02",
+        "end": 66,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 6,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 6,
+          },
         },
-        "type": "NUMBER",
+        "raw": "02",
+        "rawValue": "02",
+        "start": 64,
+        "type": "Number",
         "value": 2,
       },
     ],
-    "position": 56,
+    "start": 56,
   },
   Object {
+    "end": 76,
     "instruction": Object {
-      "opcode": 187,
-      "token": Object {
-        "length": 2,
-        "originalValue": "or",
-        "position": 67,
-        "type": "UNKNOWN",
-        "value": "OR",
+      "end": 69,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 7,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 7,
+        },
       },
+      "mnemonic": "OR",
+      "opcode": 187,
+      "start": 67,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 7,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 7,
+      },
+    },
     "machineCodes": Array [187, 2, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 70,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 72,
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 7,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 7,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 70,
+        "type": "Register",
         "value": 2,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "03",
-          "position": 74,
-          "type": "DIGITS",
-          "value": "03",
+        "end": 76,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 7,
+          },
+          "start": Object {
+            "column": 7,
+            "line": 7,
+          },
         },
-        "type": "NUMBER",
+        "raw": "03",
+        "rawValue": "03",
+        "start": 74,
+        "type": "Number",
         "value": 3,
       },
     ],
-    "position": 67,
+    "start": 67,
   },
   Object {
+    "end": 87,
     "instruction": Object {
-      "opcode": 188,
-      "token": Object {
-        "length": 3,
-        "originalValue": "xor",
-        "position": 77,
-        "type": "UNKNOWN",
-        "value": "XOR",
+      "end": 80,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 8,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 8,
+        },
       },
+      "mnemonic": "XOR",
+      "opcode": 188,
+      "start": 77,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 8,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 8,
+      },
+    },
     "machineCodes": Array [188, 3, 4],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 81,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 83,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 8,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 8,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 81,
+        "type": "Register",
         "value": 3,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "04",
-          "position": 85,
-          "type": "DIGITS",
-          "value": "04",
+        "end": 87,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 8,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 8,
+          },
         },
-        "type": "NUMBER",
+        "raw": "04",
+        "rawValue": "04",
+        "start": 85,
+        "type": "Number",
         "value": 4,
       },
     ],
-    "position": 77,
+    "start": 77,
   },
   Object {
+    "end": 91,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 88,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 91,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 9,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 9,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 88,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 9,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 9,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 88,
+    "start": 88,
   },
 ]
 `;
@@ -829,697 +1447,1247 @@ Array [
 exports[`parser should parse instruction with 1 operand 1`] = `
 Array [
   Object {
+    "end": 14,
     "instruction": Object {
-      "opcode": 164,
-      "token": Object {
-        "length": 3,
-        "originalValue": "inc",
-        "position": 8,
-        "type": "UNKNOWN",
-        "value": "INC",
+      "end": 11,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "INC",
+      "opcode": 164,
+      "start": 8,
     },
     "label": Object {
+      "end": 7,
       "identifier": "START",
-      "token": Object {
-        "length": 6,
-        "originalValue": "start:",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "START:",
+      "loc": Object {
+        "end": Object {
+          "column": 6,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
+      },
+      "start": 1,
+    },
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
       },
     },
-    "length": 6,
     "machineCodes": Array [164, 0],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 12,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 14,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 12,
+        "type": "Register",
         "value": 0,
       },
     ],
-    "position": 8,
+    "start": 8,
   },
   Object {
+    "end": 21,
     "instruction": Object {
-      "opcode": 165,
-      "token": Object {
-        "length": 3,
-        "originalValue": "dec",
-        "position": 15,
-        "type": "UNKNOWN",
-        "value": "DEC",
+      "end": 18,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "DEC",
+      "opcode": 165,
+      "start": 15,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [165, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 19,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 21,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 19,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 15,
+    "start": 15,
   },
   Object {
+    "end": 28,
     "instruction": Object {
-      "opcode": 173,
-      "token": Object {
-        "length": 3,
-        "originalValue": "not",
-        "position": 22,
-        "type": "UNKNOWN",
-        "value": "NOT",
+      "end": 25,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "NOT",
+      "opcode": 173,
+      "start": 22,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [173, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 26,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 28,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 4,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 26,
+        "type": "Register",
         "value": 2,
       },
     ],
-    "position": 22,
+    "start": 22,
   },
   Object {
+    "end": 35,
     "instruction": Object {
-      "opcode": 154,
-      "token": Object {
-        "length": 3,
-        "originalValue": "rol",
-        "position": 29,
-        "type": "UNKNOWN",
-        "value": "ROL",
+      "end": 32,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 5,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 5,
+        },
       },
+      "mnemonic": "ROL",
+      "opcode": 154,
+      "start": 29,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 5,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 5,
+      },
+    },
     "machineCodes": Array [154, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 33,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 35,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 5,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 33,
+        "type": "Register",
         "value": 3,
       },
     ],
-    "position": 29,
+    "start": 29,
   },
   Object {
+    "end": 42,
     "instruction": Object {
-      "opcode": 155,
-      "token": Object {
-        "length": 3,
-        "originalValue": "ror",
-        "position": 36,
-        "type": "UNKNOWN",
-        "value": "ROR",
+      "end": 39,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 6,
+        },
       },
+      "mnemonic": "ROR",
+      "opcode": 155,
+      "start": 36,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 6,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 6,
+      },
+    },
     "machineCodes": Array [155, 0],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 40,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 42,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 6,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 6,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 40,
+        "type": "Register",
         "value": 0,
       },
     ],
-    "position": 36,
+    "start": 36,
   },
   Object {
+    "end": 49,
     "instruction": Object {
-      "opcode": 156,
-      "token": Object {
-        "length": 3,
-        "originalValue": "shl",
-        "position": 43,
-        "type": "UNKNOWN",
-        "value": "SHL",
+      "end": 46,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 7,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 7,
+        },
       },
+      "mnemonic": "SHL",
+      "opcode": 156,
+      "start": 43,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 7,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 7,
+      },
+    },
     "machineCodes": Array [156, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 47,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 49,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 7,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 7,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 47,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 43,
+    "start": 43,
   },
   Object {
+    "end": 56,
     "instruction": Object {
-      "opcode": 157,
-      "token": Object {
-        "length": 3,
-        "originalValue": "shr",
-        "position": 50,
-        "type": "UNKNOWN",
-        "value": "SHR",
+      "end": 53,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 8,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 8,
+        },
       },
+      "mnemonic": "SHR",
+      "opcode": 157,
+      "start": 50,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 8,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 8,
+      },
+    },
     "machineCodes": Array [157, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 54,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 56,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 8,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 8,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 54,
+        "type": "Register",
         "value": 2,
       },
     ],
-    "position": 50,
+    "start": 50,
   },
   Object {
+    "end": 66,
     "instruction": Object {
-      "opcode": 192,
-      "token": Object {
-        "length": 3,
-        "originalValue": "jmp",
-        "position": 57,
-        "type": "UNKNOWN",
-        "value": "JMP",
+      "end": 60,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 9,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 9,
+        },
       },
+      "mnemonic": "JMP",
+      "opcode": 192,
+      "start": 57,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 9,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 9,
+      },
+    },
     "machineCodes": Array [192],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 61,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 66,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 9,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 9,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 61,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 57,
+    "start": 57,
   },
   Object {
+    "end": 75,
     "instruction": Object {
-      "opcode": 193,
-      "token": Object {
-        "length": 2,
-        "originalValue": "jz",
-        "position": 67,
-        "type": "UNKNOWN",
-        "value": "JZ",
+      "end": 69,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 10,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 10,
+        },
       },
+      "mnemonic": "JZ",
+      "opcode": 193,
+      "start": 67,
     },
     "label": null,
-    "length": 8,
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 10,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 10,
+      },
+    },
     "machineCodes": Array [193],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 70,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 75,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 10,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 10,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 70,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 67,
+    "start": 67,
   },
   Object {
+    "end": 85,
     "instruction": Object {
-      "opcode": 194,
-      "token": Object {
-        "length": 3,
-        "originalValue": "jnz",
-        "position": 76,
-        "type": "UNKNOWN",
-        "value": "JNZ",
+      "end": 79,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 11,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 11,
+        },
       },
+      "mnemonic": "JNZ",
+      "opcode": 194,
+      "start": 76,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 11,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 11,
+      },
+    },
     "machineCodes": Array [194],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 80,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 85,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 11,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 11,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 80,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 76,
+    "start": 76,
   },
   Object {
+    "end": 94,
     "instruction": Object {
-      "opcode": 195,
-      "token": Object {
-        "length": 2,
-        "originalValue": "js",
-        "position": 86,
-        "type": "UNKNOWN",
-        "value": "JS",
+      "end": 88,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 12,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 12,
+        },
       },
+      "mnemonic": "JS",
+      "opcode": 195,
+      "start": 86,
     },
     "label": null,
-    "length": 8,
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 12,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 12,
+      },
+    },
     "machineCodes": Array [195],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 89,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 94,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 12,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 12,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 89,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 86,
+    "start": 86,
   },
   Object {
+    "end": 104,
     "instruction": Object {
-      "opcode": 196,
-      "token": Object {
-        "length": 3,
-        "originalValue": "jns",
-        "position": 95,
-        "type": "UNKNOWN",
-        "value": "JNS",
+      "end": 98,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 13,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 13,
+        },
       },
+      "mnemonic": "JNS",
+      "opcode": 196,
+      "start": 95,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 13,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 13,
+      },
+    },
     "machineCodes": Array [196],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 99,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 104,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 13,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 13,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 99,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 95,
+    "start": 95,
   },
   Object {
+    "end": 113,
     "instruction": Object {
-      "opcode": 197,
-      "token": Object {
-        "length": 2,
-        "originalValue": "jo",
-        "position": 105,
-        "type": "UNKNOWN",
-        "value": "JO",
+      "end": 107,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 14,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 14,
+        },
       },
+      "mnemonic": "JO",
+      "opcode": 197,
+      "start": 105,
     },
     "label": null,
-    "length": 8,
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 14,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 14,
+      },
+    },
     "machineCodes": Array [197],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 108,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 113,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 14,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 14,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 108,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 105,
+    "start": 105,
   },
   Object {
+    "end": 123,
     "instruction": Object {
-      "opcode": 198,
-      "token": Object {
-        "length": 3,
-        "originalValue": "jno",
-        "position": 114,
-        "type": "UNKNOWN",
-        "value": "JNO",
+      "end": 117,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 15,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 15,
+        },
       },
+      "mnemonic": "JNO",
+      "opcode": 198,
+      "start": 114,
     },
     "label": null,
-    "length": 9,
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 15,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 15,
+      },
+    },
     "machineCodes": Array [198],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 5,
-          "originalValue": "start",
-          "position": 118,
-          "type": "UNKNOWN",
-          "value": "START",
+        "end": 123,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 15,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 15,
+          },
         },
-        "type": "LABEL",
+        "raw": "start",
+        "rawValue": "START",
+        "start": 118,
+        "type": "Label",
         "value": undefined,
       },
     ],
-    "position": 114,
+    "start": 114,
   },
   Object {
+    "end": 131,
     "instruction": Object {
-      "opcode": 224,
-      "token": Object {
-        "length": 4,
-        "originalValue": "push",
-        "position": 124,
-        "type": "UNKNOWN",
-        "value": "PUSH",
+      "end": 128,
+      "loc": Object {
+        "end": Object {
+          "column": 4,
+          "line": 16,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 16,
+        },
       },
+      "mnemonic": "PUSH",
+      "opcode": 224,
+      "start": 124,
     },
     "label": null,
-    "length": 7,
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 16,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 16,
+      },
+    },
     "machineCodes": Array [224, 0],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 129,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 131,
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 16,
+          },
+          "start": Object {
+            "column": 5,
+            "line": 16,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 129,
+        "type": "Register",
         "value": 0,
       },
     ],
-    "position": 124,
+    "start": 124,
   },
   Object {
+    "end": 138,
     "instruction": Object {
-      "opcode": 225,
-      "token": Object {
-        "length": 3,
-        "originalValue": "pop",
-        "position": 132,
-        "type": "UNKNOWN",
-        "value": "POP",
+      "end": 135,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 17,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 17,
+        },
       },
+      "mnemonic": "POP",
+      "opcode": 225,
+      "start": 132,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 17,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 17,
+      },
+    },
     "machineCodes": Array [225, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 136,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 138,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 17,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 17,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 136,
+        "type": "Register",
         "value": 1,
       },
     ],
-    "position": 132,
+    "start": 132,
   },
   Object {
+    "end": 145,
     "instruction": Object {
-      "opcode": 202,
-      "token": Object {
-        "length": 4,
-        "originalValue": "call",
-        "position": 139,
-        "type": "UNKNOWN",
-        "value": "CALL",
+      "end": 143,
+      "loc": Object {
+        "end": Object {
+          "column": 4,
+          "line": 18,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 18,
+        },
       },
+      "mnemonic": "CALL",
+      "opcode": 202,
+      "start": 139,
     },
     "label": null,
-    "length": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 18,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 18,
+      },
+    },
     "machineCodes": Array [202, 0],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "0",
-          "position": 144,
-          "type": "DIGITS",
-          "value": "0",
+        "end": 145,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 18,
+          },
+          "start": Object {
+            "column": 5,
+            "line": 18,
+          },
         },
-        "type": "NUMBER",
+        "raw": "0",
+        "rawValue": "0",
+        "start": 144,
+        "type": "Number",
         "value": 0,
       },
     ],
-    "position": 139,
+    "start": 139,
   },
   Object {
+    "end": 151,
     "instruction": Object {
-      "opcode": 204,
-      "token": Object {
-        "length": 3,
-        "originalValue": "int",
-        "position": 146,
-        "type": "UNKNOWN",
-        "value": "INT",
+      "end": 149,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 19,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 19,
+        },
       },
+      "mnemonic": "INT",
+      "opcode": 204,
+      "start": 146,
     },
     "label": null,
-    "length": 5,
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 19,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 19,
+      },
+    },
     "machineCodes": Array [204, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "1",
-          "position": 150,
-          "type": "DIGITS",
-          "value": "1",
+        "end": 151,
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 19,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 19,
+          },
         },
-        "type": "NUMBER",
+        "raw": "1",
+        "rawValue": "1",
+        "start": 150,
+        "type": "Number",
         "value": 1,
       },
     ],
-    "position": 146,
+    "start": 146,
   },
   Object {
+    "end": 156,
     "instruction": Object {
-      "opcode": 240,
-      "token": Object {
-        "length": 2,
-        "originalValue": "in",
-        "position": 152,
-        "type": "UNKNOWN",
-        "value": "IN",
+      "end": 154,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 20,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 20,
+        },
       },
+      "mnemonic": "IN",
+      "opcode": 240,
+      "start": 152,
     },
     "label": null,
-    "length": 4,
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 20,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 20,
+      },
+    },
     "machineCodes": Array [240, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "2",
-          "position": 155,
-          "type": "DIGITS",
-          "value": "2",
+        "end": 156,
+        "loc": Object {
+          "end": Object {
+            "column": 4,
+            "line": 20,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 20,
+          },
         },
-        "type": "NUMBER",
+        "raw": "2",
+        "rawValue": "2",
+        "start": 155,
+        "type": "Number",
         "value": 2,
       },
     ],
-    "position": 152,
+    "start": 152,
   },
   Object {
+    "end": 162,
     "instruction": Object {
-      "opcode": 241,
-      "token": Object {
-        "length": 3,
-        "originalValue": "out",
-        "position": 157,
-        "type": "UNKNOWN",
-        "value": "OUT",
+      "end": 160,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 21,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 21,
+        },
       },
+      "mnemonic": "OUT",
+      "opcode": 241,
+      "start": 157,
     },
     "label": null,
-    "length": 5,
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 21,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 21,
+      },
+    },
     "machineCodes": Array [241, 3],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "3",
-          "position": 161,
-          "type": "DIGITS",
-          "value": "3",
+        "end": 162,
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 21,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 21,
+          },
         },
-        "type": "NUMBER",
+        "raw": "3",
+        "rawValue": "3",
+        "start": 161,
+        "type": "Number",
         "value": 3,
       },
     ],
-    "position": 157,
+    "start": 157,
   },
   Object {
+    "end": 168,
     "instruction": Object {
-      "opcode": null,
-      "token": Object {
-        "length": 3,
-        "originalValue": "org",
-        "position": 163,
-        "type": "UNKNOWN",
-        "value": "ORG",
+      "end": 166,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 22,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 22,
+        },
       },
+      "mnemonic": "ORG",
+      "opcode": null,
+      "start": 163,
     },
     "label": null,
-    "length": 5,
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 22,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 22,
+      },
+    },
     "machineCodes": Array [4],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "4",
-          "position": 167,
-          "type": "DIGITS",
-          "value": "4",
+        "end": 168,
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 22,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 22,
+          },
         },
-        "type": "NUMBER",
+        "raw": "4",
+        "rawValue": "4",
+        "start": 167,
+        "type": "Number",
         "value": 4,
       },
     ],
-    "position": 163,
+    "start": 163,
   },
   Object {
+    "end": 173,
     "instruction": Object {
-      "opcode": null,
-      "token": Object {
-        "length": 2,
-        "originalValue": "db",
-        "position": 169,
-        "type": "UNKNOWN",
-        "value": "DB",
+      "end": 171,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 23,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 23,
+        },
       },
+      "mnemonic": "DB",
+      "opcode": null,
+      "start": 169,
     },
     "label": null,
-    "length": 4,
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 23,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 23,
+      },
+    },
     "machineCodes": Array [5],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 1,
-          "originalValue": "5",
-          "position": 172,
-          "type": "DIGITS",
-          "value": "5",
+        "end": 173,
+        "loc": Object {
+          "end": Object {
+            "column": 4,
+            "line": 23,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 23,
+          },
         },
-        "type": "NUMBER",
+        "raw": "5",
+        "rawValue": "5",
+        "start": 172,
+        "type": "Number",
         "value": 5,
       },
     ],
-    "position": 169,
+    "start": 169,
   },
   Object {
+    "end": 181,
     "instruction": Object {
-      "opcode": null,
-      "token": Object {
-        "length": 2,
-        "originalValue": "db",
-        "position": 174,
-        "type": "UNKNOWN",
-        "value": "DB",
+      "end": 176,
+      "loc": Object {
+        "end": Object {
+          "column": 2,
+          "line": 24,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 24,
+        },
       },
+      "mnemonic": "DB",
+      "opcode": null,
+      "start": 174,
     },
     "label": null,
-    "length": 7,
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 24,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 24,
+      },
+    },
     "machineCodes": Array [54, 55],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "\\"67\\"",
-          "position": 177,
-          "type": "STRING",
-          "value": "67",
+        "end": 181,
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 24,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 24,
+          },
         },
-        "type": "STRING",
+        "raw": "\\"67\\"",
+        "rawValue": "67",
+        "start": 177,
+        "type": "String",
         "value": Array [54, 55],
       },
     ],
-    "position": 174,
+    "start": 174,
   },
   Object {
+    "end": 185,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 182,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 185,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 25,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 25,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 182,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 25,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 25,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 182,
+    "start": 182,
   },
 ]
 `;
@@ -1527,174 +2695,334 @@ Array [
 exports[`parser should parse instruction with no operand 1`] = `
 Array [
   Object {
+    "end": 6,
     "instruction": Object {
-      "opcode": 234,
-      "token": Object {
-        "length": 5,
-        "originalValue": "pushf",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "PUSHF",
+      "end": 6,
+      "loc": Object {
+        "end": Object {
+          "column": 5,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
       },
+      "mnemonic": "PUSHF",
+      "opcode": 234,
+      "start": 1,
     },
     "label": null,
-    "length": 5,
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
     "machineCodes": Array [234],
     "operands": Array [],
-    "position": 1,
+    "start": 1,
   },
   Object {
+    "end": 11,
     "instruction": Object {
-      "opcode": 235,
-      "token": Object {
-        "length": 4,
-        "originalValue": "popf",
-        "position": 7,
-        "type": "UNKNOWN",
-        "value": "POPF",
+      "end": 11,
+      "loc": Object {
+        "end": Object {
+          "column": 4,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "POPF",
+      "opcode": 235,
+      "start": 7,
     },
     "label": null,
-    "length": 4,
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+    },
     "machineCodes": Array [235],
     "operands": Array [],
-    "position": 7,
+    "start": 7,
   },
   Object {
+    "end": 15,
     "instruction": Object {
-      "opcode": 203,
-      "token": Object {
-        "length": 3,
-        "originalValue": "ret",
-        "position": 12,
-        "type": "UNKNOWN",
-        "value": "RET",
+      "end": 15,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "RET",
+      "opcode": 203,
+      "start": 12,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [203],
     "operands": Array [],
-    "position": 12,
+    "start": 12,
   },
   Object {
+    "end": 20,
     "instruction": Object {
-      "opcode": 205,
-      "token": Object {
-        "length": 4,
-        "originalValue": "iret",
-        "position": 16,
-        "type": "UNKNOWN",
-        "value": "IRET",
+      "end": 20,
+      "loc": Object {
+        "end": Object {
+          "column": 4,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "IRET",
+      "opcode": 205,
+      "start": 16,
     },
     "label": null,
-    "length": 4,
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [205],
     "operands": Array [],
-    "position": 16,
+    "start": 16,
   },
   Object {
+    "end": 25,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 4,
-        "originalValue": "halt",
-        "position": 21,
-        "type": "UNKNOWN",
-        "value": "HALT",
+      "end": 25,
+      "loc": Object {
+        "end": Object {
+          "column": 4,
+          "line": 5,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 5,
+        },
       },
+      "mnemonic": "HALT",
+      "opcode": 0,
+      "start": 21,
     },
     "label": null,
-    "length": 4,
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 5,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 5,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 21,
+    "start": 21,
   },
   Object {
+    "end": 29,
     "instruction": Object {
-      "opcode": 255,
-      "token": Object {
-        "length": 3,
-        "originalValue": "nop",
-        "position": 26,
-        "type": "UNKNOWN",
-        "value": "NOP",
+      "end": 29,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 6,
+        },
       },
+      "mnemonic": "NOP",
+      "opcode": 255,
+      "start": 26,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 6,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 6,
+      },
+    },
     "machineCodes": Array [255],
     "operands": Array [],
-    "position": 26,
+    "start": 26,
   },
   Object {
+    "end": 33,
     "instruction": Object {
-      "opcode": 254,
-      "token": Object {
-        "length": 3,
-        "originalValue": "clo",
-        "position": 30,
-        "type": "UNKNOWN",
-        "value": "CLO",
+      "end": 33,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 7,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 7,
+        },
       },
+      "mnemonic": "CLO",
+      "opcode": 254,
+      "start": 30,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 7,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 7,
+      },
+    },
     "machineCodes": Array [254],
     "operands": Array [],
-    "position": 30,
+    "start": 30,
   },
   Object {
+    "end": 37,
     "instruction": Object {
-      "opcode": 253,
-      "token": Object {
-        "length": 3,
-        "originalValue": "cli",
-        "position": 34,
-        "type": "UNKNOWN",
-        "value": "CLI",
+      "end": 37,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 8,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 8,
+        },
       },
+      "mnemonic": "CLI",
+      "opcode": 253,
+      "start": 34,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 8,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 8,
+      },
+    },
     "machineCodes": Array [253],
     "operands": Array [],
-    "position": 34,
+    "start": 34,
   },
   Object {
+    "end": 41,
     "instruction": Object {
-      "opcode": 252,
-      "token": Object {
-        "length": 3,
-        "originalValue": "sti",
-        "position": 38,
-        "type": "UNKNOWN",
-        "value": "STI",
+      "end": 41,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 9,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 9,
+        },
       },
+      "mnemonic": "STI",
+      "opcode": 252,
+      "start": 38,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 9,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 9,
+      },
+    },
     "machineCodes": Array [252],
     "operands": Array [],
-    "position": 38,
+    "start": 38,
   },
   Object {
+    "end": 45,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 42,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 45,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 10,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 10,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 42,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 10,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 10,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 42,
+    "start": 42,
   },
 ]
 `;
@@ -1702,221 +3030,387 @@ Array [
 exports[`parser should parse move instruction 1`] = `
 Array [
   Object {
+    "end": 11,
     "instruction": Object {
-      "opcode": 208,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mov",
-        "position": 1,
-        "type": "UNKNOWN",
-        "value": "MOV",
+      "end": 4,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
       },
+      "mnemonic": "MOV",
+      "opcode": 208,
+      "start": 1,
     },
     "label": null,
-    "length": 10,
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
     "machineCodes": Array [208, 0, 1],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "al",
-          "position": 5,
-          "type": "REGISTER",
-          "value": "AL",
+        "end": 7,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 1,
+          },
         },
-        "type": "REGISTER",
+        "raw": "al",
+        "rawValue": "AL",
+        "start": 5,
+        "type": "Register",
         "value": 0,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "01",
-          "position": 9,
-          "type": "DIGITS",
-          "value": "01",
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+          },
         },
-        "type": "NUMBER",
+        "raw": "01",
+        "rawValue": "01",
+        "start": 9,
+        "type": "Number",
         "value": 1,
       },
     ],
-    "position": 1,
+    "start": 1,
   },
   Object {
+    "end": 24,
     "instruction": Object {
-      "opcode": 209,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mov",
-        "position": 12,
-        "type": "UNKNOWN",
-        "value": "MOV",
+      "end": 15,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 2,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
       },
+      "mnemonic": "MOV",
+      "opcode": 209,
+      "start": 12,
     },
     "label": null,
-    "length": 12,
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 2,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+    },
     "machineCodes": Array [209, 1, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "bl",
-          "position": 16,
-          "type": "REGISTER",
-          "value": "BL",
+        "end": 18,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 2,
+          },
         },
-        "type": "REGISTER",
+        "raw": "bl",
+        "rawValue": "BL",
+        "start": 16,
+        "type": "Register",
         "value": 1,
       },
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "[02]",
-          "position": 20,
-          "type": "ADDRESS",
-          "value": "02",
+        "end": 24,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 2,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 2,
+          },
         },
-        "type": "ADDRESS",
+        "raw": "[02]",
+        "rawValue": "02",
+        "start": 20,
+        "type": "Address",
         "value": 2,
       },
     ],
-    "position": 12,
+    "start": 12,
   },
   Object {
+    "end": 37,
     "instruction": Object {
-      "opcode": 210,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mov",
-        "position": 25,
-        "type": "UNKNOWN",
-        "value": "MOV",
+      "end": 28,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 3,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 3,
+        },
       },
+      "mnemonic": "MOV",
+      "opcode": 210,
+      "start": 25,
     },
     "label": null,
-    "length": 12,
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 3,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 3,
+      },
+    },
     "machineCodes": Array [210, 3, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "[03]",
-          "position": 29,
-          "type": "ADDRESS",
-          "value": "03",
+        "end": 33,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 3,
+          },
         },
-        "type": "ADDRESS",
+        "raw": "[03]",
+        "rawValue": "03",
+        "start": 29,
+        "type": "Address",
         "value": 3,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 35,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 37,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 3,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 3,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 35,
+        "type": "Register",
         "value": 2,
       },
     ],
-    "position": 25,
+    "start": 25,
   },
   Object {
+    "end": 50,
     "instruction": Object {
-      "opcode": 211,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mov",
-        "position": 38,
-        "type": "UNKNOWN",
-        "value": "MOV",
+      "end": 41,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 4,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 4,
+        },
       },
+      "mnemonic": "MOV",
+      "opcode": 211,
+      "start": 38,
     },
     "label": null,
-    "length": 12,
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 4,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 4,
+      },
+    },
     "machineCodes": Array [211, 3, 0],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "dl",
-          "position": 42,
-          "type": "REGISTER",
-          "value": "DL",
+        "end": 44,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 4,
+          },
         },
-        "type": "REGISTER",
+        "raw": "dl",
+        "rawValue": "DL",
+        "start": 42,
+        "type": "Register",
         "value": 3,
       },
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "[al]",
-          "position": 46,
-          "type": "ADDRESS",
-          "value": "AL",
+        "end": 50,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 4,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 4,
+          },
         },
-        "type": "REGISTER_ADDRESS",
+        "raw": "[al]",
+        "rawValue": "AL",
+        "start": 46,
+        "type": "RegisterAddress",
         "value": 0,
       },
     ],
-    "position": 38,
+    "start": 38,
   },
   Object {
+    "end": 63,
     "instruction": Object {
-      "opcode": 212,
-      "token": Object {
-        "length": 3,
-        "originalValue": "mov",
-        "position": 51,
-        "type": "UNKNOWN",
-        "value": "MOV",
+      "end": 54,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 5,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 5,
+        },
       },
+      "mnemonic": "MOV",
+      "opcode": 212,
+      "start": 51,
     },
     "label": null,
-    "length": 12,
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 5,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 5,
+      },
+    },
     "machineCodes": Array [212, 1, 2],
     "operands": Array [
       Object {
-        "token": Object {
-          "length": 4,
-          "originalValue": "[bl]",
-          "position": 55,
-          "type": "ADDRESS",
-          "value": "BL",
+        "end": 59,
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 5,
+          },
         },
-        "type": "REGISTER_ADDRESS",
+        "raw": "[bl]",
+        "rawValue": "BL",
+        "start": 55,
+        "type": "RegisterAddress",
         "value": 1,
       },
       Object {
-        "token": Object {
-          "length": 2,
-          "originalValue": "cl",
-          "position": 61,
-          "type": "REGISTER",
-          "value": "CL",
+        "end": 63,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 5,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 5,
+          },
         },
-        "type": "REGISTER",
+        "raw": "cl",
+        "rawValue": "CL",
+        "start": 61,
+        "type": "Register",
         "value": 2,
       },
     ],
-    "position": 51,
+    "start": 51,
   },
   Object {
+    "end": 67,
     "instruction": Object {
-      "opcode": 0,
-      "token": Object {
-        "length": 3,
-        "originalValue": "end",
-        "position": 64,
-        "type": "UNKNOWN",
-        "value": "END",
+      "end": 67,
+      "loc": Object {
+        "end": Object {
+          "column": 3,
+          "line": 6,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 6,
+        },
       },
+      "mnemonic": "END",
+      "opcode": 0,
+      "start": 64,
     },
     "label": null,
-    "length": 3,
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 6,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 6,
+      },
+    },
     "machineCodes": Array [0],
     "operands": Array [],
-    "position": 64,
+    "start": 64,
   },
 ]
 `;

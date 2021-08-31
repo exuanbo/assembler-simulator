@@ -10,6 +10,7 @@ import {
 import { Mnemonic } from '../../../common/constants'
 import { exp } from '../../../common/utils'
 
+export * from './types'
 export * from './tokenizer'
 export * from './parser'
 
@@ -21,7 +22,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
       const { label, instruction, operands, machineCodes } = statement
       const firstOperand = operands[0]
       return [
-        instruction.token.value === Mnemonic.ORG
+        instruction.mnemonic === Mnemonic.ORG
           ? (firstOperand.value as number)
           : exp<number>(() => {
               const nextAddress =
@@ -62,17 +63,17 @@ export const assemble = (input: string): AssembleResult => {
     ([address, addressToMachineCodeMap, addressToStatementMap], statement) => {
       const { instruction, operands, machineCodes } = statement
       const firstOperand = operands[0]
-      if (instruction.token.value === Mnemonic.ORG) {
+      if (instruction.mnemonic === Mnemonic.ORG) {
         return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
       if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
-        const labelAddress = labelToAddressMap[firstOperand.token.value]
+        const labelAddress = labelToAddressMap[firstOperand.rawValue]
         if (labelAddress === undefined) {
-          throw new LabelNotExistError(firstOperand.token)
+          throw new LabelNotExistError(firstOperand)
         }
         const distance = labelAddress - address
         if (distance < -128 || distance > 127) {
-          throw new JumpDistanceError(firstOperand.token)
+          throw new JumpDistanceError(firstOperand)
         }
         const unsignedDistance = distance < 0 ? 0x100 + distance : distance
         machineCodes.push(unsignedDistance)

@@ -1,26 +1,31 @@
+import type { Locatable } from './types'
 import { Mnemonic } from '../../../common/constants'
 import { exp } from '../../../common/utils'
 
 export enum TokenType {
-  Whitespace = 'WHITESPACE',
-  Comment = 'COMMENT',
-  Comma = 'COMMA',
-  Digits = 'DIGITS',
-  Register = 'REGISTER',
-  Address = 'ADDRESS',
-  String = 'STRING',
-  Unknown = 'UNKNOWN'
+  Whitespace = 'Whitespace',
+  Comment = 'Comment',
+  Comma = 'Comma',
+  Digits = 'Digits',
+  Register = 'Register',
+  Address = 'Address',
+  String = 'String',
+  Unknown = 'Unknown'
 }
 
-export interface Token {
+export interface Token extends Locatable {
   type: TokenType
   value: string
-  originalValue: string
-  position: number
-  length: number
+  raw: string
 }
 
-const createToken = (type: TokenType, value: string, position: number): Token => {
+const createToken = (
+  type: TokenType,
+  value: string,
+  start: number,
+  line: number,
+  column: number
+): Token => {
   const tokenValue = exp<string>(() => {
     const normalizedValue = value.replace(/^[["](.*)["\]]$/, '$1')
     switch (type) {
@@ -32,23 +37,34 @@ const createToken = (type: TokenType, value: string, position: number): Token =>
         return normalizedValue
     }
   })
-  const length = value.length
+  const end = start + value.length
+  const loc = {
+    start: {
+      line,
+      column
+    },
+    end: {
+      line,
+      column: column + value.length
+    }
+  }
   return {
     type,
     value: tokenValue,
-    originalValue: value,
-    position,
-    length
+    raw: value,
+    start,
+    end,
+    loc
   }
 }
 
-type TokenMatcher = (input: string, index: number) => Token | null
+type TokenMatcher = (input: string, index: number, line: number, column: number) => Token | null
 
 const matchRegex =
   (regex: RegExp, type: TokenType): TokenMatcher =>
-  (input, index) => {
+  (input, index, line, column) => {
     const match = regex.exec(input.slice(index))
-    return match !== null ? createToken(type, match[0], index) : null
+    return match !== null ? createToken(type, match[0], index, line, column) : null
   }
 
 const tokenMatchers = [
@@ -62,18 +78,25 @@ const tokenMatchers = [
   matchRegex(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
+const NEWLINE_REGEXP = /(?:\n|\r\n)/g
+
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   let index = 0
+  let line = 0
+  let column = 0
   while (index < input.length) {
     tokenMatchers.some(matchToken => {
-      const token = matchToken(input, index)
+      const token = matchToken(input, index, line, column)
       const isMatched = token !== null
       if (isMatched) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
-        index += token.value === Mnemonic.END ? input.length : token.length
+        index = token.value === Mnemonic.END ? input.length : token.end
+        const newlinesCount = (token.raw.match(NEWLINE_REGEXP) ?? []).length
+        line += newlinesCount
+        column = newlinesCount > 0 ? 0 : token.loc.end.column
       }
       return isMatched
     })
