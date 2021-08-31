@@ -38,6 +38,7 @@ const createToken = (
     }
   })
   const end = start + value.length
+  const endColumn = column + value.length
   const loc = {
     start: {
       line,
@@ -45,7 +46,7 @@ const createToken = (
     },
     end: {
       line,
-      column: column + value.length
+      column: endColumn
     }
   }
   return {

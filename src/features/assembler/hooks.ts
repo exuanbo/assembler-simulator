@@ -13,8 +13,8 @@ export const useAssembler = (input: string): void => {
     dispatch(setEditorInput(input))
     try {
       const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
-      dispatch(setAssemblerState({ addressToStatementMap, error: null }))
       dispatch(setMemoryData(addressToOpcodeMap))
+      dispatch(setAssemblerState({ addressToStatementMap, error: null }))
     } catch (err) {
       if (err instanceof AssemblerError) {
         dispatch(setAssemblerState({ addressToStatementMap: {}, error: { ...err } }))
