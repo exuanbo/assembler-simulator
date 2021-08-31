@@ -566,7 +566,7 @@ describe('cpu', () => {
       })
 
       it('should read input from signal and move to AL', () => {
-        expect(step(memory, initialCPU, { input: 0x61, inputPort: 0x00 })).toMatchSnapshot()
+        expect(step(memory, initialCPU, { data: 0x61, inputPort: 0x00 })).toMatchSnapshot()
       })
 
       it('should throw PortError', () => {

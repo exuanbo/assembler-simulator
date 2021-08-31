@@ -111,7 +111,7 @@ const checkOperationResult = (
 }
 
 type Signals = NullablePartial<{
-  input: number
+  data: number
   inputPort: number
   outputPort: number
   interrupt: boolean
@@ -212,8 +212,13 @@ export const step = (...args: StepArgs): StepResult =>
     ): void => {
       signals[signalName] = value
     }
-    const getInput = (): number | undefined => signals.input
-    const getPort = (type: PortType): number | undefined => signals[`${type}Port`]
+    const getInput = (): Pick<Signals, 'data' | 'inputPort'> => {
+      const { data, inputPort } = signals
+      return {
+        data,
+        inputPort
+      }
+    }
     const setPort = (type: PortType, port: number): void => {
       setSignal(`${type}Port`, port)
     }
@@ -556,13 +561,13 @@ export const step = (...args: StepArgs): StepResult =>
 
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
-        const input = getInput()
+        const { data, inputPort } = getInput()
         const requiredPort = checkPort(loadFromMemory(getNextIP()))
-        if (input === undefined || requiredPort !== getPort(PortType.Input)) {
+        if (data === undefined || inputPort !== requiredPort) {
           setPort(PortType.Input, requiredPort)
           break
         }
-        setGPR(Register.AL, input)
+        setGPR(Register.AL, data)
         incIP(2)
         break
       }

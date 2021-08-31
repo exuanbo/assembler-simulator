@@ -623,7 +623,7 @@ Array [
     "sr": Array [false, false, false, false],
   },
   Object {
-    "input": 97,
+    "data": 97,
     "inputPort": 0,
   },
 ]
