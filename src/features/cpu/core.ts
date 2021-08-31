@@ -228,7 +228,7 @@ export const step = (...args: StepArgs): StepResult =>
 
     const shouldTrapHardwareInterrupt = getInterruptSignal() && isFlagSet(Flag.Interrupt)
 
-    const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR_NUM : loadFromMemory(getIP())
+    const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIP())
 
     switch (opcode) {
       case Opcode.END:
@@ -528,7 +528,7 @@ export const step = (...args: StepArgs): StepResult =>
       }
 
       // Procedures and Interrupts
-      case Opcode.CALL_ADDR_NUM: {
+      case Opcode.CALL_ADDR: {
         const address = loadFromMemory(getNextIP())
         push(getNextIP(2))
         setIP(address)
@@ -538,7 +538,7 @@ export const step = (...args: StepArgs): StepResult =>
         setIP(pop())
         break
       }
-      case Opcode.INT_ADDR_NUM: {
+      case Opcode.INT_ADDR: {
         if (shouldTrapHardwareInterrupt) {
           push(getIP())
           setIP(loadFromMemory(HARDWARE_INTERRUPT_VECTOR_ADDR))

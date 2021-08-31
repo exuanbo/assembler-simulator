@@ -63,7 +63,7 @@ export enum Mnemonic {
   DB = 'DB'
 }
 
-export const MNEMONIC_TO_OPERANDS_COUNT_MAP = {
+export const MnemonicToOperandsCountMap = {
   [Mnemonic.END]: 0,
 
   // Arithmetic
@@ -230,9 +230,9 @@ export enum Opcode {
   POPF = 0xeb,
 
   // Procedures and Interrupts
-  CALL_ADDR_NUM = 0xca,
+  CALL_ADDR = 0xca,
   RET = 0xcb,
-  INT_ADDR_NUM = 0xcc,
+  INT_ADDR = 0xcc,
   IRET = 0xcd,
 
   // Input and Output

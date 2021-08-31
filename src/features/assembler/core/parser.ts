@@ -12,7 +12,7 @@ import {
 } from '../../../common/exceptions'
 import {
   Mnemonic,
-  MNEMONIC_TO_OPERANDS_COUNT_MAP,
+  MnemonicToOperandsCountMap,
   MnemonicWithOneOperand,
   MnemonicWithTwoOperands,
   Opcode,
@@ -131,10 +131,10 @@ const createStatement = (
   }
 }
 
-const LABEL = /^[A-Z_]+:?$/
+const LABEL_REGEXP = /^[A-Z_]+:?$/
 
 const validateLabel = (token: Token): Token => {
-  if (!LABEL.test(token.value)) {
+  if (!LABEL_REGEXP.test(token.value)) {
     throw new InvalidLabelError(token)
   }
   return token
@@ -155,8 +155,8 @@ const validateNumber = (token: Token): Token => {
   return token
 }
 
-const NUMBER = /^[\dA-F]+$/
-const REGISTER = /^[A-D]L$/
+const NUMBER_REGEXP = /^[\dA-F]+$/
+const REGISTER_REGEXP = /^[A-D]L$/
 
 const parseSingleOperand =
   (tokens: Token[], index: number) =>
@@ -182,10 +182,10 @@ const parseSingleOperand =
         break
       case TokenType.Address:
         if (isExpected(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
-          if (NUMBER.test(token.value)) {
+          if (NUMBER_REGEXP.test(token.value)) {
             return __createOperand(OperandType.Address, validateNumber(token))
           }
-          if (REGISTER.test(token.value)) {
+          if (REGISTER_REGEXP.test(token.value)) {
             return __createOperand(OperandType.RegisterAddress, token)
           }
           throw new AddressError(token)
@@ -197,7 +197,7 @@ const parseSingleOperand =
         }
         break
       case TokenType.Unknown:
-        if (isExpected(OperandType.Number) && NUMBER.test(token.value)) {
+        if (isExpected(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
           return __createOperand(OperandType.Number, validateNumber(token))
         }
         if (isExpected(OperandType.Label)) {
@@ -262,7 +262,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   const operands: Operand[] = []
 
   const mnemonic = token.value as Mnemonic
-  const operandsCount = MNEMONIC_TO_OPERANDS_COUNT_MAP[mnemonic]
+  const operandsCount = MnemonicToOperandsCountMap[mnemonic]
 
   switch (operandsCount) {
     case 0: {
@@ -340,11 +340,11 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
           operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.CALL:
-          instruction.opcode = Opcode.CALL_ADDR_NUM
+          instruction.opcode = Opcode.CALL_ADDR
           operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.INT:
-          instruction.opcode = Opcode.INT_ADDR_NUM
+          instruction.opcode = Opcode.INT_ADDR
           operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.IN:
