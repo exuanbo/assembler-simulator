@@ -247,11 +247,13 @@ export enum Opcode {
   NOP = 0xff
 }
 
-export enum Register {
+export enum GeneralPurposeRegister {
   AL,
   BL,
   CL,
   DL
 }
+
+export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 export const HARDWARE_INTERRUPT_VECTOR_ADDR = 2 as const

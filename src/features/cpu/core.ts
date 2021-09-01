@@ -23,7 +23,11 @@ import {
   StackUnderflowError,
   PortError
 } from '../../common/exceptions'
-import { Opcode, Register, HARDWARE_INTERRUPT_VECTOR_ADDR } from '../../common/constants'
+import {
+  Opcode,
+  GeneralPurposeRegister,
+  HARDWARE_INTERRUPT_VECTOR_ADDR
+} from '../../common/constants'
 import { NullablePartial, Head, sign8, unsign8 } from '../../common/utils'
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
@@ -37,28 +41,31 @@ enum Flag {
   Interrupt
 }
 
-type SR = [zero: boolean, overflow: boolean, sign: boolean, interrupt: boolean]
+enum FlagStatus {
+  Off,
+  On
+}
 
-export interface CPU {
+type SR = [zero: FlagStatus, overflow: FlagStatus, sign: FlagStatus, interrupt: FlagStatus]
+
+export interface Registers {
   gpr: GPR
   ip: number
   sp: number
   sr: SR
-  isHalted: boolean
 }
 
-export const init = (): CPU => {
+export const initRegisters = (): Registers => {
   return {
     gpr: [0, 0, 0, 0],
     ip: 0,
     sp: MAX_SP,
-    sr: [false, false, false, false],
-    isHalted: false
+    sr: [FlagStatus.Off, FlagStatus.Off, FlagStatus.Off, FlagStatus.Off]
   }
 }
 
-const checkGPR = (register: number): Register => {
-  if (register < 0 || register > 3) {
+const checkGPR = (register: number): GeneralPurposeRegister => {
+  if (register < GeneralPurposeRegister.AL || register > GeneralPurposeRegister.DL) {
     throw new InvalidRegisterError(register)
   }
   return register
@@ -82,30 +89,34 @@ const checkSP = (address: number): number => {
 }
 
 export const getFlagsValue = (sr: SR): number =>
-  sr.reduce((value, isSet, flag) => (isSet ? value + 0b10 ** (flag + 1) : value), 0)
+  sr.reduce((value, flagStatus, index) => value + flagStatus * 0b10 ** (index + 1), 0)
 
 const getFlagsFromValue = (value: number): SR => {
   const valueStr = value.toString(2).padStart(5, '0')
   return valueStr
     .slice(-5, -1)
     .split('')
-    .map(val => val === '1')
-    .reduceRight<boolean[]>((flags, isSet) => [...flags, isSet], []) as SR
+    .map(val => Number.parseInt(val))
+    .reduceRight<FlagStatus[]>((result, flagStatus) => [...result, flagStatus], []) as SR
 }
 
 const checkOperationResult = (
   result: number,
   previousValue: number
 ): [finalResult: number, flags: Head<SR>] => {
-  const flags: Head<SR> = [/* zero */ false, /* overflow */ false, /* sign */ false]
+  const flags: Head<SR> = [
+    /* zero */ FlagStatus.Off,
+    /* overflow */ FlagStatus.Off,
+    /* sign */ FlagStatus.Off
+  ]
   if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
-    flags[Flag.Overflow] = true
+    flags[Flag.Overflow] = FlagStatus.On
   }
   const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
   if (finalResult === 0) {
-    flags[Flag.Zero] = true
+    flags[Flag.Zero] = FlagStatus.On
   } else if (finalResult >= 0x80) {
-    flags[Flag.Sign] = true
+    flags[Flag.Sign] = FlagStatus.On
   }
   return [finalResult, flags]
 }
@@ -114,6 +125,7 @@ type Signals = NullablePartial<{
   data: number
   inputPort: number
   outputPort: number
+  halted: boolean
   interrupt: boolean
   closeWindows: boolean
 }>
@@ -123,51 +135,53 @@ enum PortType {
   Output = 'output'
 }
 
-const checkPort = (value: number): number => {
-  if (value < 0 || value > 0x0f) {
+const MAX_PORT = 0x0f
+
+const checkPort = (port: number): number => {
+  if (port < 0 || port > MAX_PORT) {
     throw new PortError()
   }
-  return value
+  return port
 }
 
-type StepArgs = [memory: number[], cpu: CPU, signals: Signals]
+type StepArgs = [memoryData: number[], cpuRegisters: Registers, signals: Signals]
 type StepResult = StepArgs
 
 export const step = (...args: StepArgs): StepResult =>
-  produce(args, ([memory, cpu, signals]) => {
+  produce(args, ([memoryData, cpuRegisters, signals]) => {
     /* -------------------------------------------------------------------------- */
     /*                                    Init                                    */
     /* -------------------------------------------------------------------------- */
 
     const loadFromMemory = (address: number): number => {
-      return memory[address]
+      return memoryData[address]
     }
     const storeToMemory = (address: number, machineCode: number): void => {
-      memory[address] = machineCode
+      memoryData[address] = machineCode
     }
 
-    const getGPR = (register: Register): number => cpu.gpr[register]
-    const setGPR = (register: Register, value: number): void => {
-      cpu.gpr[register] = value
+    const getGPR = (register: GeneralPurposeRegister): number => cpuRegisters.gpr[register]
+    const setGPR = (register: GeneralPurposeRegister, value: number): void => {
+      cpuRegisters.gpr[register] = value
     }
 
-    const getIP = (): number => cpu.ip
+    const getIP = (): number => cpuRegisters.ip
     const getNextIP = (by = 1): number => getIP() + by
     const setIP = (address: number): void => {
-      cpu.ip = address
+      cpuRegisters.ip = address
     }
 
     /**
-     * @modifies {@link cpu.ip}
+     * @modifies {@link cpuRegisters.ip}
      */
     const incIP = (by = 1): number => {
       setIP(checkIP(getIP() + by))
       return getIP()
     }
 
-    const getSP = (): number => cpu.sp
+    const getSP = (): number => cpuRegisters.sp
     const setSP = (address: number): void => {
-      cpu.sp = address
+      cpuRegisters.sp = address
     }
     const push = (value: number): void => {
       storeToMemory(getSP(), value)
@@ -178,17 +192,17 @@ export const step = (...args: StepArgs): StepResult =>
       return loadFromMemory(getSP())
     }
 
-    const getSR = (): SR => cpu.sr
+    const getSR = (): SR => cpuRegisters.sr
     const setSR = (flags: Partial<SR>): void => {
-      Object.assign(cpu.sr, flags)
+      Object.assign(cpuRegisters.sr, flags)
     }
-    const isFlagSet = (flag: Flag): boolean => getSR()[flag]
-    const setFlag = (flag: Flag, value: boolean): void => {
-      getSR()[flag] = value
+    const isFlagOn = (flag: Flag): boolean => getSR()[flag] === FlagStatus.On
+    const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
+      getSR()[flag] = flagStatus
     }
 
     /**
-     * @modifies {@link cpu.sr}
+     * @modifies {@link cpuRegisters.sr}
      */
     const operate = <T extends [number] | [number, number]>(
       operation: (...operands: T) => number,
@@ -200,10 +214,6 @@ export const step = (...args: StepArgs): StepResult =>
       )
       setSR(flags)
       return finalResult
-    }
-
-    const setHalted = (): void => {
-      cpu.isHalted = true
     }
 
     const setSignal = <S extends keyof Signals>(
@@ -222,6 +232,9 @@ export const step = (...args: StepArgs): StepResult =>
     const setPort = (type: PortType, port: number): void => {
       setSignal(`${type}Port`, port)
     }
+    const setHaltedSignal = (): void => {
+      setSignal('halted', true)
+    }
     const getInterruptSignal = (): boolean => signals.interrupt!
     const setCloseWindowsSignal = (): void => {
       setSignal('closeWindows', true)
@@ -231,14 +244,14 @@ export const step = (...args: StepArgs): StepResult =>
     /*                                     Run                                    */
     /* -------------------------------------------------------------------------- */
 
-    const shouldTrapHardwareInterrupt = getInterruptSignal() && isFlagSet(Flag.Interrupt)
+    const shouldTrapHardwareInterrupt = getInterruptSignal() && isFlagOn(Flag.Interrupt)
 
     const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIP())
 
     switch (opcode) {
       case Opcode.END:
       case Opcode.HALT:
-        setHalted()
+        setHaltedSignal()
         break
 
       // Direct Arithmetic
@@ -407,32 +420,32 @@ export const step = (...args: StepArgs): StepResult =>
       }
       case Opcode.JZ: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(isFlagSet(Flag.Zero) ? distance : 2)
+        incIP(isFlagOn(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JNZ: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!isFlagSet(Flag.Zero) ? distance : 2)
+        incIP(!isFlagOn(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JS: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(isFlagSet(Flag.Sign) ? distance : 2)
+        incIP(isFlagOn(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JNS: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!isFlagSet(Flag.Sign) ? distance : 2)
+        incIP(!isFlagOn(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JO: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(isFlagSet(Flag.Overflow) ? distance : 2)
+        incIP(isFlagOn(Flag.Overflow) ? distance : 2)
         break
       }
       case Opcode.JNO: {
         const distance = sign8(loadFromMemory(getNextIP()))
-        incIP(!isFlagSet(Flag.Overflow) ? distance : 2)
+        incIP(!isFlagOn(Flag.Overflow) ? distance : 2)
         break
       }
 
@@ -567,7 +580,7 @@ export const step = (...args: StepArgs): StepResult =>
           setPort(PortType.Input, requiredPort)
           break
         }
-        setGPR(Register.AL, data)
+        setGPR(GeneralPurposeRegister.AL, data)
         incIP(2)
         break
       }
@@ -580,12 +593,12 @@ export const step = (...args: StepArgs): StepResult =>
 
       // Miscellaneous
       case Opcode.STI: {
-        setFlag(Flag.Interrupt, true)
+        setFlag(Flag.Interrupt, FlagStatus.On)
         incIP()
         break
       }
       case Opcode.CLI: {
-        setFlag(Flag.Interrupt, false)
+        setFlag(Flag.Interrupt, FlagStatus.Off)
         incIP()
         break
       }

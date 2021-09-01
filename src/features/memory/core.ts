@@ -1,12 +1,12 @@
 import type { AddressToMachineCodeMap } from '../assembler/core'
 
-export const init = (): number[] =>
+export const initData = (): number[] =>
   [...Array(0x100)].map((_, address) => (address < 0xc0 ? 0 : 0x20))
 
-export const initFrom = (map: AddressToMachineCodeMap): number[] => {
-  const memory = init()
+export const initDataFrom = (map: AddressToMachineCodeMap): number[] => {
+  const data = initData()
   Object.entries(map).forEach(([address, machineCode]) => {
-    memory[Number.parseInt(address)] = machineCode
+    data[Number.parseInt(address)] = machineCode
   })
-  return memory
+  return data
 }

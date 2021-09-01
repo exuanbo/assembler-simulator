@@ -16,7 +16,8 @@ import {
   MnemonicWithOneOperand,
   MnemonicWithTwoOperands,
   Opcode,
-  Register
+  GeneralPurposeRegister,
+  GeneralPurposeRegisterName
 } from '../../../common/constants'
 import { call, hexToDec, stringToASCII } from '../../../common/utils'
 
@@ -74,7 +75,7 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return hexToDec(token.value)
       case OperandType.Register:
       case OperandType.RegisterAddress:
-        return Register[token.value as keyof typeof Register]
+        return GeneralPurposeRegister[token.value as GeneralPurposeRegisterName]
       case OperandType.String:
         return stringToASCII(token.value)
       case OperandType.Label:

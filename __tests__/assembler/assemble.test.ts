@@ -1,5 +1,5 @@
 import { assemble } from '../../src/features/assembler/core'
-import { initFrom as initMemoryFrom } from '../../src/features/memory/core'
+import { initDataFrom } from '../../src/features/memory/core'
 
 const INPUT = `
 ; --------------------------------------------------------------
@@ -61,7 +61,7 @@ END
 ; --------------------------------------------------------------
 `
 
-const RESULT_MEMORY = [
+const RESULT_MEMORY_DATA = [
   0xc0, 0x03, 0x50, 0xfc, 0xd0, 0x00, 0x11, 0xf1, 0x05, 0x9b, 0x00, 0xc0, 0xfc, 0xc0, 0xf6, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -83,7 +83,7 @@ const RESULT_MEMORY = [
 describe('assembler', () => {
   it('should assemble correctly', () => {
     const [addressToMachineCodeMap] = assemble(INPUT)
-    expect(initMemoryFrom(addressToMachineCodeMap)).toEqual(RESULT_MEMORY)
+    expect(initDataFrom(addressToMachineCodeMap)).toEqual(RESULT_MEMORY_DATA)
   })
 
   it('should throw DuplicateLabelError', () => {

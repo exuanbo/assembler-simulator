@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CPU, init } from './core'
+import { Registers, initRegisters } from './core'
 import type { RootState } from '../../app/store'
 
 type InputSignals = (
@@ -16,12 +16,12 @@ type InputSignals = (
 }
 
 interface CPUState {
-  internal: CPU
+  registers: Registers
   inputSignals: InputSignals
 }
 
 const initialState: CPUState = {
-  internal: init(),
+  registers: initRegisters(),
   inputSignals: {
     data: undefined,
     inputPort: undefined,
@@ -33,8 +33,8 @@ export const cpuSlice = createSlice({
   name: 'cpu',
   initialState,
   reducers: {
-    setCPU: (state, action: PayloadAction<CPU>) => {
-      state.internal = action.payload
+    setRegisters: (state, action: PayloadAction<Registers>) => {
+      state.registers = action.payload
     },
     setInput: (state, action: PayloadAction<{ data: number; inputPort: number }>) => {
       const { data, inputPort } = action.payload
@@ -51,9 +51,9 @@ export const cpuSlice = createSlice({
   }
 })
 
-export const selectCPU = (state: RootState): CPU => state.cpu.internal
+export const selectRegisters = (state: RootState): Registers => state.cpu.registers
 export const selectInputSignals = (state: RootState): InputSignals => state.cpu.inputSignals
 
-export const { setCPU, setInput, clearInput, setInterrupt } = cpuSlice.actions
+export const { setRegisters, setInput, clearInput, setInterrupt } = cpuSlice.actions
 
 export default cpuSlice.reducer

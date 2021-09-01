@@ -1,9 +1,9 @@
 import React from 'react'
 import Card from '../../common/components/Card'
 import { useAppSelector } from '../../app/hooks'
-import { selectCPU } from './cpuSlice'
+import { selectRegisters } from './cpuSlice'
 import { getFlagsValue } from './core'
-import { Register } from '../../common/constants'
+import { GeneralPurposeRegister } from '../../common/constants'
 import { sign8, decToHex } from '../../common/utils'
 
 const RegisterValueTableDataCell = ({
@@ -57,15 +57,15 @@ interface Props {
 }
 
 const CPURegisters = ({ className }: Props): JSX.Element => {
-  const { gpr, ip, sp, sr } = useAppSelector(selectCPU)
+  const { gpr, ip, sp, sr } = useAppSelector(selectRegisters)
 
   return (
     <Card className={className} title="CPU Registers">
       <div className="flex font-mono">
         <table className="flex-1 border-r-1">
           <tbody className="divide-y">
-            {gpr.map((value, register) => (
-              <RegisterTableRow key={register} name={Register[register]} value={value} />
+            {gpr.map((value, index) => (
+              <RegisterTableRow key={index} name={GeneralPurposeRegister[index]} value={value} />
             ))}
           </tbody>
         </table>

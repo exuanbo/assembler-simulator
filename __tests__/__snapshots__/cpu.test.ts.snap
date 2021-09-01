@@ -23,9 +23,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 80,
-    "isHalted": false,
     "sp": 190,
-    "sr": Array [false, false, false, true],
+    "sr": Array [0, 0, 0, 1],
   },
   Object {
     "interrupt": true,
@@ -56,9 +55,8 @@ Array [
   Object {
     "gpr": Array [129, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -87,9 +85,8 @@ Array [
   Object {
     "gpr": Array [3, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -118,9 +115,8 @@ Array [
   Object {
     "gpr": Array [3, 2, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -149,9 +145,8 @@ Array [
   Object {
     "gpr": Array [128, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, true, true, false],
+    "sr": Array [0, 1, 1, 0],
   },
   Object {},
 ]
@@ -180,9 +175,8 @@ Array [
   Object {
     "gpr": Array [0, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -211,9 +205,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -242,9 +235,8 @@ Array [
   Object {
     "gpr": Array [1, 3, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -273,9 +265,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 80,
-    "isHalted": false,
     "sp": 190,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -304,9 +295,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -335,9 +325,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {
     "closeWindows": true,
@@ -368,9 +357,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -399,9 +387,8 @@ Array [
   Object {
     "gpr": Array [3, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -430,9 +417,8 @@ Array [
   Object {
     "gpr": Array [1, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -461,9 +447,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -492,9 +477,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -523,9 +507,8 @@ Array [
   Object {
     "gpr": Array [1, 2, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -554,11 +537,12 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 3,
-    "isHalted": true,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "halted": true,
+  },
 ]
 `;
 
@@ -585,9 +569,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 0,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {
     "inputPort": 0,
@@ -618,9 +601,8 @@ Array [
   Object {
     "gpr": Array [97, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {
     "data": 97,
@@ -652,9 +634,8 @@ Array [
   Object {
     "gpr": Array [2, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -683,9 +664,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 80,
-    "isHalted": false,
     "sp": 190,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -714,9 +694,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 16,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -745,9 +724,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 0,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -776,9 +754,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -807,9 +784,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -838,9 +814,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, true, false, false],
+    "sr": Array [0, 1, 0, 0],
   },
   Object {},
 ]
@@ -869,9 +844,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -900,9 +874,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -931,9 +904,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -962,9 +934,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -993,9 +964,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, true, false, false],
+    "sr": Array [0, 1, 0, 0],
   },
   Object {},
 ]
@@ -1024,9 +994,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1055,9 +1024,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1086,9 +1054,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1117,9 +1084,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 5,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -1148,9 +1114,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1179,9 +1144,8 @@ Array [
   Object {
     "gpr": Array [2, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1210,9 +1174,8 @@ Array [
   Object {
     "gpr": Array [2, 3, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1241,9 +1204,8 @@ Array [
   Object {
     "gpr": Array [2, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1272,9 +1234,8 @@ Array [
   Object {
     "gpr": Array [1, 2, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1303,9 +1264,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1334,9 +1294,8 @@ Array [
   Object {
     "gpr": Array [3, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1365,9 +1324,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1396,9 +1354,8 @@ Array [
   Object {
     "gpr": Array [252, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1427,9 +1384,8 @@ Array [
   Object {
     "gpr": Array [252, 4, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1458,9 +1414,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1489,9 +1444,8 @@ Array [
   Object {
     "gpr": Array [254, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1520,9 +1474,8 @@ Array [
   Object {
     "gpr": Array [7, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1551,9 +1504,8 @@ Array [
   Object {
     "gpr": Array [7, 3, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1582,9 +1534,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {
     "outputPort": 1,
@@ -1615,9 +1566,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1646,9 +1596,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, true, true, false],
+    "sr": Array [0, 1, 1, 0],
   },
   Object {},
 ]
@@ -1677,9 +1626,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 190,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1708,9 +1656,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 190,
-    "sr": Array [false, true, true, false],
+    "sr": Array [0, 1, 1, 0],
   },
   Object {},
 ]
@@ -1739,9 +1686,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 16,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1770,9 +1716,8 @@ Array [
   Object {
     "gpr": Array [3, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1801,9 +1746,8 @@ Array [
   Object {
     "gpr": Array [192, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1832,9 +1776,8 @@ Array [
   Object {
     "gpr": Array [2, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1863,9 +1806,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 2,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -1894,9 +1836,8 @@ Array [
   Object {
     "gpr": Array [0, 0, 0, 0],
     "ip": 1,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, true],
+    "sr": Array [0, 0, 0, 1],
   },
   Object {},
 ]
@@ -1925,9 +1866,8 @@ Array [
   Object {
     "gpr": Array [128, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, true, false],
+    "sr": Array [0, 0, 1, 0],
   },
   Object {},
 ]
@@ -1956,9 +1896,8 @@ Array [
   Object {
     "gpr": Array [1, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -1987,9 +1926,8 @@ Array [
   Object {
     "gpr": Array [1, 2, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -2018,9 +1956,8 @@ Array [
   Object {
     "gpr": Array [127, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, true, false, false],
+    "sr": Array [0, 1, 0, 0],
   },
   Object {},
 ]
@@ -2049,9 +1986,8 @@ Array [
   Object {
     "gpr": Array [0, 1, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [true, false, false, false],
+    "sr": Array [1, 0, 0, 0],
   },
   Object {},
 ]
@@ -2080,9 +2016,8 @@ Array [
   Object {
     "gpr": Array [6, 0, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
@@ -2111,9 +2046,8 @@ Array [
   Object {
     "gpr": Array [6, 3, 0, 0],
     "ip": 3,
-    "isHalted": false,
     "sp": 191,
-    "sr": Array [false, false, false, false],
+    "sr": Array [0, 0, 0, 0],
   },
   Object {},
 ]
