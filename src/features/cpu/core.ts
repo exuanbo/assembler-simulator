@@ -81,7 +81,7 @@ const checkSP = (address: number): number => {
   return address
 }
 
-const getFlagsValue = (sr: SR): number =>
+export const getFlagsValue = (sr: SR): number =>
   sr.reduce((value, isSet, flag) => (isSet ? value + 0b10 ** (flag + 1) : value), 0)
 
 const getFlagsFromValue = (value: number): SR => {
