@@ -1,4 +1,3 @@
-import { produce } from 'immer'
 import { tokenize } from './tokenizer'
 import { OperandType, Statement, parse } from './parser'
 import {
@@ -20,6 +19,12 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   const [, labelToAddressMap] = statements.reduce<[number, LabelToAddressMap]>(
     ([address, labelToAddressMap], statement, index) => {
       const { label, instruction, operands, machineCodes } = statement
+      if (label !== null) {
+        if (labelToAddressMap[label.identifier] !== undefined) {
+          throw new DuplicateLabelError(label)
+        }
+        labelToAddressMap[label.identifier] = address
+      }
       const firstOperand = operands[0]
       return [
         instruction.mnemonic === Mnemonic.ORG
@@ -34,14 +39,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
               }
               return nextAddress
             }),
-        label === null
-          ? labelToAddressMap
-          : produce(labelToAddressMap, draft => {
-              if (draft[label.identifier] !== undefined) {
-                throw new DuplicateLabelError(label)
-              }
-              draft[label.identifier] = address
-            })
+        labelToAddressMap
       ]
     },
     [0, {}]
@@ -78,17 +76,12 @@ export const assemble = (input: string): AssembleResult => {
         const unsignedDistance = distance < 0 ? 0x100 + distance : distance
         machineCodes.push(unsignedDistance)
       }
-      return [
-        address + machineCodes.length,
-        produce(addressToMachineCodeMap, draft => {
-          machineCodes.forEach((machineCode, index) => {
-            draft[address + index] = machineCode
-          })
-        }),
-        produce(addressToStatementMap, draft => {
-          draft[address] = statement
-        })
-      ]
+      const nextAddress = address + machineCodes.length
+      machineCodes.forEach((machineCode, index) => {
+        addressToMachineCodeMap[address + index] = machineCode
+      })
+      addressToStatementMap[address] = statement
+      return [nextAddress, addressToMachineCodeMap, addressToStatementMap]
     },
     [0, {}, {}]
   )

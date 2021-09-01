@@ -1,5 +1,3 @@
-import { produce } from 'immer'
-
 export type NullablePartial<T> = {
   [P in keyof T]?: T[P] | undefined
 }
@@ -20,12 +18,11 @@ export const stringToASCII = (str: string): number[] =>
 
 export const trimBrackets = (str: string): string => str.replace(/^\[(.*)]$/, '$1')
 
-export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
-  arr.reduce<T[][]>((res, val, index) => {
+export const splitArrayPerChunk = <T>(array: T[], perChunk: number): T[][] =>
+  array.reduce<T[][]>((result, value, index) => {
     const chunkIndex = Math.floor(index / perChunk)
-    return produce(res, (draft: T[][]) => {
-      draft[chunkIndex] = [...(draft[chunkIndex] ?? []), val]
-    })
+    ;(result[chunkIndex] ?? (result[chunkIndex] = [])).push(value)
+    return result
   }, [])
 
 export const call = <T>(fn: () => T): T => fn()
