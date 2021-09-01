@@ -246,7 +246,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   const label = parseLabel(tokens, index)
   const hasLabel = label !== null
   if (hasLabel) {
-    index++
+    index += 1
   }
 
   const token = tokens[index]
@@ -257,7 +257,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     throw new StatementError(token, hasLabel)
   }
 
-  index++
+  index += 1
 
   const instruction = createInstruction(token)
   const operands: Operand[] = []
