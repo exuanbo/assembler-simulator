@@ -256,4 +256,6 @@ export enum GeneralPurposeRegister {
 
 export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
+export type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
+
 export const HARDWARE_INTERRUPT_VECTOR_ADDR = 2 as const
