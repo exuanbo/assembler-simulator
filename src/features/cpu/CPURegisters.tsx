@@ -8,30 +8,44 @@ import { sign8, decToHex } from '../../common/utils'
 
 const RegisterValueTableDataCell = ({
   radixLabel,
-  valueStr
+  value,
+  valueClassName = ''
 }: {
   radixLabel: string
-  valueStr: string
+  value: string
+  valueClassName?: string | undefined
 }): JSX.Element => (
   <td className="px-2">
-    <div className="flex items-center justify-center space-x-2">
-      <span className="px-1 text-xs text-gray-400 bg-gray-100">{radixLabel}</span>
-      <span>{valueStr}</span>
+    <div className="flex items-center justify-center space-x-1">
+      <span className="px-1 text-xs text-gray-400 bg-gray-100 rounded">{radixLabel}</span>
+      <span className={`px-1 text-sm rounded ${valueClassName}`}>{value}</span>
     </div>
   </td>
 )
 
-const RegisterTableRow = ({ name, value }: { name: string; value: number }): JSX.Element => {
+const RegisterTableRow = ({
+  registerName,
+  value,
+  valueClassName
+}: {
+  registerName: string
+  value: number
+  valueClassName?: string
+}): JSX.Element => {
   const signedValue = sign8(value)
 
   return (
     <tr className="divide-x">
-      <td className="px-2 text-center bg-gray-50">{name}</td>
-      <RegisterValueTableDataCell radixLabel="hex" valueStr={decToHex(value)} />
-      <RegisterValueTableDataCell radixLabel="bin" valueStr={value.toString(2).padStart(8, '0')} />
+      <td className="px-2 text-center bg-gray-50">{registerName}</td>
+      <RegisterValueTableDataCell
+        radixLabel="hex"
+        value={decToHex(value)}
+        valueClassName={valueClassName}
+      />
+      <RegisterValueTableDataCell radixLabel="bin" value={value.toString(2).padStart(8, '0')} />
       <RegisterValueTableDataCell
         radixLabel="dec"
-        valueStr={`${signedValue >= 0 ? '+' : '-'}${`${Math.abs(signedValue)}`.padStart(3, '0')}`}
+        value={`${signedValue >= 0 ? '+' : '-'}${`${Math.abs(signedValue)}`.padStart(3, '0')}`}
       />
     </tr>
   )
@@ -41,12 +55,12 @@ const NO_BREAK_SPACE = '\u00A0'
 
 const FlagIndicatorTableRow = (): JSX.Element => (
   <tr>
+    <td>{NO_BREAK_SPACE}</td>
     <td />
-    <td />
-    <td className="px-2">
-      <div className="flex items-center justify-center space-x-2">
+    <td>
+      <div className="flex justify-center space-x-1">
         <span className="px-1 text-xs">{NO_BREAK_SPACE.repeat(3)}</span>
-        <span>{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
+        <span className="px-1 text-sm">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
       </div>
     </td>
   </tr>
@@ -66,15 +80,15 @@ const CPURegisters = ({ className }: Props): JSX.Element => {
           <tbody className="divide-y">
             {gpr.map((value, index) => {
               const registerName = GeneralPurposeRegister[index]
-              return <RegisterTableRow key={registerName} name={registerName} value={value} />
+              return <RegisterTableRow key={index} registerName={registerName} value={value} />
             })}
           </tbody>
         </table>
         <table className="flex-1">
           <tbody className="divide-y">
-            <RegisterTableRow name="IP" value={ip} />
-            <RegisterTableRow name="SP" value={sp} />
-            <RegisterTableRow name="SR" value={getFlagsValue(sr)} />
+            <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
+            <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
+            <RegisterTableRow registerName="SR" value={getFlagsValue(sr)} />
             <FlagIndicatorTableRow />
           </tbody>
         </table>

@@ -52,6 +52,10 @@ export const cpuSlice = createSlice({
 })
 
 export const selectRegisters = (state: RootState): Registers => state.cpu.registers
+
+export const selectIPnSP = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
+  (({ ip, sp }) => ({ ip, sp }))(state.cpu.registers)
+
 export const selectInputSignals = (state: RootState): InputSignals => state.cpu.inputSignals
 
 export const { setRegisters, setInput, clearInput, setInterrupt } = cpuSlice.actions
