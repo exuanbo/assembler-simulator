@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
   children: React.ReactNode
-  onClick: () => void
+  onClick: (() => void) | (() => Promise<void>)
 }
 
 const ControlButton = ({ children, onClick }: Props): JSX.Element => (
