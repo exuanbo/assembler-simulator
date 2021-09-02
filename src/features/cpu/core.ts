@@ -122,11 +122,14 @@ const checkOperationResult = (
 }
 
 type Signals = NullablePartial<{
+  // input
   data: number
   inputPort: number
-  outputPort: number
-  halted: boolean
   interrupt: boolean
+
+  // output
+  halted: boolean
+  outputPort: number
   closeWindows: boolean
 }>
 
