@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../app/hooks'
 import { setInput as setEditorInput } from '../editor/editorSlice'
 import { assemble } from './core'
 import { setState as setAssemblerState } from './assemblerSlice'
-import { setData as setMemoryData } from '../memory/memorySlice'
+import { setDataFrom as setMemoryDataFrom } from '../memory/memorySlice'
 import { AssemblerError } from '../../common/exceptions'
 
 export const useAssembler = (input: string): void => {
@@ -13,7 +13,7 @@ export const useAssembler = (input: string): void => {
     dispatch(setEditorInput(input))
     try {
       const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
-      dispatch(setMemoryData(addressToOpcodeMap))
+      dispatch(setMemoryDataFrom(addressToOpcodeMap))
       dispatch(setAssemblerState({ addressToStatementMap, error: null }))
     } catch (err) {
       if (err instanceof AssemblerError) {
