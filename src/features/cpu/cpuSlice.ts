@@ -63,7 +63,8 @@ export const cpuSlice = createSlice({
     },
     setInterrupt: (state, action: PayloadAction<boolean>) => {
       state.inputSignals.interrupt = action.payload
-    }
+    },
+    reset: () => initialState
   }
 })
 
@@ -82,7 +83,8 @@ export const {
   setRegisters,
   setInput: setCpuInput,
   clearInput: clearCpuInput,
-  setInterrupt
+  setInterrupt,
+  reset: resetCpu
 } = cpuSlice.actions
 
 export default cpuSlice.reducer
