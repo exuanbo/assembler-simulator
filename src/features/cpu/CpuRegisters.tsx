@@ -4,9 +4,11 @@ import RegisterTableRow from './RegisterTableRow'
 import { useAppSelector } from '../../app/hooks'
 import { selectRegisters } from './cpuSlice'
 import { getFlagsValue } from './core'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '../../common/constants'
-
-const NO_BREAK_SPACE = '\u00A0'
+import {
+  GeneralPurposeRegister,
+  GeneralPurposeRegisterName,
+  NO_BREAK_SPACE
+} from '../../common/constants'
 
 const FlagIndicatorTableRow = (): JSX.Element => (
   <tr>

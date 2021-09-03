@@ -257,3 +257,5 @@ export enum GeneralPurposeRegister {
 export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 export type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
+
+export const NO_BREAK_SPACE = '\u00A0'
