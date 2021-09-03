@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
 import { useAppSelector } from '../../app/hooks'
-import { selectRegisters } from './cpuSlice'
+import { selectCpuRegisters } from './cpuSlice'
 import { getFlagsValue } from './core'
 import {
   GeneralPurposeRegister,
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const CpuRegisters = ({ className }: Props): JSX.Element => {
-  const { gpr, ip, sp, sr } = useAppSelector(selectRegisters)
+  const { gpr, ip, sp, sr } = useAppSelector(selectCpuRegisters)
 
   return (
     <Card className={className} title="CPU Registers">

@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import { useAppSelector, useAppShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
-import { selectPointers } from '../cpu/cpuSlice'
+import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
 
 interface Props {
@@ -14,7 +14,7 @@ const Memory = ({ className }: Props): JSX.Element => {
   const machineCodesMatrix = splitArrayPerChunk(memoryData, 0x10)
 
   let address = 0
-  const { ip, sp } = useAppShallowEqualSelector(selectPointers)
+  const { ip, sp } = useAppShallowEqualSelector(selectCpuPointerRegisters)
 
   return (
     <Card className={className} title="Memory">

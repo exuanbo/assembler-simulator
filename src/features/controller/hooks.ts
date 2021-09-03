@@ -3,14 +3,14 @@ import { useStore } from 'react-redux'
 import { useAppDispatch } from '../../app/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import {
-  setFault,
-  setHalted,
-  setRegisters,
-  setInterrupt,
+  setCpuFault,
+  setCpuHalted,
+  setCpuRegisters,
+  setCpuInterrupt,
   resetCpu,
-  selectStatus,
-  selectRegisters,
-  selectInputSignals
+  selectCpuStatus,
+  selectCpuRegisters,
+  selectCpuInputSignals
 } from '../cpu/cpuSlice'
 import { step } from '../cpu/core'
 import { RuntimeError } from '../../common/exceptions'
@@ -64,7 +64,7 @@ export const useController = (): Controller => {
       return
     }
     intervalId = window.setInterval(__step, 1000 / FREQ)
-    interruptIntervalId = window.setInterval(() => dispatch(setInterrupt(true)), TIMER_INTERVAL)
+    interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), TIMER_INTERVAL)
     setRunning(true)
   }
 
@@ -73,7 +73,7 @@ export const useController = (): Controller => {
     lastJob = new Promise((resolve, reject) => {
       // const startTime = performance.now()
       const state = store.getState()
-      const { fault, halted } = selectStatus(state)
+      const { fault, halted } = selectCpuStatus(state)
       if (fault) {
         // TODO: handle fault
       }
@@ -85,24 +85,24 @@ export const useController = (): Controller => {
       try {
         const [memoryData, registers, outputSignals] = step(
           selectMemoryData(state),
-          selectRegisters(state),
-          selectInputSignals(state)
+          selectCpuRegisters(state),
+          selectCpuInputSignals(state)
         )
         dispatch(setMemoryData(memoryData))
-        dispatch(setRegisters(registers))
+        dispatch(setCpuRegisters(registers))
         // TODO: handle output
         const { halted = false, interrupt } = outputSignals
         if (halted) {
           stopIfRunning()
-          dispatch(setHalted(true))
+          dispatch(setCpuHalted(true))
         }
         if (interrupt) {
-          dispatch(setInterrupt(false))
+          dispatch(setCpuInterrupt(false))
         }
       } catch (err) {
         if (err instanceof RuntimeError) {
           stopIfRunning()
-          dispatch(setFault(true))
+          dispatch(setCpuFault(true))
         }
         // TODO: handle exceptions
       }

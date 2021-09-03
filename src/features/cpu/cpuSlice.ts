@@ -68,22 +68,22 @@ export const cpuSlice = createSlice({
   }
 })
 
-export const selectStatus = (state: RootState): Status => state.cpu.status
+export const selectCpuStatus = (state: RootState): Status => state.cpu.status
 
-export const selectRegisters = (state: RootState): Registers => state.cpu.registers
+export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
 
-export const selectPointers = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
+export const selectCpuPointerRegisters = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
   (({ ip, sp }) => ({ ip, sp }))(state.cpu.registers)
 
-export const selectInputSignals = (state: RootState): InputSignals => state.cpu.inputSignals
+export const selectCpuInputSignals = (state: RootState): InputSignals => state.cpu.inputSignals
 
 export const {
-  setFault,
-  setHalted,
-  setRegisters,
+  setFault: setCpuFault,
+  setHalted: setCpuHalted,
+  setRegisters: setCpuRegisters,
   setInput: setCpuInput,
   clearInput: clearCpuInput,
-  setInterrupt,
+  setInterrupt: setCpuInterrupt,
   reset: resetCpu
 } = cpuSlice.actions
 
