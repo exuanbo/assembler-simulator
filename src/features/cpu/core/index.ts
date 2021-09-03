@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import { createNextState } from '@reduxjs/toolkit'
 import type { InputSignals } from '../cpuSlice'
 import {
   add,
@@ -146,7 +146,7 @@ type StepArgs = [memoryData: number[], cpuRegisters: Registers, signals: Signals
 type StepResult = StepArgs
 
 export const step = (...args: StepArgs): StepResult =>
-  produce(args, ([memoryData, cpuRegisters, signals]) => {
+  createNextState(args, ([memoryData, cpuRegisters, signals]) => {
     /* -------------------------------------------------------------------------- */
     /*                                    Init                                    */
     /* -------------------------------------------------------------------------- */

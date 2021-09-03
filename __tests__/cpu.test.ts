@@ -1,4 +1,4 @@
-import { produce } from 'immer'
+import { createNextState } from '@reduxjs/toolkit'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 import { assemble } from '../src/features/assembler/core'
 import { initDataFrom } from '../src/features/memory/core'
@@ -29,7 +29,7 @@ describe('cpu', () => {
   describe('step', () => {
     it('with END should set halted', () => {
       const memoryData = getMemoryData('add al, bl end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.ip = 3
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -39,7 +39,7 @@ describe('cpu', () => {
       const memoryData = getMemoryData('add al, bl end')
 
       it('should operate on two registers', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 2, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -47,28 +47,28 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('add al, 02 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should set only zero flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0xff, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should only set sign flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0x80, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should set both overflow and sign flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0x7f, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -79,7 +79,7 @@ describe('cpu', () => {
       const memoryData = getMemoryData('sub al, bl end')
 
       it('should operate on two registers', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 2, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -87,28 +87,28 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('sub al, 02 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should set only zero flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should set only overflow flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0x80, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should only set sign flag', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0x81, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -118,7 +118,7 @@ describe('cpu', () => {
     describe('with MUL', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('mul al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0xff, 4, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -126,7 +126,7 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('mul al, 04 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0xff, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -136,7 +136,7 @@ describe('cpu', () => {
     describe('with DIV', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('div al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 2, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -144,14 +144,14 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('div al, 02 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should throw DivideByZeroError if divisor is zero', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 0, 0, 0]
         })
 
@@ -167,7 +167,7 @@ describe('cpu', () => {
 
     it('with INC should operate correctly', () => {
       const memoryData = getMemoryData('inc al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [1, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -175,7 +175,7 @@ describe('cpu', () => {
 
     it('with DEC should operate correctly', () => {
       const memoryData = getMemoryData('dec al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [2, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -184,7 +184,7 @@ describe('cpu', () => {
     describe('with MOD', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('mod al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 3, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -192,14 +192,14 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('mod al, 03 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should throw DivideByZeroError if divisor is zero', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
 
@@ -216,7 +216,7 @@ describe('cpu', () => {
     describe('with AND', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('and al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 3, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -224,7 +224,7 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('and al, 03 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -234,7 +234,7 @@ describe('cpu', () => {
     describe('with OR', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('or al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 3, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -242,7 +242,7 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('or al, 03 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -252,7 +252,7 @@ describe('cpu', () => {
     describe('with XOR', () => {
       it('should operate on two registers', () => {
         const memoryData = getMemoryData('xor al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 3, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -260,7 +260,7 @@ describe('cpu', () => {
 
       it('should operate on register and number', () => {
         const memoryData = getMemoryData('xor al, 03 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [5, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -269,7 +269,7 @@ describe('cpu', () => {
 
     it('with NOT should operate correctly', () => {
       const memoryData = getMemoryData('not al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [1, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -277,7 +277,7 @@ describe('cpu', () => {
 
     it('with ROL should operate correctly', () => {
       const memoryData = getMemoryData('rol al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [0x81, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -285,7 +285,7 @@ describe('cpu', () => {
 
     it('with ROR should operate correctly', () => {
       const memoryData = getMemoryData('ror al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [0x81, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -293,7 +293,7 @@ describe('cpu', () => {
 
     it('with SHL should operate correctly', () => {
       const memoryData = getMemoryData('shl al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [1, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -301,7 +301,7 @@ describe('cpu', () => {
 
     it('with SHR should operate correctly', () => {
       const memoryData = getMemoryData('shr al end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.gpr = [1, 0, 0, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -315,7 +315,7 @@ describe('cpu', () => {
 
       it('should jump backward', () => {
         const memoryData = getMemoryData('start: add al, bl jmp start end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.ip = 3
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -325,7 +325,7 @@ describe('cpu', () => {
     describe('with JZ', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('jz done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[0] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -345,7 +345,7 @@ describe('cpu', () => {
 
       it('should not jump', () => {
         const memoryData = getMemoryData('jnz done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[0] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -355,7 +355,7 @@ describe('cpu', () => {
     describe('with JS', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('js done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[2] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -375,7 +375,7 @@ describe('cpu', () => {
 
       it('should not jump', () => {
         const memoryData = getMemoryData('jns done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[2] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -385,7 +385,7 @@ describe('cpu', () => {
     describe('with JO', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('jo done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[1] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -405,7 +405,7 @@ describe('cpu', () => {
 
       it('should not jump', () => {
         const memoryData = getMemoryData('jno done add al, bl done: end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sr[1] = 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -425,7 +425,7 @@ describe('cpu', () => {
 
       it('should move number from register to address', () => {
         const memoryData = getMemoryData('mov [03], al end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -433,7 +433,7 @@ describe('cpu', () => {
 
       it('should move number from register address to register', () => {
         const memoryData = getMemoryData('mov al, [bl] end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [0, 2, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -441,7 +441,7 @@ describe('cpu', () => {
 
       it('should move number from register to register address', () => {
         const memoryData = getMemoryData('mov [al], bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -451,7 +451,7 @@ describe('cpu', () => {
     describe('with CMP', () => {
       it('should compare two registers', () => {
         const memoryData = getMemoryData('cmp al, bl end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 1, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -459,7 +459,7 @@ describe('cpu', () => {
 
       it('should compare register and number', () => {
         const memoryData = getMemoryData('cmp al, 02 end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -467,7 +467,7 @@ describe('cpu', () => {
 
       it('should compare register and number from address', () => {
         const memoryData = getMemoryData('cmp al, [02] end')
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [3, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -478,14 +478,14 @@ describe('cpu', () => {
       const memoryData = getMemoryData('push al end')
 
       it('should push to stack', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 0, 0, 0]
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should throw StackOverflowError', () => {
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.gpr = [1, 0, 0, 0]
           draft.sp = 0
         })
@@ -497,10 +497,10 @@ describe('cpu', () => {
       const __memory = getMemoryData('pop al end')
 
       it('should pop to register from stack', () => {
-        const memoryData = produce(__memory, draft => {
+        const memoryData = createNextState(__memory, draft => {
           draft[0xbf] = 1
         })
-        const cpuRegisters = produce(initialRegisters, draft => {
+        const cpuRegisters = createNextState(initialRegisters, draft => {
           draft.sp = 0xbf - 1
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -515,17 +515,17 @@ describe('cpu', () => {
 
     it('with PUSHF should push SR to stack', () => {
       const memoryData = getMemoryData('pushf end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sr = [0, 1, 1, 0]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })
 
     it('with POPF should restore SR from stack', () => {
-      const memoryData = produce(getMemoryData('popf end'), draft => {
+      const memoryData = createNextState(getMemoryData('popf end'), draft => {
         draft[0xbf] = 0x0c
       })
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sp = 0xbf - 1
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -537,27 +537,27 @@ describe('cpu', () => {
     })
 
     it('with RET should return', () => {
-      const memoryData = produce(getMemoryData('ret end'), draft => {
+      const memoryData = createNextState(getMemoryData('ret end'), draft => {
         draft[0xbf] = 0x10
       })
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sp = 0xbf - 1
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })
 
     it('with INT should jump to address', () => {
-      const memoryData = produce(getMemoryData('int 03 end'), draft => {
+      const memoryData = createNextState(getMemoryData('int 03 end'), draft => {
         draft[0x03] = 0x50
       })
       expect(step(memoryData, initialRegisters)).toMatchSnapshot()
     })
 
     it('with IRET should return', () => {
-      const memoryData = produce(getMemoryData('iret end'), draft => {
+      const memoryData = createNextState(getMemoryData('iret end'), draft => {
         draft[0xbf] = 0x10
       })
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sp = 0xbf - 1
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
@@ -600,7 +600,7 @@ db 50
 done:
 end
 `)
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sr = [0, 0, 0, 1]
       })
       expect(
@@ -619,7 +619,7 @@ end
 
     it('with CLI should unset interrupt flag', () => {
       const memoryData = getMemoryData('cli end')
-      const cpuRegisters = produce(initialRegisters, draft => {
+      const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sr = [0, 0, 0, 1]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
