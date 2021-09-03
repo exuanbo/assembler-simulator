@@ -30,7 +30,7 @@ const CpuRegisters = ({ className }: Props): JSX.Element => {
 
   return (
     <Card className={className} title="CPU Registers">
-      <div className="divide-x flex font-mono">
+      <div className="divide-x flex">
         <table className="flex-1">
           <tbody className="divide-y">
             {gpr.map((value, index) => {

@@ -19,7 +19,7 @@ const Editor = ({ className }: Props): JSX.Element => {
     <div className={`flex flex-col ${className}`}>
       <textarea
         ref={textArea}
-        className="w-full h-full px-3 py-1 font-mono resize-none focus:outline-none"
+        className="h-full w-full py-1 px-3 resize-none focus:outline-none"
         spellCheck={false}
         value={input}
         onChange={event => {

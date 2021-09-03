@@ -18,7 +18,7 @@ const Memory = ({ className }: Props): JSX.Element => {
 
   return (
     <Card className={className} title="Memory">
-      <table className="divide-y font-mono text-sm w-full">
+      <table className="divide-y text-sm w-full">
         <tbody className="divide-y">
           <tr className="divide-x bg-gray-50">
             <td />
