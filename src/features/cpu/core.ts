@@ -24,12 +24,10 @@ import {
   StackUnderflowError,
   PortError
 } from '../../common/exceptions'
-import {
-  Opcode,
-  GeneralPurposeRegister,
-  HARDWARE_INTERRUPT_VECTOR_ADDR
-} from '../../common/constants'
+import { Opcode, GeneralPurposeRegister } from '../../common/constants'
 import { NullablePartial, Head, sign8, unsign8 } from '../../common/utils'
+
+const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
 
