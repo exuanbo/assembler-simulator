@@ -2,16 +2,16 @@ import React from 'react'
 import HeaderBar from '../features/controller/HeaderBar'
 import Editor from '../features/editor/Editor'
 import IODevices from '../features/io/IODevices'
-import CPURegisters from '../features/cpu/CPURegisters'
+import CpuRegisters from '../features/cpu/CpuRegisters'
 import Memory from '../features/memory/Memory'
 
 const App = (): JSX.Element => (
-  <div className="flex flex-col w-screen h-screen">
+  <div className="flex flex-col h-screen w-screen">
     <HeaderBar className="flex-none" />
-    <div className="flex h-full divide-x">
+    <div className="divide-x flex h-full">
       <Editor className="flex-1" />
-      <div className="flex flex-col flex-1 divide-y">
-        <CPURegisters />
+      <div className="divide-y flex flex-col flex-1">
+        <CpuRegisters />
         <Memory />
         <IODevices className="flex-1" />
       </div>

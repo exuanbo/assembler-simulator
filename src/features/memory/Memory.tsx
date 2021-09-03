@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import { useAppSelector, useAppShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
-import { selectIPnSP } from '../cpu/cpuSlice'
+import { selectPointers } from '../cpu/cpuSlice'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
 
 interface Props {
@@ -10,15 +10,15 @@ interface Props {
 }
 
 const Memory = ({ className }: Props): JSX.Element => {
-  const memory = useAppSelector(selectMemoryData)
-  const machineCodesMatrix = splitArrayPerChunk(memory, 0x10)
+  const memoryData = useAppSelector(selectMemoryData)
+  const machineCodesMatrix = splitArrayPerChunk(memoryData, 0x10)
 
   let address = 0
-  const { ip, sp } = useAppShallowEqualSelector(selectIPnSP)
+  const { ip, sp } = useAppShallowEqualSelector(selectPointers)
 
   return (
     <Card className={className} title="Memory">
-      <table className="w-full font-mono text-sm divide-y">
+      <table className="divide-y font-mono text-sm w-full">
         <tbody className="divide-y">
           <tr className="divide-x bg-gray-50">
             <td />
@@ -30,7 +30,7 @@ const Memory = ({ className }: Props): JSX.Element => {
           </tr>
           {machineCodesMatrix.map((row, rowIndex) => (
             <tr key={rowIndex} className="divide-x">
-              <td className="text-center bg-gray-50">{decToHex(rowIndex)[1]}</td>
+              <td className="bg-gray-50 text-center">{decToHex(rowIndex)[1]}</td>
               {row.map((machineCode, colIndex) => {
                 const bgColorClassName =
                   address === ip ? 'bg-green-100' : address === sp ? 'bg-blue-100' : ''

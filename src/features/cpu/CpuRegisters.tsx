@@ -25,7 +25,7 @@ interface Props {
   className?: string
 }
 
-const CPURegisters = ({ className }: Props): JSX.Element => {
+const CpuRegisters = ({ className }: Props): JSX.Element => {
   const { gpr, ip, sp, sr } = useAppSelector(selectRegisters)
 
   return (
@@ -52,4 +52,4 @@ const CPURegisters = ({ className }: Props): JSX.Element => {
   )
 }
 
-export default CPURegisters
+export default CpuRegisters
