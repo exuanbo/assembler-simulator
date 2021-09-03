@@ -1,6 +1,6 @@
 import store from '../../app/store'
 import { useAppDispatch } from '../../app/hooks'
-import { setData, selectMemoryData } from '../memory/memorySlice'
+import { setData as setMemoryData, selectMemoryData } from '../memory/memorySlice'
 import {
   setFault,
   setHalted,
@@ -9,7 +9,7 @@ import {
   selectRegisters,
   selectInputSignals
 } from '../cpu/cpuSlice'
-import { step as __step } from '../cpu/core'
+import { step } from '../cpu/core'
 import { RuntimeError } from '../../common/exceptions'
 
 let lastJob: Promise<void> = Promise.resolve()
@@ -21,7 +21,7 @@ interface Controller {
 export const useController = (): Controller => {
   const dispatch = useAppDispatch()
 
-  const step = async (): Promise<void> => {
+  const __step = async (): Promise<void> => {
     await lastJob
     lastJob = new Promise((resolve, reject) => {
       const state = store.getState()
@@ -33,12 +33,12 @@ export const useController = (): Controller => {
         // TODO: handle halted
       }
       try {
-        const [memoryData, registers, outputSignals] = __step(
+        const [memoryData, registers, outputSignals] = step(
           selectMemoryData(state),
           selectRegisters(state),
           selectInputSignals(state)
         )
-        dispatch(setData(memoryData))
+        dispatch(setMemoryData(memoryData))
         dispatch(setRegisters(registers))
         // TODO: handle output
         const { halted = false } = outputSignals
@@ -56,6 +56,6 @@ export const useController = (): Controller => {
   }
 
   return {
-    step
+    step: __step
   }
 }
