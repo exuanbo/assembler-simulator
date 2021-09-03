@@ -1,7 +1,6 @@
 import React from 'react'
-import { shallowEqual } from 'react-redux'
 import Card from '../../common/components/Card'
-import { useAppSelector } from '../../app/hooks'
+import { useAppSelector, useAppShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
 import { selectIPnSP } from '../cpu/cpuSlice'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
@@ -15,7 +14,7 @@ const Memory = ({ className }: Props): JSX.Element => {
   const machineCodesMatrix = splitArrayPerChunk(memory, 0x10)
 
   let address = 0
-  const { ip, sp } = useAppSelector(selectIPnSP, shallowEqual)
+  const { ip, sp } = useAppShallowEqualSelector(selectIPnSP)
 
   return (
     <Card className={className} title="Memory">
