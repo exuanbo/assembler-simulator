@@ -1,6 +1,7 @@
 import React from 'react'
+import RunButton from './RunButton'
 import ControlButton from './ControlButton'
-import { Play, Forward, Redo, GithubAlt } from '../../common/components/icons'
+import { Forward, Redo, GithubAlt } from '../../common/components/icons'
 import { useController } from './hooks'
 
 interface Props {
@@ -8,21 +9,18 @@ interface Props {
 }
 
 const HeaderBar = ({ className }: Props): JSX.Element => {
-  const { step } = useController()
+  const { isRunning, run, step, reset } = useController()
 
   return (
     <nav
       className={`border-b flex bg-gray-100 shadow mb-0.5 items-center justify-between ${className}`}>
       <div className="divide-x flex h-full">
-        <ControlButton onClick={() => undefined}>
-          <Play className="h-4" />
-          <span>Run</span>
-        </ControlButton>
+        <RunButton getState={isRunning} onClick={run} />
         <ControlButton onClick={step}>
           <Forward className="h-4" />
           <span>Step</span>
         </ControlButton>
-        <ControlButton onClick={() => undefined}>
+        <ControlButton onClick={reset}>
           <Redo className="h-4" />
           <span>Reset</span>
         </ControlButton>

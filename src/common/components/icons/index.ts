@@ -1,4 +1,5 @@
 export { default as Play } from './Play'
+export { default as Stop } from './Stop'
 export { default as Forward } from './Forward'
 export { default as Redo } from './Redo'
 export { default as GithubAlt } from './GithubAlt'
