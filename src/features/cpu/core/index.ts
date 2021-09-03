@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import type { InputSignals } from './cpuSlice'
+import type { InputSignals } from '../cpuSlice'
 import {
   add,
   substract,
@@ -23,9 +23,9 @@ import {
   StackOverflowError,
   StackUnderflowError,
   PortError
-} from '../../common/exceptions'
-import { Opcode, GeneralPurposeRegister } from '../../common/constants'
-import { NullablePartial, Head, sign8, unsign8 } from '../../common/utils'
+} from '../../../common/exceptions'
+import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
+import { NullablePartial, Head, sign8, unsign8 } from '../../../common/utils'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
