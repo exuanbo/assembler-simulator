@@ -79,6 +79,7 @@ export const useController = (): Controller => {
       }
       if (halted) {
         // TODO: handle halted
+        stopIfRunning()
         resolve()
         return
       }
