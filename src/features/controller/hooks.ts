@@ -1,6 +1,6 @@
 import store from '../../app/store'
 import { useAppDispatch } from '../../app/hooks'
-import { setData as setMemoryData, selectMemoryData } from '../memory/memorySlice'
+import { setMemoryData, selectMemoryData } from '../memory/memorySlice'
 import {
   setFault,
   setHalted,

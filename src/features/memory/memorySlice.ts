@@ -26,6 +26,6 @@ export const memorySlice = createSlice({
 
 export const selectMemoryData = (state: RootState): number[] => state.memory.data
 
-export const { setData, setDataFrom } = memorySlice.actions
+export const { setData: setMemoryData, setDataFrom: setMemoryDataFrom } = memorySlice.actions
 
 export default memorySlice.reducer

@@ -27,6 +27,6 @@ export const selectAddressToStatementMap = (state: RootState): AddressToStatemen
 export const selectAssemblerError = (state: RootState): AssemblerError | null =>
   state.assembler.error
 
-export const { setState } = assemblerSlice.actions
+export const { setState: setAssemblerState } = assemblerSlice.actions
 
 export default assemblerSlice.reducer

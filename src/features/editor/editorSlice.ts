@@ -21,6 +21,6 @@ export const editorSlice = createSlice({
 
 export const selectEditortInput = (state: RootState): string => state.editor.input
 
-export const { setInput } = editorSlice.actions
+export const { setInput: setEditorInput } = editorSlice.actions
 
 export default editorSlice.reducer
