@@ -7,7 +7,7 @@ interface Status {
   halted: boolean
 }
 
-type InputSignals = (
+export type InputSignals = (
   | {
       data: number
       inputPort: number

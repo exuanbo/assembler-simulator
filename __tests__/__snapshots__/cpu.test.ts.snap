@@ -27,6 +27,8 @@ Array [
     "sr": Array [0, 0, 0, 1],
   },
   Object {
+    "data": undefined,
+    "inputPort": undefined,
     "interrupt": true,
   },
 ]
@@ -58,7 +60,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -88,7 +94,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -118,7 +128,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -148,7 +162,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 1, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -178,7 +196,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -208,7 +230,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -238,7 +264,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -268,7 +298,11 @@ Array [
     "sp": 190,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -298,7 +332,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -330,6 +368,9 @@ Array [
   },
   Object {
     "closeWindows": true,
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
   },
 ]
 `;
@@ -360,7 +401,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -390,7 +435,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -420,7 +469,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -450,7 +503,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -480,7 +537,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -510,7 +571,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -541,7 +606,10 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
+    "data": undefined,
     "halted": true,
+    "inputPort": undefined,
+    "interrupt": false,
   },
 ]
 `;
@@ -573,7 +641,9 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
+    "data": undefined,
     "inputPort": 0,
+    "interrupt": false,
   },
 ]
 `;
@@ -607,6 +677,7 @@ Array [
   Object {
     "data": 97,
     "inputPort": 0,
+    "interrupt": false,
   },
 ]
 `;
@@ -637,7 +708,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -667,7 +742,11 @@ Array [
     "sp": 190,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -697,7 +776,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -727,7 +810,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -757,7 +844,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -787,7 +878,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -817,7 +912,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 1, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -847,7 +946,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -877,7 +980,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -907,7 +1014,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -937,7 +1048,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -967,7 +1082,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 1, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -997,7 +1116,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1027,7 +1150,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1057,7 +1184,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1087,7 +1218,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1117,7 +1252,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1147,7 +1286,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1177,7 +1320,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1207,7 +1354,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1237,7 +1388,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1267,7 +1422,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1297,7 +1456,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1327,7 +1490,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1357,7 +1524,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1387,7 +1558,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1417,7 +1592,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1447,7 +1626,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1477,7 +1660,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1507,7 +1694,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1538,6 +1729,9 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
     "outputPort": 1,
   },
 ]
@@ -1569,7 +1763,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1599,7 +1797,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 1, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1629,7 +1831,11 @@ Array [
     "sp": 190,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1659,7 +1865,11 @@ Array [
     "sp": 190,
     "sr": Array [0, 1, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1689,7 +1899,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1719,7 +1933,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1749,7 +1967,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1779,7 +2001,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1809,7 +2035,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1839,7 +2069,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 1],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1869,7 +2103,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 1, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1899,7 +2137,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1929,7 +2171,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1959,7 +2205,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 1, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -1989,7 +2239,11 @@ Array [
     "sp": 191,
     "sr": Array [1, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -2019,7 +2273,11 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;
 
@@ -2049,6 +2307,10 @@ Array [
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
   },
-  Object {},
+  Object {
+    "data": undefined,
+    "inputPort": undefined,
+    "interrupt": false,
+  },
 ]
 `;

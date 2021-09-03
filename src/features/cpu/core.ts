@@ -1,4 +1,5 @@
 import { produce } from 'immer'
+import type { InputSignals } from './cpuSlice'
 import {
   add,
   substract,
@@ -121,17 +122,13 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-type Signals = NullablePartial<{
-  // input
-  data: number
-  inputPort: number
-  interrupt: boolean
-
-  // output
-  halted: boolean
+type OutputOnlySignals = NullablePartial<{
+  halted: true
   outputPort: number
-  closeWindows: boolean
+  closeWindows: true
 }>
+
+type Signals = InputSignals & OutputOnlySignals
 
 enum PortType {
   Input = 'input',
@@ -225,7 +222,7 @@ export const step = (...args: StepArgs): StepResult =>
     ): void => {
       signals[signalName] = value
     }
-    const getInput = (): Pick<Signals, 'data' | 'inputPort'> => {
+    const getInput = (): Pick<InputSignals, 'data' | 'inputPort'> => {
       const { data, inputPort } = signals
       return {
         data,
@@ -238,7 +235,7 @@ export const step = (...args: StepArgs): StepResult =>
     const setHaltedSignal = (): void => {
       setSignal('halted', true)
     }
-    const getInterruptSignal = (): boolean => signals.interrupt!
+    const getInterruptSignal = (): boolean => signals.interrupt
     const setCloseWindowsSignal = (): void => {
       setSignal('closeWindows', true)
     }

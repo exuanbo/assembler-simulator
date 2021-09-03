@@ -1,8 +1,9 @@
 import { produce } from 'immer'
-import { assemble } from '../src/features/assembler/core'
-import { Registers, initRegisters, step as __step } from '../src/features/cpu/core'
-import { initDataFrom } from '../src/features/memory/core'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
+import { assemble } from '../src/features/assembler/core'
+import { initDataFrom } from '../src/features/memory/core'
+import { Registers, initRegisters, step as __step } from '../src/features/cpu/core'
+import type { InputSignals } from '../src/features/cpu/cpuSlice'
 
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
@@ -17,7 +18,11 @@ const initialRegisters = initRegisters()
 const step = (
   memoryData: number[],
   cpuRegisters: Registers,
-  signals: Parameters<typeof __step>[2] = {}
+  signals: InputSignals = {
+    data: undefined,
+    inputPort: undefined,
+    interrupt: false
+  }
 ): ReturnType<typeof __step> => __step(memoryData, cpuRegisters, signals)
 
 describe('cpu', () => {
@@ -567,7 +572,11 @@ describe('cpu', () => {
 
       it('should read input from signal and move to AL', () => {
         expect(
-          step(memoryData, initialRegisters, { data: 0x61, inputPort: 0x00 })
+          step(memoryData, initialRegisters, {
+            data: 0x61,
+            inputPort: 0x00,
+            interrupt: false
+          })
         ).toMatchSnapshot()
       })
 
@@ -594,7 +603,13 @@ end
       const cpuRegisters = produce(initialRegisters, draft => {
         draft.sr = [0, 0, 0, 1]
       })
-      expect(step(memoryData, cpuRegisters, { interrupt: true })).toMatchSnapshot()
+      expect(
+        step(memoryData, cpuRegisters, {
+          data: undefined,
+          inputPort: undefined,
+          interrupt: true
+        })
+      ).toMatchSnapshot()
     })
 
     it('with STI should set interrupt flag', () => {
