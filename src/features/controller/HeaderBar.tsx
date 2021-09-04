@@ -17,11 +17,11 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
       <div className="divide-x flex h-full">
         <RunButton getState={isRunning} onClick={run} />
         <ControlButton onClick={step}>
-          <Forward className="h-4" />
+          <Forward />
           <span>Step</span>
         </ControlButton>
         <ControlButton onClick={reset}>
-          <Redo className="h-4" />
+          <Redo />
           <span>Reset</span>
         </ControlButton>
       </div>

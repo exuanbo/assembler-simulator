@@ -14,12 +14,12 @@ const RunButton = ({ getState, onClick }: Props): JSX.Element => {
     <ControlButton onClick={onClick}>
       {isRunning ? (
         <>
-          <Stop className="h-4" />
+          <Stop />
           <span>Stop</span>
         </>
       ) : (
         <>
-          <Play className="h-4" />
+          <Play />
           <span>Run{NO_BREAK_SPACE}</span>
         </>
       )}
