@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '../../common/components/Card'
+import { EyeClose, EyeOpen } from '../../common/components/icons'
+import Vdu from './Vdu'
 
 interface Props {
   className?: string
 }
 
-const IoDevices = ({ className }: Props): JSX.Element => (
-  <Card className={className} title="I/O Devices">
-    <div />
-  </Card>
-)
+const IoDevices = ({ className }: Props): JSX.Element => {
+  const [isOpen, setOpen] = useState<boolean>(true)
+
+  return (
+    <Card
+      Icon={isOpen ? EyeClose : EyeOpen}
+      className={className}
+      title="I/O Devices"
+      onIconClick={() => setOpen(!isOpen)}>
+      <div className={isOpen ? undefined : 'hidden'}>
+        <Vdu />
+      </div>
+    </Card>
+  )
+}
 
 export default IoDevices

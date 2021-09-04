@@ -13,7 +13,7 @@ const App = (): JSX.Element => (
       <div className="divide-y flex flex-col flex-1">
         <CpuRegisters />
         <Memory />
-        <IoDevices className="flex-1" />
+        <IoDevices />
       </div>
     </div>
   </div>

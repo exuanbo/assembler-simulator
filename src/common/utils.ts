@@ -16,13 +16,15 @@ export const decToHex = (num: number): string => num.toString(16).padStart(2, '0
 export const stringToAscii = (str: string): number[] =>
   str.split('').map(char => char.charCodeAt(0))
 
+export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
+
 export const trimBrackets = (str: string): string => str.replace(/^\[(.*)]$/, '$1')
 
-export const splitArrayPerChunk = <T>(array: T[], perChunk: number): T[][] =>
-  array.reduce<T[][]>((result, value, index) => {
+export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
+  arr.reduce<T[][]>((resultArr, value, index) => {
     const chunkIndex = Math.floor(index / perChunk)
-    ;(result[chunkIndex] ?? (result[chunkIndex] = [])).push(value)
-    return result
+    ;(resultArr[chunkIndex] ?? (resultArr[chunkIndex] = [])).push(value)
+    return resultArr
   }, [])
 
 export const call = <T>(fn: () => T): T => fn()
