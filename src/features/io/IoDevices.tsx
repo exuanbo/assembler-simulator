@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import Card from '../../common/components/Card'
 import { EyeClose, EyeOpen } from '../../common/components/icons'
 import Vdu from './Vdu'
@@ -8,14 +8,14 @@ interface Props {
 }
 
 const IoDevices = ({ className }: Props): JSX.Element => {
-  const [isOpen, setOpen] = useState<boolean>(true)
+  const [isOpen, toggleOpen] = useReducer((state: boolean) => !state, false)
 
   return (
     <Card
       Icon={isOpen ? EyeClose : EyeOpen}
       className={className}
       title="I/O Devices"
-      onIconClick={() => setOpen(!isOpen)}>
+      onIconClick={toggleOpen}>
       {isOpen ? (
         <div>
           <Vdu />
