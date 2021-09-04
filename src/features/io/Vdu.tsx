@@ -11,7 +11,7 @@ const Vdu = (): JSX.Element => {
 
   return (
     <Card className="border-b border-r max-w-max" title="VDU">
-      <div className="flex flex-wrap space-x-1 space-y-1 h-125px pr-1 pb-1 w-350px items-center resize overflow-auto">
+      <div className="flex flex-wrap space-x-1 space-y-1 h-124px pr-1 pb-1 w-354px items-center resize overflow-auto">
         {chars.map((char, index) => (
           <div key={index} className="bg-gray-200 px-1 first:(ml-1 mt-1) ">
             {char === ' ' ? NO_BREAK_SPACE : char}
