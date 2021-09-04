@@ -4,12 +4,13 @@ import { Play, Stop } from '../../common/components/icons'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
-  getState: () => boolean
+  useState: () => boolean
   onClick: () => void
 }
 
-const RunButton = ({ getState, onClick }: Props): JSX.Element => {
-  const isRunning = getState()
+const RunButton = ({ useState, onClick }: Props): JSX.Element => {
+  const isRunning = useState()
+
   return (
     <ControlButton onClick={onClick}>
       {isRunning ? (
