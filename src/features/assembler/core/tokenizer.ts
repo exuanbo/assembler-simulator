@@ -1,6 +1,6 @@
 import type { Locatable } from './types'
 import { Mnemonic } from '../../../common/constants'
-import { call } from '../../../common/utils'
+import { trimBracketsAndQuotes, call } from '../../../common/utils'
 
 export enum TokenType {
   Whitespace = 'Whitespace',
@@ -27,7 +27,7 @@ const createToken = (
   column: number
 ): Token => {
   const tokenValue = call((): string => {
-    const normalizedValue = value.replace(/^[["](.*)["\]]$/, '$1')
+    const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
       case TokenType.Register:
       case TokenType.Address:
@@ -39,23 +39,22 @@ const createToken = (
   })
   const end = start + value.length
   const endColumn = column + value.length
-  const loc = {
-    start: {
-      line,
-      column
-    },
-    end: {
-      line,
-      column: endColumn
-    }
-  }
   return {
     type,
     value: tokenValue,
     raw: value,
     start,
     end,
-    loc
+    loc: {
+      start: {
+        line,
+        column
+      },
+      end: {
+        line,
+        column: endColumn
+      }
+    }
   }
 }
 

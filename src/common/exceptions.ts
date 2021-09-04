@@ -6,7 +6,7 @@ import type {
   Operand,
   Statement
 } from '../features/assembler/core'
-import { trimBrackets } from './utils'
+import { trimBracketsAndQuotes } from './utils'
 
 export abstract class AssemblerError extends Error {
   public message: string
@@ -44,7 +44,7 @@ export class MissingEndError extends AssemblerError {
 
 export class InvalidNumberError extends AssemblerError {
   constructor({ raw, start, end, loc }: Token) {
-    const numberValue = trimBrackets(raw)
+    const numberValue = trimBracketsAndQuotes(raw)
     super(
       `Number should be hexadecimal and less than or equal to FF: ${numberValue}`,
       start,
@@ -56,7 +56,7 @@ export class InvalidNumberError extends AssemblerError {
 
 export class AddressError extends AssemblerError {
   constructor({ raw, start, end, loc }: Token) {
-    const addressValue = trimBrackets(raw)
+    const addressValue = trimBracketsAndQuotes(raw)
     super(
       `Expected a number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
       start,

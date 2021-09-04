@@ -18,7 +18,7 @@ export const stringToAscii = (str: string): number[] =>
 
 export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
 
-export const trimBrackets = (str: string): string => str.replace(/^\[(.*)]$/, '$1')
+export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
 
 export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
   arr.reduce<T[][]>((resultArr, value, index) => {
