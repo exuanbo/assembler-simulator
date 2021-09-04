@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Registers, initRegisters } from './core'
+import { setAssemblerState } from '../assembler/assemblerSlice'
 import type { RootState } from '../../app/store'
 
 interface Status {
@@ -39,6 +40,8 @@ const initialState: CpuState = {
   }
 }
 
+const reset = (): CpuState => initialState
+
 export const cpuSlice = createSlice({
   name: 'cpu',
   initialState,
@@ -64,7 +67,10 @@ export const cpuSlice = createSlice({
     setInterrupt: (state, action: PayloadAction<boolean>) => {
       state.inputSignals.interrupt = action.payload
     },
-    reset: () => initialState
+    reset
+  },
+  extraReducers: builder => {
+    builder.addCase(setAssemblerState, reset)
   }
 })
 
