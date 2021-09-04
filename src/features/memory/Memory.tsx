@@ -18,9 +18,9 @@ const Memory = ({ className }: Props): JSX.Element => {
 
   return (
     <Card className={className} title="Memory">
-      <table className="divide-y text-sm w-full">
+      <table className="text-sm w-full">
         <tbody className="divide-y">
-          <tr className="divide-x bg-gray-50">
+          <tr className="divide-x bg-gray-50 text-gray-400">
             <td />
             {machineCodesMatrix[0].map((_, colIndex) => (
               <td key={colIndex} className="text-center">
@@ -30,16 +30,20 @@ const Memory = ({ className }: Props): JSX.Element => {
           </tr>
           {machineCodesMatrix.map((row, rowIndex) => (
             <tr key={rowIndex} className="divide-x">
-              <td className="bg-gray-50 text-center">{decToHex(rowIndex)[1]}</td>
+              <td className="bg-gray-50 text-center text-gray-400">
+                <span className="px-1">{decToHex(rowIndex)[1]}</span>
+              </td>
               {row.map((machineCode, colIndex) => {
-                const bgColorClassName =
-                  address === ip ? 'bg-green-100' : address === sp ? 'bg-blue-100' : ''
+                const valueClassName =
+                  address === ip
+                    ? 'rounded bg-green-100'
+                    : address === sp
+                    ? 'rounded bg-blue-100'
+                    : ''
                 address += 1
                 return (
                   <td key={colIndex} className="text-center">
-                    <span className={`rounded px-1 ${bgColorClassName}`}>
-                      {decToHex(machineCode)}
-                    </span>
+                    <span className={`px-1 ${valueClassName}`}>{decToHex(machineCode)}</span>
                   </td>
                 )
               })}
