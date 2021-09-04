@@ -10,7 +10,6 @@ interface Props {
 
 const Editor = ({ className }: Props): JSX.Element => {
   const [input, setInput] = useState(useAppSelector(selectEditortInput))
-
   const textArea = useRef<HTMLTextAreaElement>(null)
 
   useAssembler(input)
