@@ -19,7 +19,7 @@ import {
   GeneralPurposeRegister,
   GeneralPurposeRegisterName
 } from '../../../common/constants'
-import { call, hexToDec, stringToASCII } from '../../../common/utils'
+import { call, hexToDec, stringToAscii } from '../../../common/utils'
 
 export interface Label extends Locatable {
   identifier: string
@@ -77,7 +77,7 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
       case OperandType.RegisterAddress:
         return GeneralPurposeRegister[token.value as GeneralPurposeRegisterName]
       case OperandType.String:
-        return stringToASCII(token.value)
+        return stringToAscii(token.value)
       case OperandType.Label:
         return undefined
     }
