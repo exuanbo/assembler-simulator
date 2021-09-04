@@ -16,9 +16,11 @@ const IoDevices = ({ className }: Props): JSX.Element => {
       className={className}
       title="I/O Devices"
       onIconClick={() => setOpen(!isOpen)}>
-      <div className={isOpen ? undefined : 'hidden'}>
-        <Vdu />
-      </div>
+      {isOpen ? (
+        <div>
+          <Vdu />
+        </div>
+      ) : null}
     </Card>
   )
 }
