@@ -1,7 +1,7 @@
 import React from 'react'
 import RunButton from './RunButton'
 import ControlButton from './ControlButton'
-import { Forward, Redo, GithubAlt } from '../../common/components/icons'
+import { Forward, Redo, Github } from '../../common/components/icons'
 import { useController } from './hooks'
 
 interface Props {
@@ -31,7 +31,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
           href="https://github.com/exuanbo/assembler-simulator"
           rel="noopener noreferrer"
           target="_blank">
-          <GithubAlt className="h-1.2rem" />
+          <Github className="h-1.2rem" />
         </a>
       </div>
     </nav>

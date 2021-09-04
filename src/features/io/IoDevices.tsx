@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import Card from '../../common/components/Card'
-import { EyeClose, EyeOpen } from '../../common/components/icons'
+import { EyeClosed, EyeOpen } from '../../common/components/icons'
 import Vdu from './Vdu'
 
 interface Props {
@@ -12,7 +12,7 @@ const IoDevices = ({ className }: Props): JSX.Element => {
 
   return (
     <Card
-      Icon={isOpen ? EyeClose : EyeOpen}
+      Icon={isOpen ? EyeClosed : EyeOpen}
       className={className}
       title="I/O Devices"
       onIconClick={toggleOpen}>
