@@ -5,7 +5,7 @@ import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
   useState: () => boolean
-  onClick: () => void
+  onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const RunButton = ({ useState, onClick }: Props): JSX.Element => {

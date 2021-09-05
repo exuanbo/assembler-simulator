@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  onClick: (() => void) | (() => Promise<void>)
+  onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const ControlButton = ({ children, onClick }: Props): JSX.Element => (

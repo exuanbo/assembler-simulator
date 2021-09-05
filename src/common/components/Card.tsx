@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
   title: string
   className?: string | undefined
   Icon?: ((props: Record<string, unknown>) => JSX.Element) | undefined
-  onIconClick?: (() => void) | undefined
+  onIconClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (
