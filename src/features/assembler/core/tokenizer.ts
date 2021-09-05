@@ -9,6 +9,7 @@ export enum TokenType {
   Digits = 'Digits',
   Register = 'Register',
   Address = 'Address',
+  // TODO: RegisterAddress
   String = 'String',
   Unknown = 'Unknown'
 }
@@ -29,6 +30,7 @@ const createToken = (
   const tokenValue = call((): string => {
     const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
+      // TODO: case TokenType.RegisterAddress
       case TokenType.Register:
       case TokenType.Address:
       case TokenType.Unknown:
@@ -60,10 +62,12 @@ const createToken = (
 
 type TokenMatcher = (input: string, index: number, line: number, column: number) => Token | null
 
+// TODO: rename function
 const matchRegex =
   (regex: RegExp, type: TokenType): TokenMatcher =>
   (input, index, line, column) => {
     const match = regex.exec(input.slice(index))
+    // TODO: seprate statements
     return match !== null ? createToken(type, match[0], index, line, column) : null
   }
 
@@ -74,6 +78,7 @@ const tokenMatchers = [
   matchRegex(/^\d+\b/, TokenType.Digits),
   matchRegex(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegex(/^\[\S*?\](?=[\s;,]|$)/, TokenType.Address),
+  // TODO: TokenType.RegisterAddress
   matchRegex(/^"[^\r\n]*?"(?=[\s;,]|$)/, TokenType.String),
   matchRegex(/^[^\s;,]+/, TokenType.Unknown)
 ]
