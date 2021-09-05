@@ -14,7 +14,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
 
   return (
     <nav
-      className={`border-b flex bg-gray-100 shadow mb-0.5 items-center justify-between ${className}`}>
+      className={`border-b flex bg-gray-100 shadow fixed w-full items-center justify-between ${className}`}>
       <div className="divide-x flex h-full">
         <ConfigurationMenu />
         <RunButton useState={isRunning} onClick={run} />
