@@ -8,15 +8,15 @@ interface Props {
 }
 
 const IoDevices = ({ className }: Props): JSX.Element => {
-  const [isOpen, toggleOpen] = useReducer((state: boolean) => !state, false)
+  const [isActive, toggleActive] = useReducer((state: boolean) => !state, true)
 
   return (
     <Card
-      Icon={isOpen ? EyeClosed : EyeOpen}
+      Icon={isActive ? EyeClosed : EyeOpen}
       className={className}
       title="I/O Devices"
-      onIconClick={toggleOpen}>
-      {isOpen ? (
+      onIconClick={toggleActive}>
+      {isActive ? (
         <div>
           <Vdu />
         </div>
