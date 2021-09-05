@@ -1,4 +1,6 @@
+export { default as CheckMark } from './CheckMark'
 export { default as Wrench } from './Wrench'
+// TODO: rm ArrowRight
 export { default as ArrowRight } from './ArrowRight'
 export { default as Play } from './Play'
 export { default as Stop } from './Stop'

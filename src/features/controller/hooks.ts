@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useStore } from 'react-redux'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppSelector, useAppDispatch } from '../../app/hooks'
+import { setRunning, selectIsRunning, selectConfiguration } from './controllerSlice'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import {
   setCpuFault,
@@ -15,9 +16,58 @@ import {
 import { step } from '../cpu/core'
 import { RuntimeError } from '../../common/exceptions'
 
-const FREQ = 4
-const TIMER_INTERVAL = 2000
+export const useOutsideClick = <T extends Element = Element>(): [(node: T) => void, boolean] => {
+  const [current, setCurrent] = useState<T | null>(null)
+  const [isClicked, setClicked] = useState<boolean>(false)
 
+  const refCallback = useCallback((node: T) => {
+    setCurrent(node)
+  }, [])
+
+  useEffect(() => {
+    if (current !== null) {
+      const handleOutsideClick = ({ target }: MouseEvent): void => {
+        if (target instanceof Element) {
+          setClicked(!current.contains(target))
+        }
+      }
+      document.addEventListener('mousedown', handleOutsideClick)
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick)
+      }
+    }
+  }, [current])
+
+  return [refCallback, isClicked]
+}
+
+export const useHover = <T extends Element = Element>(): [(node: T) => void, boolean] => {
+  const [current, setCurrent] = useState<T | null>(null)
+  const [isHovered, setHovered] = useState<boolean>(false)
+
+  const refCallback = useCallback((node: T) => {
+    setCurrent(node)
+  }, [])
+
+  useEffect(() => {
+    if (current !== null) {
+      const handleMouseOver = (): void => setHovered(true)
+      const handleMouseOut = (): void => setHovered(false)
+
+      current.addEventListener('mouseenter', handleMouseOver)
+      current.addEventListener('mouseleave', handleMouseOut)
+
+      return () => {
+        current.removeEventListener('mouseenter', handleMouseOver)
+        current.removeEventListener('mouseleave', handleMouseOut)
+      }
+    }
+  }, [current])
+
+  return [refCallback, isHovered]
+}
+
+// TODO: put them in controllerSlice
 let intervalId: number
 let interruptIntervalId: number
 
@@ -32,24 +82,22 @@ interface Controller {
 
 export const useController = (): Controller => {
   let isRunning: boolean
-  let setRunning: React.Dispatch<React.SetStateAction<boolean>>
-
-  const dispatch = useAppDispatch()
-  const store = useStore()
 
   const __isRunning = (): boolean => {
-    ;[isRunning, setRunning] = useState<boolean>(false)
+    isRunning = useAppSelector(selectIsRunning)
     return isRunning
   }
+
+  const dispatch = useAppDispatch()
 
   const stop = (): void => {
     window.clearInterval(intervalId)
     window.clearInterval(interruptIntervalId)
-    setRunning(false)
+    dispatch(setRunning(false))
   }
 
   /**
-   * @returns {boolean} if stopped
+   * @returns {boolean} if was running
    */
   const stopIfRunning = (): boolean => {
     if (isRunning) {
@@ -59,14 +107,28 @@ export const useController = (): Controller => {
     return false
   }
 
+  const { clockSpeed, timerInterval } = useAppSelector(selectConfiguration)
+
   const run = (): void => {
+    intervalId = window.setInterval(__step, 1000 / clockSpeed)
+    interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), timerInterval)
+    dispatch(setRunning(true))
+  }
+
+  useEffect(() => {
+    if (stopIfRunning()) {
+      run()
+    }
+  }, [clockSpeed, timerInterval])
+
+  const __run = (): void => {
     if (stopIfRunning()) {
       return
     }
-    intervalId = window.setInterval(__step, 1000 / FREQ)
-    interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), TIMER_INTERVAL)
-    setRunning(true)
+    run()
   }
+
+  const store = useStore()
 
   const __step = async (): Promise<void> => {
     await lastJob
@@ -120,7 +182,7 @@ export const useController = (): Controller => {
 
   return {
     isRunning: __isRunning,
-    run,
+    run: __run,
     step: __step,
     reset: __reset
   }

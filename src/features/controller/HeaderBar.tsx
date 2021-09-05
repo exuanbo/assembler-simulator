@@ -1,6 +1,7 @@
 import React from 'react'
 import RunButton from './RunButton'
 import ControlButton from './ControlButton'
+import ConfigurationMenu from './ConfigurationMenu'
 import { Forward, Redo, Github } from '../../common/components/icons'
 import { useController } from './hooks'
 
@@ -15,6 +16,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
     <nav
       className={`border-b flex bg-gray-100 shadow mb-0.5 items-center justify-between ${className}`}>
       <div className="divide-x flex h-full">
+        <ConfigurationMenu />
         <RunButton useState={isRunning} onClick={run} />
         <ControlButton onClick={step}>
           <Forward />
