@@ -1,9 +1,9 @@
 import React from 'react'
-import RunButton from './RunButton'
 import ControlButton from './ControlButton'
 import ConfigurationMenu from './ConfigurationMenu'
-import { Forward, Redo, Github } from '../../common/components/icons'
+import { Play, Stop, Forward, Redo, Github } from '../../common/components/icons'
 import { useController } from './hooks'
+import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
   className?: string
@@ -12,12 +12,28 @@ interface Props {
 const HeaderBar = ({ className }: Props): JSX.Element => {
   const { isRunning, run, step, reset } = useController()
 
+  const RunButton = (): JSX.Element => (
+    <ControlButton onClick={run}>
+      {isRunning() ? (
+        <>
+          <Stop />
+          <span>Stop</span>
+        </>
+      ) : (
+        <>
+          <Play />
+          <span>Run{NO_BREAK_SPACE}</span>
+        </>
+      )}
+    </ControlButton>
+  )
+
   return (
     <nav
       className={`border-b flex bg-gray-100 shadow fixed w-full items-center justify-between ${className}`}>
       <div className="divide-x flex h-full">
         <ConfigurationMenu />
-        <RunButton useState={isRunning} onClick={run} />
+        <RunButton />
         <ControlButton onClick={step}>
           <Forward />
           <span>Step</span>
