@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
   onClick: (() => void) | (() => Promise<void>)
 }
 
