@@ -8,19 +8,24 @@ interface EditorState {
 const DEFAULT_INPUT = `mov al, c0
 mov bl, 50
 mov cl, [bl]
+jmp loop
+
+check:
+	cmp cl, 00
+	jz done
 
 loop:
 	mov [al], cl
 	inc al
 	inc bl
 	mov cl, [bl]
-	cmp cl, 00
-	jnz loop
+	jmp check
 
 org 50
-db "Hello World!"
+	db "Hello World!"
 
-end
+done:
+	end
 `
 
 const initialState: EditorState = {
