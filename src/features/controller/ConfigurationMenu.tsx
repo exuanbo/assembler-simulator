@@ -96,7 +96,7 @@ const TimerIntervalMenu = (): JSX.Element => {
           {isHovered ? (
             <div
               ref={menuItemsRef}
-              className="divide-y border bg-gray-50 shadow mt-1px top-15 left-60 w-60 fixed">
+              className="divide-y border bg-gray-50 shadow mt-1px top-16 left-60 w-60 fixed">
               {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => {
                 return (
                   <MenuItem

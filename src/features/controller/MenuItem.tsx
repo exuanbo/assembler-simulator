@@ -13,7 +13,7 @@ const MenuItem = ({ children, className = '', onClick }: Props): JSX.Element => 
   return (
     <div
       ref={hoverRef}
-      className={`flex py-0.5 px-2 items-center hover:bg-gray-200 ${className}`}
+      className={`flex py-1 px-2 items-center hover:bg-gray-200 ${className}`}
       onClick={onClick}>
       {children(isHovered)}
     </div>
