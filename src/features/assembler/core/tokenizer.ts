@@ -9,7 +9,6 @@ export enum TokenType {
   Digits = 'Digits',
   Register = 'Register',
   Address = 'Address',
-  // TODO: RegisterAddress
   String = 'String',
   Unknown = 'Unknown'
 }
@@ -30,7 +29,6 @@ const createToken = (
   const tokenValue = call((): string => {
     const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
-      // TODO: case TokenType.RegisterAddress
       case TokenType.Register:
       case TokenType.Address:
       case TokenType.Unknown:
@@ -62,25 +60,22 @@ const createToken = (
 
 type TokenMatcher = (input: string, index: number, line: number, column: number) => Token | null
 
-// TODO: rename function
-const matchRegex =
+const matchRegExp =
   (regex: RegExp, type: TokenType): TokenMatcher =>
   (input, index, line, column) => {
     const match = regex.exec(input.slice(index))
-    // TODO: seprate statements
     return match !== null ? createToken(type, match[0], index, line, column) : null
   }
 
 const tokenMatchers = [
-  matchRegex(/^\s+/, TokenType.Whitespace),
-  matchRegex(/^;.*/, TokenType.Comment),
-  matchRegex(/^,/, TokenType.Comma),
-  matchRegex(/^\d+\b/, TokenType.Digits),
-  matchRegex(/^[a-dA-D][lL]\b/, TokenType.Register),
-  matchRegex(/^\[\S*?\](?=[\s;,]|$)/, TokenType.Address),
-  // TODO: TokenType.RegisterAddress
-  matchRegex(/^"[^\r\n]*?"(?=[\s;,]|$)/, TokenType.String),
-  matchRegex(/^[^\s;,]+/, TokenType.Unknown)
+  matchRegExp(/^\s+/, TokenType.Whitespace),
+  matchRegExp(/^;.*/, TokenType.Comment),
+  matchRegExp(/^,/, TokenType.Comma),
+  matchRegExp(/^\d+\b/, TokenType.Digits),
+  matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
+  matchRegExp(/^\[\S*?\](?=[\s;,]|$)/, TokenType.Address),
+  matchRegExp(/^"[^\r\n]*?"(?=[\s;,]|$)/, TokenType.String),
+  matchRegExp(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
 const NEWLINE_REGEXP = /(?:\n|\r\n)/g
