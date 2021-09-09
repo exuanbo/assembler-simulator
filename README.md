@@ -10,7 +10,7 @@ Base on "Samphire" [Microprocessor Simulator](http://www.softwareforeducation.co
 This project aims to recreate as much of the "Samphire" application as possible using modern front-end technologies:
 
 - [React](https://reactjs.org/)
-- [Redux](https://redux.js.org/), [React Redux](https://react-redux.js.org/), [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Redux](https://redux.js.org/)
 - [Windi CSS](https://windicss.org/)
 - [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
