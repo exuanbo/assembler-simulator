@@ -167,7 +167,7 @@ const parseSingleOperand =
       throw new MissingEndError()
     }
 
-    const isExpected = (type: OperandType): boolean => expectedTypes.some(t => t === type)
+    const isExpected = (type: OperandType): boolean => expectedTypes.includes(type as T)
     const __createOperand = (type: OperandType, token: Token): Operand<T> => createOperand(type as T, token) // eslint-disable-line
 
     switch (token.type) {
@@ -530,8 +530,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   return createStatement(label, instruction, operands)
 }
 
-const getConsumedTokensCount = (statement: Statement): number => {
-  const { label, operands } = statement
+const getConsumedTokensCount = ({ label, operands }: Statement): number => {
   return (
     /* label */ (label !== null ? 1 : 0) +
     /* instruction */ 1 +
