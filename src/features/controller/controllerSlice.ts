@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 
 export enum ClockSpeed {
+  '2 Hz' = 2,
   '4 Hz' = 4,
   '8 Hz' = 8,
   '16 Hz' = 16,
@@ -9,7 +10,7 @@ export enum ClockSpeed {
   '64 Hz' = 64
 }
 
-export const CLOCK_SPEED_KEYS = ['4 Hz', '8 Hz', '16 Hz', '32 Hz', '64 Hz'] as const
+export const CLOCK_SPEED_KEYS = ['2 Hz', '4 Hz', '8 Hz', '16 Hz', '32 Hz', '64 Hz'] as const
 
 export enum TimerInterval {
   '1 second' = 1000,
