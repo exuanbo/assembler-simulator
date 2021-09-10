@@ -1,5 +1,6 @@
-import React, { useReducer, useRef } from 'react'
+import React, { useReducer } from 'react'
 import MenuItem from './MenuItem'
+import MenuItems from './MenuItems'
 import { CheckMark, Wrench, Play } from '../../common/components/icons'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import {
@@ -15,22 +16,12 @@ import {
 import { useOutsideClick } from './hooks'
 
 const ClockSpeedMenu = (): JSX.Element => {
-  const menuItemsRef = useRef<HTMLDivElement>(null)
-
-  const handleClick = (event: React.MouseEvent): void => {
-    const { current } = menuItemsRef
-    const { target } = event
-    if (current !== null && target instanceof Element && !current.contains(target)) {
-      event.stopPropagation()
-    }
-  }
-
   const dispatch = useAppDispatch()
   const clockSpeed = useAppSelector(selectClockSpeed)
 
   return (
-    <MenuItem className="justify-between" onClick={handleClick}>
-      {isHovered => (
+    <MenuItem.SubMenu>
+      {(isHovered, menuItemsRef) => (
         <>
           <div className="flex space-x-2 items-center">
             <span className="w-4" />
@@ -38,53 +29,39 @@ const ClockSpeedMenu = (): JSX.Element => {
           </div>
           <Play className="h-2.5" />
           {isHovered ? (
-            <div
-              ref={menuItemsRef}
-              className="divide-y border bg-gray-50 shadow top-8 left-60 w-60 fixed">
-              {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    className="space-x-2"
-                    onClick={() => dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))}>
-                    {() => (
-                      <>
-                        {clockSpeed === ClockSpeed[clockSpeedKey] ? (
-                          <CheckMark />
-                        ) : (
-                          <span className="w-4" />
-                        )}
-                        <span>{clockSpeedKey}</span>
-                      </>
-                    )}
-                  </MenuItem>
-                )
-              })}
-            </div>
+            <MenuItems className="top-8 left-60 w-60" innerRef={menuItemsRef}>
+              {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
+                <MenuItem
+                  key={index}
+                  className="space-x-2"
+                  onClick={() => dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))}>
+                  {() => (
+                    <>
+                      {clockSpeed === ClockSpeed[clockSpeedKey] ? (
+                        <CheckMark />
+                      ) : (
+                        <span className="w-4" />
+                      )}
+                      <span>{clockSpeedKey}</span>
+                    </>
+                  )}
+                </MenuItem>
+              ))}
+            </MenuItems>
           ) : null}
         </>
       )}
-    </MenuItem>
+    </MenuItem.SubMenu>
   )
 }
 
 const TimerIntervalMenu = (): JSX.Element => {
-  const menuItemsRef = useRef<HTMLDivElement>(null)
-
-  const handleClick = (event: React.MouseEvent): void => {
-    const { current } = menuItemsRef
-    const { target } = event
-    if (current !== null && target instanceof Element && !current.contains(target)) {
-      event.stopPropagation()
-    }
-  }
-
   const dispatch = useAppDispatch()
   const timerInterval = useAppSelector(selectTimerInterval)
 
   return (
-    <MenuItem className="justify-between" onClick={handleClick}>
-      {isHovered => (
+    <MenuItem.SubMenu>
+      {(isHovered, menuItemsRef) => (
         <>
           <div className="flex space-x-2 items-center">
             <span className="w-4" />
@@ -92,33 +69,29 @@ const TimerIntervalMenu = (): JSX.Element => {
           </div>
           <Play className="h-2.5" />
           {isHovered ? (
-            <div
-              ref={menuItemsRef}
-              className="divide-y border bg-gray-50 shadow mt-1px top-16 left-60 w-60 fixed">
-              {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => {
-                return (
-                  <MenuItem
-                    key={index}
-                    className="space-x-2"
-                    onClick={() => dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))}>
-                    {() => (
-                      <>
-                        {timerInterval === TimerInterval[timerIntervalKey] ? (
-                          <CheckMark />
-                        ) : (
-                          <span className="w-4" />
-                        )}
-                        <span>{timerIntervalKey}</span>
-                      </>
-                    )}
-                  </MenuItem>
-                )
-              })}
-            </div>
+            <MenuItems className="mt-1px top-16 left-60 w-60" innerRef={menuItemsRef}>
+              {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
+                <MenuItem
+                  key={index}
+                  className="space-x-2"
+                  onClick={() => dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))}>
+                  {() => (
+                    <>
+                      {timerInterval === TimerInterval[timerIntervalKey] ? (
+                        <CheckMark />
+                      ) : (
+                        <span className="w-4" />
+                      )}
+                      <span>{timerIntervalKey}</span>
+                    </>
+                  )}
+                </MenuItem>
+              ))}
+            </MenuItems>
           ) : null}
         </>
       )}
-    </MenuItem>
+    </MenuItem.SubMenu>
   )
 }
 

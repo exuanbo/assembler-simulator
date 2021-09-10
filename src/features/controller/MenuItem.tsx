@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useRef } from 'react'
 import { useHover } from './hooks'
 
 interface Props {
@@ -17,6 +17,28 @@ const MenuItem = ({ children, className = '', onClick }: Props): JSX.Element => 
       onClick={onClick}>
       {children(isHovered)}
     </div>
+  )
+}
+
+interface SubMenuProps {
+  children: (isHovered: boolean, menuItemsRef: React.RefObject<HTMLDivElement>) => ReactNode
+}
+
+MenuItem.SubMenu = ({ children }: SubMenuProps): JSX.Element => {
+  const menuItemsRef = useRef<HTMLDivElement>(null)
+
+  const handleClick = (event: React.MouseEvent): void => {
+    const { current } = menuItemsRef
+    const { target } = event
+    if (current !== null && target instanceof Element && !current.contains(target)) {
+      event.stopPropagation()
+    }
+  }
+
+  return (
+    <MenuItem className="justify-between" onClick={handleClick}>
+      {isHovered => children(isHovered, menuItemsRef)}
+    </MenuItem>
   )
 }
 
