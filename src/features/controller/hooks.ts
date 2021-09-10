@@ -13,7 +13,7 @@ import {
   selectCpuRegisters,
   selectCpuInputSignals
 } from '../cpu/cpuSlice'
-import { step } from '../cpu/core'
+import { StepResult, step } from '../cpu/core'
 import { RuntimeError } from '../../common/exceptions'
 
 export const useOutsideClick = <T extends Element = Element>(): [(node: T) => void, boolean] => {
@@ -70,7 +70,8 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
 let intervalId: number
 let interruptIntervalId: number
 
-let lastJob: Promise<void> = Promise.resolve()
+let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
+let animationFrameId: number | undefined
 
 interface Controller {
   isRunning: () => boolean
@@ -130,8 +131,8 @@ export const useController = (): Controller => {
   const store = useStore()
 
   const __step = async (): Promise<void> => {
-    await lastJob
-    lastJob = new Promise((resolve, reject) => {
+    const lastStepResult = await lastStep
+    lastStep = new Promise((resolve, reject) => {
       // const startTime = performance.now()
       const state = store.getState()
       const { fault, halted } = selectCpuStatus(state)
@@ -139,37 +140,44 @@ export const useController = (): Controller => {
         // TODO: handle fault
       }
       if (halted) {
-        // TODO: handle halted
         stopIfRunning()
-        resolve()
+        // TODO: handle halted
+        resolve(undefined)
         return
       }
       try {
         const [memoryData, registers, outputSignals] = step(
-          selectMemoryData(state),
-          selectCpuRegisters(state),
+          ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
           selectCpuInputSignals(state)
         )
-        dispatch(setMemoryData(memoryData))
-        dispatch(setCpuRegisters(registers))
         // TODO: handle output
         const { halted = false, interrupt } = outputSignals
+        if (animationFrameId === undefined || halted) {
+          animationFrameId = window.requestAnimationFrame(() => {
+            dispatch(setMemoryData(memoryData))
+            dispatch(setCpuRegisters(registers))
+            animationFrameId = undefined
+          })
+        }
         if (halted) {
           stopIfRunning()
           dispatch(setCpuHalted(true))
+          resolve(undefined)
+          return
         }
         if (interrupt) {
           dispatch(setCpuInterrupt(false))
         }
+        resolve([memoryData, registers])
       } catch (err) {
         if (err instanceof RuntimeError) {
           stopIfRunning()
           dispatch(setCpuFault(true))
+          // TODO: handle exceptions
         }
-        // TODO: handle exceptions
+        resolve(undefined)
       }
       // console.log(performance.now() - startTime)
-      resolve()
     })
   }
 
@@ -177,6 +185,7 @@ export const useController = (): Controller => {
     stopIfRunning()
     dispatch(resetCpu())
     dispatch(resetMemory())
+    lastStep = Promise.resolve(undefined)
   }
 
   return {
