@@ -143,9 +143,9 @@ const checkPort = (port: number): number => {
 }
 
 type StepArgs = [memoryData: number[], cpuRegisters: Registers, signals: Signals]
-type StepResult = StepArgs
+export type StepResult = [memoryData: number[], cpuRegisters: Registers]
 
-export const step = (...args: StepArgs): StepResult =>
+export const step = (...args: StepArgs): [...StepResult, Signals] =>
   createNextState(args, ([memoryData, cpuRegisters, signals]) => {
     /* -------------------------------------------------------------------------- */
     /*                                    Init                                    */
