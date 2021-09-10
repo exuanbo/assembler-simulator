@@ -14,8 +14,6 @@ import {
 } from './controllerSlice'
 import { useOutsideClick } from './hooks'
 
-// TODO: extract component Menu
-
 const ClockSpeedMenu = (): JSX.Element => {
   const menuItemsRef = useRef<HTMLDivElement>(null)
 

@@ -67,7 +67,6 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
   return [refCallback, isHovered]
 }
 
-// TODO: put them in controllerSlice
 let intervalId: number
 let interruptIntervalId: number
 
