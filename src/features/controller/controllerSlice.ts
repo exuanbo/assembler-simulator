@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
+import type { UnionToTuple } from '../../common/utils'
 
 export enum ClockSpeed {
   '2 Hz' = 2,
@@ -10,7 +11,14 @@ export enum ClockSpeed {
   '64 Hz' = 64
 }
 
-export const CLOCK_SPEED_KEYS = ['2 Hz', '4 Hz', '8 Hz', '16 Hz', '32 Hz', '64 Hz'] as const
+export const CLOCK_SPEED_KEYS: UnionToTuple<keyof typeof ClockSpeed> = [
+  '2 Hz',
+  '4 Hz',
+  '8 Hz',
+  '16 Hz',
+  '32 Hz',
+  '64 Hz'
+]
 
 export enum TimerInterval {
   '1 second' = 1000,
@@ -19,7 +27,12 @@ export enum TimerInterval {
   '8 seconds' = 8000
 }
 
-export const TIMER_INTERVAL_KEYS = ['1 second', '2 seconds', '4 seconds', '8 seconds'] as const
+export const TIMER_INTERVAL_KEYS: UnionToTuple<keyof typeof TimerInterval> = [
+  '1 second',
+  '2 seconds',
+  '4 seconds',
+  '8 seconds'
+]
 
 interface Configuration {
   clockSpeed: ClockSpeed
