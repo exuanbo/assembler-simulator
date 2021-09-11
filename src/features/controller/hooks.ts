@@ -164,7 +164,7 @@ export const useController = (): Controller => {
         )
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
-        if (animationFrameId === undefined || halted) {
+        if (animationFrameId === undefined && !halted) {
           animationFrameId = window.requestAnimationFrame(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
