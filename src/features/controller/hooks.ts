@@ -1,13 +1,20 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useStore } from 'react-redux'
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { setRunning, selectIsRunning, selectConfiguration } from './controllerSlice'
+import { useAppStore, useAppSelector } from '../../app/hooks'
+import { subscribe } from '../../app/sideEffect'
+import {
+  setRunning,
+  setSuspended,
+  selectIsRunning,
+  selectIsSuspended,
+  selectConfiguration
+} from './controllerSlice'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import {
   setCpuFault,
   setCpuHalted,
   setCpuRegisters,
   setCpuInterrupt,
+  clearCpuInput,
   resetCpu,
   selectCpuStatus,
   selectCpuRegisters,
@@ -74,44 +81,48 @@ let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 let animationFrameId: number | undefined
 
 interface Controller {
-  isRunning: () => boolean
   run: () => void
   step: () => Promise<void>
   reset: () => void
 }
 
 export const useController = (): Controller => {
-  let isRunning: boolean
-
-  const __isRunning = (): boolean => {
-    isRunning = useAppSelector(selectIsRunning)
-    return isRunning
-  }
-
-  const dispatch = useAppDispatch()
-
-  const stop = (): void => {
+  const clearIntervalJob = (): void => {
     window.clearInterval(intervalId)
     window.clearInterval(interruptIntervalId)
-    dispatch(setRunning(false))
   }
+
+  const store = useAppStore()
+  const { dispatch } = store
+
+  let unsubscribeSetSuspended: () => void
 
   /**
    * @returns {boolean} if was running
    */
   const stopIfRunning = (): boolean => {
+    const state = store.getState()
+    const isRunning = selectIsRunning(state)
     if (isRunning) {
-      stop()
-      return true
+      clearIntervalJob()
+      dispatch(setRunning(false))
     }
-    return false
+    if (selectIsSuspended(state)) {
+      unsubscribeSetSuspended()
+      dispatch(setSuspended(false))
+    }
+    return isRunning
   }
 
   const { clockSpeed, timerInterval } = useAppSelector(selectConfiguration)
 
-  const run = (): void => {
+  const setIntervalJob = (): void => {
     intervalId = window.setInterval(__step, 1000 / clockSpeed)
     interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), timerInterval)
+  }
+
+  const run = (): void => {
+    setIntervalJob()
     dispatch(setRunning(true))
   }
 
@@ -128,13 +139,14 @@ export const useController = (): Controller => {
     run()
   }
 
-  const store = useStore()
-
   const __step = async (): Promise<void> => {
     const lastStepResult = await lastStep
+    const state = store.getState()
+    if (selectIsSuspended(state)) {
+      return
+    }
     lastStep = new Promise((resolve, reject) => {
       // const startTime = performance.now()
-      const state = store.getState()
       const { fault, halted } = selectCpuStatus(state)
       if (fault) {
         // TODO: handle fault
@@ -151,7 +163,7 @@ export const useController = (): Controller => {
           selectCpuInputSignals(state)
         )
         // TODO: handle output
-        const { halted = false, interrupt } = outputSignals
+        const { halted = false, interrupt, data, inputPort } = outputSignals
         if (animationFrameId === undefined || halted) {
           animationFrameId = window.requestAnimationFrame(() => {
             dispatch(setMemoryData(memoryData))
@@ -167,6 +179,24 @@ export const useController = (): Controller => {
         }
         if (interrupt) {
           dispatch(setCpuInterrupt(false))
+        }
+        if (inputPort !== undefined) {
+          if (data === undefined) {
+            const isRunning = selectIsRunning(state)
+            if (isRunning) {
+              clearIntervalJob()
+            }
+            dispatch(setSuspended(true))
+            unsubscribeSetSuspended = subscribe(setSuspended.type, async () => {
+              await __step()
+              if (isRunning) {
+                setIntervalJob()
+              }
+              unsubscribeSetSuspended()
+            })
+          } else {
+            dispatch(clearCpuInput())
+          }
         }
         resolve([memoryData, registers])
       } catch (err) {
@@ -189,7 +219,6 @@ export const useController = (): Controller => {
   }
 
   return {
-    isRunning: __isRunning,
     run: __run,
     step: __step,
     reset: __reset

@@ -4,6 +4,7 @@ import assemblerReducer from '../features/assembler/assemblerSlice'
 import controllerReducer from '../features/controller/controllerSlice'
 import memoryReducer from '../features/memory/memorySlice'
 import cpuReducer from '../features/cpu/cpuSlice'
+import sideEffect from './sideEffect'
 
 const store = configureStore({
   reducer: {
@@ -12,10 +13,11 @@ const store = configureStore({
     controller: controllerReducer,
     memory: memoryReducer,
     cpu: cpuReducer
-  }
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sideEffect)
 })
 
+export type Store = typeof store
 export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 export default store

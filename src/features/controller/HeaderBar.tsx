@@ -3,6 +3,8 @@ import ControlButton from './ControlButton'
 import ConfigurationMenu from './ConfigurationMenu'
 import { Play, Stop, Forward, Redo, Github } from '../../common/components/icons'
 import { useController } from './hooks'
+import { useAppSelector } from '../../app/hooks'
+import { selectIsRunning } from './controllerSlice'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
@@ -10,23 +12,27 @@ interface Props {
 }
 
 const HeaderBar = ({ className }: Props): JSX.Element => {
-  const { isRunning, run, step, reset } = useController()
+  const { run, step, reset } = useController()
 
-  const RunButton = (): JSX.Element => (
-    <ControlButton onClick={run}>
-      {isRunning() ? (
-        <>
-          <Stop />
-          <span>Stop</span>
-        </>
-      ) : (
-        <>
-          <Play />
-          <span>Run{NO_BREAK_SPACE}</span>
-        </>
-      )}
-    </ControlButton>
-  )
+  const RunButton = (): JSX.Element => {
+    const isRunning = useAppSelector(selectIsRunning)
+
+    return (
+      <ControlButton onClick={run}>
+        {isRunning ? (
+          <>
+            <Stop />
+            <span>Stop</span>
+          </>
+        ) : (
+          <>
+            <Play />
+            <span>Run{NO_BREAK_SPACE}</span>
+          </>
+        )}
+      </ControlButton>
+    )
+  }
 
   return (
     <nav
