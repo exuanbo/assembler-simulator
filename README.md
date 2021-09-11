@@ -15,9 +15,10 @@ This project aims to recreate as much of the "Samphire" application as possible 
 - [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 
+You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
+
 ## Todo
 
-- [ ] Seprate the processes of calculating and rendering to support faster clock speed
 - [ ] More simulated I/O devices
 - [ ] [CodeMirror](https://codemirror.net/) based editor with syntax highlighting
 - [ ] Progressive Web App
