@@ -25,9 +25,9 @@ export const useAssembler = (input: string): void => {
   }
 
   useEffect(() => {
-    const timeoutID = setTimeout(handleInputChange, 200)
+    const timeoutID = window.setTimeout(handleInputChange, 200)
     return () => {
-      clearTimeout(timeoutID)
+      window.clearTimeout(timeoutID)
     }
   }, [input])
 }
