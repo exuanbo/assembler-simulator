@@ -3,15 +3,27 @@ import { createPortal } from 'react-dom'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
 import { setCpuInput } from '../cpu/cpuSlice'
+import { InputPort } from '../cpu/core'
 
 // TODO: add spinner
-const Keyboard = (): JSX.Element | null => {
+const SimulatedKeyboard = (): JSX.Element | null => {
   const isSuspended = useAppSelector(selectIsSuspended)
   const inputRef = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
 
   const focusInput = (): void => {
     inputRef.current?.focus()
+  }
+
+  const handleInputChang = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
+    const key = target.value
+    dispatch(
+      setCpuInput({
+        data: key.charCodeAt(0),
+        inputPort: InputPort.SimulatedKeyboard
+      })
+    )
+    dispatch(setSuspended(false))
   }
 
   return isSuspended
@@ -23,16 +35,7 @@ const Keyboard = (): JSX.Element | null => {
             autoFocus
             className="-z-1 absolute"
             onBlur={focusInput}
-            onChange={({ target }) => {
-              const key = target.value
-              dispatch(
-                setCpuInput({
-                  data: key.charCodeAt(0),
-                  inputPort: 0
-                })
-              )
-              dispatch(setSuspended(false))
-            }}
+            onChange={handleInputChang}
           />
         </div>,
         document.getElementById('modal-root')!
@@ -40,4 +43,4 @@ const Keyboard = (): JSX.Element | null => {
     : null
 }
 
-export default Keyboard
+export default SimulatedKeyboard

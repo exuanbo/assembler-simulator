@@ -1,24 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Registers, initRegisters } from './core'
+import { Registers, initRegisters, InputPort, InputSignals } from './core'
 import { setAssemblerState } from '../assembler/assemblerSlice'
 import type { RootState } from '../../app/store'
 
 interface Status {
   fault: boolean
   halted: boolean
-}
-
-export type InputSignals = (
-  | {
-      data: number
-      inputPort: number
-    }
-  | {
-      data: undefined
-      inputPort: undefined
-    }
-) & {
-  interrupt: boolean
 }
 
 interface CpuState {
@@ -55,7 +42,7 @@ export const cpuSlice = createSlice({
     setRegisters: (state, action: PayloadAction<Registers>) => {
       state.registers = action.payload
     },
-    setInput: (state, action: PayloadAction<{ data: number; inputPort: number }>) => {
+    setInput: (state, action: PayloadAction<{ data: number; inputPort: InputPort }>) => {
       const { data, inputPort } = action.payload
       state.inputSignals.data = data
       state.inputSignals.inputPort = inputPort

@@ -1,5 +1,4 @@
 import { createNextState } from '@reduxjs/toolkit'
-import type { InputSignals } from '../cpuSlice'
 import {
   add,
   substract,
@@ -120,9 +119,40 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
+export enum InputPort {
+  SimulatedKeyboard = 0,
+  Thermostat = 3,
+  Keyboard = 7,
+  NumericKeypad = 8
+}
+
+export type InputSignals = (
+  | {
+      data: number
+      inputPort: InputPort
+    }
+  | {
+      data: undefined
+      inputPort: undefined
+    }
+) & {
+  interrupt: boolean
+}
+
+enum OutputPort {
+  TrafficLights = 1,
+  SevenSegmentDisplay = 2,
+  Heater = 3,
+  SnakeInMaze = 4,
+  StepperMotor = 5,
+  Lift = 6,
+  Keyboard = 7,
+  NumericKeypad = 8
+}
+
 type OutputOnlySignals = NullablePartial<{
   halted: true
-  outputPort: number
+  outputPort: OutputPort
   closeWindows: true
 }>
 
@@ -220,13 +250,8 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     ): void => {
       signals[signalName] = value
     }
-    const getInput = (): Pick<InputSignals, 'data' | 'inputPort'> => {
-      const { data, inputPort } = signals
-      return {
-        data,
-        inputPort
-      }
-    }
+    const getInput = (): Pick<InputSignals, 'data' | 'inputPort'> =>
+      (({ data, inputPort }) => ({ data, inputPort }))(signals)
     const setPort = (type: PortType, port: number): void => {
       setSignal(`${type}Port`, port)
     }

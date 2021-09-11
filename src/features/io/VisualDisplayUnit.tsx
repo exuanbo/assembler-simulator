@@ -5,7 +5,7 @@ import { selectMemoryData } from '../memory/memorySlice'
 import { NO_BREAK_SPACE } from '../../common/constants'
 import { asciiToChars } from '../../common/utils'
 
-const Vdu = (): JSX.Element => {
+const VisualDisplayUnit = (): JSX.Element => {
   const vduData = useAppShallowEqualSelector(state => selectMemoryData(state).slice(0xc0))
   const chars = asciiToChars(vduData)
 
@@ -22,4 +22,4 @@ const Vdu = (): JSX.Element => {
   )
 }
 
-export default Vdu
+export default VisualDisplayUnit
