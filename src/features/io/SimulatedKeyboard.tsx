@@ -5,7 +5,6 @@ import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
 import { setCpuInput } from '../cpu/cpuSlice'
 import { InputPort } from '../cpu/core'
 
-// TODO: add spinner
 const SimulatedKeyboard = (): JSX.Element | null => {
   const isSuspended = useAppSelector(selectIsSuspended)
   const inputRef = useRef<HTMLInputElement>(null)

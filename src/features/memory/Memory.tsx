@@ -9,6 +9,7 @@ interface Props {
   className?: string
 }
 
+// TODO: add view option
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryData = useAppSelector(selectMemoryData)
   const machineCodesMatrix = splitArrayPerChunk(memoryData, 0x10)

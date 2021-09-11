@@ -137,6 +137,7 @@ export type InputSignals = (
     }
 ) & {
   interrupt: boolean
+  // TODO: interruptVectorAddress
 }
 
 enum OutputPort {
