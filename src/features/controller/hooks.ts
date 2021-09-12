@@ -40,6 +40,7 @@ export const useOutsideClick = <T extends Element = Element>(): [(node: T) => vo
       }
       document.addEventListener('mousedown', handleOutsideClick)
       return () => {
+        setClicked(false)
         document.removeEventListener('mousedown', handleOutsideClick)
       }
     }
@@ -65,6 +66,8 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
       current.addEventListener('mouseleave', handleMouseLeave)
 
       return () => {
+        setHovered(false)
+
         current.removeEventListener('mouseenter', handleMouseEnter)
         current.removeEventListener('mouseleave', handleMouseLeave)
       }
