@@ -34,7 +34,9 @@ const ClockSpeedMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   className="space-x-2"
-                  onClick={() => dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))}>
+                  onClick={() => {
+                    dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))
+                  }}>
                   {() => (
                     <>
                       {clockSpeed === ClockSpeed[clockSpeedKey] ? (
@@ -74,7 +76,9 @@ const TimerIntervalMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   className="space-x-2"
-                  onClick={() => dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))}>
+                  onClick={() => {
+                    dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))
+                  }}>
                   {() => (
                     <>
                       {timerInterval === TimerInterval[timerIntervalKey] ? (
