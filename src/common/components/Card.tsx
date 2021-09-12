@@ -10,7 +10,7 @@ interface Props {
 
 const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (
   <div className={className}>
-    <header className="border-b flex bg-gray-100 shadow mb-0.5 py-1 px-2 items-center justify-between">
+    <header className="border-b flex bg-gray-100 py-1 px-2 items-center justify-between">
       <span>{title}</span>
       {Icon !== undefined ? (
         <button className="flex items-center focus:outline-none" onClick={onIconClick}>
