@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import { setEditorInput } from '../editor/editorSlice'
 import { assemble } from './core'
-import { setAssemblerState } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
+import { resetCpu } from '../cpu/cpuSlice'
+import { setAssemblerState } from './assemblerSlice'
 import { AssemblerError } from '../../common/exceptions'
 
 export const useAssembler = (input: string): void => {
@@ -14,6 +15,7 @@ export const useAssembler = (input: string): void => {
     try {
       const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
       dispatch(setMemoryDataFrom(addressToOpcodeMap))
+      dispatch(resetCpu())
       dispatch(setAssemblerState({ addressToStatementMap, error: null }))
     } catch (err) {
       if (err instanceof AssemblerError) {
