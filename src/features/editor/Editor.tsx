@@ -1,8 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
+import { useCodeMirror } from './codemirror/hooks'
+import { setup } from './codemirror/setup'
 import EditorStatus from './EditorStatus'
 import { useAppSelector } from '../../app/hooks'
 import { selectEditortInput } from './editorSlice'
 import { useAssembler } from '../assembler/hooks'
+// import { breakpointEffect } from './codemirror/breakpointGutter'
 
 interface Props {
   className?: string
@@ -10,32 +13,34 @@ interface Props {
 
 const Editor = ({ className }: Props): JSX.Element => {
   const [input, setInput] = useState(useAppSelector(selectEditortInput))
-  const textArea = useRef<HTMLTextAreaElement>(null)
 
   useAssembler(input)
 
+  const { editorRef } = useCodeMirror<HTMLDivElement>(
+    {
+      doc: input,
+      extensions: setup
+    },
+    viewUpdate => {
+      if (viewUpdate.docChanged) {
+        const { doc } = viewUpdate.state
+        setInput(doc.sliceString(0))
+      }
+      // TODO: handle breakpoint
+      // viewUpdate.transactions.forEach(transaction => {
+      //   transaction.effects.forEach(effect => {
+      //     if (effect.is(breakpointEffect)) {
+      //       const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+      //       const lineNumber = viewUpdate.state.doc.lineAt(effect.value.pos).number
+      //       dispatch(actionCreator(lineNumber))
+      //     }
+      //   })
+      // })
+    }
+  )
+
   return (
-    <div className={`flex flex-col ${className}`}>
-      <textarea
-        ref={textArea}
-        className="h-full w-full py-1 px-3 resize-none focus:outline-none"
-        spellCheck={false}
-        value={input}
-        onChange={event => {
-          setInput(event.target.value)
-        }}
-        onKeyDown={event => {
-          if (event.key === 'Tab') {
-            event.preventDefault()
-            const { current } = textArea
-            if (current !== null) {
-              const { selectionStart, selectionEnd, value } = current
-              current.value = value.slice(0, selectionStart) + '\t' + value.slice(selectionEnd)
-              current.selectionStart = current.selectionEnd = selectionStart + 1
-            }
-          }
-        }}
-      />
+    <div ref={editorRef} className={`flex flex-col ${className}`}>
       <EditorStatus />
     </div>
   )
