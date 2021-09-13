@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAppStore, useAppSelector } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
+import { StepResult, step } from '../cpu/core'
 import {
   setRunning,
   setSuspended,
@@ -20,7 +21,7 @@ import {
   selectCpuRegisters,
   selectCpuInputSignals
 } from '../cpu/cpuSlice'
-import { StepResult, step } from '../cpu/core'
+import { setAssemblerState } from '../assembler/assemblerSlice'
 import { RuntimeError } from '../../common/exceptions'
 
 export const useOutsideClick = <T extends Element = Element>(): [(node: T) => void, boolean] => {
@@ -80,7 +81,7 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
 let intervalId: number
 let interruptIntervalId: number
 
-let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
+let lastStep: Promise<StepResult | undefined>
 let animationFrameId: number | undefined
 
 interface Controller {
@@ -214,11 +215,17 @@ export const useController = (): Controller => {
     })
   }
 
-  const __reset = (): void => {
+  const reset = (): void => {
     stopIfRunning()
+    lastStep = Promise.resolve(undefined)
+  }
+
+  useEffect(() => subscribe(setAssemblerState.type, reset), [])
+
+  const __reset = (): void => {
+    reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
-    lastStep = Promise.resolve(undefined)
   }
 
   return {
