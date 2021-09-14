@@ -24,7 +24,12 @@ import {
 import { setAssemblerState } from '../assembler/assemblerSlice'
 import { RuntimeError } from '../../common/exceptions'
 
-export const useOutsideClick = <T extends Element = Element>(): [(node: T) => void, boolean] => {
+type RefCallback<T> = (node: T) => void
+
+export const useOutsideClick = <T extends Element = Element>(): [
+  clickRef: RefCallback<T>,
+  isClicked: boolean
+] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isClicked, setClicked] = useState<boolean>(false)
 
@@ -50,7 +55,10 @@ export const useOutsideClick = <T extends Element = Element>(): [(node: T) => vo
   return [refCallback, isClicked]
 }
 
-export const useHover = <T extends Element = Element>(): [(node: T) => void, boolean] => {
+export const useHover = <T extends Element = Element>(): [
+  hoverRef: RefCallback<T>,
+  isHovered: boolean
+] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isHovered, setHovered] = useState<boolean>(false)
 
@@ -78,16 +86,16 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
   return [refCallback, isHovered]
 }
 
-let intervalId: number
+let stepIntervalId: number
 let interruptIntervalId: number
 
 const clearIntervalJob = (): void => {
-  window.clearInterval(intervalId)
+  window.clearInterval(stepIntervalId)
   window.clearInterval(interruptIntervalId)
 }
 
 let lastStep: Promise<StepResult | undefined>
-let animationFrameId: number | undefined
+let requestId: number | undefined
 
 let unsubscribeSetSuspended: () => void
 
@@ -121,7 +129,7 @@ export const useController = (): Controller => {
   const { clockSpeed, timerInterval } = useAppSelector(selectConfiguration)
 
   const setIntervalJob = (): void => {
-    intervalId = window.setInterval(__step, 1000 / clockSpeed)
+    stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)
     interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), timerInterval)
   }
 
@@ -170,11 +178,11 @@ export const useController = (): Controller => {
         )
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
-        if (animationFrameId === undefined && !halted) {
-          animationFrameId = window.requestAnimationFrame(() => {
+        if (requestId === undefined && !halted) {
+          requestId = window.requestAnimationFrame(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
-            animationFrameId = undefined
+            requestId = undefined
           })
         }
         if (halted) {
