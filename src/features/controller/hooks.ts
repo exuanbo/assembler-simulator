@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAppSelector, useAppStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
-import { StepResult, step } from '../cpu/core'
 import {
   setRunning,
   setSuspended,
@@ -9,7 +8,11 @@ import {
   selectIsSuspended,
   selectConfiguration
 } from './controllerSlice'
+import { selectEditortInput } from '../editor/editorSlice'
+import { setAssemblerState } from '../assembler/assemblerSlice'
+import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
+import { StepResult, step } from '../cpu/core'
 import {
   setCpuFault,
   setCpuHalted,
@@ -21,7 +24,6 @@ import {
   selectCpuRegisters,
   selectCpuInputSignals
 } from '../cpu/cpuSlice'
-import { setAssemblerState } from '../assembler/assemblerSlice'
 import { RuntimeError } from '../../common/exceptions'
 
 type RefCallback<T> = (node: T) => void
@@ -100,6 +102,7 @@ let requestId: number | undefined
 let unsubscribeSetSuspended: () => void
 
 interface Controller {
+  assemble: () => void
   run: () => void
   step: () => Promise<void>
   reset: () => void
@@ -108,6 +111,13 @@ interface Controller {
 export const useController = (): Controller => {
   const store = useAppStore()
   const { dispatch } = store
+
+  const assemble = useAssembler()
+
+  const __assemble = (): void => {
+    const input = selectEditortInput(store.getState())
+    assemble(input)
+  }
 
   /**
    * @returns {boolean} if was running
@@ -239,6 +249,7 @@ export const useController = (): Controller => {
   }
 
   return {
+    assemble: __assemble,
     run: __run,
     step: __step,
     reset: __reset

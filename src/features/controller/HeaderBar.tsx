@@ -1,10 +1,10 @@
 import React from 'react'
 import ControlButton from './ControlButton'
 import ConfigurationMenu from './ConfigurationMenu'
-import { Play, Stop, Forward, Undo, Github } from '../../common/components/icons'
-import { useController } from './hooks'
+import { Arrow, Play, Stop, Forward, Undo, Github } from '../../common/components/icons'
 import { useAppSelector } from '../../app/hooks'
 import { selectIsRunning } from './controllerSlice'
+import { useController } from './hooks'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const HeaderBar = ({ className }: Props): JSX.Element => {
-  const { run, step, reset } = useController()
+  const { assemble, run, step, reset } = useController()
 
   const RunButton = (): JSX.Element => {
     const isRunning = useAppSelector(selectIsRunning)
@@ -39,6 +39,10 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
       className={`border-b flex bg-gray-100 h-8 w-full z-2 fixed items-center justify-between ${className}`}>
       <div className="divide-x flex h-full">
         <ConfigurationMenu />
+        <ControlButton onClick={assemble}>
+          <Arrow />
+          <span>Assemble</span>
+        </ControlButton>
         <RunButton />
         <ControlButton onClick={step}>
           <Forward />

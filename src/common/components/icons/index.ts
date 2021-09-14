@@ -1,5 +1,6 @@
 export { default as CheckMark } from './CheckMark'
 export { default as Wrench } from './Wrench'
+export { default as Arrow } from './Arrow'
 export { default as Play } from './Play'
 export { default as Stop } from './Stop'
 export { default as Forward } from './Forward'
