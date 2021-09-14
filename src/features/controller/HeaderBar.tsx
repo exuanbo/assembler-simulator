@@ -1,7 +1,7 @@
 import React from 'react'
 import ControlButton from './ControlButton'
 import ConfigurationMenu from './ConfigurationMenu'
-import { Play, Stop, Forward, Redo, Github } from '../../common/components/icons'
+import { Play, Stop, Forward, Undo, Github } from '../../common/components/icons'
 import { useController } from './hooks'
 import { useAppSelector } from '../../app/hooks'
 import { selectIsRunning } from './controllerSlice'
@@ -45,7 +45,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
           <span>Step</span>
         </ControlButton>
         <ControlButton onClick={reset}>
-          <Redo />
+          <Undo />
           <span>Reset</span>
         </ControlButton>
       </div>
