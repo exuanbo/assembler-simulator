@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import { setEditorInput } from '../editor/editorSlice'
 import { assemble } from './core'
@@ -7,10 +6,12 @@ import { resetCpu } from '../cpu/cpuSlice'
 import { setAssemblerState } from './assemblerSlice'
 import { AssemblerError } from '../../common/exceptions'
 
-export const useAssembler = (input: string): void => {
+type Assemble = (input: string) => void
+
+export const useAssembler = (): Assemble => {
   const dispatch = useAppDispatch()
 
-  const handleInputChange = (): void => {
+  return (input: string) => {
     dispatch(setEditorInput(input))
     try {
       const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
@@ -25,11 +26,4 @@ export const useAssembler = (input: string): void => {
       }
     }
   }
-
-  useEffect(() => {
-    const timeoutID = window.setTimeout(handleInputChange, 200)
-    return () => {
-      window.clearTimeout(timeoutID)
-    }
-  }, [input])
 }

@@ -1,30 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
+import EditorStatus from './EditorStatus'
+import { useAppStore } from '../../app/hooks'
+import { setEditorInput, selectEditortInput } from './editorSlice'
+import { useAssembler } from '../assembler/hooks'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import EditorStatus from './EditorStatus'
-import { useAppSelector } from '../../app/hooks'
-import { selectEditortInput } from './editorSlice'
-import { useAssembler } from '../assembler/hooks'
 // import { breakpointEffect } from './codemirror/breakpointGutter'
+
+let timeoutId: number
 
 interface Props {
   className?: string
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
-  const [input, setInput] = useState(useAppSelector(selectEditortInput))
-
-  useAssembler(input)
+  const store = useAppStore()
+  const defaultInput = selectEditortInput(store.getState())
+  const assemble = useAssembler()
 
   const { editorRef } = useCodeMirror<HTMLDivElement>(
     {
-      doc: input,
+      doc: defaultInput,
       extensions: setup
     },
     viewUpdate => {
       if (viewUpdate.docChanged) {
-        const { doc } = viewUpdate.state
-        setInput(doc.sliceString(0))
+        const input = viewUpdate.state.doc.sliceString(0)
+        window.clearTimeout(timeoutId)
+        timeoutId = window.setTimeout(() => {
+          store.dispatch(setEditorInput(input))
+          assemble(input)
+        }, 200)
       }
       // TODO: handle breakpoint
       // viewUpdate.transactions.forEach(transaction => {
