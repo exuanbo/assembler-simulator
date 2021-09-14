@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useAppStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from './editorSlice'
@@ -17,6 +17,10 @@ const Editor = ({ className }: Props): JSX.Element => {
   const store = useAppStore()
   const defaultInput = selectEditortInput(store.getState())
   const assemble = useAssembler()
+
+  useEffect(() => {
+    assemble(defaultInput)
+  }, [])
 
   const { editorRef } = useCodeMirror<HTMLDivElement>(
     {
