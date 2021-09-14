@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useAppStore, useAppSelector } from '../../app/hooks'
+import { useAppSelector, useAppStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
 import { StepResult, step } from '../cpu/core'
 import {
@@ -81,8 +81,15 @@ export const useHover = <T extends Element = Element>(): [(node: T) => void, boo
 let intervalId: number
 let interruptIntervalId: number
 
+const clearIntervalJob = (): void => {
+  window.clearInterval(intervalId)
+  window.clearInterval(interruptIntervalId)
+}
+
 let lastStep: Promise<StepResult | undefined>
 let animationFrameId: number | undefined
+
+let unsubscribeSetSuspended: () => void
 
 interface Controller {
   run: () => void
@@ -91,15 +98,8 @@ interface Controller {
 }
 
 export const useController = (): Controller => {
-  const clearIntervalJob = (): void => {
-    window.clearInterval(intervalId)
-    window.clearInterval(interruptIntervalId)
-  }
-
   const store = useAppStore()
   const { dispatch } = store
-
-  let unsubscribeSetSuspended: () => void
 
   /**
    * @returns {boolean} if was running
@@ -149,11 +149,13 @@ export const useController = (): Controller => {
     if (selectIsSuspended(state)) {
       return
     }
-    lastStep = new Promise((resolve, reject) => {
+    lastStep = new Promise(resolve => {
       // const startTime = performance.now()
       const { fault, halted } = selectCpuStatus(state)
       if (fault) {
         // TODO: handle fault
+        resolve(undefined)
+        return
       }
       if (halted) {
         stopIfRunning()
