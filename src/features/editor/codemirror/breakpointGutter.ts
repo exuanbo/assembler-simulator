@@ -68,7 +68,7 @@ export const breakpointGutter = (): Extension => [
     '.cm-breakpoint-gutter .cm-gutterElement': {
       minWidth: '1.625em',
       paddingLeft: '5px',
-      color: 'red'
+      color: '#f87171'
     }
   })
 ]
