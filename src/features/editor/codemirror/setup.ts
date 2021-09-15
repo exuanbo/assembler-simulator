@@ -9,15 +9,19 @@ import { bracketMatching } from '@codemirror/matchbrackets'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
 
-const theme = EditorView.baseTheme({
+const theme = EditorView.theme({
   '&': {
-    height: '100%'
+    height: '100%',
+    width: '50vw'
   },
   '&.cm-focused': {
     outline: '0'
   },
   '.cm-scroller': {
     fontFamily: "'Jetbrains Mono', monospace"
+  },
+  '.cm-breakpoint-gutter .cm-gutterElement': {
+    fontSize: '0.875em'
   }
 })
 
@@ -30,13 +34,14 @@ export const setup: Extension = [
   foldGutter(),
   bracketMatching(),
   closeBrackets(),
+  indentUnit.of('\t'),
+  EditorView.lineWrapping,
+  theme,
   keymap.of([
     indentWithTab,
     ...closeBracketsKeymap,
     ...defaultKeymap,
     ...historyKeymap,
     ...foldKeymap
-  ]),
-  indentUnit.of('\t'),
-  theme
+  ])
 ]

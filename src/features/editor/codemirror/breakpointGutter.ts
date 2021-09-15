@@ -66,9 +66,8 @@ export const breakpointGutter = (): Extension => [
   }),
   EditorView.baseTheme({
     '.cm-breakpoint-gutter .cm-gutterElement': {
-      minWidth: '1rem',
+      minWidth: '1.625em',
       paddingLeft: '5px',
-      fontSize: '0.875rem',
       color: 'red'
     }
   })
