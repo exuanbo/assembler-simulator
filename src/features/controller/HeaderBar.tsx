@@ -37,7 +37,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
   return (
     <nav
       className={`border-b flex bg-gray-100 h-8 w-full z-2 fixed items-center justify-between ${className}`}>
-      <div className="divide-x flex h-full">
+      <div className="divide-x flex">
         <ConfigurationMenu />
         <ControlButton onClick={assemble}>
           <Arrow />
