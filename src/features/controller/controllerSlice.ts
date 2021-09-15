@@ -35,6 +35,7 @@ export const TIMER_INTERVAL_KEYS: UnionToTuple<keyof typeof TimerInterval> = [
 ]
 
 interface Configuration {
+  autoAssemble: boolean
   clockSpeed: ClockSpeed
   timerInterval: TimerInterval
 }
@@ -49,6 +50,7 @@ const initialState: ControllerState = {
   isRunning: false,
   isSuspended: false,
   configuration: {
+    autoAssemble: true,
     clockSpeed: ClockSpeed['4 Hz'],
     timerInterval: TimerInterval['2 seconds']
   }
@@ -64,6 +66,9 @@ export const controllerSlice = createSlice({
     setSuspended: (state, action: PayloadAction<boolean>) => {
       state.isSuspended = action.payload
     },
+    setAutoAssemble: (state, action: PayloadAction<boolean>) => {
+      state.configuration.autoAssemble = action.payload
+    },
     setClockSpeed: (state, action: PayloadAction<ClockSpeed>) => {
       state.configuration.clockSpeed = action.payload
     },
@@ -77,6 +82,9 @@ export const selectIsRunning = (state: RootState): boolean => state.controller.i
 
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
+export const selectAutoAssemble = (state: RootState): boolean =>
+  state.controller.configuration.autoAssemble
+
 export const selectClockSpeed = (state: RootState): ClockSpeed =>
   state.controller.configuration.clockSpeed
 
@@ -86,6 +94,7 @@ export const selectTimerInterval = (state: RootState): TimerInterval =>
 export const selectConfiguration = (state: RootState): Configuration =>
   state.controller.configuration
 
-export const { setRunning, setSuspended, setClockSpeed, setTimerInterval } = controllerSlice.actions
+export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTimerInterval } =
+  controllerSlice.actions
 
 export default controllerSlice.reducer

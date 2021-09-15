@@ -8,12 +8,34 @@ import {
   CLOCK_SPEED_KEYS,
   TimerInterval,
   TIMER_INTERVAL_KEYS,
+  setAutoAssemble,
   setClockSpeed,
   setTimerInterval,
+  selectAutoAssemble,
   selectClockSpeed,
   selectTimerInterval
 } from './controllerSlice'
 import { useOutsideClick } from './hooks'
+
+const AutoAssembleOption = (): JSX.Element => {
+  const dispatch = useAppDispatch()
+  const autoAssemble = useAppSelector(selectAutoAssemble)
+
+  return (
+    <MenuItem
+      className="space-x-2"
+      onClick={() => {
+        dispatch(setAutoAssemble(!autoAssemble))
+      }}>
+      {() => (
+        <>
+          {autoAssemble ? <CheckMark /> : <span className="w-4" />}
+          <span>Auto Assemble</span>
+        </>
+      )}
+    </MenuItem>
+  )
+}
 
 const ClockSpeedMenu = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -120,6 +142,7 @@ const ConfigurationMenu = (): JSX.Element => {
       </div>
       {isOpen ? (
         <div className="divide-y border bg-gray-50 shadow top-8 left-0 w-60 fixed">
+          <AutoAssembleOption />
           <ClockSpeedMenu />
           <TimerIntervalMenu />
         </div>

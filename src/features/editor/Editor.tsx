@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useAppStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from './editorSlice'
-import { useAssembler } from '../assembler/hooks'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
+import { useAssembler } from '../assembler/hooks'
+import { selectAutoAssemble } from '../controller/controllerSlice'
 // import { breakpointEffect } from './codemirror/breakpointGutter'
 
 let timeoutId: number
@@ -33,7 +34,9 @@ const Editor = ({ className }: Props): JSX.Element => {
         window.clearTimeout(timeoutId)
         timeoutId = window.setTimeout(() => {
           store.dispatch(setEditorInput(input))
-          assemble(input)
+          if (selectAutoAssemble(store.getState())) {
+            assemble(input)
+          }
         }, 200)
       }
       // TODO: handle breakpoint
