@@ -148,7 +148,7 @@ export const useController = (): Controller => {
               clearIntervalJob()
             }
             dispatch(setSuspended(true))
-            unsubscribeSetSuspended = subscribe(setSuspended.type, async () => {
+            unsubscribeSetSuspended = subscribe(setSuspended, async () => {
               await __step()
               if (isRunning) {
                 setIntervalJob()
@@ -177,7 +177,7 @@ export const useController = (): Controller => {
     lastStep = Promise.resolve(undefined)
   }
 
-  useEffect(() => subscribe(setAssemblerState.type, reset), [])
+  useEffect(() => subscribe(setAssemblerState, reset), [])
 
   const __reset = (): void => {
     reset()

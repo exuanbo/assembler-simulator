@@ -1,28 +1,31 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { PayloadActionCreator, getType } from '@reduxjs/toolkit'
 import type { Middleware } from 'redux'
 
-type SideEffectCallback<A extends PayloadAction = PayloadAction> = (
-  action: A
-) => void | Promise<void>
+type SideEffectCallback<P> = (payload: P) => void | Promise<void>
 
-const subscriptions = new Map<string, Set<SideEffectCallback>>()
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const subscriptions = new Map<string, Set<SideEffectCallback<any>>>()
 
 type Unsubscribe = () => void
 
-export const subscribe = <C extends SideEffectCallback>(actionType: string, cb: C): Unsubscribe => {
+export const subscribe = <P>(
+  actionCreator: PayloadActionCreator<P>,
+  callback: SideEffectCallback<P>
+): Unsubscribe => {
+  const actionType = getType(actionCreator)
   if (!subscriptions.has(actionType)) {
     subscriptions.set(actionType, new Set())
   }
   const callbacks = subscriptions.get(actionType)!
-  callbacks.add(cb)
+  callbacks.add(callback)
   return () => {
-    callbacks.delete(cb)
+    callbacks.delete(callback)
   }
 }
 
 const sideEffect: Middleware = _ => next => action => {
   const result = next(action)
-  subscriptions.get(action.type)?.forEach(cb => cb(action))
+  subscriptions.get(action.type)?.forEach(cb => cb(action.payload))
   return result
 }
 
