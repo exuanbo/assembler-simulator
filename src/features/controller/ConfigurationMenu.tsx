@@ -15,7 +15,7 @@ import {
   selectClockSpeed,
   selectTimerInterval
 } from './controllerSlice'
-import { useOutsideClick } from './hooks'
+import { useOutsideClick } from '../../common/hooks'
 
 const AutoAssembleOption = (): JSX.Element => {
   const dispatch = useAppDispatch()

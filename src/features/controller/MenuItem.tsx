@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from 'react'
-import { useHover } from './hooks'
+import { useHover } from '../../common/hooks'
 
 interface Props {
   children: (isHovered: boolean) => ReactNode
