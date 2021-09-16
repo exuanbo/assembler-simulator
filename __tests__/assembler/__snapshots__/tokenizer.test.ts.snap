@@ -7,11 +7,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "done:",
@@ -24,11 +24,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "raw": "end",
@@ -46,11 +46,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "raw": "end",
@@ -68,11 +68,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "raw": "done:",
@@ -85,11 +85,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "raw": "end",
@@ -107,11 +107,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 2,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "[]",
@@ -124,11 +124,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 7,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 3,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "[00]",
@@ -141,11 +141,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 8,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "[al]",
@@ -163,11 +163,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 1,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": ",",
@@ -180,11 +180,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 1,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "raw": ",",
@@ -197,11 +197,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 2,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 1,
-        "line": 1,
+        "line": 2,
       },
     },
     "raw": ",",
@@ -219,11 +219,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 1,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "0",
@@ -236,11 +236,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 2,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "01",
@@ -253,11 +253,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 8,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 5,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "002",
@@ -275,11 +275,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 2,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "al",
@@ -292,11 +292,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 3,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "Bl",
@@ -309,11 +309,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 8,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 6,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "cL",
@@ -326,11 +326,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 11,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 9,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "DL",
@@ -348,11 +348,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 2,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 0,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "\\"\\"",
@@ -365,11 +365,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 21,
-        "line": 0,
+        "line": 1,
       },
       "start": Object {
         "column": 3,
-        "line": 0,
+        "line": 1,
       },
     },
     "raw": "\\"this is a string\\"",

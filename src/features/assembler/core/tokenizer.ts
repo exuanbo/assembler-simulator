@@ -83,7 +83,7 @@ const NEWLINE_REGEXP = /(?:\n|\r\n)/g
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   let index = 0
-  let line = 0
+  let line = 1
   let column = 0
   while (index < input.length) {
     tokenMatchers.some(matchToken => {

@@ -9,11 +9,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "mnemonic": "CMP",
@@ -24,11 +24,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "machineCodes": Array [218, 0, 1],
@@ -38,11 +38,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 4,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "al",
@@ -56,11 +56,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 8,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "bl",
@@ -79,11 +79,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "CMP",
@@ -94,11 +94,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [219, 2, 1],
@@ -108,11 +108,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 4,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "cl",
@@ -126,11 +126,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 8,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "01",
@@ -149,11 +149,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "CMP",
@@ -164,11 +164,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [220, 3, 2],
@@ -178,11 +178,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 4,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "dl",
@@ -196,11 +196,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 12,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 8,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "[02]",
@@ -219,11 +219,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "END",
@@ -234,11 +234,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [0],
@@ -257,11 +257,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "mnemonic": "ADD",
@@ -272,11 +272,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "machineCodes": Array [160, 0, 1],
@@ -286,11 +286,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 4,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "al",
@@ -304,11 +304,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 8,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "bl",
@@ -327,11 +327,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "SUB",
@@ -342,11 +342,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [161, 2, 3],
@@ -356,11 +356,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 4,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "cl",
@@ -374,11 +374,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 8,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "dl",
@@ -397,11 +397,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "MUL",
@@ -412,11 +412,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [162, 0, 1],
@@ -426,11 +426,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 4,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "al",
@@ -444,11 +444,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 8,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "bl",
@@ -467,11 +467,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "DIV",
@@ -482,11 +482,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [163, 2, 3],
@@ -496,11 +496,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 4,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "cl",
@@ -514,11 +514,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 8,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "dl",
@@ -537,11 +537,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 5,
+          "line": 6,
         },
         "start": Object {
           "column": 0,
-          "line": 5,
+          "line": 6,
         },
       },
       "mnemonic": "MOD",
@@ -552,11 +552,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 5,
+        "line": 6,
       },
       "start": Object {
         "column": 0,
-        "line": 5,
+        "line": 6,
       },
     },
     "machineCodes": Array [166, 0, 1],
@@ -566,11 +566,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 4,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "al",
@@ -584,11 +584,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 8,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "bl",
@@ -607,11 +607,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 6,
+          "line": 7,
         },
         "start": Object {
           "column": 0,
-          "line": 6,
+          "line": 7,
         },
       },
       "mnemonic": "AND",
@@ -622,11 +622,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 6,
+        "line": 7,
       },
       "start": Object {
         "column": 0,
-        "line": 6,
+        "line": 7,
       },
     },
     "machineCodes": Array [170, 2, 3],
@@ -636,11 +636,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 6,
+            "line": 7,
           },
           "start": Object {
             "column": 4,
-            "line": 6,
+            "line": 7,
           },
         },
         "raw": "cl",
@@ -654,11 +654,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 6,
+            "line": 7,
           },
           "start": Object {
             "column": 8,
-            "line": 6,
+            "line": 7,
           },
         },
         "raw": "dl",
@@ -677,11 +677,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 7,
+          "line": 8,
         },
         "start": Object {
           "column": 0,
-          "line": 7,
+          "line": 8,
         },
       },
       "mnemonic": "OR",
@@ -692,11 +692,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 7,
+        "line": 8,
       },
       "start": Object {
         "column": 0,
-        "line": 7,
+        "line": 8,
       },
     },
     "machineCodes": Array [171, 0, 1],
@@ -706,11 +706,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 5,
-            "line": 7,
+            "line": 8,
           },
           "start": Object {
             "column": 3,
-            "line": 7,
+            "line": 8,
           },
         },
         "raw": "al",
@@ -724,11 +724,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 7,
+            "line": 8,
           },
           "start": Object {
             "column": 7,
-            "line": 7,
+            "line": 8,
           },
         },
         "raw": "bl",
@@ -747,11 +747,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 8,
+          "line": 9,
         },
         "start": Object {
           "column": 0,
-          "line": 8,
+          "line": 9,
         },
       },
       "mnemonic": "XOR",
@@ -762,11 +762,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 8,
+        "line": 9,
       },
       "start": Object {
         "column": 0,
-        "line": 8,
+        "line": 9,
       },
     },
     "machineCodes": Array [172, 2, 3],
@@ -776,11 +776,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 8,
+            "line": 9,
           },
           "start": Object {
             "column": 4,
-            "line": 8,
+            "line": 9,
           },
         },
         "raw": "cl",
@@ -794,11 +794,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 8,
+            "line": 9,
           },
           "start": Object {
             "column": 8,
-            "line": 8,
+            "line": 9,
           },
         },
         "raw": "dl",
@@ -817,11 +817,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 9,
+          "line": 10,
         },
         "start": Object {
           "column": 0,
-          "line": 9,
+          "line": 10,
         },
       },
       "mnemonic": "END",
@@ -832,11 +832,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 9,
+        "line": 10,
       },
       "start": Object {
         "column": 0,
-        "line": 9,
+        "line": 10,
       },
     },
     "machineCodes": Array [0],
@@ -855,11 +855,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "mnemonic": "ADD",
@@ -870,11 +870,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "machineCodes": Array [176, 0, 1],
@@ -884,11 +884,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 4,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "al",
@@ -902,11 +902,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 8,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "01",
@@ -925,11 +925,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "SUB",
@@ -940,11 +940,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [177, 1, 2],
@@ -954,11 +954,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 4,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "bl",
@@ -972,11 +972,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 8,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "02",
@@ -995,11 +995,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "MUL",
@@ -1010,11 +1010,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [178, 2, 3],
@@ -1024,11 +1024,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 4,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "cl",
@@ -1042,11 +1042,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 8,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "03",
@@ -1065,11 +1065,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "DIV",
@@ -1080,11 +1080,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [179, 3, 4],
@@ -1094,11 +1094,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 4,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "dl",
@@ -1112,11 +1112,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 8,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "04",
@@ -1135,11 +1135,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 5,
+          "line": 6,
         },
         "start": Object {
           "column": 0,
-          "line": 5,
+          "line": 6,
         },
       },
       "mnemonic": "MOD",
@@ -1150,11 +1150,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 5,
+        "line": 6,
       },
       "start": Object {
         "column": 0,
-        "line": 5,
+        "line": 6,
       },
     },
     "machineCodes": Array [182, 0, 1],
@@ -1164,11 +1164,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 4,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "al",
@@ -1182,11 +1182,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 8,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "01",
@@ -1205,11 +1205,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 6,
+          "line": 7,
         },
         "start": Object {
           "column": 0,
-          "line": 6,
+          "line": 7,
         },
       },
       "mnemonic": "AND",
@@ -1220,11 +1220,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 6,
+        "line": 7,
       },
       "start": Object {
         "column": 0,
-        "line": 6,
+        "line": 7,
       },
     },
     "machineCodes": Array [186, 1, 2],
@@ -1234,11 +1234,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 6,
+            "line": 7,
           },
           "start": Object {
             "column": 4,
-            "line": 6,
+            "line": 7,
           },
         },
         "raw": "bl",
@@ -1252,11 +1252,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 6,
+            "line": 7,
           },
           "start": Object {
             "column": 8,
-            "line": 6,
+            "line": 7,
           },
         },
         "raw": "02",
@@ -1275,11 +1275,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 7,
+          "line": 8,
         },
         "start": Object {
           "column": 0,
-          "line": 7,
+          "line": 8,
         },
       },
       "mnemonic": "OR",
@@ -1290,11 +1290,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 7,
+        "line": 8,
       },
       "start": Object {
         "column": 0,
-        "line": 7,
+        "line": 8,
       },
     },
     "machineCodes": Array [187, 2, 3],
@@ -1304,11 +1304,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 5,
-            "line": 7,
+            "line": 8,
           },
           "start": Object {
             "column": 3,
-            "line": 7,
+            "line": 8,
           },
         },
         "raw": "cl",
@@ -1322,11 +1322,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 7,
+            "line": 8,
           },
           "start": Object {
             "column": 7,
-            "line": 7,
+            "line": 8,
           },
         },
         "raw": "03",
@@ -1345,11 +1345,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 8,
+          "line": 9,
         },
         "start": Object {
           "column": 0,
-          "line": 8,
+          "line": 9,
         },
       },
       "mnemonic": "XOR",
@@ -1360,11 +1360,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 8,
+        "line": 9,
       },
       "start": Object {
         "column": 0,
-        "line": 8,
+        "line": 9,
       },
     },
     "machineCodes": Array [188, 3, 4],
@@ -1374,11 +1374,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 8,
+            "line": 9,
           },
           "start": Object {
             "column": 4,
-            "line": 8,
+            "line": 9,
           },
         },
         "raw": "dl",
@@ -1392,11 +1392,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 8,
+            "line": 9,
           },
           "start": Object {
             "column": 8,
-            "line": 8,
+            "line": 9,
           },
         },
         "raw": "04",
@@ -1415,11 +1415,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 9,
+          "line": 10,
         },
         "start": Object {
           "column": 0,
-          "line": 9,
+          "line": 10,
         },
       },
       "mnemonic": "END",
@@ -1430,11 +1430,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 9,
+        "line": 10,
       },
       "start": Object {
         "column": 0,
-        "line": 9,
+        "line": 10,
       },
     },
     "machineCodes": Array [0],
@@ -1453,11 +1453,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "INC",
@@ -1470,11 +1470,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 6,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "start": 1,
@@ -1482,11 +1482,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [164, 0],
@@ -1496,11 +1496,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 4,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "al",
@@ -1519,11 +1519,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "DEC",
@@ -1534,11 +1534,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [165, 1],
@@ -1548,11 +1548,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 4,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "bl",
@@ -1571,11 +1571,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "NOT",
@@ -1586,11 +1586,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [173, 2],
@@ -1600,11 +1600,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 4,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "cl",
@@ -1623,11 +1623,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 5,
+          "line": 6,
         },
         "start": Object {
           "column": 0,
-          "line": 5,
+          "line": 6,
         },
       },
       "mnemonic": "ROL",
@@ -1638,11 +1638,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 5,
+        "line": 6,
       },
       "start": Object {
         "column": 0,
-        "line": 5,
+        "line": 6,
       },
     },
     "machineCodes": Array [154, 3],
@@ -1652,11 +1652,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 4,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "dl",
@@ -1675,11 +1675,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 6,
+          "line": 7,
         },
         "start": Object {
           "column": 0,
-          "line": 6,
+          "line": 7,
         },
       },
       "mnemonic": "ROR",
@@ -1690,11 +1690,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 6,
+        "line": 7,
       },
       "start": Object {
         "column": 0,
-        "line": 6,
+        "line": 7,
       },
     },
     "machineCodes": Array [155, 0],
@@ -1704,11 +1704,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 6,
+            "line": 7,
           },
           "start": Object {
             "column": 4,
-            "line": 6,
+            "line": 7,
           },
         },
         "raw": "al",
@@ -1727,11 +1727,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 7,
+          "line": 8,
         },
         "start": Object {
           "column": 0,
-          "line": 7,
+          "line": 8,
         },
       },
       "mnemonic": "SHL",
@@ -1742,11 +1742,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 7,
+        "line": 8,
       },
       "start": Object {
         "column": 0,
-        "line": 7,
+        "line": 8,
       },
     },
     "machineCodes": Array [156, 1],
@@ -1756,11 +1756,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 7,
+            "line": 8,
           },
           "start": Object {
             "column": 4,
-            "line": 7,
+            "line": 8,
           },
         },
         "raw": "bl",
@@ -1779,11 +1779,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 8,
+          "line": 9,
         },
         "start": Object {
           "column": 0,
-          "line": 8,
+          "line": 9,
         },
       },
       "mnemonic": "SHR",
@@ -1794,11 +1794,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 8,
+        "line": 9,
       },
       "start": Object {
         "column": 0,
-        "line": 8,
+        "line": 9,
       },
     },
     "machineCodes": Array [157, 2],
@@ -1808,11 +1808,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 8,
+            "line": 9,
           },
           "start": Object {
             "column": 4,
-            "line": 8,
+            "line": 9,
           },
         },
         "raw": "cl",
@@ -1831,11 +1831,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 9,
+          "line": 10,
         },
         "start": Object {
           "column": 0,
-          "line": 9,
+          "line": 10,
         },
       },
       "mnemonic": "JMP",
@@ -1846,11 +1846,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 9,
+        "line": 10,
       },
       "start": Object {
         "column": 0,
-        "line": 9,
+        "line": 10,
       },
     },
     "machineCodes": Array [192],
@@ -1860,11 +1860,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 9,
+            "line": 10,
           },
           "start": Object {
             "column": 4,
-            "line": 9,
+            "line": 10,
           },
         },
         "raw": "start",
@@ -1883,11 +1883,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 10,
+          "line": 11,
         },
         "start": Object {
           "column": 0,
-          "line": 10,
+          "line": 11,
         },
       },
       "mnemonic": "JZ",
@@ -1898,11 +1898,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 8,
-        "line": 10,
+        "line": 11,
       },
       "start": Object {
         "column": 0,
-        "line": 10,
+        "line": 11,
       },
     },
     "machineCodes": Array [193],
@@ -1912,11 +1912,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 8,
-            "line": 10,
+            "line": 11,
           },
           "start": Object {
             "column": 3,
-            "line": 10,
+            "line": 11,
           },
         },
         "raw": "start",
@@ -1935,11 +1935,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 11,
+          "line": 12,
         },
         "start": Object {
           "column": 0,
-          "line": 11,
+          "line": 12,
         },
       },
       "mnemonic": "JNZ",
@@ -1950,11 +1950,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 11,
+        "line": 12,
       },
       "start": Object {
         "column": 0,
-        "line": 11,
+        "line": 12,
       },
     },
     "machineCodes": Array [194],
@@ -1964,11 +1964,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 11,
+            "line": 12,
           },
           "start": Object {
             "column": 4,
-            "line": 11,
+            "line": 12,
           },
         },
         "raw": "start",
@@ -1987,11 +1987,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 12,
+          "line": 13,
         },
         "start": Object {
           "column": 0,
-          "line": 12,
+          "line": 13,
         },
       },
       "mnemonic": "JS",
@@ -2002,11 +2002,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 8,
-        "line": 12,
+        "line": 13,
       },
       "start": Object {
         "column": 0,
-        "line": 12,
+        "line": 13,
       },
     },
     "machineCodes": Array [195],
@@ -2016,11 +2016,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 8,
-            "line": 12,
+            "line": 13,
           },
           "start": Object {
             "column": 3,
-            "line": 12,
+            "line": 13,
           },
         },
         "raw": "start",
@@ -2039,11 +2039,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 13,
+          "line": 14,
         },
         "start": Object {
           "column": 0,
-          "line": 13,
+          "line": 14,
         },
       },
       "mnemonic": "JNS",
@@ -2054,11 +2054,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 13,
+        "line": 14,
       },
       "start": Object {
         "column": 0,
-        "line": 13,
+        "line": 14,
       },
     },
     "machineCodes": Array [196],
@@ -2068,11 +2068,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 13,
+            "line": 14,
           },
           "start": Object {
             "column": 4,
-            "line": 13,
+            "line": 14,
           },
         },
         "raw": "start",
@@ -2091,11 +2091,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 14,
+          "line": 15,
         },
         "start": Object {
           "column": 0,
-          "line": 14,
+          "line": 15,
         },
       },
       "mnemonic": "JO",
@@ -2106,11 +2106,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 8,
-        "line": 14,
+        "line": 15,
       },
       "start": Object {
         "column": 0,
-        "line": 14,
+        "line": 15,
       },
     },
     "machineCodes": Array [197],
@@ -2120,11 +2120,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 8,
-            "line": 14,
+            "line": 15,
           },
           "start": Object {
             "column": 3,
-            "line": 14,
+            "line": 15,
           },
         },
         "raw": "start",
@@ -2143,11 +2143,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 15,
+          "line": 16,
         },
         "start": Object {
           "column": 0,
-          "line": 15,
+          "line": 16,
         },
       },
       "mnemonic": "JNO",
@@ -2158,11 +2158,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 9,
-        "line": 15,
+        "line": 16,
       },
       "start": Object {
         "column": 0,
-        "line": 15,
+        "line": 16,
       },
     },
     "machineCodes": Array [198],
@@ -2172,11 +2172,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 9,
-            "line": 15,
+            "line": 16,
           },
           "start": Object {
             "column": 4,
-            "line": 15,
+            "line": 16,
           },
         },
         "raw": "start",
@@ -2195,11 +2195,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 4,
-          "line": 16,
+          "line": 17,
         },
         "start": Object {
           "column": 0,
-          "line": 16,
+          "line": 17,
         },
       },
       "mnemonic": "PUSH",
@@ -2210,11 +2210,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 7,
-        "line": 16,
+        "line": 17,
       },
       "start": Object {
         "column": 0,
-        "line": 16,
+        "line": 17,
       },
     },
     "machineCodes": Array [224, 0],
@@ -2224,11 +2224,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 7,
-            "line": 16,
+            "line": 17,
           },
           "start": Object {
             "column": 5,
-            "line": 16,
+            "line": 17,
           },
         },
         "raw": "al",
@@ -2247,11 +2247,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 17,
+          "line": 18,
         },
         "start": Object {
           "column": 0,
-          "line": 17,
+          "line": 18,
         },
       },
       "mnemonic": "POP",
@@ -2262,11 +2262,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 17,
+        "line": 18,
       },
       "start": Object {
         "column": 0,
-        "line": 17,
+        "line": 18,
       },
     },
     "machineCodes": Array [225, 1],
@@ -2276,11 +2276,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 17,
+            "line": 18,
           },
           "start": Object {
             "column": 4,
-            "line": 17,
+            "line": 18,
           },
         },
         "raw": "bl",
@@ -2299,11 +2299,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 4,
-          "line": 18,
+          "line": 19,
         },
         "start": Object {
           "column": 0,
-          "line": 18,
+          "line": 19,
         },
       },
       "mnemonic": "CALL",
@@ -2314,11 +2314,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 6,
-        "line": 18,
+        "line": 19,
       },
       "start": Object {
         "column": 0,
-        "line": 18,
+        "line": 19,
       },
     },
     "machineCodes": Array [202, 0],
@@ -2328,11 +2328,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 18,
+            "line": 19,
           },
           "start": Object {
             "column": 5,
-            "line": 18,
+            "line": 19,
           },
         },
         "raw": "0",
@@ -2351,11 +2351,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 19,
+          "line": 20,
         },
         "start": Object {
           "column": 0,
-          "line": 19,
+          "line": 20,
         },
       },
       "mnemonic": "INT",
@@ -2366,11 +2366,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 19,
+        "line": 20,
       },
       "start": Object {
         "column": 0,
-        "line": 19,
+        "line": 20,
       },
     },
     "machineCodes": Array [204, 1],
@@ -2380,11 +2380,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 5,
-            "line": 19,
+            "line": 20,
           },
           "start": Object {
             "column": 4,
-            "line": 19,
+            "line": 20,
           },
         },
         "raw": "1",
@@ -2403,11 +2403,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 20,
+          "line": 21,
         },
         "start": Object {
           "column": 0,
-          "line": 20,
+          "line": 21,
         },
       },
       "mnemonic": "IN",
@@ -2418,11 +2418,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 20,
+        "line": 21,
       },
       "start": Object {
         "column": 0,
-        "line": 20,
+        "line": 21,
       },
     },
     "machineCodes": Array [240, 2],
@@ -2432,11 +2432,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 4,
-            "line": 20,
+            "line": 21,
           },
           "start": Object {
             "column": 3,
-            "line": 20,
+            "line": 21,
           },
         },
         "raw": "2",
@@ -2455,11 +2455,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 21,
+          "line": 22,
         },
         "start": Object {
           "column": 0,
-          "line": 21,
+          "line": 22,
         },
       },
       "mnemonic": "OUT",
@@ -2470,11 +2470,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 21,
+        "line": 22,
       },
       "start": Object {
         "column": 0,
-        "line": 21,
+        "line": 22,
       },
     },
     "machineCodes": Array [241, 3],
@@ -2484,11 +2484,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 5,
-            "line": 21,
+            "line": 22,
           },
           "start": Object {
             "column": 4,
-            "line": 21,
+            "line": 22,
           },
         },
         "raw": "3",
@@ -2507,11 +2507,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 22,
+          "line": 23,
         },
         "start": Object {
           "column": 0,
-          "line": 22,
+          "line": 23,
         },
       },
       "mnemonic": "ORG",
@@ -2522,11 +2522,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 22,
+        "line": 23,
       },
       "start": Object {
         "column": 0,
-        "line": 22,
+        "line": 23,
       },
     },
     "machineCodes": Array [4],
@@ -2536,11 +2536,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 5,
-            "line": 22,
+            "line": 23,
           },
           "start": Object {
             "column": 4,
-            "line": 22,
+            "line": 23,
           },
         },
         "raw": "4",
@@ -2559,11 +2559,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 23,
+          "line": 24,
         },
         "start": Object {
           "column": 0,
-          "line": 23,
+          "line": 24,
         },
       },
       "mnemonic": "DB",
@@ -2574,11 +2574,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 23,
+        "line": 24,
       },
       "start": Object {
         "column": 0,
-        "line": 23,
+        "line": 24,
       },
     },
     "machineCodes": Array [5],
@@ -2588,11 +2588,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 4,
-            "line": 23,
+            "line": 24,
           },
           "start": Object {
             "column": 3,
-            "line": 23,
+            "line": 24,
           },
         },
         "raw": "5",
@@ -2611,11 +2611,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 2,
-          "line": 24,
+          "line": 25,
         },
         "start": Object {
           "column": 0,
-          "line": 24,
+          "line": 25,
         },
       },
       "mnemonic": "DB",
@@ -2626,11 +2626,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 7,
-        "line": 24,
+        "line": 25,
       },
       "start": Object {
         "column": 0,
-        "line": 24,
+        "line": 25,
       },
     },
     "machineCodes": Array [54, 55],
@@ -2640,11 +2640,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 7,
-            "line": 24,
+            "line": 25,
           },
           "start": Object {
             "column": 3,
-            "line": 24,
+            "line": 25,
           },
         },
         "raw": "\\"67\\"",
@@ -2663,11 +2663,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 25,
+          "line": 26,
         },
         "start": Object {
           "column": 0,
-          "line": 25,
+          "line": 26,
         },
       },
       "mnemonic": "END",
@@ -2678,11 +2678,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 25,
+        "line": 26,
       },
       "start": Object {
         "column": 0,
-        "line": 25,
+        "line": 26,
       },
     },
     "machineCodes": Array [0],
@@ -2701,11 +2701,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 5,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "mnemonic": "PUSHF",
@@ -2716,11 +2716,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 5,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "machineCodes": Array [234],
@@ -2734,11 +2734,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 4,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "POPF",
@@ -2749,11 +2749,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [235],
@@ -2767,11 +2767,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "RET",
@@ -2782,11 +2782,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [203],
@@ -2800,11 +2800,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 4,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "IRET",
@@ -2815,11 +2815,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [205],
@@ -2833,11 +2833,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 4,
-          "line": 5,
+          "line": 6,
         },
         "start": Object {
           "column": 0,
-          "line": 5,
+          "line": 6,
         },
       },
       "mnemonic": "HALT",
@@ -2848,11 +2848,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 4,
-        "line": 5,
+        "line": 6,
       },
       "start": Object {
         "column": 0,
-        "line": 5,
+        "line": 6,
       },
     },
     "machineCodes": Array [0],
@@ -2866,11 +2866,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 6,
+          "line": 7,
         },
         "start": Object {
           "column": 0,
-          "line": 6,
+          "line": 7,
         },
       },
       "mnemonic": "NOP",
@@ -2881,11 +2881,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 6,
+        "line": 7,
       },
       "start": Object {
         "column": 0,
-        "line": 6,
+        "line": 7,
       },
     },
     "machineCodes": Array [255],
@@ -2899,11 +2899,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 7,
+          "line": 8,
         },
         "start": Object {
           "column": 0,
-          "line": 7,
+          "line": 8,
         },
       },
       "mnemonic": "CLO",
@@ -2914,11 +2914,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 7,
+        "line": 8,
       },
       "start": Object {
         "column": 0,
-        "line": 7,
+        "line": 8,
       },
     },
     "machineCodes": Array [254],
@@ -2932,11 +2932,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 8,
+          "line": 9,
         },
         "start": Object {
           "column": 0,
-          "line": 8,
+          "line": 9,
         },
       },
       "mnemonic": "CLI",
@@ -2947,11 +2947,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 8,
+        "line": 9,
       },
       "start": Object {
         "column": 0,
-        "line": 8,
+        "line": 9,
       },
     },
     "machineCodes": Array [253],
@@ -2965,11 +2965,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 9,
+          "line": 10,
         },
         "start": Object {
           "column": 0,
-          "line": 9,
+          "line": 10,
         },
       },
       "mnemonic": "STI",
@@ -2980,11 +2980,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 9,
+        "line": 10,
       },
       "start": Object {
         "column": 0,
-        "line": 9,
+        "line": 10,
       },
     },
     "machineCodes": Array [252],
@@ -2998,11 +2998,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 10,
+          "line": 11,
         },
         "start": Object {
           "column": 0,
-          "line": 10,
+          "line": 11,
         },
       },
       "mnemonic": "END",
@@ -3013,11 +3013,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 10,
+        "line": 11,
       },
       "start": Object {
         "column": 0,
-        "line": 10,
+        "line": 11,
       },
     },
     "machineCodes": Array [0],
@@ -3036,11 +3036,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 1,
+          "line": 2,
         },
         "start": Object {
           "column": 0,
-          "line": 1,
+          "line": 2,
         },
       },
       "mnemonic": "MOV",
@@ -3051,11 +3051,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 10,
-        "line": 1,
+        "line": 2,
       },
       "start": Object {
         "column": 0,
-        "line": 1,
+        "line": 2,
       },
     },
     "machineCodes": Array [208, 0, 1],
@@ -3065,11 +3065,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 4,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "al",
@@ -3083,11 +3083,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 10,
-            "line": 1,
+            "line": 2,
           },
           "start": Object {
             "column": 8,
-            "line": 1,
+            "line": 2,
           },
         },
         "raw": "01",
@@ -3106,11 +3106,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 2,
+          "line": 3,
         },
         "start": Object {
           "column": 0,
-          "line": 2,
+          "line": 3,
         },
       },
       "mnemonic": "MOV",
@@ -3121,11 +3121,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 2,
+        "line": 3,
       },
       "start": Object {
         "column": 0,
-        "line": 2,
+        "line": 3,
       },
     },
     "machineCodes": Array [209, 1, 2],
@@ -3135,11 +3135,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 4,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "bl",
@@ -3153,11 +3153,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 12,
-            "line": 2,
+            "line": 3,
           },
           "start": Object {
             "column": 8,
-            "line": 2,
+            "line": 3,
           },
         },
         "raw": "[02]",
@@ -3176,11 +3176,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 3,
+          "line": 4,
         },
         "start": Object {
           "column": 0,
-          "line": 3,
+          "line": 4,
         },
       },
       "mnemonic": "MOV",
@@ -3191,11 +3191,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 3,
+        "line": 4,
       },
       "start": Object {
         "column": 0,
-        "line": 3,
+        "line": 4,
       },
     },
     "machineCodes": Array [210, 3, 2],
@@ -3205,11 +3205,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 8,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 4,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "[03]",
@@ -3223,11 +3223,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 12,
-            "line": 3,
+            "line": 4,
           },
           "start": Object {
             "column": 10,
-            "line": 3,
+            "line": 4,
           },
         },
         "raw": "cl",
@@ -3246,11 +3246,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 4,
+          "line": 5,
         },
         "start": Object {
           "column": 0,
-          "line": 4,
+          "line": 5,
         },
       },
       "mnemonic": "MOV",
@@ -3261,11 +3261,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 4,
+        "line": 5,
       },
       "start": Object {
         "column": 0,
-        "line": 4,
+        "line": 5,
       },
     },
     "machineCodes": Array [211, 3, 0],
@@ -3275,11 +3275,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 6,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 4,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "dl",
@@ -3293,11 +3293,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 12,
-            "line": 4,
+            "line": 5,
           },
           "start": Object {
             "column": 8,
-            "line": 4,
+            "line": 5,
           },
         },
         "raw": "[al]",
@@ -3316,11 +3316,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 5,
+          "line": 6,
         },
         "start": Object {
           "column": 0,
-          "line": 5,
+          "line": 6,
         },
       },
       "mnemonic": "MOV",
@@ -3331,11 +3331,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 12,
-        "line": 5,
+        "line": 6,
       },
       "start": Object {
         "column": 0,
-        "line": 5,
+        "line": 6,
       },
     },
     "machineCodes": Array [212, 1, 2],
@@ -3345,11 +3345,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 8,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 4,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "[bl]",
@@ -3363,11 +3363,11 @@ Array [
         "loc": Object {
           "end": Object {
             "column": 12,
-            "line": 5,
+            "line": 6,
           },
           "start": Object {
             "column": 10,
-            "line": 5,
+            "line": 6,
           },
         },
         "raw": "cl",
@@ -3386,11 +3386,11 @@ Array [
       "loc": Object {
         "end": Object {
           "column": 3,
-          "line": 6,
+          "line": 7,
         },
         "start": Object {
           "column": 0,
-          "line": 6,
+          "line": 7,
         },
       },
       "mnemonic": "END",
@@ -3401,11 +3401,11 @@ Array [
     "loc": Object {
       "end": Object {
         "column": 3,
-        "line": 6,
+        "line": 7,
       },
       "start": Object {
         "column": 0,
-        "line": 6,
+        "line": 7,
       },
     },
     "machineCodes": Array [0],
