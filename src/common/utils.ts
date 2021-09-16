@@ -28,12 +28,20 @@ export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
 
+export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
+
+export const range = (start: number, stop?: number): number[] => {
+  if (stop === undefined) {
+    stop = start
+    start = 0
+  }
+  return Array.from({ length: stop - start }, (_, i) => start + i)
+}
+
 export const stringToAscii = (str: string): number[] =>
   str.split('').map(char => char.charCodeAt(0))
 
 export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
-
-export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
 
 export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
   arr.reduce<T[][]>((resultArr, value, index) => {

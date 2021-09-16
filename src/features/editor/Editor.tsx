@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
-import { useAppStore } from '../../app/hooks'
-import { setEditorInput, selectEditortInput } from './editorSlice'
+import { useAppSelector, useAppStore } from '../../app/hooks'
+import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
+import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 // import { breakpointEffect } from './codemirror/breakpointGutter'
@@ -23,7 +24,7 @@ const Editor = ({ className }: Props): JSX.Element => {
     assemble(defaultInput)
   }, [])
 
-  const { editorRef } = useCodeMirror<HTMLDivElement>(
+  const { editorRef, view } = useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
       extensions: setup
@@ -51,6 +52,11 @@ const Editor = ({ className }: Props): JSX.Element => {
       // })
     }
   )
+
+  const activeRange = useAppSelector(selectEditorActiveRange)
+  if (view !== undefined) {
+    view.dispatch({ effects: highlightActiveRangeEffect.of(activeRange) })
+  }
 
   return (
     <div ref={editorRef} className={`flex flex-col ${className}`}>

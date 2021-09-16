@@ -8,6 +8,7 @@ import { foldGutter, foldKeymap } from '@codemirror/fold'
 import { bracketMatching } from '@codemirror/matchbrackets'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
+import { highlightActiveRange } from './highlightActiveRange'
 
 const theme = EditorView.theme({
   '&': {
@@ -27,6 +28,7 @@ const theme = EditorView.theme({
 
 export const setup: Extension = [
   drawSelection(),
+  highlightActiveRange(),
   history(),
   breakpointGutter(),
   lineNumbers(),

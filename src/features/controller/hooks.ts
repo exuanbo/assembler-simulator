@@ -8,8 +8,8 @@ import {
   selectIsSuspended,
   selectConfiguration
 } from './controllerSlice'
-import { selectEditortInput } from '../editor/editorSlice'
-import { setAssemblerState } from '../assembler/assemblerSlice'
+import { setEditorActiveRange, selectEditortInput } from '../editor/editorSlice'
+import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import { StepResult, step, RuntimeError } from '../cpu/core'
@@ -52,8 +52,7 @@ export const useController = (): Controller => {
   const assemble = useAssembler()
 
   const __assemble = (): void => {
-    const input = selectEditortInput(store.getState())
-    assemble(input)
+    assemble(selectEditortInput(store.getState()))
   }
 
   /**
@@ -129,6 +128,12 @@ export const useController = (): Controller => {
           requestId = window.requestAnimationFrame(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
+            const instructionAdress = registers.ip
+            const statement = selectAddressToStatementMap(state)[instructionAdress]
+            const hasStatement = statement?.machineCodes.every(
+              (machineCode, index) => machineCode === memoryData[instructionAdress + index]
+            )
+            dispatch(setEditorActiveRange(hasStatement ? statement : null))
             requestId = undefined
           })
         }
@@ -183,6 +188,7 @@ export const useController = (): Controller => {
     reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
+    dispatch(setEditorActiveRange(selectAddressToStatementMap(store.getState())[0]))
   }
 
   return {
