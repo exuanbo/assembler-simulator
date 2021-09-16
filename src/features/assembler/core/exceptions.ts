@@ -1,12 +1,5 @@
-import type {
-  SourceLocation,
-  Token,
-  Label,
-  OperandType,
-  Operand,
-  Statement
-} from '../features/assembler/core'
-import { trimBracketsAndQuotes } from './utils'
+import type { SourceLocation, Token, Label, OperandType, Operand, Statement } from '.'
+import { trimBracketsAndQuotes } from '../../../common/utils'
 
 export abstract class AssemblerError extends Error {
   public message: string
@@ -111,50 +104,5 @@ export class LabelNotExistError extends AssemblerError {
 export class JumpDistanceError extends AssemblerError {
   constructor({ raw, start, end, loc }: Operand) {
     super(`Jump distance should be between -128 and 127: ${raw}`, start, end, loc)
-  }
-}
-
-export abstract class RuntimeError extends Error {
-  public message: string
-
-  constructor(message: string) {
-    super()
-    this.message = message
-  }
-}
-
-export class InvalidRegisterError extends RuntimeError {
-  constructor(value: number) {
-    super(`Invalid register: ${value}`)
-  }
-}
-
-export class RunBeyondEndOfMemory extends RuntimeError {
-  constructor() {
-    super('Can not execute code beyond the end of RAM')
-  }
-}
-
-export class StackOverflowError extends RuntimeError {
-  constructor() {
-    super('Stack overflow')
-  }
-}
-
-export class StackUnderflowError extends RuntimeError {
-  constructor() {
-    super('Stack underflow')
-  }
-}
-
-export class DivideByZeroError extends RuntimeError {
-  constructor() {
-    super('Can not divide by zero')
-  }
-}
-
-export class PortError extends RuntimeError {
-  constructor() {
-    super('I/O ports between 0 and F are available.')
   }
 }

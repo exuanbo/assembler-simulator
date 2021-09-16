@@ -1,4 +1,4 @@
-import { DivideByZeroError } from '../../../common/exceptions'
+import { DivideByZeroError } from './exceptions'
 
 export const add = (addend: number, augend: number): number => augend + addend
 

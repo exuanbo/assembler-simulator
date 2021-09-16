@@ -22,9 +22,11 @@ import {
   StackOverflowError,
   StackUnderflowError,
   PortError
-} from '../../../common/exceptions'
+} from './exceptions'
 import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
 import { NullablePartial, Head, sign8, unsign8 } from '../../../common/utils'
+
+export * from './exceptions'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 

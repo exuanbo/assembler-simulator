@@ -12,7 +12,7 @@ import { selectEditortInput } from '../editor/editorSlice'
 import { setAssemblerState } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
-import { StepResult, step } from '../cpu/core'
+import { StepResult, step, RuntimeError } from '../cpu/core'
 import {
   setCpuFault,
   setCpuHalted,
@@ -24,7 +24,6 @@ import {
   selectCpuRegisters,
   selectCpuInputSignals
 } from '../cpu/cpuSlice'
-import { RuntimeError } from '../../common/exceptions'
 
 type RefCallback<T> = (node: T) => void
 

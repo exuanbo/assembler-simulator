@@ -1,9 +1,8 @@
 import { useAppDispatch } from '../../app/hooks'
-import { assemble } from './core'
+import { assemble, AssemblerError } from './core'
 import { setAssemblerState } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
-import { AssemblerError } from '../../common/exceptions'
 
 type Assemble = (input: string) => void
 

@@ -9,7 +9,7 @@ import {
   InvalidNumberError,
   OperandTypeError,
   MissingCommaError
-} from '../../../common/exceptions'
+} from './exceptions'
 import {
   Mnemonic,
   MnemonicToOperandsCountMap,

@@ -5,13 +5,14 @@ import {
   AssembleEndOfMemoryError,
   LabelNotExistError,
   JumpDistanceError
-} from '../../../common/exceptions'
+} from './exceptions'
 import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
 export * from './types'
 export * from './tokenizer'
 export * from './parser'
+export * from './exceptions'
 
 type LabelToAddressMap = Record<string, number>
 
