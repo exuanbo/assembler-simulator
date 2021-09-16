@@ -7,10 +7,9 @@ type SideEffectCallback<A extends PayloadAction = PayloadAction> = (
 
 const subscriptions = new Map<string, Set<SideEffectCallback>>()
 
-export const subscribe = <C extends SideEffectCallback>(
-  actionType: string,
-  cb: C
-): (() => void) => {
+type Unsubscribe = () => void
+
+export const subscribe = <C extends SideEffectCallback>(actionType: string, cb: C): Unsubscribe => {
   if (!subscriptions.has(actionType)) {
     subscriptions.set(actionType, new Set())
   }
