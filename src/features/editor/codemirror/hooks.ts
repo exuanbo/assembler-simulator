@@ -17,18 +17,20 @@ export const useCodeMirror = <T extends Element = Element>(
   }, [])
 
   useEffect(() => {
-    if (current !== null) {
-      const viewUpdateListener = EditorView.updateListener.of(viewUpdateHandler)
-      const state = EditorState.create({
-        ...editorStateConfig,
-        extensions: [editorStateConfig.extensions ?? [], viewUpdateListener]
-      })
-      const initialView = new EditorView({
-        state,
-        parent: current
-      })
-      setView(initialView)
+    if (current === null) {
+      setView(undefined)
+      return
     }
+    const viewUpdateListener = EditorView.updateListener.of(viewUpdateHandler)
+    const state = EditorState.create({
+      ...editorStateConfig,
+      extensions: [editorStateConfig.extensions ?? [], viewUpdateListener]
+    })
+    const initialView = new EditorView({
+      state,
+      parent: current
+    })
+    setView(initialView)
   }, [current])
 
   useEffect(() => {
