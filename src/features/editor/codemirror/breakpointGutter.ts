@@ -12,11 +12,17 @@ export const breakpointEffect = StateEffect.define<{ pos: number; on: boolean }>
   }
 })
 
+const breakpointMarker: GutterMarker = new (class extends GutterMarker {
+  toDOM(): Text {
+    return document.createTextNode('●')
+  }
+})()
+
 const breakpointField = StateField.define<RangeSet<GutterMarker>>({
   create() {
     return RangeSet.empty
   },
-  update(set, transaction) {
+  update(markerSet, transaction) {
     return transaction.effects.reduce<RangeSet<GutterMarker>>(
       (resultSet, effect) =>
         effect.is(breakpointEffect)
@@ -26,7 +32,7 @@ const breakpointField = StateField.define<RangeSet<GutterMarker>>({
                 : { filter: from => from !== effect.value.pos }
             )
           : resultSet,
-      set.map(transaction.changes)
+      markerSet.map(transaction.changes)
     )
   }
 })
@@ -44,12 +50,6 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
     })
   })
 }
-
-const breakpointMarker: GutterMarker = new (class extends GutterMarker {
-  toDOM(): Text {
-    return document.createTextNode('●')
-  }
-})()
 
 export const breakpointGutter = (): Extension => [
   breakpointField,
