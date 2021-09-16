@@ -1,4 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useReducer, useCallback } from 'react'
+
+export const useToggle = (initialState: boolean): [boolean, React.DispatchWithoutAction] =>
+  useReducer((state: boolean) => !state, initialState)
 
 type RefCallback<T> = (node: T) => void
 

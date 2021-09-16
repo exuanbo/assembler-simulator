@@ -1,15 +1,16 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import Card from '../../common/components/Card'
 import { EyeClosed, EyeOpen } from '../../common/components/icons'
 import SimulatedKeyboard from './SimulatedKeyboard'
 import VisualDisplayUnit from './VisualDisplayUnit'
+import { useToggle } from '../../common/hooks'
 
 interface Props {
   className?: string
 }
 
 const IoDevices = ({ className }: Props): JSX.Element => {
-  const [isActive, toggleActive] = useReducer((state: boolean) => !state, true)
+  const [isActive, toggleActive] = useToggle(true)
 
   return (
     <Card

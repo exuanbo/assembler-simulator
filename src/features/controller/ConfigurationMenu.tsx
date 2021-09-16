@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import MenuItem from './MenuItem'
 import MenuItems from './MenuItems'
 import { CheckMark, Wrench, Play } from '../../common/components/icons'
@@ -15,7 +15,7 @@ import {
   selectClockSpeed,
   selectTimerInterval
 } from './controllerSlice'
-import { useOutsideClick } from '../../common/hooks'
+import { useToggle, useOutsideClick } from '../../common/hooks'
 
 const AutoAssembleOption = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -122,7 +122,7 @@ const TimerIntervalMenu = (): JSX.Element => {
 }
 
 const ConfigurationMenu = (): JSX.Element => {
-  const [isOpen, toggleOpen] = useReducer((state: boolean) => !state, false)
+  const [isOpen, toggleOpen] = useToggle(false)
   const [clickRef, isClicked] = useOutsideClick<HTMLDivElement>()
 
   if (isOpen && isClicked) {
