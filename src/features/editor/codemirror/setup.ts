@@ -1,5 +1,5 @@
 import type { Extension } from '@codemirror/state'
-import { EditorView, keymap, drawSelection, highlightActiveLine } from '@codemirror/view'
+import { EditorView, keymap, drawSelection } from '@codemirror/view'
 import { indentUnit } from '@codemirror/language'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
@@ -27,7 +27,6 @@ const theme = EditorView.theme({
 
 export const setup: Extension = [
   drawSelection(),
-  highlightActiveLine(),
   history(),
   breakpointGutter(),
   lineNumbers(),
