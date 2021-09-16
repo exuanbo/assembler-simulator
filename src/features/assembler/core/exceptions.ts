@@ -1,4 +1,6 @@
-import type { SourceLocation, Token, Label, OperandType, Operand, Statement } from '.'
+import type { SourceLocation } from './types'
+import type { Token } from './tokenizer'
+import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
 export abstract class AssemblerError extends Error {

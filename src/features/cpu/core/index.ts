@@ -26,7 +26,7 @@ import {
 import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
 import { NullablePartial, Head, sign8, unsign8 } from '../../../common/utils'
 
-export * from './exceptions'
+export { RuntimeError } from './exceptions'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 

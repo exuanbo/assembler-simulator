@@ -1,4 +1,5 @@
-import { Statement, tokenize, parse as __parse } from '../../src/features/assembler/core'
+import { tokenize } from '../../src/features/assembler/core/tokenizer'
+import { Statement, parse as __parse } from '../../src/features/assembler/core/parser'
 import { shortArraySerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)

@@ -9,10 +9,7 @@ import {
 import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
-export * from './types'
-export * from './tokenizer'
-export * from './parser'
-export * from './exceptions'
+export { AssemblerError } from './exceptions'
 
 type LabelToAddressMap = Record<string, number>
 
