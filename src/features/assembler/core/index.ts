@@ -72,6 +72,7 @@ export const assemble = (input: string): AssembleResult => {
           throw new JumpDistanceError(firstOperand)
         }
         const unsignedDistance = distance < 0 ? 0x100 + distance : distance
+        firstOperand.value = unsignedDistance
         machineCodes.push(unsignedDistance)
       }
       const nextAddress = address + machineCodes.length
