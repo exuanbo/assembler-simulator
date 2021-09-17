@@ -61,13 +61,15 @@ const tokenMatchers = [
   matchRegExp(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
+const skipableTypes = [TokenType.Whitespace, TokenType.Comment]
+
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
     for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex += 1) {
       const token = tokenMatchers[matcherIndex](input, index)
       if (token !== null) {
-        if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
+        if (!skipableTypes.includes(token.type)) {
           tokens.push(token)
         }
         index = token.value === Mnemonic.END ? input.length : token.end
