@@ -82,14 +82,10 @@ const NEWLINE_REGEXP = /(?:\n|\r\n)/g
 
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
-  let index = 0
-  let line = 1
-  let column = 0
-  while (index < input.length) {
-    tokenMatchers.some(matchToken => {
-      const token = matchToken(input, index, line, column)
-      const isMatched = token !== null
-      if (isMatched) {
+  for (let index = 0, line = 1, column = 0; index < input.length; ) {
+    for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex++) {
+      const token = tokenMatchers[matcherIndex](input, index, line, column)
+      if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
@@ -97,9 +93,9 @@ export const tokenize = (input: string): Token[] => {
         const newlinesCount = (token.raw.match(NEWLINE_REGEXP) ?? []).length
         line += newlinesCount
         column = newlinesCount > 0 ? 0 : token.loc.end.column
+        break
       }
-      return isMatched
-    })
+    }
   }
   return tokens
 }
