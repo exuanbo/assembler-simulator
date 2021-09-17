@@ -45,7 +45,7 @@ export class AddressError extends AssemblerError {
   constructor({ raw, start, end }: Token) {
     const addressValue = trimBracketsAndQuotes(raw)
     super(
-      `Expected a number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
+      `Expected number or register: ${addressValue.length > 0 ? addressValue : ']'}`,
       start,
       end
     )

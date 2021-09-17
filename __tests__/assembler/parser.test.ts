@@ -172,16 +172,18 @@ end
     }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
+  const ADDRESS_ERROR_MSG_PREFIX = 'Expected number or register: '
+
   it('should throw AddressError if address is invalid', () => {
     expect(() => {
       parse('mov [gg], al')
-    }).toThrowError('Expected a number or register: gg')
+    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + 'gg')
   })
 
   it('should throw AddressError if address is empty', () => {
     expect(() => {
       parse('mov [], al')
-    }).toThrowError('Expected a number or register: ]')
+    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + ']')
   })
 
   it('should throw InvalidNumberError', () => {
