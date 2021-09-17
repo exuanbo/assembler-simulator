@@ -5,6 +5,7 @@ import { trimBracketsAndQuotes, call } from '../../../common/utils'
 export enum TokenType {
   Whitespace = 'Whitespace',
   Comment = 'Comment',
+  Colon = 'Colon',
   Comma = 'Comma',
   Digits = 'Digits',
   Register = 'Register',
@@ -53,12 +54,13 @@ const matchRegExp =
 const tokenMatchers = [
   matchRegExp(/^\s+/, TokenType.Whitespace),
   matchRegExp(/^;.*/, TokenType.Comment),
+  matchRegExp(/^:/, TokenType.Colon),
   matchRegExp(/^,/, TokenType.Comma),
   matchRegExp(/^\d+\b/, TokenType.Digits),
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
   matchRegExp(/^".*"/, TokenType.String),
-  matchRegExp(/^[^\s;,]+/, TokenType.Unknown)
+  matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
 ]
 
 const skipableTypes = [TokenType.Whitespace, TokenType.Comment]

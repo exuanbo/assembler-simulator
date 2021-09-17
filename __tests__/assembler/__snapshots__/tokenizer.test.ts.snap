@@ -3,11 +3,18 @@
 exports[`tokenizer should skip comment at the end of the line 1`] = `
 Array [
   Object {
-    "end": 5,
-    "raw": "done:",
+    "end": 4,
+    "raw": "done",
     "start": 0,
     "type": "Unknown",
-    "value": "DONE:",
+    "value": "DONE",
+  },
+  Object {
+    "end": 5,
+    "raw": ":",
+    "start": 4,
+    "type": "Colon",
+    "value": ":",
   },
   Object {
     "end": 28,
@@ -34,11 +41,18 @@ Array [
 exports[`tokenizer should skip whitespace 1`] = `
 Array [
   Object {
-    "end": 8,
-    "raw": "done:",
+    "end": 7,
+    "raw": "done",
     "start": 3,
     "type": "Unknown",
-    "value": "DONE:",
+    "value": "DONE",
+  },
+  Object {
+    "end": 8,
+    "raw": ":",
+    "start": 7,
+    "type": "Colon",
+    "value": ":",
   },
   Object {
     "end": 14,

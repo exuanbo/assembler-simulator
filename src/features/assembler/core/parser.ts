@@ -26,9 +26,8 @@ export interface Label extends Locatable {
 }
 
 const createLabel = ({ value, start, end }: Token): Label => {
-  const identifier = value.slice(0, -1)
   return {
-    identifier,
+    identifier: value,
     start,
     end
   }
@@ -124,7 +123,7 @@ const createStatement = (
   }
 }
 
-const LABEL_REGEXP = /^[A-Z_]+:?$/
+const LABEL_REGEXP = /^[A-Z_]+$/
 
 const validateLabel = (token: Token): Token => {
   if (!LABEL_REGEXP.test(token.value)) {
@@ -134,11 +133,10 @@ const validateLabel = (token: Token): Token => {
 }
 
 const parseLabel = (tokens: Token[], index: number): Label | null => {
-  const token = tokens[index]
-  if (!token.value.endsWith(':')) {
+  if (!(tokens[index + 1]?.type === TokenType.Colon)) {
     return null
   }
-  return createLabel(validateLabel(token))
+  return createLabel(validateLabel(tokens[index]))
 }
 
 const validateNumber = (token: Token): Token => {
@@ -238,7 +236,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
   const label = parseLabel(tokens, index)
   const hasLabel = label !== null
   if (hasLabel) {
-    index += 1
+    index += 2
   }
 
   const token = tokens[index]
@@ -524,7 +522,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
 
 const getConsumedTokensCount = ({ label, operands }: Statement): number => {
   return (
-    /* label */ (label !== null ? 1 : 0) +
+    /* label */ (label !== null ? 2 : 0) +
     /* instruction */ 1 +
     /* operands */ operands.length +
     /* comma */ (operands.length === 2 ? 1 : 0)

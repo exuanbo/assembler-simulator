@@ -121,7 +121,7 @@ end
 
     expect(() => {
       parse(': end')
-    }).toThrowError(INVALID_LABEL_ERROR_MSG_PREFIX)
+    }).toThrowError('Expected label or instruction: :')
 
     expect(() => {
       parse('jmp !start end')
