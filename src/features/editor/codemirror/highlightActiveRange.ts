@@ -10,34 +10,39 @@ export const highlightActiveRangeEffect = StateEffect.define<{
 
 const lineDecoration = Decoration.line({ attributes: { class: 'cm-activeRange' } })
 
-const activeRangeField = StateField.define<DecorationSet>({
+const highlightActiveRangeField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
-  update(_, transaction) {
-    return transaction.effects.reduce<DecorationSet>((decorationSet, effect) => {
-      if (effect.is(highlightActiveRangeEffect) && effect.value !== null) {
-        const { from, to } = effect.value
-        const lineNumbers: number[] = []
-        const decorationRanges = range(from, to).reduce<Array<Range<Decoration>>>((ranges, pos) => {
-          const line = transaction.state.doc.lineAt(pos)
-          const lineNumber = line.number
-          if (!lineNumbers.includes(lineNumber)) {
-            lineNumbers.push(lineNumber)
-            ranges.push(lineDecoration.range(line.from))
+  update(decorationSet, transaction) {
+    return transaction.docChanged
+      ? decorationSet
+      : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
+          if (effect.is(highlightActiveRangeEffect) && effect.value !== null) {
+            const { from, to } = effect.value
+            const lineNumbers: number[] = []
+            const decorationRanges = range(from, to).reduce<Array<Range<Decoration>>>(
+              (ranges, pos) => {
+                const line = transaction.state.doc.lineAt(pos)
+                const lineNumber = line.number
+                if (!lineNumbers.includes(lineNumber)) {
+                  lineNumbers.push(lineNumber)
+                  ranges.push(lineDecoration.range(line.from))
+                }
+                return ranges
+              },
+              []
+            )
+            return resultSet.update({ add: decorationRanges })
           }
-          return ranges
-        }, [])
-        return decorationSet.update({ add: decorationRanges })
-      }
-      return decorationSet
-    }, Decoration.none)
+          return resultSet
+        }, Decoration.none)
   },
   provide: field => EditorView.decorations.from(field)
 })
 
 export const highlightActiveRange = (): Extension => [
-  activeRangeField,
+  highlightActiveRangeField,
   EditorView.baseTheme({
     '.cm-activeRange': {
       backgroundColor: '#dcfce7'
