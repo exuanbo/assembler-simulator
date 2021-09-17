@@ -56,8 +56,8 @@ const tokenMatchers = [
   matchRegExp(/^,/, TokenType.Comma),
   matchRegExp(/^\d+\b/, TokenType.Digits),
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
-  matchRegExp(/^\[\S*?\](?=[\s;,]|$)/, TokenType.Address),
-  matchRegExp(/^"[^\r\n]*?"(?=[\s;,]|$)/, TokenType.String),
+  matchRegExp(/^\[.*?\]/, TokenType.Address),
+  matchRegExp(/^".*"/, TokenType.String),
   matchRegExp(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
