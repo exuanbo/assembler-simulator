@@ -4,16 +4,6 @@ exports[`tokenizer should skip comment at the end of the line 1`] = `
 Array [
   Object {
     "end": 5,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": "done:",
     "start": 0,
     "type": "Unknown",
@@ -21,16 +11,6 @@ Array [
   },
   Object {
     "end": 28,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "raw": "end",
     "start": 25,
     "type": "Unknown",
@@ -43,16 +23,6 @@ exports[`tokenizer should skip line with comment 1`] = `
 Array [
   Object {
     "end": 23,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "raw": "end",
     "start": 20,
     "type": "Unknown",
@@ -65,16 +35,6 @@ exports[`tokenizer should skip whitespace 1`] = `
 Array [
   Object {
     "end": 8,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "raw": "done:",
     "start": 3,
     "type": "Unknown",
@@ -82,16 +42,6 @@ Array [
   },
   Object {
     "end": 14,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "raw": "end",
     "start": 11,
     "type": "Unknown",
@@ -104,16 +54,6 @@ exports[`tokenizer should tokenize address 1`] = `
 Array [
   Object {
     "end": 2,
-    "loc": Object {
-      "end": Object {
-        "column": 2,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": "[]",
     "start": 0,
     "type": "Address",
@@ -121,16 +61,6 @@ Array [
   },
   Object {
     "end": 7,
-    "loc": Object {
-      "end": Object {
-        "column": 7,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 3,
-        "line": 1,
-      },
-    },
     "raw": "[00]",
     "start": 3,
     "type": "Address",
@@ -138,16 +68,6 @@ Array [
   },
   Object {
     "end": 12,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 8,
-        "line": 1,
-      },
-    },
     "raw": "[al]",
     "start": 8,
     "type": "Address",
@@ -160,16 +80,6 @@ exports[`tokenizer should tokenize comma 1`] = `
 Array [
   Object {
     "end": 1,
-    "loc": Object {
-      "end": Object {
-        "column": 1,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": ",",
     "start": 0,
     "type": "Comma",
@@ -177,16 +87,6 @@ Array [
   },
   Object {
     "end": 3,
-    "loc": Object {
-      "end": Object {
-        "column": 1,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "raw": ",",
     "start": 2,
     "type": "Comma",
@@ -194,16 +94,6 @@ Array [
   },
   Object {
     "end": 4,
-    "loc": Object {
-      "end": Object {
-        "column": 2,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 2,
-      },
-    },
     "raw": ",",
     "start": 3,
     "type": "Comma",
@@ -216,16 +106,6 @@ exports[`tokenizer should tokenize digits 1`] = `
 Array [
   Object {
     "end": 1,
-    "loc": Object {
-      "end": Object {
-        "column": 1,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": "0",
     "start": 0,
     "type": "Digits",
@@ -233,16 +113,6 @@ Array [
   },
   Object {
     "end": 4,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 2,
-        "line": 1,
-      },
-    },
     "raw": "01",
     "start": 2,
     "type": "Digits",
@@ -250,16 +120,6 @@ Array [
   },
   Object {
     "end": 8,
-    "loc": Object {
-      "end": Object {
-        "column": 8,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 5,
-        "line": 1,
-      },
-    },
     "raw": "002",
     "start": 5,
     "type": "Digits",
@@ -272,16 +132,6 @@ exports[`tokenizer should tokenize register 1`] = `
 Array [
   Object {
     "end": 2,
-    "loc": Object {
-      "end": Object {
-        "column": 2,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": "al",
     "start": 0,
     "type": "Register",
@@ -289,16 +139,6 @@ Array [
   },
   Object {
     "end": 5,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 3,
-        "line": 1,
-      },
-    },
     "raw": "Bl",
     "start": 3,
     "type": "Register",
@@ -306,16 +146,6 @@ Array [
   },
   Object {
     "end": 8,
-    "loc": Object {
-      "end": Object {
-        "column": 8,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 6,
-        "line": 1,
-      },
-    },
     "raw": "cL",
     "start": 6,
     "type": "Register",
@@ -323,16 +153,6 @@ Array [
   },
   Object {
     "end": 11,
-    "loc": Object {
-      "end": Object {
-        "column": 11,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 9,
-        "line": 1,
-      },
-    },
     "raw": "DL",
     "start": 9,
     "type": "Register",
@@ -345,16 +165,6 @@ exports[`tokenizer should tokenize string 1`] = `
 Array [
   Object {
     "end": 2,
-    "loc": Object {
-      "end": Object {
-        "column": 2,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
     "raw": "\\"\\"",
     "start": 0,
     "type": "String",
@@ -362,16 +172,6 @@ Array [
   },
   Object {
     "end": 21,
-    "loc": Object {
-      "end": Object {
-        "column": 21,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 3,
-        "line": 1,
-      },
-    },
     "raw": "\\"this is a string\\"",
     "start": 3,
     "type": "String",

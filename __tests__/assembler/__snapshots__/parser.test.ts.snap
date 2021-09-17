@@ -6,45 +6,15 @@ Array [
     "end": 11,
     "instruction": Object {
       "end": 4,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "mnemonic": "CMP",
       "opcode": 218,
       "start": 1,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "machineCodes": Array [218, 0, 1],
     "operands": Array [
       Object {
         "end": 7,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 2,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 5,
@@ -53,16 +23,6 @@ Array [
       },
       Object {
         "end": 11,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 2,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 9,
@@ -76,45 +36,15 @@ Array [
     "end": 22,
     "instruction": Object {
       "end": 15,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "CMP",
       "opcode": 219,
       "start": 12,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "machineCodes": Array [219, 2, 1],
     "operands": Array [
       Object {
         "end": 18,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 3,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 16,
@@ -123,16 +53,6 @@ Array [
       },
       Object {
         "end": 22,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 3,
-          },
-        },
         "raw": "01",
         "rawValue": "01",
         "start": 20,
@@ -146,45 +66,15 @@ Array [
     "end": 35,
     "instruction": Object {
       "end": 26,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "CMP",
       "opcode": 220,
       "start": 23,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [220, 3, 2],
     "operands": Array [
       Object {
         "end": 29,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 4,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 27,
@@ -193,16 +83,6 @@ Array [
       },
       Object {
         "end": 35,
-        "loc": Object {
-          "end": Object {
-            "column": 12,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 4,
-          },
-        },
         "raw": "[02]",
         "rawValue": "02",
         "start": 31,
@@ -216,31 +96,11 @@ Array [
     "end": 39,
     "instruction": Object {
       "end": 39,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 36,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 36,
@@ -254,45 +114,15 @@ Array [
     "end": 11,
     "instruction": Object {
       "end": 4,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "mnemonic": "ADD",
       "opcode": 160,
       "start": 1,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "machineCodes": Array [160, 0, 1],
     "operands": Array [
       Object {
         "end": 7,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 2,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 5,
@@ -301,16 +131,6 @@ Array [
       },
       Object {
         "end": 11,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 2,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 9,
@@ -324,45 +144,15 @@ Array [
     "end": 22,
     "instruction": Object {
       "end": 15,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "SUB",
       "opcode": 161,
       "start": 12,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "machineCodes": Array [161, 2, 3],
     "operands": Array [
       Object {
         "end": 18,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 3,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 16,
@@ -371,16 +161,6 @@ Array [
       },
       Object {
         "end": 22,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 3,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 20,
@@ -394,45 +174,15 @@ Array [
     "end": 33,
     "instruction": Object {
       "end": 26,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "MUL",
       "opcode": 162,
       "start": 23,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [162, 0, 1],
     "operands": Array [
       Object {
         "end": 29,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 4,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 27,
@@ -441,16 +191,6 @@ Array [
       },
       Object {
         "end": 33,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 4,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 31,
@@ -464,45 +204,15 @@ Array [
     "end": 44,
     "instruction": Object {
       "end": 37,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "DIV",
       "opcode": 163,
       "start": 34,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [163, 2, 3],
     "operands": Array [
       Object {
         "end": 40,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 5,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 38,
@@ -511,16 +221,6 @@ Array [
       },
       Object {
         "end": 44,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 5,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 42,
@@ -534,45 +234,15 @@ Array [
     "end": 55,
     "instruction": Object {
       "end": 48,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 6,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 6,
-        },
-      },
       "mnemonic": "MOD",
       "opcode": 166,
       "start": 45,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 6,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 6,
-      },
-    },
     "machineCodes": Array [166, 0, 1],
     "operands": Array [
       Object {
         "end": 51,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 6,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 49,
@@ -581,16 +251,6 @@ Array [
       },
       Object {
         "end": 55,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 6,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 53,
@@ -604,45 +264,15 @@ Array [
     "end": 66,
     "instruction": Object {
       "end": 59,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 7,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 7,
-        },
-      },
       "mnemonic": "AND",
       "opcode": 170,
       "start": 56,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 7,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 7,
-      },
-    },
     "machineCodes": Array [170, 2, 3],
     "operands": Array [
       Object {
         "end": 62,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 7,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 7,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 60,
@@ -651,16 +281,6 @@ Array [
       },
       Object {
         "end": 66,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 7,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 7,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 64,
@@ -674,45 +294,15 @@ Array [
     "end": 76,
     "instruction": Object {
       "end": 69,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 8,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 8,
-        },
-      },
       "mnemonic": "OR",
       "opcode": 171,
       "start": 67,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 8,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 8,
-      },
-    },
     "machineCodes": Array [171, 0, 1],
     "operands": Array [
       Object {
         "end": 72,
-        "loc": Object {
-          "end": Object {
-            "column": 5,
-            "line": 8,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 8,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 70,
@@ -721,16 +311,6 @@ Array [
       },
       Object {
         "end": 76,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 8,
-          },
-          "start": Object {
-            "column": 7,
-            "line": 8,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 74,
@@ -744,45 +324,15 @@ Array [
     "end": 87,
     "instruction": Object {
       "end": 80,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 9,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 9,
-        },
-      },
       "mnemonic": "XOR",
       "opcode": 172,
       "start": 77,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 9,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 9,
-      },
-    },
     "machineCodes": Array [172, 2, 3],
     "operands": Array [
       Object {
         "end": 83,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 9,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 9,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 81,
@@ -791,16 +341,6 @@ Array [
       },
       Object {
         "end": 87,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 9,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 9,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 85,
@@ -814,31 +354,11 @@ Array [
     "end": 91,
     "instruction": Object {
       "end": 91,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 10,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 10,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 88,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 10,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 10,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 88,
@@ -852,45 +372,15 @@ Array [
     "end": 11,
     "instruction": Object {
       "end": 4,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "mnemonic": "ADD",
       "opcode": 176,
       "start": 1,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "machineCodes": Array [176, 0, 1],
     "operands": Array [
       Object {
         "end": 7,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 2,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 5,
@@ -899,16 +389,6 @@ Array [
       },
       Object {
         "end": 11,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 2,
-          },
-        },
         "raw": "01",
         "rawValue": "01",
         "start": 9,
@@ -922,45 +402,15 @@ Array [
     "end": 22,
     "instruction": Object {
       "end": 15,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "SUB",
       "opcode": 177,
       "start": 12,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "machineCodes": Array [177, 1, 2],
     "operands": Array [
       Object {
         "end": 18,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 3,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 16,
@@ -969,16 +419,6 @@ Array [
       },
       Object {
         "end": 22,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 3,
-          },
-        },
         "raw": "02",
         "rawValue": "02",
         "start": 20,
@@ -992,45 +432,15 @@ Array [
     "end": 33,
     "instruction": Object {
       "end": 26,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "MUL",
       "opcode": 178,
       "start": 23,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [178, 2, 3],
     "operands": Array [
       Object {
         "end": 29,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 4,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 27,
@@ -1039,16 +449,6 @@ Array [
       },
       Object {
         "end": 33,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 4,
-          },
-        },
         "raw": "03",
         "rawValue": "03",
         "start": 31,
@@ -1062,45 +462,15 @@ Array [
     "end": 44,
     "instruction": Object {
       "end": 37,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "DIV",
       "opcode": 179,
       "start": 34,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [179, 3, 4],
     "operands": Array [
       Object {
         "end": 40,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 5,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 38,
@@ -1109,16 +479,6 @@ Array [
       },
       Object {
         "end": 44,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 5,
-          },
-        },
         "raw": "04",
         "rawValue": "04",
         "start": 42,
@@ -1132,45 +492,15 @@ Array [
     "end": 55,
     "instruction": Object {
       "end": 48,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 6,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 6,
-        },
-      },
       "mnemonic": "MOD",
       "opcode": 182,
       "start": 45,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 6,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 6,
-      },
-    },
     "machineCodes": Array [182, 0, 1],
     "operands": Array [
       Object {
         "end": 51,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 6,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 49,
@@ -1179,16 +509,6 @@ Array [
       },
       Object {
         "end": 55,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 6,
-          },
-        },
         "raw": "01",
         "rawValue": "01",
         "start": 53,
@@ -1202,45 +522,15 @@ Array [
     "end": 66,
     "instruction": Object {
       "end": 59,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 7,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 7,
-        },
-      },
       "mnemonic": "AND",
       "opcode": 186,
       "start": 56,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 7,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 7,
-      },
-    },
     "machineCodes": Array [186, 1, 2],
     "operands": Array [
       Object {
         "end": 62,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 7,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 7,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 60,
@@ -1249,16 +539,6 @@ Array [
       },
       Object {
         "end": 66,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 7,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 7,
-          },
-        },
         "raw": "02",
         "rawValue": "02",
         "start": 64,
@@ -1272,45 +552,15 @@ Array [
     "end": 76,
     "instruction": Object {
       "end": 69,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 8,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 8,
-        },
-      },
       "mnemonic": "OR",
       "opcode": 187,
       "start": 67,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 8,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 8,
-      },
-    },
     "machineCodes": Array [187, 2, 3],
     "operands": Array [
       Object {
         "end": 72,
-        "loc": Object {
-          "end": Object {
-            "column": 5,
-            "line": 8,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 8,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 70,
@@ -1319,16 +569,6 @@ Array [
       },
       Object {
         "end": 76,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 8,
-          },
-          "start": Object {
-            "column": 7,
-            "line": 8,
-          },
-        },
         "raw": "03",
         "rawValue": "03",
         "start": 74,
@@ -1342,45 +582,15 @@ Array [
     "end": 87,
     "instruction": Object {
       "end": 80,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 9,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 9,
-        },
-      },
       "mnemonic": "XOR",
       "opcode": 188,
       "start": 77,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 9,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 9,
-      },
-    },
     "machineCodes": Array [188, 3, 4],
     "operands": Array [
       Object {
         "end": 83,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 9,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 9,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 81,
@@ -1389,16 +599,6 @@ Array [
       },
       Object {
         "end": 87,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 9,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 9,
-          },
-        },
         "raw": "04",
         "rawValue": "04",
         "start": 85,
@@ -1412,31 +612,11 @@ Array [
     "end": 91,
     "instruction": Object {
       "end": 91,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 10,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 10,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 88,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 10,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 10,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 88,
@@ -1450,16 +630,6 @@ Array [
     "end": 14,
     "instruction": Object {
       "end": 11,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "INC",
       "opcode": 164,
       "start": 8,
@@ -1467,42 +637,12 @@ Array [
     "label": Object {
       "end": 7,
       "identifier": "START",
-      "loc": Object {
-        "end": Object {
-          "column": 6,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "start": 1,
-    },
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
     },
     "machineCodes": Array [164, 0],
     "operands": Array [
       Object {
         "end": 14,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 3,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 12,
@@ -1516,45 +656,15 @@ Array [
     "end": 21,
     "instruction": Object {
       "end": 18,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "DEC",
       "opcode": 165,
       "start": 15,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [165, 1],
     "operands": Array [
       Object {
         "end": 21,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 4,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 19,
@@ -1568,45 +678,15 @@ Array [
     "end": 28,
     "instruction": Object {
       "end": 25,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "NOT",
       "opcode": 173,
       "start": 22,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [173, 2],
     "operands": Array [
       Object {
         "end": 28,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 5,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 26,
@@ -1620,45 +700,15 @@ Array [
     "end": 35,
     "instruction": Object {
       "end": 32,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 6,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 6,
-        },
-      },
       "mnemonic": "ROL",
       "opcode": 154,
       "start": 29,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 6,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 6,
-      },
-    },
     "machineCodes": Array [154, 3],
     "operands": Array [
       Object {
         "end": 35,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 6,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 33,
@@ -1672,45 +722,15 @@ Array [
     "end": 42,
     "instruction": Object {
       "end": 39,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 7,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 7,
-        },
-      },
       "mnemonic": "ROR",
       "opcode": 155,
       "start": 36,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 7,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 7,
-      },
-    },
     "machineCodes": Array [155, 0],
     "operands": Array [
       Object {
         "end": 42,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 7,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 7,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 40,
@@ -1724,45 +744,15 @@ Array [
     "end": 49,
     "instruction": Object {
       "end": 46,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 8,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 8,
-        },
-      },
       "mnemonic": "SHL",
       "opcode": 156,
       "start": 43,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 8,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 8,
-      },
-    },
     "machineCodes": Array [156, 1],
     "operands": Array [
       Object {
         "end": 49,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 8,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 8,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 47,
@@ -1776,45 +766,15 @@ Array [
     "end": 56,
     "instruction": Object {
       "end": 53,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 9,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 9,
-        },
-      },
       "mnemonic": "SHR",
       "opcode": 157,
       "start": 50,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 9,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 9,
-      },
-    },
     "machineCodes": Array [157, 2],
     "operands": Array [
       Object {
         "end": 56,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 9,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 9,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 54,
@@ -1828,45 +788,15 @@ Array [
     "end": 66,
     "instruction": Object {
       "end": 60,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 10,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 10,
-        },
-      },
       "mnemonic": "JMP",
       "opcode": 192,
       "start": 57,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 10,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 10,
-      },
-    },
     "machineCodes": Array [192],
     "operands": Array [
       Object {
         "end": 66,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 10,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 10,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 61,
@@ -1880,45 +810,15 @@ Array [
     "end": 75,
     "instruction": Object {
       "end": 69,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 11,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 11,
-        },
-      },
       "mnemonic": "JZ",
       "opcode": 193,
       "start": 67,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 8,
-        "line": 11,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 11,
-      },
-    },
     "machineCodes": Array [193],
     "operands": Array [
       Object {
         "end": 75,
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 11,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 11,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 70,
@@ -1932,45 +832,15 @@ Array [
     "end": 85,
     "instruction": Object {
       "end": 79,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 12,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 12,
-        },
-      },
       "mnemonic": "JNZ",
       "opcode": 194,
       "start": 76,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 12,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 12,
-      },
-    },
     "machineCodes": Array [194],
     "operands": Array [
       Object {
         "end": 85,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 12,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 12,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 80,
@@ -1984,45 +854,15 @@ Array [
     "end": 94,
     "instruction": Object {
       "end": 88,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 13,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 13,
-        },
-      },
       "mnemonic": "JS",
       "opcode": 195,
       "start": 86,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 8,
-        "line": 13,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 13,
-      },
-    },
     "machineCodes": Array [195],
     "operands": Array [
       Object {
         "end": 94,
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 13,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 13,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 89,
@@ -2036,45 +876,15 @@ Array [
     "end": 104,
     "instruction": Object {
       "end": 98,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 14,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 14,
-        },
-      },
       "mnemonic": "JNS",
       "opcode": 196,
       "start": 95,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 14,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 14,
-      },
-    },
     "machineCodes": Array [196],
     "operands": Array [
       Object {
         "end": 104,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 14,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 14,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 99,
@@ -2088,45 +898,15 @@ Array [
     "end": 113,
     "instruction": Object {
       "end": 107,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 15,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 15,
-        },
-      },
       "mnemonic": "JO",
       "opcode": 197,
       "start": 105,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 8,
-        "line": 15,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 15,
-      },
-    },
     "machineCodes": Array [197],
     "operands": Array [
       Object {
         "end": 113,
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 15,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 15,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 108,
@@ -2140,45 +920,15 @@ Array [
     "end": 123,
     "instruction": Object {
       "end": 117,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 16,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 16,
-        },
-      },
       "mnemonic": "JNO",
       "opcode": 198,
       "start": 114,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 16,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 16,
-      },
-    },
     "machineCodes": Array [198],
     "operands": Array [
       Object {
         "end": 123,
-        "loc": Object {
-          "end": Object {
-            "column": 9,
-            "line": 16,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 16,
-          },
-        },
         "raw": "start",
         "rawValue": "START",
         "start": 118,
@@ -2192,45 +942,15 @@ Array [
     "end": 131,
     "instruction": Object {
       "end": 128,
-      "loc": Object {
-        "end": Object {
-          "column": 4,
-          "line": 17,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 17,
-        },
-      },
       "mnemonic": "PUSH",
       "opcode": 224,
       "start": 124,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 7,
-        "line": 17,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 17,
-      },
-    },
     "machineCodes": Array [224, 0],
     "operands": Array [
       Object {
         "end": 131,
-        "loc": Object {
-          "end": Object {
-            "column": 7,
-            "line": 17,
-          },
-          "start": Object {
-            "column": 5,
-            "line": 17,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 129,
@@ -2244,45 +964,15 @@ Array [
     "end": 138,
     "instruction": Object {
       "end": 135,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 18,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 18,
-        },
-      },
       "mnemonic": "POP",
       "opcode": 225,
       "start": 132,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 18,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 18,
-      },
-    },
     "machineCodes": Array [225, 1],
     "operands": Array [
       Object {
         "end": 138,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 18,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 18,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 136,
@@ -2296,45 +986,15 @@ Array [
     "end": 145,
     "instruction": Object {
       "end": 143,
-      "loc": Object {
-        "end": Object {
-          "column": 4,
-          "line": 19,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 19,
-        },
-      },
       "mnemonic": "CALL",
       "opcode": 202,
       "start": 139,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 19,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 19,
-      },
-    },
     "machineCodes": Array [202, 0],
     "operands": Array [
       Object {
         "end": 145,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 19,
-          },
-          "start": Object {
-            "column": 5,
-            "line": 19,
-          },
-        },
         "raw": "0",
         "rawValue": "0",
         "start": 144,
@@ -2348,45 +1008,15 @@ Array [
     "end": 151,
     "instruction": Object {
       "end": 149,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 20,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 20,
-        },
-      },
       "mnemonic": "INT",
       "opcode": 204,
       "start": 146,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 20,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 20,
-      },
-    },
     "machineCodes": Array [204, 1],
     "operands": Array [
       Object {
         "end": 151,
-        "loc": Object {
-          "end": Object {
-            "column": 5,
-            "line": 20,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 20,
-          },
-        },
         "raw": "1",
         "rawValue": "1",
         "start": 150,
@@ -2400,45 +1030,15 @@ Array [
     "end": 156,
     "instruction": Object {
       "end": 154,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 21,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 21,
-        },
-      },
       "mnemonic": "IN",
       "opcode": 240,
       "start": 152,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 21,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 21,
-      },
-    },
     "machineCodes": Array [240, 2],
     "operands": Array [
       Object {
         "end": 156,
-        "loc": Object {
-          "end": Object {
-            "column": 4,
-            "line": 21,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 21,
-          },
-        },
         "raw": "2",
         "rawValue": "2",
         "start": 155,
@@ -2452,45 +1052,15 @@ Array [
     "end": 162,
     "instruction": Object {
       "end": 160,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 22,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 22,
-        },
-      },
       "mnemonic": "OUT",
       "opcode": 241,
       "start": 157,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 22,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 22,
-      },
-    },
     "machineCodes": Array [241, 3],
     "operands": Array [
       Object {
         "end": 162,
-        "loc": Object {
-          "end": Object {
-            "column": 5,
-            "line": 22,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 22,
-          },
-        },
         "raw": "3",
         "rawValue": "3",
         "start": 161,
@@ -2504,45 +1074,15 @@ Array [
     "end": 168,
     "instruction": Object {
       "end": 166,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 23,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 23,
-        },
-      },
       "mnemonic": "ORG",
       "opcode": null,
       "start": 163,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 23,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 23,
-      },
-    },
     "machineCodes": Array [4],
     "operands": Array [
       Object {
         "end": 168,
-        "loc": Object {
-          "end": Object {
-            "column": 5,
-            "line": 23,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 23,
-          },
-        },
         "raw": "4",
         "rawValue": "4",
         "start": 167,
@@ -2556,45 +1096,15 @@ Array [
     "end": 173,
     "instruction": Object {
       "end": 171,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 24,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 24,
-        },
-      },
       "mnemonic": "DB",
       "opcode": null,
       "start": 169,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 24,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 24,
-      },
-    },
     "machineCodes": Array [5],
     "operands": Array [
       Object {
         "end": 173,
-        "loc": Object {
-          "end": Object {
-            "column": 4,
-            "line": 24,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 24,
-          },
-        },
         "raw": "5",
         "rawValue": "5",
         "start": 172,
@@ -2608,45 +1118,15 @@ Array [
     "end": 181,
     "instruction": Object {
       "end": 176,
-      "loc": Object {
-        "end": Object {
-          "column": 2,
-          "line": 25,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 25,
-        },
-      },
       "mnemonic": "DB",
       "opcode": null,
       "start": 174,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 7,
-        "line": 25,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 25,
-      },
-    },
     "machineCodes": Array [54, 55],
     "operands": Array [
       Object {
         "end": 181,
-        "loc": Object {
-          "end": Object {
-            "column": 7,
-            "line": 25,
-          },
-          "start": Object {
-            "column": 3,
-            "line": 25,
-          },
-        },
         "raw": "\\"67\\"",
         "rawValue": "67",
         "start": 177,
@@ -2660,31 +1140,11 @@ Array [
     "end": 185,
     "instruction": Object {
       "end": 185,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 26,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 26,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 182,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 26,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 26,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 182,
@@ -2698,31 +1158,11 @@ Array [
     "end": 6,
     "instruction": Object {
       "end": 6,
-      "loc": Object {
-        "end": Object {
-          "column": 5,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "mnemonic": "PUSHF",
       "opcode": 234,
       "start": 1,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "machineCodes": Array [234],
     "operands": Array [],
     "start": 1,
@@ -2731,31 +1171,11 @@ Array [
     "end": 11,
     "instruction": Object {
       "end": 11,
-      "loc": Object {
-        "end": Object {
-          "column": 4,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "POPF",
       "opcode": 235,
       "start": 7,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "machineCodes": Array [235],
     "operands": Array [],
     "start": 7,
@@ -2764,31 +1184,11 @@ Array [
     "end": 15,
     "instruction": Object {
       "end": 15,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "RET",
       "opcode": 203,
       "start": 12,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [203],
     "operands": Array [],
     "start": 12,
@@ -2797,31 +1197,11 @@ Array [
     "end": 20,
     "instruction": Object {
       "end": 20,
-      "loc": Object {
-        "end": Object {
-          "column": 4,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "IRET",
       "opcode": 205,
       "start": 16,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [205],
     "operands": Array [],
     "start": 16,
@@ -2830,31 +1210,11 @@ Array [
     "end": 25,
     "instruction": Object {
       "end": 25,
-      "loc": Object {
-        "end": Object {
-          "column": 4,
-          "line": 6,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 6,
-        },
-      },
       "mnemonic": "HALT",
       "opcode": 0,
       "start": 21,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 6,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 6,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 21,
@@ -2863,31 +1223,11 @@ Array [
     "end": 29,
     "instruction": Object {
       "end": 29,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 7,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 7,
-        },
-      },
       "mnemonic": "NOP",
       "opcode": 255,
       "start": 26,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 7,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 7,
-      },
-    },
     "machineCodes": Array [255],
     "operands": Array [],
     "start": 26,
@@ -2896,31 +1236,11 @@ Array [
     "end": 33,
     "instruction": Object {
       "end": 33,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 8,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 8,
-        },
-      },
       "mnemonic": "CLO",
       "opcode": 254,
       "start": 30,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 8,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 8,
-      },
-    },
     "machineCodes": Array [254],
     "operands": Array [],
     "start": 30,
@@ -2929,31 +1249,11 @@ Array [
     "end": 37,
     "instruction": Object {
       "end": 37,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 9,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 9,
-        },
-      },
       "mnemonic": "CLI",
       "opcode": 253,
       "start": 34,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 9,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 9,
-      },
-    },
     "machineCodes": Array [253],
     "operands": Array [],
     "start": 34,
@@ -2962,31 +1262,11 @@ Array [
     "end": 41,
     "instruction": Object {
       "end": 41,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 10,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 10,
-        },
-      },
       "mnemonic": "STI",
       "opcode": 252,
       "start": 38,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 10,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 10,
-      },
-    },
     "machineCodes": Array [252],
     "operands": Array [],
     "start": 38,
@@ -2995,31 +1275,11 @@ Array [
     "end": 45,
     "instruction": Object {
       "end": 45,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 11,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 11,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 42,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 11,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 11,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 42,
@@ -3033,45 +1293,15 @@ Array [
     "end": 11,
     "instruction": Object {
       "end": 4,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 2,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 2,
-        },
-      },
       "mnemonic": "MOV",
       "opcode": 208,
       "start": 1,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 2,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 2,
-      },
-    },
     "machineCodes": Array [208, 0, 1],
     "operands": Array [
       Object {
         "end": 7,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 2,
-          },
-        },
         "raw": "al",
         "rawValue": "AL",
         "start": 5,
@@ -3080,16 +1310,6 @@ Array [
       },
       Object {
         "end": 11,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 2,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 2,
-          },
-        },
         "raw": "01",
         "rawValue": "01",
         "start": 9,
@@ -3103,45 +1323,15 @@ Array [
     "end": 24,
     "instruction": Object {
       "end": 15,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 3,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 3,
-        },
-      },
       "mnemonic": "MOV",
       "opcode": 209,
       "start": 12,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 3,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 3,
-      },
-    },
     "machineCodes": Array [209, 1, 2],
     "operands": Array [
       Object {
         "end": 18,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 3,
-          },
-        },
         "raw": "bl",
         "rawValue": "BL",
         "start": 16,
@@ -3150,16 +1340,6 @@ Array [
       },
       Object {
         "end": 24,
-        "loc": Object {
-          "end": Object {
-            "column": 12,
-            "line": 3,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 3,
-          },
-        },
         "raw": "[02]",
         "rawValue": "02",
         "start": 20,
@@ -3173,45 +1353,15 @@ Array [
     "end": 37,
     "instruction": Object {
       "end": 28,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 4,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 4,
-        },
-      },
       "mnemonic": "MOV",
       "opcode": 210,
       "start": 25,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 4,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 4,
-      },
-    },
     "machineCodes": Array [210, 3, 2],
     "operands": Array [
       Object {
         "end": 33,
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 4,
-          },
-        },
         "raw": "[03]",
         "rawValue": "03",
         "start": 29,
@@ -3220,16 +1370,6 @@ Array [
       },
       Object {
         "end": 37,
-        "loc": Object {
-          "end": Object {
-            "column": 12,
-            "line": 4,
-          },
-          "start": Object {
-            "column": 10,
-            "line": 4,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 35,
@@ -3243,45 +1383,15 @@ Array [
     "end": 50,
     "instruction": Object {
       "end": 41,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 5,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 5,
-        },
-      },
       "mnemonic": "MOV",
       "opcode": 211,
       "start": 38,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 5,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 5,
-      },
-    },
     "machineCodes": Array [211, 3, 0],
     "operands": Array [
       Object {
         "end": 44,
-        "loc": Object {
-          "end": Object {
-            "column": 6,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 5,
-          },
-        },
         "raw": "dl",
         "rawValue": "DL",
         "start": 42,
@@ -3290,16 +1400,6 @@ Array [
       },
       Object {
         "end": 50,
-        "loc": Object {
-          "end": Object {
-            "column": 12,
-            "line": 5,
-          },
-          "start": Object {
-            "column": 8,
-            "line": 5,
-          },
-        },
         "raw": "[al]",
         "rawValue": "AL",
         "start": 46,
@@ -3313,45 +1413,15 @@ Array [
     "end": 63,
     "instruction": Object {
       "end": 54,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 6,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 6,
-        },
-      },
       "mnemonic": "MOV",
       "opcode": 212,
       "start": 51,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 12,
-        "line": 6,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 6,
-      },
-    },
     "machineCodes": Array [212, 1, 2],
     "operands": Array [
       Object {
         "end": 59,
-        "loc": Object {
-          "end": Object {
-            "column": 8,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 4,
-            "line": 6,
-          },
-        },
         "raw": "[bl]",
         "rawValue": "BL",
         "start": 55,
@@ -3360,16 +1430,6 @@ Array [
       },
       Object {
         "end": 63,
-        "loc": Object {
-          "end": Object {
-            "column": 12,
-            "line": 6,
-          },
-          "start": Object {
-            "column": 10,
-            "line": 6,
-          },
-        },
         "raw": "cl",
         "rawValue": "CL",
         "start": 61,
@@ -3383,31 +1443,11 @@ Array [
     "end": 67,
     "instruction": Object {
       "end": 67,
-      "loc": Object {
-        "end": Object {
-          "column": 3,
-          "line": 7,
-        },
-        "start": Object {
-          "column": 0,
-          "line": 7,
-        },
-      },
       "mnemonic": "END",
       "opcode": 0,
       "start": 64,
     },
     "label": null,
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 7,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 7,
-      },
-    },
     "machineCodes": Array [0],
     "operands": Array [],
     "start": 64,

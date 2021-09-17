@@ -19,13 +19,7 @@ export interface Token extends Locatable {
   raw: string
 }
 
-const createToken = (
-  type: TokenType,
-  value: string,
-  start: number,
-  line: number,
-  column: number
-): Token => {
+const createToken = (type: TokenType, value: string, start: number): Token => {
   const tokenValue = call((): string => {
     const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
@@ -38,33 +32,22 @@ const createToken = (
     }
   })
   const end = start + value.length
-  const endColumn = column + value.length
   return {
     type,
     value: tokenValue,
     raw: value,
     start,
-    end,
-    loc: {
-      start: {
-        line,
-        column
-      },
-      end: {
-        line,
-        column: endColumn
-      }
-    }
+    end
   }
 }
 
-type TokenMatcher = (input: string, index: number, line: number, column: number) => Token | null
+type TokenMatcher = (input: string, index: number) => Token | null
 
 const matchRegExp =
   (regex: RegExp, type: TokenType): TokenMatcher =>
-  (input, index, line, column) => {
+  (input, index) => {
     const match = regex.exec(input.slice(index))
-    return match !== null ? createToken(type, match[0], index, line, column) : null
+    return match !== null ? createToken(type, match[0], index) : null
   }
 
 const tokenMatchers = [
@@ -78,21 +61,16 @@ const tokenMatchers = [
   matchRegExp(/^[^\s;,]+/, TokenType.Unknown)
 ]
 
-const NEWLINE_REGEXP = /(?:\n|\r\n)/g
-
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
-  for (let index = 0, line = 1, column = 0; index < input.length; ) {
+  for (let index = 0; index < input.length; ) {
     for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex++) {
-      const token = tokenMatchers[matcherIndex](input, index, line, column)
+      const token = tokenMatchers[matcherIndex](input, index)
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
         index = token.value === Mnemonic.END ? input.length : token.end
-        const newlinesCount = (token.raw.match(NEWLINE_REGEXP) ?? []).length
-        line += newlinesCount
-        column = newlinesCount > 0 ? 0 : token.loc.end.column
         break
       }
     }

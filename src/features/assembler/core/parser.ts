@@ -25,13 +25,12 @@ export interface Label extends Locatable {
   identifier: string
 }
 
-const createLabel = ({ value, start, end, loc }: Token): Label => {
+const createLabel = ({ value, start, end }: Token): Label => {
   const identifier = value.slice(0, -1)
   return {
     identifier,
     start,
-    end,
-    loc
+    end
   }
 }
 
@@ -40,14 +39,13 @@ interface Instruction extends Locatable {
   mnemonic: string
 }
 
-const createInstruction = ({ value, start, end, loc }: Token): Instruction => {
+const createInstruction = ({ value, start, end }: Token): Instruction => {
   const opcode = null
   return {
     opcode,
     mnemonic: value,
     start,
-    end,
-    loc
+    end
   }
 }
 
@@ -82,15 +80,14 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return undefined
     }
   })
-  const { value: rawValue, raw, start, end, loc } = token
+  const { value: rawValue, raw, start, end } = token
   return {
     type,
     value,
     rawValue,
     raw,
     start,
-    end,
-    loc
+    end
   }
 }
 
@@ -117,18 +114,13 @@ const createStatement = (
   const start = instruction.start
   const lastNode = operands.length > 0 ? operands[operands.length - 1] : instruction
   const end = lastNode.end
-  const loc = {
-    start: instruction.loc.start,
-    end: lastNode.loc.end
-  }
   return {
     label,
     instruction,
     operands,
     machineCodes,
     start,
-    end,
-    loc
+    end
   }
 }
 
