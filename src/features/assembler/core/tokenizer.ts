@@ -64,7 +64,7 @@ const tokenMatchers = [
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
-    for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex++) {
+    for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex += 1) {
       const token = tokenMatchers[matcherIndex](input, index)
       if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {

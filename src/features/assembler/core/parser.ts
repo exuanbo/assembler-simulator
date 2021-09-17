@@ -533,8 +533,7 @@ const getConsumedTokensCount = ({ label, operands }: Statement): number => {
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
-  let index = 0
-  while (index < tokens.length) {
+  for (let index = 0; index < tokens.length; ) {
     const statement = parseStatement(tokens, index)
     statements.push(statement)
     index += getConsumedTokensCount(statement)
