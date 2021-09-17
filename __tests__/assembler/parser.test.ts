@@ -186,22 +186,25 @@ end
     }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + ']')
   })
 
+  const INVALID_NUMBER_ERROR_MSG_PREFIX =
+    'Number should be hexadecimal and less than or equal to FF: '
+
   it('should throw InvalidNumberError', () => {
     expect(() => {
       parse('mov al, 100')
-    }).toThrowError('Number should be hexadecimal and less than or equal to FF: 100')
+    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + '100')
   })
 
   it('should throw InvalidNumberError when parsing address with number', () => {
     expect(() => {
       parse('mov [100], al')
-    }).toThrowError('Number should be hexadecimal and less than or equal to FF: 100')
+    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + '100')
   })
 
   it('should throw InvalidNumberError when parsing non-digit number', () => {
     expect(() => {
       parse('mov al, fff')
-    }).toThrowError('Number should be hexadecimal and less than or equal to FF: fff')
+    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + 'fff')
   })
 
   it('should throw OperandTypeError if token does not match any operand types', () => {
