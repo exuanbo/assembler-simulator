@@ -30,27 +30,29 @@ const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
       return 'labelName'
     }
 
-    if (state.operandsLeft <= 0 && stream.match(MNEMONIC_REGEXP)) {
-      const mnemonic = stream.current().toUpperCase() as Mnemonic
-      state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
-      state.expectLabel = mnemonic.startsWith('J')
-      return 'keyword'
-    }
+    if (state.operandsLeft === 0) {
+      if (stream.match(MNEMONIC_REGEXP)) {
+        const mnemonic = stream.current().toUpperCase() as Mnemonic
+        state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
+        state.expectLabel = mnemonic.startsWith('J')
+        return 'keyword'
+      }
+    } else if (state.operandsLeft > 0) {
+      if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
+        state.operandsLeft -= 1
+        return 'number'
+      }
 
-    if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
-      state.operandsLeft -= 1
-      return 'number'
-    }
+      if (stream.match(/^".*"/)) {
+        state.operandsLeft -= 1
+        return 'string'
+      }
 
-    if (stream.match(/^".*"/)) {
-      state.operandsLeft -= 1
-      return 'string'
-    }
-
-    if (state.expectLabel && stream.match(/^[a-zA-Z_]+/)) {
-      state.operandsLeft -= 1
-      state.expectLabel = false
-      return 'labelName'
+      if (state.expectLabel && stream.match(/^[a-zA-Z_]+/)) {
+        state.operandsLeft -= 1
+        state.expectLabel = false
+        return 'labelName'
+      }
     }
 
     stream.eatWhile(/\S+/)
