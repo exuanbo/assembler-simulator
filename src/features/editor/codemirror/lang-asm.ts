@@ -44,7 +44,7 @@ const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
         return 'number'
       }
 
-      if (stream.match(/^".*"/)) {
+      if (stream.match(/^".*(?:"|(?=[\r\n]))/)) {
         state.operandsLeft -= 1
         return 'string'
       }
