@@ -158,7 +158,7 @@ const parseSingleOperand =
     }
 
     const isExpected = (type: OperandType): boolean => expectedTypes.includes(type as T)
-    const __createOperand = (type: OperandType, token: Token): Operand<T> => createOperand(type as T, token) // eslint-disable-line
+    const __createOperand = (type: OperandType, token: Token): Operand<T> => createOperand(type as T, token) // prettier-ignore
 
     switch (token.type) {
       case TokenType.Digits:
@@ -233,6 +233,8 @@ const parseDoubleOperands =
   }
 
 const parseStatement = (tokens: Token[], index: number): Statement => {
+  // TODO: let consumed
+
   const label = parseLabel(tokens, index)
   const hasLabel = label !== null
   if (hasLabel) {
