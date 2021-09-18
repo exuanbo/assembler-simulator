@@ -1,7 +1,7 @@
 import type { Extension } from '@codemirror/state'
 import { EditorView, keymap, drawSelection } from '@codemirror/view'
 import { indentUnit } from '@codemirror/language'
-import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+import { defaultKeymap } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
 import { defaultHighlightStyle } from '@codemirror/highlight'
@@ -9,6 +9,7 @@ import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
 import { highlightActiveRange } from './highlightActiveRange'
 import { Asm } from './lang-asm'
+import { indentWithTab } from './indentWithTab'
 
 const theme = EditorView.theme({
   '&': {
