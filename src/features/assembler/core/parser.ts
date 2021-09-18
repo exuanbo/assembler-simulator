@@ -232,16 +232,23 @@ const parseDoubleOperands =
     return [firstOperand, secondOperand]
   }
 
-const parseStatement = (tokens: Token[], index: number): Statement => {
-  // TODO: let consumed
-
-  const label = parseLabel(tokens, index)
-  const hasLabel = label !== null
-  if (hasLabel) {
-    index += 2
+const parseStatement = (
+  tokens: Token[],
+  __index: number
+): [statement: Statement, consumed: number] => {
+  let consumed = 0
+  const getIndex = (): number => __index + consumed
+  const consumeToken = (count: number): void => {
+    consumed += count
   }
 
-  const token = tokens[index]
+  const label = parseLabel(tokens, getIndex())
+  const hasLabel = label !== null
+  if (hasLabel) {
+    consumeToken(2)
+  }
+
+  const token = tokens[getIndex()]
   if (token === undefined) {
     throw new MissingEndError()
   }
@@ -249,7 +256,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     throw new StatementError(token, hasLabel)
   }
 
-  index += 1
+  consumeToken(1)
 
   const instruction = createInstruction(token)
   const operands: Operand[] = []
@@ -265,7 +272,7 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
     case 1: {
       let operand
 
-      const parseOperand = parseSingleOperand(tokens, index)
+      const parseOperand = parseSingleOperand(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithOneOperand) {
         case Mnemonic.INC:
@@ -356,13 +363,14 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       }
 
       operands.push(operand)
+      consumeToken(1)
       break
     }
     case 2: {
       let firstOperand
       let secondOperand
 
-      const parseOperands = parseDoubleOperands(tokens, index)
+      const parseOperands = parseDoubleOperands(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithTwoOperands) {
         case Mnemonic.ADD:
@@ -516,27 +524,19 @@ const parseStatement = (tokens: Token[], index: number): Statement => {
       }
 
       operands.push(firstOperand, secondOperand)
+      consumeToken(3)
     }
   }
 
-  return createStatement(label, instruction, operands)
-}
-
-const getConsumedTokensCount = ({ label, operands }: Statement): number => {
-  return (
-    /* label */ (label !== null ? 2 : 0) +
-    /* instruction */ 1 +
-    /* operands */ operands.length +
-    /* comma */ (operands.length === 2 ? 1 : 0)
-  )
+  return [createStatement(label, instruction, operands), consumed]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
   for (let index = 0; index < tokens.length; ) {
-    const statement = parseStatement(tokens, index)
+    const [statement, consumed] = parseStatement(tokens, index)
     statements.push(statement)
-    index += getConsumedTokensCount(statement)
+    index += consumed
   }
   if (
     statements.length > 0 &&
