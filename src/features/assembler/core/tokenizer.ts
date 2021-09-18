@@ -61,7 +61,7 @@ const tokenMatchers = [
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
   matchRegExp(/^".*"/, TokenType.String),
-  matchRegExp(/^[^\s;:,["]+/, TokenType.Unknown)
+  matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
 ]
 
 const skipableTypes = [TokenType.Whitespace, TokenType.Comment]
