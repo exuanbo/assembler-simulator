@@ -16,7 +16,7 @@ const MNEMONIC_REGEXP = new RegExp(
     .join('|')})\\b`
 )
 
-const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: boolean }>({
+const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: boolean }>({
   token(stream, state) {
     if (stream.eatSpace() || stream.eat(/[,[\]:]/)) {
       return null
@@ -76,8 +76,8 @@ const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
 
 const LEADING_WHITESPACE_REGEXP = /^\s*/
 
-export const Asm = (): Extension => [
-  new LanguageSupport(AsmLanguage),
+export const asm = (): Extension => [
+  new LanguageSupport(asmLanguage),
   indentUnit.of('\t'),
   indentService.of(({ state }, pos) => {
     const trimmedLine = state.doc.lineAt(pos).text.replace(/^ */, '')

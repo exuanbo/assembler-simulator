@@ -7,7 +7,7 @@ import { defaultHighlightStyle } from '@codemirror/highlight'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
 import { highlightActiveRange } from './highlightActiveRange'
-import { Asm } from './lang-asm'
+import { asm } from './lang-asm'
 import { indentWithTab } from './indentWithTab'
 
 const theme = EditorView.theme({
@@ -36,7 +36,7 @@ export const setup: Extension = [
   breakpointGutter(),
   lineNumbers(),
   closeBrackets(),
-  Asm(),
+  asm(),
   theme,
   EditorView.lineWrapping,
   defaultHighlightStyle,
