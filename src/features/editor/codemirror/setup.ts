@@ -21,8 +21,11 @@ const theme = EditorView.theme({
   '.cm-scroller': {
     fontFamily: "'Jetbrains Mono', monospace"
   },
-  '.cm-breakpoint-gutter .cm-gutterElement': {
+  '.cm-breakpoints': {
     fontSize: '0.875em'
+  },
+  '.cm-lineNumbers': {
+    paddingRight: '6px'
   }
 })
 

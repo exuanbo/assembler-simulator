@@ -54,7 +54,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
 export const breakpointGutter = (): Extension => [
   breakpointField,
   gutter({
-    class: 'cm-breakpoint-gutter',
+    class: 'cm-breakpoints',
     markers: view => view.state.field(breakpointField),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
@@ -65,9 +65,9 @@ export const breakpointGutter = (): Extension => [
     }
   }),
   EditorView.baseTheme({
-    '.cm-breakpoint-gutter .cm-gutterElement': {
-      minWidth: '1.625em',
-      paddingLeft: '5px',
+    '.cm-breakpoints .cm-gutterElement': {
+      minWidth: '20px',
+      padding: '0 3px 0 5px',
       color: '#f87171'
     }
   })
