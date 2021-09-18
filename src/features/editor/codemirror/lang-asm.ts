@@ -15,7 +15,7 @@ const MNEMONIC_REGEXP = new RegExp(
     .join('|')})\\b`
 )
 
-export const AsmLanguage = StreamLanguage.define<{ lastMnemonic: string }>({
+const AsmLanguage = StreamLanguage.define<{ expectLabel: boolean }>({
   token(stream, state) {
     if (stream.eatSpace() || stream.eat(/[,[\]:]/)) {
       return null
@@ -31,7 +31,7 @@ export const AsmLanguage = StreamLanguage.define<{ lastMnemonic: string }>({
     }
 
     if (stream.match(MNEMONIC_REGEXP)) {
-      state.lastMnemonic = stream.current()
+      state.expectLabel = /^[jJ]/.test(stream.current())
       return 'keyword'
     }
 
@@ -44,7 +44,8 @@ export const AsmLanguage = StreamLanguage.define<{ lastMnemonic: string }>({
     }
 
     if (stream.match(/^[a-zA-Z_]+/)) {
-      if (/^[jJ]/.test(state.lastMnemonic)) {
+      if (state.expectLabel) {
+        state.expectLabel = false
         return 'labelName'
       }
       stream.backUp(stream.current().length)
@@ -55,7 +56,7 @@ export const AsmLanguage = StreamLanguage.define<{ lastMnemonic: string }>({
   },
   startState() {
     return {
-      lastMnemonic: ''
+      expectLabel: false
     }
   }
 })

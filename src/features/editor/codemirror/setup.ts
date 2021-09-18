@@ -4,12 +4,12 @@ import { indentUnit } from '@codemirror/language'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
+import { defaultHighlightStyle } from '@codemirror/highlight'
 import { foldGutter, foldKeymap } from '@codemirror/fold'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
 import { highlightActiveRange } from './highlightActiveRange'
-import { defaultHighlightStyle } from '@codemirror/highlight'
-import { Asm } from './lang'
+import { Asm } from './lang-asm'
 
 const theme = EditorView.theme({
   '&': {
