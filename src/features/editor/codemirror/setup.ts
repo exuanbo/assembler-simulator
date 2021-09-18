@@ -5,10 +5,11 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
 import { foldGutter, foldKeymap } from '@codemirror/fold'
-import { bracketMatching } from '@codemirror/matchbrackets'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { breakpointGutter } from './breakpointGutter'
 import { highlightActiveRange } from './highlightActiveRange'
+import { defaultHighlightStyle } from '@codemirror/highlight'
+import { Asm } from './lang'
 
 const theme = EditorView.theme({
   '&': {
@@ -33,10 +34,11 @@ export const setup: Extension = [
   breakpointGutter(),
   lineNumbers(),
   foldGutter(),
-  bracketMatching(),
   closeBrackets(),
+  Asm(),
   indentUnit.of('\t'),
   EditorView.lineWrapping,
+  defaultHighlightStyle,
   theme,
   keymap.of([
     indentWithTab,
