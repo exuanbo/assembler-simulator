@@ -44,7 +44,14 @@ const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
         return 'number'
       }
 
-      if (stream.match(/^".*(?:"|(?=[\r\n]))/)) {
+      if (stream.eat('"')) {
+        stream.skipToEnd()
+        const currentToken = stream.current()
+        const lastQuoteIndex = currentToken.lastIndexOf('"')
+        const lastCharIndex = currentToken.length - 1
+        if (lastQuoteIndex !== 0 && lastQuoteIndex !== lastCharIndex) {
+          stream.backUp(lastCharIndex - lastQuoteIndex)
+        }
         state.operandsLeft -= 1
         return 'string'
       }
