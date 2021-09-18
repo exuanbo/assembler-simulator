@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
+import type { Extension } from '@codemirror/state'
 import { StreamLanguage } from '@codemirror/stream-parser'
-import { LanguageSupport } from '@codemirror/language'
+import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
 import { Mnemonic, MnemonicToOperandsCountMap } from '../../../common/constants'
 
 const MNEMONIC_REGEXP = new RegExp(
@@ -66,6 +67,15 @@ const AsmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
   }
 })
 
-export const Asm = (): LanguageSupport => {
-  return new LanguageSupport(AsmLanguage)
-}
+const LEADING_WHITESPACE_REGEXP = /^\s*/
+
+export const Asm = (): Extension => [
+  new LanguageSupport(AsmLanguage),
+  indentUnit.of('\t'),
+  indentService.of(({ state }, pos) => {
+    const trimmedLine = state.doc.lineAt(pos).text.replace(/^ */, '')
+    const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
+    const tabsCount = whitespaces.filter(char => char === '\t').length
+    return tabsCount * state.tabSize + whitespaces.length - tabsCount
+  })
+]

@@ -1,6 +1,5 @@
 import type { Extension } from '@codemirror/state'
 import { EditorView, keymap, drawSelection } from '@codemirror/view'
-import { indentUnit } from '@codemirror/language'
 import { defaultKeymap } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
@@ -38,9 +37,8 @@ export const setup: Extension = [
   lineNumbers(),
   closeBrackets(),
   Asm(),
-  indentUnit.of('\t'),
+  theme,
   EditorView.lineWrapping,
   defaultHighlightStyle,
-  theme,
-  keymap.of([indentWithTab, ...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap])
+  keymap.of([...defaultKeymap, ...historyKeymap, ...closeBracketsKeymap, indentWithTab])
 ]
