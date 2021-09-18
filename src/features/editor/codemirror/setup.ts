@@ -40,5 +40,5 @@ export const setup: Extension = [
   theme,
   EditorView.lineWrapping,
   defaultHighlightStyle,
-  keymap.of([...defaultKeymap, ...historyKeymap, ...closeBracketsKeymap, indentWithTab])
+  keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
 ]
