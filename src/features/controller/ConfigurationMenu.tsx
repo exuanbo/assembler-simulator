@@ -123,7 +123,7 @@ const TimerIntervalMenu = (): JSX.Element => {
 
 const ConfigurationMenu = (): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(false)
-  const [clickRef, isClicked] = useOutsideClick<HTMLDivElement>()
+  const [isClicked, clickRef] = useOutsideClick<HTMLDivElement>()
 
   if (isOpen && isClicked) {
     toggleOpen()

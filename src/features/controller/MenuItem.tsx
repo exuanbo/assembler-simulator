@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MenuItem = ({ children, className = '', onClick }: Props): JSX.Element => {
-  const [hoverRef, isHovered] = useHover<HTMLDivElement>()
+  const [isHovered, hoverRef] = useHover<HTMLDivElement>()
 
   return (
     <div

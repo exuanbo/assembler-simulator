@@ -1,13 +1,15 @@
 import { useState, useEffect, useReducer, useCallback } from 'react'
 
-export const useToggle = (initialState: boolean): [boolean, React.DispatchWithoutAction] =>
+export const useToggle = (
+  initialState: boolean
+): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
 type RefCallback<T> = (node: T) => void
 
 export const useOutsideClick = <T extends Element = Element>(): [
-  clickRef: RefCallback<T>,
-  isClicked: boolean
+  isClicked: boolean,
+  clickRef: RefCallback<T>
 ] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isClicked, setClicked] = useState<boolean>(false)
@@ -32,12 +34,12 @@ export const useOutsideClick = <T extends Element = Element>(): [
     }
   }, [current])
 
-  return [refCallback, isClicked]
+  return [isClicked, refCallback]
 }
 
 export const useHover = <T extends Element = Element>(): [
-  hoverRef: RefCallback<T>,
-  isHovered: boolean
+  isHovered: boolean,
+  hoverRef: RefCallback<T>
 ] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isHovered, setHovered] = useState<boolean>(false)
@@ -64,5 +66,5 @@ export const useHover = <T extends Element = Element>(): [
     }
   }, [current])
 
-  return [refCallback, isHovered]
+  return [isHovered, refCallback]
 }
