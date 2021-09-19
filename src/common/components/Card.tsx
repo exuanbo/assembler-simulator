@@ -12,11 +12,11 @@ const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Ele
   <div className={className}>
     <header className="border-b flex bg-gray-100 py-1 px-2 items-center justify-between">
       <span>{title}</span>
-      {Icon !== undefined ? (
+      {Icon === undefined ? null : (
         <button className="flex items-center focus:outline-none" onClick={onIconClick}>
           <Icon />
         </button>
-      ) : null}
+      )}
     </header>
     {children}
   </div>

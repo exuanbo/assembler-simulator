@@ -18,24 +18,24 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
     return transaction.docChanged
       ? decorationSet
       : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
-          if (effect.is(highlightActiveRangeEffect) && effect.value !== null) {
-            const { from, to } = effect.value
-            const lineNumbers: number[] = []
-            const decorationRanges = range(from, to).reduce<Array<Range<Decoration>>>(
-              (ranges, pos) => {
-                const line = transaction.state.doc.lineAt(pos)
-                const lineNumber = line.number
-                if (!lineNumbers.includes(lineNumber)) {
-                  lineNumbers.push(lineNumber)
-                  ranges.push(lineDecoration.range(line.from))
-                }
-                return ranges
-              },
-              []
-            )
-            return resultSet.update({ add: decorationRanges })
+          if (!effect.is(highlightActiveRangeEffect) || effect.value === null) {
+            return resultSet
           }
-          return resultSet
+          const { from, to } = effect.value
+          const lineNumbers: number[] = []
+          const decorationRanges = range(from, to).reduce<Array<Range<Decoration>>>(
+            (ranges, pos) => {
+              const line = transaction.state.doc.lineAt(pos)
+              const lineNumber = line.number
+              if (!lineNumbers.includes(lineNumber)) {
+                lineNumbers.push(lineNumber)
+                ranges.push(lineDecoration.range(line.from))
+              }
+              return ranges
+            },
+            []
+          )
+          return resultSet.update({ add: decorationRanges })
         }, Decoration.none)
   },
   provide: field => EditorView.decorations.from(field)

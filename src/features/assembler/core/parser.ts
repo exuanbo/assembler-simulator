@@ -103,10 +103,10 @@ const createStatement = (
   operands: Operand[]
 ): Statement => {
   const machineCodes = [
-    ...(instruction.opcode !== null ? [instruction.opcode] : []),
+    ...(instruction.opcode === null ? [] : [instruction.opcode]),
     ...operands.reduce<number[]>(
       (operandValues, operand) =>
-        operand.value !== undefined ? operandValues.concat(operand.value) : operandValues,
+        operand.value === undefined ? operandValues : operandValues.concat(operand.value),
       []
     )
   ]

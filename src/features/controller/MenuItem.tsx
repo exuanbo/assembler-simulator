@@ -29,8 +29,11 @@ MenuItem.SubMenu = ({ children }: SubMenuProps): JSX.Element => {
 
   const handleClick = (event: React.MouseEvent): void => {
     const { current } = menuItemsRef
+    if (current === null) {
+      return
+    }
     const { target } = event
-    if (current !== null && target instanceof Element && !current.contains(target)) {
+    if (target instanceof Element && !current.contains(target)) {
       event.stopPropagation()
     }
   }

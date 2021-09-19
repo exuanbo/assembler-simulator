@@ -5,9 +5,9 @@ import { selectAssemblerError } from '../assembler/assemblerSlice'
 const EditorStatus = (): JSX.Element | null => {
   const error = useAppSelector(selectAssemblerError)
 
-  return error !== null ? (
-    <div className="px-3 py-1 bg-red-500 text-light-100">{error.message}</div>
-  ) : null
+  return error === null ? null : (
+    <div className="bg-red-500 py-1 px-3 text-light-100">{error.message}</div>
+  )
 }
 
 export default EditorStatus

@@ -49,7 +49,7 @@ const matchRegExp =
   (regex: RegExp, type: TokenType): TokenMatcher =>
   (input, index) => {
     const match = regex.exec(input.slice(index))
-    return match !== null ? createToken(type, match[0], index) : null
+    return match === null ? null : createToken(type, match[0], index)
   }
 
 const tokenMatchers = [

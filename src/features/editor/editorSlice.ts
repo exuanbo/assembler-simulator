@@ -50,7 +50,7 @@ export const editorSlice = createSlice({
     setActiveRange: (state, action: PayloadAction<Statement | null>) => {
       const statement = action.payload
       state.activeRange =
-        statement !== null ? (({ start, end }) => ({ from: start, to: end }))(statement) : null
+        statement === null ? null : (({ start, end }) => ({ from: start, to: end }))(statement)
     }
   }
 })

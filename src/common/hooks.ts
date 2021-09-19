@@ -17,17 +17,18 @@ export const useOutsideClick = <T extends Element = Element>(): [
   }, [])
 
   useEffect(() => {
-    if (current !== null) {
-      const handleOutsideClick = ({ target }: MouseEvent): void => {
-        if (target instanceof Element) {
-          setClicked(!current.contains(target))
-        }
+    if (current === null) {
+      return
+    }
+    const handleOutsideClick = ({ target }: MouseEvent): void => {
+      if (target instanceof Element) {
+        setClicked(!current.contains(target))
       }
-      document.addEventListener('mousedown', handleOutsideClick)
-      return () => {
-        setClicked(false)
-        document.removeEventListener('mousedown', handleOutsideClick)
-      }
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => {
+      setClicked(false)
+      document.removeEventListener('mousedown', handleOutsideClick)
     }
   }, [current])
 
@@ -46,19 +47,20 @@ export const useHover = <T extends Element = Element>(): [
   }, [])
 
   useEffect(() => {
-    if (current !== null) {
-      const handleMouseEnter = (): void => setHovered(true)
-      const handleMouseLeave = (): void => setHovered(false)
+    if (current === null) {
+      return
+    }
+    const handleMouseEnter = (): void => setHovered(true)
+    const handleMouseLeave = (): void => setHovered(false)
 
-      current.addEventListener('mouseenter', handleMouseEnter)
-      current.addEventListener('mouseleave', handleMouseLeave)
+    current.addEventListener('mouseenter', handleMouseEnter)
+    current.addEventListener('mouseleave', handleMouseLeave)
 
-      return () => {
-        setHovered(false)
+    return () => {
+      setHovered(false)
 
-        current.removeEventListener('mouseenter', handleMouseEnter)
-        current.removeEventListener('mouseleave', handleMouseLeave)
-      }
+      current.removeEventListener('mouseenter', handleMouseEnter)
+      current.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [current])
 
