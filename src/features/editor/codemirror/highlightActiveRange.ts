@@ -56,7 +56,6 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
             })
       return resultSet.update({
         add: decorationRanges,
-        // TODO: disable `compilerOptions.exactOptionalPropertyTypes`
         ...(filter === undefined ? undefined : { filter })
       })
     }, Decoration.none /* should be replaced with `decorationSet` in most cases */)
