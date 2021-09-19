@@ -4,19 +4,17 @@ export type NullablePartial<T> = {
 
 export type Head<T extends unknown[]> = T extends [...infer Head, unknown] ? Head : unknown[]
 
-type UnionToIntersection<U> = (U extends never ? never : (arg: U) => never) extends (
-  arg: infer I
-) => void
-  ? I
-  : never
-
 /**
  * {@link https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381}
  */
-export type UnionToTuple<U> = UnionToIntersection<U extends never ? never : (arg: U) => U> extends (
-  _: never
-) => infer T
-  ? [...UnionToTuple<Exclude<U, T>>, T]
+export type UnionToTuple<Union> = (
+  (Union extends never ? never : (_: (_: Union) => Union) => void) extends (
+    mergedIntersection: infer Intersection
+  ) => void
+    ? Intersection
+    : never
+) extends (_: never) => infer Tail
+  ? [...UnionToTuple<Exclude<Union, Tail>>, Tail]
   : []
 
 export const sign8 = (unsigned: number): number =>
