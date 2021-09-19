@@ -5,8 +5,8 @@ import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
 import { defaultHighlightStyle } from '@codemirror/highlight'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
-import { breakpointGutter } from './breakpointGutter'
 import { highlightActiveRange } from './highlightActiveRange'
+import { breakpoints } from './breakpoints'
 import { asm } from './lang-asm'
 import { indentWithTab } from './indentWithTab'
 
@@ -33,7 +33,7 @@ export const setup: Extension = [
   drawSelection(),
   highlightActiveRange(),
   history(),
-  breakpointGutter(),
+  breakpoints(),
   lineNumbers(),
   closeBrackets(),
   asm(),

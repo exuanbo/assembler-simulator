@@ -3,7 +3,10 @@ import { EditorView } from '@codemirror/view'
 import { RangeSet } from '@codemirror/rangeset'
 import { GutterMarker, gutter } from '@codemirror/gutter'
 
-export const breakpointEffect = StateEffect.define<{ pos: number; on: boolean }>({
+export const breakpointEffect = StateEffect.define<{
+  pos: number
+  on: boolean
+}>({
   map(value, mapping) {
     return {
       pos: mapping.mapPos(value.pos),
@@ -42,6 +45,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
     hasBreakpoint = true
+    return false // stops the iteration
   })
   view.dispatch({
     effects: breakpointEffect.of({
@@ -51,7 +55,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
   })
 }
 
-export const breakpointGutter = (): Extension => [
+export const breakpoints = (): Extension => [
   breakpointField,
   gutter({
     class: 'cm-breakpoints',
