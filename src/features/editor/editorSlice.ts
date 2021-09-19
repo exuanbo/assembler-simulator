@@ -9,7 +9,7 @@ interface ActiveRange {
 
 interface EditorState {
   input: string
-  activeRange: ActiveRange | null
+  activeRange: ActiveRange | undefined
 }
 
 const DEFAULT_INPUT = `mov al, c0
@@ -37,7 +37,7 @@ done:
 
 const initialState: EditorState = {
   input: DEFAULT_INPUT,
-  activeRange: null
+  activeRange: undefined
 }
 
 export const editorSlice = createSlice({
@@ -47,17 +47,19 @@ export const editorSlice = createSlice({
     setInput: (state, action: PayloadAction<string>) => {
       state.input = action.payload
     },
-    setActiveRange: (state, action: PayloadAction<Statement | null>) => {
+    setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
       const statement = action.payload
       state.activeRange =
-        statement === null ? null : (({ start, end }) => ({ from: start, to: end }))(statement)
+        statement === undefined
+          ? undefined
+          : (({ start, end }) => ({ from: start, to: end }))(statement)
     }
   }
 })
 
 export const selectEditortInput = (state: RootState): string => state.editor.input
 
-export const selectEditorActiveRange = (state: RootState): ActiveRange | null =>
+export const selectEditorActiveRange = (state: RootState): ActiveRange | undefined =>
   state.editor.activeRange
 
 export const { setInput: setEditorInput, setActiveRange: setEditorActiveRange } =
