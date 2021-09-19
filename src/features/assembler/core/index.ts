@@ -14,7 +14,7 @@ export { AssemblerError } from './exceptions'
 type LabelToAddressMap = Record<string, number>
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
-  const [, labelToAddressMap] = statements.reduce<[number, LabelToAddressMap]>(
+  const [, labelToAddressMap] = statements.reduce<[address: number, resultMap: LabelToAddressMap]>(
     ([address, labelToAddressMap], statement, index) => {
       const { label, instruction, operands, machineCodes } = statement
       if (label !== null) {
@@ -54,7 +54,7 @@ export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))
   const labelToAddressMap = getLabelToAddressMap(statements)
   const [, addressToMachineCodeMap, addressToStatementMap] = statements.reduce<
-    [number, ...AssembleResult]
+    [address: number, ...resultMaps: AssembleResult]
   >(
     ([address, addressToMachineCodeMap, addressToStatementMap], statement) => {
       const { instruction, operands, machineCodes } = statement
