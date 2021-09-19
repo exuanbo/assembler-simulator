@@ -83,6 +83,7 @@ export const asm = (): Extension => [
     const trimmedLine = state.doc.lineAt(pos).text.replace(/^ */, '')
     const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
     const tabsCount = whitespaces.filter(char => char === '\t').length
-    return tabsCount * state.tabSize + whitespaces.length - tabsCount
+    const spacesCount = whitespaces.length - tabsCount
+    return tabsCount * state.tabSize + spacesCount
   })
 ]
