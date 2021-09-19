@@ -33,7 +33,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
   },
   update(decorationSet, transaction) {
     if (transaction.docChanged) {
-      return decorationSet // you might not need this in most cases
+      return decorationSet.map(transaction.changes) // you might not need this in most cases
     }
     return transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
       if (!effect.is(highlightActiveRangeEffect)) {
@@ -58,7 +58,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
         add: decorationRanges,
         ...(filter === undefined ? undefined : { filter })
       })
-    }, Decoration.none /* should be replaced with `decorationSet` in most cases */)
+    }, Decoration.none /* you might need `decorationSet.map(transaction.changes)` in most cases */)
   },
   provide: field => EditorView.decorations.from(field)
 })
