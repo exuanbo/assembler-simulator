@@ -188,7 +188,7 @@ export const useController = (): Controller => {
     reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
-    dispatch(setEditorActiveRange(selectAddressToStatementMap(store.getState())[0]))
+    dispatch(setEditorActiveRange(null))
   }
 
   return {
