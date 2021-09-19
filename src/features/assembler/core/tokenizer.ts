@@ -69,16 +69,17 @@ const skipableTypes = [TokenType.Whitespace, TokenType.Comment]
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
-    for (let matcherIndex = 0; matcherIndex < tokenMatchers.length; matcherIndex += 1) {
-      const token = tokenMatchers[matcherIndex](input, index)
-      if (token !== null) {
+    tokenMatchers.some(matchToken => {
+      const token = matchToken(input, index)
+      const isMatched = token !== null
+      if (isMatched) {
         if (!skipableTypes.includes(token.type)) {
           tokens.push(token)
         }
         index = token.value === Mnemonic.END ? input.length : token.end
-        break
       }
-    }
+      return isMatched
+    })
   }
   return tokens
 }
