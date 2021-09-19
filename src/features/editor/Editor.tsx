@@ -53,13 +53,14 @@ const Editor = ({ className }: Props): JSX.Element => {
     }
   )
 
+  // TODO: ActiveRange | undefined
   const activeRange = useAppSelector(selectEditorActiveRange)
 
   view?.dispatch({
     ...(view.hasFocus || activeRange === null
       ? undefined
       : { selection: { anchor: activeRange.from } }),
-    effects: highlightActiveRangeEffect.of(activeRange),
+    effects: highlightActiveRangeEffect.of({ add: activeRange ?? undefined }),
     scrollIntoView: true
   })
 
