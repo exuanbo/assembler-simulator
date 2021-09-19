@@ -18,7 +18,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     ([address, labelToAddressMap], statement, index) => {
       const { label, instruction, operands, machineCodes } = statement
       if (label !== null) {
-        if (labelToAddressMap[label.identifier] !== undefined) {
+        if (label.identifier in labelToAddressMap) {
           throw new DuplicateLabelError(label)
         }
         labelToAddressMap[label.identifier] = address
@@ -29,9 +29,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
           ? (firstOperand.value as number)
           : call((): number => {
               const nextAddress =
-                address +
-                machineCodes.length +
-                (firstOperand !== undefined && firstOperand.type === OperandType.Label ? 1 : 0)
+                address + machineCodes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
               if (nextAddress > 0xff && index !== statements.length - 1) {
                 throw new AssembleEndOfMemoryError(statement)
               }
@@ -62,12 +60,11 @@ export const assemble = (input: string): AssembleResult => {
       if (instruction.mnemonic === Mnemonic.ORG) {
         return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
-      if (firstOperand !== undefined && firstOperand.type === OperandType.Label) {
-        const labelAddress = labelToAddressMap[firstOperand.rawValue]
-        if (labelAddress === undefined) {
+      if (firstOperand?.type === OperandType.Label) {
+        if (!(firstOperand.rawValue in labelToAddressMap)) {
           throw new LabelNotExistError(firstOperand)
         }
-        const distance = labelAddress - address
+        const distance = labelToAddressMap[firstOperand.rawValue] - address
         if (distance < -128 || distance > 127) {
           throw new JumpDistanceError(firstOperand)
         }

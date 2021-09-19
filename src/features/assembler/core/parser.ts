@@ -152,11 +152,11 @@ const REGISTER_REGEXP = /^[A-D]L$/
 const parseSingleOperand =
   (tokens: Token[], index: number) =>
   <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
-    const token = tokens[index]
-    if (token === undefined) {
+    if (index >= tokens.length) {
       throw new MissingEndError()
     }
 
+    const token = tokens[index]
     const isExpected = (type: OperandType): boolean => expectedTypes.includes(type as T)
     const createOperand = (type: OperandType, token: Token): Operand<T> => __createOperand(type as T, token) // prettier-ignore
 
@@ -198,10 +198,11 @@ const parseSingleOperand =
     throw new OperandTypeError(token, ...expectedTypes)
   }
 
-const checkComma = (token: Token): AssemblerError | null => {
-  if (token === undefined) {
+const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
+  if (index >= tokens.length) {
     return new MissingEndError()
   }
+  const token = tokens[index]
   if (token.type !== TokenType.Comma) {
     return new MissingCommaError(token)
   }
@@ -219,7 +220,7 @@ const parseDoubleOperands =
       []
     )
     const firstOperand = parseSingleOperand(tokens, index)(...firstOperandTypes)
-    const error = checkComma(tokens[index + 1])
+    const error = checkComma(tokens, index + 1)
     if (error !== null) {
       throw error
     }

@@ -55,15 +55,13 @@ const Editor = ({ className }: Props): JSX.Element => {
 
   const activeRange = useAppSelector(selectEditorActiveRange)
 
-  if (view !== undefined) {
-    view.dispatch({
-      ...(view.hasFocus || activeRange === null
-        ? undefined
-        : { selection: { anchor: activeRange.from } }),
-      effects: highlightActiveRangeEffect.of(activeRange),
-      scrollIntoView: true
-    })
-  }
+  view?.dispatch({
+    ...(view.hasFocus || activeRange === null
+      ? undefined
+      : { selection: { anchor: activeRange.from } }),
+    effects: highlightActiveRangeEffect.of(activeRange),
+    scrollIntoView: true
+  })
 
   return (
     <div ref={editorRef} className={`flex flex-col ${className}`}>
