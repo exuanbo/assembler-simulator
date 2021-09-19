@@ -23,7 +23,7 @@ export const subscribe = <P>(
   }
 }
 
-const sideEffect: Middleware = _ => next => action => {
+const sideEffect: Middleware = () => next => action => {
   const result = next(action)
   subscriptions.get(action.type)?.forEach(cb => cb(action.payload))
   return result
