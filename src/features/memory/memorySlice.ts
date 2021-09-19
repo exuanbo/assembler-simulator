@@ -4,14 +4,12 @@ import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
 
 interface MemoryState {
-  initialData: number[]
   data: number[]
 }
 
 const initialData = initData()
 
 const initialState: MemoryState = {
-  initialData,
   data: initialData
 }
 
@@ -23,12 +21,10 @@ export const memorySlice = createSlice({
       state.data = action.payload
     },
     setDataFrom: (state, action: PayloadAction<AddressToMachineCodeMap>) => {
-      const data = initDataFrom(action.payload)
-      state.initialData = data
-      state.data = data
+      state.data = initDataFrom(action.payload)
     },
     reset: state => {
-      state.data = state.initialData
+      state.data = initialData
     }
   }
 })
