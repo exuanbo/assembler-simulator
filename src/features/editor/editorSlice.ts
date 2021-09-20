@@ -52,7 +52,7 @@ export const editorSlice = createSlice({
       state.activeRange =
         statement === undefined
           ? undefined
-          : (({ start, end }) => ({ from: start, to: end }))(statement)
+          : (({ range }) => ({ from: range[0], to: range[1] }))(statement)
     }
   }
 })

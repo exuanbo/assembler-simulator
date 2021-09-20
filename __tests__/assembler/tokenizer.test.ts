@@ -1,4 +1,7 @@
 import { tokenize } from '../../src/features/assembler/core/tokenizer'
+import { shortArraySerializer } from '../snapshotSerializers'
+
+expect.addSnapshotSerializer(shortArraySerializer)
 
 describe('tokenizer', () => {
   it('should skip whitespace', () => {

@@ -1,4 +1,5 @@
+export type Range = [from: number, to: number]
+
 export interface Locatable {
-  start: number
-  end: number
+  range: Range
 }

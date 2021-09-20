@@ -21,7 +21,7 @@ export interface Token extends Locatable {
   raw: string
 }
 
-const createToken = (type: TokenType, value: string, start: number): Token => {
+const createToken = (type: TokenType, value: string, from: number): Token => {
   const tokenValue = call((): string => {
     const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
@@ -33,13 +33,12 @@ const createToken = (type: TokenType, value: string, start: number): Token => {
         return normalizedValue
     }
   })
-  const end = start + value.length
+  const to = from + value.length
   return {
     type,
     value: tokenValue,
     raw: value,
-    start,
-    end
+    range: [from, to]
   }
 }
 
@@ -76,7 +75,7 @@ export const tokenize = (input: string): Token[] => {
         if (!skipableTypes.includes(token.type)) {
           tokens.push(token)
         }
-        index = token.value === Mnemonic.END ? input.length : token.end
+        index = token.value === Mnemonic.END ? input.length : token.range[1]
       }
       return isMatched
     })
