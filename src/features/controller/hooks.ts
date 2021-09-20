@@ -46,20 +46,19 @@ interface Controller {
 }
 
 export const useController = (): Controller => {
-  const store = useAppStore()
-  const { dispatch } = store
+  const { getState, dispatch } = useAppStore()
 
   const assemble = useAssembler()
 
   const __assemble = (): void => {
-    assemble(selectEditortInput(store.getState()))
+    assemble(selectEditortInput(getState()))
   }
 
   /**
    * @returns {boolean} if was running
    */
   const stopIfRunning = (): boolean => {
-    const state = store.getState()
+    const state = getState()
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       clearIntervalJob()
@@ -99,7 +98,7 @@ export const useController = (): Controller => {
 
   const __step = async (): Promise<void> => {
     const lastStepResult = await lastStep
-    const state = store.getState()
+    const state = getState()
     if (selectIsSuspended(state)) {
       return
     }
