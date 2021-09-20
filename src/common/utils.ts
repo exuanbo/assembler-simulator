@@ -2,7 +2,9 @@ export type NullablePartial<T> = {
   [P in keyof T]?: T[P] | undefined
 }
 
-export type Head<T extends unknown[]> = T extends [...infer Head, unknown] ? Head : unknown[]
+export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
+  ? Excluded
+  : []
 
 /**
  * {@link https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381}

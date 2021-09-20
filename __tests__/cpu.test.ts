@@ -1,13 +1,13 @@
 import { createNextState } from '@reduxjs/toolkit'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 import { assemble } from '../src/features/assembler/core'
-import { initDataFrom } from '../src/features/memory/core'
+import { MemoryData, initDataFrom } from '../src/features/memory/core'
 import { Registers, InputSignals, initRegisters, step as __step } from '../src/features/cpu/core'
 
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
 
-const getMemoryData = (input: string): number[] => {
+const getMemoryData = (input: string): MemoryData => {
   const [addressToMachineCodeMap] = assemble(input)
   return initDataFrom(addressToMachineCodeMap)
 }
@@ -15,7 +15,7 @@ const getMemoryData = (input: string): number[] => {
 const initialRegisters = initRegisters()
 
 const step = (
-  memoryData: number[],
+  memoryData: MemoryData,
   cpuRegisters: Registers,
   signals: InputSignals = {
     data: undefined,

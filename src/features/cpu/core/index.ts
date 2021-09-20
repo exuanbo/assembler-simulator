@@ -23,8 +23,9 @@ import {
   StackUnderflowError,
   PortError
 } from './exceptions'
+import type { MemoryData } from '../../memory/core'
 import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
-import { NullablePartial, Head, sign8, unsign8 } from '../../../common/utils'
+import { NullablePartial, ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
 export { RuntimeError } from './exceptions'
 
@@ -103,8 +104,8 @@ const getFlagsFromValue = (value: number): SR => {
 const checkOperationResult = (
   result: number,
   previousValue: number
-): [finalResult: number, flags: Head<SR>] => {
-  const flags: Head<SR> = [
+): [finalResult: number, flags: ExcludeTail<SR>] => {
+  const flags: ExcludeTail<SR> = [
     /* zero */ FlagStatus.Off,
     /* overflow */ FlagStatus.Off,
     /* sign */ FlagStatus.Off
@@ -175,8 +176,8 @@ const checkPort = (port: number): number => {
   return port
 }
 
-type StepArgs = [memoryData: number[], cpuRegisters: Registers, signals: Signals]
-export type StepResult = [memoryData: number[], cpuRegisters: Registers]
+type StepArgs = [memoryData: MemoryData, cpuRegisters: Registers, signals: Signals]
+export type StepResult = ExcludeTail<StepArgs>
 
 export const step = (...args: StepArgs): [...StepResult, Signals] =>
   createNextState(args, ([memoryData, cpuRegisters, signals]) => {
