@@ -17,6 +17,6 @@ export const memorySerializer: jest.SnapshotSerializerPlugin = {
   serialize: (val: number[], _config, indentation) => `Array [
 ${splitArrayPerChunk(val, 0x10)
   .map(row => `${indentation}${' '.repeat(2)}${row.map(num => decToHex(num)).join(SEPARATOR)}`)
-  .join('\n')}
+  .join(',\n')}
 ${indentation}]`
 }
