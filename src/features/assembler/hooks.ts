@@ -30,6 +30,7 @@ export const useAssembler = (): Assemble => {
             error: { ...err }
           })
         )
+        dispatch(setEditorActiveRange(undefined))
       } else {
         throw err
       }
