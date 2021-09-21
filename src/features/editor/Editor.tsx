@@ -72,7 +72,10 @@ const Editor = ({ className }: Props): JSX.Element => {
                 },
           filter: () => false
         }),
-        highlightActiveRangeEffect.of({ add: activeRange })
+        highlightActiveRangeEffect.of({
+          add: activeRange,
+          filter: () => false
+        })
       ],
       ...(view.hasFocus || activeRange === undefined
         ? undefined

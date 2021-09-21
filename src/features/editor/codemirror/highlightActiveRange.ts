@@ -32,8 +32,9 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    if (transaction.docChanged) {
-      return decorationSet.map(transaction.changes) // you might not need this in most cases
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (transaction.isUserEvent('select')) {
+      return Decoration.none
     }
     return transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
       if (!effect.is(highlightActiveRangeEffect)) {
@@ -58,7 +59,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
         add: decorationRanges,
         ...(filter === undefined ? undefined : { filter })
       })
-    }, Decoration.none /* you might need `decorationSet.map(transaction.changes)` in most cases */)
+    }, decorationSet.map(transaction.changes))
   },
   provide: field => EditorView.decorations.from(field)
 })
