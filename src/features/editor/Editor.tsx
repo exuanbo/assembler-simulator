@@ -6,7 +6,7 @@ import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
-import { selectAssemblerError } from '../assembler/assemblerSlice'
+import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 // import { breakpointEffect } from './codemirror/breakpointGutter'
@@ -55,20 +55,14 @@ const Editor = ({ className }: Props): JSX.Element => {
     }
   )
 
-  const assemblerError = useShallowEqualSelector(selectAssemblerError)
+  const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
   const activeRange = useSelector(selectEditorActiveRange)
 
   if (view !== undefined) {
     view.dispatch({
       effects: [
         wavyUnderlineEffect.of({
-          add:
-            assemblerError?.range == null
-              ? undefined
-              : {
-                  from: assemblerError.range[0],
-                  to: assemblerError.range[1]
-                },
+          add: assemblerErrorRange,
           filter: () => false
         }),
         highlightActiveRangeEffect.of({

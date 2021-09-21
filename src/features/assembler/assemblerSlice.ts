@@ -23,8 +23,24 @@ export const assemblerSlice = createSlice({
 export const selectAddressToStatementMap = (state: RootState): AddressToStatementMap =>
   state.assembler.addressToStatementMap
 
-export const selectAssemblerError = (state: RootState): AssemblerError | null =>
-  state.assembler.error
+export const selectAssemblerErrorMessage = (state: RootState): string | undefined =>
+  state.assembler.error?.message
+
+export const selectAssemblerErrorRange = (
+  state: RootState
+):
+  | {
+      from: number
+      to: number
+    }
+  | undefined => {
+  const assemblerError = state.assembler.error
+  if (assemblerError?.range == null) {
+    return undefined
+  }
+  const [from, to] = assemblerError.range
+  return { from, to }
+}
 
 export const { setState: setAssemblerState } = assemblerSlice.actions
 
