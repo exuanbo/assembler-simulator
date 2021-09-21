@@ -1,12 +1,18 @@
-import { TypedUseSelectorHook, useSelector, shallowEqual, useDispatch, useStore } from 'react-redux'
+import {
+  TypedUseSelectorHook,
+  useSelector as __useSelector,
+  shallowEqual,
+  useDispatch as __useDispatch,
+  useStore as __useStore
+} from 'react-redux'
 import type { RootState, AppDispatch, Store } from './store'
 
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useSelector: TypedUseSelectorHook<RootState> = __useSelector
 
-export const useAppShallowEqualSelector = <TSelected>(
+export const useShallowEqualSelector = <TSelected>(
   selector: (state: RootState) => TSelected
-): TSelected => useSelector(selector, shallowEqual)
+): TSelected => __useSelector(selector, shallowEqual)
 
-export const useAppDispatch = () => useDispatch<AppDispatch>() // eslint-disable-line
+export const useDispatch = () => __useDispatch<AppDispatch>() // eslint-disable-line
 
-export const useAppStore = (): Store => useStore()
+export const useStore = (): Store => __useStore()

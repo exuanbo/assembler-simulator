@@ -2,7 +2,7 @@ import React from 'react'
 import ControlButton from './ControlButton'
 import ConfigurationMenu from './ConfigurationMenu'
 import { Arrow, Play, Stop, Forward, Undo, Github } from '../../common/components/icons'
-import { useAppSelector } from '../../app/hooks'
+import { useSelector } from '../../app/hooks'
 import { selectIsRunning } from './controllerSlice'
 import { useController } from './hooks'
 import { NO_BREAK_SPACE } from '../../common/constants'
@@ -15,7 +15,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
   const { assemble, run, step, reset } = useController()
 
   const RunButton = (): JSX.Element => {
-    const isRunning = useAppSelector(selectIsRunning)
+    const isRunning = useSelector(selectIsRunning)
 
     return (
       <ControlButton onClick={run}>

@@ -1,14 +1,14 @@
 import React, { useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
+import { useSelector, useDispatch } from '../../app/hooks'
 import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
 import { setCpuInput } from '../cpu/cpuSlice'
 import { InputPort } from '../cpu/core'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
-  const isSuspended = useAppSelector(selectIsSuspended)
+  const isSuspended = useSelector(selectIsSuspended)
   const inputRef = useRef<HTMLInputElement>(null)
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   const focusInput = (): void => {
     inputRef.current!.focus()

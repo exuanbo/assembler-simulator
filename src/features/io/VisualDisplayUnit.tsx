@@ -1,12 +1,12 @@
 import React from 'react'
 import Card from '../../common/components/Card'
-import { useAppShallowEqualSelector } from '../../app/hooks'
+import { useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from '../memory/memorySlice'
 import { NO_BREAK_SPACE } from '../../common/constants'
 import { asciiToChars } from '../../common/utils'
 
 const VisualDisplayUnit = (): JSX.Element => {
-  const vduData = useAppShallowEqualSelector(state => selectMemoryData(state).slice(0xc0))
+  const vduData = useShallowEqualSelector(state => selectMemoryData(state).slice(0xc0))
   const chars = asciiToChars(vduData)
 
   return (

@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../app/hooks'
+import { useDispatch } from '../../app/hooks'
 import { assemble, AssemblerError } from './core'
 import { setAssemblerState } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
@@ -8,7 +8,7 @@ import { setEditorActiveRange } from '../editor/editorSlice'
 type Assemble = (input: string) => void
 
 export const useAssembler = (): Assemble => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   return (input: string) => {
     try {

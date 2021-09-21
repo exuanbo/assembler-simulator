@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
-import { useAppSelector, useAppShallowEqualSelector, useAppStore } from '../../app/hooks'
+import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
-  const store = useAppStore()
+  const store = useStore()
   const defaultInput = selectEditortInput(store.getState())
   const assemble = useAssembler()
 
@@ -55,8 +55,8 @@ const Editor = ({ className }: Props): JSX.Element => {
     }
   )
 
-  const assemblerError = useAppShallowEqualSelector(selectAssemblerError)
-  const activeRange = useAppSelector(selectEditorActiveRange)
+  const assemblerError = useShallowEqualSelector(selectAssemblerError)
+  const activeRange = useSelector(selectEditorActiveRange)
 
   if (view !== undefined) {
     view.dispatch({

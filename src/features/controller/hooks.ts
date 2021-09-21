@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAppSelector, useAppStore } from '../../app/hooks'
+import { useSelector, useStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
 import {
   setRunning,
@@ -46,7 +46,7 @@ interface Controller {
 }
 
 export const useController = (): Controller => {
-  const { getState, dispatch } = useAppStore()
+  const { getState, dispatch } = useStore()
 
   const assemble = useAssembler()
 
@@ -71,7 +71,7 @@ export const useController = (): Controller => {
     return isRunning
   }
 
-  const { clockSpeed, timerInterval } = useAppSelector(selectConfiguration)
+  const { clockSpeed, timerInterval } = useSelector(selectConfiguration)
 
   const setIntervalJob = (): void => {
     stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)

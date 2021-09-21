@@ -2,7 +2,7 @@ import React from 'react'
 import MenuItem from './MenuItem'
 import MenuItems from './MenuItems'
 import { CheckMark, Wrench, Play } from '../../common/components/icons'
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
+import { useSelector, useDispatch } from '../../app/hooks'
 import {
   ClockSpeed,
   CLOCK_SPEED_KEYS,
@@ -18,8 +18,8 @@ import {
 import { useToggle, useOutsideClick } from '../../common/hooks'
 
 const AutoAssembleOption = (): JSX.Element => {
-  const dispatch = useAppDispatch()
-  const autoAssemble = useAppSelector(selectAutoAssemble)
+  const dispatch = useDispatch()
+  const autoAssemble = useSelector(selectAutoAssemble)
 
   return (
     <MenuItem
@@ -38,8 +38,8 @@ const AutoAssembleOption = (): JSX.Element => {
 }
 
 const ClockSpeedMenu = (): JSX.Element => {
-  const dispatch = useAppDispatch()
-  const clockSpeed = useAppSelector(selectClockSpeed)
+  const dispatch = useDispatch()
+  const clockSpeed = useSelector(selectClockSpeed)
 
   return (
     <MenuItem.SubMenu>
@@ -80,8 +80,8 @@ const ClockSpeedMenu = (): JSX.Element => {
 }
 
 const TimerIntervalMenu = (): JSX.Element => {
-  const dispatch = useAppDispatch()
-  const timerInterval = useAppSelector(selectTimerInterval)
+  const dispatch = useDispatch()
+  const timerInterval = useSelector(selectTimerInterval)
 
   return (
     <MenuItem.SubMenu>

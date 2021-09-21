@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from '../../common/components/Card'
-import { useAppSelector, useAppShallowEqualSelector } from '../../app/hooks'
+import { useSelector, useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
@@ -11,11 +11,11 @@ interface Props {
 
 // TODO: add view option
 const Memory = ({ className }: Props): JSX.Element => {
-  const memoryData = useAppSelector(selectMemoryData)
+  const memoryData = useSelector(selectMemoryData)
   const machineCodesMatrix = splitArrayPerChunk(memoryData, 0x10)
 
   let address = 0
-  const { ip, sp } = useAppShallowEqualSelector(selectCpuPointerRegisters)
+  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
 
   return (
     <Card className={className} title="Memory">
