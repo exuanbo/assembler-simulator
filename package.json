@@ -29,6 +29,7 @@
     "@codemirror/rangeset": "0.19.1",
     "@codemirror/state": "0.19.2",
     "@codemirror/stream-parser": "0.19.2",
+    "@codemirror/tooltip": "0.19.2",
     "@codemirror/view": "0.19.7",
     "@reduxjs/toolkit": "1.6.1",
     "react": "17.0.2",

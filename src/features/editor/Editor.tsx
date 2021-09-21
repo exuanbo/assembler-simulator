@@ -4,7 +4,9 @@ import { useAppSelector, useAppStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
+import { linterErrorEffect } from './codemirror/linter'
 import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
+import { selectAssemblerError } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 // import { breakpointEffect } from './codemirror/breakpointGutter'
@@ -53,17 +55,33 @@ const Editor = ({ className }: Props): JSX.Element => {
     }
   )
 
+  const assemblerError = useAppSelector(selectAssemblerError)
   const activeRange = useAppSelector(selectEditorActiveRange)
 
-  view?.dispatch({
-    ...(view.hasFocus || activeRange === undefined
-      ? undefined
-      : {
-          selection: { anchor: activeRange.from },
-          scrollIntoView: true
+  if (view !== undefined) {
+    view.dispatch({
+      effects: [
+        linterErrorEffect.of({
+          add:
+            assemblerError?.range == null
+              ? undefined
+              : {
+                  from: assemblerError.range[0],
+                  to: assemblerError.range[1],
+                  message: assemblerError.message
+                },
+          filter: () => false
         }),
-    effects: highlightActiveRangeEffect.of({ add: activeRange })
-  })
+        highlightActiveRangeEffect.of({ add: activeRange })
+      ],
+      ...(view.hasFocus || activeRange === undefined
+        ? undefined
+        : {
+            selection: { anchor: activeRange.from },
+            scrollIntoView: true
+          })
+    })
+  }
 
   return (
     <div ref={editorRef} className={`flex flex-col ${className}`}>
