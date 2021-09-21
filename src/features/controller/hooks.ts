@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { useSelector, useStore } from '../../app/hooks'
+import { useShallowEqualSelector, useStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
 import {
   setRunning,
   setSuspended,
   selectIsRunning,
   selectIsSuspended,
-  selectConfiguration
+  selectRuntimeConfiguration
 } from './controllerSlice'
 import { setEditorActiveRange, selectEditortInput } from '../editor/editorSlice'
 import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
@@ -71,7 +71,7 @@ export const useController = (): Controller => {
     return isRunning
   }
 
-  const { clockSpeed, timerInterval } = useSelector(selectConfiguration)
+  const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
 
   const setIntervalJob = (): void => {
     stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)

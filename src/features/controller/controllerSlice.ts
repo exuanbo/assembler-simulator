@@ -91,8 +91,10 @@ export const selectClockSpeed = (state: RootState): ClockSpeed =>
 export const selectTimerInterval = (state: RootState): TimerInterval =>
   state.controller.configuration.timerInterval
 
-export const selectConfiguration = (state: RootState): Configuration =>
-  state.controller.configuration
+export const selectRuntimeConfiguration = (state: RootState): Omit<Configuration, 'autoAssemble'> =>
+  (({ autoAssemble, ...runtimeConfiguration }) => runtimeConfiguration)(
+    state.controller.configuration
+  )
 
 export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTimerInterval } =
   controllerSlice.actions
