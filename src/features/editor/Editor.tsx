@@ -4,7 +4,7 @@ import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { linterErrorEffect } from './codemirror/linter'
+import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
 import { selectAssemblerError } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
@@ -61,14 +61,13 @@ const Editor = ({ className }: Props): JSX.Element => {
   if (view !== undefined) {
     view.dispatch({
       effects: [
-        linterErrorEffect.of({
+        wavyUnderlineEffect.of({
           add:
             assemblerError?.range == null
               ? undefined
               : {
                   from: assemblerError.range[0],
-                  to: assemblerError.range[1],
-                  message: assemblerError.message
+                  to: assemblerError.range[1]
                 },
           filter: () => false
         }),

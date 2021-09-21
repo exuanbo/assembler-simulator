@@ -5,10 +5,10 @@ import { history, historyKeymap } from '@codemirror/history'
 import { lineNumbers } from '@codemirror/gutter'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { defaultHighlightStyle } from '@codemirror/highlight'
+import { wavyUnderline } from './wavyUnderline'
 import { highlightActiveRange } from './highlightActiveRange'
-import { breakpoints } from './breakpoints'
 import { asm } from './lang-asm'
-import { linter } from './linter'
+import { breakpoints } from './breakpoints'
 import { indentWithTab } from './indentWithTab'
 
 // TODO: extract to seprate file
@@ -35,13 +35,13 @@ export const setup: Extension = [
   theme,
   EditorView.lineWrapping,
   drawSelection(),
+  wavyUnderline(),
   highlightActiveRange(),
   asm(),
   history(),
   breakpoints(),
   lineNumbers(),
   closeBrackets(),
-  linter(),
   defaultHighlightStyle,
   keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
 ]
