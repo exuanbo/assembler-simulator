@@ -133,7 +133,7 @@ export const useController = (): Controller => {
             const hasStatement = statement?.machineCodes.every(
               (machineCode, index) => machineCode === memoryData[instructionAdress + index]
             )
-            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+            dispatch(setEditorActiveRange(hasStatement ? statement : null))
             requestId = undefined
           })
         }
@@ -188,7 +188,7 @@ export const useController = (): Controller => {
     reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
-    dispatch(setEditorActiveRange(undefined))
+    dispatch(setEditorActiveRange(null))
   }
 
   return {

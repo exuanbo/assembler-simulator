@@ -5,7 +5,7 @@ import type { Statement } from '../assembler/core/parser'
 
 interface EditorState {
   input: string
-  activeRange: SourceRange | undefined // TODO: should be null
+  activeRange: SourceRange | null
 }
 
 const DEFAULT_INPUT = `mov al, c0
@@ -33,7 +33,7 @@ done:
 
 const initialState: EditorState = {
   input: DEFAULT_INPUT,
-  activeRange: undefined
+  activeRange: null
 }
 
 export const editorSlice = createSlice({
@@ -43,9 +43,9 @@ export const editorSlice = createSlice({
     setInput: (state, action: PayloadAction<string>) => {
       state.input = action.payload
     },
-    setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
+    setActiveRange: (state, action: PayloadAction<Statement | null>) => {
       const statement = action.payload
-      state.activeRange = statement?.range
+      state.activeRange = statement?.range ?? null
     }
   }
 })
@@ -53,7 +53,7 @@ export const editorSlice = createSlice({
 export const selectEditortInput = (state: RootState): string => state.editor.input
 
 export const selectEditorActiveRange = (state: RootState): SourceRange | undefined =>
-  state.editor.activeRange
+  state.editor.activeRange ?? undefined
 
 export const { setInput: setEditorInput, setActiveRange: setEditorActiveRange } =
   editorSlice.actions
