@@ -47,7 +47,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
 
 const wavyUnderlineImage = `url('data:image/svg+xml;base64,${window.btoa(
   `<svg height="4" width="6" xmlns="http://www.w3.org/2000/svg">
-  <path d="m0 3 l2 -2 l1 0 l2 2 l1 0" fill="none" stroke="red" stroke-width="1.125" />
+  <path d="m0 3 l2 -2 l1 0 l2 2 l1 0" fill="none" stroke="red" />
 </svg>`
 )}')`
 
