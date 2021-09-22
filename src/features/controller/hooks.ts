@@ -12,7 +12,8 @@ import { setEditorActiveRange, selectEditortInput } from '../editor/editorSlice'
 import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
-import { StepResult, step, RuntimeError } from '../cpu/core'
+import { StepResult, step } from '../cpu/core'
+import { RuntimeError } from '../cpu/core/exceptions'
 import {
   setCpuFault,
   setCpuHalted,

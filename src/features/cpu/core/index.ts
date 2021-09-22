@@ -27,8 +27,6 @@ import type { MemoryData } from '../../memory/core'
 import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
 import { NullablePartial, ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
-export { RuntimeError } from './exceptions'
-
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]

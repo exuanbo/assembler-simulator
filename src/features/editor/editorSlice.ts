@@ -1,15 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
+import type { SourceRange } from '../assembler/core/types'
 import type { Statement } from '../assembler/core/parser'
-
-interface ActiveRange {
-  from: number
-  to: number
-}
 
 interface EditorState {
   input: string
-  activeRange: ActiveRange | undefined
+  activeRange: SourceRange | undefined // TODO: should be null
 }
 
 const DEFAULT_INPUT = `mov al, c0
@@ -49,17 +45,14 @@ export const editorSlice = createSlice({
     },
     setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
       const statement = action.payload
-      state.activeRange =
-        statement === undefined
-          ? undefined
-          : (({ range }) => ({ from: range[0], to: range[1] }))(statement)
+      state.activeRange = statement?.range
     }
   }
 })
 
 export const selectEditortInput = (state: RootState): string => state.editor.input
 
-export const selectEditorActiveRange = (state: RootState): ActiveRange | undefined =>
+export const selectEditorActiveRange = (state: RootState): SourceRange | undefined =>
   state.editor.activeRange
 
 export const { setInput: setEditorInput, setActiveRange: setEditorActiveRange } =

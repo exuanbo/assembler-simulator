@@ -9,8 +9,6 @@ import {
 import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
-export { AssemblerError } from './exceptions'
-
 type LabelToAddressMap = Record<string, number>
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {

@@ -1,5 +1,6 @@
 import { useDispatch } from '../../app/hooks'
-import { assemble, AssemblerError } from './core'
+import { assemble } from './core'
+import { AssemblerError } from './core/exceptions'
 import { setAssemblerState } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
@@ -31,9 +32,9 @@ export const useAssembler = (): Assemble => {
           })
         )
         dispatch(setEditorActiveRange(undefined))
-      } else {
-        throw err
+        return
       }
+      throw err
     }
   }
 }

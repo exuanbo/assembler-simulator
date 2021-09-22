@@ -1,4 +1,4 @@
-import type { Locatable } from './types'
+import type { SourceRange } from './types'
 import { Mnemonic } from '../../../common/constants'
 import { trimBracketsAndQuotes, call } from '../../../common/utils'
 
@@ -15,10 +15,11 @@ export enum TokenType {
   Unknown = 'Unknown'
 }
 
-export interface Token extends Locatable {
+export interface Token {
   type: TokenType
   value: string
   raw: string
+  range: SourceRange
 }
 
 const createToken = (type: TokenType, value: string, from: number): Token => {
@@ -38,7 +39,7 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
     type,
     value: tokenValue,
     raw: value,
-    range: [from, to]
+    range: { from, to }
   }
 }
 
@@ -75,7 +76,7 @@ export const tokenize = (input: string): Token[] => {
         if (!skipableTypes.includes(token.type)) {
           tokens.push(token)
         }
-        index = token.value === Mnemonic.END ? input.length : token.range[1]
+        index = token.value === Mnemonic.END ? input.length : token.range.to
       }
       return isMatched
     })

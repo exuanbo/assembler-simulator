@@ -3,19 +3,28 @@
 exports[`tokenizer should skip comment at the end of the line 1`] = `
 Array [
   Object {
-    "range": Array [0, 4],
+    "range": Object {
+      "from": 0,
+      "to": 4,
+    },
     "raw": "done",
     "type": "Unknown",
     "value": "DONE",
   },
   Object {
-    "range": Array [4, 5],
+    "range": Object {
+      "from": 4,
+      "to": 5,
+    },
     "raw": ":",
     "type": "Colon",
     "value": ":",
   },
   Object {
-    "range": Array [25, 28],
+    "range": Object {
+      "from": 25,
+      "to": 28,
+    },
     "raw": "end",
     "type": "Unknown",
     "value": "END",
@@ -26,7 +35,10 @@ Array [
 exports[`tokenizer should skip line with comment 1`] = `
 Array [
   Object {
-    "range": Array [20, 23],
+    "range": Object {
+      "from": 20,
+      "to": 23,
+    },
     "raw": "end",
     "type": "Unknown",
     "value": "END",
@@ -37,19 +49,28 @@ Array [
 exports[`tokenizer should skip whitespace 1`] = `
 Array [
   Object {
-    "range": Array [3, 7],
+    "range": Object {
+      "from": 3,
+      "to": 7,
+    },
     "raw": "done",
     "type": "Unknown",
     "value": "DONE",
   },
   Object {
-    "range": Array [7, 8],
+    "range": Object {
+      "from": 7,
+      "to": 8,
+    },
     "raw": ":",
     "type": "Colon",
     "value": ":",
   },
   Object {
-    "range": Array [11, 14],
+    "range": Object {
+      "from": 11,
+      "to": 14,
+    },
     "raw": "end",
     "type": "Unknown",
     "value": "END",
@@ -60,19 +81,28 @@ Array [
 exports[`tokenizer should tokenize address 1`] = `
 Array [
   Object {
-    "range": Array [0, 2],
+    "range": Object {
+      "from": 0,
+      "to": 2,
+    },
     "raw": "[]",
     "type": "Address",
     "value": "",
   },
   Object {
-    "range": Array [3, 7],
+    "range": Object {
+      "from": 3,
+      "to": 7,
+    },
     "raw": "[00]",
     "type": "Address",
     "value": "00",
   },
   Object {
-    "range": Array [8, 12],
+    "range": Object {
+      "from": 8,
+      "to": 12,
+    },
     "raw": "[al]",
     "type": "Address",
     "value": "AL",
@@ -83,19 +113,28 @@ Array [
 exports[`tokenizer should tokenize comma 1`] = `
 Array [
   Object {
-    "range": Array [0, 1],
+    "range": Object {
+      "from": 0,
+      "to": 1,
+    },
     "raw": ",",
     "type": "Comma",
     "value": ",",
   },
   Object {
-    "range": Array [2, 3],
+    "range": Object {
+      "from": 2,
+      "to": 3,
+    },
     "raw": ",",
     "type": "Comma",
     "value": ",",
   },
   Object {
-    "range": Array [3, 4],
+    "range": Object {
+      "from": 3,
+      "to": 4,
+    },
     "raw": ",",
     "type": "Comma",
     "value": ",",
@@ -106,19 +145,28 @@ Array [
 exports[`tokenizer should tokenize digits 1`] = `
 Array [
   Object {
-    "range": Array [0, 1],
+    "range": Object {
+      "from": 0,
+      "to": 1,
+    },
     "raw": "0",
     "type": "Digits",
     "value": "0",
   },
   Object {
-    "range": Array [2, 4],
+    "range": Object {
+      "from": 2,
+      "to": 4,
+    },
     "raw": "01",
     "type": "Digits",
     "value": "01",
   },
   Object {
-    "range": Array [5, 8],
+    "range": Object {
+      "from": 5,
+      "to": 8,
+    },
     "raw": "002",
     "type": "Digits",
     "value": "002",
@@ -129,25 +177,37 @@ Array [
 exports[`tokenizer should tokenize register 1`] = `
 Array [
   Object {
-    "range": Array [0, 2],
+    "range": Object {
+      "from": 0,
+      "to": 2,
+    },
     "raw": "al",
     "type": "Register",
     "value": "AL",
   },
   Object {
-    "range": Array [3, 5],
+    "range": Object {
+      "from": 3,
+      "to": 5,
+    },
     "raw": "Bl",
     "type": "Register",
     "value": "BL",
   },
   Object {
-    "range": Array [6, 8],
+    "range": Object {
+      "from": 6,
+      "to": 8,
+    },
     "raw": "cL",
     "type": "Register",
     "value": "CL",
   },
   Object {
-    "range": Array [9, 11],
+    "range": Object {
+      "from": 9,
+      "to": 11,
+    },
     "raw": "DL",
     "type": "Register",
     "value": "DL",
@@ -158,13 +218,19 @@ Array [
 exports[`tokenizer should tokenize string 1`] = `
 Array [
   Object {
-    "range": Array [0, 2],
+    "range": Object {
+      "from": 0,
+      "to": 2,
+    },
     "raw": "\\"\\"",
     "type": "String",
     "value": "",
   },
   Object {
-    "range": Array [3, 21],
+    "range": Object {
+      "from": 3,
+      "to": 21,
+    },
     "raw": "\\"this is a string\\"",
     "type": "String",
     "value": "this is a string",

@@ -1,13 +1,13 @@
-import type { Range } from './types'
+import type { SourceRange } from './types'
 import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
 export abstract class AssemblerError extends Error {
   public message: string
-  public range: Range | undefined
+  public range: SourceRange | undefined
 
-  constructor(message: string, range?: Range) {
+  constructor(message: string, range?: SourceRange) {
     super()
     this.message = message
     this.range = range

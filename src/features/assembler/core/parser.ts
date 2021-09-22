@@ -1,4 +1,4 @@
-import type { Locatable } from './types'
+import type { SourceRange } from './types'
 import { TokenType, Token } from './tokenizer'
 import {
   AssemblerError,
@@ -21,7 +21,11 @@ import {
 } from '../../../common/constants'
 import { call, hexToDec, stringToAscii } from '../../../common/utils'
 
-export interface Label extends Locatable {
+interface BaseNode {
+  range: SourceRange
+}
+
+export interface Label extends BaseNode {
   identifier: string
 }
 
@@ -32,7 +36,7 @@ const createLabel = ({ value, range }: Token): Label => {
   }
 }
 
-interface Instruction extends Locatable {
+interface Instruction extends BaseNode {
   opcode: Opcode | null
   mnemonic: string
 }
@@ -55,7 +59,7 @@ export enum OperandType {
   Label = 'Label'
 }
 
-export interface Operand<T extends OperandType = OperandType> extends Locatable {
+export interface Operand<T extends OperandType = OperandType> extends BaseNode {
   type: T
   value: number | number[] | undefined
   rawValue: string
@@ -87,7 +91,7 @@ const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<
   }
 }
 
-export interface Statement extends Locatable {
+export interface Statement extends BaseNode {
   label: Label | null
   instruction: Instruction
   operands: Operand[]
@@ -107,15 +111,15 @@ const createStatement = (
       []
     )
   ]
-  const from = instruction.range[0]
+  const from = instruction.range.from
   const lastNode = operands.length > 0 ? operands[operands.length - 1] : instruction
-  const to = lastNode.range[1]
+  const to = lastNode.range.to
   return {
     label,
     instruction,
     operands,
     machineCodes,
-    range: [from, to]
+    range: { from, to }
   }
 }
 
