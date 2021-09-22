@@ -1,5 +1,25 @@
-import { StateField, StateEffect, Extension } from '@codemirror/state'
+import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
+
+interface WavyUnderlineConfig {
+  clearAll?: boolean
+}
+
+const wavyUnderlineConfigFacet = Facet.define<WavyUnderlineConfig, Required<WavyUnderlineConfig>>({
+  combine(values) {
+    return combineConfig(
+      values,
+      {
+        clearAll: true
+      },
+      {
+        clearAll(_, option) {
+          return option
+        }
+      }
+    )
+  }
+})
 
 export const wavyUnderlineEffect = StateEffect.define<{
   add?:
@@ -31,6 +51,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
+    const { clearAll } = transaction.state.facet(wavyUnderlineConfigFacet)
     return transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
       if (!effect.is(wavyUnderlineEffect)) {
         return resultSet
@@ -38,7 +59,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
       const { add, filter } = effect.value
       return resultSet.update({
         add: add === undefined ? [] : [wavyUnderlineMark.range(add.from, add.to)],
-        ...(filter === undefined ? undefined : { filter })
+        filter: clearAll ? () => false : filter === undefined ? () => true : filter
       })
     }, decorationSet.map(transaction.changes))
   },
@@ -51,7 +72,8 @@ const wavyUnderlineImage = `url('data:image/svg+xml;base64,${window.btoa(
 </svg>`
 )}')`
 
-export const wavyUnderline = (): Extension => [
+export const wavyUnderline = (config: WavyUnderlineConfig = {}): Extension => [
+  wavyUnderlineConfigFacet.of(config),
   wavyUnderlineField,
   EditorView.baseTheme({
     '.cm-wavyUnderline': {

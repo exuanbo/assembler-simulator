@@ -61,14 +61,8 @@ const Editor = ({ className }: Props): JSX.Element => {
   if (view !== undefined) {
     view.dispatch({
       effects: [
-        wavyUnderlineEffect.of({
-          add: assemblerErrorRange,
-          filter: () => false
-        }),
-        highlightActiveRangeEffect.of({
-          add: activeRange,
-          filter: () => false
-        })
+        wavyUnderlineEffect.of({ add: assemblerErrorRange }),
+        highlightActiveRangeEffect.of({ add: activeRange })
       ],
       ...(view.hasFocus || activeRange === undefined
         ? undefined
