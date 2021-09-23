@@ -31,7 +31,7 @@ export const useAssembler = (): Assemble => {
             error: { ...err }
           })
         )
-        dispatch(setEditorActiveRange(null))
+        dispatch(setEditorActiveRange(undefined))
         return
       }
       throw err
