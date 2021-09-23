@@ -5,7 +5,7 @@ import type { Statement } from '../assembler/core/parser'
 
 interface EditorState {
   input: string
-  activeRange: SourceRange | undefined // TODO: should be null
+  activeRange: SourceRange | undefined
 }
 
 const DEFAULT_INPUT = `mov al, c0
