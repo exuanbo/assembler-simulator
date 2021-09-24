@@ -26,7 +26,7 @@ const Editor = ({ className }: Props): JSX.Element => {
     assemble(defaultInput)
   }, [])
 
-  const { editorRef, view } = useCodeMirror<HTMLDivElement>(
+  const { view, editorRef } = useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
       extensions: setup

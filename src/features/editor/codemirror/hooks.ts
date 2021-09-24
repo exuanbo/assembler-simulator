@@ -6,8 +6,8 @@ export const useCodeMirror = <T extends Element = Element>(
   editorStateConfig: EditorStateConfig,
   viewUpdateHandler: (viewUpdate: ViewUpdate) => void
 ): {
-  editorRef: (node: T) => void
   view: EditorView | undefined
+  editorRef: (node: T) => void
 } => {
   const [current, setCurrent] = useState<T | null>(null)
   const [view, setView] = useState<EditorView>()
@@ -40,7 +40,7 @@ export const useCodeMirror = <T extends Element = Element>(
   }, [view])
 
   return {
-    editorRef: refCallback,
-    view
+    view,
+    editorRef: refCallback
   }
 }
