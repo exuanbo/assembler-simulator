@@ -58,9 +58,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
   },
   update(decorationSet, transaction) {
     const { clearOnPointerSelect, clearAll } = transaction.state.facet(activeRangeConfigFacet)
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
+    return clearOnPointerSelect && transaction.isUserEvent('select.pointer') === true
       ? Decoration.none
       : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
           if (!effect.is(highlightActiveRangeEffect)) {
