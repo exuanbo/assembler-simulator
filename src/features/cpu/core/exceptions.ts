@@ -1,3 +1,5 @@
+import { decToHex } from '../../../common/utils'
+
 export abstract class RuntimeError extends Error {
   public message: string
 
@@ -9,11 +11,11 @@ export abstract class RuntimeError extends Error {
 
 export class InvalidRegisterError extends RuntimeError {
   constructor(value: number) {
-    super(`Invalid register: ${value}`)
+    super(`Invalid register: ${decToHex(value)}`)
   }
 }
 
-export class RunBeyondEndOfMemory extends RuntimeError {
+export class RunBeyondEndOfMemoryError extends RuntimeError {
   constructor() {
     super('Can not execute code beyond the end of RAM')
   }

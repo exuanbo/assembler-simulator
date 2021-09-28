@@ -18,7 +18,7 @@ import {
 } from './operations'
 import {
   InvalidRegisterError,
-  RunBeyondEndOfMemory,
+  RunBeyondEndOfMemoryError,
   StackOverflowError,
   StackUnderflowError,
   PortError
@@ -72,7 +72,7 @@ const checkGPR = (register: number): GeneralPurposeRegister => {
 
 const checkIP = (address: number): number => {
   if (address > 0xff) {
-    throw new RunBeyondEndOfMemory()
+    throw new RunBeyondEndOfMemoryError()
   }
   return address
 }

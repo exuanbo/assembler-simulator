@@ -1,11 +1,14 @@
 import { createNextState } from '@reduxjs/toolkit'
 import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
 import { assemble } from '../src/features/assembler/core'
-import { MemoryData, initDataFrom } from '../src/features/memory/core'
+import { MemoryData, initData, initDataFrom } from '../src/features/memory/core'
 import { Registers, InputSignals, initRegisters, step as __step } from '../src/features/cpu/core'
+import { Opcode, GeneralPurposeRegister } from '../src/common/constants'
 
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
+
+const initialMemoryData = initData()
 
 const getMemoryData = (input: string): MemoryData => {
   const [addressToMachineCodeMap] = assemble(input)
@@ -26,6 +29,29 @@ const step = (
 
 describe('cpu', () => {
   describe('step', () => {
+    it('should throw InvalidRegisterError', () => {
+      const memoryData = createNextState(initialMemoryData, draft => {
+        draft[0] = Opcode.INC_REG
+        draft[1] = 0x04
+      })
+      expect(() => {
+        step(memoryData, initialRegisters)
+      }).toThrowError('Invalid register: 04')
+    })
+
+    it('should throw RunBeyondEndOfMemoryError', () => {
+      const memoryData = createNextState(initialMemoryData, draft => {
+        draft[0xfe] = Opcode.ADD_REG_TO_REG
+        draft[0xff] = GeneralPurposeRegister.AL
+      })
+      const cpuRegisters = createNextState(initialRegisters, draft => {
+        draft.ip = 0xfe
+      })
+      expect(() => {
+        step(memoryData, cpuRegisters)
+      }).toThrowError('Can not execute code beyond the end of RAM')
+    })
+
     it('with END should set halted', () => {
       const memoryData = getMemoryData('add al, bl end')
       const cpuRegisters = createNextState(initialRegisters, draft => {
