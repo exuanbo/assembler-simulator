@@ -1,6 +1,8 @@
 import React from 'react'
-import MenuItem from './MenuItem'
+import Menu from './Menu'
+import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
+import MenuItem from './MenuItem'
 import { CheckMark, Wrench, Play } from '../../common/components/icons'
 import { useSelector, useDispatch } from '../../app/hooks'
 import {
@@ -15,7 +17,6 @@ import {
   selectClockSpeed,
   selectTimerInterval
 } from './controllerSlice'
-import { useToggle, useOutsideClick } from '../../common/hooks'
 
 const AutoAssembleOption = (): JSX.Element => {
   const dispatch = useDispatch()
@@ -45,10 +46,10 @@ const ClockSpeedMenu = (): JSX.Element => {
     <MenuItem.SubMenu>
       {(isHovered, menuItemsRef) => (
         <>
-          <div className="flex space-x-2 items-center">
+          <MenuButton>
             <span className="w-4" />
             <span>Clock Speed</span>
-          </div>
+          </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
             <MenuItems className="top-8 left-60 w-60" innerRef={menuItemsRef}>
@@ -87,10 +88,10 @@ const TimerIntervalMenu = (): JSX.Element => {
     <MenuItem.SubMenu>
       {(isHovered, menuItemsRef) => (
         <>
-          <div className="flex space-x-2 items-center">
+          <MenuButton>
             <span className="w-4" />
             <span>Timer Interval</span>
-          </div>
+          </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
             <MenuItems className="mt-1px top-16 left-60 w-60" innerRef={menuItemsRef}>
@@ -121,34 +122,24 @@ const TimerIntervalMenu = (): JSX.Element => {
   )
 }
 
-const ConfigurationMenu = (): JSX.Element => {
-  const [isOpen, toggleOpen] = useToggle(false)
-  const [isClicked, clickRef] = useOutsideClick<HTMLDivElement>()
-
-  if (isOpen && isClicked) {
-    toggleOpen()
-  }
-
-  return (
-    <div
-      ref={clickRef}
-      className={`cursor-pointer flex py-1 px-2 items-center hover:bg-gray-200 ${
-        isOpen ? 'bg-gray-200' : ''
-      }`}
-      onClick={toggleOpen}>
-      <div className="flex space-x-2 items-center">
-        <Wrench />
-        <span>Configuration</span>
-      </div>
-      {isOpen ? (
-        <MenuItems className="top-8 left-0 w-60">
-          <AutoAssembleOption />
-          <ClockSpeedMenu />
-          <TimerIntervalMenu />
-        </MenuItems>
-      ) : null}
-    </div>
-  )
-}
+const ConfigurationMenu = (): JSX.Element => (
+  <Menu>
+    {isOpen => (
+      <>
+        <MenuButton>
+          <Wrench />
+          <span>Configuration</span>
+        </MenuButton>
+        {isOpen ? (
+          <MenuItems className="top-8 left-0 w-60">
+            <AutoAssembleOption />
+            <ClockSpeedMenu />
+            <TimerIntervalMenu />
+          </MenuItems>
+        ) : null}
+      </>
+    )}
+  </Menu>
+)
 
 export default ConfigurationMenu
