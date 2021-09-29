@@ -12,4 +12,23 @@ const MenuItems = ({ children, innerRef, className = '' }: Props): JSX.Element =
   </div>
 )
 
+interface SubMenuProps {
+  children: ReactNode
+  innerRef?: React.RefCallback<HTMLDivElement>
+  className?: string
+}
+
+MenuItems.SubMenu = ({ children, innerRef, className = '' }: SubMenuProps): JSX.Element => (
+  <MenuItems
+    className={className}
+    innerRef={(node: HTMLDivElement | null) => {
+      innerRef?.(node)
+      if (node?.parentElement != null) {
+        node.style.left = `${node.parentElement.getBoundingClientRect().right + 1}px`
+      }
+    }}>
+    {children}
+  </MenuItems>
+)
+
 export default MenuItems

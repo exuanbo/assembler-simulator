@@ -48,11 +48,11 @@ const ClockSpeedMenu = (): JSX.Element => {
           </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
-            <MenuItems className="top-8 left-60 w-60" innerRef={menuItemsRef}>
+            <MenuItems.SubMenu className="mt-1px top-16" innerRef={menuItemsRef}>
               {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
                 <MenuItem
                   key={index}
-                  className="space-x-2"
+                  className="space-x-2 pr-8"
                   onClick={() => {
                     dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))
                   }}>
@@ -64,7 +64,7 @@ const ClockSpeedMenu = (): JSX.Element => {
                   <span>{clockSpeedKey}</span>
                 </MenuItem>
               ))}
-            </MenuItems>
+            </MenuItems.SubMenu>
           ) : null}
         </>
       )}
@@ -86,11 +86,11 @@ const TimerIntervalMenu = (): JSX.Element => {
           </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
-            <MenuItems className="mt-1px top-16 left-60 w-60" innerRef={menuItemsRef}>
+            <MenuItems.SubMenu className="mt-2px top-24" innerRef={menuItemsRef}>
               {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
                 <MenuItem
                   key={index}
-                  className="space-x-2"
+                  className="space-x-2 pr-8"
                   onClick={() => {
                     dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))
                   }}>
@@ -102,7 +102,7 @@ const TimerIntervalMenu = (): JSX.Element => {
                   <span>{timerIntervalKey}</span>
                 </MenuItem>
               ))}
-            </MenuItems>
+            </MenuItems.SubMenu>
           ) : null}
         </>
       )}
@@ -119,7 +119,7 @@ const ConfigurationMenu = (): JSX.Element => (
           <span>Configuration</span>
         </MenuButton.Main>
         {isOpen ? (
-          <MenuItems className="top-8 w-60">
+          <MenuItems className="-ml-1px top-8 w-60">
             <AutoAssembleOption />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
