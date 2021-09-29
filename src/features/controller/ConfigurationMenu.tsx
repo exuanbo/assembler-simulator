@@ -114,12 +114,12 @@ const ConfigurationMenu = (): JSX.Element => (
   <Menu>
     {isOpen => (
       <>
-        <MenuButton>
+        <MenuButton.Main>
           <Wrench />
           <span>Configuration</span>
-        </MenuButton>
+        </MenuButton.Main>
         {isOpen ? (
-          <MenuItems className="top-8 left-0 w-60">
+          <MenuItems className="top-8 w-60">
             <AutoAssembleOption />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
