@@ -2,20 +2,21 @@ import React, { ReactNode, useRef } from 'react'
 import { useHover } from '../../common/hooks'
 
 interface Props {
-  children: (isHovered: boolean) => ReactNode
+  children: ReactNode | ((isHovered: boolean) => ReactNode)
   className?: string
   onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 const MenuItem = ({ children, className = '', onClick }: Props): JSX.Element => {
+  const willHandleHover = typeof children === 'function'
   const [isHovered, hoverRef] = useHover<HTMLDivElement>()
 
   return (
     <div
-      ref={hoverRef}
+      ref={willHandleHover ? hoverRef : undefined}
       className={`flex py-1 px-2 items-center hover:bg-gray-200 ${className}`}
       onClick={onClick}>
-      {children(isHovered)}
+      {willHandleHover ? children(isHovered) : children}
     </div>
   )
 }

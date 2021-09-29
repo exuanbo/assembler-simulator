@@ -28,12 +28,8 @@ const AutoAssembleOption = (): JSX.Element => {
       onClick={() => {
         dispatch(setAutoAssemble(!autoAssemble))
       }}>
-      {() => (
-        <>
-          {autoAssemble ? <CheckMark /> : <span className="w-4" />}
-          <span>Auto Assemble</span>
-        </>
-      )}
+      {autoAssemble ? <CheckMark /> : <span className="w-4" />}
+      <span>Auto Assemble</span>
     </MenuItem>
   )
 }
@@ -60,16 +56,12 @@ const ClockSpeedMenu = (): JSX.Element => {
                   onClick={() => {
                     dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))
                   }}>
-                  {() => (
-                    <>
-                      {clockSpeed === ClockSpeed[clockSpeedKey] ? (
-                        <CheckMark />
-                      ) : (
-                        <span className="w-4" />
-                      )}
-                      <span>{clockSpeedKey}</span>
-                    </>
+                  {clockSpeed === ClockSpeed[clockSpeedKey] ? (
+                    <CheckMark />
+                  ) : (
+                    <span className="w-4" />
                   )}
+                  <span>{clockSpeedKey}</span>
                 </MenuItem>
               ))}
             </MenuItems>
@@ -102,16 +94,12 @@ const TimerIntervalMenu = (): JSX.Element => {
                   onClick={() => {
                     dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))
                   }}>
-                  {() => (
-                    <>
-                      {timerInterval === TimerInterval[timerIntervalKey] ? (
-                        <CheckMark />
-                      ) : (
-                        <span className="w-4" />
-                      )}
-                      <span>{timerIntervalKey}</span>
-                    </>
+                  {timerInterval === TimerInterval[timerIntervalKey] ? (
+                    <CheckMark />
+                  ) : (
+                    <span className="w-4" />
                   )}
+                  <span>{timerIntervalKey}</span>
                 </MenuItem>
               ))}
             </MenuItems>
