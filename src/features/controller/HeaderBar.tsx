@@ -1,6 +1,7 @@
 import React from 'react'
-import ControlButton from './ControlButton'
+import FileMenu from './FileMenu'
 import ConfigurationMenu from './ConfigurationMenu'
+import ControlButton from './ControlButton'
 import { Arrow, Play, Stop, Forward, Undo, Github } from '../../common/components/icons'
 import { useSelector } from '../../app/hooks'
 import { selectIsRunning } from './controllerSlice'
@@ -38,6 +39,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
     <nav
       className={`border-b flex bg-gray-100 h-8 w-full z-2 fixed items-center justify-between ${className}`}>
       <div className="divide-x flex">
+        <FileMenu />
         <ConfigurationMenu />
         <ControlButton onClick={assemble}>
           <Arrow />
