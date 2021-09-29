@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  innerRef?: React.RefObject<HTMLDivElement>
+  innerRef?: React.Ref<HTMLDivElement>
   className?: string
 }
 
