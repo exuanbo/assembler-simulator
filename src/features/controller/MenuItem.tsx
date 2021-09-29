@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { useHover } from '../../common/hooks'
 
 interface Props {
@@ -22,21 +22,24 @@ const MenuItem = ({ children, className = '', onClick }: Props): JSX.Element => 
 }
 
 interface SubMenuProps {
-  children: (isHovered: boolean, menuItemsRef: React.RefObject<HTMLDivElement>) => ReactNode
+  children: (isHovered: boolean, menuItemsRef: React.RefCallback<HTMLDivElement>) => ReactNode
 }
 
 MenuItem.SubMenu = ({ children }: SubMenuProps): JSX.Element => {
-  const menuItemsRef = useRef<HTMLDivElement>(null)
+  const [menuItems, setMenuItems] = useState<HTMLDivElement | null>(null)
 
   const handleClick = (event: React.MouseEvent): void => {
-    const { current } = menuItemsRef
-    if (current === null) {
+    if (menuItems === null) {
       return
     }
     const { target } = event
-    if (target instanceof Element && !current.contains(target)) {
+    if (target instanceof Element && !menuItems.contains(target)) {
       event.stopPropagation()
     }
+  }
+
+  const menuItemsRef = (node: HTMLDivElement | null): void => {
+    setMenuItems(node)
   }
 
   return (
