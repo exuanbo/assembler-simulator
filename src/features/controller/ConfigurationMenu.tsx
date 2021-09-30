@@ -38,7 +38,7 @@ const ClockSpeedMenu = (): JSX.Element => {
   const clockSpeed = useSelector(selectClockSpeed)
 
   return (
-    <MenuItem.SubMenu>
+    <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (
         <>
           <MenuButton>
@@ -47,7 +47,7 @@ const ClockSpeedMenu = (): JSX.Element => {
           </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
-            <MenuItems.SubMenu className="mt-1px top-16" innerRef={menuItemsRef}>
+            <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
               {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
                 <MenuItem
                   key={index}
@@ -62,11 +62,11 @@ const ClockSpeedMenu = (): JSX.Element => {
                   <span>{clockSpeedKey}</span>
                 </MenuItem>
               ))}
-            </MenuItems.SubMenu>
+            </MenuItems.Expanded>
           ) : null}
         </>
       )}
-    </MenuItem.SubMenu>
+    </MenuItem.Expandable>
   )
 }
 
@@ -75,7 +75,7 @@ const TimerIntervalMenu = (): JSX.Element => {
   const timerInterval = useSelector(selectTimerInterval)
 
   return (
-    <MenuItem.SubMenu>
+    <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (
         <>
           <MenuButton>
@@ -84,7 +84,7 @@ const TimerIntervalMenu = (): JSX.Element => {
           </MenuButton>
           <Play className="h-2.5" />
           {isHovered ? (
-            <MenuItems.SubMenu className="mt-2px top-24" innerRef={menuItemsRef}>
+            <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
               {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
                 <MenuItem
                   key={index}
@@ -99,11 +99,11 @@ const TimerIntervalMenu = (): JSX.Element => {
                   <span>{timerIntervalKey}</span>
                 </MenuItem>
               ))}
-            </MenuItems.SubMenu>
+            </MenuItems.Expanded>
           ) : null}
         </>
       )}
-    </MenuItem.SubMenu>
+    </MenuItem.Expandable>
   )
 }
 

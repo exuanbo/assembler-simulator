@@ -7,16 +7,16 @@ interface Props {
 }
 
 const MenuItem = ({ children, onClick }: Props): JSX.Element => (
-  <div className="flex space-x-2 py-1 pr-8 pl-2 items-center hover:bg-gray-200" onClick={onClick}>
+  <div className="flex space-x-2 py-1 px-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
   </div>
 )
 
-interface SubMenuProps {
+interface ExpandableProps {
   children: (isHovered: boolean, menuItemsRef: React.RefCallback<HTMLDivElement>) => ReactNode
 }
 
-MenuItem.SubMenu = ({ children }: SubMenuProps): JSX.Element => {
+MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [isHovered, hoverRef] = useHover<HTMLDivElement>()
   const [menuItems, setMenuItems] = useState<HTMLDivElement | null>(null)
 

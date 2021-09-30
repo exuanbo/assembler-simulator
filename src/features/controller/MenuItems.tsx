@@ -11,13 +11,13 @@ const MenuItems = ({ children, className = '' }: Props): JSX.Element => (
   </div>
 )
 
-interface SubMenuProps {
+interface ExpandedProps {
   children: ReactNode
   innerRef?: React.RefCallback<HTMLDivElement>
   className?: string
 }
 
-MenuItems.SubMenu = ({ children, innerRef, className = '' }: SubMenuProps): JSX.Element => {
+MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JSX.Element => {
   const ref = (node: HTMLDivElement | null): void => {
     innerRef?.(node)
     if (node?.parentElement != null) {
@@ -26,7 +26,7 @@ MenuItems.SubMenu = ({ children, innerRef, className = '' }: SubMenuProps): JSX.
   }
 
   return (
-    <div ref={ref} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
+    <div ref={ref} className={`divide-y border bg-gray-50 shadow w-60 fixed ${className}`}>
       {children}
     </div>
   )
