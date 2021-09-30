@@ -2,12 +2,11 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  innerRef?: React.Ref<HTMLDivElement>
   className?: string
 }
 
-const MenuItems = ({ children, innerRef, className = '' }: Props): JSX.Element => (
-  <div ref={innerRef} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
+const MenuItems = ({ children, className = '' }: Props): JSX.Element => (
+  <div className={`divide-y border bg-gray-50 shadow -ml-1px top-8 fixed ${className}`}>
     {children}
   </div>
 )
@@ -18,17 +17,19 @@ interface SubMenuProps {
   className?: string
 }
 
-MenuItems.SubMenu = ({ children, innerRef, className = '' }: SubMenuProps): JSX.Element => (
-  <MenuItems
-    className={className}
-    innerRef={(node: HTMLDivElement | null) => {
-      innerRef?.(node)
-      if (node?.parentElement != null) {
-        node.style.left = `${node.parentElement.getBoundingClientRect().right + 1}px`
-      }
-    }}>
-    {children}
-  </MenuItems>
-)
+MenuItems.SubMenu = ({ children, innerRef, className = '' }: SubMenuProps): JSX.Element => {
+  const ref = (node: HTMLDivElement | null): void => {
+    innerRef?.(node)
+    if (node?.parentElement != null) {
+      node.style.left = `${node.parentElement.getBoundingClientRect().right + /* border */ 1}px`
+    }
+  }
+
+  return (
+    <div ref={ref} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
+      {children}
+    </div>
+  )
+}
 
 export default MenuItems

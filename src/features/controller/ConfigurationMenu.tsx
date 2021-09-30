@@ -116,7 +116,7 @@ const ConfigurationMenu = (): JSX.Element => (
           <span>Configuration</span>
         </MenuButton.Main>
         {isOpen ? (
-          <MenuItems className="-ml-1px top-8 w-60">
+          <MenuItems className="w-60">
             <AutoAssembleOption />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
