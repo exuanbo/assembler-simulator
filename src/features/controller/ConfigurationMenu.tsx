@@ -24,7 +24,6 @@ const AutoAssembleOption = (): JSX.Element => {
 
   return (
     <MenuItem
-      className="space-x-2"
       onClick={() => {
         dispatch(setAutoAssemble(!autoAssemble))
       }}>
@@ -52,7 +51,6 @@ const ClockSpeedMenu = (): JSX.Element => {
               {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
                 <MenuItem
                   key={index}
-                  className="space-x-2 pr-8"
                   onClick={() => {
                     dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))
                   }}>
@@ -90,7 +88,6 @@ const TimerIntervalMenu = (): JSX.Element => {
               {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
                 <MenuItem
                   key={index}
-                  className="space-x-2 pr-8"
                   onClick={() => {
                     dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))
                   }}>

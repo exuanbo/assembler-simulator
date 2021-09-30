@@ -3,16 +3,11 @@ import { useHover } from '../../common/hooks'
 
 interface Props {
   children: ReactNode
-  innerRef?: React.Ref<HTMLDivElement>
-  className?: string
   onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
-const MenuItem = ({ children, innerRef, className = '', onClick }: Props): JSX.Element => (
-  <div
-    ref={innerRef}
-    className={`flex py-1 px-2 items-center hover:bg-gray-200 ${className}`}
-    onClick={onClick}>
+const MenuItem = ({ children, onClick }: Props): JSX.Element => (
+  <div className="flex space-x-2 py-1 pr-8 pl-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
   </div>
 )
@@ -40,9 +35,12 @@ MenuItem.SubMenu = ({ children }: SubMenuProps): JSX.Element => {
   }
 
   return (
-    <MenuItem className="justify-between" innerRef={hoverRef} onClick={handleClick}>
+    <div
+      ref={hoverRef}
+      className="flex py-1 px-2 items-center justify-between hover:bg-gray-200"
+      onClick={handleClick}>
       {children(isHovered, menuItemsRef)}
-    </MenuItem>
+    </div>
   )
 }
 
