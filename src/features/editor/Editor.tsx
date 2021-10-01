@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
+import { subscribe } from '../../app/sideEffect'
 import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
@@ -22,10 +23,6 @@ const Editor = ({ className }: Props): JSX.Element => {
   const defaultInput = selectEditortInput(store.getState())
   const assemble = useAssembler()
 
-  useEffect(() => {
-    assemble(defaultInput)
-  }, [])
-
   const { view, editorRef } = useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
@@ -36,8 +33,16 @@ const Editor = ({ className }: Props): JSX.Element => {
         const input = viewUpdate.state.doc.sliceString(0)
         window.clearTimeout(timeoutId)
         timeoutId = window.setTimeout(() => {
-          store.dispatch(setEditorInput(input))
-          if (selectAutoAssemble(store.getState())) {
+          const state = store.getState()
+          if (selectEditortInput(state) !== input) {
+            store.dispatch(
+              setEditorInput({
+                value: input,
+                isFromFile: false
+              })
+            )
+          }
+          if (selectAutoAssemble(state)) {
             assemble(input)
           }
         }, 200)
@@ -55,23 +60,38 @@ const Editor = ({ className }: Props): JSX.Element => {
     }
   )
 
+  useEffect(() => {
+    // TODO: remove first assemble
+    assemble(defaultInput)
+    subscribe(setEditorInput, ({ value, isFromFile = false }) => {
+      if (!isFromFile) {
+        return
+      }
+      view!.dispatch({
+        changes: {
+          from: 0,
+          to: view!.state.doc.sliceString(0).length,
+          insert: value
+        }
+      })
+    })
+  }, [])
+
   const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
   const activeRange = useSelector(selectEditorActiveRange)
 
-  if (view !== undefined) {
-    view.dispatch({
-      effects: [
-        wavyUnderlineEffect.of({ add: assemblerErrorRange }),
-        highlightActiveRangeEffect.of({ add: activeRange })
-      ],
-      ...(view.hasFocus || activeRange === undefined
-        ? undefined
-        : {
-            selection: { anchor: activeRange.from },
-            scrollIntoView: true
-          })
-    })
-  }
+  view?.dispatch({
+    effects: [
+      wavyUnderlineEffect.of({ add: assemblerErrorRange }),
+      highlightActiveRangeEffect.of({ add: activeRange })
+    ],
+    ...(view.hasFocus || activeRange === undefined
+      ? undefined
+      : {
+          selection: { anchor: activeRange.from },
+          scrollIntoView: true
+        })
+  })
 
   return (
     <div ref={editorRef} className={`flex flex-col ${className}`}>
