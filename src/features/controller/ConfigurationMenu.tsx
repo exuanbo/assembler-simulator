@@ -3,7 +3,7 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { CheckMark, Wrench, Play } from '../../common/components/icons'
+import { CheckMark, Wrench } from '../../common/components/icons'
 import { useSelector, useDispatch } from '../../app/hooks'
 import {
   ClockSpeed,
@@ -45,7 +45,6 @@ const ClockSpeedMenu = (): JSX.Element => {
             <span className="w-4" />
             <span>Clock Speed</span>
           </MenuButton>
-          <Play className="h-2.5" />
           {isHovered ? (
             <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
               {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
@@ -82,7 +81,6 @@ const TimerIntervalMenu = (): JSX.Element => {
             <span className="w-4" />
             <span>Timer Interval</span>
           </MenuButton>
-          <Play className="h-2.5" />
           {isHovered ? (
             <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
               {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
@@ -116,7 +114,7 @@ const ConfigurationMenu = (): JSX.Element => (
           <span>Configuration</span>
         </MenuButton.Main>
         {isOpen ? (
-          <MenuItems className="w-60">
+          <MenuItems>
             <AutoAssembleOption />
             <ClockSpeedMenu />
             <TimerIntervalMenu />

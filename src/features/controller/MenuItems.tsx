@@ -2,13 +2,10 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  className?: string
 }
 
-const MenuItems = ({ children, className = '' }: Props): JSX.Element => (
-  <div className={`divide-y border bg-gray-50 shadow -ml-1px top-8 fixed ${className}`}>
-    {children}
-  </div>
+const MenuItems = ({ children }: Props): JSX.Element => (
+  <div className="divide-y border bg-gray-50 shadow -ml-1px top-8 fixed">{children}</div>
 )
 
 interface ExpandedProps {
@@ -26,7 +23,7 @@ MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JS
   }
 
   return (
-    <div ref={ref} className={`divide-y border bg-gray-50 shadow w-60 fixed ${className}`}>
+    <div ref={ref} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
       {children}
     </div>
   )
