@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { EditorState, EditorStateConfig } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 
 export const useCodeMirror = <T extends Element = Element>(
-  editorStateConfig: EditorStateConfig,
-  viewUpdateHandler: (viewUpdate: ViewUpdate) => void
+  config: EditorStateConfig,
+  handleViewUpdate: (viewUpdate: ViewUpdate) => void
 ): {
   view: EditorView | undefined
-  editorRef: (node: T) => void
+  editorRef: React.RefCallback<T>
 } => {
   const [current, setCurrent] = useState<T | null>(null)
   const [view, setView] = useState<EditorView>()
@@ -21,10 +21,10 @@ export const useCodeMirror = <T extends Element = Element>(
       setView(undefined)
       return
     }
-    const viewUpdateListener = EditorView.updateListener.of(viewUpdateHandler)
+    const viewUpdateListener = EditorView.updateListener.of(handleViewUpdate)
     const state = EditorState.create({
-      ...editorStateConfig,
-      extensions: [editorStateConfig.extensions ?? [], viewUpdateListener]
+      ...config,
+      extensions: [config.extensions ?? [], viewUpdateListener]
     })
     const initialView = new EditorView({
       state,
