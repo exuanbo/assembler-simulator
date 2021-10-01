@@ -40,8 +40,8 @@ export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    setInput: (state, action: PayloadAction<string>) => {
-      state.input = action.payload
+    setInput: (state, action: PayloadAction<{ value: string; isFromFile?: boolean }>) => {
+      state.input = action.payload.value
     },
     setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
       const statement = action.payload
