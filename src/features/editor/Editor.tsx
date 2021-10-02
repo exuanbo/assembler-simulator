@@ -23,6 +23,10 @@ const Editor = ({ className }: Props): JSX.Element => {
   const defaultInput = selectEditortInput(store.getState())
   const assemble = useAssembler()
 
+  useEffect(() => {
+    assemble(defaultInput)
+  }, [])
+
   const { view, editorRef } = useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
@@ -61,21 +65,19 @@ const Editor = ({ className }: Props): JSX.Element => {
   )
 
   useEffect(() => {
-    // TODO: remove first assemble
-    assemble(defaultInput)
-    subscribe(setEditorInput, ({ value, isFromFile = false }) => {
+    return subscribe(setEditorInput, ({ value, isFromFile = false }) => {
       if (!isFromFile) {
         return
       }
-      view!.dispatch({
+      view?.dispatch({
         changes: {
           from: 0,
-          to: view!.state.doc.sliceString(0).length,
+          to: view.state.doc.sliceString(0).length,
           insert: value
         }
       })
     })
-  }, [])
+  }, [view])
 
   const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
   const activeRange = useSelector(selectEditorActiveRange)
