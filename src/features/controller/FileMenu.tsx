@@ -4,12 +4,13 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File } from '../../common/components/icons'
-import { useDispatch } from '../../app/hooks'
-import { setEditorInput } from '../editor/editorSlice'
+import { useStore } from '../../app/hooks'
+import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 
 const FileMenu = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const dispatch = useDispatch()
+  const store = useStore()
+  const { dispatch } = store
 
   const handleClickUpload = (event: React.MouseEvent<HTMLDivElement>): void => {
     event.stopPropagation()
@@ -29,6 +30,17 @@ const FileMenu = (): JSX.Element => {
       )
     }
     reader.readAsText(file)
+  }
+
+  const handleClickDownload = (): void => {
+    const editorInput = selectEditortInput(store.getState())
+    const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
+    const fileUrl = URL.createObjectURL(fileBlob)
+    const el = document.createElement('a')
+    el.download = 'file.asm'
+    el.href = fileUrl
+    el.click()
+    URL.revokeObjectURL(fileUrl)
   }
 
   return (
@@ -57,9 +69,9 @@ const FileMenu = (): JSX.Element => {
                   }}
                 />
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={handleClickDownload}>
                 <span className="w-4" />
-                <span>Bar</span>
+                <span>Download</span>
               </MenuItem>
             </MenuItems>
           ) : null}
