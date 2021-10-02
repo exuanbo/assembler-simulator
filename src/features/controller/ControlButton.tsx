@@ -2,15 +2,13 @@ import React, { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  onClick: React.MouseEventHandler<HTMLButtonElement>
+  onClick: React.MouseEventHandler<HTMLDivElement>
 }
 
 const ControlButton = ({ children, onClick }: Props): JSX.Element => (
-  <button
-    className="flex space-x-2 py-1 px-2 items-center hover:bg-gray-200 focus:outline-none "
-    onClick={onClick}>
+  <div className="flex space-x-2 py-1 px-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
-  </button>
+  </div>
 )
 
 export default ControlButton

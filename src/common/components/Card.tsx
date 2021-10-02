@@ -5,7 +5,7 @@ interface Props {
   title: string
   className?: string | undefined
   Icon?: ((props: Record<string, unknown>) => JSX.Element) | undefined
-  onIconClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
+  onIconClick?: React.MouseEventHandler<HTMLDivElement> | undefined
 }
 
 const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (
@@ -13,9 +13,9 @@ const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Ele
     <header className="border-b flex bg-gray-100 py-1 px-2 items-center justify-between">
       <span>{title}</span>
       {Icon === undefined ? null : (
-        <button className="flex items-center focus:outline-none" onClick={onIconClick}>
+        <div className="flex items-center" onClick={onIconClick}>
           <Icon />
-        </button>
+        </div>
       )}
     </header>
     {children}
