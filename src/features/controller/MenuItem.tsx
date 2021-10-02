@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MenuItem = ({ children, onClick }: Props): JSX.Element => (
-  <div className="flex space-x-2 py-1 pr-10 pl-2 items-center hover:bg-gray-200" onClick={onClick}>
+  <div className="flex py-1 pr-10 pl-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
   </div>
 )
