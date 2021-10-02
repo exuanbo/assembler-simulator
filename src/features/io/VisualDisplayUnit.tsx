@@ -3,7 +3,7 @@ import Card from '../../common/components/Card'
 import { useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from '../memory/memorySlice'
 import { NO_BREAK_SPACE } from '../../common/constants'
-import { asciiToChars } from '../../common/utils'
+import { asciiToChars, splitArrayPerChunk } from '../../common/utils'
 
 const VisualDisplayUnit = (): JSX.Element => {
   const vduData = useShallowEqualSelector(state => selectMemoryData(state).slice(0xc0))
@@ -11,10 +11,14 @@ const VisualDisplayUnit = (): JSX.Element => {
 
   return (
     <Card className="border-b border-r max-w-max" title="VDU">
-      <div className="flex flex-wrap space-x-1 space-y-1 h-124px pr-1 pb-1 w-354px items-center resize overflow-auto">
-        {chars.map((char, index) => (
-          <div key={index} className="bg-gray-200 px-1 first:(ml-1 mt-1) ">
-            {char === ' ' ? NO_BREAK_SPACE : char}
+      <div className="flex flex-col space-y-1 p-1 resize overflow-auto items-center justify-center">
+        {splitArrayPerChunk(chars, 0x10).map((line, lineIndex) => (
+          <div key={lineIndex} className="flex space-x-1">
+            {line.map((char, charIndex) => (
+              <div key={charIndex} className="bg-gray-200 px-1">
+                {char === ' ' ? NO_BREAK_SPACE : char}
+              </div>
+            ))}
           </div>
         ))}
       </div>
