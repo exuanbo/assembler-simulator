@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useToggle, useOutsideClick } from '../../common/hooks'
 
 interface Props {
-  children: (isOpen: boolean) => ReactNode
+  children: (isOpen: boolean, toggleOpen: React.DispatchWithoutAction) => ReactNode
 }
 
 const Menu = ({ children }: Props): JSX.Element => {
@@ -20,7 +20,7 @@ const Menu = ({ children }: Props): JSX.Element => {
         isOpen ? 'bg-gray-200' : ''
       }`}
       onClick={toggleOpen}>
-      {children(isOpen)}
+      {children(isOpen, toggleOpen)}
     </div>
   )
 }
