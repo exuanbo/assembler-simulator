@@ -95,7 +95,7 @@ export interface Statement extends BaseNode {
   label: Label | null
   instruction: Instruction
   operands: Operand[]
-  machineCodes: number[]
+  machineCode: number[]
 }
 
 const createStatement = (
@@ -103,7 +103,7 @@ const createStatement = (
   instruction: Instruction,
   operands: Operand[]
 ): Statement => {
-  const machineCodes = [
+  const machineCode = [
     ...(instruction.opcode === null ? [] : [instruction.opcode]),
     ...operands.reduce<number[]>(
       (operandValues, operand) =>
@@ -118,7 +118,7 @@ const createStatement = (
     label,
     instruction,
     operands,
-    machineCodes,
+    machineCode,
     range: { from, to }
   }
 }

@@ -130,7 +130,7 @@ export const useController = (): Controller => {
             dispatch(setCpuRegisters(registers))
             const instructionAdress = registers.ip
             const statement = selectAddressToStatementMap(state)[instructionAdress]
-            const hasStatement = statement?.machineCodes.every(
+            const hasStatement = statement?.machineCode.every(
               (machineCode, index) => machineCode === memoryData[instructionAdress + index]
             )
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
