@@ -81,7 +81,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
                 })
           return resultSet.update({
             add: decorationRanges,
-            filter: clearAll ? () => false : filter === undefined ? () => true : filter
+            filter: clearAll ? () => false : filter ?? (() => true)
           })
         }, decorationSet.map(transaction.changes))
   },
