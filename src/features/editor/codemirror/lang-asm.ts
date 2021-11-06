@@ -74,15 +74,16 @@ const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
   }
 })
 
+const LEADING_SPACE_REGEXP = /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
   indentUnit.of('\t'),
   indentService.of(({ state }, pos) => {
-    const trimmedLine = state.doc.lineAt(pos).text.replace(/^ */, '')
+    const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
     const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
-    const tabsCount = whitespaces.filter(char => char === '\t').length
+    const tabsCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
     const spacesCount = whitespaces.length - tabsCount
     return tabsCount * state.tabSize + spacesCount
   })
