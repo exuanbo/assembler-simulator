@@ -58,7 +58,7 @@ const highlightActiveRangeField = StateField.define<DecorationSet>({
   },
   update(decorationSet, transaction) {
     const { clearOnPointerSelect, clearAll } = transaction.state.facet(activeRangeConfigFacet)
-    return clearOnPointerSelect && transaction.isUserEvent('select.pointer') === true
+    return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
       ? Decoration.none
       : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
           if (!effect.is(highlightActiveRangeEffect)) {
