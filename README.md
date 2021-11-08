@@ -5,7 +5,7 @@
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/exuanbo/assembler-simulator/Node.js%20CI/main.svg)](https://github.com/exuanbo/assembler-simulator/actions?query=workflow%3A%22Node.js+CI%22)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
-Base on the "Samphire" [Microprocessor Simulator](http://www.softwareforeducation.com/sms32v50/index.php) instruction set (which is in turn based on x86). "Samphire" is used to teach CS1111 at University College Cork, but it is restricted to Windows.
+Based on the "Samphire" [Microprocessor Simulator](http://www.softwareforeducation.com/sms32v50/index.php) instruction set which is in turn based on Intel 8086. "Samphire" is used to teach CS1111 Systems Organisation at University College Cork, but it is restricted to Windows.
 
 This project aims to recreate as much of the "Samphire" application as possible using modern front-end technologies:
 
