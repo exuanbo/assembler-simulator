@@ -35,7 +35,7 @@ const clearIntervalJob = (): void => {
 }
 
 let lastStep: Promise<StepResult | undefined>
-let requestId: number | undefined
+let timeoutId: number | undefined
 
 let unsubscribeSetSuspended: () => void
 
@@ -43,7 +43,7 @@ interface Controller {
   assemble: () => void
   run: () => void
   step: () => Promise<void>
-  reset: () => void
+  reset: () => Promise<void>
 }
 
 export const useController = (): Controller => {
@@ -76,7 +76,9 @@ export const useController = (): Controller => {
 
   const setIntervalJob = (): void => {
     stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)
-    interruptIntervalId = window.setInterval(() => dispatch(setCpuInterrupt(true)), timerInterval)
+    interruptIntervalId = window.setInterval(() => {
+      dispatch(setCpuInterrupt(true))
+    }, timerInterval)
   }
 
   const run = (): void => {
@@ -124,8 +126,8 @@ export const useController = (): Controller => {
         )
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
-        if (requestId === undefined && !halted) {
-          requestId = window.requestAnimationFrame(() => {
+        if (timeoutId === undefined && !halted) {
+          timeoutId = window.setTimeout(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
             const instructionAdress = registers.ip
@@ -134,7 +136,7 @@ export const useController = (): Controller => {
               (machineCode, index) => machineCode === memoryData[instructionAdress + index]
             )
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
-            requestId = undefined
+            timeoutId = undefined
           })
         }
         if (halted) {
@@ -170,22 +172,25 @@ export const useController = (): Controller => {
           stopIfRunning()
           dispatch(setCpuFault(true))
           // TODO: handle exceptions
+          resolve(undefined)
+          return
         }
-        resolve(undefined)
+        throw err
       }
       // console.log(performance.now() - startTime)
     })
   }
 
-  const reset = (): void => {
+  const reset = async (): Promise<void> => {
     stopIfRunning()
+    await lastStep
     lastStep = Promise.resolve(undefined)
   }
 
   useEffect(() => subscribe(setAssemblerState, reset), [])
 
-  const __reset = (): void => {
-    reset()
+  const __reset = async (): Promise<void> => {
+    await reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
     dispatch(setEditorActiveRange(undefined))
