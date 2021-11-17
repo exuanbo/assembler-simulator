@@ -23,8 +23,8 @@ export interface Token {
 }
 
 const createToken = (type: TokenType, value: string, from: number): Token => {
+  const normalizedValue = trimBracketsAndQuotes(value)
   const tokenValue = call((): string => {
-    const normalizedValue = trimBracketsAndQuotes(value)
     switch (type) {
       case TokenType.Register:
       case TokenType.Address:
@@ -64,8 +64,6 @@ const tokenMatchers = [
   matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
 ]
 
-const skipableTypes = [TokenType.Whitespace, TokenType.Comment]
-
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
@@ -73,7 +71,7 @@ export const tokenize = (input: string): Token[] => {
       const token = matchToken(input, index)
       const isMatched = token !== null
       if (isMatched) {
-        if (!skipableTypes.includes(token.type)) {
+        if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
         index = token.value === Mnemonic.END ? input.length : token.range.to
