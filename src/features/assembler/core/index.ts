@@ -1,5 +1,5 @@
 import { tokenize } from './tokenizer'
-import { OperandType, Statement, parse } from './parser'
+import { OperandType, Operand, Statement, parse } from './parser'
 import {
   DuplicateLabelError,
   AssembleEndOfMemoryError,
@@ -21,10 +21,10 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
         }
         labelToAddressMap[label.identifier] = address
       }
-      const firstOperand = operands[0]
+      const firstOperand = operands[0] as Operand | undefined
       return [
         instruction.mnemonic === Mnemonic.ORG
-          ? (firstOperand.value as number)
+          ? (firstOperand!.value as number)
           : call((): number => {
               const nextAddress =
                 address + machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
@@ -54,9 +54,9 @@ export const assemble = (input: string): AssembleResult => {
   >(
     ([address, addressToMachineCodeMap, addressToStatementMap], statement) => {
       const { instruction, operands, machineCode } = statement
-      const firstOperand = operands[0]
+      const firstOperand = operands[0] as Operand | undefined
       if (instruction.mnemonic === Mnemonic.ORG) {
-        return [firstOperand.value as number, addressToMachineCodeMap, addressToStatementMap]
+        return [firstOperand!.value as number, addressToMachineCodeMap, addressToStatementMap]
       }
       if (firstOperand?.type === OperandType.Label) {
         if (!(firstOperand.rawValue in labelToAddressMap)) {

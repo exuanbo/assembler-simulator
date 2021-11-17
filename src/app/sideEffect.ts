@@ -3,8 +3,7 @@ import type { Middleware } from 'redux'
 
 type SideEffectCallback<P> = (payload: P) => void | Promise<void>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const subscriptions = new Map<string, Set<SideEffectCallback<any>>>()
+const subscriptions = new Map<string, Set<SideEffectCallback<any>>>() // eslint-disable-line
 
 type Unsubscribe = () => void
 

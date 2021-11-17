@@ -42,9 +42,8 @@ interface Instruction extends BaseNode {
 }
 
 const createInstruction = ({ value, range }: Token): Instruction => {
-  const opcode = null
   return {
-    opcode,
+    opcode: null,
     mnemonic: value,
     range
   }
@@ -237,10 +236,10 @@ const parseStatement = (
   tokens: Token[],
   __index: number
 ): [statement: Statement, consumed: number] => {
-  let consumed = 0
-  const getIndex = (): number => __index + consumed
+  let consumedTokensCount = 0
+  const getIndex = (): number => __index + consumedTokensCount
   const consumeToken = (count: number): void => {
-    consumed += count
+    consumedTokensCount += count
   }
 
   const label = parseLabel(tokens, getIndex())
@@ -532,15 +531,15 @@ const parseStatement = (
     }
   }
 
-  return [createStatement(label, instruction, operands), consumed]
+  return [createStatement(label, instruction, operands), consumedTokensCount]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
   for (let index = 0; index < tokens.length; ) {
-    const [statement, consumed] = parseStatement(tokens, index)
+    const [statement, consumedTokensCount] = parseStatement(tokens, index)
     statements.push(statement)
-    index += consumed
+    index += consumedTokensCount
   }
   if (
     statements.length > 0 &&
