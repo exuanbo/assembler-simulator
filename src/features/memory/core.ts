@@ -7,8 +7,8 @@ export const initData = (): MemoryData =>
 
 export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
   const data = initData()
-  Object.entries(map).forEach(([address, machineCode]) => {
-    data[Number.parseInt(address)] = machineCode
-  })
+  for (const address in map) {
+    data[Number.parseInt(address)] = map[address]
+  }
   return data
 }
