@@ -34,8 +34,14 @@ const clearIntervalJob = (): void => {
   window.clearInterval(interruptIntervalId)
 }
 
-let lastStep: Promise<StepResult | undefined>
+let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
+
 let timeoutId: number | undefined
+
+const clearTimeoutJob = (): void => {
+  window.clearTimeout(timeoutId)
+  timeoutId = undefined
+}
 
 let unsubscribeSetSuspended: () => void
 
@@ -185,6 +191,7 @@ export const useController = (): Controller => {
     stopIfRunning()
     await lastStep
     lastStep = Promise.resolve(undefined)
+    clearTimeoutJob()
   }
 
   useEffect(() => subscribe(setAssemblerState, reset), [])
