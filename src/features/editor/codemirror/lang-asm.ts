@@ -66,6 +66,7 @@ const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
     stream.eatWhile(/\S+/)
     return null
   },
+
   startState() {
     return {
       operandsLeft: 0,
