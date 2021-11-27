@@ -263,9 +263,9 @@ const parseStatement = (
     instruction.opcode = opcode
   }
 
-  const operands: Operand[] = []
-  const addOperands = (...__operands: Operand[]): void => {
-    operands.push(...__operands)
+  const __operands: Operand[] = []
+  const addOperands = (...operands: Operand[]): void => {
+    __operands.push(...operands)
   }
 
   const mnemonic = token.value as Mnemonic
@@ -531,7 +531,7 @@ const parseStatement = (
     }
   }
 
-  return [createStatement(label, instruction, operands), consumedTokensCount]
+  return [createStatement(label, instruction, __operands), consumedTokensCount]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
