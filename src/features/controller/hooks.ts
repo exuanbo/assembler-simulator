@@ -141,19 +141,21 @@ export const useController = (): Controller => {
         )
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
-        if (timeoutId === undefined && !halted) {
+        if (halted) {
+          stopIfRunning()
+          dispatch(setCpuHalted(true))
+          resolve(undefined)
+          return
+        } else {
+          if (timeoutId !== undefined) {
+            clearTimeoutJob()
+          }
           timeoutId = window.setTimeout(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
             timeoutId = undefined
           })
-        }
-        if (halted) {
-          stopIfRunning()
-          dispatch(setCpuHalted(true))
-          resolve(undefined)
-          return
         }
         if (interrupt) {
           dispatch(setCpuInterrupt(false))
