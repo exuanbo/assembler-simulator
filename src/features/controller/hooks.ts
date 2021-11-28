@@ -8,7 +8,11 @@ import {
   selectIsSuspended,
   selectRuntimeConfiguration
 } from './controllerSlice'
-import { setEditorActiveRange, selectEditortInput } from '../editor/editorSlice'
+import {
+  selectEditortInput,
+  selectEditorBreakpoints,
+  setEditorActiveRange
+} from '../editor/editorSlice'
 import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
@@ -130,17 +134,17 @@ export const useController = (): Controller => {
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
           selectCpuInputSignals(state)
         )
+        const instructionAdress = registers.ip
+        const statement = selectAddressToStatementMap(state)[instructionAdress]
+        const hasStatement = statement?.machineCode.every(
+          (machineCode, index) => machineCode === memoryData[instructionAdress + index]
+        )
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
         if (timeoutId === undefined && !halted) {
           timeoutId = window.setTimeout(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
-            const instructionAdress = registers.ip
-            const statement = selectAddressToStatementMap(state)[instructionAdress]
-            const hasStatement = statement?.machineCode.every(
-              (machineCode, index) => machineCode === memoryData[instructionAdress + index]
-            )
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
             timeoutId = undefined
           })
@@ -154,9 +158,11 @@ export const useController = (): Controller => {
         if (interrupt) {
           dispatch(setCpuInterrupt(false))
         }
+        const isRunning = selectIsRunning(state)
+        let willSuspend = false
         if (inputPort !== undefined) {
           if (data === undefined) {
-            const isRunning = selectIsRunning(state)
+            willSuspend = true
             if (isRunning) {
               clearIntervalJob()
             }
@@ -170,6 +176,22 @@ export const useController = (): Controller => {
             })
           } else {
             dispatch(clearCpuInput())
+          }
+        }
+        const breakpoints = selectEditorBreakpoints(state)
+        if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
+          const { label, range: __range } = statement
+          const range = {
+            from: label === null ? __range.from : label.range.from,
+            to: __range.to
+          }
+          const willBreak = breakpoints.some(
+            ({ from, to }) =>
+              (range.from <= from && from < range.to) || (range.from < to && to <= range.to)
+          )
+          if (willBreak) {
+            clearIntervalJob()
+            dispatch(setRunning(false))
           }
         }
         resolve([memoryData, registers])

@@ -2,15 +2,21 @@ import React, { useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
-import { setEditorInput, selectEditortInput, selectEditorActiveRange } from './editorSlice'
+import {
+  setEditorInput,
+  addBreakpoint,
+  removeBreakpoint,
+  selectEditortInput,
+  selectEditorActiveRange
+} from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
+import { breakpointEffect } from './codemirror/breakpoints'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
 import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
-// import { breakpointEffect } from './codemirror/breakpointGutter'
 
 let timeoutId: number
 
@@ -51,16 +57,16 @@ const Editor = ({ className }: Props): JSX.Element => {
           }
         }, 200)
       }
-      // TODO: handle breakpoint
-      // viewUpdate.transactions.forEach(transaction => {
-      //   transaction.effects.forEach(effect => {
-      //     if (effect.is(breakpointEffect)) {
-      //       const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-      //       const lineNumber = viewUpdate.state.doc.lineAt(effect.value.pos).number
-      //       dispatch(actionCreator(lineNumber))
-      //     }
-      //   })
-      // })
+      viewUpdate.transactions.forEach(transaction => {
+        transaction.effects.forEach(effect => {
+          if (effect.is(breakpointEffect)) {
+            const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+            const line = viewUpdate.state.doc.lineAt(effect.value.pos)
+            const lineRange = (({ from, to }) => ({ from, to }))(line)
+            store.dispatch(actionCreator(lineRange))
+          }
+        })
+      })
     }
   )
 
