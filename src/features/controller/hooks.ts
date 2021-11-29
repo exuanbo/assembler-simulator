@@ -139,6 +139,14 @@ export const useController = (): Controller => {
         const hasStatement = statement?.machineCode.every(
           (machineCode, index) => machineCode === memoryData[instructionAdress + index]
         )
+        if (timeoutId === undefined) {
+          timeoutId = window.setTimeout(() => {
+            dispatch(setMemoryData(memoryData))
+            dispatch(setCpuRegisters(registers))
+            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+            timeoutId = undefined
+          })
+        }
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
         if (halted) {
@@ -146,16 +154,6 @@ export const useController = (): Controller => {
           dispatch(setCpuHalted(true))
           resolve(undefined)
           return
-        } else {
-          if (timeoutId !== undefined) {
-            clearTimeoutJob()
-          }
-          timeoutId = window.setTimeout(() => {
-            dispatch(setMemoryData(memoryData))
-            dispatch(setCpuRegisters(registers))
-            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
-            timeoutId = undefined
-          })
         }
         if (interrupt) {
           dispatch(setCpuInterrupt(false))
