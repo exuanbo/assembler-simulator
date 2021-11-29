@@ -33,7 +33,7 @@ import {
 let stepIntervalId: number
 let interruptIntervalId: number
 
-const clearIntervalJob = (): void => {
+const cancelMainLoop = (): void => {
   window.clearInterval(stepIntervalId)
   window.clearInterval(interruptIntervalId)
 }
@@ -42,7 +42,7 @@ let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
 let timeoutId: number | undefined
 
-const clearTimeoutJob = (): void => {
+const cancelDispatchChanges = (): void => {
   window.clearTimeout(timeoutId)
   timeoutId = undefined
 }
@@ -72,7 +72,7 @@ export const useController = (): Controller => {
     const state = getState()
     const isRunning = selectIsRunning(state)
     if (isRunning) {
-      clearIntervalJob()
+      cancelMainLoop()
       dispatch(setRunning(false))
     }
     if (selectIsSuspended(state)) {
@@ -84,7 +84,7 @@ export const useController = (): Controller => {
 
   const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
 
-  const setIntervalJob = (): void => {
+  const setMainLoop = (): void => {
     stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)
     interruptIntervalId = window.setInterval(() => {
       dispatch(setCpuInterrupt(true))
@@ -92,7 +92,7 @@ export const useController = (): Controller => {
   }
 
   const run = (): void => {
-    setIntervalJob()
+    setMainLoop()
     dispatch(setRunning(true))
   }
 
@@ -169,13 +169,13 @@ export const useController = (): Controller => {
           if (data === undefined) {
             willSuspend = true
             if (isRunning) {
-              clearIntervalJob()
+              cancelMainLoop()
             }
             dispatch(setSuspended(true))
             unsubscribeSetSuspended = subscribe(setSuspended, async () => {
               await __step()
               if (isRunning) {
-                setIntervalJob()
+                setMainLoop()
               }
               unsubscribeSetSuspended()
             })
@@ -198,7 +198,7 @@ export const useController = (): Controller => {
             if (!willDispatchChanges) {
               dispatchChanges()
             }
-            clearIntervalJob()
+            cancelMainLoop()
             dispatch(setRunning(false))
           }
         }
@@ -221,7 +221,7 @@ export const useController = (): Controller => {
     stopIfRunning()
     await lastStep
     lastStep = Promise.resolve(undefined)
-    clearTimeoutJob()
+    cancelDispatchChanges()
   }
 
   useEffect(() => subscribe(setAssemblerState, reset), [])
