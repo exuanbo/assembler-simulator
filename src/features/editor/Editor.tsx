@@ -25,8 +25,8 @@ interface Props {
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
-  const store = useStore()
-  const defaultInput = selectEditortInput(store.getState())
+  const { getState, dispatch } = useStore()
+  const defaultInput = selectEditortInput(getState())
   const assemble = useAssembler()
 
   useEffect(() => {
@@ -43,9 +43,9 @@ const Editor = ({ className }: Props): JSX.Element => {
         const input = viewUpdate.state.doc.sliceString(0)
         window.clearTimeout(timeoutId)
         timeoutId = window.setTimeout(() => {
-          const state = store.getState()
+          const state = getState()
           if (selectEditortInput(state) !== input) {
-            store.dispatch(
+            dispatch(
               setEditorInput({
                 value: input,
                 isFromFile: false
@@ -63,7 +63,7 @@ const Editor = ({ className }: Props): JSX.Element => {
             const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
             const line = viewUpdate.state.doc.lineAt(effect.value.pos)
             const lineRange = (({ from, to }) => ({ from, to }))(line)
-            store.dispatch(actionCreator(lineRange))
+            dispatch(actionCreator(lineRange))
           }
         })
       })
