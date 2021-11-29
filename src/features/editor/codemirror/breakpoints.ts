@@ -40,7 +40,7 @@ const breakpointField = StateField.define<RangeSet<GutterMarker>>({
   }
 })
 
-const toggleBreakpoint = (view: EditorView, pos: number): void => {
+export const toggleBreakpoint = (view: EditorView, pos: number): void => {
   const breakpoints = view.state.field(breakpointField)
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
