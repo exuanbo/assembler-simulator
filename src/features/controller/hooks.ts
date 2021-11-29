@@ -139,13 +139,18 @@ export const useController = (): Controller => {
         const hasStatement = statement?.machineCode.every(
           (machineCode, index) => machineCode === memoryData[instructionAdress + index]
         )
-        if (timeoutId === undefined) {
+        const dispatchChanges = (): void => {
           timeoutId = window.setTimeout(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
             timeoutId = undefined
           })
+        }
+        let willDispatchChanges = false
+        if (timeoutId === undefined) {
+          willDispatchChanges = true
+          dispatchChanges()
         }
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
@@ -190,6 +195,9 @@ export const useController = (): Controller => {
               (range.from <= from && from < range.to) || (range.from < to && to <= range.to)
           )
           if (willBreak) {
+            if (!willDispatchChanges) {
+              dispatchChanges()
+            }
             clearIntervalJob()
             dispatch(setRunning(false))
           }
