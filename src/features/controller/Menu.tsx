@@ -16,9 +16,7 @@ const Menu = ({ children }: Props): JSX.Element => {
   return (
     <div
       ref={clickRef}
-      className={`cursor-pointer flex items-center hover:bg-gray-200 ${
-        isOpen ? 'bg-gray-200' : ''
-      }`}
+      className={`flex items-center hover:bg-gray-200 ${isOpen ? 'bg-gray-200' : ''}`}
       onClick={toggleOpen}>
       {children(isOpen, toggleOpen)}
     </div>

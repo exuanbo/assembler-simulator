@@ -9,7 +9,7 @@ const MenuButton = ({ children }: Props): JSX.Element => (
 )
 
 MenuButton.Main = ({ children }: Props): JSX.Element => (
-  <div className="flex space-x-2 py-1 px-2 items-center">{children}</div>
+  <div className="cursor-default flex space-x-2 py-1 px-2 items-center">{children}</div>
 )
 
 export default MenuButton
