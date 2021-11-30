@@ -65,14 +65,18 @@ export const useController = (): Controller => {
     __assemble(selectEditortInput(getState()))
   }
 
+  const __stop = (): void => {
+    cancelMainLoop()
+    dispatch(setRunning(false))
+  }
+
   /**
    * @returns {boolean} if was running
    */
   const stopIfRunning = (state = getState()): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
-      cancelMainLoop()
-      dispatch(setRunning(false))
+      __stop()
     }
     if (selectIsSuspended(state)) {
       unsubscribeSetSuspended()
@@ -197,8 +201,7 @@ export const useController = (): Controller => {
             if (!willDispatchChanges) {
               dispatchChanges()
             }
-            cancelMainLoop()
-            dispatch(setRunning(false))
+            __stop()
           }
         }
         resolve([memoryData, registers])
