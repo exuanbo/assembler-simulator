@@ -73,7 +73,9 @@ export const useController = (): Controller => {
   /**
    * @returns {boolean} if was running
    */
-  const stopIfRunning = (state = getState()): boolean => {
+  const stopIfRunning = (
+    state = getState() // TODO: should we always try getting the lastest state?
+  ): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       __stop()
@@ -120,91 +122,24 @@ export const useController = (): Controller => {
     }
     lastStep = new Promise(resolve => {
       // const startTime = performance.now()
-      const { fault, halted } = selectCpuStatus(state)
-      if (fault) {
+      const cpuStatus = selectCpuStatus(state)
+      if (cpuStatus.fault) {
         // TODO: handle fault
         resolve(undefined)
         return
       }
-      if (halted) {
+      if (cpuStatus.halted) {
         stopIfRunning()
         // TODO: handle halted
         resolve(undefined)
         return
       }
+      let stepResultWithSignals: ReturnType<typeof __step>
       try {
-        const [memoryData, registers, outputSignals] = __step(
+        stepResultWithSignals = __step(
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
           selectCpuInputSignals(state)
         )
-        const instructionAdress = registers.ip
-        const statement = selectAddressToStatementMap(state)[instructionAdress]
-        const hasStatement = statement?.machineCode.every(
-          (machineCode, index) => machineCode === memoryData[instructionAdress + index]
-        )
-        const dispatchChanges = (): void => {
-          timeoutId = window.setTimeout(() => {
-            dispatch(setMemoryData(memoryData))
-            dispatch(setCpuRegisters(registers))
-            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
-            timeoutId = undefined
-          })
-        }
-        let willDispatchChanges = false
-        if (timeoutId === undefined) {
-          willDispatchChanges = true
-          dispatchChanges()
-        }
-        // TODO: handle output
-        const { halted = false, interrupt, data, inputPort } = outputSignals
-        if (halted) {
-          stopIfRunning(state)
-          dispatch(setCpuHalted(true))
-          resolve(undefined)
-          return
-        }
-        if (interrupt) {
-          dispatch(setCpuInterrupt(false))
-        }
-        const isRunning = selectIsRunning(state)
-        let willSuspend = false
-        if (inputPort !== undefined) {
-          if (data === undefined) {
-            willSuspend = true
-            if (isRunning) {
-              cancelMainLoop()
-            }
-            dispatch(setSuspended(true))
-            unsubscribeSetSuspended = subscribe(setSuspended, async () => {
-              await step()
-              if (isRunning) {
-                setMainLoop()
-              }
-              unsubscribeSetSuspended()
-            })
-          } else {
-            dispatch(clearCpuInput())
-          }
-        }
-        const breakpoints = selectEditorBreakpoints(state)
-        if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
-          const { label, range: __range } = statement
-          const range = {
-            from: label === null ? __range.from : label.range.from,
-            to: __range.to
-          }
-          const willBreak = breakpoints.some(
-            ({ from, to }) =>
-              (range.from <= from && from < range.to) || (range.from < to && to <= range.to)
-          )
-          if (willBreak) {
-            if (!willDispatchChanges) {
-              dispatchChanges()
-            }
-            __stop()
-          }
-        }
-        resolve([memoryData, registers])
       } catch (err) {
         if (err instanceof RuntimeError) {
           stopIfRunning(state)
@@ -213,8 +148,78 @@ export const useController = (): Controller => {
           resolve(undefined)
           return
         }
+        // TODO: handle other errors
         throw err
       }
+      const [memoryData, registers, outputSignals] = stepResultWithSignals
+      const instructionAdress = registers.ip
+      const statement = selectAddressToStatementMap(state)[instructionAdress]
+      const hasStatement = statement?.machineCode.every(
+        (machineCode, index) => machineCode === memoryData[instructionAdress + index]
+      )
+      const dispatchChanges = (): void => {
+        timeoutId = window.setTimeout(() => {
+          dispatch(setMemoryData(memoryData))
+          dispatch(setCpuRegisters(registers))
+          dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+          timeoutId = undefined
+        })
+      }
+      let willDispatchChanges = false
+      if (timeoutId === undefined) {
+        willDispatchChanges = true
+        dispatchChanges()
+      }
+      // TODO: handle output
+      const { halted = false, interrupt, data, inputPort } = outputSignals
+      if (halted) {
+        stopIfRunning(state)
+        dispatch(setCpuHalted(true))
+        resolve(undefined)
+        return
+      }
+      if (interrupt) {
+        dispatch(setCpuInterrupt(false))
+      }
+      const isRunning = selectIsRunning(state)
+      let willSuspend = false
+      if (inputPort !== undefined) {
+        if (data === undefined) {
+          willSuspend = true
+          if (isRunning) {
+            cancelMainLoop()
+          }
+          dispatch(setSuspended(true))
+          unsubscribeSetSuspended = subscribe(setSuspended, async () => {
+            await step()
+            if (isRunning) {
+              setMainLoop()
+            }
+            unsubscribeSetSuspended()
+          })
+        } else {
+          dispatch(clearCpuInput())
+        }
+      }
+      const breakpoints = selectEditorBreakpoints(state)
+      if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
+        const { label, range: __range } = statement
+        const range = {
+          from: label === null ? __range.from : label.range.from,
+          to: __range.to
+        }
+        const willBreak = breakpoints.some(
+          ({ from, to }) =>
+            (range.from <= from && from < range.to) || (range.from < to && to <= range.to)
+        )
+        if (willBreak) {
+          if (!willDispatchChanges) {
+            dispatchChanges()
+          }
+          __stop()
+        }
+      }
+      resolve([memoryData, registers])
       // console.log(performance.now() - startTime)
     })
   }
