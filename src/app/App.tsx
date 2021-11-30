@@ -10,7 +10,7 @@ const App = (): JSX.Element => (
     <HeaderBar className="flex-none" />
     <div className="divide-x flex h-[calc(100vh-2rem)] mt-8">
       <Editor className="flex-1" />
-      <div className="divide-y flex flex-col flex-1 overflow-auto">
+      <div className="divide-y flex flex-col flex-1 overflow-y-auto">
         <CpuRegisters />
         <Memory />
         <IoDevices />

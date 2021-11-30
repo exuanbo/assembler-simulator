@@ -36,7 +36,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
   }
 
   return (
-    <nav
+    <header
       className={`border-b flex bg-gray-100 h-8 w-full z-2 fixed items-center justify-between ${className}`}>
       <div className="divide-x flex">
         <FileMenu />
@@ -55,8 +55,8 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
           <span>Reset</span>
         </ControlButton>
       </div>
-      <div className="flex space-x-2 pr-2 items-center">
-        <span>Assembler Simulator</span>
+      <div className="flex space-x-2 px-2 items-center">
+        <span className="min-w-max">Assembler Simulator</span>
         <a
           href="https://github.com/exuanbo/assembler-simulator"
           rel="noopener noreferrer"
@@ -64,7 +64,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => {
           <Github className="h-1.2rem" />
         </a>
       </div>
-    </nav>
+    </header>
   )
 }
 
