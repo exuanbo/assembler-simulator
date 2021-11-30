@@ -16,7 +16,7 @@ import {
 import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
-import { StepResult, step } from '../cpu/core'
+import { StepResult, step as __step } from '../cpu/core'
 import { RuntimeError } from '../cpu/core/exceptions'
 import {
   setCpuFault,
@@ -59,10 +59,10 @@ interface Controller {
 export const useController = (): Controller => {
   const { getState, dispatch } = useStore()
 
-  const assemble = useAssembler()
+  const __assemble = useAssembler()
 
-  const __assemble = (): void => {
-    assemble(selectEditortInput(getState()))
+  const assemble = (): void => {
+    __assemble(selectEditortInput(getState()))
   }
 
   /**
@@ -84,31 +84,31 @@ export const useController = (): Controller => {
   const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
 
   const setMainLoop = (): void => {
-    stepIntervalId = window.setInterval(__step, 1000 / clockSpeed)
+    stepIntervalId = window.setInterval(step, 1000 / clockSpeed)
     interruptIntervalId = window.setInterval(() => {
       dispatch(setCpuInterrupt(true))
     }, timerInterval)
   }
 
-  const run = (): void => {
+  const __run = (): void => {
     setMainLoop()
     dispatch(setRunning(true))
   }
 
   useEffect(() => {
     if (stopIfRunning()) {
-      run()
+      __run()
     }
   }, [clockSpeed, timerInterval])
 
-  const __run = (): void => {
+  const run = (): void => {
     if (stopIfRunning()) {
       return
     }
-    run()
+    __run()
   }
 
-  const __step = async (): Promise<void> => {
+  const step = async (): Promise<void> => {
     const lastStepResult = await lastStep
     const state = getState()
     if (selectIsSuspended(state)) {
@@ -129,7 +129,7 @@ export const useController = (): Controller => {
         return
       }
       try {
-        const [memoryData, registers, outputSignals] = step(
+        const [memoryData, registers, outputSignals] = __step(
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
           selectCpuInputSignals(state)
         )
@@ -172,7 +172,7 @@ export const useController = (): Controller => {
             }
             dispatch(setSuspended(true))
             unsubscribeSetSuspended = subscribe(setSuspended, async () => {
-              await __step()
+              await step()
               if (isRunning) {
                 setMainLoop()
               }
@@ -216,26 +216,26 @@ export const useController = (): Controller => {
     })
   }
 
-  const reset = async (): Promise<void> => {
+  const __reset = async (): Promise<void> => {
     stopIfRunning()
     await lastStep
     lastStep = Promise.resolve(undefined)
     cancelDispatchChanges()
   }
 
-  useEffect(() => subscribe(setAssemblerState, reset), [])
+  useEffect(() => subscribe(setAssemblerState, __reset), [])
 
-  const __reset = async (): Promise<void> => {
-    await reset()
+  const reset = async (): Promise<void> => {
+    await __reset()
     dispatch(resetCpu())
     dispatch(resetMemory())
     dispatch(setEditorActiveRange(undefined))
   }
 
   return {
-    assemble: __assemble,
-    run: __run,
-    step: __step,
-    reset: __reset
+    assemble,
+    run,
+    step,
+    reset
   }
 }
