@@ -68,8 +68,7 @@ export const useController = (): Controller => {
   /**
    * @returns {boolean} if was running
    */
-  const stopIfRunning = (): boolean => {
-    const state = getState()
+  const stopIfRunning = (state = getState()): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       cancelMainLoop()
@@ -155,7 +154,7 @@ export const useController = (): Controller => {
         // TODO: handle output
         const { halted = false, interrupt, data, inputPort } = outputSignals
         if (halted) {
-          stopIfRunning()
+          stopIfRunning(state)
           dispatch(setCpuHalted(true))
           resolve(undefined)
           return
@@ -205,7 +204,7 @@ export const useController = (): Controller => {
         resolve([memoryData, registers])
       } catch (err) {
         if (err instanceof RuntimeError) {
-          stopIfRunning()
+          stopIfRunning(state)
           dispatch(setCpuFault(true))
           // TODO: handle exceptions
           resolve(undefined)
