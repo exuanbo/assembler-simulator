@@ -20,6 +20,7 @@ const FlagIndicatorTableRow = (): JSX.Element => (
         <span className="text-sm px-1">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
       </div>
     </td>
+    <td />
   </tr>
 )
 
