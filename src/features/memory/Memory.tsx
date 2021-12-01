@@ -35,7 +35,7 @@ const Memory = ({ className }: Props): JSX.Element => {
                 <span className="px-1">{decToHex(rowIndex)[1]}</span>
               </td>
               {row.map((machineCode, colIndex) => {
-                const valueClassName =
+                const spanClassName =
                   address === ip
                     ? 'rounded bg-green-100'
                     : address === sp
@@ -44,7 +44,7 @@ const Memory = ({ className }: Props): JSX.Element => {
                 address += 1
                 return (
                   <td key={colIndex} className="text-center">
-                    <span className={`px-1 ${valueClassName}`}>{decToHex(machineCode)}</span>
+                    <span className={`px-1 ${spanClassName}`}>{decToHex(machineCode)}</span>
                   </td>
                 )
               })}

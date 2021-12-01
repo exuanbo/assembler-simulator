@@ -148,7 +148,7 @@ export const useController = (): Controller => {
           resolve(undefined)
           return
         }
-        // TODO: handle other errors
+        // TODO: handle unexpected runtime errors
         throw err
       }
       const [memoryData, registers, outputSignals] = stepResultWithSignals

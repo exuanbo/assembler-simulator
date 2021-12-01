@@ -14,7 +14,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     inputRef.current!.focus()
   }
 
-  const handleInputChang = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
     const key = target.value
     dispatch(
       setCpuInput({
@@ -34,7 +34,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
             autoFocus
             className="-z-1 absolute"
             onBlur={focusInput}
-            onChange={handleInputChang}
+            onChange={handleInputChange}
           />
         </div>,
         document.getElementById('modal-root')!

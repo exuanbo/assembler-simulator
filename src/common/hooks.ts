@@ -50,8 +50,12 @@ export const useHover = <T extends Element = Element>(): [
     if (current === null) {
       return
     }
-    const handleMouseEnter = (): void => setHovered(true)
-    const handleMouseLeave = (): void => setHovered(false)
+    const handleMouseEnter = (): void => {
+      setHovered(true)
+    }
+    const handleMouseLeave = (): void => {
+      setHovered(false)
+    }
 
     current.addEventListener('mouseenter', handleMouseEnter)
     current.addEventListener('mouseleave', handleMouseLeave)
