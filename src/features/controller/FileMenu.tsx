@@ -14,7 +14,7 @@ const FileMenu = (): JSX.Element => {
 
   const handleClickUpload = (event: React.MouseEvent<HTMLDivElement>): void => {
     event.stopPropagation()
-    inputRef.current?.click()
+    inputRef.current!.click()
   }
 
   const handleUploadedFile = (): void => {
