@@ -196,7 +196,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     }
 
     const getIP = (): number => cpuRegisters.ip
-    const getNextIP = (by = 1): number => getIP() + by
+    const getNextIP = (by = 1): number => cpuRegisters.ip + by
     const setIP = (address: number): void => {
       cpuRegisters.ip = address
     }
@@ -205,30 +205,26 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
      * @modifies {@link cpuRegisters.ip}
      */
     const incIP = (by = 1): number => {
-      setIP(checkIP(getIP() + by))
-      return getIP()
+      setIP(checkIP(cpuRegisters.ip + by))
+      return cpuRegisters.ip
     }
 
-    const getSP = (): number => cpuRegisters.sp
-    const setSP = (address: number): void => {
-      cpuRegisters.sp = address
-    }
     const push = (value: number): void => {
-      storeToMemory(getSP(), value)
-      setSP(checkSP(getSP() - 1))
+      storeToMemory(cpuRegisters.sp, value)
+      cpuRegisters.sp = checkSP(cpuRegisters.sp - 1)
     }
     const pop = (): number => {
-      setSP(checkSP(getSP() + 1))
-      return loadFromMemory(getSP())
+      cpuRegisters.sp = checkSP(cpuRegisters.sp + 1)
+      return loadFromMemory(cpuRegisters.sp)
     }
 
     const getSR = (): SR => cpuRegisters.sr
     const setSR = (flags: Partial<SR>): void => {
       Object.assign(cpuRegisters.sr, flags)
     }
-    const isFlagOn = (flag: Flag): boolean => getSR()[flag] === FlagStatus.On
+    const isFlagOn = (flag: Flag): boolean => cpuRegisters.sr[flag] === FlagStatus.On
     const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
-      getSR()[flag] = flagStatus
+      cpuRegisters.sr[flag] = flagStatus
     }
 
     /**
@@ -246,14 +242,13 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
       return finalResult
     }
 
+    const getSignals = (): Signals => signals
     const setSignal = <S extends keyof Signals>(
       signalName: S,
       value: NonNullable<Signals[S]>
     ): void => {
       signals[signalName] = value
     }
-    const getInput = (): Pick<InputSignals, 'data' | 'inputPort'> =>
-      (({ data, inputPort }) => ({ data, inputPort }))(signals)
     const setPort = (type: PortType, port: number): void => {
       setSignal(`${type}Port`, port)
     }
@@ -599,7 +594,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
 
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
-        const { data, inputPort } = getInput()
+        const { data, inputPort } = getSignals()
         const requiredPort = checkPort(loadFromMemory(getNextIP()))
         if (data === undefined || inputPort !== requiredPort) {
           setPort(PortType.Input, requiredPort)
