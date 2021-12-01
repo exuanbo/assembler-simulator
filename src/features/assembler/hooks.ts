@@ -1,5 +1,5 @@
 import { useDispatch } from '../../app/hooks'
-import { assemble } from './core'
+import { AssembleResult, assemble } from './core'
 import { AssemblerError } from './core/exceptions'
 import { setAssemblerState } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
@@ -12,17 +12,9 @@ export const useAssembler = (): Assemble => {
   const dispatch = useDispatch()
 
   return (input: string) => {
+    let assembleResult: AssembleResult
     try {
-      const [addressToOpcodeMap, addressToStatementMap] = assemble(input)
-      dispatch(setMemoryDataFrom(addressToOpcodeMap))
-      dispatch(resetCpu())
-      dispatch(
-        setAssemblerState({
-          addressToStatementMap,
-          error: null
-        })
-      )
-      dispatch(setEditorActiveRange(addressToStatementMap[0]))
+      assembleResult = assemble(input)
     } catch (err) {
       if (err instanceof AssemblerError) {
         dispatch(
@@ -34,7 +26,18 @@ export const useAssembler = (): Assemble => {
         dispatch(setEditorActiveRange(undefined))
         return
       }
+      // TODO: handle unexpected assemble errors
       throw err
     }
+    const [addressToOpcodeMap, addressToStatementMap] = assembleResult
+    dispatch(setMemoryDataFrom(addressToOpcodeMap))
+    dispatch(resetCpu())
+    dispatch(
+      setAssemblerState({
+        addressToStatementMap,
+        error: null
+      })
+    )
+    dispatch(setEditorActiveRange(addressToStatementMap[0]))
   }
 }

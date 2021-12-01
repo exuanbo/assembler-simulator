@@ -44,7 +44,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
 export type AddressToMachineCodeMap = Record<number, number>
 export type AddressToStatementMap = Record<number, Statement>
 
-type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
+export type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
 
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))
