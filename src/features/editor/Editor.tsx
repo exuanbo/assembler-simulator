@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
@@ -26,7 +26,7 @@ interface Props {
 
 const Editor = ({ className }: Props): JSX.Element => {
   const { getState, dispatch } = useStore()
-  const defaultInput = selectEditortInput(getState())
+  const [defaultInput] = useState(() => selectEditortInput(getState()))
   const assemble = useAssembler()
 
   useEffect(() => {
