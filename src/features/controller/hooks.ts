@@ -121,16 +121,9 @@ export const useController = (): Controller => {
       return
     }
     lastStep = new Promise(resolve => {
-      // const startTime = performance.now()
       const cpuStatus = selectCpuStatus(state)
-      if (cpuStatus.fault) {
-        // TODO: handle fault
-        resolve(undefined)
-        return
-      }
-      if (cpuStatus.halted) {
+      if (cpuStatus.fault || cpuStatus.halted) {
         stopIfRunning()
-        // TODO: handle halted
         resolve(undefined)
         return
       }
@@ -219,7 +212,6 @@ export const useController = (): Controller => {
         }
       }
       resolve([memoryData, registers])
-      // console.log(performance.now() - startTime)
     })
   }
 
