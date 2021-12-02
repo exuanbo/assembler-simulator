@@ -1,5 +1,5 @@
-import { assemble } from '../../src/features/assembler/core'
-import { initDataFrom } from '../../src/features/memory/core'
+import { assemble } from '../../../src/features/assembler/core'
+import { initDataFrom } from '../../../src/features/memory/core'
 
 const INPUT = `
 ; --------------------------------------------------------------

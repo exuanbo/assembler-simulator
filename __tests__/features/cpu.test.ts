@@ -1,9 +1,9 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { shortArraySerializer, memorySerializer } from './snapshotSerializers'
-import { assemble } from '../src/features/assembler/core'
-import { MemoryData, initData, initDataFrom } from '../src/features/memory/core'
-import { Registers, InputSignals, initRegisters, step as __step } from '../src/features/cpu/core'
-import { Opcode, GeneralPurposeRegister } from '../src/common/constants'
+import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
+import { assemble } from '../../src/features/assembler/core'
+import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
+import { Registers, InputSignals, initRegisters, step as __step } from '../../src/features/cpu/core'
+import { Opcode, GeneralPurposeRegister } from '../../src/common/constants'
 
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
