@@ -66,6 +66,9 @@ export const cpuSlice = createSlice({
 
 export const selectCpuStatus = (state: RootState): Status => state.cpu.status
 
+export const selectCpuFaultMessage = (state: RootState): string | null =>
+  state.cpu.status.faultMessage
+
 export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
 
 export const selectCpuPointerRegisters = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
