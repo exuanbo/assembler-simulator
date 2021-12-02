@@ -1,7 +1,7 @@
 import { useDispatch } from '../../app/hooks'
 import { AssembleResult, assemble } from './core'
 import { AssemblerError } from './core/exceptions'
-import { setAssemblerState } from './assemblerSlice'
+import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
 import { setEditorActiveRange } from '../editor/editorSlice'
@@ -17,12 +17,7 @@ export const useAssembler = (): Assemble => {
       assembleResult = assemble(input)
     } catch (err) {
       if (err instanceof AssemblerError) {
-        dispatch(
-          setAssemblerState({
-            addressToStatementMap: {},
-            error: { ...err }
-          })
-        )
+        dispatch(setAssemblerError({ ...err }))
         dispatch(setEditorActiveRange(undefined))
         return
       }
@@ -32,12 +27,7 @@ export const useAssembler = (): Assemble => {
     const [addressToOpcodeMap, addressToStatementMap] = assembleResult
     dispatch(setMemoryDataFrom(addressToOpcodeMap))
     dispatch(resetCpu())
-    dispatch(
-      setAssemblerState({
-        addressToStatementMap,
-        error: null
-      })
-    )
+    dispatch(setAssemblerState(addressToStatementMap))
     dispatch(setEditorActiveRange(addressToStatementMap[0]))
   }
 }

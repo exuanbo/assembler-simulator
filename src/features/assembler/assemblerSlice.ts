@@ -4,27 +4,28 @@ import type { AssemblerError } from './core/exceptions'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core/types'
 
-type AssemblerState =
-  | {
-      addressToStatementMap: AddressToStatementMap
-      error: null
-    }
-  | {
-      addressToStatementMap: Record<string, never>
-      error: AssemblerError
-    }
+interface AssemblerState {
+  addressToStatementMap: AddressToStatementMap
+  error: AssemblerError | null
+}
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-const initialState = {
+const initialState: AssemblerState = {
   addressToStatementMap: {},
   error: null
-} as AssemblerState
+}
 
 export const assemblerSlice = createSlice({
   name: 'assembler',
   initialState,
   reducers: {
-    setState: (_state, action: PayloadAction<AssemblerState>) => action.payload
+    setState: (state, action: PayloadAction<AddressToStatementMap>) => {
+      state.addressToStatementMap = action.payload
+      state.error = null
+    },
+    setError: (state, action: PayloadAction<AssemblerError>) => {
+      state.addressToStatementMap = {}
+      state.error = action.payload
+    }
   }
 })
 
@@ -37,6 +38,6 @@ export const selectAssemblerErrorMessage = (state: RootState): string | undefine
 export const selectAssemblerErrorRange = (state: RootState): SourceRange | undefined =>
   state.assembler.error?.range
 
-export const { setState: setAssemblerState } = assemblerSlice.actions
+export const { setState: setAssemblerState, setError: setAssemblerError } = assemblerSlice.actions
 
 export default assemblerSlice.reducer
