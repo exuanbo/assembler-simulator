@@ -2,10 +2,17 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Registers, initRegisters, InputPort, InputSignals } from './core'
 import type { RootState } from '../../app/store'
 
-interface Status {
-  fault: boolean
-  halted: boolean
-}
+type Status =
+  | {
+      fault: false
+      faultMessage: null
+      halted: boolean
+    }
+  | {
+      fault: true
+      faultMessage: string
+      halted: boolean
+    }
 
 interface CpuState {
   status: Status
@@ -16,6 +23,7 @@ interface CpuState {
 const initialState: CpuState = {
   status: {
     fault: false,
+    faultMessage: null,
     halted: false
   },
   registers: initRegisters(),
@@ -30,8 +38,9 @@ export const cpuSlice = createSlice({
   name: 'cpu',
   initialState,
   reducers: {
-    setFault: (state, action: PayloadAction<boolean>) => {
-      state.status.fault = action.payload
+    setFault: (state, action: PayloadAction<string>) => {
+      state.status.fault = true
+      state.status.faultMessage = action.payload
     },
     setHalted: (state, action: PayloadAction<boolean>) => {
       state.status.halted = action.payload

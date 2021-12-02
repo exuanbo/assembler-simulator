@@ -141,11 +141,10 @@ export const useController = (): Controller => {
           selectCpuInputSignals(state)
         )
       } catch (err) {
+        stopIfRunning(state)
+        resolve(undefined)
         if (err instanceof RuntimeError) {
-          stopIfRunning(state)
-          dispatch(setCpuFault(true))
-          // TODO: handle exceptions
-          resolve(undefined)
+          dispatch(setCpuFault(err.message))
           return
         }
         // TODO: handle unexpected runtime errors
@@ -170,7 +169,7 @@ export const useController = (): Controller => {
         willDispatchChanges = true
         dispatchChanges()
       }
-      // TODO: handle output
+      // TODO: handle output signals
       const { halted = false, interrupt, data, inputPort } = outputSignals
       if (halted) {
         stopIfRunning(state)
