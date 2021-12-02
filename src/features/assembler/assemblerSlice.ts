@@ -4,15 +4,21 @@ import type { AssemblerError } from './core/exceptions'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core/types'
 
-interface AssemblerState {
-  addressToStatementMap: AddressToStatementMap
-  error: AssemblerError | null
-}
+type AssemblerState =
+  | {
+      addressToStatementMap: AddressToStatementMap
+      error: null
+    }
+  | {
+      addressToStatementMap: Record<string, never>
+      error: AssemblerError
+    }
 
-const initialState: AssemblerState = {
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const initialState = {
   addressToStatementMap: {},
   error: null
-}
+} as AssemblerState
 
 export const assemblerSlice = createSlice({
   name: 'assembler',
