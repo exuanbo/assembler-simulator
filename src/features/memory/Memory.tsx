@@ -12,7 +12,7 @@ interface Props {
 // TODO: add view option
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryData = useSelector(selectMemoryData)
-  const machineCodesMatrix = splitArrayPerChunk(memoryData, 0x10)
+  const rows = splitArrayPerChunk(memoryData, 0x10)
 
   let address = 0
   const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
@@ -23,13 +23,13 @@ const Memory = ({ className }: Props): JSX.Element => {
         <tbody className="divide-y">
           <tr className="divide-x bg-gray-50 text-gray-400">
             <td />
-            {machineCodesMatrix[0].map((_, colIndex) => (
+            {rows[0].map((_, colIndex) => (
               <td key={colIndex} className="text-center">
                 {decToHex(colIndex)[1]}
               </td>
             ))}
           </tr>
-          {machineCodesMatrix.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <tr key={rowIndex} className="divide-x">
               <td className="bg-gray-50 text-center text-gray-400">
                 <span className="px-1">{decToHex(rowIndex)[1]}</span>
