@@ -73,9 +73,7 @@ export const useController = (): Controller => {
   /**
    * @returns {boolean} if was running
    */
-  const stopIfRunning = (
-    state = getState() // TODO: should we always try getting the lastest state?
-  ): boolean => {
+  const stopIfRunning = (state = getState()): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       __stop()
@@ -123,7 +121,7 @@ export const useController = (): Controller => {
     lastStep = new Promise(resolve => {
       const cpuStatus = selectCpuStatus(state)
       if (cpuStatus.fault || cpuStatus.halted) {
-        stopIfRunning()
+        stopIfRunning(state)
         resolve(undefined)
         return
       }
