@@ -12,27 +12,25 @@ interface EditorState {
   activeRange: SourceRange | undefined
 }
 
-const DEFAULT_INPUT = `mov al, c0
-mov bl, 50
-mov cl, [bl]
-jmp loop
+const DEFAULT_INPUT = `jmp start
 
-check:
-	cmp cl, 00
-	jz done
+db "Hello World!"
+db 00
+
+start:
+	mov al, c0
+	mov bl, 02
+	mov cl, [bl]
 
 loop:
 	mov [al], cl
 	inc al
 	inc bl
 	mov cl, [bl]
-	jmp check
+	cmp cl, 00
+	jnz loop
 
-org 50
-	db "Hello World!"
-
-done:
-	end
+end
 `
 
 const initialState: EditorState = {
