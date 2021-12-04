@@ -20,10 +20,10 @@ You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
 
 ## Todo
 
-- [ ] Activity log
 - [ ] Progressive Web App
 - [ ] More simulated I/O devices
-- [ ] Example code
+- [ ] Activity log
+- [ ] Sample code
 
 ## Inspired by
 
