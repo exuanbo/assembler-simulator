@@ -71,18 +71,19 @@ export const useController = (): Controller => {
   }
 
   /**
-   * @returns {boolean} if was running
+   * @returns {boolean} if was running and not suspended
    */
   const stopIfRunning = (state = getState()): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       __stop()
     }
-    if (selectIsSuspended(state)) {
+    const isSuspended = selectIsSuspended(state)
+    if (isSuspended) {
       unsubscribeSetSuspended()
       dispatch(setSuspended(false))
     }
-    return isRunning
+    return isRunning && !isSuspended
   }
 
   const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
