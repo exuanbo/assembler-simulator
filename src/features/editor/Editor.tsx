@@ -85,13 +85,13 @@ const Editor = ({ className }: Props): JSX.Element => {
     })
   }, [view])
 
-  const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
   const activeRange = useSelector(selectEditorActiveRange)
+  const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
 
   view?.dispatch({
     effects: [
-      wavyUnderlineEffect.of({ add: assemblerErrorRange }),
-      highlightActiveRangeEffect.of({ add: activeRange })
+      highlightActiveRangeEffect.of({ add: activeRange }),
+      wavyUnderlineEffect.of({ add: assemblerErrorRange })
     ],
     ...(view.hasFocus || activeRange === undefined
       ? undefined
