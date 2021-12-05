@@ -17,8 +17,8 @@ export const useAssembler = (): Assemble => {
       assembleResult = assemble(input)
     } catch (err) {
       if (err instanceof AssemblerError) {
-        dispatch(setAssemblerError({ ...err }))
         dispatch(setEditorActiveRange(undefined))
+        dispatch(setAssemblerError({ ...err }))
         return
       }
       // TODO: handle unexpected assemble errors
