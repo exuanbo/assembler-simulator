@@ -6,9 +6,7 @@ interface Props {
 }
 
 const ControlButton = ({ children, onClick }: Props): JSX.Element => (
-  <div
-    className="cursor-default flex space-x-2 py-1 px-2 items-center hover:bg-gray-200"
-    onClick={onClick}>
+  <div className="flex space-x-2 py-1 px-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
   </div>
 )

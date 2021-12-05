@@ -27,7 +27,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
 
   return isSuspended
     ? createPortal(
-        <div className="bg-black flex font-mono h-screen bg-opacity-80 w-screen top-0 left-0 z-1 fixed items-center justify-center select-none">
+        <div className="bg-black flex font-mono h-screen bg-opacity-80 w-screen top-0 left-0 z-1 fixed items-center justify-center">
           <div className="rounded bg-light-50 py-2 px-4">Waiting for keyboard input</div>
           <input
             ref={inputRef}

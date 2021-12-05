@@ -8,9 +8,7 @@ interface Props {
 }
 
 const MenuItem = ({ children, onClick }: Props): JSX.Element => (
-  <div
-    className="cursor-default flex py-1 pr-10 pl-2 items-center hover:bg-gray-200"
-    onClick={onClick}>
+  <div className="flex py-1 pr-10 pl-2 items-center hover:bg-gray-200" onClick={onClick}>
     {children}
   </div>
 )
@@ -40,7 +38,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   return (
     <div
       ref={hoverRef}
-      className="cursor-default flex py-1 px-2 items-center justify-between hover:bg-gray-200"
+      className="flex py-1 px-2 items-center justify-between hover:bg-gray-200"
       onClick={handleClick}>
       {children(isHovered, menuItemsRef)}
       <div className="flex ml-4 w-4 justify-end">
