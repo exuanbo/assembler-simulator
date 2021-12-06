@@ -36,7 +36,7 @@ describe('cpu', () => {
       })
       expect(() => {
         step(memoryData, initialRegisters)
-      }).toThrowError('Invalid register: 04')
+      }).toThrowError("Invalid register '04'")
     })
 
     it('should throw RunBeyondEndOfMemoryError', () => {
@@ -50,6 +50,15 @@ describe('cpu', () => {
       expect(() => {
         step(memoryData, cpuRegisters)
       }).toThrowError('Can not execute code beyond the end of RAM')
+    })
+
+    it('should throw InvalidOpcodeError', () => {
+      const memoryData = createNextState(initialMemoryData, draft => {
+        draft[0] = 0x10
+      })
+      expect(() => {
+        step(memoryData, initialRegisters)
+      }).toThrowError("Invalid opcode '10'")
     })
 
     it('with END should set halted', () => {
@@ -609,7 +618,7 @@ describe('cpu', () => {
         const memoryData = getMemoryData('in 10 end')
         expect(() => {
           step(memoryData, initialRegisters)
-        }).toThrow('I/O ports between 0 and F are available.')
+        }).toThrow('I/O ports between 0 and F are available')
       })
     })
 

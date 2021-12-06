@@ -11,7 +11,7 @@ export abstract class RuntimeError extends Error {
 
 export class InvalidRegisterError extends RuntimeError {
   constructor(value: number) {
-    super(`Invalid register: ${decToHex(value)}`)
+    super(`Invalid register '${decToHex(value)}'`)
   }
 }
 
@@ -39,8 +39,15 @@ export class DivideByZeroError extends RuntimeError {
   }
 }
 
-export class PortError extends RuntimeError {
+export class InvalidPortError extends RuntimeError {
+  // TODO: add port number
   constructor() {
-    super('I/O ports between 0 and F are available.')
+    super('I/O ports between 0 and F are available')
+  }
+}
+
+export class InvalidOpcodeError extends RuntimeError {
+  constructor(opcode: number) {
+    super(`Invalid opcode '${decToHex(opcode)}'`)
   }
 }
