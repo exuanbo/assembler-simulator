@@ -72,16 +72,15 @@ const Editor = ({ className }: Props): JSX.Element => {
 
   useEffect(() => {
     return subscribeAction(setEditorInput, ({ value, isFromFile = false }) => {
-      if (!isFromFile) {
-        return
+      if (isFromFile) {
+        view?.dispatch({
+          changes: {
+            from: 0,
+            to: view.state.doc.sliceString(0).length,
+            insert: value
+          }
+        })
       }
-      view?.dispatch({
-        changes: {
-          from: 0,
-          to: view.state.doc.sliceString(0).length,
-          insert: value
-        }
-      })
     })
   }, [view])
 
