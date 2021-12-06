@@ -1,13 +1,11 @@
 type Sample = Readonly<{
   title: string
-  filename: string
   content: string
 }>
 
 export const samples: Sample[] = [
   {
     title: 'Hello World',
-    filename: 'helloWorld.asm',
     content: `jmp start
 
 db "Hello World!"
