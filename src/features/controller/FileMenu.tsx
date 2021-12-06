@@ -21,7 +21,6 @@ const FileMenu = (): JSX.Element => {
     const file = inputRef.current!.files![0]
     const reader = new FileReader()
     reader.onload = () => {
-      // TODO: store filename in state
       const fileContent = reader.result as string
       dispatch(
         setEditorInput({
@@ -63,7 +62,6 @@ const FileMenu = (): JSX.Element => {
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const el = document.createElement('a')
-    // TODO: use filename from state
     el.download = 'file.asm'
     el.href = fileUrl
     el.click()
