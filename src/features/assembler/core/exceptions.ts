@@ -3,6 +3,7 @@ import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
+// TODO: add ParseError and AssembleError
 export abstract class AssemblerError extends Error {
   public message: string
   public range: SourceRange | undefined
