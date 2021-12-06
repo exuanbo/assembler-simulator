@@ -6,6 +6,7 @@ import MenuItem from './MenuItem'
 import { File } from '../../common/components/icons'
 import { useStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
+import { samples } from '../editor/samples'
 
 const FileMenu = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -20,6 +21,7 @@ const FileMenu = (): JSX.Element => {
     const file = inputRef.current!.files![0]
     const reader = new FileReader()
     reader.onload = () => {
+      // TODO: store filename in state
       const fileContent = reader.result as string
       dispatch(
         setEditorInput({
@@ -36,11 +38,46 @@ const FileMenu = (): JSX.Element => {
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const el = document.createElement('a')
+    // TODO: use filename from state
     el.download = 'file.asm'
     el.href = fileUrl
     el.click()
     URL.revokeObjectURL(fileUrl)
   }
+
+  const Samples = (): JSX.Element => (
+    <MenuItem.Expandable>
+      {(isHovered, menuItemsRef) => (
+        <>
+          <MenuButton>
+            <span className="w-4" />
+            <span>Samples</span>
+          </MenuButton>
+          {isHovered ? (
+            <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+              {samples.map(({ title, content }, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    dispatch(
+                      setEditorInput({
+                        value: content,
+                        isFromFile: true
+                      })
+                    )
+                  }}>
+                  <MenuButton>
+                    <span className="w-4" />
+                    <span>{title}</span>
+                  </MenuButton>
+                </MenuItem>
+              ))}
+            </MenuItems.Expanded>
+          ) : null}
+        </>
+      )}
+    </MenuItem.Expandable>
+  )
 
   return (
     <Menu>
@@ -76,6 +113,7 @@ const FileMenu = (): JSX.Element => {
                   <span>Download</span>
                 </MenuButton>
               </MenuItem>
+              <Samples />
             </MenuItems>
           ) : null}
         </>
