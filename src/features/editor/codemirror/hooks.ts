@@ -3,7 +3,7 @@ import { EditorState, EditorStateConfig } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 
 export const useCodeMirror = <T extends Element = Element>(
-  editorStateConfig: EditorStateConfig,
+  editorStateConfig?: EditorStateConfig,
   handleViewUpdate?: (viewUpdate: ViewUpdate) => void
 ): {
   view: EditorView | undefined
@@ -21,15 +21,15 @@ export const useCodeMirror = <T extends Element = Element>(
       setView(undefined)
       return
     }
-    const state = EditorState.create({
+    const initialState = EditorState.create({
       ...editorStateConfig,
       extensions: [
-        editorStateConfig.extensions ?? [],
+        editorStateConfig?.extensions ?? [],
         handleViewUpdate === undefined ? [] : EditorView.updateListener.of(handleViewUpdate)
       ]
     })
     const initialView = new EditorView({
-      state,
+      state: initialState,
       parent: current
     })
     setView(initialView)
