@@ -15,6 +15,8 @@ export abstract class AssemblerError extends Error {
   }
 }
 
+// TODO: remove colon from error message
+
 export class StatementError extends AssemblerError {
   constructor({ raw, range }: Token, hasLabel: boolean) {
     super(`Expected ${hasLabel ? '' : 'label or '}instruction: ${raw}`, range)
