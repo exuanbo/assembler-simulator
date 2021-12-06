@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
-import { subscribe } from '../../app/sideEffect'
+import { subscribeAction } from '../../app/sideEffect'
 import {
   setEditorInput,
   addBreakpoint,
@@ -71,7 +71,7 @@ const Editor = ({ className }: Props): JSX.Element => {
   )
 
   useEffect(() => {
-    return subscribe(setEditorInput, ({ value, isFromFile = false }) => {
+    return subscribeAction(setEditorInput, ({ value, isFromFile = false }) => {
       if (!isFromFile) {
         return
       }

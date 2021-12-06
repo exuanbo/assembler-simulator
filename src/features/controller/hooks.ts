@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import type { RootState } from '../../app/store'
 import { useShallowEqualSelector, useStore } from '../../app/hooks'
-import { subscribe } from '../../app/sideEffect'
+import { subscribeAction } from '../../app/sideEffect'
 import {
   setRunning,
   setSuspended,
@@ -195,7 +195,7 @@ export const useController = (): Controller => {
             cancelMainLoop()
           }
           dispatch(setSuspended(true))
-          unsubscribeSetSuspended = subscribe(setSuspended, async () => {
+          unsubscribeSetSuspended = subscribeAction(setSuspended, async () => {
             await step()
             if (isRunning) {
               setMainLoop()
@@ -237,7 +237,7 @@ export const useController = (): Controller => {
     cancelDispatchChanges()
   }
 
-  useEffect(() => subscribe(setAssemblerState, __reset), [])
+  useEffect(() => subscribeAction(setAssemblerState, __reset), [])
 
   const reset = async (): Promise<void> => {
     await __reset()
