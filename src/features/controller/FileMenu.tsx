@@ -33,6 +33,31 @@ const FileMenu = (): JSX.Element => {
     reader.readAsText(file)
   }
 
+  interface Props {
+    onInputChange: () => void
+  }
+
+  const Upload = ({ onInputChange }: Props): JSX.Element => (
+    <MenuItem onClick={handleClickUpload}>
+      <MenuButton>
+        <span className="w-4" />
+        <span>Upload</span>
+      </MenuButton>
+      <input
+        ref={inputRef}
+        className="hidden"
+        type="file"
+        onChange={() => {
+          handleUploadedFile()
+          onInputChange()
+        }}
+        onClick={event => {
+          event.stopPropagation()
+        }}
+      />
+    </MenuItem>
+  )
+
   const handleClickDownload = (): void => {
     const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
@@ -44,6 +69,15 @@ const FileMenu = (): JSX.Element => {
     el.click()
     URL.revokeObjectURL(fileUrl)
   }
+
+  const Download = (): JSX.Element => (
+    <MenuItem onClick={handleClickDownload}>
+      <MenuButton>
+        <span className="w-4" />
+        <span>Download</span>
+      </MenuButton>
+    </MenuItem>
+  )
 
   const Samples = (): JSX.Element => (
     <MenuItem.Expandable>
@@ -89,30 +123,8 @@ const FileMenu = (): JSX.Element => {
           </MenuButton.Main>
           {isOpen ? (
             <MenuItems>
-              <MenuItem onClick={handleClickUpload}>
-                <MenuButton>
-                  <span className="w-4" />
-                  <span>Upload</span>
-                </MenuButton>
-                <input
-                  ref={inputRef}
-                  className="hidden"
-                  type="file"
-                  onChange={() => {
-                    handleUploadedFile()
-                    toggleOpen()
-                  }}
-                  onClick={event => {
-                    event.stopPropagation()
-                  }}
-                />
-              </MenuItem>
-              <MenuItem onClick={handleClickDownload}>
-                <MenuButton>
-                  <span className="w-4" />
-                  <span>Download</span>
-                </MenuButton>
-              </MenuItem>
+              <Upload onInputChange={toggleOpen} />
+              <Download />
               <Samples />
             </MenuItems>
           ) : null}
