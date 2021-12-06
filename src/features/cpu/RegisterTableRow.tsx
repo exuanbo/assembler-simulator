@@ -9,7 +9,7 @@ interface Props {
   valueClassName?: string
 }
 
-const RegisterTableRow = ({ name, value, valueClassName }: Props): JSX.Element => {
+const RegisterTableRow = ({ name, value, valueClassName = '' }: Props): JSX.Element => {
   const signedValue = sign8(value)
   const hexValue = decToHex(value)
   const binValue = value.toString(2).padStart(8, '0')
