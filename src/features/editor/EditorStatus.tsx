@@ -11,8 +11,8 @@ const EditorStatus = (): JSX.Element | null => {
     assemblerErrorMessage === undefined
       ? cpuFaultMessage === null
         ? null
-        : `Runtime Error: ${cpuFaultMessage}`
-      : `Assembler Error: ${assemblerErrorMessage}`
+        : `RuntimeError: ${cpuFaultMessage}`
+      : `AssemblerError: ${assemblerErrorMessage}`
 
   return message === null ? null : (
     <div className="bg-red-500 py-1 px-3 text-light-100">{message}</div>
