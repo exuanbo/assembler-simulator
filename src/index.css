@@ -2,7 +2,7 @@ body {
   @apply overscroll-none;
 }
 
-*:not(a):not(a *) {
+:not(a):not(a *) {
   @apply cursor-default;
 }
 
