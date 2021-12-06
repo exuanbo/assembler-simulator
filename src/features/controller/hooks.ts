@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import type { RootState } from '../../app/store'
 import { useShallowEqualSelector, useStore } from '../../app/hooks'
 import { subscribe } from '../../app/sideEffect'
 import {
@@ -71,19 +72,26 @@ export const useController = (): Controller => {
   }
 
   /**
-   * @returns {boolean} if was running and not suspended
+   * @returns {boolean} if was running
    */
-  const stopIfRunning = (state = getState()): boolean => {
+  const stopIfRunning = (state: RootState): boolean => {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       __stop()
     }
+    return isRunning
+  }
+
+  /**
+   * @returns {boolean} if was suspended
+   */
+  const restoreIfSuspended = (state: RootState): boolean => {
     const isSuspended = selectIsSuspended(state)
     if (isSuspended) {
       unsubscribeSetSuspended()
       dispatch(setSuspended(false))
     }
-    return isRunning && !isSuspended
+    return isSuspended
   }
 
   const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
@@ -101,13 +109,19 @@ export const useController = (): Controller => {
   }
 
   useEffect(() => {
-    if (stopIfRunning()) {
+    const state = getState()
+    if (stopIfRunning(state) && !restoreIfSuspended(state)) {
       __run()
     }
   }, [clockSpeed, timerInterval])
 
   const run = (): void => {
-    if (stopIfRunning()) {
+    const state = getState()
+    if (stopIfRunning(state)) {
+      restoreIfSuspended(state)
+      return
+    }
+    if (selectIsSuspended(state)) {
       return
     }
     __run()
@@ -215,7 +229,9 @@ export const useController = (): Controller => {
   }
 
   const __reset = async (): Promise<void> => {
-    stopIfRunning()
+    const state = getState()
+    stopIfRunning(state)
+    restoreIfSuspended(state)
     await lastStep
     lastStep = Promise.resolve(undefined)
     cancelDispatchChanges()
