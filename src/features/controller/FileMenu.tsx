@@ -53,8 +53,10 @@ const FileMenu = (): JSX.Element => {
           {isOpen ? (
             <MenuItems>
               <MenuItem onClick={handleClickUpload}>
-                <span className="w-4" />
-                <span>Upload</span>
+                <MenuButton>
+                  <span className="w-4" />
+                  <span>Upload</span>
+                </MenuButton>
                 <input
                   ref={inputRef}
                   className="hidden"
@@ -69,8 +71,10 @@ const FileMenu = (): JSX.Element => {
                 />
               </MenuItem>
               <MenuItem onClick={handleClickDownload}>
-                <span className="w-4" />
-                <span>Download</span>
+                <MenuButton>
+                  <span className="w-4" />
+                  <span>Download</span>
+                </MenuButton>
               </MenuItem>
             </MenuItems>
           ) : null}
