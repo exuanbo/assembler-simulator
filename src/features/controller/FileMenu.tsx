@@ -9,8 +9,7 @@ import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 
 const FileMenu = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const store = useStore()
-  const { dispatch } = store
+  const { getState, dispatch } = useStore()
 
   const handleClickUpload = (event: React.MouseEvent<HTMLDivElement>): void => {
     event.stopPropagation()
@@ -33,7 +32,7 @@ const FileMenu = (): JSX.Element => {
   }
 
   const handleClickDownload = (): void => {
-    const editorInput = selectEditortInput(store.getState())
+    const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const el = document.createElement('a')
