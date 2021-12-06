@@ -29,10 +29,6 @@ const Editor = ({ className }: Props): JSX.Element => {
   const [defaultInput] = useState(() => selectEditortInput(getState()))
   const assemble = useAssembler()
 
-  useEffect(() => {
-    assemble(defaultInput)
-  }, [])
-
   const { view, editorRef } = useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
@@ -69,6 +65,10 @@ const Editor = ({ className }: Props): JSX.Element => {
       })
     }
   )
+
+  useEffect(() => {
+    assemble(defaultInput)
+  }, [])
 
   useEffect(() => {
     return subscribeAction(setEditorInput, ({ value, isFromFile = false }) => {
