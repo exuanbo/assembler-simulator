@@ -3,6 +3,7 @@ import type { Line } from '@codemirror/text'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core/types'
 import type { Statement } from '../assembler/core/parser'
+import { samples } from './samples'
 
 type LineRange = Pick<Line, 'from' | 'to'>
 
@@ -12,29 +13,10 @@ interface EditorState {
   activeRange: SourceRange | undefined
 }
 
-const DEFAULT_INPUT = `jmp start
-
-db "Hello World!"
-db 00
-
-start:
-	mov al, c0
-	mov bl, 02
-	mov cl, [bl]
-
-loop:
-	mov [al], cl
-	inc al
-	inc bl
-	mov cl, [bl]
-	cmp cl, 00
-	jnz loop
-
-end
-`
+const [helloWorld] = samples
 
 const initialState: EditorState = {
-  input: DEFAULT_INPUT,
+  input: helloWorld.content,
   breakpoints: [],
   activeRange: undefined
 }
