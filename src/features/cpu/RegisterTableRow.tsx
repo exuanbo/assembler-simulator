@@ -4,12 +4,12 @@ import { RegisterName } from '../../common/constants'
 import { sign8, decToHex } from '../../common/utils'
 
 interface Props {
-  name: RegisterName
+  registerName: RegisterName
   value: number
   valueClassName?: string
 }
 
-const RegisterTableRow = ({ name, value, valueClassName = '' }: Props): JSX.Element => {
+const RegisterTableRow = ({ registerName, value, valueClassName = '' }: Props): JSX.Element => {
   const signedValue = sign8(value)
   const hexValue = decToHex(value)
   const binValue = value.toString(2).padStart(8, '0')
@@ -17,7 +17,7 @@ const RegisterTableRow = ({ name, value, valueClassName = '' }: Props): JSX.Elem
 
   return (
     <tr className="divide-x">
-      <td className="bg-gray-50 text-center px-2">{name}</td>
+      <td className="bg-gray-50 text-center px-2">{registerName}</td>
       <RegisterValueTableDataCell radixTag="hex">
         <span className={`rounded text-sm px-1 ${valueClassName}`}>{hexValue}</span>
       </RegisterValueTableDataCell>
