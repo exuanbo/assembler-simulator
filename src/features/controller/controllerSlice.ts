@@ -91,8 +91,10 @@ export const selectClockSpeed = (state: RootState): ClockSpeed =>
 export const selectTimerInterval = (state: RootState): TimerInterval =>
   state.controller.configuration.timerInterval
 
-export const selectRuntimeConfiguration = (state: RootState): Omit<Configuration, 'autoAssemble'> =>
-  (({ autoAssemble, ...runtimeConfiguration }) => runtimeConfiguration)(
+export const selectRuntimeConfiguration = (
+  state: RootState
+): Pick<Configuration, 'clockSpeed' | 'timerInterval'> =>
+  (({ clockSpeed, timerInterval }) => ({ clockSpeed, timerInterval }))(
     state.controller.configuration
   )
 
