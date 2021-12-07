@@ -20,8 +20,8 @@ const FileMenu = (): JSX.Element => {
   const handleUploadedFile = (): void => {
     const file = inputRef.current!.files![0]
     const reader = new FileReader()
-    reader.onload = () => {
-      const fileContent = reader.result as string
+    reader.onload = function () {
+      const fileContent = this.result as string
       dispatch(
         setEditorInput({
           value: fileContent,
