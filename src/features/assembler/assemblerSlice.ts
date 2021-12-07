@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { AddressToStatementMap } from './core'
-import type { AssemblerError } from './core/exceptions'
+import type { IAssemblerError } from './core/exceptions'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core/types'
 
 interface AssemblerState {
   addressToStatementMap: AddressToStatementMap
-  error: AssemblerError | null
+  error: IAssemblerError | null
 }
 
 const initialState: AssemblerState = {
@@ -22,7 +22,7 @@ export const assemblerSlice = createSlice({
       state.addressToStatementMap = action.payload
       state.error = null
     },
-    setError: (state, action: PayloadAction<AssemblerError>) => {
+    setError: (state, action: PayloadAction<IAssemblerError>) => {
       state.addressToStatementMap = {}
       state.error = action.payload
     }

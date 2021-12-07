@@ -3,15 +3,25 @@ import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
+export interface IAssemblerError {
+  message: string
+  range: SourceRange | undefined
+}
+
 // TODO: add ParseError and AssembleError
-export abstract class AssemblerError extends Error {
-  public message: string
+export abstract class AssemblerError extends Error implements IAssemblerError {
   public range: SourceRange | undefined
 
   constructor(message: string, range?: SourceRange) {
-    super()
-    this.message = message
+    super(message)
     this.range = range
+  }
+
+  public toObject(): IAssemblerError {
+    return {
+      message: this.message,
+      range: this.range
+    }
   }
 }
 
