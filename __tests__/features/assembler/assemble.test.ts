@@ -93,7 +93,7 @@ start: inc al
 start: dec bl
 end
 `)
-    }).toThrowError('Duplicate label: START')
+    }).toThrowError("Duplicate label 'START'")
   })
 
   it('should throw EndOfMemoryError', () => {
@@ -109,7 +109,7 @@ end
   it('should throw LabelNotExistError', () => {
     expect(() => {
       assemble('jmp start end')
-    }).toThrowError('Label does not exist: start')
+    }).toThrowError("Label 'start' does not exist")
   })
 
   it('should throw JumpDistanceError', () => {
@@ -121,6 +121,6 @@ org fd
 jmp start
 end
 `)
-    }).toThrowError('Jump distance should be between -128 and 127: start')
+    }).toThrowError("Jump distance should be between -128 and 127, to label 'start'")
   })
 })

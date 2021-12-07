@@ -15,18 +15,16 @@ export abstract class AssemblerError extends Error {
   }
 }
 
-// TODO: remove colon from error message
-
 export class StatementError extends AssemblerError {
   constructor({ raw, range }: Token, hasLabel: boolean) {
-    super(`Expected ${hasLabel ? '' : 'label or '}instruction: ${raw}`, range)
+    super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'`, range)
   }
 }
 
 export class InvalidLabelError extends AssemblerError {
   constructor({ raw, range }: Token) {
     const identifier = raw.replace(/:$/, '')
-    super(`Label should contain only letter or underscore: ${identifier}`, range)
+    super(`Label should contain only letter or underscore, got '${identifier}'`, range)
   }
 }
 
@@ -39,14 +37,17 @@ export class MissingEndError extends AssemblerError {
 export class InvalidNumberError extends AssemblerError {
   constructor({ raw, range }: Token) {
     const numberValue = trimBracketsAndQuotes(raw)
-    super(`Number should be hexadecimal and less than or equal to FF: ${numberValue}`, range)
+    super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'`, range)
   }
 }
 
 export class AddressError extends AssemblerError {
   constructor({ raw, range }: Token) {
     const addressValue = trimBracketsAndQuotes(raw)
-    super(`Expected number or register: ${addressValue.length > 0 ? addressValue : ']'}`, range)
+    super(
+      `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'`,
+      range
+    )
   }
 }
 
@@ -64,19 +65,19 @@ export class OperandTypeError extends AssemblerError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}: ${raw}`, range)
+    super(`Expected ${types}, got '${raw}'`, range)
   }
 }
 
 export class MissingCommaError extends AssemblerError {
   constructor({ raw, range }: Token) {
-    super(`Expected comma: ${raw}`, range)
+    super(`Expected comma, got '${raw}'`, range)
   }
 }
 
 export class DuplicateLabelError extends AssemblerError {
   constructor({ identifier, range }: Label) {
-    super(`Duplicate label: ${identifier}`, range)
+    super(`Duplicate label '${identifier}'`, range)
   }
 }
 
@@ -88,12 +89,12 @@ export class AssembleEndOfMemoryError extends AssemblerError {
 
 export class LabelNotExistError extends AssemblerError {
   constructor({ raw, range }: Operand) {
-    super(`Label does not exist: ${raw}`, range)
+    super(`Label '${raw}' does not exist`, range)
   }
 }
 
 export class JumpDistanceError extends AssemblerError {
   constructor({ raw, range }: Operand) {
-    super(`Jump distance should be between -128 and 127: ${raw}`, range)
+    super(`Jump distance should be between -128 and 127, to label '${raw}'`, range)
   }
 }
