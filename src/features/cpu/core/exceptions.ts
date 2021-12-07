@@ -1,13 +1,6 @@
 import { decToHex } from '../../../common/utils'
 
-export abstract class RuntimeError extends Error {
-  public message: string
-
-  constructor(message: string) {
-    super()
-    this.message = message
-  }
-}
+export abstract class RuntimeError extends Error {}
 
 export class InvalidRegisterError extends RuntimeError {
   constructor(value: number) {
