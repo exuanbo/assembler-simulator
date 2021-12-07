@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, RefCallback } from 'react'
 
 interface Props {
   children: ReactNode
@@ -10,12 +10,12 @@ const MenuItems = ({ children }: Props): JSX.Element => (
 
 interface ExpandedProps {
   children: ReactNode
-  innerRef?: React.RefCallback<HTMLDivElement>
+  innerRef?: RefCallback<HTMLDivElement>
   className?: string
 }
 
 MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JSX.Element => {
-  const ref = (node: HTMLDivElement | null): void => {
+  const refCallback: RefCallback<HTMLDivElement> = node => {
     innerRef?.(node)
     if (node?.parentElement != null) {
       node.style.left = `${node.parentElement.getBoundingClientRect().right + /* border */ 1}px`
@@ -23,7 +23,7 @@ MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JS
   }
 
   return (
-    <div ref={ref} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
+    <div ref={refCallback} className={`divide-y border bg-gray-50 shadow fixed ${className}`}>
       {children}
     </div>
   )

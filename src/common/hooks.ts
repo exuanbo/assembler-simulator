@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, useCallback } from 'react'
+import { RefCallback, useState, useEffect, useReducer, useCallback } from 'react'
 
 export const useToggle = (
   initialState: boolean
@@ -12,7 +12,7 @@ export const useOutsideClick = <T extends Element = Element>(): [
   const [current, setCurrent] = useState<T | null>(null)
   const [isClicked, setClicked] = useState<boolean>(false)
 
-  const refCallback = useCallback((node: T | null) => {
+  const refCallback = useCallback<RefCallback<T>>(node => {
     setCurrent(node)
   }, [])
 
@@ -42,7 +42,7 @@ export const useHover = <T extends Element = Element>(): [
   const [current, setCurrent] = useState<T | null>(null)
   const [isHovered, setHovered] = useState<boolean>(false)
 
-  const refCallback = useCallback((node: T | null) => {
+  const refCallback = useCallback<RefCallback<T>>(node => {
     setCurrent(node)
   }, [])
 
