@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, DispatchWithoutAction } from 'react'
 import { useToggle, useOutsideClick } from '../../common/hooks'
 
 interface Props {
-  children: (isOpen: boolean, toggleOpen: React.DispatchWithoutAction) => ReactNode
+  children: (isOpen: boolean, toggleOpen: DispatchWithoutAction) => ReactNode
 }
 
 const Menu = ({ children }: Props): JSX.Element => {

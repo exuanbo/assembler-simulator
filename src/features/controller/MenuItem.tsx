@@ -14,7 +14,7 @@ const MenuItem = ({ children, onClick }: Props): JSX.Element => (
 )
 
 interface ExpandableProps {
-  children: (isHovered: boolean, menuItemsRef: React.RefCallback<HTMLDivElement>) => ReactNode
+  children: (isHovered: boolean, menuItemsRef: RefCallback<HTMLDivElement>) => ReactNode
 }
 
 MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
