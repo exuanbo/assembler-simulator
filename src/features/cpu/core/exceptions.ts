@@ -33,9 +33,8 @@ export class DivideByZeroError extends RuntimeError {
 }
 
 export class InvalidPortError extends RuntimeError {
-  // TODO: add port number
-  constructor() {
-    super('I/O ports between 0 and F are available')
+  constructor(port: number) {
+    super(`I/O ports between 0 and F are available, got '${decToHex(port)}'`)
   }
 }
 

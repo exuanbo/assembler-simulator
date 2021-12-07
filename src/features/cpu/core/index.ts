@@ -170,7 +170,7 @@ const MAX_PORT = 0x0f
 
 const checkPort = (port: number): number => {
   if (port < 0 || port > MAX_PORT) {
-    throw new InvalidPortError()
+    throw new InvalidPortError(port)
   }
   return port
 }

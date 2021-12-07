@@ -614,11 +614,11 @@ describe('cpu', () => {
         ).toMatchSnapshot()
       })
 
-      it('should throw PortError', () => {
+      it('should throw InvalidPortError', () => {
         const memoryData = getMemoryData('in 10 end')
         expect(() => {
           step(memoryData, initialRegisters)
-        }).toThrow('I/O ports between 0 and F are available')
+        }).toThrow("I/O ports between 0 and F are available, got '10'")
       })
     })
 
