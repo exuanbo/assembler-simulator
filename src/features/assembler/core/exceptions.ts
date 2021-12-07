@@ -17,6 +17,7 @@ export abstract class AssemblerError extends Error implements IAssemblerError {
     this.range = range
   }
 
+  // istanbul ignore next
   public toObject(): IAssemblerError {
     return {
       message: this.message,
