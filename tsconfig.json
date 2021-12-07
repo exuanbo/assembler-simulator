@@ -5,7 +5,6 @@
 
     "module": "ESNext",
     "moduleResolution": "node",
-    "types": ["vite/client", "jest"],
 
     "noEmit": true,
 
