@@ -1,8 +1,8 @@
 import React from 'react'
 import Card from '../../common/components/Card'
-import { EyeClosed, EyeOpen } from '../../common/components/icons'
 import SimulatedKeyboard from './SimulatedKeyboard'
 import VisualDisplayUnit from './VisualDisplayUnit'
+import { EyeClosed, EyeOpen } from '../../common/components/icons'
 import { useToggle } from '../../common/hooks'
 
 interface Props {
