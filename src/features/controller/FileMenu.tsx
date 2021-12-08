@@ -85,7 +85,7 @@ const FileMenu = (): JSX.Element => {
             <span className="w-4" />
             <span>Samples</span>
           </MenuButton>
-          {isHovered ? (
+          {isHovered && (
             <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
               {samples.map(({ title, content }, index) => (
                 <MenuItem
@@ -105,7 +105,7 @@ const FileMenu = (): JSX.Element => {
                 </MenuItem>
               ))}
             </MenuItems.Expanded>
-          ) : null}
+          )}
         </>
       )}
     </MenuItem.Expandable>
@@ -119,13 +119,13 @@ const FileMenu = (): JSX.Element => {
             <File />
             <span>File</span>
           </MenuButton.Main>
-          {isOpen ? (
+          {isOpen && (
             <MenuItems>
               <Upload onInputChange={toggleOpen} />
               <Download />
               <Samples />
             </MenuItems>
-          ) : null}
+          )}
         </>
       )}
     </Menu>

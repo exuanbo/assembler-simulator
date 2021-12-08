@@ -19,11 +19,11 @@ const IoDevices = ({ className }: Props): JSX.Element => {
       title="I/O Devices"
       onIconClick={toggleActive}>
       <SimulatedKeyboard />
-      {isActive ? (
+      {isActive && (
         <div>
           <VisualDisplayUnit />
         </div>
-      ) : null}
+      )}
     </Card>
   )
 }
