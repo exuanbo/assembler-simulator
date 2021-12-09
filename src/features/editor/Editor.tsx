@@ -67,7 +67,9 @@ const Editor = ({ className }: Props): JSX.Element => {
   )
 
   useEffect(() => {
-    assemble(defaultInput)
+    if (selectAutoAssemble(getState())) {
+      assemble(defaultInput)
+    }
   }, [])
 
   useEffect(() => {
