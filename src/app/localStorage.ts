@@ -12,11 +12,25 @@ export const loadState = (): PreloadedState<RootState> | undefined => {
   }
 }
 
-export const saveState = (state: PreloadedState<RootState>): void => {
+const __saveState = (state: PreloadedState<RootState>): void => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(LOCAL_STORAGE_KEY, serializedState)
   } catch (err) {
     console.error(err)
   }
+}
+
+export const saveState = (state: RootState): void => {
+  __saveState({
+    editor: {
+      ...state.editor,
+      activeRange: undefined
+    },
+    controller: {
+      isRunning: false,
+      isSuspended: false,
+      configuration: state.controller.configuration
+    }
+  })
 }

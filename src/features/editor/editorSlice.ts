@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
 import type { Line } from '@codemirror/text'
 import type { RootState } from '../../app/store'
+import { saveState } from '../../app/localStorage'
+import { subscribeAction } from '../../app/sideEffect'
 import type { SourceRange } from '../assembler/core/types'
 import type { Statement } from '../assembler/core/parser'
 import { samples } from './samples'
@@ -60,5 +62,14 @@ export const {
   removeBreakpoint,
   setActiveRange: setEditorActiveRange
 } = editorSlice.actions
+
+// persist state
+;(
+  [setEditorInput, addBreakpoint, removeBreakpoint] as Array<PayloadActionCreator<unknown>>
+).forEach(actionCreator => {
+  subscribeAction(actionCreator, (_payload, api) => {
+    saveState(api.getState())
+  })
+})
 
 export default editorSlice.reducer

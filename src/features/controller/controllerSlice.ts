@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
+import { saveState } from '../../app/localStorage'
+import { subscribeAction } from '../../app/sideEffect'
 import type { UnionToTuple } from '../../common/utils'
 
 export enum ClockSpeed {
@@ -100,5 +102,14 @@ export const selectRuntimeConfiguration = (
 
 export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTimerInterval } =
   controllerSlice.actions
+
+// persist configuration
+;(
+  [setAutoAssemble, setClockSpeed, setTimerInterval] as Array<PayloadActionCreator<unknown>>
+).forEach(actionCreator => {
+  subscribeAction(actionCreator, (_payload, api) => {
+    saveState(api.getState())
+  })
+})
 
 export default controllerSlice.reducer
