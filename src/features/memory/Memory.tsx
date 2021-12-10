@@ -10,6 +10,7 @@ interface Props {
 }
 
 // TODO: add view option
+// TODO: add color to stack
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryData = useSelector(selectMemoryData)
   const rows = splitArrayPerChunk(memoryData, 0x10)

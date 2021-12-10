@@ -22,7 +22,6 @@ You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
 
 - [ ] Progressive Web App
 - [ ] More simulated I/O devices
-- [ ] Redux state persistence
 - [ ] Activity log
 - [ ] More sample code
 
