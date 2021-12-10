@@ -3,9 +3,9 @@ import React, { ReactNode } from 'react'
 interface Props {
   children: ReactNode
   title: string
-  className?: string | undefined
-  Icon?: ((props: Record<string, unknown>) => JSX.Element) | undefined
-  onIconClick?: React.MouseEventHandler<HTMLDivElement> | undefined
+  className?: string
+  Icon?: (props: Record<string, unknown>) => JSX.Element
+  onIconClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (

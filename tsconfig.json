@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "exactOptionalPropertyTypes": true,
 
     "module": "ESNext",
     "moduleResolution": "node",

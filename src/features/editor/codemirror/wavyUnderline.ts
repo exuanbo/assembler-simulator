@@ -22,13 +22,11 @@ const wavyUnderlineConfigFacet = Facet.define<WavyUnderlineConfig, Required<Wavy
 })
 
 export const wavyUnderlineEffect = StateEffect.define<{
-  add?:
-    | {
-        from: number
-        to: number
-      }
-    | undefined
-  filter?: ((from: number, to: number) => boolean) | undefined
+  add?: {
+    from: number
+    to: number
+  }
+  filter?: (from: number, to: number) => boolean
 }>({
   map({ add, filter }, mapping) {
     return {

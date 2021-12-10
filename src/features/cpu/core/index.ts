@@ -26,7 +26,7 @@ import {
 } from './exceptions'
 import type { MemoryData } from '../../memory/core'
 import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
-import { NullablePartial, ExcludeTail, sign8, unsign8 } from '../../../common/utils'
+import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
@@ -153,7 +153,7 @@ enum OutputPort {
   NumericKeypad = 8
 }
 
-type OutputOnlySignals = NullablePartial<{
+type OutputOnlySignals = Partial<{
   halted: true
   outputPort: OutputPort
   closeWindows: true

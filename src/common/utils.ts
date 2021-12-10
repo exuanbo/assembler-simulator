@@ -1,7 +1,3 @@
-export type NullablePartial<T> = {
-  [P in keyof T]?: T[P] | undefined
-}
-
 export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
   ? Excluded
   : []
@@ -32,7 +28,7 @@ export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["]
 
 export function range(stop: number): number[]
 export function range(start: number, stop: number): number[]
-export function range(start: number, stop?: number | undefined): number[] {
+export function range(start: number, stop?: number): number[] {
   if (stop === undefined) {
     stop = start
     start = 0
