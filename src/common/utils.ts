@@ -49,3 +49,14 @@ export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
   }, [])
 
 export const call = <T>(fn: () => T): T => fn()
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <F extends (...args: any) => void>(fn: F, wait: number): F => {
+  let timeoutId: number | undefined
+  return ((...args) => {
+    window.clearTimeout(timeoutId)
+    timeoutId = window.setTimeout(() => {
+      fn(...args)
+    }, wait)
+  }) as F
+}
