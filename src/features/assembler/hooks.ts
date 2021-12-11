@@ -1,3 +1,5 @@
+// TODO: remove batch from React 18
+import { batch } from 'react-redux'
 import { useDispatch } from '../../app/hooks'
 import { AssembleResult, assemble } from './core'
 import { AssemblerError } from './core/exceptions'
@@ -17,17 +19,22 @@ export const useAssembler = (): Assemble => {
       assembleResult = assemble(input)
     } catch (err) {
       if (err instanceof AssemblerError) {
-        dispatch(setEditorActiveRange(undefined))
-        dispatch(setAssemblerError(err.toObject()))
+        const assemblerErrorObject = err.toObject()
+        batch(() => {
+          dispatch(setEditorActiveRange(undefined))
+          dispatch(setAssemblerError(assemblerErrorObject))
+        })
         return
       }
       // TODO: handle unexpected assemble errors
       throw err
     }
     const [addressToOpcodeMap, addressToStatementMap] = assembleResult
-    dispatch(setMemoryDataFrom(addressToOpcodeMap))
-    dispatch(resetCpu())
-    dispatch(setAssemblerState(addressToStatementMap))
-    dispatch(setEditorActiveRange(addressToStatementMap[0]))
+    batch(() => {
+      dispatch(setMemoryDataFrom(addressToOpcodeMap))
+      dispatch(resetCpu())
+      dispatch(setAssemblerState(addressToStatementMap))
+      dispatch(setEditorActiveRange(addressToStatementMap[0]))
+    })
   }
 }

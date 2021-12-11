@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+// TODO: remove batch from React 18
+import { batch } from 'react-redux'
 import type { RootState } from '../../app/store'
 import { useShallowEqualSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
@@ -164,9 +166,11 @@ export const useController = (): Controller => {
       )
       const dispatchChanges = (): void => {
         timeoutId = window.setTimeout(() => {
-          dispatch(setMemoryData(memoryData))
-          dispatch(setCpuRegisters(registers))
-          dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+          batch(() => {
+            dispatch(setMemoryData(memoryData))
+            dispatch(setCpuRegisters(registers))
+            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+          })
           timeoutId = undefined
         })
       }
@@ -241,9 +245,11 @@ export const useController = (): Controller => {
 
   const reset = async (): Promise<void> => {
     await __reset()
-    dispatch(resetCpu())
-    dispatch(resetMemory())
-    dispatch(setEditorActiveRange(undefined))
+    batch(() => {
+      dispatch(resetMemory())
+      dispatch(resetCpu())
+      dispatch(setEditorActiveRange(undefined))
+    })
   }
 
   return {
