@@ -17,9 +17,8 @@ const FileMenu = (): JSX.Element => {
     inputRef.current!.click()
   }
 
-  // TODO: receive event as parameter
-  const handleUploadedFile = (): void => {
-    const file = inputRef.current!.files![0]
+  const handleUploadedFile: React.ChangeEventHandler<HTMLInputElement> = event => {
+    const file = event.target.files![0]
     const reader = new FileReader()
     reader.onload = function () {
       const fileContent = this.result as string
@@ -47,8 +46,8 @@ const FileMenu = (): JSX.Element => {
         ref={inputRef}
         className="hidden"
         type="file"
-        onChange={() => {
-          handleUploadedFile()
+        onChange={event => {
+          handleUploadedFile(event)
           onInputChange()
         }}
         onClick={event => {
