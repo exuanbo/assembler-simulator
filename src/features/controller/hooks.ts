@@ -16,7 +16,11 @@ import {
   selectEditorBreakpoints,
   setEditorActiveRange
 } from '../editor/editorSlice'
-import { setAssemblerState, selectAddressToStatementMap } from '../assembler/assemblerSlice'
+import {
+  setAssemblerState,
+  resetAssembler,
+  selectAddressToStatementMap
+} from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import { StepResult, step as __step } from '../cpu/core'
@@ -248,6 +252,7 @@ export const useController = (): Controller => {
     batch(() => {
       dispatch(resetMemory())
       dispatch(resetCpu())
+      dispatch(resetAssembler())
       dispatch(setEditorActiveRange(undefined))
     })
   }
