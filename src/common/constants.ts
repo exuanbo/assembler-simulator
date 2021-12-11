@@ -258,4 +258,6 @@ export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 export type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
 
+export const MAX_SP = 0xbf
+
 export const NO_BREAK_SPACE = '\u00A0'

@@ -25,14 +25,12 @@ import {
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '../../memory/core'
-import { Opcode, GeneralPurposeRegister } from '../../../common/constants'
+import { Opcode, GeneralPurposeRegister, MAX_SP } from '../../../common/constants'
 import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
 type GPR = [AL: number, BL: number, CL: number, DL: number]
-
-const MAX_SP = 0xbf
 
 enum Flag {
   Zero,
