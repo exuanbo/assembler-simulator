@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import type { RootState } from '../../app/store'
 import { useShallowEqualSelector, useStore } from '../../app/hooks'
-import { subscribeAction } from '../../app/sideEffect'
+import { addActionListener } from '../../app/actionListener'
 import {
   setRunning,
   setSuspended,
@@ -48,7 +48,7 @@ const cancelDispatchChanges = (): void => {
   timeoutId = undefined
 }
 
-let unsubscribeSetSuspended: () => void
+let removeSetSuspendedListener: () => void
 
 interface Controller {
   assemble: () => void
@@ -88,7 +88,7 @@ export const useController = (): Controller => {
   const restoreIfSuspended = (state: RootState): boolean => {
     const isSuspended = selectIsSuspended(state)
     if (isSuspended) {
-      unsubscribeSetSuspended()
+      removeSetSuspendedListener()
       dispatch(setSuspended(false))
     }
     return isSuspended
@@ -195,12 +195,12 @@ export const useController = (): Controller => {
             cancelMainLoop()
           }
           dispatch(setSuspended(true))
-          unsubscribeSetSuspended = subscribeAction(setSuspended, async () => {
+          removeSetSuspendedListener = addActionListener(setSuspended, async () => {
             await step()
             if (isRunning) {
               setMainLoop()
             }
-            unsubscribeSetSuspended()
+            removeSetSuspendedListener()
           })
         } else {
           dispatch(clearCpuInput())
@@ -237,7 +237,7 @@ export const useController = (): Controller => {
     cancelDispatchChanges()
   }
 
-  useEffect(() => subscribeAction(setAssemblerState, __reset), [])
+  useEffect(() => addActionListener(setAssemblerState, __reset), [])
 
   const reset = async (): Promise<void> => {
     await __reset()

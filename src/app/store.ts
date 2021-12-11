@@ -4,7 +4,7 @@ import assemblerReducer from '../features/assembler/assemblerSlice'
 import controllerReducer from '../features/controller/controllerSlice'
 import memoryReducer from '../features/memory/memorySlice'
 import cpuReducer from '../features/cpu/cpuSlice'
-import sideEffect from './sideEffect'
+import actionListenerMiddleware from './actionListener'
 import { loadState } from './localStorage'
 
 const rootReducer = combineReducers({
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sideEffect),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(actionListenerMiddleware),
   preloadedState: loadState()
 })
 

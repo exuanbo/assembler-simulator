@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolk
 import type { Line } from '@codemirror/text'
 import type { RootState } from '../../app/store'
 import { saveState } from '../../app/localStorage'
-import { subscribeAction } from '../../app/sideEffect'
+import { addActionListener } from '../../app/actionListener'
 import type { SourceRange } from '../assembler/core/types'
 import type { Statement } from '../assembler/core/parser'
 import { samples } from './samples'
@@ -67,7 +67,7 @@ export const {
 ;(
   [setEditorInput, addBreakpoint, removeBreakpoint] as Array<PayloadActionCreator<unknown>>
 ).forEach(actionCreator => {
-  subscribeAction(actionCreator, (_payload, api) => {
+  addActionListener(actionCreator, (_payload, api) => {
     saveState(api.getState())
   })
 })

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
-import { subscribeAction } from '../../app/sideEffect'
+import { addActionListener } from '../../app/actionListener'
 import {
   setEditorInput,
   addBreakpoint,
@@ -73,7 +73,7 @@ const Editor = ({ className }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    return subscribeAction(setEditorInput, ({ value, isFromFile = false }) => {
+    return addActionListener(setEditorInput, ({ value, isFromFile = false }) => {
       if (isFromFile) {
         view?.dispatch({
           changes: {

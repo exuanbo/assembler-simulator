@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import { saveState } from '../../app/localStorage'
-import { subscribeAction } from '../../app/sideEffect'
+import { addActionListener } from '../../app/actionListener'
 import type { UnionToTuple } from '../../common/utils'
 
 export enum ClockSpeed {
@@ -107,7 +107,7 @@ export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTime
 ;(
   [setAutoAssemble, setClockSpeed, setTimerInterval] as Array<PayloadActionCreator<unknown>>
 ).forEach(actionCreator => {
-  subscribeAction(actionCreator, (_payload, api) => {
+  addActionListener(actionCreator, (_payload, api) => {
     saveState(api.getState())
   })
 })
