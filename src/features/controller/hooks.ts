@@ -136,16 +136,15 @@ export const useController = (): Controller => {
   const step = async (): Promise<void> => {
     const lastStepResult = await lastStep
     const state = getState()
+    const { fault, halted } = selectCpuStatus(state)
+    if (fault || halted) {
+      stopIfRunning(state)
+      return
+    }
     if (selectIsSuspended(state)) {
       return
     }
     lastStep = new Promise(resolve => {
-      const cpuStatus = selectCpuStatus(state)
-      if (cpuStatus.fault || cpuStatus.halted) {
-        stopIfRunning(state)
-        resolve(undefined)
-        return
-      }
       let stepResultWithSignals: ReturnType<typeof __step>
       try {
         stepResultWithSignals = __step(
