@@ -94,7 +94,7 @@ const getFlagsFromValue = (value: number): SR => {
   return valueStr
     .slice(-5, -1)
     .split('')
-    .map(val => Number.parseInt(val))
+    .map(Number)
     .reduceRight<FlagStatus[]>((result, flagStatus) => [...result, flagStatus], []) as SR
 }
 
