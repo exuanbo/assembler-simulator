@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { AddressToStatementMap } from './core'
 import type { IAssemblerError } from './core/exceptions'
 import type { RootState } from '../../app/store'

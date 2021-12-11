@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
+import { PayloadAction, PayloadActionCreator, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import { saveState } from '../../app/localStorage'
 import { addActionListener } from '../../app/actionListener'

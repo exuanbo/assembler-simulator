@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { MemoryData, initData, initDataFrom } from './core'
 import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
