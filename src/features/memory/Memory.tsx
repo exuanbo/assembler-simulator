@@ -3,6 +3,7 @@ import Card from '../../common/components/Card'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
+import { MAX_SP } from '../../common/constants'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
 
 interface Props {
@@ -10,7 +11,6 @@ interface Props {
 }
 
 // TODO: add view option
-// TODO: add color to stack
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryData = useSelector(selectMemoryData)
   const rows = splitArrayPerChunk(memoryData, 0x10)
@@ -41,6 +41,8 @@ const Memory = ({ className }: Props): JSX.Element => {
                     ? 'rounded bg-green-100'
                     : address === sp
                     ? 'rounded bg-blue-100'
+                    : sp < address && address <= MAX_SP
+                    ? 'rounded bg-blue-50'
                     : ''
                 address += 1
                 return (
