@@ -6,15 +6,15 @@ import { setCpuInput } from '../cpu/cpuSlice'
 import { InputPort } from '../cpu/core'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
-  const isSuspended = useSelector(selectIsSuspended)
   const inputRef = useRef<HTMLInputElement>(null)
+  const isSuspended = useSelector(selectIsSuspended)
   const dispatch = useDispatch()
 
-  const focusInput = (): void => {
+  const focusInput: React.FocusEventHandler<HTMLInputElement> = () => {
     inputRef.current!.focus()
   }
 
-  const handleInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const key = target.value
     dispatch(
       setCpuInput({

@@ -21,7 +21,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [isHovered, hoverRef] = useHover<HTMLDivElement>()
   const [menuItems, setMenuItems] = useState<HTMLDivElement | null>(null)
 
-  const handleClick = (event: React.MouseEvent): void => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
     if (menuItems === null) {
       return
     }

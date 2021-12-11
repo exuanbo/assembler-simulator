@@ -12,11 +12,12 @@ const FileMenu = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
   const { getState, dispatch } = useStore()
 
-  const handleClickUpload = (event: React.MouseEvent<HTMLDivElement>): void => {
+  const handleClickUpload: React.MouseEventHandler<HTMLDivElement> = event => {
     event.stopPropagation()
     inputRef.current!.click()
   }
 
+  // TODO: receive event as parameter
   const handleUploadedFile = (): void => {
     const file = inputRef.current!.files![0]
     const reader = new FileReader()
@@ -57,7 +58,7 @@ const FileMenu = (): JSX.Element => {
     </MenuItem>
   )
 
-  const handleClickDownload = (): void => {
+  const handleClickDownload: React.MouseEventHandler<HTMLDivElement> = () => {
     const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
