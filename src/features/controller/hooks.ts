@@ -153,11 +153,12 @@ export const useController = (): Controller => {
         )
       } catch (err) {
         stopIfRunning(state)
-        resolve(undefined)
         if (err instanceof RuntimeError) {
           dispatch(setCpuFault(err.message))
+          resolve(undefined)
           return
         }
+        resolve(undefined)
         // TODO: handle unexpected runtime errors
         throw err
       }
