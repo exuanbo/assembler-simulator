@@ -1,4 +1,4 @@
-import { PayloadAction, PayloadActionCreator, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import { saveState } from '../../app/localStorage'
 import { addActionListener } from '../../app/actionListener'
@@ -104,9 +104,7 @@ export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTime
   controllerSlice.actions
 
 // persist configuration
-;(
-  [setAutoAssemble, setClockSpeed, setTimerInterval] as Array<PayloadActionCreator<unknown>>
-).forEach(actionCreator => {
+;[setAutoAssemble, setClockSpeed, setTimerInterval].forEach(actionCreator => {
   addActionListener(actionCreator, (_payload, api) => {
     saveState(api.getState())
   })

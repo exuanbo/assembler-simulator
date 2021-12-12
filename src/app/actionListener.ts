@@ -9,7 +9,17 @@ const subscriptions = new Map<string, Set<Listener<any>>>()
 
 export type RemoveActionListener = () => void
 
-export const addActionListener = <P>(
+interface AddActionListener {
+  <P>(actionCreator: PayloadActionCreator<P>, listener: Listener<P>): RemoveActionListener
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <AC extends PayloadActionCreator<any>>(
+    actionCreator: AC,
+    listener: Listener<unknown>
+  ): RemoveActionListener
+}
+
+export const addActionListener: AddActionListener = <P>(
   actionCreator: PayloadActionCreator<P>,
   listener: Listener<P>
 ): RemoveActionListener => {

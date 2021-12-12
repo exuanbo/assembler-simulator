@@ -1,4 +1,4 @@
-import { PayloadAction, PayloadActionCreator, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { Line } from '@codemirror/text'
 import type { RootState } from '../../app/store'
 import { saveState } from '../../app/localStorage'
@@ -64,9 +64,7 @@ export const {
 } = editorSlice.actions
 
 // persist state
-;(
-  [setEditorInput, addBreakpoint, removeBreakpoint] as Array<PayloadActionCreator<unknown>>
-).forEach(actionCreator => {
+;[setEditorInput, addBreakpoint, removeBreakpoint].forEach(actionCreator => {
   addActionListener(actionCreator, (_payload, api) => {
     saveState(api.getState())
   })
