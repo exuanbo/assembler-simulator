@@ -110,8 +110,9 @@ export const useController = (): Controller => {
   }
 
   const __run = (): void => {
-    setMainLoop()
     dispatch(setRunning(true))
+    setMainLoop()
+    void step()
   }
 
   useEffect(() => {
