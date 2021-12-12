@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Registers, initRegisters, InputPort, InputSignals } from './core'
 import type { RootState } from '../../app/store'
 
+// TODO: use faultMessage only and add a selector to return boolean
 type Status =
   | {
       fault: false
