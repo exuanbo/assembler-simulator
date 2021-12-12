@@ -204,12 +204,12 @@ export const useController = (): Controller => {
             cancelMainLoop()
           }
           dispatch(setSuspended(true))
-          removeSetSuspendedListener = addActionListener(setSuspended, async () => {
-            await step()
+          removeSetSuspendedListener = addActionListener(setSuspended, () => {
+            removeSetSuspendedListener()
             if (isRunning) {
               setMainLoop()
             }
-            removeSetSuspendedListener()
+            void step()
           })
         } else {
           dispatch(clearCpuInput())
