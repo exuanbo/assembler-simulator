@@ -3,7 +3,7 @@ import { useSelector } from '../../app/hooks'
 import { selectAssemblerErrorMessage } from '../assembler/assemblerSlice'
 import { selectCpuFaultMessage } from '../cpu/cpuSlice'
 
-const EditorStatus = (): JSX.Element | null => {
+const Status = (): JSX.Element | null => {
   const assemblerErrorMessage = useSelector(selectAssemblerErrorMessage)
   const cpuFaultMessage = useSelector(selectCpuFaultMessage)
 
@@ -19,4 +19,4 @@ const EditorStatus = (): JSX.Element | null => {
   )
 }
 
-export default EditorStatus
+export default Status
