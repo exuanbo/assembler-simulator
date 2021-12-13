@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import EditorStatus from './EditorStatus'
 import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
@@ -101,7 +102,11 @@ const Editor = ({ className }: Props): JSX.Element => {
         })
   })
 
-  return <div ref={editorRef} className={className} />
+  return (
+    <div ref={editorRef} className={`flex flex-col ${className}`}>
+      <EditorStatus />
+    </div>
+  )
 }
 
 export default Editor
