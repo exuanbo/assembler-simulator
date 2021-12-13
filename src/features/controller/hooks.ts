@@ -140,6 +140,10 @@ export const useController = (): Controller => {
     const { fault, halted } = selectCpuStatus(state)
     if (fault || halted) {
       stopIfRunning(state)
+      if (!fault && halted) {
+        // trigger EditorState re-render
+        dispatch(setCpuHalted(true))
+      }
       return
     }
     if (selectIsSuspended(state)) {
