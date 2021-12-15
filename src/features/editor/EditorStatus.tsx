@@ -4,6 +4,8 @@ import { addActionListener } from '../../app/actionListener'
 import { selectAssemblerErrorMessage } from '../assembler/assemblerSlice'
 import { setCpuHalted, selectCpuFault } from '../cpu/cpuSlice'
 
+let showHaltedTimeoutId: number | undefined
+
 const EditorStatus = (): JSX.Element | null => {
   const assemblerErrorMessage = useSelector(selectAssemblerErrorMessage)
   const cpuFault = useSelector(selectCpuFault)
@@ -14,7 +16,8 @@ const EditorStatus = (): JSX.Element | null => {
       addActionListener(setCpuHalted, isHalted => {
         setShouldShowHalted(isHalted)
         if (isHalted) {
-          setTimeout(() => {
+          window.clearTimeout(showHaltedTimeoutId)
+          showHaltedTimeoutId = window.setTimeout(() => {
             setShouldShowHalted(false)
           }, 2000)
         }
