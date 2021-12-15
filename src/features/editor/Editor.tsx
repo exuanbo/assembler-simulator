@@ -18,7 +18,7 @@ import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 
-let timeoutId: number
+let syncStateTimeoutId: number | undefined
 
 interface Props {
   className?: string
@@ -37,8 +37,8 @@ const Editor = ({ className }: Props): JSX.Element => {
     viewUpdate => {
       if (viewUpdate.docChanged) {
         const input = viewUpdate.state.doc.sliceString(0)
-        window.clearTimeout(timeoutId)
-        timeoutId = window.setTimeout(() => {
+        window.clearTimeout(syncStateTimeoutId)
+        syncStateTimeoutId = window.setTimeout(() => {
           const state = getState()
           if (selectEditortInput(state) !== input) {
             dispatch(

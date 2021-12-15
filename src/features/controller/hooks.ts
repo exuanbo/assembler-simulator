@@ -47,11 +47,11 @@ const cancelMainLoop = (): void => {
 
 let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
-let timeoutId: number | undefined
+let dispatchChangesTimeoutId: number | undefined
 
 const cancelDispatchChanges = (): void => {
-  window.clearTimeout(timeoutId)
-  timeoutId = undefined
+  window.clearTimeout(dispatchChangesTimeoutId)
+  dispatchChangesTimeoutId = undefined
 }
 
 let removeSetSuspendedListener: () => void
@@ -174,17 +174,17 @@ export const useController = (): Controller => {
         (machineCode, index) => machineCode === memoryData[instructionAdress + index]
       )
       const dispatchChanges = (): void => {
-        timeoutId = window.setTimeout(() => {
+        dispatchChangesTimeoutId = window.setTimeout(() => {
           batch(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
             dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
           })
-          timeoutId = undefined
+          dispatchChangesTimeoutId = undefined
         })
       }
       let willDispatchChanges = false
-      if (timeoutId === undefined) {
+      if (dispatchChangesTimeoutId === undefined) {
         willDispatchChanges = true
         dispatchChanges()
       }
