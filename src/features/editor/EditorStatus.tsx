@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import { selectAssemblerErrorMessage } from '../assembler/assemblerSlice'
-import { setCpuHalted, selectCpuFaultMessage } from '../cpu/cpuSlice'
+import { setCpuHalted, selectCpuFault } from '../cpu/cpuSlice'
 
 const EditorStatus = (): JSX.Element | null => {
   const assemblerErrorMessage = useSelector(selectAssemblerErrorMessage)
-  const cpuFaultMessage = useSelector(selectCpuFaultMessage)
-
+  const cpuFault = useSelector(selectCpuFault)
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
 
   useEffect(
@@ -25,11 +24,11 @@ const EditorStatus = (): JSX.Element | null => {
 
   const message =
     assemblerErrorMessage === undefined
-      ? cpuFaultMessage === null
+      ? cpuFault === null
         ? shouldShowHalted
           ? 'Info: CPU is halted'
           : null
-        : `RuntimeError: ${cpuFaultMessage}`
+        : `RuntimeError: ${cpuFault}`
       : `AssemblerError: ${assemblerErrorMessage}`
 
   return message === null ? null : (

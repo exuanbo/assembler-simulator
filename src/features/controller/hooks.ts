@@ -138,9 +138,9 @@ export const useController = (): Controller => {
     const lastStepResult = await lastStep
     const state = getState()
     const { fault, halted } = selectCpuStatus(state)
-    if (fault || halted) {
+    if (fault !== null || halted) {
       stopIfRunning(state)
-      if (!fault && halted) {
+      if (fault === null && halted) {
         // trigger EditorState re-render
         dispatch(setCpuHalted(true))
       }

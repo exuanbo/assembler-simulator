@@ -2,18 +2,10 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Registers, initRegisters, InputPort, InputSignals } from './core'
 import type { RootState } from '../../app/store'
 
-// TODO: use faultMessage only and add a selector to return boolean
-type Status =
-  | {
-      fault: false
-      faultMessage: null
-      halted: boolean
-    }
-  | {
-      fault: true
-      faultMessage: string
-      halted: boolean
-    }
+interface Status {
+  fault: string | null
+  halted: boolean
+}
 
 interface CpuState {
   status: Status
@@ -23,8 +15,7 @@ interface CpuState {
 
 const initialState: CpuState = {
   status: {
-    fault: false,
-    faultMessage: null,
+    fault: null,
     halted: false
   },
   registers: initRegisters(),
@@ -40,8 +31,7 @@ export const cpuSlice = createSlice({
   initialState,
   reducers: {
     setFault: (state, action: PayloadAction<string>) => {
-      state.status.fault = true
-      state.status.faultMessage = action.payload
+      state.status.fault = action.payload
     },
     setHalted: (state, action: PayloadAction<boolean>) => {
       state.status.halted = action.payload
@@ -67,8 +57,7 @@ export const cpuSlice = createSlice({
 
 export const selectCpuStatus = (state: RootState): Status => state.cpu.status
 
-export const selectCpuFaultMessage = (state: RootState): string | null =>
-  state.cpu.status.faultMessage
+export const selectCpuFault = (state: RootState): string | null => state.cpu.status.fault
 
 export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
 
