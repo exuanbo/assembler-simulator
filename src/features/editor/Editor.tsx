@@ -7,6 +7,7 @@ import {
   addBreakpoint,
   removeBreakpoint,
   selectEditortInput,
+  selectEditorBreakpoints,
   selectEditorActiveRange
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
@@ -73,9 +74,21 @@ const Editor = ({ className }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
+    if (view === undefined) {
+      return
+    }
+    const breakpoints = selectEditorBreakpoints(getState())
+    view.dispatch({
+      effects: breakpoints.map(lineRange =>
+        breakpointEffect.of({
+          pos: lineRange.from,
+          on: true
+        })
+      )
+    })
     return addActionListener(setEditorInput, ({ value, isFromFile = false }) => {
       if (isFromFile) {
-        view?.dispatch({
+        view.dispatch({
           changes: {
             from: 0,
             to: view.state.doc.sliceString(0).length,
