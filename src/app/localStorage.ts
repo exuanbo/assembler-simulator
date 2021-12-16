@@ -25,7 +25,7 @@ export const saveState = (state: RootState): void => {
   __saveState({
     editor: {
       ...state.editor,
-      activeRange: undefined
+      activeRange: null
     },
     controller: {
       isRunning: false,

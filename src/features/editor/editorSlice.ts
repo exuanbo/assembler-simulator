@@ -12,7 +12,7 @@ type LineRange = Pick<Line, 'from' | 'to'>
 interface EditorState {
   input: string
   breakpoints: LineRange[]
-  activeRange: SourceRange | undefined
+  activeRange: SourceRange | null
 }
 
 const [helloWorld] = samples
@@ -20,7 +20,7 @@ const [helloWorld] = samples
 const initialState: EditorState = {
   input: helloWorld.content,
   breakpoints: [],
-  activeRange: undefined
+  activeRange: null
 }
 
 export const editorSlice = createSlice({
@@ -50,7 +50,7 @@ export const editorSlice = createSlice({
     },
     setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
       const statement = action.payload
-      state.activeRange = statement?.range
+      state.activeRange = statement === undefined ? null : statement.range
     }
   }
 })
@@ -59,8 +59,10 @@ export const selectEditortInput = (state: RootState): string => state.editor.inp
 
 export const selectEditorBreakpoints = (state: RootState): LineRange[] => state.editor.breakpoints
 
-export const selectEditorActiveRange = (state: RootState): SourceRange | undefined =>
-  state.editor.activeRange
+export const selectEditorActiveRange = (state: RootState): SourceRange | undefined => {
+  const { activeRange } = state.editor
+  return activeRange === null ? undefined : activeRange
+}
 
 export const {
   setInput: setEditorInput,
