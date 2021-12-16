@@ -3,13 +3,14 @@ import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
-export interface IAssemblerError {
+export interface AssemblerErrorObject {
+  type: string
   message: string
   range: SourceRange | undefined
 }
 
-// TODO: add ParseError and AssembleError
-export abstract class AssemblerError extends Error implements IAssemblerError {
+export abstract class AssemblerError extends Error {
+  public abstract type: string
   public range: SourceRange | undefined
 
   constructor(message: string, range?: SourceRange) {
@@ -18,41 +19,51 @@ export abstract class AssemblerError extends Error implements IAssemblerError {
   }
 
   // istanbul ignore next
-  public toObject(): IAssemblerError {
+  public toObject(): AssemblerErrorObject {
     return {
+      type: this.type,
       message: this.message,
       range: this.range
     }
   }
 }
 
-export class StatementError extends AssemblerError {
+class ParserError extends AssemblerError {
+  public type: string
+
+  constructor(message: string, range?: SourceRange) {
+    super(message, range)
+    this.type = 'ParserError'
+  }
+}
+
+export class StatementError extends ParserError {
   constructor({ raw, range }: Token, hasLabel: boolean) {
     super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'`, range)
   }
 }
 
-export class InvalidLabelError extends AssemblerError {
+export class InvalidLabelError extends ParserError {
   constructor({ raw, range }: Token) {
     const identifier = raw.replace(/:$/, '')
     super(`Label should contain only letter or underscore, got '${identifier}'`, range)
   }
 }
 
-export class MissingEndError extends AssemblerError {
+export class MissingEndError extends ParserError {
   constructor() {
     super('Expected END at the end of the source code')
   }
 }
 
-export class InvalidNumberError extends AssemblerError {
+export class InvalidNumberError extends ParserError {
   constructor({ raw, range }: Token) {
     const numberValue = trimBracketsAndQuotes(raw)
     super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'`, range)
   }
 }
 
-export class AddressError extends AssemblerError {
+export class AddressError extends ParserError {
   constructor({ raw, range }: Token) {
     const addressValue = trimBracketsAndQuotes(raw)
     super(
@@ -62,7 +73,7 @@ export class AddressError extends AssemblerError {
   }
 }
 
-export class OperandTypeError extends AssemblerError {
+export class OperandTypeError extends ParserError {
   constructor({ raw, range }: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map(type => type.replace(/[A-Z]/g, char => ` ${char.toLowerCase()}`).trimStart())
@@ -80,31 +91,40 @@ export class OperandTypeError extends AssemblerError {
   }
 }
 
-export class MissingCommaError extends AssemblerError {
+export class MissingCommaError extends ParserError {
   constructor({ raw, range }: Token) {
     super(`Expected comma, got '${raw}'`, range)
   }
 }
 
-export class DuplicateLabelError extends AssemblerError {
+class AssembleError extends AssemblerError {
+  public type: string
+
+  constructor(message: string, range?: SourceRange) {
+    super(message, range)
+    this.type = 'AssembleError'
+  }
+}
+
+export class DuplicateLabelError extends AssembleError {
   constructor({ identifier, range }: Label) {
     super(`Duplicate label '${identifier}'`, range)
   }
 }
 
-export class AssembleEndOfMemoryError extends AssemblerError {
+export class AssembleEndOfMemoryError extends AssembleError {
   constructor({ range }: Statement) {
     super('Can not generate code beyond the end of RAM', range)
   }
 }
 
-export class LabelNotExistError extends AssemblerError {
+export class LabelNotExistError extends AssembleError {
   constructor({ raw, range }: Operand) {
     super(`Label '${raw}' does not exist`, range)
   }
 }
 
-export class JumpDistanceError extends AssemblerError {
+export class JumpDistanceError extends AssembleError {
   constructor({ raw, range }: Operand) {
     super(`Jump distance should be between -128 and 127, to label '${raw}'`, range)
   }
