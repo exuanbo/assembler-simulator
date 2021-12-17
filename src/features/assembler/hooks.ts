@@ -1,6 +1,6 @@
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { useDispatch } from '../../app/hooks'
+import type { Dispatch } from '../../app/store'
 import { AssembleResult, assemble } from './core'
 import { AssemblerError } from './core/exceptions'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
@@ -10,10 +10,9 @@ import { setEditorActiveRange } from '../editor/editorSlice'
 
 type Assemble = (input: string) => void
 
-export const useAssembler = (): Assemble => {
-  const dispatch = useDispatch()
-
-  return (input: string) => {
+export const useAssembler =
+  (dispatch: Dispatch): Assemble =>
+  input => {
     let assembleResult: AssembleResult
     try {
       assembleResult = assemble(input)
@@ -37,4 +36,3 @@ export const useAssembler = (): Assemble => {
       dispatch(setEditorActiveRange(addressToStatementMap[0]))
     })
   }
-}

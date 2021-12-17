@@ -28,7 +28,7 @@ interface Props {
 const Editor = ({ className }: Props): JSX.Element => {
   const { getState, dispatch } = useStore()
   const [defaultInput] = useState(() => selectEditortInput(getState()))
-  const assemble = useAssembler()
+  const assemble = useAssembler(dispatch)
 
   const { view, editorRef } = useCodeMirror<HTMLDivElement>(
     {

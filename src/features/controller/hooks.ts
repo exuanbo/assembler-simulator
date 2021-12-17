@@ -66,7 +66,7 @@ interface Controller {
 export const useController = (): Controller => {
   const { getState, dispatch } = useStore()
 
-  const __assemble = useAssembler()
+  const __assemble = useAssembler(dispatch)
 
   const assemble = (): void => {
     __assemble(selectEditortInput(getState()))
