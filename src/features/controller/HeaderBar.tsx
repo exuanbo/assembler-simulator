@@ -9,7 +9,7 @@ import { useController } from './hooks'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
-  className?: string
+  className: string
 }
 
 const HeaderBar = ({ className }: Props): JSX.Element => {

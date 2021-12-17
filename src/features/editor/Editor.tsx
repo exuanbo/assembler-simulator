@@ -22,7 +22,7 @@ import { selectAutoAssemble } from '../controller/controllerSlice'
 let syncStateTimeoutId: number | undefined
 
 interface Props {
-  className?: string
+  className: string
 }
 
 const Editor = ({ className }: Props): JSX.Element => {
