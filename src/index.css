@@ -6,6 +6,10 @@ body {
   @apply cursor-default;
 }
 
+.cm-content * {
+  @apply cursor-auto;
+}
+
 * {
   @apply select-none;
 }
