@@ -36,8 +36,10 @@ export const useCodeMirror = <T extends Element = Element>(
   }, [current])
 
   useEffect(() => {
-    return () => {
-      view?.destroy()
+    if (view !== undefined) {
+      return () => {
+        view.destroy()
+      }
     }
   }, [view])
 
