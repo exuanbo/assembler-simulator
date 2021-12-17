@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import EditorStatus from './EditorStatus'
-import { useSelector, useShallowEqualSelector, useStore } from '../../app/hooks'
+import { useSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
   setEditorInput,
@@ -100,7 +100,7 @@ const Editor = ({ className }: Props): JSX.Element => {
   }, [view])
 
   const activeRange = useSelector(selectEditorActiveRange)
-  const assemblerErrorRange = useShallowEqualSelector(selectAssemblerErrorRange)
+  const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
 
   view?.dispatch({
     effects: [
