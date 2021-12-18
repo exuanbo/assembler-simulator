@@ -221,10 +221,10 @@ export const useController = (): Controller => {
       }
       const breakpoints = selectEditorBreakpoints(state)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
-        const { label, range: __range } = statement
+        const { label, range: rangeWithoutLabel } = statement
         const range = {
-          from: label === null ? __range.from : label.range.from,
-          to: __range.to
+          from: label === null ? rangeWithoutLabel.from : label.range.from,
+          to: rangeWithoutLabel.to
         }
         const willBreak = breakpoints.some(
           ({ from, to }) =>
