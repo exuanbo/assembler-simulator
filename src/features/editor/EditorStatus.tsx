@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import { selectAssemblerError } from '../assembler/assemblerSlice'
-import { setCpuHalted, selectCpuFault } from '../cpu/cpuSlice'
+import { setCpuHalted, resetCpu, selectCpuFault } from '../cpu/cpuSlice'
 
 let showHaltedTimeoutId: number | undefined
 
@@ -11,19 +11,20 @@ const EditorStatus = (): JSX.Element | null => {
   const cpuFault = useSelector(selectCpuFault)
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
 
-  useEffect(
-    () =>
-      addActionListener(setCpuHalted, isHalted => {
-        setShouldShowHalted(isHalted)
-        if (isHalted) {
-          window.clearTimeout(showHaltedTimeoutId)
-          showHaltedTimeoutId = window.setTimeout(() => {
-            setShouldShowHalted(false)
-          }, 2000)
-        }
-      }),
-    []
-  )
+  useEffect(() => {
+    addActionListener(setCpuHalted, isHalted => {
+      setShouldShowHalted(isHalted)
+      if (isHalted) {
+        window.clearTimeout(showHaltedTimeoutId)
+        showHaltedTimeoutId = window.setTimeout(() => {
+          setShouldShowHalted(false)
+        }, 2000)
+      }
+    })
+    addActionListener(resetCpu, () => {
+      setShouldShowHalted(false)
+    })
+  }, [])
 
   const message =
     assemblerError === null
