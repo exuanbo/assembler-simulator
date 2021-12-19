@@ -4,6 +4,16 @@ import { saveState } from '../../app/localStorage'
 import { addActionListener } from '../../app/actionListener'
 import type { UnionToTuple } from '../../common/utils'
 
+export enum MemoryView {
+  Hexadecimal = 'Hexadecimal',
+  Decimal = 'Decimal',
+  Source = 'Source'
+}
+
+interface View {
+  memory: MemoryView
+}
+
 export enum ClockSpeed {
   '2 Hz' = 2,
   '4 Hz' = 4,
@@ -43,12 +53,16 @@ interface Configuration {
 }
 
 interface ControllerState {
+  view: View
   configuration: Configuration
   isRunning: boolean
   isSuspended: boolean
 }
 
 const initialState: ControllerState = {
+  view: {
+    memory: MemoryView.Hexadecimal
+  },
   configuration: {
     autoAssemble: true,
     clockSpeed: ClockSpeed['4 Hz'],
@@ -62,6 +76,9 @@ export const controllerSlice = createSlice({
   name: 'controller',
   initialState,
   reducers: {
+    setMemoryView: (state, action: PayloadAction<MemoryView>) => {
+      state.view.memory = action.payload
+    },
     setAutoAssemble: (state, action: PayloadAction<boolean>) => {
       state.configuration.autoAssemble = action.payload
     },
@@ -79,6 +96,8 @@ export const controllerSlice = createSlice({
     }
   }
 })
+
+export const selectMemoryView = (state: RootState): MemoryView => state.controller.view.memory
 
 export const selectAutoAssemble = (state: RootState): boolean =>
   state.controller.configuration.autoAssemble
@@ -100,11 +119,17 @@ export const selectIsRunning = (state: RootState): boolean => state.controller.i
 
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
-export const { setAutoAssemble, setClockSpeed, setTimerInterval, setRunning, setSuspended } =
-  controllerSlice.actions
+export const {
+  setMemoryView,
+  setAutoAssemble,
+  setClockSpeed,
+  setTimerInterval,
+  setRunning,
+  setSuspended
+} = controllerSlice.actions
 
 // persist configuration
-;[setAutoAssemble, setClockSpeed, setTimerInterval].forEach(actionCreator => {
+;[setMemoryView, setAutoAssemble, setClockSpeed, setTimerInterval].forEach(actionCreator => {
   addActionListener(actionCreator, (_payload, api) => {
     saveState(api.getState())
   })

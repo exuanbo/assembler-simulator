@@ -28,7 +28,7 @@ export const saveState = (state: RootState): void => {
       activeRange: null
     },
     controller: {
-      configuration: state.controller.configuration,
+      ...state.controller,
       isRunning: false,
       isSuspended: false
     }

@@ -3,6 +3,7 @@ import Card from '../../common/components/Card'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryData } from './memorySlice'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
+import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
 import { MAX_SP } from '../../common/constants'
 import { decToHex, splitArrayPerChunk } from '../../common/utils'
 
@@ -10,13 +11,14 @@ interface Props {
   className?: string
 }
 
-// TODO: add view option
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryData = useSelector(selectMemoryData)
   const rows = splitArrayPerChunk(memoryData, 0x10)
 
   let address = 0
   const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
+
+  const memoryView = useSelector(selectMemoryView)
 
   return (
     <Card className={className} title="Memory">
@@ -47,7 +49,9 @@ const Memory = ({ className }: Props): JSX.Element => {
                 address += 1
                 return (
                   <td key={colIndex} className="text-center">
-                    <span className={`px-1 ${spanClassName}`}>{decToHex(machineCode)}</span>
+                    <span className={`px-1 ${spanClassName}`}>
+                      {memoryView === MemoryView.Decimal ? machineCode : decToHex(machineCode)}
+                    </span>
                   </td>
                 )
               })}
