@@ -1,7 +1,8 @@
 import type { PreloadedState } from '@reduxjs/toolkit'
 import type { RootState } from './store'
+import { name } from '../../package.json'
 
-const LOCAL_STORAGE_KEY = 'persist:root'
+const LOCAL_STORAGE_KEY = `persist:${name}`
 
 export const loadState = (): PreloadedState<RootState> | undefined => {
   try {
