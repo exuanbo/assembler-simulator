@@ -5,11 +5,11 @@ import type { RootState } from '../../app/store'
 import { useShallowEqualSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
-  setRunning,
-  setSuspended,
   selectRuntimeConfiguration,
   selectIsRunning,
-  selectIsSuspended
+  selectIsSuspended,
+  setRunning,
+  setSuspended
 } from './controllerSlice'
 import {
   selectEditortInput,
@@ -17,24 +17,24 @@ import {
   setEditorActiveRange
 } from '../editor/editorSlice'
 import {
+  selectAddressToStatementMap,
   setAssemblerState,
-  resetAssembler,
-  selectAddressToStatementMap
+  resetAssembler
 } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import { StepResult, step as __step } from '../cpu/core'
 import { RuntimeError } from '../cpu/core/exceptions'
 import {
+  selectCpuStatus,
+  selectCpuRegisters,
+  selectCpuInputSignals,
   setCpuFault,
   setCpuHalted,
   setCpuRegisters,
   setCpuInterrupt,
   clearCpuInput,
-  resetCpu,
-  selectCpuStatus,
-  selectCpuRegisters,
-  selectCpuInputSignals
+  resetCpu
 } from '../cpu/cpuSlice'
 
 let stepIntervalId: number

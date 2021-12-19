@@ -3,12 +3,12 @@ import EditorStatus from './EditorStatus'
 import { useSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
-  setEditorInput,
-  addBreakpoint,
-  removeBreakpoint,
   selectEditortInput,
   selectEditorBreakpoints,
-  selectEditorActiveRange
+  selectEditorActiveRange,
+  setEditorInput,
+  addBreakpoint,
+  removeBreakpoint
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'

@@ -10,12 +10,12 @@ import {
   CLOCK_SPEED_KEYS,
   TimerInterval,
   TIMER_INTERVAL_KEYS,
-  setAutoAssemble,
-  setClockSpeed,
-  setTimerInterval,
   selectAutoAssemble,
   selectClockSpeed,
-  selectTimerInterval
+  selectTimerInterval,
+  setAutoAssemble,
+  setClockSpeed,
+  setTimerInterval
 } from './controllerSlice'
 
 const ConfigurationMenu = (): JSX.Element => {

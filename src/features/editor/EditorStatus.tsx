@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import { selectAssemblerError } from '../assembler/assemblerSlice'
-import { setCpuHalted, resetCpu, selectCpuFault } from '../cpu/cpuSlice'
+import { selectCpuFault, setCpuHalted, resetCpu } from '../cpu/cpuSlice'
 
 let showHaltedTimeoutId: number | undefined
 
