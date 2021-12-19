@@ -3,7 +3,7 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { File } from '../../common/components/icons'
+import { File as FileIcon } from '../../common/components/icons'
 import { useStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { samples } from '../editor/samples'
@@ -116,7 +116,7 @@ const FileMenu = (): JSX.Element => {
       {(isOpen, toggleOpen) => (
         <>
           <MenuButton.Main>
-            <File />
+            <FileIcon />
             <span>File</span>
           </MenuButton.Main>
           {isOpen && (
