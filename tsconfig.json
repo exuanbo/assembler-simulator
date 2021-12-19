@@ -4,6 +4,7 @@
 
     "module": "ESNext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
 
     "noEmit": true,
 
