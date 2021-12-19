@@ -13,7 +13,7 @@ export enum ClockSpeed {
   '64 Hz' = 64
 }
 
-export const CLOCK_SPEED_KEYS: UnionToTuple<keyof typeof ClockSpeed> = [
+export const CLOCK_SPEED_OPTION_NAMES: Readonly<UnionToTuple<keyof typeof ClockSpeed>> = [
   '2 Hz',
   '4 Hz',
   '8 Hz',
@@ -29,7 +29,7 @@ export enum TimerInterval {
   '8 seconds' = 8000
 }
 
-export const TIMER_INTERVAL_KEYS: UnionToTuple<keyof typeof TimerInterval> = [
+export const TIMER_INTERVAL_OPTION_NAMES: Readonly<UnionToTuple<keyof typeof TimerInterval>> = [
   '1 second',
   '2 seconds',
   '4 seconds',

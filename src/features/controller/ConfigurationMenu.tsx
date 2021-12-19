@@ -7,9 +7,9 @@ import { CheckMark, Wrench } from '../../common/components/icons'
 import { useSelector, useDispatch } from '../../app/hooks'
 import {
   ClockSpeed,
-  CLOCK_SPEED_KEYS,
+  CLOCK_SPEED_OPTION_NAMES,
   TimerInterval,
-  TIMER_INTERVAL_KEYS,
+  TIMER_INTERVAL_OPTION_NAMES,
   selectAutoAssemble,
   selectClockSpeed,
   selectTimerInterval,
@@ -50,19 +50,19 @@ const ConfigurationMenu = (): JSX.Element => {
             </MenuButton>
             {isHovered && (
               <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
-                {CLOCK_SPEED_KEYS.map((clockSpeedKey, index) => (
+                {CLOCK_SPEED_OPTION_NAMES.map((clockSpeedOptionName, index) => (
                   <MenuItem
                     key={index}
                     onClick={() => {
-                      dispatch(setClockSpeed(ClockSpeed[clockSpeedKey]))
+                      dispatch(setClockSpeed(ClockSpeed[clockSpeedOptionName]))
                     }}>
                     <MenuButton>
-                      {clockSpeed === ClockSpeed[clockSpeedKey] ? (
+                      {clockSpeed === ClockSpeed[clockSpeedOptionName] ? (
                         <CheckMark />
                       ) : (
                         <span className="w-4" />
                       )}
-                      <span>{clockSpeedKey}</span>
+                      <span>{clockSpeedOptionName}</span>
                     </MenuButton>
                   </MenuItem>
                 ))}
@@ -87,19 +87,19 @@ const ConfigurationMenu = (): JSX.Element => {
             </MenuButton>
             {isHovered && (
               <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-                {TIMER_INTERVAL_KEYS.map((timerIntervalKey, index) => (
+                {TIMER_INTERVAL_OPTION_NAMES.map((timerIntervalOptionName, index) => (
                   <MenuItem
                     key={index}
                     onClick={() => {
-                      dispatch(setTimerInterval(TimerInterval[timerIntervalKey]))
+                      dispatch(setTimerInterval(TimerInterval[timerIntervalOptionName]))
                     }}>
                     <MenuButton>
-                      {timerInterval === TimerInterval[timerIntervalKey] ? (
+                      {timerInterval === TimerInterval[timerIntervalOptionName] ? (
                         <CheckMark />
                       ) : (
                         <span className="w-4" />
                       )}
-                      <span>{timerIntervalKey}</span>
+                      <span>{timerIntervalOptionName}</span>
                     </MenuButton>
                   </MenuItem>
                 ))}
