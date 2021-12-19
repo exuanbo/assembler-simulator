@@ -7,9 +7,9 @@ import { addActionListener } from '../../app/actionListener'
 import {
   setRunning,
   setSuspended,
+  selectRuntimeConfiguration,
   selectIsRunning,
-  selectIsSuspended,
-  selectRuntimeConfiguration
+  selectIsSuspended
 } from './controllerSlice'
 import {
   selectEditortInput,

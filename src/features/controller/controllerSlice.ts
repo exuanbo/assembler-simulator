@@ -43,31 +43,25 @@ interface Configuration {
 }
 
 interface ControllerState {
+  configuration: Configuration
   isRunning: boolean
   isSuspended: boolean
-  configuration: Configuration
 }
 
 const initialState: ControllerState = {
-  isRunning: false,
-  isSuspended: false,
   configuration: {
     autoAssemble: true,
     clockSpeed: ClockSpeed['4 Hz'],
     timerInterval: TimerInterval['2 seconds']
-  }
+  },
+  isRunning: false,
+  isSuspended: false
 }
 
 export const controllerSlice = createSlice({
   name: 'controller',
   initialState,
   reducers: {
-    setRunning: (state, action: PayloadAction<boolean>) => {
-      state.isRunning = action.payload
-    },
-    setSuspended: (state, action: PayloadAction<boolean>) => {
-      state.isSuspended = action.payload
-    },
     setAutoAssemble: (state, action: PayloadAction<boolean>) => {
       state.configuration.autoAssemble = action.payload
     },
@@ -76,13 +70,15 @@ export const controllerSlice = createSlice({
     },
     setTimerInterval: (state, action: PayloadAction<TimerInterval>) => {
       state.configuration.timerInterval = action.payload
+    },
+    setRunning: (state, action: PayloadAction<boolean>) => {
+      state.isRunning = action.payload
+    },
+    setSuspended: (state, action: PayloadAction<boolean>) => {
+      state.isSuspended = action.payload
     }
   }
 })
-
-export const selectIsRunning = (state: RootState): boolean => state.controller.isRunning
-
-export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
 export const selectAutoAssemble = (state: RootState): boolean =>
   state.controller.configuration.autoAssemble
@@ -100,7 +96,11 @@ export const selectRuntimeConfiguration = (
     state.controller.configuration
   )
 
-export const { setRunning, setSuspended, setAutoAssemble, setClockSpeed, setTimerInterval } =
+export const selectIsRunning = (state: RootState): boolean => state.controller.isRunning
+
+export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
+
+export const { setAutoAssemble, setClockSpeed, setTimerInterval, setRunning, setSuspended } =
   controllerSlice.actions
 
 // persist configuration
