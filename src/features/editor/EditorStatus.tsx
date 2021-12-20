@@ -30,7 +30,7 @@ const EditorStatus = (): JSX.Element | null => {
     assemblerError === null
       ? cpuFault === null
         ? shouldShowHalted
-          ? 'Info: CPU is halted'
+          ? 'Info: Program has halted'
           : null
         : `RuntimeError: ${cpuFault}`
       : `${assemblerError.type}: ${assemblerError.message}`
