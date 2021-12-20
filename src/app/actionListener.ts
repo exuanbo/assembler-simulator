@@ -31,6 +31,9 @@ export const addActionListener: AddActionListener = <P>(
   listeners.add(listener)
   return () => {
     listeners.delete(listener)
+    if (listeners.size === 0) {
+      subscriptions.delete(actionType)
+    }
   }
 }
 
