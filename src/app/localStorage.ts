@@ -1,37 +1,42 @@
 import type { PreloadedState } from '@reduxjs/toolkit'
+import { merge } from 'merge-anything'
+import type { PersistedState } from './selectors'
 import type { RootState } from './store'
+import { editorSlice } from '../features/editor/editorSlice'
+import { controllerSlice } from '../features/controller/controllerSlice'
 import { name } from '../../package.json'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
 
-export const loadState = (): PreloadedState<RootState> | undefined => {
+const __loadState = (): PersistedState => {
   try {
     const serializedState = localStorage.getItem(LOCAL_STORAGE_KEY)
-    return serializedState === null ? undefined : JSON.parse(serializedState)
+    return JSON.parse(serializedState ?? '{}')
   } catch {
-    return undefined
+    return {}
   }
 }
 
-const __saveState = (state: PreloadedState<RootState>): void => {
+// in case any future changes to the state structure
+const mergePersistedState = (persistedState: PersistedState): PreloadedState<RootState> =>
+  merge(
+    {
+      editor: editorSlice.getInitialState(),
+      controller: controllerSlice.getInitialState()
+    },
+    persistedState
+  )
+
+export const loadState = (): PreloadedState<RootState> | undefined => {
+  const persistedState = __loadState()
+  return mergePersistedState(persistedState)
+}
+
+export const saveState = (state: PersistedState): void => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(LOCAL_STORAGE_KEY, serializedState)
   } catch (err) {
     console.error(err)
   }
-}
-
-export const saveState = (state: RootState): void => {
-  __saveState({
-    editor: {
-      ...state.editor,
-      activeRange: null
-    },
-    controller: {
-      ...state.controller,
-      isRunning: false,
-      isSuspended: false
-    }
-  })
 }

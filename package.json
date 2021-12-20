@@ -32,6 +32,7 @@
     "@codemirror/stream-parser": "0.19.3",
     "@codemirror/view": "0.19.35",
     "@reduxjs/toolkit": "1.7.1",
+    "merge-anything": "4.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "7.2.6"

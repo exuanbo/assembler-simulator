@@ -25,8 +25,8 @@ const store = configureStore({
 
 const watch = createWatch(store)
 
-watch(selectStateToPersist, (_, getState) => {
-  saveState(getState())
+watch(selectStateToPersist, stateToPersist => {
+  saveState(stateToPersist)
 })
 
 export type RootState = ReturnType<typeof rootReducer>
