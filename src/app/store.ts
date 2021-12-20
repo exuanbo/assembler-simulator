@@ -5,9 +5,7 @@ import controllerReducer from '../features/controller/controllerSlice'
 import memoryReducer from '../features/memory/memorySlice'
 import cpuReducer from '../features/cpu/cpuSlice'
 import actionListenerMiddleware from './actionListener'
-import { loadState, saveState } from './localStorage'
-import { createWatch } from './watch'
-import { selectStateToPersist } from './selectors'
+import { loadState } from './localStorage'
 
 const rootReducer = combineReducers({
   editor: editorReducer,
@@ -21,12 +19,6 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(actionListenerMiddleware),
   preloadedState: loadState()
-})
-
-const watch = createWatch(store)
-
-watch(selectStateToPersist, stateToPersist => {
-  saveState(stateToPersist)
 })
 
 export type RootState = ReturnType<typeof rootReducer>
