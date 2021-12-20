@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
-import { saveState } from '../../app/localStorage'
-import { addActionListener } from '../../app/actionListener'
 import type { UnionToTuple } from '../../common/utils'
 
 export enum MemoryView {
@@ -119,6 +117,11 @@ export const selectIsRunning = (state: RootState): boolean => state.controller.i
 
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
+export const selectControllerStateToPersist = (
+  state: RootState
+): Pick<ControllerState, 'view' | 'configuration'> =>
+  (({ view, configuration }) => ({ view, configuration }))(state.controller)
+
 export const {
   setMemoryView,
   setAutoAssemble,
@@ -127,12 +130,5 @@ export const {
   setRunning,
   setSuspended
 } = controllerSlice.actions
-
-// persist configuration
-;[setMemoryView, setAutoAssemble, setClockSpeed, setTimerInterval].forEach(actionCreator => {
-  addActionListener(actionCreator, (_payload, api) => {
-    saveState(api.getState())
-  })
-})
 
 export default controllerSlice.reducer
