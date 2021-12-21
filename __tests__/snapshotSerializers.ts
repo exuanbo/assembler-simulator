@@ -13,10 +13,15 @@ export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
-  test: val => isArrayOf('number')(val) && val.length === 0x100,
-  serialize: (val: number[], _config, indentation) => `Array [
+  test: val => isArrayOf('number', 'string')(val) && val.length === 0x100,
+  serialize: (val: Array<number | string>, _config, indentation) => `Array [
 ${splitArrayPerChunk(val, 0x10)
-  .map(row => `${indentation}${' '.repeat(2)}${row.map(decToHex).join(SEPARATOR)}`)
+  .map(
+    row =>
+      `${indentation}${' '.repeat(2)}${row
+        .map(value => (typeof value === 'number' ? decToHex(value) : value))
+        .join(SEPARATOR)}`
+  )
   .join(',\n')}
 ${indentation}]`
 }

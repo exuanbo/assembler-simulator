@@ -1,7 +1,9 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { MemoryData, initData, initDataFrom } from './core'
+import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
+import { MemoryData, initData, initDataFrom, getSourceFrom } from './core'
 import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
+import { selectAddressToStatementMap } from '../assembler/assemblerSlice'
+import { splitArrayPerChunk } from '../../common/utils'
 
 interface MemoryState {
   data: MemoryData
@@ -30,6 +32,18 @@ export const memorySlice = createSlice({
 })
 
 export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
+
+export const selectMemoryDataRows = createSelector(selectMemoryData, memoryData =>
+  splitArrayPerChunk(memoryData, 0x10)
+)
+
+export const selectMemorySourceRows = createSelector(
+  selectAddressToStatementMap,
+  addressToStatementMap => {
+    const memorySource = getSourceFrom(addressToStatementMap)
+    return splitArrayPerChunk(memorySource, 0x10)
+  }
+)
 
 export const {
   setData: setMemoryData,
