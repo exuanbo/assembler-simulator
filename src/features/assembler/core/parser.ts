@@ -19,7 +19,7 @@ import {
   GeneralPurposeRegister,
   GeneralPurposeRegisterName
 } from '../../../common/constants'
-import { call, hexToDec, stringToAscii } from '../../../common/utils'
+import { hexToDec, stringToAscii, call } from '../../../common/utils'
 
 interface BaseNode {
   range: SourceRange
@@ -132,7 +132,7 @@ const validateLabel = (token: Token): Token => {
 }
 
 const parseLabel = (tokens: Token[], index: number): Label | null => {
-  if (!(tokens[index + 1]?.type === TokenType.Colon)) {
+  if (tokens[index + 1]?.type !== TokenType.Colon) {
     return null
   }
   return createLabel(validateLabel(tokens[index]))
@@ -156,8 +156,12 @@ const parseSingleOperand =
     }
 
     const token = tokens[index]
-    const isExpected = (type: OperandType): boolean => expectedTypes.includes(type as T)
-    const createOperand = (type: OperandType, token: Token): Operand<T> => __createOperand(type as T, token) // prettier-ignore
+
+    const isExpected = (type: OperandType): boolean =>
+      (expectedTypes as OperandType[]).includes(type)
+
+    const createOperand = (type: OperandType, token: Token): Operand<T> =>
+      __createOperand(type as T, token)
 
     switch (token.type) {
       case TokenType.Digits:
