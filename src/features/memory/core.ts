@@ -1,6 +1,4 @@
 import type { AddressToMachineCodeMap, AddressToStatementMap } from '../assembler/core'
-// TODO: OperandType should not be imported from here
-import { OperandType } from '../assembler/core/parser'
 import { Mnemonic } from '../../common/constants'
 
 export type MemoryData = number[]
@@ -25,10 +23,13 @@ export const getSourceFrom = (map: AddressToStatementMap): string[] => {
     const statement = map[address]
     const { instruction, operands } = statement
     if (instruction.mnemonic === Mnemonic.DB) {
-      if (operands[0].type === OperandType.Number) {
-        source[address] = operands[0].rawValue
+      const operand = operands[0]
+      // if (operand.type === OperandType.Number)
+      if (typeof operand.value === 'number') {
+        source[address] = operand.rawValue
       } else {
-        operands[0].rawValue.split('').forEach((char, index) => {
+        // if (operand.type === OperandType.String)
+        operand.rawValue.split('').forEach((char, index) => {
           source[addressNumber + index] = char
         })
       }
@@ -37,7 +38,7 @@ export const getSourceFrom = (map: AddressToStatementMap): string[] => {
       const nextAddress = addressNumber + 1
       operands.forEach((operand, index) => {
         const { rawValue } = operand
-        // TODO: Operand.rawValue should contain brackets
+        // Address or RegisterAddress
         source[nextAddress + index] = operand.type.endsWith('Address') ? `[${rawValue}]` : rawValue
       })
     }
