@@ -9,8 +9,8 @@ interface Props {
   className: string
 }
 
-const HeaderBar = ({ className }: Props): JSX.Element => (
-  <header
+const ToolBar = ({ className }: Props): JSX.Element => (
+  <div
     className={`border-b flex bg-gray-100 h-8 w-full z-2 fixed items-center justify-between ${className}`}>
     <div className="divide-x flex">
       <FileMenu />
@@ -19,7 +19,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => (
       <ControlButtons />
     </div>
     <div className="flex space-x-2 px-2 items-center">
-      <span className="min-w-max">Assembler Simulator</span>
+      <h1 className="min-w-max">Assembler Simulator</h1>
       <a
         href="https://github.com/exuanbo/assembler-simulator"
         rel="noopener noreferrer"
@@ -27,7 +27,7 @@ const HeaderBar = ({ className }: Props): JSX.Element => (
         <Github className="h-1.2rem" />
       </a>
     </div>
-  </header>
+  </div>
 )
 
-export default HeaderBar
+export default ToolBar
