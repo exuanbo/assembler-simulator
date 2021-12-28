@@ -60,6 +60,7 @@ const tokenMatchers = [
   matchRegExp(/^\d+\b/, TokenType.Digits),
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
+  // TODO: support escaping
   matchRegExp(/^".*"/, TokenType.String),
   matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
 ]
