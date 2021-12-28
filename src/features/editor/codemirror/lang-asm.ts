@@ -16,8 +16,19 @@ const MNEMONIC_REGEXP = new RegExp(
     .join('|')})\\b`
 )
 
-const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: boolean }>({
+interface State {
+  end: boolean
+  operandsLeft: number
+  expectLabel: boolean
+}
+
+const asmLanguage = StreamLanguage.define<State>({
   token(stream, state) {
+    if (state.end) {
+      stream.skipToEnd()
+      return 'comment'
+    }
+
     if (stream.eatSpace() || stream.eat(/[,[\]:]/)) {
       return null
     }
@@ -34,6 +45,9 @@ const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
     if (state.operandsLeft === 0) {
       if (stream.match(MNEMONIC_REGEXP)) {
         const mnemonic = stream.current().toUpperCase() as Mnemonic
+        if (mnemonic === Mnemonic.END) {
+          state.end = true
+        }
         state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
         state.expectLabel = mnemonic.startsWith('J')
         return 'keyword'
@@ -69,6 +83,7 @@ const asmLanguage = StreamLanguage.define<{ operandsLeft: number; expectLabel: b
 
   startState() {
     return {
+      end: false,
       operandsLeft: 0,
       expectLabel: false
     }
