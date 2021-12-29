@@ -30,6 +30,8 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
       case TokenType.Address:
       case TokenType.Unknown:
         return normalizedValue.toUpperCase()
+      case TokenType.String:
+        return JSON.parse(`"${normalizedValue}"`) // manually escape
       default:
         return normalizedValue
     }
@@ -60,8 +62,7 @@ const tokenMatchers = [
   matchRegExp(/^\d+\b/, TokenType.Digits),
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
-  // TODO: support escaping
-  matchRegExp(/^".*"/, TokenType.String),
+  matchRegExp(/^".*?(?<!\\)"/, TokenType.String),
   matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
 ]
 

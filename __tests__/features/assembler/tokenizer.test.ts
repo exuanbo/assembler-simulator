@@ -33,6 +33,6 @@ describe('tokenizer', () => {
   })
 
   it('should tokenize string', () => {
-    expect(tokenize('""\n"this is a string"')).toMatchSnapshot()
+    expect(tokenize('"" "this is a string" "\\"" "\\n"')).toMatchSnapshot()
   })
 })

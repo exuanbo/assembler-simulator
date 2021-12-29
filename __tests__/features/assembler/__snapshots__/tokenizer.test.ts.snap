@@ -235,5 +235,24 @@ Array [
     "type": "String",
     "value": "this is a string",
   },
+  Object {
+    "range": Object {
+      "from": 22,
+      "to": 26,
+    },
+    "raw": "\\"\\\\\\"\\"",
+    "type": "String",
+    "value": "\\"",
+  },
+  Object {
+    "range": Object {
+      "from": 27,
+      "to": 31,
+    },
+    "raw": "\\"\\\\n\\"",
+    "type": "String",
+    "value": "
+",
+  },
 ]
 `;
