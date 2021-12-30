@@ -5,17 +5,6 @@ import { StreamLanguage } from '@codemirror/stream-parser'
 import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
 import { Mnemonic, MnemonicToOperandsCountMap } from '../../../common/constants'
 
-const MNEMONIC_REGEXP = new RegExp(
-  `^(?:${Object.keys(Mnemonic)
-    .map(mnemonic =>
-      mnemonic
-        .split('')
-        .map(char => `[${char.toLowerCase()}${char}]`)
-        .join('')
-    )
-    .join('|')})\\b`
-)
-
 interface State {
   end: boolean
   operandsLeft: number
@@ -43,14 +32,18 @@ const asmLanguage = StreamLanguage.define<State>({
     }
 
     if (state.operandsLeft === 0) {
-      if (stream.match(MNEMONIC_REGEXP)) {
-        const mnemonic = stream.current().toUpperCase() as Mnemonic
+      const currentToken = (stream.match(/^\S+/) as RegExpMatchArray)[0]
+      const upperCaseToken = currentToken.toUpperCase()
+      if (upperCaseToken in Mnemonic) {
+        const mnemonic = upperCaseToken as Mnemonic
         if (mnemonic === Mnemonic.END) {
           state.end = true
         }
         state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
         state.expectLabel = mnemonic.startsWith('J')
         return 'keyword'
+      } else {
+        stream.backUp(currentToken.length)
       }
     } else if (state.operandsLeft > 0) {
       if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
@@ -77,7 +70,7 @@ const asmLanguage = StreamLanguage.define<State>({
       }
     }
 
-    stream.eatWhile(/\S+/)
+    stream.eatWhile(/\S/)
     return null
   },
 
