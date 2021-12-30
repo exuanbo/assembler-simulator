@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Registers, initRegisters, InputPort, InputSignals } from './core'
+import { Registers, initRegisters } from './core'
 import type { RootState } from '../../app/store'
 
 interface Status {
@@ -10,7 +10,6 @@ interface Status {
 interface CpuState {
   status: Status
   registers: Registers
-  inputSignals: InputSignals
 }
 
 const initialState: CpuState = {
@@ -18,12 +17,7 @@ const initialState: CpuState = {
     fault: null,
     halted: false
   },
-  registers: initRegisters(),
-  inputSignals: {
-    data: undefined,
-    inputPort: undefined,
-    interrupt: false
-  }
+  registers: initRegisters()
 }
 
 export const cpuSlice = createSlice({
@@ -39,18 +33,6 @@ export const cpuSlice = createSlice({
     setRegisters: (state, action: PayloadAction<Registers>) => {
       state.registers = action.payload
     },
-    setInput: (state, action: PayloadAction<{ data: number; inputPort: InputPort }>) => {
-      const { data, inputPort } = action.payload
-      state.inputSignals.data = data
-      state.inputSignals.inputPort = inputPort
-    },
-    clearInput: state => {
-      state.inputSignals.data = undefined
-      state.inputSignals.inputPort = undefined
-    },
-    setInterrupt: (state, action: PayloadAction<boolean>) => {
-      state.inputSignals.interrupt = action.payload
-    },
     reset: () => initialState
   }
 })
@@ -64,15 +46,10 @@ export const selectCpuRegisters = (state: RootState): Registers => state.cpu.reg
 export const selectCpuPointerRegisters = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
   (({ ip, sp }) => ({ ip, sp }))(state.cpu.registers)
 
-export const selectCpuInputSignals = (state: RootState): InputSignals => state.cpu.inputSignals
-
 export const {
   setFault: setCpuFault,
   setHalted: setCpuHalted,
   setRegisters: setCpuRegisters,
-  setInput: setCpuInput,
-  clearInput: clearCpuInput,
-  setInterrupt: setCpuInterrupt,
   reset: resetCpu
 } = cpuSlice.actions
 

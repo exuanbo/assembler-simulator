@@ -27,9 +27,21 @@ Array [
     "sr": Array [0, 0, 0, 1],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": true,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": true,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -61,9 +73,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -95,9 +119,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -129,9 +165,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -163,9 +211,21 @@ Array [
     "sr": Array [0, 1, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -197,9 +257,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -231,9 +303,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -265,9 +349,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -299,9 +395,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -333,9 +441,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -367,10 +487,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "closeWindows": true,
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": true,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -402,9 +533,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -436,9 +579,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -470,9 +625,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -504,9 +671,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -538,9 +717,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -572,9 +763,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -606,10 +809,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "halted": true,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": true,
+    },
   },
 ]
 `;
@@ -641,9 +855,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": 0,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": 0,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -675,9 +901,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": 97,
-    "inputPort": 0,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": 97,
+        "port": 0,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -709,9 +947,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -743,9 +993,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -777,9 +1039,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -811,9 +1085,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -845,9 +1131,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -879,9 +1177,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -913,9 +1223,21 @@ Array [
     "sr": Array [0, 1, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -947,9 +1269,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -981,9 +1315,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1015,9 +1361,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1049,9 +1407,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1083,9 +1453,21 @@ Array [
     "sr": Array [0, 1, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1117,9 +1499,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1151,9 +1545,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1185,9 +1591,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1219,9 +1637,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1253,9 +1683,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1287,9 +1729,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1321,9 +1775,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1355,9 +1821,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1389,9 +1867,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1423,9 +1913,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1457,9 +1959,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1491,9 +2005,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1525,9 +2051,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1559,9 +2097,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1593,9 +2143,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1627,9 +2189,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1661,9 +2235,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1695,9 +2281,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1729,10 +2327,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
-    "outputPort": 1,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": 1,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1764,9 +2373,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1798,9 +2419,21 @@ Array [
     "sr": Array [0, 1, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1832,9 +2465,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1866,9 +2511,21 @@ Array [
     "sr": Array [0, 1, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1900,9 +2557,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1934,9 +2603,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -1968,9 +2649,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2002,9 +2695,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2036,9 +2741,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2070,9 +2787,21 @@ Array [
     "sr": Array [0, 0, 0, 1],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2104,9 +2833,21 @@ Array [
     "sr": Array [0, 0, 1, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2138,9 +2879,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2172,9 +2925,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2206,9 +2971,21 @@ Array [
     "sr": Array [0, 1, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2240,9 +3017,21 @@ Array [
     "sr": Array [1, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2274,9 +3063,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;
@@ -2308,9 +3109,21 @@ Array [
     "sr": Array [0, 0, 0, 0],
   },
   Object {
-    "data": undefined,
-    "inputPort": undefined,
-    "interrupt": false,
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+    },
   },
 ]
 `;

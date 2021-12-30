@@ -2,7 +2,8 @@ import { createNextState } from '@reduxjs/toolkit'
 import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 import { assemble } from '../../src/features/assembler/core'
 import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
-import { Registers, InputSignals, initRegisters, step as __step } from '../../src/features/cpu/core'
+import { Registers, initRegisters, step as __step } from '../../src/features/cpu/core'
+import { Signals, initialSignals } from '../../src/features/io/core'
 import { Opcode, GeneralPurposeRegister } from '../../src/common/constants'
 
 expect.addSnapshotSerializer(shortArraySerializer)
@@ -20,11 +21,7 @@ const initialRegisters = initRegisters()
 const step = (
   memoryData: MemoryData,
   cpuRegisters: Registers,
-  signals: InputSignals = {
-    data: undefined,
-    inputPort: undefined,
-    interrupt: false
-  }
+  signals: Signals = initialSignals
 ): ReturnType<typeof __step> => __step(memoryData, cpuRegisters, signals)
 
 describe('cpu', () => {
@@ -606,11 +603,14 @@ describe('cpu', () => {
 
       it('should read input from signal and move to AL', () => {
         expect(
-          step(memoryData, initialRegisters, {
-            data: 0x61,
-            inputPort: 0x00,
-            interrupt: false
-          })
+          step(
+            memoryData,
+            initialRegisters,
+            createNextState(initialSignals, draft => {
+              draft.input.data.content = 0x61
+              draft.input.data.port = 0x00
+            })
+          )
         ).toMatchSnapshot()
       })
 
@@ -638,11 +638,13 @@ end
         draft.sr = [0, 0, 0, 1]
       })
       expect(
-        step(memoryData, cpuRegisters, {
-          data: undefined,
-          inputPort: undefined,
-          interrupt: true
-        })
+        step(
+          memoryData,
+          cpuRegisters,
+          createNextState(initialSignals, draft => {
+            draft.input.interrupt = true
+          })
+        )
       ).toMatchSnapshot()
     })
 

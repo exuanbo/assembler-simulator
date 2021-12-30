@@ -1,3 +1,7 @@
+export type Nullable<T> = {
+  [P in keyof T]: T[P] | null
+}
+
 export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
   ? Excluded
   : []

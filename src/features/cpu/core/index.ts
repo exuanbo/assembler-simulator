@@ -25,6 +25,7 @@ import {
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '../../memory/core'
+import { Signals, MAX_PORT, PortType } from '../../io/core'
 import { Opcode, GeneralPurposeRegister, MAX_SP } from '../../../common/constants'
 import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
@@ -119,53 +120,6 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-export enum InputPort {
-  SimulatedKeyboard = 0,
-  Thermostat = 3,
-  Keyboard = 7,
-  NumericKeypad = 8
-}
-
-export type InputSignals = (
-  | {
-      data: number
-      inputPort: InputPort
-    }
-  | {
-      data: undefined
-      inputPort: undefined
-    }
-) & {
-  interrupt: boolean
-  // TODO: interruptVectorAddress
-}
-
-enum OutputPort {
-  TrafficLights = 1,
-  SevenSegmentDisplay = 2,
-  Heater = 3,
-  SnakeInMaze = 4,
-  StepperMotor = 5,
-  Lift = 6,
-  Keyboard = 7,
-  NumericKeypad = 8
-}
-
-type OutputOnlySignals = Partial<{
-  halted: true
-  outputPort: OutputPort
-  closeWindows: true
-}>
-
-type Signals = InputSignals & OutputOnlySignals
-
-enum PortType {
-  Input = 'input',
-  Output = 'output'
-}
-
-const MAX_PORT = 0x0f
-
 const checkPort = (port: number): number => {
   if (port < 0 || port > MAX_PORT) {
     throw new InvalidPortError(port)
@@ -242,21 +196,15 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     }
 
     const getSignals = (): Signals => signals
-    const setSignal = <S extends keyof Signals>(
-      signalName: S,
-      value: NonNullable<Signals[S]>
-    ): void => {
-      signals[signalName] = value
-    }
-    const setPort = (type: PortType, port: number): void => {
-      setSignal(`${type}Port`, port)
+    const setDataSignalPort = (type: PortType, port: number): void => {
+      signals[type].data.port = port
     }
     const setHaltedSignal = (): void => {
-      setSignal('halted', true)
+      signals.output.halted = true
     }
-    const getInterruptSignal = (): boolean => signals.interrupt
+    const getInterruptSignal = (): boolean => signals.input.interrupt
     const setCloseWindowsSignal = (): void => {
-      setSignal('closeWindows', true)
+      signals.output.closeWindows = true
     }
 
     /* -------------------------------------------------------------------------- */
@@ -593,20 +541,20 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
 
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
-        const { data, inputPort } = getSignals()
+        const { content: dataContent, port } = getSignals().input.data
         const requiredPort = checkPort(loadFromMemory(getNextIP()))
-        if (data === undefined || inputPort !== requiredPort) {
-          setPort(PortType.Input, requiredPort)
+        if (dataContent === null || port !== requiredPort) {
+          setDataSignalPort(PortType.Input, requiredPort)
           break
         }
-        setGPR(GeneralPurposeRegister.AL, data)
+        setGPR(GeneralPurposeRegister.AL, dataContent)
         incIP(2)
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
         const port = checkPort(loadFromMemory(incIP()))
         incIP()
-        setPort(PortType.Output, port)
+        setDataSignalPort(PortType.Output, port)
         break
       }
 

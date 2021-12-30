@@ -1,13 +1,20 @@
 import React, { useRef } from 'react'
 import { createPortal } from 'react-dom'
+// TODO: remove batch from React 18
+import { batch } from 'react-redux'
 import { useSelector, useDispatch } from '../../app/hooks'
 import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
-import { setCpuInput } from '../cpu/cpuSlice'
-import { InputPort } from '../cpu/core'
+import {
+  selectIsWaitingForKeyboardInput,
+  setWaitingForKeyboardInput,
+  setInputData
+} from './ioSlice'
+import { InputPort } from './core'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
   const inputRef = useRef<HTMLInputElement>(null)
   const isSuspended = useSelector(selectIsSuspended)
+  const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
   const dispatch = useDispatch()
 
   const focusInput: React.FocusEventHandler<HTMLInputElement> = () => {
@@ -17,15 +24,18 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const key = target.value
     dispatch(
-      setCpuInput({
-        data: key.charCodeAt(0),
-        inputPort: InputPort.SimulatedKeyboard
+      setInputData({
+        content: key.charCodeAt(0),
+        port: InputPort.SimulatedKeyboard
       })
     )
-    dispatch(setSuspended(false))
+    batch(() => {
+      dispatch(setSuspended(false))
+      dispatch(setWaitingForKeyboardInput(false))
+    })
   }
 
-  return isSuspended
+  return isSuspended && isWaitingForKeyboardInput
     ? createPortal(
         <div className="bg-black flex font-mono h-screen bg-opacity-80 w-screen z-1 absolute items-center justify-center">
           <div className="rounded bg-light-50 py-2 px-4">Waiting for keyboard input</div>

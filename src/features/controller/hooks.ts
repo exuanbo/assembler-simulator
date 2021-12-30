@@ -28,14 +28,18 @@ import { RuntimeError } from '../cpu/core/exceptions'
 import {
   selectCpuStatus,
   selectCpuRegisters,
-  selectCpuInputSignals,
   setCpuFault,
   setCpuHalted,
   setCpuRegisters,
-  setCpuInterrupt,
-  clearCpuInput,
   resetCpu
 } from '../cpu/cpuSlice'
+import { InputPort } from '../io/core'
+import {
+  selectSignals,
+  setWaitingForKeyboardInput,
+  setInterrupt,
+  clearInputData
+} from '../io/ioSlice'
 
 let stepIntervalId: number
 let interruptIntervalId: number
@@ -105,7 +109,7 @@ export const useController = (): Controller => {
   const setMainLoop = (): void => {
     stepIntervalId = window.setInterval(step, 1000 / clockSpeed)
     interruptIntervalId = window.setInterval(() => {
-      dispatch(setCpuInterrupt(true))
+      dispatch(setInterrupt(true))
     }, timerInterval)
   }
 
@@ -154,7 +158,7 @@ export const useController = (): Controller => {
       try {
         stepResultWithSignals = __step(
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
-          selectCpuInputSignals(state)
+          selectSignals(state)
         )
       } catch (err) {
         stopIfRunning(state)
@@ -167,7 +171,7 @@ export const useController = (): Controller => {
         // TODO: handle unexpected runtime errors
         throw err
       }
-      const [memoryData, registers, outputSignals] = stepResultWithSignals
+      const [memoryData, registers, signals] = stepResultWithSignals
       const instructionAdress = registers.ip
       const statement = selectAddressToStatementMap(state)[instructionAdress]
       const hasStatement = statement?.machineCode.every(
@@ -188,26 +192,34 @@ export const useController = (): Controller => {
         willDispatchChanges = true
         dispatchChanges()
       }
+      const { interrupt, data: inputData } = signals.input
+      const { content: inputDataContent, port: inputDataPort } = inputData
       // TODO: handle output signals
-      const { halted = false, interrupt, data, inputPort } = outputSignals
-      if (halted) {
+      const { halted: shouldHalt = false /*, data: outputData */ } = signals.output
+      if (shouldHalt) {
         stopIfRunning(state)
         dispatch(setCpuHalted(true))
         resolve(undefined)
         return
       }
       if (interrupt) {
-        dispatch(setCpuInterrupt(false))
+        dispatch(setInterrupt(false))
       }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
-      if (inputPort !== undefined) {
-        if (data === undefined) {
+      if (inputDataPort !== null) {
+        if (inputDataContent === null) {
           willSuspend = true
           if (isRunning) {
             cancelMainLoop()
           }
-          dispatch(setSuspended(true))
+          batch(() => {
+            dispatch(setSuspended(true))
+            switch (inputDataPort) {
+              case InputPort.SimulatedKeyboard:
+                dispatch(setWaitingForKeyboardInput(true))
+            }
+          })
           removeSetSuspendedListener = addActionListener(setSuspended, () => {
             removeSetSuspendedListener()
             if (isRunning) {
@@ -216,7 +228,7 @@ export const useController = (): Controller => {
             void step()
           })
         } else {
-          dispatch(clearCpuInput())
+          dispatch(clearInputData())
         }
       }
       const breakpoints = selectEditorBreakpoints(state)
