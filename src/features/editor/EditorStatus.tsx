@@ -36,7 +36,7 @@ const EditorStatus = (): JSX.Element | null => {
       : `${assemblerError.type}: ${assemblerError.message}`
 
   return message === null ? null : (
-    <div className={`${shouldShowHalted ? 'bg-blue-500' : 'bg-red-500'} py-1 px-3 text-light-100`}>
+    <div className={`${shouldShowHalted ? 'bg-blue-500' : 'bg-red-500'} py-1 px-2 text-light-100`}>
       {message}
     </div>
   )
