@@ -33,6 +33,10 @@ export const memorySlice = createSlice({
 
 export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
 
+export const selectVduBuffer = createSelector(selectMemoryData, memoryData =>
+  memoryData.slice(0xc0)
+)
+
 export const selectMemoryDataRows = createSelector(selectMemoryData, memoryData =>
   splitArrayPerChunk(memoryData, 0x10)
 )

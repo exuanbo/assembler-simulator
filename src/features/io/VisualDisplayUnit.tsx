@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '../../common/components/Card'
 import { useShallowEqualSelector } from '../../app/hooks'
-import { selectVduBuffer } from './selectors'
+import { selectVduBuffer } from '../memory/memorySlice'
 import { NO_BREAK_SPACE } from '../../common/constants'
 import { asciiToChars, splitArrayPerChunk } from '../../common/utils'
 
