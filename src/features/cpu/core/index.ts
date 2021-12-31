@@ -199,6 +199,9 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     const setDataSignalPort = (type: PortType, port: number): void => {
       signals[type].data.port = port
     }
+    const setDataSignalContent = (type: PortType, content: number): void => {
+      signals[type].data.content = content
+    }
     const setHaltedSignal = (): void => {
       signals.output.halted = true
     }
@@ -553,8 +556,9 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
         const port = checkPort(loadFromMemory(incIP()))
-        incIP()
         setDataSignalPort(PortType.Output, port)
+        setDataSignalContent(PortType.Output, getGPR(GeneralPurposeRegister.AL))
+        incIP()
         break
       }
 

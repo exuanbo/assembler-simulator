@@ -2321,7 +2321,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
   ],
   Object {
-    "gpr": Array [0, 0, 0, 0],
+    "gpr": Array [1, 0, 0, 0],
     "ip": 2,
     "sp": 191,
     "sr": Array [0, 0, 0, 0],
@@ -2337,7 +2337,7 @@ Array [
     "output": Object {
       "closeWindows": false,
       "data": Object {
-        "content": null,
+        "content": 1,
         "port": 1,
       },
       "halted": false,

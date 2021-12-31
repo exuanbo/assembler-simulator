@@ -624,7 +624,10 @@ describe('cpu', () => {
 
     it('with OUT should create signal with output port', () => {
       const memoryData = getMemoryData('out 01 end')
-      expect(step(memoryData, initialRegisters)).toMatchSnapshot()
+      const cpuRegisters = createNextState(initialRegisters, draft => {
+        draft.gpr = [1, 0, 0, 0]
+      })
+      expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })
 
     it('should call INT if interrupt flag is set and receives an interrupt signal', () => {
