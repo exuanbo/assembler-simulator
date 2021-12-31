@@ -9,7 +9,7 @@ const isArrayOf =
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: val => isArrayOf('number', 'boolean')(val) && val.length <= 4,
-  serialize: (val: Array<number | boolean>) => `Array [${val.join(SEPARATOR)}]`
+  serialize: (val: Array<number | boolean>) => `Array [${val.join(SEPARATOR)},]`
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
@@ -22,6 +22,6 @@ ${splitArrayPerChunk(val, 0x10)
         .map(value => (typeof value === 'number' ? decToHex(value) : value))
         .join(SEPARATOR)}`
   )
-  .join(',\n')}
+  .join(',\n')},
 ${indentation}]`
 }
