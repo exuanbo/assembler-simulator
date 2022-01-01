@@ -1,24 +1,23 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { Signals, InputPort, initialSignals } from './core'
 import type { RootState } from '../../app/store'
 
 interface IoState {
-  isWaitingForKeyboardInput: boolean
   signals: Signals
+  isWaitingForKeyboardInput: boolean
+  trafficLightsData: number
 }
 
 const initialState: IoState = {
+  signals: initialSignals,
   isWaitingForKeyboardInput: false,
-  signals: initialSignals
+  trafficLightsData: 0
 }
 
 export const ioSlice = createSlice({
   name: 'io',
   initialState,
   reducers: {
-    setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
-      state.isWaitingForKeyboardInput = action.payload
-    },
     setInputData: (state, action: PayloadAction<{ content: number; port: InputPort }>) => {
       const { content, port } = action.payload
       state.signals.input.data.content = content
@@ -36,22 +35,36 @@ export const ioSlice = createSlice({
     },
     clearRequiredInputDataPort: state => {
       state.signals.output.requiredInputDataPort = null
-    }
+    },
+    setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
+      state.isWaitingForKeyboardInput = action.payload
+    },
+    setTrafficLightsData: (state, action: PayloadAction<number>): void => {
+      state.trafficLightsData = action.payload
+    },
+    reset: () => initialState
   }
 })
+
+export const selectSignals = (state: RootState): Signals => state.io.signals
 
 export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
   state.io.isWaitingForKeyboardInput
 
-export const selectSignals = (state: RootState): Signals => state.io.signals
+export const selectTrafficLightsDataDigits = createSelector(
+  (state: RootState) => state.io.trafficLightsData,
+  trafficLightsData => trafficLightsData.toString(2).padStart(8, '0').split('').map(Number)
+)
 
 export const {
-  setWaitingForKeyboardInput,
   setInputData,
   clearInputData,
   setInterrupt,
   setRequiredInputDataPort,
-  clearRequiredInputDataPort
+  clearRequiredInputDataPort,
+  setWaitingForKeyboardInput,
+  setTrafficLightsData,
+  reset: resetIo
 } = ioSlice.actions
 
 export default ioSlice.reducer

@@ -2,6 +2,7 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import SimulatedKeyboard from './SimulatedKeyboard'
 import VisualDisplayUnit from './VisualDisplayUnit'
+import TrafficLights from './TrafficLights'
 import { EyeClosed, EyeOpen } from '../../common/components/icons'
 import { useToggle } from '../../common/hooks'
 
@@ -20,8 +21,9 @@ const IoDevices = ({ className }: Props): JSX.Element => {
       onIconClick={toggleActive}>
       <SimulatedKeyboard />
       {isActive && (
-        <div>
+        <div className="flex items-start">
           <VisualDisplayUnit />
+          <TrafficLights />
         </div>
       )}
     </Card>

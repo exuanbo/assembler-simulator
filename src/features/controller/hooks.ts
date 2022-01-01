@@ -34,14 +34,16 @@ import {
   setCpuRegisters,
   resetCpu
 } from '../cpu/cpuSlice'
-import { InputPort } from '../io/core'
+import { InputPort, OutputPort } from '../io/core'
 import {
   selectSignals,
-  setWaitingForKeyboardInput,
   clearInputData,
   setInterrupt,
   setRequiredInputDataPort,
-  clearRequiredInputDataPort
+  clearRequiredInputDataPort,
+  setWaitingForKeyboardInput,
+  setTrafficLightsData,
+  resetIo
 } from '../io/ioSlice'
 
 let stepIntervalId: number
@@ -196,8 +198,7 @@ export const useController = (): Controller => {
         dispatchChanges()
       }
       const { data: inputData, interrupt } = signals.input
-      // TODO: handle output data
-      const { requiredInputDataPort, halted: shouldHalt = false } = signals.output
+      const { requiredInputDataPort, data: outputData, halted: shouldHalt = false } = signals.output
       if (interrupt) {
         dispatch(setInterrupt(false))
       }
@@ -233,6 +234,13 @@ export const useController = (): Controller => {
           })
         } else {
           dispatch(clearInputData())
+        }
+      }
+      if (outputData.content !== null) {
+        const { content: outputDataContent, port: outputDataPort } = outputData
+        switch (outputDataPort) {
+          case OutputPort.TrafficLights:
+            dispatch(setTrafficLightsData(outputDataContent))
         }
       }
       const breakpoints = selectEditorBreakpoints(state)
@@ -275,6 +283,7 @@ export const useController = (): Controller => {
       dispatch(resetCpu())
       dispatch(resetAssembler())
       dispatch(clearEditorActiveRange())
+      dispatch(resetIo())
     })
   }
 
