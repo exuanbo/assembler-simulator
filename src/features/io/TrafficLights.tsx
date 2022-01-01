@@ -27,20 +27,20 @@ const TrafficLights = (): JSX.Element => {
           </g>
           <g fill="none" stroke="white" strokeWidth="2">
             {/* Left */}
-            <path d="M 44 44 L 36 44 L 36 132 L 52 132 L 52 180 L 100 180 L 100 200" />
-            <path d="M 44 76 L 40 76 L 40 128 L 56 128 L 56 176 L 116 176 L 116 200" />
-            <path d="M 68 108 L 72 108 L 72 132 L 60 132 L 60 172 L 132 172 L 132 200" />
+            <path d="M 44 44 L 36 44 L 36 132 L 52 132 L 52 180 L 104 180 L 104 200" />
+            <path d="M 44 76 L 40 76 L 40 128 L 56 128 L 56 176 L 120 176 L 120 200" />
+            <path d="M 68 108 L 72 108 L 72 132 L 60 132 L 60 172 L 136 172 L 136 200" />
             {/* Right */}
-            <path d="M 252 44 L 244 44 L 244 132 L 260 132 L 260 172 L 148 172 L 148 200" />
-            <path d="M 252 76 L 248 76 L 248 128 L 264 128 L 264 176 L 164 176 L 164 200" />
-            <path d="M 276 108 L 280 108 L 280 132 L 268 132 L 268 180 L 180 180 L 180 200" />
+            <path d="M 252 44 L 244 44 L 244 132 L 260 132 L 260 172 L 152 172 L 152 200" />
+            <path d="M 252 76 L 248 76 L 248 128 L 264 128 L 264 176 L 168 176 L 168 200" />
+            <path d="M 276 108 L 280 108 L 280 132 L 268 132 L 268 180 L 184 180 L 184 200" />
             {/* Redundant */}
-            <path d="M 196 200 L 196 184 L 284 184 L 284 160" />
-            <path d="M 212 200 L 212 188 L 288 188 L 288 164" />
+            <path d="M 200 200 L 200 184 L 284 184 L 284 160" />
+            <path d="M 216 200 L 216 188 L 288 188 L 288 164" />
           </g>
           <g fill="#fff">
             {range(8).map(index => (
-              <rect key={index} height="8" width="8" x={96 + index * 16} y="200" />
+              <rect key={index} height="8" width="8" x={100 + index * 16} y="200" />
             ))}
           </g>
           <g className="font-mono" fill="#fff" textAnchor="middle">
@@ -55,7 +55,7 @@ const TrafficLights = (): JSX.Element => {
         <g className="font-mono" fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
           {dataDigits.map((digit, index) => (
-            <text key={index} x={100 + index * 16} y="224">
+            <text key={index} x={104 + index * 16} y="224">
               {digit}
             </text>
           ))}
