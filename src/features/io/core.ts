@@ -1,11 +1,4 @@
-import type { Nullable } from '../../common/utils'
-
 export const MAX_PORT = 0x0f
-
-export enum PortType {
-  Input = 'input',
-  Output = 'output'
-}
 
 export enum InputPort {
   SimulatedKeyboard = 0,
@@ -14,10 +7,15 @@ export enum InputPort {
   NumericKeypad = 8
 }
 
-type InputData = Nullable<{
-  content: number
-  port: InputPort
-}>
+type InputData =
+  | {
+      content: number
+      port: InputPort
+    }
+  | {
+      content: null
+      port: null
+    }
 
 export interface InputSignals {
   data: InputData
@@ -36,12 +34,18 @@ export enum OutputPort {
   NumericKeypad = 8
 }
 
-type OutputData = Nullable<{
-  content: number
-  port: OutputPort
-}>
+type OutputData =
+  | {
+      content: number
+      port: OutputPort
+    }
+  | {
+      content: null
+      port: null
+    }
 
 export interface OutputSignals {
+  requiredInputDataPort: InputPort | null
   data: OutputData
   halted: boolean
   closeWindows: boolean
@@ -61,6 +65,7 @@ export const initialSignals: Signals = {
     interrupt: false
   },
   output: {
+    requiredInputDataPort: null,
     data: {
       content: null,
       port: null

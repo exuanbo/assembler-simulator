@@ -37,8 +37,10 @@ import { InputPort } from '../io/core'
 import {
   selectSignals,
   setWaitingForKeyboardInput,
+  clearInputData,
   setInterrupt,
-  clearInputData
+  setRequiredInputDataPort,
+  clearRequiredInputDataPort
 } from '../io/ioSlice'
 
 let stepIntervalId: number
@@ -192,40 +194,41 @@ export const useController = (): Controller => {
         willDispatchChanges = true
         dispatchChanges()
       }
-      const { interrupt, data: inputData } = signals.input
-      const { content: inputDataContent, port: inputDataPort } = inputData
-      // TODO: handle output signals
-      const { halted: shouldHalt = false /*, data: outputData */ } = signals.output
+      const { data: inputData, interrupt } = signals.input
+      // TODO: handle output data
+      const { requiredInputDataPort, halted: shouldHalt = false } = signals.output
+      if (interrupt) {
+        dispatch(setInterrupt(false))
+      }
       if (shouldHalt) {
         stopIfRunning(state)
         dispatch(setCpuHalted(true))
         resolve(undefined)
         return
       }
-      if (interrupt) {
-        dispatch(setInterrupt(false))
-      }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
-      if (inputDataPort !== null) {
-        if (inputDataContent === null) {
+      if (requiredInputDataPort !== null) {
+        if (inputData.content === null) {
+          dispatch(setRequiredInputDataPort(requiredInputDataPort))
           willSuspend = true
           if (isRunning) {
             cancelMainLoop()
           }
           batch(() => {
             dispatch(setSuspended(true))
-            switch (inputDataPort) {
+            switch (requiredInputDataPort) {
               case InputPort.SimulatedKeyboard:
                 dispatch(setWaitingForKeyboardInput(true))
             }
           })
-          removeSetSuspendedListener = addActionListener(setSuspended, () => {
+          removeSetSuspendedListener = addActionListener(setSuspended, async () => {
             removeSetSuspendedListener()
             if (isRunning) {
               setMainLoop()
             }
-            void step()
+            await step()
+            dispatch(clearRequiredInputDataPort())
           })
         } else {
           dispatch(clearInputData())

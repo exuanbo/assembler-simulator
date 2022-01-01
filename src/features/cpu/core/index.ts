@@ -25,7 +25,7 @@ import {
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '../../memory/core'
-import { Signals, MAX_PORT, PortType } from '../../io/core'
+import { Signals, MAX_PORT } from '../../io/core'
 import { Opcode, GeneralPurposeRegister, MAX_SP } from '../../../common/constants'
 import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
@@ -196,11 +196,11 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     }
 
     const getSignals = (): Signals => signals
-    const setDataSignalPort = (type: PortType, port: number): void => {
-      signals[type].data.port = port
+    const setRequiredInputDataPort = (port: number): void => {
+      signals.output.requiredInputDataPort = port
     }
-    const setDataSignalContent = (type: PortType, content: number): void => {
-      signals[type].data.content = content
+    const setOutputDataSignal = (content: number, port: number): void => {
+      signals.output.data = { content, port }
     }
     const setHaltedSignal = (): void => {
       signals.output.halted = true
@@ -544,20 +544,20 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
 
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
-        const { content: dataContent, port } = getSignals().input.data
-        const requiredPort = checkPort(loadFromMemory(getNextIP()))
-        if (dataContent === null || port !== requiredPort) {
-          setDataSignalPort(PortType.Input, requiredPort)
+        const { data: inputData } = getSignals().input
+        const requiredInputDataPort = checkPort(loadFromMemory(getNextIP()))
+        if (inputData.content === null || inputData.port !== requiredInputDataPort) {
+          setRequiredInputDataPort(requiredInputDataPort)
           break
         }
-        setGPR(GeneralPurposeRegister.AL, dataContent)
+        setGPR(GeneralPurposeRegister.AL, inputData.content)
         incIP(2)
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
-        const port = checkPort(loadFromMemory(incIP()))
-        setDataSignalPort(PortType.Output, port)
-        setDataSignalContent(PortType.Output, getGPR(GeneralPurposeRegister.AL))
+        const dataContent = getGPR(GeneralPurposeRegister.AL)
+        const dataPort = checkPort(loadFromMemory(incIP()))
+        setOutputDataSignal(dataContent, dataPort)
         incIP()
         break
       }

@@ -601,6 +601,19 @@ describe('cpu', () => {
         expect(step(memoryData, initialRegisters)).toMatchSnapshot()
       })
 
+      it('should create signal with required input port if provided is wrong', () => {
+        expect(
+          step(
+            memoryData,
+            initialRegisters,
+            createNextState(initialSignals, draft => {
+              draft.input.data.content = 0x61
+              draft.input.data.port = 0x01
+            })
+          )
+        ).toMatchSnapshot()
+      })
+
       it('should read input from signal and move to AL', () => {
         expect(
           step(

@@ -30,6 +30,12 @@ export const ioSlice = createSlice({
     },
     setInterrupt: (state, action: PayloadAction<boolean>) => {
       state.signals.input.interrupt = action.payload
+    },
+    setRequiredInputDataPort: (state, action: PayloadAction<InputPort>) => {
+      state.signals.output.requiredInputDataPort = action.payload
+    },
+    clearRequiredInputDataPort: state => {
+      state.signals.output.requiredInputDataPort = null
     }
   }
 })
@@ -39,7 +45,13 @@ export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
 
 export const selectSignals = (state: RootState): Signals => state.io.signals
 
-export const { setWaitingForKeyboardInput, setInputData, clearInputData, setInterrupt } =
-  ioSlice.actions
+export const {
+  setWaitingForKeyboardInput,
+  setInputData,
+  clearInputData,
+  setInterrupt,
+  setRequiredInputDataPort,
+  clearRequiredInputDataPort
+} = ioSlice.actions
 
 export default ioSlice.reducer

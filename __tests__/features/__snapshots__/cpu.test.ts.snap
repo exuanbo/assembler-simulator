@@ -41,6 +41,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -87,6 +88,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -133,6 +135,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -179,6 +182,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -225,6 +229,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -271,6 +276,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -317,6 +323,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -363,6 +370,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -409,6 +417,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -455,6 +464,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -501,6 +511,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -547,6 +558,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -593,6 +605,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -639,6 +652,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -685,6 +699,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -731,6 +746,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -777,6 +793,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -823,6 +840,7 @@ Array [
         "port": null,
       },
       "halted": true,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -858,7 +876,7 @@ Array [
     "input": Object {
       "data": Object {
         "content": null,
-        "port": 0,
+        "port": null,
       },
       "interrupt": false,
     },
@@ -869,6 +887,54 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": 0,
+    },
+  },
+]
+`;
+
+exports[`cpu step with IN should create signal with required input port if provided is wrong 1`] = `
+Array [
+  Array [
+    F0, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  ],
+  Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 0,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  Object {
+    "input": Object {
+      "data": Object {
+        "content": 97,
+        "port": 1,
+      },
+      "interrupt": false,
+    },
+    "output": Object {
+      "closeWindows": false,
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "halted": false,
+      "requiredInputDataPort": 0,
     },
   },
 ]
@@ -915,6 +981,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -961,6 +1028,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1007,6 +1075,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1053,6 +1122,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1099,6 +1169,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1145,6 +1216,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1191,6 +1263,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1237,6 +1310,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1283,6 +1357,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1329,6 +1404,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1375,6 +1451,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1421,6 +1498,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1467,6 +1545,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1513,6 +1592,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1559,6 +1639,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1605,6 +1686,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1651,6 +1733,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1697,6 +1780,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1743,6 +1827,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1789,6 +1874,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1835,6 +1921,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1881,6 +1968,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1927,6 +2015,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -1973,6 +2062,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2019,6 +2109,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2065,6 +2156,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2111,6 +2203,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2157,6 +2250,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2203,6 +2297,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2249,6 +2344,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2295,6 +2391,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2341,6 +2438,7 @@ Array [
         "port": 1,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2387,6 +2485,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2433,6 +2532,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2479,6 +2579,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2525,6 +2626,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2571,6 +2673,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2617,6 +2720,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2663,6 +2767,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2709,6 +2814,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2755,6 +2861,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2801,6 +2908,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2847,6 +2955,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2893,6 +3002,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2939,6 +3049,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -2985,6 +3096,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -3031,6 +3143,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -3077,6 +3190,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
@@ -3123,6 +3237,7 @@ Array [
         "port": null,
       },
       "halted": false,
+      "requiredInputDataPort": null,
     },
   },
 ]
