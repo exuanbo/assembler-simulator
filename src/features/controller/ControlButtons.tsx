@@ -7,7 +7,7 @@ import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
   children: ReactNode
-  onClick: React.MouseEventHandler<HTMLDivElement>
+  onClick?: React.MouseEventHandler<HTMLDivElement>
   disabled?: boolean
 }
 
@@ -47,15 +47,8 @@ const ControlButtons = (): JSX.Element => {
   const StepButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
 
-    const handleClick = (): void => {
-      if (isRunning) {
-        return
-      }
-      void step()
-    }
-
     return (
-      <ControlButton disabled={isRunning} onClick={handleClick}>
+      <ControlButton disabled={isRunning} onClick={isRunning ? undefined : step}>
         <Forward />
         <span>Step</span>
       </ControlButton>
