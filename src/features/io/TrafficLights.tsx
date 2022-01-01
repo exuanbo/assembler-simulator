@@ -2,29 +2,9 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import { useSelector } from '../../app/hooks'
 import { selectTrafficLightsDataDigits } from './ioSlice'
+import { range } from '../../common/utils'
 
-const LIGHT_COORDINATES = [
-  // Left
-  { cx: 56, cy: 44 },
-  { cx: 56, cy: 76 },
-  { cx: 56, cy: 108 },
-  // Right
-  { cx: 264, cy: 44 },
-  { cx: 264, cy: 76 },
-  { cx: 264, cy: 108 }
-] as const
-
-const LIGHT_COLORS = ['red', 'yellow', 'lime'] as const
-
-interface LightProps {
-  isOn: boolean
-}
-
-const LIGHTS = LIGHT_COORDINATES.map(
-  ({ cx, cy }, index) =>
-    ({ isOn }: LightProps): JSX.Element =>
-      <circle cx={cx} cy={cy} fill={isOn ? LIGHT_COLORS[index % 3] : 'none'} r="12" />
-)
+const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element => {
   const dataDigits = useSelector(selectTrafficLightsDataDigits)
@@ -54,19 +34,14 @@ const TrafficLights = (): JSX.Element => {
             <path d="M 252 44 L 244 44 L 244 132 L 260 132 L 260 172 L 148 172 L 148 200" />
             <path d="M 252 76 L 248 76 L 248 128 L 264 128 L 264 176 L 164 176 L 164 200" />
             <path d="M 276 108 L 280 108 L 280 132 L 268 132 L 268 180 L 180 180 L 180 200" />
-            {/* Useless */}
+            {/* Redundant */}
             <path d="M 196 200 L 196 184 L 284 184 L 284 160" />
             <path d="M 212 200 L 212 188 L 288 188 L 288 164" />
           </g>
           <g fill="#fff">
-            <rect height="8" width="8" x="96" y="200" />
-            <rect height="8" width="8" x="112" y="200" />
-            <rect height="8" width="8" x="128" y="200" />
-            <rect height="8" width="8" x="144" y="200" />
-            <rect height="8" width="8" x="160" y="200" />
-            <rect height="8" width="8" x="176" y="200" />
-            <rect height="8" width="8" x="192" y="200" />
-            <rect height="8" width="8" x="208" y="200" />
+            {range(8).map(index => (
+              <rect key={index} height="8" width="8" x={96 + index * 16} y="200" />
+            ))}
           </g>
           <g className="font-mono" fill="#fff" textAnchor="middle">
             <text x="24" y="210">
@@ -87,9 +62,18 @@ const TrafficLights = (): JSX.Element => {
         </g>
         <g>
           <title>Traffic Light Layer</title>
-          {LIGHTS.map((Light, index) => (
-            <Light key={index} isOn={Boolean(dataDigits[index])} />
-          ))}
+          {range(6).map(index => {
+            const isOn = Boolean(dataDigits[index])
+            return (
+              <circle
+                key={index}
+                cx={index < 3 ? /* Left */ 56 : /* Right */ 264}
+                cy={44 + (index % 3) * 32}
+                fill={isOn ? lightColors[index % 3] : 'none'}
+                r="12"
+              />
+            )
+          })}
         </g>
       </svg>
     </Card>
