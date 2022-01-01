@@ -13,9 +13,12 @@ const TrafficLights = (): JSX.Element => {
     <Card className="border-b border-r" title="Traffic Lights">
       <svg height="240" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
-          <title>Background Layer</title>
-          <rect fill="#a1a1aa" height="120" width="320" x="0" y="120" />
+          <title>Static Layer</title>
+          <rect fill="#a1a1aa" height="120" width="320" x="0" y="120">
+            <title>Background</title>
+          </rect>
           <g fill="#000">
+            <title>Pillars</title>
             {/* Left */}
             <rect height="112" width="48" x="32" y="24" />
             <rect height="80" width="16" x="48" y="136" />
@@ -26,24 +29,27 @@ const TrafficLights = (): JSX.Element => {
             <rect height="12" width="32" x="248" y="216" />
           </g>
           <g fill="none" stroke="white" strokeWidth="2">
+            <title>Circuts</title>
             {/* Left */}
-            <path d="M 44 44 L 36 44 L 36 132 L 52 132 L 52 180 L 104 180 L 104 200" />
-            <path d="M 44 76 L 40 76 L 40 128 L 56 128 L 56 176 L 120 176 L 120 200" />
-            <path d="M 68 108 L 72 108 L 72 132 L 60 132 L 60 172 L 136 172 L 136 200" />
+            <polyline points="44 44,36 44,36 132,52 132,52 180,104 180,104 200" />
+            <polyline points="44 76,40 76,40 128,56 128,56 176,120 176,120 200" />
+            <polyline points="68 108,72 108,72 132,60 132,60 172,136 172,136 200" />
             {/* Right */}
-            <path d="M 252 44 L 244 44 L 244 132 L 260 132 L 260 172 L 152 172 L 152 200" />
-            <path d="M 252 76 L 248 76 L 248 128 L 264 128 L 264 176 L 168 176 L 168 200" />
-            <path d="M 276 108 L 280 108 L 280 132 L 268 132 L 268 180 L 184 180 L 184 200" />
+            <polyline points="252 44,244 44,244 132,260 132,260 172,152 172,152 200" />
+            <polyline points="252 76,248 76,248 128,264 128,264 176,168 176,168 200" />
+            <polyline points="276 108,280 108,280 132,268 132,268 180,184 180,184 200" />
             {/* Redundant */}
-            <path d="M 200 200 L 200 184 L 284 184 L 284 160" />
-            <path d="M 216 200 L 216 188 L 288 188 L 288 164" />
+            <polyline points="200 200,200 184,284 184,284 160" />
+            <polyline points="216 200,216 188,288 188,288 164" />
           </g>
           <g fill="#fff">
+            <title>Circut Nodes</title>
             {range(8).map(index => (
               <rect key={index} height="8" width="8" x={100 + index * 16} y="200" />
             ))}
           </g>
           <g className="font-mono" fill="#fff" textAnchor="middle">
+            <title>Lables</title>
             <text x="24" y="210">
               MSB
             </text>
@@ -61,7 +67,7 @@ const TrafficLights = (): JSX.Element => {
           ))}
         </g>
         <g>
-          <title>Traffic Light Layer</title>
+          <title>Lights Layer</title>
           {range(6).map(index => {
             const isOn = Boolean(dataDigits[index])
             return (
