@@ -14,7 +14,8 @@ import {
 import {
   selectEditortInput,
   selectEditorBreakpoints,
-  setEditorActiveRange
+  setEditorActiveRange,
+  clearEditorActiveRange
 } from '../editor/editorSlice'
 import {
   selectAddressToStatementMap,
@@ -184,7 +185,7 @@ export const useController = (): Controller => {
           batch(() => {
             dispatch(setMemoryData(memoryData))
             dispatch(setCpuRegisters(registers))
-            dispatch(setEditorActiveRange(hasStatement ? statement : undefined))
+            dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
           })
           dispatchChangesTimeoutId = undefined
         })
@@ -273,7 +274,7 @@ export const useController = (): Controller => {
       dispatch(resetMemory())
       dispatch(resetCpu())
       dispatch(resetAssembler())
-      dispatch(setEditorActiveRange(undefined))
+      dispatch(clearEditorActiveRange())
     })
   }
 

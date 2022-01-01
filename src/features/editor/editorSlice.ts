@@ -46,9 +46,12 @@ export const editorSlice = createSlice({
         state.breakpoints.splice(targetIndex, 1)
       }
     },
-    setActiveRange: (state, action: PayloadAction<Statement | undefined>) => {
+    setActiveRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
-      state.activeRange = statement === undefined ? null : statement.range
+      state.activeRange = statement.range
+    },
+    clearActiveRange: state => {
+      state.activeRange = null
     }
   }
 })
@@ -71,7 +74,8 @@ export const {
   setInput: setEditorInput,
   addBreakpoint,
   removeBreakpoint,
-  setActiveRange: setEditorActiveRange
+  setActiveRange: setEditorActiveRange,
+  clearActiveRange: clearEditorActiveRange
 } = editorSlice.actions
 
 export default editorSlice.reducer

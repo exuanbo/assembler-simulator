@@ -6,7 +6,7 @@ import { AssemblerError } from './core/exceptions'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
-import { setEditorActiveRange } from '../editor/editorSlice'
+import { setEditorActiveRange, clearEditorActiveRange } from '../editor/editorSlice'
 
 type Assemble = (input: string) => void
 
@@ -20,7 +20,7 @@ export const useAssembler =
       if (err instanceof AssemblerError) {
         const assemblerErrorObject = err.toObject()
         batch(() => {
-          dispatch(setEditorActiveRange(undefined))
+          dispatch(clearEditorActiveRange())
           dispatch(setAssemblerError(assemblerErrorObject))
         })
         return
