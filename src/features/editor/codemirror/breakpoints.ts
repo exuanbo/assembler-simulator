@@ -1,4 +1,4 @@
-import { StateField, StateEffect, Extension } from '@codemirror/state'
+import { EditorState, StateField, StateEffect, Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { RangeSet } from '@codemirror/rangeset'
 import { GutterMarker, gutter } from '@codemirror/gutter'
@@ -40,8 +40,11 @@ const breakpointField = StateField.define<RangeSet<GutterMarker>>({
   }
 })
 
+export const getBreakpoints = (state: EditorState): RangeSet<GutterMarker> =>
+  state.field(breakpointField)
+
 export const toggleBreakpoint = (view: EditorView, pos: number): void => {
-  const breakpoints = view.state.field(breakpointField)
+  const breakpoints = getBreakpoints(view.state)
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
     hasBreakpoint = true
@@ -59,7 +62,7 @@ export const breakpoints = (): Extension => [
   breakpointField,
   gutter({
     class: 'cm-breakpoints',
-    markers: view => view.state.field(breakpointField),
+    markers: view => getBreakpoints(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
       mousedown(view, line) {
