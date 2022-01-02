@@ -6,7 +6,6 @@ export enum TokenType {
   Whitespace = 'Whitespace',
   Comment = 'Comment',
   Colon = 'Colon',
-  // TODO: OpenBracket, ClosedBracket
   Comma = 'Comma',
   Digits = 'Digits',
   Register = 'Register',

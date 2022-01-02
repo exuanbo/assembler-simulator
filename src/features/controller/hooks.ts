@@ -150,7 +150,7 @@ export const useController = (): Controller => {
     if (fault !== null || halted) {
       stopIfRunning(state)
       if (fault === null && halted) {
-        // trigger EditorState re-render
+        // trigger EditorStatus re-render
         dispatch(setCpuHalted(true))
       }
       return
@@ -257,6 +257,7 @@ export const useController = (): Controller => {
           from: label === null ? rangeWithoutLabel.from : label.range.from,
           to: rangeWithoutLabel.to
         }
+        // TODO: extract function lineRangesOverlap
         const willBreak = breakpoints.some(
           ({ from, to }) =>
             (range.from <= from && from < range.to) ||
