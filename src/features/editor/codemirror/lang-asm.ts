@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-
 import type { Extension } from '@codemirror/state'
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
@@ -12,6 +10,7 @@ interface State {
 }
 
 const asmLanguage = StreamLanguage.define<State>({
+  /* eslint-disable @typescript-eslint/strict-boolean-expressions */
   token(stream, state) {
     if (state.end) {
       stream.skipToEnd()
@@ -73,6 +72,7 @@ const asmLanguage = StreamLanguage.define<State>({
     stream.eatWhile(/\S/)
     return null
   },
+  /* eslint-enable @typescript-eslint/strict-boolean-expressions */
 
   startState() {
     return {
