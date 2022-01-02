@@ -12,7 +12,7 @@ const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Ele
   <div className={className}>
     <header className="border-b flex bg-gray-100 py-1 px-2 items-center justify-between">
       <span>{title}</span>
-      {Icon === undefined ? null : (
+      {Icon !== undefined && (
         <div className="flex items-center" onClick={onIconClick}>
           <Icon />
         </div>
