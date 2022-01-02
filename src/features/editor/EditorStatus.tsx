@@ -12,7 +12,7 @@ const EditorStatus = (): JSX.Element | null => {
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
 
   useEffect(() => {
-    addActionListener(setCpuHalted, isHalted => {
+    const removeSetCpuHaltedListener = addActionListener(setCpuHalted, isHalted => {
       setShouldShowHalted(isHalted)
       if (isHalted) {
         window.clearTimeout(showHaltedTimeoutId)
@@ -21,9 +21,13 @@ const EditorStatus = (): JSX.Element | null => {
         }, 2000)
       }
     })
-    addActionListener(resetCpu, () => {
+    const removeResetCpuListener = addActionListener(resetCpu, () => {
       setShouldShowHalted(false)
     })
+    return () => {
+      removeSetCpuHaltedListener()
+      removeResetCpuListener()
+    }
   }, [])
 
   const message =
