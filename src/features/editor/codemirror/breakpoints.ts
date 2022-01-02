@@ -15,18 +15,20 @@ export const breakpointEffect = StateEffect.define<{
   }
 })
 
-const breakpointMarker: GutterMarker = new (class extends GutterMarker {
+class BreakpointMarker extends GutterMarker {
   toDOM(): Text {
     return document.createTextNode('●')
   }
-})()
+}
 
-const breakpointField = StateField.define<RangeSet<GutterMarker>>({
+const breakpointMarker = new BreakpointMarker()
+
+const breakpointField = StateField.define<RangeSet<BreakpointMarker>>({
   create() {
     return RangeSet.empty
   },
   update(markerSet, transaction) {
-    return transaction.effects.reduce<RangeSet<GutterMarker>>(
+    return transaction.effects.reduce<RangeSet<BreakpointMarker>>(
       (resultSet, effect) =>
         effect.is(breakpointEffect)
           ? resultSet.update(
@@ -40,7 +42,7 @@ const breakpointField = StateField.define<RangeSet<GutterMarker>>({
   }
 })
 
-export const getBreakpoints = (state: EditorState): RangeSet<GutterMarker> =>
+export const getBreakpoints = (state: EditorState): RangeSet<BreakpointMarker> =>
   state.field(breakpointField)
 
 export const toggleBreakpoint = (view: EditorView, pos: number): void => {
@@ -79,3 +81,20 @@ export const breakpoints = (): Extension => [
     }
   })
 ]
+
+export const breakpointsEqual = (
+  a: RangeSet<BreakpointMarker>,
+  b: RangeSet<BreakpointMarker>
+): boolean => {
+  if (a.size !== b.size) {
+    return false
+  }
+  const aCursor = a.iter()
+  const bCursor = b.iter()
+  for (let i = 0; i < a.size; i++, aCursor.next(), bCursor.next()) {
+    if (aCursor.from !== bCursor.from || aCursor.to !== bCursor.to) {
+      return false
+    }
+  }
+  return true
+}

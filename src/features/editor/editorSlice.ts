@@ -1,11 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import type { Line } from '@codemirror/text'
+import { LineRange, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core/types'
 import type { Statement } from '../assembler/core/parser'
 import { samples } from './samples'
-
-type LineRange = Pick<Line, 'from' | 'to'>
 
 interface EditorState {
   input: string
@@ -28,10 +26,13 @@ export const editorSlice = createSlice({
     setInput: (state, action: PayloadAction<{ value: string; isFromFile?: boolean }>) => {
       state.input = action.payload.value
     },
+    setBreakpoints: (state, action: PayloadAction<LineRange[]>) => {
+      state.breakpoints = action.payload
+    },
     addBreakpoint: (state, action: PayloadAction<LineRange>) => {
       const lineRange = action.payload
-      const hasDuplicate = state.breakpoints.some(
-        ({ from, to }) => from === lineRange.from && to === lineRange.to
+      const hasDuplicate = state.breakpoints.some(breakpointLineRange =>
+        lineRangesEqual(breakpointLineRange, lineRange)
       )
       if (!hasDuplicate) {
         state.breakpoints.push(action.payload)
@@ -39,9 +40,10 @@ export const editorSlice = createSlice({
     },
     removeBreakpoint: (state, action: PayloadAction<LineRange>) => {
       const lineRange = action.payload
-      const targetIndex = state.breakpoints.findIndex(
-        ({ from, to }) => from === lineRange.from && to === lineRange.to
+      const targetIndex = state.breakpoints.findIndex(breakpointLineRange =>
+        lineRangesEqual(breakpointLineRange, lineRange)
       )
+      // TODO: could this be negative?
       if (targetIndex >= 0) {
         state.breakpoints.splice(targetIndex, 1)
       }
@@ -72,6 +74,7 @@ export const selectEditorStateToPersist = (
 
 export const {
   setInput: setEditorInput,
+  setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
   setActiveRange: setEditorActiveRange,

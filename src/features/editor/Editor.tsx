@@ -7,14 +7,17 @@ import {
   selectEditorBreakpoints,
   selectEditorActiveRange,
   setEditorInput,
+  setBreakpoints,
   addBreakpoint,
   removeBreakpoint
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { breakpointEffect } from './codemirror/breakpoints'
+import { breakpointEffect, getBreakpoints, breakpointsEqual } from './codemirror/breakpoints'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
+import { lineRangeAt, lineRangesEqual } from './codemirror/line'
+import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
 import { selectAutoAssemble } from '../controller/controllerSlice'
@@ -53,17 +56,25 @@ const Editor = ({ className }: Props): JSX.Element => {
             assemble(input)
           }
         }, 200)
-      }
-      viewUpdate.transactions.forEach(transaction => {
-        transaction.effects.forEach(effect => {
-          if (effect.is(breakpointEffect)) {
-            const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-            const line = viewUpdate.state.doc.lineAt(effect.value.pos)
-            const lineRange = (({ from, to }) => ({ from, to }))(line)
-            dispatch(actionCreator(lineRange))
-          }
+
+        const breakpointRangeSet = getBreakpoints(viewUpdate.state)
+        if (!breakpointsEqual(breakpointRangeSet, getBreakpoints(viewUpdate.startState))) {
+          const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
+            lineRangeAt(viewUpdate.state.doc, from)
+          )
+          dispatch(setBreakpoints(breakpoints))
+        }
+      } else {
+        viewUpdate.transactions.forEach(transaction => {
+          transaction.effects.forEach(effect => {
+            if (effect.is(breakpointEffect)) {
+              const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+              const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
+              dispatch(actionCreator(lineRange))
+            }
+          })
         })
-      })
+      }
     }
   )
 
@@ -77,7 +88,15 @@ const Editor = ({ className }: Props): JSX.Element => {
     if (view === undefined) {
       return
     }
-    const breakpoints = selectEditorBreakpoints(getState())
+    const breakpoints = selectEditorBreakpoints(getState()).filter(lineRange => {
+      const isValid =
+        lineRange.to <= view.state.doc.length &&
+        lineRangesEqual(lineRange, lineRangeAt(view.state.doc, lineRange.from))
+      if (!isValid) {
+        dispatch(removeBreakpoint(lineRange))
+      }
+      return isValid
+    })
     view.dispatch({
       effects: breakpoints.map(lineRange =>
         breakpointEffect.of({
