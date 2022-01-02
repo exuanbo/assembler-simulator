@@ -259,7 +259,9 @@ export const useController = (): Controller => {
         }
         const willBreak = breakpoints.some(
           ({ from, to }) =>
-            (range.from <= from && from < range.to) || (range.from < to && to <= range.to)
+            (range.from <= from && from < range.to) ||
+            (from < range.from && range.to < to) ||
+            (range.from < to && to <= range.to)
         )
         if (willBreak) {
           if (!willDispatchChanges) {
