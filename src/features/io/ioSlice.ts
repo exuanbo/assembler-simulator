@@ -1,15 +1,17 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
-import { Signals, InputPort, initialSignals } from './core'
+import { InputSignals, InputPort, initialInputSignals } from './core'
 import type { RootState } from '../../app/store'
 
 interface IoState {
-  signals: Signals
+  inputSignals: InputSignals
+  isWaitingForInput: boolean
   isWaitingForKeyboardInput: boolean
   trafficLightsData: number
 }
 
 const initialState: IoState = {
-  signals: initialSignals,
+  inputSignals: initialInputSignals,
+  isWaitingForInput: false,
   isWaitingForKeyboardInput: false,
   trafficLightsData: 0
 }
@@ -20,21 +22,18 @@ export const ioSlice = createSlice({
   reducers: {
     setInputData: (state, action: PayloadAction<{ content: number; port: InputPort }>) => {
       const { content, port } = action.payload
-      state.signals.input.data.content = content
-      state.signals.input.data.port = port
+      state.inputSignals.data.content = content
+      state.inputSignals.data.port = port
     },
     clearInputData: state => {
-      state.signals.input.data.content = null
-      state.signals.input.data.port = null
+      state.inputSignals.data.content = null
+      state.inputSignals.data.port = null
     },
     setInterrupt: (state, action: PayloadAction<boolean>) => {
-      state.signals.input.interrupt = action.payload
+      state.inputSignals.interrupt = action.payload
     },
-    setRequiredInputDataPort: (state, action: PayloadAction<InputPort>) => {
-      state.signals.output.requiredInputDataPort = action.payload
-    },
-    clearRequiredInputDataPort: state => {
-      state.signals.output.requiredInputDataPort = null
+    setWaitingForInput: (state, action: PayloadAction<boolean>) => {
+      state.isWaitingForInput = action.payload
     },
     setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
       state.isWaitingForKeyboardInput = action.payload
@@ -46,7 +45,9 @@ export const ioSlice = createSlice({
   }
 })
 
-export const selectSignals = (state: RootState): Signals => state.io.signals
+export const selectInputSignals = (state: RootState): InputSignals => state.io.inputSignals
+
+export const selectIsWaitingForInput = (state: RootState): boolean => state.io.isWaitingForInput
 
 export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
   state.io.isWaitingForKeyboardInput
@@ -60,8 +61,7 @@ export const {
   setInputData,
   clearInputData,
   setInterrupt,
-  setRequiredInputDataPort,
-  clearRequiredInputDataPort,
+  setWaitingForInput,
   setWaitingForKeyboardInput,
   setTrafficLightsData,
   reset: resetIo

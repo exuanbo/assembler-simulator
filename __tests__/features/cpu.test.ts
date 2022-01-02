@@ -3,7 +3,7 @@ import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 import { assemble } from '../../src/features/assembler/core'
 import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
 import { Registers, initRegisters, step as __step } from '../../src/features/cpu/core'
-import { Signals, initialSignals } from '../../src/features/io/core'
+import { Signals, initialInputSignals } from '../../src/features/io/core'
 import { Opcode, GeneralPurposeRegister } from '../../src/common/constants'
 
 expect.addSnapshotSerializer(shortArraySerializer)
@@ -17,6 +17,11 @@ const getMemoryData = (input: string): MemoryData => {
 }
 
 const initialRegisters = initRegisters()
+
+const initialSignals: Signals = {
+  input: initialInputSignals,
+  output: {}
+}
 
 const step = (
   memoryData: MemoryData,

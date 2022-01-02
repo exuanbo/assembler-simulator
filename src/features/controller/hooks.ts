@@ -36,11 +36,11 @@ import {
 } from '../cpu/cpuSlice'
 import { InputPort, OutputPort } from '../io/core'
 import {
-  selectSignals,
+  selectInputSignals,
+  selectIsWaitingForInput,
   clearInputData,
   setInterrupt,
-  setRequiredInputDataPort,
-  clearRequiredInputDataPort,
+  setWaitingForInput,
   setWaitingForKeyboardInput,
   setTrafficLightsData,
   resetIo
@@ -163,7 +163,10 @@ export const useController = (): Controller => {
       try {
         stepResultWithSignals = __step(
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
-          selectSignals(state)
+          {
+            input: selectInputSignals(state),
+            output: {}
+          }
         )
       } catch (err) {
         stopIfRunning(state)
@@ -210,9 +213,9 @@ export const useController = (): Controller => {
       }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
-      if (requiredInputDataPort !== null) {
+      if (requiredInputDataPort !== undefined) {
+        dispatch(setWaitingForInput(true))
         if (inputData.content === null) {
-          dispatch(setRequiredInputDataPort(requiredInputDataPort))
           willSuspend = true
           if (isRunning) {
             cancelMainLoop()
@@ -224,19 +227,23 @@ export const useController = (): Controller => {
                 dispatch(setWaitingForKeyboardInput(true))
             }
           })
-          removeSetSuspendedListener = addActionListener(setSuspended, async () => {
+          removeSetSuspendedListener = addActionListener(setSuspended, () => {
             removeSetSuspendedListener()
             if (isRunning) {
               setMainLoop()
             }
-            await step()
-            dispatch(clearRequiredInputDataPort())
+            void step()
           })
         } else {
+          // wrong port
           dispatch(clearInputData())
         }
+      } else if (selectIsWaitingForInput(state)) {
+        // step() called on line 235
+        dispatch(setWaitingForInput(false))
+        dispatch(clearInputData())
       }
-      if (outputData.content !== null) {
+      if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputDataPort } = outputData
         switch (outputDataPort) {
           case OutputPort.TrafficLights:

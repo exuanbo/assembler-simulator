@@ -23,6 +23,14 @@ export interface InputSignals {
   // TODO: interruptVectorAddress
 }
 
+export const initialInputSignals: InputSignals = {
+  data: {
+    content: null,
+    port: null
+  },
+  interrupt: false
+}
+
 export enum OutputPort {
   TrafficLights = 1,
   SevenSegmentDisplay = 2,
@@ -34,43 +42,19 @@ export enum OutputPort {
   NumericKeypad = 8
 }
 
-type OutputData =
-  | {
-      content: number
-      port: OutputPort
-    }
-  | {
-      content: null
-      port: null
-    }
-
-export interface OutputSignals {
-  requiredInputDataPort: InputPort | null
-  data: OutputData
-  halted: boolean
-  closeWindows: boolean
+interface OutputData {
+  content: number
+  port: OutputPort
 }
+
+export type OutputSignals = Partial<{
+  requiredInputDataPort: InputPort
+  data: OutputData
+  halted: true
+  closeWindows: true
+}>
 
 export interface Signals {
   input: InputSignals
   output: OutputSignals
-}
-
-export const initialSignals: Signals = {
-  input: {
-    data: {
-      content: null,
-      port: null
-    },
-    interrupt: false
-  },
-  output: {
-    requiredInputDataPort: null,
-    data: {
-      content: null,
-      port: null
-    },
-    halted: false,
-    closeWindows: false
-  }
 }
