@@ -33,6 +33,11 @@ export const useAssembler =
       dispatch(setMemoryDataFrom(addressToOpcodeMap))
       dispatch(resetCpu())
       dispatch(setAssemblerState(addressToStatementMap))
-      dispatch(setEditorActiveRange(addressToStatementMap[0]))
+      const firstStatement = addressToStatementMap[0]
+      dispatch(
+        firstStatement === undefined
+          ? clearEditorActiveRange()
+          : setEditorActiveRange(firstStatement)
+      )
     })
   }
