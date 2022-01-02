@@ -249,7 +249,7 @@ const parseStatement = (
   const label = parseLabel(tokens, getIndex())
   const hasLabel = label !== null
   if (hasLabel) {
-    consumeToken(2)
+    consumeToken(2 /* label + colon */)
   }
 
   const token = tokens[getIndex()]
@@ -267,9 +267,9 @@ const parseStatement = (
     instruction.opcode = opcode
   }
 
-  const __operands: Operand[] = []
-  const addOperands = (...operands: Operand[]): void => {
-    __operands.push(...operands)
+  const operands: Operand[] = []
+  const addOperands = (...__operands: Operand[]): void => {
+    operands.push(...__operands)
   }
 
   const mnemonic = token.value as Mnemonic
@@ -531,11 +531,11 @@ const parseStatement = (
       }
 
       addOperands(firstOperand, secondOperand)
-      consumeToken(3)
+      consumeToken(3 /* operand + comma + operand */)
     }
   }
 
-  return [createStatement(label, instruction, __operands), consumedTokensCount]
+  return [createStatement(label, instruction, operands), consumedTokensCount]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
