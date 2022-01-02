@@ -54,7 +54,7 @@ const matchRegExp =
     return match === null ? null : createToken(type, match[0], index)
   }
 
-const tokenMatchers = [
+const tokenMatchers: readonly TokenMatcher[] = [
   matchRegExp(/^\s+/, TokenType.Whitespace),
   matchRegExp(/^;.*/, TokenType.Comment),
   matchRegExp(/^:/, TokenType.Colon),
@@ -69,17 +69,16 @@ const tokenMatchers = [
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
-    tokenMatchers.some(matchToken => {
+    for (const matchToken of tokenMatchers) {
       const token = matchToken(input, index)
-      const isMatched = token !== null
-      if (isMatched) {
+      if (token !== null) {
         if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
           tokens.push(token)
         }
         index = token.value === Mnemonic.END ? input.length : token.range.to
+        break
       }
-      return isMatched
-    })
+    }
   }
   return tokens
 }
