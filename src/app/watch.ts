@@ -22,13 +22,14 @@ export const createWatch = (store: Store): Watch => {
 
   subscribe(() => {
     const state = getState()
-    subscriptions.forEach(({ prev, callbacks }, selector) => {
+    subscriptions.forEach((subscription, selector) => {
+      const { prev, callbacks } = subscription
       const selectedState = selector(state)
       if (selectedState !== prev) {
         callbacks.forEach(cb => {
           cb(selectedState, getState)
         })
-        prev = selectedState
+        subscription.prev = selectedState
       }
     })
   })
