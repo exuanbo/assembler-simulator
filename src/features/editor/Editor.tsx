@@ -5,7 +5,7 @@ import { addActionListener } from '../../app/actionListener'
 import {
   selectEditortInput,
   selectEditorBreakpoints,
-  selectEditorActiveRange,
+  selectEditorActiveLinePos,
   setEditorInput,
   setBreakpoints,
   addBreakpoint,
@@ -15,7 +15,7 @@ import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
 import { breakpointEffect, getBreakpoints, breakpointsEqual } from './codemirror/breakpoints'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { highlightActiveRangeEffect } from './codemirror/highlightActiveRange'
+import { highlightLineEffect } from './codemirror/highlightActiveRange'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
@@ -119,21 +119,27 @@ const Editor = ({ className }: Props): JSX.Element => {
     })
   }, [view])
 
-  const activeRange = useSelector(selectEditorActiveRange)
+  const activeLinePos = useSelector(selectEditorActiveLinePos(view))
+
+  useEffect(() => {
+    view?.dispatch({
+      effects: highlightLineEffect.of({ addPos: activeLinePos }),
+      ...(view.hasFocus || activeLinePos === undefined
+        ? undefined
+        : {
+            selection: { anchor: activeLinePos[0] },
+            scrollIntoView: true
+          })
+    })
+  }, [view, activeLinePos])
+
   const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
 
-  view?.dispatch({
-    effects: [
-      highlightActiveRangeEffect.of({ add: activeRange }),
-      wavyUnderlineEffect.of({ add: assemblerErrorRange })
-    ],
-    ...(view.hasFocus || activeRange === undefined
-      ? undefined
-      : {
-          selection: { anchor: activeRange.from },
-          scrollIntoView: true
-        })
-  })
+  useEffect(() => {
+    view?.dispatch({
+      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
+    })
+  }, [view, assemblerErrorRange])
 
   return (
     <div ref={editorRef} className={`flex flex-col ${className}`}>

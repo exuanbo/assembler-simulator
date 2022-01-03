@@ -1,13 +1,12 @@
 import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import { range } from '../../../common/utils'
 
-interface ActiveRangeConfig {
+interface HighlightLineConfig {
   clearOnPointerSelect?: boolean
   clearAll?: boolean
 }
 
-const activeRangeConfigFacet = Facet.define<ActiveRangeConfig, Required<ActiveRangeConfig>>({
+const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<HighlightLineConfig>>({
   combine(values) {
     return combineConfig(
       values,
@@ -27,70 +26,58 @@ const activeRangeConfigFacet = Facet.define<ActiveRangeConfig, Required<ActiveRa
   }
 })
 
-export const highlightActiveRangeEffect = StateEffect.define<{
-  add?: {
-    from: number
-    to: number
-  }
+export const highlightLineEffect = StateEffect.define<{
+  addPos?: number | number[]
   filter?: (from: number, to: number) => boolean
 }>({
-  map({ add, filter }, mapping) {
+  map({ addPos, filter }, mapping) {
     return {
-      add:
-        add === undefined
+      addPos:
+        addPos === undefined
           ? undefined
-          : {
-              from: mapping.mapPos(add.from),
-              to: mapping.mapPos(add.to)
-            },
+          : typeof addPos === 'number'
+          ? mapping.mapPos(addPos)
+          : addPos.map(pos => mapping.mapPos(pos)),
       filter
     }
   }
 })
 
-const lineDecoration = Decoration.line({ attributes: { class: 'cm-activeRange' } })
+const lineDecoration = Decoration.line({ attributes: { class: 'cm-highlightLine' } })
 
-const highlightActiveRangeField = StateField.define<DecorationSet>({
+const highlightLineField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    const { clearOnPointerSelect, clearAll } = transaction.state.facet(activeRangeConfigFacet)
+    const { clearOnPointerSelect, clearAll } = transaction.state.facet(HighlightLineConfigFacet)
     return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
       ? Decoration.none
       : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
-          if (!effect.is(highlightActiveRangeEffect)) {
+          if (!effect.is(highlightLineEffect)) {
             return resultSet
           }
-          const { add, filter = () => true } = effect.value
+          const { addPos, filter = clearAll ? () => false : () => true } = effect.value
           const decorationRanges =
-            add === undefined
+            addPos === undefined
               ? []
-              : [
-                  ...new Set(
-                    range(add.from, add.to).map(pos => {
-                      const line = transaction.state.doc.lineAt(pos)
-                      return line.number
-                    })
-                  )
-                ].map(lineNumber => {
-                  const line = transaction.state.doc.line(lineNumber)
-                  return lineDecoration.range(line.from)
-                })
+              : (typeof addPos === 'number' ? [addPos] : addPos).map(pos =>
+                  lineDecoration.range(pos)
+                )
           return resultSet.update({
             add: decorationRanges,
-            filter: clearAll ? () => false : filter
+            filter
           })
         }, decorationSet.map(transaction.changes))
   },
   provide: field => EditorView.decorations.from(field)
 })
 
-export const highlightActiveRange = (config: ActiveRangeConfig = {}): Extension => [
-  activeRangeConfigFacet.of(config),
-  highlightActiveRangeField,
+export const highlightLine = (config: HighlightLineConfig = {}): Extension => [
+  HighlightLineConfigFacet.of(config),
+  highlightLineField,
   EditorView.baseTheme({
-    '.cm-activeRange': {
+    '.cm-highlightLine': {
       backgroundColor: '#dcfce7'
     }
   })

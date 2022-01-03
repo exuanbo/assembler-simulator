@@ -49,3 +49,9 @@ export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
   }, [])
 
 export const call = <T>(fn: () => T): T => fn()
+
+export const curry2 =
+  <T1, T2, R>(fn: (t1: T1, t2: T2) => R): ((t1: T1) => (t2: T2) => R) =>
+  (t1: T1) =>
+  (t2: T2) =>
+    fn(t1, t2)

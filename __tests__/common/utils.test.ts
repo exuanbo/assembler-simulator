@@ -1,4 +1,4 @@
-import { range, asciiToChars } from '../../src/common/utils'
+import { range, asciiToChars, curry2 } from '../../src/common/utils'
 
 describe('utils', () => {
   describe('range', () => {
@@ -14,6 +14,14 @@ describe('utils', () => {
   describe('asciiToChars', () => {
     it('should convert an array of numbers to characters', () => {
       expect(asciiToChars([97, 98, 99])).toEqual(['a', 'b', 'c'])
+    })
+  })
+
+  describe('curry2', () => {
+    it('should curry a function with two arguments', () => {
+      const add = (a: number, b: number): number => a + b
+      const curriedAdd = curry2(add)
+      expect(curriedAdd(1)(2)).toBe(3)
     })
   })
 })

@@ -1,8 +1,10 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
+import type { EditorView } from '@codemirror/view'
 import { LineRange, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '../../app/store'
 import type { SourceRange, Statement } from '../assembler/core'
 import { samples } from './samples'
+import { range, curry2 } from '../../common/utils'
 
 interface EditorState {
   input: string
@@ -61,10 +63,23 @@ export const selectEditortInput = (state: RootState): string => state.editor.inp
 
 export const selectEditorBreakpoints = (state: RootState): LineRange[] => state.editor.breakpoints
 
-export const selectEditorActiveRange = (state: RootState): SourceRange | undefined => {
-  const { activeRange } = state.editor
-  return activeRange === null ? undefined : activeRange
-}
+export const selectEditorActiveLinePos = curry2(
+  createSelector(
+    [(view?: EditorView) => view, (_, state: RootState) => state.editor.activeRange],
+    (view, activeRange) => {
+      return view === undefined || activeRange === null
+        ? undefined
+        : [
+            ...new Set(
+              range(activeRange.from, activeRange.to).map(pos => {
+                const line = view.state.doc.lineAt(pos)
+                return line.from
+              })
+            )
+          ]
+    }
+  )
+)
 
 export const selectEditorStateToPersist = (
   state: RootState

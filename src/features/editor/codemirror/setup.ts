@@ -6,7 +6,7 @@ import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
 import { defaultHighlightStyle } from '@codemirror/highlight'
 import { theme } from './theme'
 import { wavyUnderline } from './wavyUnderline'
-import { highlightActiveRange } from './highlightActiveRange'
+import { highlightLine } from './highlightActiveRange'
 import { asm } from './lang-asm'
 import { breakpoints } from './breakpoints'
 import { lineNumbers } from './lineNumbers'
@@ -17,7 +17,7 @@ export const setup: Extension = [
   EditorView.lineWrapping,
   drawSelection(),
   wavyUnderline(),
-  highlightActiveRange(),
+  highlightLine(),
   asm(),
   history(),
   breakpoints(),
