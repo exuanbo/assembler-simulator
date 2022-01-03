@@ -1,8 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { LineRange, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '../../app/store'
-import type { SourceRange } from '../assembler/core/types'
-import type { Statement } from '../assembler/core/parser'
+import type { SourceRange, Statement } from '../assembler/core'
 import { samples } from './samples'
 
 interface EditorState {
