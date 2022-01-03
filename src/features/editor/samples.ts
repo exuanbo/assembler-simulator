@@ -1,7 +1,7 @@
-type Sample = Readonly<{
-  title: string
-  content: string
-}>
+interface Sample {
+  readonly title: string
+  readonly content: string
+}
 
 export const samples: Sample[] = [
   {

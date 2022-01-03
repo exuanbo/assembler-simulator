@@ -22,11 +22,11 @@ import {
 import { hexToDec, stringToAscii, call } from '../../../common/utils'
 
 interface BaseNode {
-  range: SourceRange
+  readonly range: SourceRange
 }
 
 export interface Label extends BaseNode {
-  identifier: string
+  readonly identifier: string
 }
 
 const createLabel = ({ value, range }: Token): Label => {
@@ -37,14 +37,14 @@ const createLabel = ({ value, range }: Token): Label => {
 }
 
 interface Instruction extends BaseNode {
+  readonly mnemonic: string
   opcode: Opcode | null
-  mnemonic: string
 }
 
 const createInstruction = ({ value, range }: Token): Instruction => {
   return {
-    opcode: null,
     mnemonic: value,
+    opcode: null,
     range
   }
 }
@@ -59,10 +59,11 @@ export enum OperandType {
 }
 
 export interface Operand<T extends OperandType = OperandType> extends BaseNode {
-  type: T
+  readonly type: T
   value: number | number[] | undefined
-  rawValue: string
-  raw: string
+
+  readonly rawValue: string
+  readonly raw: string
 }
 
 const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
@@ -91,10 +92,10 @@ const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<
 }
 
 export interface Statement extends BaseNode {
-  label: Label | null
-  instruction: Instruction
-  operands: Operand[]
-  machineCode: number[]
+  readonly label: Label | null
+  readonly instruction: Instruction
+  readonly operands: Operand[]
+  readonly machineCode: number[]
 }
 
 const createStatement = (

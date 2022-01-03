@@ -47,7 +47,7 @@ interface OutputData {
   port: OutputPort
 }
 
-export type OutputSignals = Partial<{
+type OutputSignals = Partial<{
   requiredInputDataPort: InputPort
   data: OutputData
   halted: true

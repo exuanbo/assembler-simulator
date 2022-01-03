@@ -7,7 +7,7 @@ type Listener<P> = (payload: P, api: MiddlewareAPI<Dispatch, RootState>) => void
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const subscriptions = new Map<string, Set<Listener<any>>>()
 
-export type RemoveActionListener = () => void
+type RemoveActionListener = () => void
 
 interface AddActionListener {
   <P>(actionCreator: PayloadActionCreator<P>, listener: Listener<P>): RemoveActionListener

@@ -1,4 +1,4 @@
 export interface SourceRange {
-  from: number
-  to: number
+  readonly from: number
+  readonly to: number
 }

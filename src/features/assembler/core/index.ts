@@ -9,9 +9,11 @@ import {
 import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
-type LabelToAddressMap = Record<string, number>
+interface LabelToAddressMap {
+  [labelIdentifier: string]: number
+}
 
-const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
+const getLabelToAddressMap = (statements: Statement[]): Readonly<LabelToAddressMap> => {
   let address = 0
   const labelToAddressMap: LabelToAddressMap = {}
   statements.forEach((statement, index) => {
@@ -38,10 +40,18 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   return labelToAddressMap
 }
 
-export type AddressToMachineCodeMap = Record<number, number>
-export type AddressToStatementMap = Record<number, Statement>
+export interface AddressToMachineCodeMap {
+  [address: number]: number
+}
 
-export type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
+export interface AddressToStatementMap {
+  [address: number]: Statement
+}
+
+export type AssembleResult = readonly [
+  Readonly<AddressToMachineCodeMap>,
+  Readonly<AddressToStatementMap>
+]
 
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))

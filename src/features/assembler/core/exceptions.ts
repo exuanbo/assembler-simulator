@@ -4,9 +4,9 @@ import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes } from '../../../common/utils'
 
 export interface AssemblerErrorObject {
-  type: string
-  message: string
-  range: SourceRange | undefined
+  readonly type: string
+  readonly message: string
+  readonly range: SourceRange | undefined
 }
 
 export abstract class AssemblerError extends Error {

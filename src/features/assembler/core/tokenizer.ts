@@ -15,10 +15,10 @@ export enum TokenType {
 }
 
 export interface Token {
-  type: TokenType
-  value: string
-  raw: string
-  range: SourceRange
+  readonly type: TokenType
+  readonly value: string
+  readonly raw: string
+  readonly range: SourceRange
 }
 
 const createToken = (type: TokenType, value: string, from: number): Token => {
