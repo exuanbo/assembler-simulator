@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
-import { useShallowEqualSelector } from '../../app/hooks'
+import { useSelector } from '../../app/hooks'
 import { selectCpuRegisters } from './cpuSlice'
 import { getFlagsValue } from './core'
 import {
@@ -29,7 +29,7 @@ interface Props {
 }
 
 const CpuRegisters = ({ className }: Props): JSX.Element => {
-  const { gpr, ip, sp, sr } = useShallowEqualSelector(selectCpuRegisters)
+  const { gpr, ip, sp, sr } = useSelector(selectCpuRegisters)
 
   return (
     <Card className={className} title="CPU Registers">
