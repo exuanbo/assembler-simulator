@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import type { UnionToTuple } from '../../common/utils'
 
@@ -95,7 +95,11 @@ export const controllerSlice = createSlice({
   }
 })
 
+const selectView = (state: RootState): View => state.controller.view
+
 export const selectMemoryView = (state: RootState): MemoryView => state.controller.view.memory
+
+const selectConfiguration = (state: RootState): Configuration => state.controller.configuration
 
 export const selectAutoAssemble = (state: RootState): boolean =>
   state.controller.configuration.autoAssemble
@@ -117,10 +121,11 @@ export const selectIsRunning = (state: RootState): boolean => state.controller.i
 
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
-export const selectControllerStateToPersist = (
-  state: RootState
-): Pick<ControllerState, 'view' | 'configuration'> =>
-  (({ view, configuration }) => ({ view, configuration }))(state.controller)
+export const selectControllerStateToPersist = createSelector(
+  selectView,
+  selectConfiguration,
+  (view, configuration) => ({ view, configuration })
+)
 
 export const {
   setMemoryView,

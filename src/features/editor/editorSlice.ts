@@ -81,10 +81,11 @@ export const selectEditorActiveLinePos = curry2(
   )
 )
 
-export const selectEditorStateToPersist = (
-  state: RootState
-): Pick<EditorState, 'input' | 'breakpoints'> =>
-  (({ input, breakpoints }) => ({ input, breakpoints }))(state.editor)
+export const selectEditorStateToPersist = createSelector(
+  selectEditortInput,
+  selectEditorBreakpoints,
+  (input, breakpoints) => ({ input, breakpoints })
+)
 
 export const {
   setInput: setEditorInput,
