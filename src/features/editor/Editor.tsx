@@ -88,6 +88,7 @@ const Editor = ({ className }: Props): JSX.Element => {
     if (view === undefined) {
       return
     }
+    // persisted state might not be in sync with codemirror
     const breakpoints = selectEditorBreakpoints(getState()).filter(lineRange => {
       const isValid =
         lineRange.to <= view.state.doc.length &&
