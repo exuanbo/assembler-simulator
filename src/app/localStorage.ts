@@ -1,12 +1,14 @@
 import type { PreloadedState } from '@reduxjs/toolkit'
 import { merge } from 'merge-anything'
-import type { PersistedState } from './selectors'
+import type { selectStateToPersist } from './selectors'
 import type { RootState } from './store'
 import { editorSlice } from '../features/editor/editorSlice'
 import { controllerSlice } from '../features/controller/controllerSlice'
 import { name } from '../../package.json'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
+
+type PersistedState = ReturnType<typeof selectStateToPersist> | Record<string, never>
 
 const __loadState = (): PersistedState => {
   try {
