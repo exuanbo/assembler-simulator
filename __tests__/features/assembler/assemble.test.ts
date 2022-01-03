@@ -1,6 +1,6 @@
-import { memorySerializer } from '../../snapshotSerializers'
 import { assemble } from '../../../src/features/assembler/core'
 import { initDataFrom } from '../../../src/features/memory/core'
+import { memorySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(memorySerializer)
 

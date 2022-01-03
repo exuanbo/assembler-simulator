@@ -17,12 +17,12 @@ import {
   setEditorActiveRange,
   clearEditorActiveRange
 } from '../editor/editorSlice'
+import { useAssembler } from '../assembler/hooks'
 import {
   selectAddressToStatementMap,
   setAssemblerState,
   resetAssembler
 } from '../assembler/assemblerSlice'
-import { useAssembler } from '../assembler/hooks'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
 import { StepResult, step as __step } from '../cpu/core'
 import { RuntimeError } from '../cpu/core/exceptions'

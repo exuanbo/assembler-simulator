@@ -18,8 +18,8 @@ import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightActiveRange'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
-import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { useAssembler } from '../assembler/hooks'
+import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 
 let syncStateTimeoutId: number | undefined

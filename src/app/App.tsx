@@ -1,9 +1,9 @@
 import React from 'react'
 import ToolBar from '../features/controller/Toolbar'
 import Editor from '../features/editor/Editor'
-import IoDevices from '../features/io/IoDevices'
 import CpuRegisters from '../features/cpu/CpuRegisters'
 import Memory from '../features/memory/Memory'
+import IoDevices from '../features/io/IoDevices'
 
 const App = (): JSX.Element => (
   <div className="flex flex-col font-mono">

@@ -1,10 +1,10 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 import { assemble } from '../../src/features/assembler/core'
 import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
 import { Registers, initRegisters, step as __step } from '../../src/features/cpu/core'
 import { Signals, initialInputSignals } from '../../src/features/io/core'
 import { Opcode, GeneralPurposeRegister } from '../../src/common/constants'
+import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)
 expect.addSnapshotSerializer(memorySerializer)
