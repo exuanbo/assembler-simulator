@@ -88,16 +88,16 @@ const Editor = ({ className }: Props): JSX.Element => {
     if (view === undefined) {
       return
     }
+    const breakpoints = selectEditorBreakpoints(getState())
     // persisted state might not be in sync with codemirror
-    const breakpoints = selectEditorBreakpoints(getState()).filter(lineRange => {
-      const isValid =
+    const validBreakpoints = breakpoints.filter(
+      lineRange =>
         lineRange.to <= view.state.doc.length &&
         lineRangesEqual(lineRange, lineRangeAt(view.state.doc, lineRange.from))
-      if (!isValid) {
-        dispatch(removeBreakpoint(lineRange))
-      }
-      return isValid
-    })
+    )
+    if (validBreakpoints.length < breakpoints.length) {
+      dispatch(setBreakpoints(validBreakpoints))
+    }
     view.dispatch({
       effects: breakpoints.map(lineRange =>
         breakpointEffect.of({
