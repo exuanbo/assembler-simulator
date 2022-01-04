@@ -6,7 +6,8 @@ type Unsubscribe = () => void
 
 type Watch = <S>(selector: (state: RootState) => S, callback: WatchCallback<S>) => Unsubscribe
 
-type Subscriptions<S> = Map<
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Subscriptions<S = any> = Map<
   (state: RootState) => S,
   {
     prev: S
@@ -17,8 +18,7 @@ type Subscriptions<S> = Map<
 export const createWatch = (store: Store): Watch => {
   const { getState, subscribe } = store
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const subscriptions: Subscriptions<any> = new Map()
+  const subscriptions: Subscriptions = new Map()
 
   subscribe(() => {
     const state = getState()

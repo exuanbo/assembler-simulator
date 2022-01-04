@@ -5,7 +5,9 @@ import type { RootState, Dispatch } from './store'
 type Listener<P> = (payload: P, api: MiddlewareAPI<Dispatch, RootState>) => void | Promise<void>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const subscriptions = new Map<string, Set<Listener<any>>>()
+type Subscription<P = any> = Map<string, Set<Listener<P>>>
+
+const subscriptions: Subscription = new Map()
 
 type RemoveActionListener = () => void
 
