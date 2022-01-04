@@ -1,5 +1,5 @@
 import { EditorState, StateField, StateEffect, Extension } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import { EditorView, ViewUpdate } from '@codemirror/view'
 import { RangeSet } from '@codemirror/rangeset'
 import { GutterMarker, gutter } from '@codemirror/gutter'
 
@@ -81,22 +81,21 @@ export const breakpoints = (): Extension => [
   })
 ]
 
-export const breakpointsEqual = (
-  a: RangeSet<BreakpointMarker>,
-  b: RangeSet<BreakpointMarker>
-): boolean => {
-  if (a.size !== b.size) {
-    return false
-  }
-  if (a.size === 0) {
+export const breakpointsChanged = (viewUpdate: ViewUpdate): boolean => {
+  const newBreakpoints = getBreakpoints(viewUpdate.state)
+  const oldBreakpoints = getBreakpoints(viewUpdate.startState)
+  if (newBreakpoints.size !== oldBreakpoints.size) {
     return true
   }
-  const aCursor = a.iter()
-  const bCursor = b.iter()
-  for (let i = 0; i < a.size; i++, aCursor.next(), bCursor.next()) {
-    if (aCursor.from !== bCursor.from || aCursor.to !== bCursor.to) {
-      return false
+  if (newBreakpoints.size === 0) {
+    return false
+  }
+  const newCursor = newBreakpoints.iter()
+  const oldCursor = oldBreakpoints.iter()
+  for (let i = 0; i < newBreakpoints.size; i++, newCursor.next(), oldCursor.next()) {
+    if (newCursor.from !== oldCursor.from || newCursor.to !== oldCursor.to) {
+      return true
     }
   }
-  return true
+  return false
 }

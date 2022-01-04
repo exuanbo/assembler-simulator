@@ -13,7 +13,7 @@ import {
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { breakpointEffect, getBreakpoints, breakpointsEqual } from './codemirror/breakpoints'
+import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightActiveRange'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
@@ -57,8 +57,8 @@ const Editor = ({ className }: Props): JSX.Element => {
           }
         }, 200)
 
-        const breakpointRangeSet = getBreakpoints(viewUpdate.state)
-        if (!breakpointsEqual(breakpointRangeSet, getBreakpoints(viewUpdate.startState))) {
+        if (breakpointsChanged(viewUpdate)) {
+          const breakpointRangeSet = getBreakpoints(viewUpdate.state)
           const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
             lineRangeAt(viewUpdate.state.doc, from)
           )
