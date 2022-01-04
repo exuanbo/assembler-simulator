@@ -37,6 +37,7 @@ export const editorSlice = createSlice({
       )
       if (!hasDuplicate) {
         state.breakpoints.push(action.payload)
+        state.breakpoints.sort((a, b) => a.from - b.from)
       }
     },
     removeBreakpoint: (state, action: PayloadAction<LineRange>) => {
