@@ -18,7 +18,7 @@ const TrafficLights = (): JSX.Element => {
             <title>Background</title>
           </rect>
           <g fill="#000">
-            <title>Pillars</title>
+            <title>Pillar</title>
             {/* Left */}
             <rect height="112" width="48" x="32" y="24" />
             <rect height="80" width="16" x="48" y="136" />
@@ -29,7 +29,7 @@ const TrafficLights = (): JSX.Element => {
             <rect height="12" width="32" x="248" y="216" />
           </g>
           <g fill="none" stroke="white" strokeWidth="2">
-            <title>Circuts</title>
+            <title>Circut</title>
             {/* Left */}
             <polyline points="44 44,36 44,36 132,52 132,52 180,104 180,104 200" />
             <polyline points="44 76,40 76,40 128,56 128,56 176,120 176,120 200" />
@@ -43,13 +43,13 @@ const TrafficLights = (): JSX.Element => {
             <polyline points="216 200,216 188,288 188,288 164" />
           </g>
           <g fill="#fff">
-            <title>Circut Nodes</title>
+            <title>Circut Node</title>
             {range(8).map(index => (
               <rect key={index} height="8" width="8" x={100 + index * 16} y="200" />
             ))}
           </g>
           <g className="font-mono" fill="#fff" textAnchor="middle">
-            <title>Lables</title>
+            <title>Label</title>
             <text x="24" y="210">
               MSB
             </text>
