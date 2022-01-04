@@ -50,7 +50,6 @@ export const toggleBreakpoint = (view: EditorView, pos: number): void => {
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
     hasBreakpoint = true
-    return false // stops the iteration
   })
   view.dispatch({
     effects: breakpointEffect.of({
@@ -88,6 +87,9 @@ export const breakpointsEqual = (
 ): boolean => {
   if (a.size !== b.size) {
     return false
+  }
+  if (a.size === 0) {
+    return true
   }
   const aCursor = a.iter()
   const bCursor = b.iter()
