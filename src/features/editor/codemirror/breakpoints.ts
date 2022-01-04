@@ -81,9 +81,8 @@ export const breakpoints = (): Extension => [
   })
 ]
 
-export const breakpointsChanged = (viewUpdate: ViewUpdate): boolean => {
-  const newBreakpoints = getBreakpoints(viewUpdate.state)
-  const oldBreakpoints = getBreakpoints(viewUpdate.startState)
+export const breakpointsChanged = ({ state, startState }: ViewUpdate): boolean => {
+  const [newBreakpoints, oldBreakpoints] = [state, startState].map(getBreakpoints)
   if (newBreakpoints.size !== oldBreakpoints.size) {
     return true
   }
