@@ -13,7 +13,12 @@ import {
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
+import {
+  breakpointEffect,
+  getBreakpoints,
+  breakpointsChanged,
+  breakpointsRestoration
+} from './codemirror/breakpoints'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightActiveRange'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
@@ -66,6 +71,9 @@ const Editor = ({ className }: Props): JSX.Element => {
         }
       } else {
         viewUpdate.transactions.forEach(transaction => {
+          if (transaction.annotation(breakpointsRestoration) === true) {
+            return
+          }
           transaction.effects.forEach(effect => {
             if (effect.is(breakpointEffect)) {
               const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
@@ -104,7 +112,8 @@ const Editor = ({ className }: Props): JSX.Element => {
           pos: lineRange.from,
           on: true
         })
-      )
+      ),
+      annotations: breakpointsRestoration.of(true)
     })
     return addActionListener(setEditorInput, ({ value, isFromFile = false }) => {
       if (isFromFile) {

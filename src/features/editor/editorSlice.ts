@@ -31,19 +31,13 @@ export const editorSlice = createSlice({
       state.breakpoints = action.payload
     },
     addBreakpoint: (state, action: PayloadAction<LineRange>) => {
-      const lineRange = action.payload
-      const hasDuplicate = state.breakpoints.some(breakpointLineRange =>
-        lineRangesEqual(breakpointLineRange, lineRange)
-      )
-      if (!hasDuplicate) {
-        state.breakpoints.push(action.payload)
-        state.breakpoints.sort((a, b) => a.from - b.from)
-      }
+      state.breakpoints.push(action.payload)
+      state.breakpoints.sort((a, b) => a.from - b.from)
     },
     removeBreakpoint: (state, action: PayloadAction<LineRange>) => {
-      const lineRange = action.payload
-      const targetIndex = state.breakpoints.findIndex(breakpointLineRange =>
-        lineRangesEqual(breakpointLineRange, lineRange)
+      const targetLineRange = action.payload
+      const targetIndex = state.breakpoints.findIndex(lineRange =>
+        lineRangesEqual(lineRange, targetLineRange)
       )
       // TODO: could this be negative?
       if (targetIndex >= 0) {
