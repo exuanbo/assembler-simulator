@@ -19,8 +19,8 @@ import {
   breakpointsChanged,
   breakpointsRestoration
 } from './codemirror/breakpoints'
+import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { highlightLineEffect } from './codemirror/highlightActiveRange'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { useAssembler } from '../assembler/hooks'
