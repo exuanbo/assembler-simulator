@@ -50,12 +50,7 @@ const Editor = ({ className }: Props): JSX.Element => {
         syncStateTimeoutId = window.setTimeout(() => {
           const state = getState()
           if (selectEditortInput(state) !== input) {
-            dispatch(
-              setEditorInput({
-                value: input,
-                isFromFile: false
-              })
-            )
+            dispatch(setEditorInput({ value: input }))
           }
           if (selectAutoAssemble(state)) {
             assemble(input)
