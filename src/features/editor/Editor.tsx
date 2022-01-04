@@ -107,7 +107,7 @@ const Editor = ({ className }: Props): JSX.Element => {
       dispatch(setBreakpoints(validBreakpoints))
     }
     view.dispatch({
-      effects: breakpoints.map(lineRange =>
+      effects: validBreakpoints.map(lineRange =>
         breakpointEffect.of({
           pos: lineRange.from,
           on: true
