@@ -31,18 +31,22 @@ export const editorSlice = createSlice({
       state.breakpoints = action.payload
     },
     addBreakpoint: (state, action: PayloadAction<LineRange>) => {
-      state.breakpoints.push(action.payload)
-      state.breakpoints.sort((a, b) => a.from - b.from)
+      const targetLineRange = action.payload
+      const targetIndex = state.breakpoints.findIndex(
+        lineRange => lineRange.from > targetLineRange.from
+      )
+      if (targetIndex === -1) {
+        state.breakpoints.push(targetLineRange)
+      } else {
+        state.breakpoints.splice(targetIndex, 0, targetLineRange)
+      }
     },
     removeBreakpoint: (state, action: PayloadAction<LineRange>) => {
       const targetLineRange = action.payload
       const targetIndex = state.breakpoints.findIndex(lineRange =>
         lineRangesEqual(lineRange, targetLineRange)
       )
-      // TODO: could this be negative?
-      if (targetIndex >= 0) {
-        state.breakpoints.splice(targetIndex, 1)
-      }
+      state.breakpoints.splice(targetIndex, 1)
     },
     setActiveRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
