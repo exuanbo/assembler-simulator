@@ -17,6 +17,7 @@ import {
   setEditorActiveRange,
   clearEditorActiveRange
 } from '../editor/editorSlice'
+import { lineRangesOverlap } from '../editor/codemirror/line'
 import { useAssembler } from '../assembler/hooks'
 import {
   selectAddressToStatementMap,
@@ -253,16 +254,12 @@ export const useController = (): Controller => {
       const breakpoints = selectEditorBreakpoints(state)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
         const { label, range: rangeWithoutLabel } = statement
-        const range = {
+        const statementRange = {
           from: label === null ? rangeWithoutLabel.from : label.range.from,
           to: rangeWithoutLabel.to
         }
-        // TODO: extract function lineRangesOverlap
-        const willBreak = breakpoints.some(
-          ({ from, to }) =>
-            (range.from <= from && from < range.to) ||
-            (from < range.from && range.to < to) ||
-            (range.from < to && to <= range.to)
+        const willBreak = breakpoints.some(lineRange =>
+          lineRangesOverlap(lineRange, statementRange)
         )
         if (willBreak) {
           if (!willDispatchChanges) {

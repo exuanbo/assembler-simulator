@@ -7,3 +7,6 @@ export const lineRangeAt = (text: Text, pos: number): LineRange =>
 
 export const lineRangesEqual = (a: LineRange, b: LineRange): boolean =>
   a.from === b.from && a.to === b.to
+
+export const lineRangesOverlap = (a: LineRange, b: LineRange): boolean =>
+  a.from < b.to && b.from < a.to
