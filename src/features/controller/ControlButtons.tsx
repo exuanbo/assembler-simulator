@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
 import { Arrow, Play, Stop, Forward, Undo } from '../../common/components/icons'
-import { useSelector } from '../../app/hooks'
 import { useController } from './hooks'
 import { selectIsRunning } from './controllerSlice'
+import { useSelector } from '../../app/hooks'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 interface Props {
