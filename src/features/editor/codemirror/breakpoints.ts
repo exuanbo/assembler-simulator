@@ -1,4 +1,4 @@
-import { EditorState, StateField, StateEffect, Extension, Annotation } from '@codemirror/state'
+import { EditorState, StateField, StateEffect, Extension } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 import { RangeSet } from '@codemirror/rangeset'
 import { GutterMarker, gutter } from '@codemirror/gutter'
@@ -98,5 +98,3 @@ export const breakpointsChanged = ({ state, startState }: ViewUpdate): boolean =
   }
   return false
 }
-
-export const breakpointsRestoration = Annotation.define<true>()

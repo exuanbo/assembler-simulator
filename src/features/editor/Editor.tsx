@@ -13,14 +13,10 @@ import {
 } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import {
-  breakpointEffect,
-  getBreakpoints,
-  breakpointsChanged,
-  breakpointsRestoration
-} from './codemirror/breakpoints'
+import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
+import { StringAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { useAssembler } from '../assembler/hooks'
@@ -28,6 +24,8 @@ import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 
 let syncStateTimeoutId: number | undefined
+
+const SKIP_SYNC_BREAKPOINTS = 'SKIP_SYNC_BREAKPOINTS'
 
 interface Props {
   className: string
@@ -66,7 +64,7 @@ const Editor = ({ className }: Props): JSX.Element => {
         }
       } else {
         viewUpdate.transactions.forEach(transaction => {
-          if (transaction.annotation(breakpointsRestoration) === true) {
+          if (transaction.annotation(StringAnnotation) === SKIP_SYNC_BREAKPOINTS) {
             return
           }
           transaction.effects.forEach(effect => {
@@ -108,7 +106,7 @@ const Editor = ({ className }: Props): JSX.Element => {
           on: true
         })
       ),
-      annotations: breakpointsRestoration.of(true)
+      annotations: StringAnnotation.of(SKIP_SYNC_BREAKPOINTS)
     })
     return addActionListener(setEditorInput, ({ value, isFromFile = false }) => {
       if (isFromFile) {
