@@ -25,7 +25,7 @@ const GeneralPurposeRegisterTable = (): JSX.Element => {
 }
 
 const PointerRegisterTableRows = (): JSX.Element => {
-  const { ip, sp } = useSelector(selectCpuPointerRegisters)
+  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
   return (
     <>
       <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
