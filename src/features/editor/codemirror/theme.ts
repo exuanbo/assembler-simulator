@@ -4,7 +4,8 @@ import { EditorView } from '@codemirror/view'
 export const theme = (): Extension =>
   EditorView.theme({
     '&': {
-      height: '100%'
+      height: '100%',
+      overflowY: 'auto'
     },
     '&.cm-editor.cm-focused': {
       outline: '0'
