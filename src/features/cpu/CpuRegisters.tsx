@@ -10,36 +10,7 @@ import {
 import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
-const GeneralPurposeRegisterTable = (): JSX.Element => {
-  const gpr = useShallowEqualSelector(selectCpuGeneralPurposeRegisters)
-  return (
-    <table className="flex-1">
-      <tbody className="divide-y">
-        {gpr.map((value, index) => {
-          const registerName = GeneralPurposeRegister[index] as GeneralPurposeRegisterName
-          return <RegisterTableRow key={index} registerName={registerName} value={value} />
-        })}
-      </tbody>
-    </table>
-  )
-}
-
-const PointerRegisterTableRows = (): JSX.Element => {
-  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
-  return (
-    <>
-      <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
-      <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
-    </>
-  )
-}
-
-const StatusRegisterTableRow = (): JSX.Element => {
-  const srValue = useSelector(selectStatusRegisterValue)
-  return <RegisterTableRow registerName="SR" value={srValue} />
-}
-
-const FlagIndicatorTableRow = (): JSX.Element => (
+const FlagIndicatorTableRow = React.memo(() => (
   <tr>
     <td>{NO_BREAK_SPACE}</td>
     <td />
@@ -51,25 +22,39 @@ const FlagIndicatorTableRow = (): JSX.Element => (
     </td>
     <td />
   </tr>
-)
+))
 
 interface Props {
   className?: string
 }
 
-const CpuRegisters = ({ className }: Props): JSX.Element => (
-  <Card className={className} title="CPU Registers">
-    <div className="divide-x flex">
-      <GeneralPurposeRegisterTable />
-      <table className="flex-1">
-        <tbody className="divide-y">
-          <PointerRegisterTableRows />
-          <StatusRegisterTableRow />
-          <FlagIndicatorTableRow />
-        </tbody>
-      </table>
-    </div>
-  </Card>
-)
+const CpuRegisters = ({ className }: Props): JSX.Element => {
+  const gpr = useShallowEqualSelector(selectCpuGeneralPurposeRegisters)
+  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
+  const srValue = useSelector(selectStatusRegisterValue)
+
+  return (
+    <Card className={className} title="CPU Registers">
+      <div className="divide-x flex">
+        <table className="flex-1">
+          <tbody className="divide-y">
+            {gpr.map((value, index) => {
+              const registerName = GeneralPurposeRegister[index] as GeneralPurposeRegisterName
+              return <RegisterTableRow key={index} registerName={registerName} value={value} />
+            })}
+          </tbody>
+        </table>
+        <table className="flex-1">
+          <tbody className="divide-y">
+            <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
+            <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
+            <RegisterTableRow registerName="SR" value={srValue} />
+            <FlagIndicatorTableRow />
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  )
+}
 
 export default CpuRegisters
