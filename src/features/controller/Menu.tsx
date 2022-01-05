@@ -1,17 +1,19 @@
-import React, { ReactNode, DispatchWithoutAction } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { useToggle, useOutsideClick } from '../../common/hooks'
 
 interface Props {
-  children: (isOpen: boolean, toggleOpen: DispatchWithoutAction) => ReactNode
+  children: (isOpen: boolean, toggleOpen: React.DispatchWithoutAction) => ReactNode
 }
 
 const Menu = ({ children }: Props): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(false)
   const [isClicked, clickRef] = useOutsideClick<HTMLDivElement>()
 
-  if (isOpen && isClicked) {
-    toggleOpen()
-  }
+  useEffect(() => {
+    if (isOpen && isClicked) {
+      toggleOpen()
+    }
+  }, [isOpen, isClicked])
 
   return (
     <div
