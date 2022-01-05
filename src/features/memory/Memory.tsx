@@ -1,11 +1,22 @@
 import React from 'react'
 import Card from '../../common/components/Card'
-import { useSelector, useShallowEqualSelector } from '../../app/hooks'
+import { useSelector } from '../../app/hooks'
 import { selectMemoryDataRows, selectMemorySourceRows } from './memorySlice'
 import { MAX_SP } from '../cpu/core'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
-import { decToHex } from '../../common/utils'
+import { decToHex, range } from '../../common/utils'
+
+const ColumIndicatorTableRow = React.memo(() => (
+  <tr className="divide-x bg-gray-50 text-gray-400">
+    <td />
+    {range(0x10).map(colIndex => (
+      <td key={colIndex} className="text-center">
+        {decToHex(colIndex)[1]}
+      </td>
+    ))}
+  </tr>
+))
 
 interface Props {
   className?: string
@@ -19,20 +30,13 @@ const Memory = ({ className }: Props): JSX.Element => {
   const rows = memoryView === MemoryView.Source ? sourceRows : dataRows
 
   let address = 0
-  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
+  const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
     <Card className={className} title="Memory">
       <table className="text-sm w-full">
         <tbody className="divide-y">
-          <tr className="divide-x bg-gray-50 text-gray-400">
-            <td />
-            {rows[0].map((_, colIndex) => (
-              <td key={colIndex} className="text-center">
-                {decToHex(colIndex)[1]}
-              </td>
-            ))}
-          </tr>
+          <ColumIndicatorTableRow />
           {rows.map((row, rowIndex) => (
             <tr key={rowIndex} className="divide-x">
               <td className="bg-gray-50 text-center text-gray-400">
