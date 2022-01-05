@@ -1,17 +1,20 @@
 import type { RootState, Store } from './store'
 
-type WatchCallback<S> = (selectedState: S, getState: () => RootState) => void
+type WatchCallback<TSelected> = (selectedState: TSelected, getState: () => RootState) => void
 
 type Unsubscribe = () => void
 
-type Watch = <S>(selector: (state: RootState) => S, callback: WatchCallback<S>) => Unsubscribe
+type Watch = <TSelected>(
+  selector: (state: RootState) => TSelected,
+  callback: WatchCallback<TSelected>
+) => Unsubscribe
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscriptions<S = any> = Map<
-  (state: RootState) => S,
+type Subscriptions<TSelected = any> = Map<
+  (state: RootState) => TSelected,
   {
-    prev: S
-    callbacks: Set<WatchCallback<S>>
+    prev: TSelected
+    callbacks: Set<WatchCallback<TSelected>>
   }
 >
 
