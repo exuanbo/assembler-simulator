@@ -11,7 +11,7 @@ interface Props {
   valueClassName?: string
 }
 
-const RegisterTableRow = ({ registerName, value, valueClassName = '' }: Props): JSX.Element => {
+const RegisterTableRow = React.memo(({ registerName, value, valueClassName = '' }: Props) => {
   const signedValue = sign8(value)
   const hexValue = decToHex(value)
   const binValue = value.toString(2).padStart(8, '0')
@@ -31,6 +31,6 @@ const RegisterTableRow = ({ registerName, value, valueClassName = '' }: Props): 
       </RegisterValueTableDataCell>
     </tr>
   )
-}
+})
 
 export default RegisterTableRow
