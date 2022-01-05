@@ -3,7 +3,7 @@ import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
 import { useSelector } from '../../app/hooks'
 import { selectCpuRegisters } from './cpuSlice'
-import { getFlagsValue } from './core'
+import { getSrValue } from './core'
 import {
   GeneralPurposeRegister,
   GeneralPurposeRegisterName,
@@ -46,7 +46,7 @@ const CpuRegisters = ({ className }: Props): JSX.Element => {
           <tbody className="divide-y">
             <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
             <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
-            <RegisterTableRow registerName="SR" value={getFlagsValue(sr)} />
+            <RegisterTableRow registerName="SR" value={getSrValue(sr)} />
             <FlagIndicatorTableRow />
           </tbody>
         </table>
