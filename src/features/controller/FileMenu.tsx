@@ -113,7 +113,7 @@ const SampleItems = React.memo(
   )
 )
 
-const Samples = (): JSX.Element => {
+const SamplesMenu = (): JSX.Element => {
   const dispatch = useDispatch()
   return (
     <MenuItem.Expandable>
@@ -142,7 +142,7 @@ const FileMenu = (): JSX.Element => (
           <MenuItems>
             <Upload onFileUploaded={toggleOpen} />
             <Download />
-            <Samples />
+            <SamplesMenu />
           </MenuItems>
         )}
       </>
