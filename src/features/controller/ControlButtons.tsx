@@ -26,7 +26,6 @@ const ControlButtons = (): JSX.Element => {
 
   const RunButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
-
     return (
       <ControlButton onClick={run}>
         {isRunning ? (
@@ -46,7 +45,6 @@ const ControlButtons = (): JSX.Element => {
 
   const StepButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
-
     return (
       <ControlButton disabled={isRunning} onClick={isRunning ? undefined : step}>
         <Forward />

@@ -39,6 +39,7 @@ const AutoAssemble = (): JSX.Element => {
 const ClockSpeedMenu = (): JSX.Element => {
   const clockSpeed = useSelector(selectClockSpeed)
   const dispatch = useDispatch()
+
   return (
     <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (
@@ -76,6 +77,7 @@ const ClockSpeedMenu = (): JSX.Element => {
 const TimerIntervalMenu = (): JSX.Element => {
   const timerInterval = useSelector(selectTimerInterval)
   const dispatch = useDispatch()
+
   return (
     <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (

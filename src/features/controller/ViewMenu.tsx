@@ -10,6 +10,7 @@ import { MemoryView, selectMemoryView, setMemoryView } from './controllerSlice'
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
   const dispatch = useDispatch()
+
   return (
     <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (
