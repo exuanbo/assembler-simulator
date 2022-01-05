@@ -128,42 +128,6 @@ export const MnemonicToOperandsCountMap = {
   [Mnemonic.DB]: 1
 } as const
 
-export type MnemonicWithOneOperand =
-  | Mnemonic.INC
-  | Mnemonic.DEC
-  | Mnemonic.NOT
-  | Mnemonic.ROL
-  | Mnemonic.ROR
-  | Mnemonic.SHL
-  | Mnemonic.SHR
-  | Mnemonic.JMP
-  | Mnemonic.JZ
-  | Mnemonic.JNZ
-  | Mnemonic.JS
-  | Mnemonic.JNS
-  | Mnemonic.JO
-  | Mnemonic.JNO
-  | Mnemonic.PUSH
-  | Mnemonic.POP
-  | Mnemonic.CALL
-  | Mnemonic.INT
-  | Mnemonic.IN
-  | Mnemonic.OUT
-  | Mnemonic.ORG
-  | Mnemonic.DB
-
-export type MnemonicWithTwoOperands =
-  | Mnemonic.ADD
-  | Mnemonic.SUB
-  | Mnemonic.MUL
-  | Mnemonic.DIV
-  | Mnemonic.MOD
-  | Mnemonic.AND
-  | Mnemonic.OR
-  | Mnemonic.XOR
-  | Mnemonic.MOV
-  | Mnemonic.CMP
-
 export enum Opcode {
   END = 0x00,
 
@@ -246,18 +210,5 @@ export enum Opcode {
   CLO = 0xfe,
   NOP = 0xff
 }
-
-export enum GeneralPurposeRegister {
-  AL,
-  BL,
-  CL,
-  DL
-}
-
-export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
-
-export type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
-
-export const MAX_SP = 0xbf
 
 export const NO_BREAK_SPACE = '\u00A0'

@@ -2,9 +2,9 @@ import React from 'react'
 import Card from '../../common/components/Card'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryDataRows, selectMemorySourceRows } from './memorySlice'
+import { MAX_SP } from '../cpu/core'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
-import { MAX_SP } from '../../common/constants'
 import { decToHex } from '../../common/utils'
 
 interface Props {

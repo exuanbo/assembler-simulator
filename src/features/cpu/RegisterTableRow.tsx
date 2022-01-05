@@ -1,7 +1,9 @@
 import React from 'react'
 import RegisterValueTableDataCell from './RegisterValueTableCell'
-import { RegisterName } from '../../common/constants'
+import type { GeneralPurposeRegisterName } from './core'
 import { sign8, decToHex } from '../../common/utils'
+
+type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
 
 interface Props {
   registerName: RegisterName

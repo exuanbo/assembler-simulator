@@ -9,7 +9,7 @@ import {
 import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
-export * from './types'
+export type { SourceRange } from './types'
 export type { Statement } from './parser'
 
 interface LabelToAddressMap {

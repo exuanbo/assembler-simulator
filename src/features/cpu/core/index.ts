@@ -26,16 +26,27 @@ import {
 } from './exceptions'
 import type { MemoryData } from '../../memory/core'
 import { Signals, MAX_PORT } from '../../io/core'
-import { Opcode, GeneralPurposeRegister, MAX_SP } from '../../../common/constants'
+import { Opcode } from '../../../common/constants'
 import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
+
+export enum GeneralPurposeRegister {
+  AL,
+  BL,
+  CL,
+  DL
+}
+
+export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 type GeneralPurposeRegisters = [AL: number, BL: number, CL: number, DL: number]
 
 type InstructionPointer = number
 
 type StackPointer = number
+
+export const MAX_SP = 0xbf
 
 enum Flag {
   Zero,

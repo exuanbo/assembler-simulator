@@ -3,12 +3,8 @@ import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
 import { useSelector } from '../../app/hooks'
 import { selectCpuRegisters } from './cpuSlice'
-import { getSrValue } from './core'
-import {
-  GeneralPurposeRegister,
-  GeneralPurposeRegisterName,
-  NO_BREAK_SPACE
-} from '../../common/constants'
+import { GeneralPurposeRegister, GeneralPurposeRegisterName, getSrValue } from './core'
+import { NO_BREAK_SPACE } from '../../common/constants'
 
 const FlagIndicatorTableRow = (): JSX.Element => (
   <tr>

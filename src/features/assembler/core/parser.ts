@@ -1,4 +1,4 @@
-import type { SourceRange } from './types'
+import type { SourceRange, MnemonicWithOneOperand, MnemonicWithTwoOperands } from './types'
 import { TokenType, Token } from './tokenizer'
 import {
   AssemblerError,
@@ -10,15 +10,8 @@ import {
   OperandTypeError,
   MissingCommaError
 } from './exceptions'
-import {
-  Mnemonic,
-  MnemonicToOperandsCountMap,
-  MnemonicWithOneOperand,
-  MnemonicWithTwoOperands,
-  Opcode,
-  GeneralPurposeRegister,
-  GeneralPurposeRegisterName
-} from '../../../common/constants'
+import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '../../cpu/core'
+import { Mnemonic, MnemonicToOperandsCountMap, Opcode } from '../../../common/constants'
 import { hexToDec, stringToAscii, call } from '../../../common/utils'
 
 interface BaseNode {
