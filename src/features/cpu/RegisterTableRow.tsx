@@ -1,5 +1,5 @@
 import React from 'react'
-import RegisterValueTableDataCell from './RegisterValueTableCell'
+import RegisterValueTableDataCell, { RadixLabel } from './RegisterValueTableCell'
 import type { GeneralPurposeRegisterName } from './core'
 import { sign8, decToHex } from '../../common/utils'
 
@@ -20,13 +20,13 @@ const RegisterTableRow = ({ registerName, value, valueClassName = '' }: Props): 
   return (
     <tr className="divide-x">
       <td className="bg-gray-50 text-center px-2">{registerName}</td>
-      <RegisterValueTableDataCell radixTag="hex">
+      <RegisterValueTableDataCell radixLabel={RadixLabel.Hex}>
         <span className={`rounded text-sm px-1 ${valueClassName}`}>{hexValue}</span>
       </RegisterValueTableDataCell>
-      <RegisterValueTableDataCell radixTag="bin">
+      <RegisterValueTableDataCell radixLabel={RadixLabel.Bin}>
         <span className="rounded text-sm px-1">{binValue}</span>
       </RegisterValueTableDataCell>
-      <RegisterValueTableDataCell radixTag="dec">
+      <RegisterValueTableDataCell radixLabel={RadixLabel.Dec}>
         <span className="rounded text-sm px-1">{decValue}</span>
       </RegisterValueTableDataCell>
     </tr>
