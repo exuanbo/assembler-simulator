@@ -1,4 +1,4 @@
-import React, { ReactNode, RefCallback, useState } from 'react'
+import React, { ReactNode, RefCallback, useState, useCallback } from 'react'
 import { Play } from '../../common/components/icons'
 import { useHover } from '../../common/hooks'
 
@@ -31,9 +31,9 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
     }
   }
 
-  const menuItemsRef: RefCallback<HTMLDivElement> = node => {
+  const menuItemsRef = useCallback<RefCallback<HTMLDivElement>>(node => {
     setMenuItems(node)
-  }
+  }, [])
 
   return (
     <div

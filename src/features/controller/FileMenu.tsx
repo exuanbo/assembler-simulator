@@ -1,24 +1,28 @@
-import React, { useRef } from 'react'
+import React, { RefCallback, useRef } from 'react'
 import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '../../common/components/icons'
-import { useStore } from '../../app/hooks'
+import type { Dispatch } from '../../app/store'
+import { useDispatch, useStore } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { samples } from '../editor/samples'
 
-const FileMenu = (): JSX.Element => {
+const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { getState, dispatch } = useStore()
+  const dispatch = useDispatch()
 
-  const handleClickUpload: React.MouseEventHandler<HTMLDivElement> = event => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
     event.stopPropagation()
     inputRef.current!.click()
   }
 
-  const handleUploadedFile: React.ChangeEventHandler<HTMLInputElement> = event => {
-    const file = event.target.files![0]
+  const handleInputClick: React.MouseEventHandler<HTMLInputElement> = event => {
+    event.stopPropagation()
+  }
+
+  const handleUploadedFile = (file: File): void => {
     const reader = new FileReader()
     reader.onload = function () {
       const fileContent = this.result as string
@@ -32,12 +36,14 @@ const FileMenu = (): JSX.Element => {
     reader.readAsText(file)
   }
 
-  interface Props {
-    onInputChange: () => void
+  const handleFileUploaded: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    const file = target.files![0]
+    handleUploadedFile(file)
+    onFileUploaded()
   }
 
-  const Upload = ({ onInputChange }: Props): JSX.Element => (
-    <MenuItem onClick={handleClickUpload}>
+  return (
+    <MenuItem onClick={handleClick}>
       <MenuButton>
         <span className="w-4" />
         <span>Upload</span>
@@ -46,16 +52,15 @@ const FileMenu = (): JSX.Element => {
         ref={inputRef}
         className="hidden"
         type="file"
-        onChange={event => {
-          handleUploadedFile(event)
-          onInputChange()
-        }}
-        onClick={event => {
-          event.stopPropagation()
-        }}
+        onChange={handleFileUploaded}
+        onClick={handleInputClick}
       />
     </MenuItem>
   )
+}
+
+const Download = (): JSX.Element => {
+  const { getState } = useStore()
 
   const handleClickDownload: React.MouseEventHandler<HTMLDivElement> = () => {
     const editorInput = selectEditortInput(getState())
@@ -68,7 +73,7 @@ const FileMenu = (): JSX.Element => {
     URL.revokeObjectURL(fileUrl)
   }
 
-  const Download = (): JSX.Element => (
+  return (
     <MenuItem onClick={handleClickDownload}>
       <MenuButton>
         <span className="w-4" />
@@ -76,8 +81,41 @@ const FileMenu = (): JSX.Element => {
       </MenuButton>
     </MenuItem>
   )
+}
 
-  const Samples = (): JSX.Element => (
+const SampleItems = React.memo(
+  ({
+    dispatch,
+    innerRef: menuItemsRef
+  }: {
+    dispatch: Dispatch
+    innerRef: RefCallback<HTMLDivElement>
+  }) => (
+    <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+      {samples.map(({ title, content }, index) => (
+        <MenuItem
+          key={index}
+          onClick={() => {
+            dispatch(
+              setEditorInput({
+                value: content,
+                isFromFile: true
+              })
+            )
+          }}>
+          <MenuButton>
+            <span className="w-4" />
+            <span>{title}</span>
+          </MenuButton>
+        </MenuItem>
+      ))}
+    </MenuItems.Expanded>
+  )
+)
+
+const Samples = (): JSX.Element => {
+  const dispatch = useDispatch()
+  return (
     <MenuItem.Expandable>
       {(isHovered, menuItemsRef) => (
         <>
@@ -85,51 +123,31 @@ const FileMenu = (): JSX.Element => {
             <span className="w-4" />
             <span>Samples</span>
           </MenuButton>
-          {isHovered && (
-            <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-              {samples.map(({ title, content }, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={() => {
-                    dispatch(
-                      setEditorInput({
-                        value: content,
-                        isFromFile: true
-                      })
-                    )
-                  }}>
-                  <MenuButton>
-                    <span className="w-4" />
-                    <span>{title}</span>
-                  </MenuButton>
-                </MenuItem>
-              ))}
-            </MenuItems.Expanded>
-          )}
+          {isHovered && <SampleItems dispatch={dispatch} innerRef={menuItemsRef} />}
         </>
       )}
     </MenuItem.Expandable>
   )
-
-  return (
-    <Menu>
-      {(isOpen, toggleOpen) => (
-        <>
-          <MenuButton.Main>
-            <FileIcon />
-            <span>File</span>
-          </MenuButton.Main>
-          {isOpen && (
-            <MenuItems>
-              <Upload onInputChange={toggleOpen} />
-              <Download />
-              <Samples />
-            </MenuItems>
-          )}
-        </>
-      )}
-    </Menu>
-  )
 }
+
+const FileMenu = (): JSX.Element => (
+  <Menu>
+    {(isOpen, toggleOpen) => (
+      <>
+        <MenuButton.Main>
+          <FileIcon />
+          <span>File</span>
+        </MenuButton.Main>
+        {isOpen && (
+          <MenuItems>
+            <Upload onFileUploaded={toggleOpen} />
+            <Download />
+            <Samples />
+          </MenuItems>
+        )}
+      </>
+    )}
+  </Menu>
+)
 
 export default FileMenu
