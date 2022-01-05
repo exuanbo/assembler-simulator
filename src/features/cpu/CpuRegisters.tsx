@@ -1,10 +1,43 @@
 import React from 'react'
 import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
-import { useSelector } from '../../app/hooks'
-import { selectCpuRegisters } from './cpuSlice'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName, getSrValue } from './core'
+import { useSelector, useShallowEqualSelector } from '../../app/hooks'
+import {
+  selectCpuGeneralPurposeRegisters,
+  selectCpuPointerRegisters,
+  selectStatusRegisterValue
+} from './cpuSlice'
+import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
 import { NO_BREAK_SPACE } from '../../common/constants'
+
+const GeneralPurposeRegisterTable = (): JSX.Element => {
+  const gpr = useShallowEqualSelector(selectCpuGeneralPurposeRegisters)
+  return (
+    <table className="flex-1">
+      <tbody className="divide-y">
+        {gpr.map((value, index) => {
+          const registerName = GeneralPurposeRegister[index] as GeneralPurposeRegisterName
+          return <RegisterTableRow key={index} registerName={registerName} value={value} />
+        })}
+      </tbody>
+    </table>
+  )
+}
+
+const PointerRegisterTableRows = (): JSX.Element => {
+  const { ip, sp } = useSelector(selectCpuPointerRegisters)
+  return (
+    <>
+      <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
+      <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
+    </>
+  )
+}
+
+const StatusRegisterTableRow = (): JSX.Element => {
+  const srValue = useSelector(selectStatusRegisterValue)
+  return <RegisterTableRow registerName="SR" value={srValue} />
+}
 
 const FlagIndicatorTableRow = (): JSX.Element => (
   <tr>
@@ -24,31 +57,19 @@ interface Props {
   className?: string
 }
 
-const CpuRegisters = ({ className }: Props): JSX.Element => {
-  const { gpr, ip, sp, sr } = useSelector(selectCpuRegisters)
-
-  return (
-    <Card className={className} title="CPU Registers">
-      <div className="divide-x flex">
-        <table className="flex-1">
-          <tbody className="divide-y">
-            {gpr.map((value, index) => {
-              const registerName = GeneralPurposeRegister[index] as GeneralPurposeRegisterName
-              return <RegisterTableRow key={index} registerName={registerName} value={value} />
-            })}
-          </tbody>
-        </table>
-        <table className="flex-1">
-          <tbody className="divide-y">
-            <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
-            <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
-            <RegisterTableRow registerName="SR" value={getSrValue(sr)} />
-            <FlagIndicatorTableRow />
-          </tbody>
-        </table>
-      </div>
-    </Card>
-  )
-}
+const CpuRegisters = ({ className }: Props): JSX.Element => (
+  <Card className={className} title="CPU Registers">
+    <div className="divide-x flex">
+      <GeneralPurposeRegisterTable />
+      <table className="flex-1">
+        <tbody className="divide-y">
+          <PointerRegisterTableRows />
+          <StatusRegisterTableRow />
+          <FlagIndicatorTableRow />
+        </tbody>
+      </table>
+    </div>
+  </Card>
+)
 
 export default CpuRegisters
