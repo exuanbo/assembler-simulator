@@ -3,8 +3,10 @@ import { Mnemonic } from '../../common/constants'
 
 export type MemoryData = number[]
 
+export const VDU_START_ADDRESS = 0xc0
+
 export const initData = (): MemoryData =>
-  Array.from({ length: 0x100 }, (_, address) => (address < 0xc0 ? 0 : 0x20))
+  Array.from({ length: 0x100 }, (_, address) => (address < VDU_START_ADDRESS ? 0 : 0x20))
 
 export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
   const data = initData()
@@ -16,7 +18,7 @@ export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
 
 export const getSourceFrom = (map: AddressToStatementMap): string[] => {
   const source: string[] = Array.from({ length: 0x100 }, (_, address) =>
-    address < 0xc0 ? Mnemonic.END : ''
+    address < VDU_START_ADDRESS ? Mnemonic.END : ''
   )
   for (const address in map) {
     const addressNumber = Number.parseInt(address)
