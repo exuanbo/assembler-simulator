@@ -40,7 +40,7 @@ export enum GeneralPurposeRegister {
 
 export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
-type GeneralPurposeRegisters = [AL: number, BL: number, CL: number, DL: number]
+export type GeneralPurposeRegisters = [AL: number, BL: number, CL: number, DL: number]
 
 type InstructionPointer = number
 
@@ -60,7 +60,7 @@ enum FlagStatus {
   On
 }
 
-type StatusRegister = [
+export type StatusRegister = [
   zero: FlagStatus,
   overflow: FlagStatus,
   sign: FlagStatus,

@@ -1,5 +1,11 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
-import { Registers, initRegisters, getSrValue } from './core'
+import {
+  GeneralPurposeRegisters,
+  StatusRegister,
+  Registers,
+  initRegisters,
+  getSrValue
+} from './core'
 import type { RootState } from '../../app/store'
 
 interface Status {
@@ -43,13 +49,13 @@ export const selectCpuFault = (state: RootState): string | null => state.cpu.sta
 
 export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
 
-export const selectCpuGeneralPurposeRegisters = (state: RootState): Registers['gpr'] =>
+export const selectCpuGeneralPurposeRegisters = (state: RootState): GeneralPurposeRegisters =>
   state.cpu.registers.gpr
 
 export const selectCpuPointerRegisters = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
   (({ ip, sp }) => ({ ip, sp }))(state.cpu.registers)
 
-const selectStatusRegister = (state: RootState): Registers['sr'] => state.cpu.registers.sr
+const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
 
 export const selectStatusRegisterValue = createSelector(selectStatusRegister, getSrValue)
 
