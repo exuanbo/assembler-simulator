@@ -44,12 +44,13 @@ export const stringToAscii = (str: string): number[] =>
 
 export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
 
-export const splitArrayPerChunk = <T>(arr: T[], perChunk: number): T[][] =>
-  arr.reduce<T[][]>((resultArr, value, index) => {
-    const chunkIndex = Math.floor(index / perChunk)
-    ;(resultArr[chunkIndex] ?? (resultArr[chunkIndex] = [])).push(value)
-    return resultArr
-  }, [])
+export const chunk = <T>(size: number, arr: T[]): T[][] => {
+  const chunks: T[][] = []
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size))
+  }
+  return chunks
+}
 
 export const call = <T>(fn: () => T): T => fn()
 

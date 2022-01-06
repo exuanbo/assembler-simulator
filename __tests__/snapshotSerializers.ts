@@ -1,4 +1,4 @@
-import { decToHex, splitArrayPerChunk } from '../src/common/utils'
+import { decToHex, chunk } from '../src/common/utils'
 
 const SEPARATOR = ', '
 
@@ -15,7 +15,7 @@ export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
   test: val => isArrayOf('number', 'string')(val) && val.length === 0x100,
   serialize: (val: Array<number | string>, _config, indentation) => `Array [
-${splitArrayPerChunk(val, 0x10)
+${chunk(0x10, val)
   .map(
     row =>
       `${indentation}${' '.repeat(2)}${row

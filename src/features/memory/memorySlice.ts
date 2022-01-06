@@ -3,7 +3,7 @@ import { MemoryData, VDU_START_ADDRESS, initData, initDataFrom, getSourceFrom } 
 import type { AddressToMachineCodeMap } from '../assembler/core'
 import type { RootState } from '../../app/store'
 import { selectAddressToStatementMap } from '../assembler/assemblerSlice'
-import { splitArrayPerChunk } from '../../common/utils'
+import { chunk } from '../../common/utils'
 
 interface MemoryState {
   data: MemoryData
@@ -39,14 +39,14 @@ export const selectVduBuffer = createSelector(selectMemoryData, memoryData =>
 
 export const selectMemoryDataRowsGetter = createSelector(
   selectMemoryData,
-  memoryData => () => splitArrayPerChunk(memoryData, 0x10)
+  memoryData => () => chunk(0x10, memoryData)
 )
 
 export const selectMemorySourceRowsGetter = createSelector(
   selectAddressToStatementMap,
   addressToStatementMap => () => {
     const memorySource = getSourceFrom(addressToStatementMap)
-    return splitArrayPerChunk(memorySource, 0x10)
+    return chunk(0x10, memorySource)
   }
 )
 
