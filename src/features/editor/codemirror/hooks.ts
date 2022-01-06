@@ -2,15 +2,17 @@ import { RefCallback, useState, useEffect, useCallback } from 'react'
 import { EditorState, EditorStateConfig } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 
+export type ViewUpdateListener = (viewUpdate: ViewUpdate) => void
+
 export const useCodeMirror = <T extends Element = Element>(
   editorStateConfig?: EditorStateConfig,
-  handleViewUpdate?: (viewUpdate: ViewUpdate) => void
+  viewUpdateListener?: ViewUpdateListener
 ): {
   view: EditorView | undefined
   editorRef: RefCallback<T>
 } => {
   const [current, setCurrent] = useState<T | null>(null)
-  const [view, setView] = useState<EditorView>()
+  const [view, setView] = useState<EditorView | undefined>(undefined)
 
   const refCallback = useCallback<RefCallback<T>>(node => {
     setCurrent(node)
@@ -25,7 +27,7 @@ export const useCodeMirror = <T extends Element = Element>(
       ...editorStateConfig,
       extensions: [
         editorStateConfig?.extensions ?? [],
-        handleViewUpdate === undefined ? [] : EditorView.updateListener.of(handleViewUpdate)
+        viewUpdateListener === undefined ? [] : EditorView.updateListener.of(viewUpdateListener)
       ]
     })
     const initialView = new EditorView({
@@ -36,10 +38,11 @@ export const useCodeMirror = <T extends Element = Element>(
   }, [current])
 
   useEffect(() => {
-    if (view !== undefined) {
-      return () => {
-        view.destroy()
-      }
+    if (view === undefined) {
+      return
+    }
+    return () => {
+      view.destroy()
     }
   }, [view])
 
