@@ -57,15 +57,14 @@ const highlightLineField = StateField.define<DecorationSet>({
           if (!effect.is(highlightLineEffect)) {
             return resultSet
           }
-          const { addPos, filter = clearAll ? () => false : () => true } = effect.value
-          const decorationRanges =
-            addPos === undefined
-              ? []
-              : (typeof addPos === 'number' ? [addPos] : addPos).map(pos =>
-                  lineDecoration.range(pos)
-                )
+          const { addPos, filter = () => !clearAll } = effect.value
           return resultSet.update({
-            add: decorationRanges,
+            add:
+              addPos === undefined
+                ? undefined
+                : (typeof addPos === 'number' ? [addPos] : addPos).map(pos =>
+                    lineDecoration.range(pos)
+                  ),
             filter
           })
         }, decorationSet.map(transaction.changes))

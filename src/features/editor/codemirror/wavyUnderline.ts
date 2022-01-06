@@ -54,10 +54,10 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
       if (!effect.is(wavyUnderlineEffect)) {
         return resultSet
       }
-      const { add, filter = () => true } = effect.value
+      const { add, filter = () => !clearAll } = effect.value
       return resultSet.update({
-        add: add === undefined ? [] : [wavyUnderlineMark.range(add.from, add.to)],
-        filter: clearAll ? () => false : filter
+        add: add === undefined ? undefined : [wavyUnderlineMark.range(add.from, add.to)],
+        filter
       })
     }, decorationSet.map(transaction.changes))
   },
