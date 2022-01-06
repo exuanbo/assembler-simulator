@@ -17,14 +17,16 @@ import { setup } from './codemirror/setup'
 import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { StringAnnotation } from './codemirror/annotations'
+import { NumberAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { useAssembler } from '../assembler/hooks'
 import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 
-const SKIP_SYNC_BREAKPOINTS = 'SKIP_SYNC_BREAKPOINTS'
+enum AnnotationValue {
+  ChangedFromState
+}
 
 let syncStateTimeoutId: number | undefined
 
@@ -43,11 +45,13 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
         const input = viewUpdate.state.doc.sliceString(0)
         window.clearTimeout(syncStateTimeoutId)
         syncStateTimeoutId = window.setTimeout(() => {
-          const state = getState()
-          if (selectEditortInput(state) !== input) {
+          if (
+            viewUpdate.transactions[0].annotation(NumberAnnotation) !==
+            AnnotationValue.ChangedFromState
+          ) {
             dispatch(setEditorInput({ value: input }))
           }
-          if (selectAutoAssemble(state)) {
+          if (selectAutoAssemble(getState())) {
             assemble(input)
           }
         }, 200)
@@ -69,7 +73,8 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
             from: 0,
             to: view.state.doc.sliceString(0).length,
             insert: value
-          }
+          },
+          annotations: NumberAnnotation.of(AnnotationValue.ChangedFromState)
         })
       }
     })
@@ -96,7 +101,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
         }
       } else {
         viewUpdate.transactions.forEach(transaction => {
-          if (transaction.annotation(StringAnnotation) === SKIP_SYNC_BREAKPOINTS) {
+          if (transaction.annotation(NumberAnnotation) === AnnotationValue.ChangedFromState) {
             return
           }
           transaction.effects.forEach(effect => {
@@ -129,7 +134,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
           on: true
         })
       ),
-      annotations: StringAnnotation.of(SKIP_SYNC_BREAKPOINTS)
+      annotations: NumberAnnotation.of(AnnotationValue.ChangedFromState)
     })
   }, [view])
 }
