@@ -26,11 +26,11 @@ export const getSourceFrom = (map: AddressToStatementMap): string[] => {
     const { instruction, operands } = statement
     if (instruction.mnemonic === Mnemonic.DB) {
       const operand = operands[0]
-      // if (operand.type === OperandType.Number)
+      // OperandType.Number
       if (typeof operand.value === 'number') {
         source[address] = operand.rawValue
       } else {
-        // if (operand.type === OperandType.String)
+        // OperandType.String
         operand.rawValue.split('').forEach((char, index) => {
           source[addressNumber + index] = char
         })
