@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from '../../common/components/Card'
 import { useSelector } from '../../app/hooks'
 import { selectVduBuffer } from '../memory/memorySlice'

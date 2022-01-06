@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import Card from '../../common/components/Card'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
 import { selectMemoryDataRowsGetter, selectMemorySourceRowsGetter } from './memorySlice'
@@ -7,7 +7,7 @@ import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
 import { decToHex, range } from '../../common/utils'
 
-const ColumIndicatorTableRow = React.memo(() => (
+const ColumIndicatorTableRow = memo(() => (
   <tr className="divide-x bg-gray-50 text-gray-400">
     <td />
     {range(0x10).map(colIndex => (

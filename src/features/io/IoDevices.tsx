@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from '../../common/components/Card'
 import SimulatedKeyboard from './SimulatedKeyboard'
 import VisualDisplayUnit from './VisualDisplayUnit'

@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import RegisterValueTableDataCell, { RadixLabel } from './RegisterValueTableCell'
 import type { GeneralPurposeRegisterName } from './core'
 import { sign8, decToHex } from '../../common/utils'
@@ -11,7 +11,7 @@ interface Props {
   valueClassName?: string
 }
 
-const RegisterTableRow = React.memo(({ registerName, value, valueClassName = '' }: Props) => {
+const RegisterTableRow = memo(({ registerName, value, valueClassName = '' }: Props) => {
   const signedValue = sign8(value)
   const hexValue = decToHex(value)
   const binValue = value.toString(2).padStart(8, '0')

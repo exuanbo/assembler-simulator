@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import { selectAssemblerError } from '../assembler/assemblerSlice'

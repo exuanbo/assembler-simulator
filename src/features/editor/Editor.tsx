@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import EditorStatus from './EditorStatus'
 import { useSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'

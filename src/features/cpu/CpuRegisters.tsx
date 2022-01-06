@@ -1,4 +1,4 @@
-import React from 'react'
+import { memo } from 'react'
 import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
@@ -10,7 +10,7 @@ import {
 import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
-const FlagIndicatorTableRow = React.memo(() => (
+const FlagIndicatorTableRow = memo(() => (
   <tr>
     <td>{NO_BREAK_SPACE}</td>
     <td />

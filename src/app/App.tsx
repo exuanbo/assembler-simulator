@@ -1,4 +1,3 @@
-import React from 'react'
 import ToolBar from '../features/controller/Toolbar'
 import Editor from '../features/editor/Editor'
 import CpuRegisters from '../features/cpu/CpuRegisters'

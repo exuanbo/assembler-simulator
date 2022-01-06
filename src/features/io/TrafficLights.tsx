@@ -1,10 +1,10 @@
-import React from 'react'
+import { memo } from 'react'
 import Card from '../../common/components/Card'
 import { useSelector } from '../../app/hooks'
 import { selectTrafficLightsDataDigits } from './ioSlice'
 import { range } from '../../common/utils'
 
-const StaticParts = React.memo(() => (
+const StaticParts = memo(() => (
   <>
     <rect fill="#a1a1aa" height="120" width="320" x="0" y="120">
       <title>Background</title>

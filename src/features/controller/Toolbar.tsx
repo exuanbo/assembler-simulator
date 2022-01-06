@@ -1,4 +1,3 @@
-import React from 'react'
 import FileMenu from './FileMenu'
 import ViewMenu from './ViewMenu'
 import ConfigurationMenu from './ConfigurationMenu'

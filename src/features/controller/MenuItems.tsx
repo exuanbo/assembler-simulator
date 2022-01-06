@@ -1,4 +1,4 @@
-import React, { ReactNode, RefCallback } from 'react'
+import type { ReactNode, RefCallback } from 'react'
 
 interface Props {
   children: ReactNode
