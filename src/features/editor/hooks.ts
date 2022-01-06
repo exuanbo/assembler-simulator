@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { StateEffect } from '@codemirror/state'
+import { Transaction, StateEffect } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { useSelector, useStore } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
@@ -28,6 +28,9 @@ enum AnnotationValue {
   ChangedFromState
 }
 
+const isChangedFromState = (transation: Transaction): boolean =>
+  transation.annotation(NumberAnnotation) === AnnotationValue.ChangedFromState
+
 let syncStateTimeoutId: number | undefined
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
@@ -45,10 +48,8 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
         const input = viewUpdate.state.doc.sliceString(0)
         window.clearTimeout(syncStateTimeoutId)
         syncStateTimeoutId = window.setTimeout(() => {
-          if (
-            viewUpdate.transactions[0].annotation(NumberAnnotation) !==
-            AnnotationValue.ChangedFromState
-          ) {
+          // doc changes must be caused by transactions
+          if (!isChangedFromState(viewUpdate.transactions[0])) {
             dispatch(setEditorInput({ value: input }))
           }
           if (selectAutoAssemble(getState())) {
@@ -100,17 +101,16 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
           dispatch(setBreakpoints(breakpoints))
         }
       } else {
-        viewUpdate.transactions.forEach(transaction => {
-          if (transaction.annotation(NumberAnnotation) === AnnotationValue.ChangedFromState) {
-            return
+        const transaction = viewUpdate.transactions[0] as Transaction | undefined
+        if (transaction === undefined || isChangedFromState(transaction)) {
+          return
+        }
+        transaction.effects.forEach(effect => {
+          if (effect.is(breakpointEffect)) {
+            const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+            const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
+            dispatch(actionCreator(lineRange))
           }
-          transaction.effects.forEach(effect => {
-            if (effect.is(breakpointEffect)) {
-              const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-              const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
-              dispatch(actionCreator(lineRange))
-            }
-          })
         })
       }
     }
