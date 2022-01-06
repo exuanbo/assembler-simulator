@@ -1,4 +1,4 @@
-import React, { RefCallback, useRef } from 'react'
+import React, { RefCallback, memo, useRef } from 'react'
 import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
@@ -82,9 +82,10 @@ const Download = (): JSX.Element => {
   )
 }
 
-const SampleItems = React.memo(
+const SampleItems = memo(
   ({ innerRef: menuItemsRef }: { innerRef: RefCallback<HTMLDivElement> }) => {
     const dispatch = useDispatch()
+
     return (
       <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
         {samples.map(({ title, content }, index) => (
