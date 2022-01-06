@@ -26,14 +26,17 @@ export const decToHex = (num: number): string => num.toString(16).padStart(2, '0
 
 export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
 
-export function range(stop: number): number[]
-export function range(start: number, stop: number): number[]
-export function range(start: number, stop?: number): number[] {
+interface RangeFn {
+  (stop: number): number[]
+  (start: number, stop: number): number[]
+}
+
+export const range: RangeFn = (start: number, stop?: number): number[] => {
   if (stop === undefined) {
     stop = start
     start = 0
   }
-  return Array.from({ length: stop - start }, (_, i) => start + i)
+  return Array.from({ length: stop - start }, (_, index) => start + index)
 }
 
 export const stringToAscii = (str: string): number[] =>
