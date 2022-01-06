@@ -27,7 +27,7 @@ import {
 import type { MemoryData } from '../../memory/core'
 import { Signals, MAX_PORT } from '../../io/core'
 import { Opcode } from '../../../common/constants'
-import { ExcludeTail, sign8, unsign8 } from '../../../common/utils'
+import { ExcludeTupleTail, sign8, unsign8 } from '../../../common/utils'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
@@ -125,8 +125,8 @@ const getSrFrom = (value: number): StatusRegister => {
 const checkOperationResult = (
   result: number,
   previousValue: number
-): [finalResult: number, flags: ExcludeTail<StatusRegister>] => {
-  const flags: ExcludeTail<StatusRegister> = [
+): [finalResult: number, flags: ExcludeTupleTail<StatusRegister>] => {
+  const flags: ExcludeTupleTail<StatusRegister> = [
     /* zero */ FlagStatus.Off,
     /* overflow */ FlagStatus.Off,
     /* sign */ FlagStatus.Off
@@ -152,7 +152,7 @@ const checkPort = (port: number): number => {
 
 type StepArgs = [memoryData: MemoryData, cpuRegisters: Registers, signals: Signals]
 
-export type StepResult = ExcludeTail<StepArgs>
+export type StepResult = ExcludeTupleTail<StepArgs>
 
 export const step = (...args: StepArgs): [...StepResult, Signals] =>
   createNextState(args, ([memoryData, cpuRegisters, signals]) => {

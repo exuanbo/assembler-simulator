@@ -1,18 +1,22 @@
-export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
+export type ExcludeTupleTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
   ? Excluded
   : []
 
+type UnionToFunctionWithUnionAsArg<Union> = (a: Union) => void
+
+type UnionToFunctionIntersectionWithUnionMemberAsArg<Union> = (
+  Union extends never ? never : (a: UnionToFunctionWithUnionAsArg<Union>) => void
+) extends (a: infer ArgAsFunctionIntersection) => void
+  ? ArgAsFunctionIntersection
+  : never
+
 /**
- * {@link https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381}
+ * Modified from <https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381>
  */
-export type UnionToTuple<Union> = (
-  (Union extends never ? never : (_: (_: Union) => Union) => void) extends (
-    mergedIntersection: infer Intersection
-  ) => void
-    ? Intersection
-    : never
-) extends (_: never) => infer Tail
-  ? [...UnionToTuple<Exclude<Union, Tail>>, Tail]
+export type UnionToTuple<Union> = UnionToFunctionIntersectionWithUnionMemberAsArg<Union> extends (
+  a: infer ArgAsLastUnionMember
+) => void
+  ? [...UnionToTuple<Exclude<Union, ArgAsLastUnionMember>>, ArgAsLastUnionMember]
   : []
 
 export const sign8 = (unsigned: number): number =>
