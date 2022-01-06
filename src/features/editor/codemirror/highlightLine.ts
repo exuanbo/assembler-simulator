@@ -35,9 +35,7 @@ export const highlightLineEffect = StateEffect.define<{
       addPos:
         addPos === undefined
           ? undefined
-          : typeof addPos === 'number'
-          ? mapping.mapPos(addPos)
-          : addPos.map(pos => mapping.mapPos(pos)),
+          : (typeof addPos === 'number' ? [addPos] : addPos).map(pos => mapping.mapPos(pos)),
       filter
     }
   }
