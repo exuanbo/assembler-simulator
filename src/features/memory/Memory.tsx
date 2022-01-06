@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '../../common/components/Card'
 import { useSelector, useShallowEqualSelector } from '../../app/hooks'
-import { selectMemoryDataRows, selectMemorySourceRows } from './memorySlice'
+import { selectMemoryDataRowsGetter, selectMemorySourceRowsGetter } from './memorySlice'
 import { MAX_SP } from '../cpu/core'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
 import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
@@ -25,9 +25,10 @@ interface Props {
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
 
-  const dataRows = useSelector(selectMemoryDataRows)
-  const sourceRows = useSelector(selectMemorySourceRows)
-  const rows = memoryView === MemoryView.Source ? sourceRows : dataRows
+  const getDataRows = useSelector(selectMemoryDataRowsGetter)
+  const getSourceRows = useSelector(selectMemorySourceRowsGetter)
+
+  const rows = memoryView === MemoryView.Source ? getSourceRows() : getDataRows()
 
   let address = 0
   const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)

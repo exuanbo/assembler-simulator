@@ -37,13 +37,14 @@ export const selectVduBuffer = createSelector(selectMemoryData, memoryData =>
   memoryData.slice(VDU_START_ADDRESS)
 )
 
-export const selectMemoryDataRows = createSelector(selectMemoryData, memoryData =>
-  splitArrayPerChunk(memoryData, 0x10)
+export const selectMemoryDataRowsGetter = createSelector(
+  selectMemoryData,
+  memoryData => () => splitArrayPerChunk(memoryData, 0x10)
 )
 
-export const selectMemorySourceRows = createSelector(
+export const selectMemorySourceRowsGetter = createSelector(
   selectAddressToStatementMap,
-  addressToStatementMap => {
+  addressToStatementMap => () => {
     const memorySource = getSourceFrom(addressToStatementMap)
     return splitArrayPerChunk(memorySource, 0x10)
   }
