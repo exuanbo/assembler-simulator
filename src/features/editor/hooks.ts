@@ -45,11 +45,13 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     },
     viewUpdate => {
       if (viewUpdate.docChanged) {
+        // doc changes must be caused by at least one transaction
+        const firstTransaction = viewUpdate.transactions[0]
         const input = viewUpdate.state.doc.sliceString(0)
         window.clearTimeout(syncStateTimeoutId)
         syncStateTimeoutId = window.setTimeout(() => {
-          // doc changes must be caused by transactions
-          if (!isChangedFromState(viewUpdate.transactions[0])) {
+          // only one transaction is dispatched if input is set from file
+          if (!isChangedFromState(firstTransaction)) {
             dispatch(setEditorInput({ value: input }))
           }
           if (selectAutoAssemble(getState())) {
