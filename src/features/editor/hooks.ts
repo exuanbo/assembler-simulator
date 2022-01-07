@@ -17,7 +17,7 @@ import { setup } from './codemirror/setup'
 import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { NumberAnnotation } from './codemirror/annotations'
+import { StringAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { useAssembler } from '../assembler/hooks'
@@ -25,11 +25,11 @@ import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectAutoAssemble } from '../controller/controllerSlice'
 
 enum AnnotationValue {
-  ChangedFromState
+  ChangedFromState = 'ChangedFromState'
 }
 
 const isChangedFromState = (transation: Transaction): boolean =>
-  transation.annotation(NumberAnnotation) === AnnotationValue.ChangedFromState
+  transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
 let syncStateTimeoutId: number | undefined
 
@@ -75,7 +75,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
             to: view.state.doc.sliceString(0).length,
             insert: value
           },
-          annotations: NumberAnnotation.of(AnnotationValue.ChangedFromState)
+          annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
         })
       }
     })
@@ -134,7 +134,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
           on: true
         })
       ),
-      annotations: NumberAnnotation.of(AnnotationValue.ChangedFromState)
+      annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
     })
   }, [view])
 }

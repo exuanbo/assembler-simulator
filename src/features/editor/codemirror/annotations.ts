@@ -1,3 +1,3 @@
 import { Annotation } from '@codemirror/state'
 
-export const NumberAnnotation = Annotation.define<number>()
+export const StringAnnotation = Annotation.define<string>()
