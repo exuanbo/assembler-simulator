@@ -18,10 +18,10 @@ export const useAssembler =
       assembleResult = assemble(input)
     } catch (err) {
       if (err instanceof AssemblerError) {
-        const assemblerErrorObject = err.toObject()
+        const assemblerError = err.toPlainObject()
         batch(() => {
           dispatch(clearEditorActiveRange())
-          dispatch(setAssemblerError(assemblerErrorObject))
+          dispatch(setAssemblerError(assemblerError))
         })
         return
       }

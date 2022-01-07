@@ -19,7 +19,7 @@ export abstract class AssemblerError extends Error {
   }
 
   // istanbul ignore next
-  public toObject(): AssemblerErrorObject {
+  public toPlainObject(): AssemblerErrorObject {
     return {
       type: this.type,
       message: this.message,
