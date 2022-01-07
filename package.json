@@ -15,7 +15,7 @@
     "url": "git+https://github.com/exuanbo/assembler-simulator.git"
   },
   "author": "exuanbo",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/exuanbo/assembler-simulator/issues"
   },
