@@ -20,9 +20,10 @@ import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { StringAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
-import { useAssembler } from '../assembler/hooks'
-import { selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectAutoAssemble } from '../controller/controllerSlice'
+import { useAssembler } from '../assembler/hooks'
+import { selectAssemblerError, selectAssemblerErrorRange } from '../assembler/assemblerSlice'
+import { selectCpuFault, setCpuHalted, resetCpu } from '../cpu/cpuSlice'
 
 enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'
@@ -167,4 +168,57 @@ export const useUnderlineAssemblerError = (view: EditorView | undefined): void =
       effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
     })
   }, [view, assemblerErrorRange])
+}
+
+export enum MessageType {
+  Error = 'Error',
+  Info = 'Info'
+}
+
+interface StatusMessage {
+  readonly type: MessageType
+  readonly content: string
+}
+
+export const useStatusMessage = (): StatusMessage | null => {
+  const assemblerError = useSelector(selectAssemblerError)
+  const cpuFault = useSelector(selectCpuFault)
+  const [shouldShowHalted, setShouldShowHalted] = useState(false)
+
+  useEffect(() => {
+    let showHaltedTimeoutId: number | undefined
+    const removeSetCpuHaltedListener = addActionListener(setCpuHalted, isHalted => {
+      setShouldShowHalted(isHalted)
+      if (isHalted) {
+        window.clearTimeout(showHaltedTimeoutId)
+        showHaltedTimeoutId = window.setTimeout(() => {
+          setShouldShowHalted(false)
+        }, 2000)
+      }
+    })
+    const removeResetCpuListener = addActionListener(resetCpu, () => {
+      setShouldShowHalted(false)
+    })
+    return () => {
+      removeSetCpuHaltedListener()
+      removeResetCpuListener()
+    }
+  }, [])
+
+  return assemblerError !== null
+    ? {
+        type: MessageType.Error,
+        content: `${assemblerError.type}: ${assemblerError.message}`
+      }
+    : cpuFault !== null
+    ? {
+        type: MessageType.Error,
+        content: `RuntimeError: ${cpuFault}`
+      }
+    : shouldShowHalted
+    ? {
+        type: MessageType.Info,
+        content: 'Info: Program has halted.'
+      }
+    : null
 }
