@@ -4,7 +4,7 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '../../common/components/icons'
-import { useDispatch, useStore } from '../../app/hooks'
+import { useGetState, useDispatch } from '../../app/hooks'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { samples } from '../editor/samples'
 
@@ -59,7 +59,7 @@ const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element
 }
 
 const Download = (): JSX.Element => {
-  const { getState } = useStore()
+  const getState = useGetState()
 
   const handleClickDownload: React.MouseEventHandler<HTMLDivElement> = () => {
     const editorInput = selectEditortInput(getState())

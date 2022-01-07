@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
 import type { RootState } from '../../app/store'
-import { useShallowEqualSelector, useStore } from '../../app/hooks'
+import { useShallowEqualSelector, useGetState, useDispatch } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
   selectRuntimeConfiguration,
@@ -74,7 +74,8 @@ interface Controller {
 }
 
 export const useController = (): Controller => {
-  const { getState, dispatch } = useStore()
+  const getState = useGetState()
+  const dispatch = useDispatch()
 
   const __assemble = useAssembler(dispatch)
 

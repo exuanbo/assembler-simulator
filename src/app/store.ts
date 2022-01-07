@@ -17,14 +17,16 @@ const rootReducer = combineReducers({
   io: ioReducer
 })
 
+export type RootState = ReturnType<typeof rootReducer>
+
 const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(actionListenerMiddleware),
   preloadedState: loadState()
 })
 
-export type RootState = ReturnType<typeof rootReducer>
-export type Dispatch = typeof store.dispatch
 export type Store = typeof store
+export type GetState = typeof store.getState
+export type Dispatch = typeof store.dispatch
 
 export default store
