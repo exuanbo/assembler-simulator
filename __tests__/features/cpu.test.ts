@@ -641,7 +641,7 @@ describe('cpu', () => {
         const memoryData = getMemoryData('in 10 end')
         expect(() => {
           step(memoryData, initialRegisters)
-        }).toThrow("I/O ports between 0 and F are available, got '10'")
+        }).toThrowError("I/O ports between 0 and F are available, got '10'")
       })
     })
 
