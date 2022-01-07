@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import Card from '../../common/components/Card'
-import { useSelector, useShallowEqualSelector } from '../../app/hooks'
+import { useSelector } from '../../app/hooks'
 import { selectMemoryDataRowsGetter, selectMemorySourceRowsGetter } from './memorySlice'
 import { MAX_SP } from '../cpu/core'
 import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
@@ -31,7 +31,7 @@ const Memory = ({ className }: Props): JSX.Element => {
   const rows = memoryView === MemoryView.Source ? getSourceRows() : getDataRows()
 
   let address = 0
-  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
+  const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
     <Card className={className} title="Memory">

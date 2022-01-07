@@ -1,13 +1,14 @@
 import { memo } from 'react'
 import Card from '../../common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
-import { useSelector, useShallowEqualSelector } from '../../app/hooks'
+import { useSelector } from '../../app/hooks'
 import {
   selectCpuGeneralPurposeRegisters,
   selectCpuPointerRegisters,
   selectStatusRegisterValue
 } from './cpuSlice'
 import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
+import { compareArrayWithSameLength } from '../../common/utils'
 import { NO_BREAK_SPACE } from '../../common/constants'
 
 const FlagIndicatorTableRow = memo(() => (
@@ -29,8 +30,8 @@ interface Props {
 }
 
 const CpuRegisters = ({ className }: Props): JSX.Element => {
-  const gpr = useShallowEqualSelector(selectCpuGeneralPurposeRegisters)
-  const { ip, sp } = useShallowEqualSelector(selectCpuPointerRegisters)
+  const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)
+  const { ip, sp } = useSelector(selectCpuPointerRegisters)
   const srValue = useSelector(selectStatusRegisterValue)
 
   return (

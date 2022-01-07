@@ -110,12 +110,11 @@ export const selectClockSpeed = (state: RootState): ClockSpeed =>
 export const selectTimerInterval = (state: RootState): TimerInterval =>
   state.controller.configuration.timerInterval
 
-export const selectRuntimeConfiguration = (
-  state: RootState
-): Pick<Configuration, 'clockSpeed' | 'timerInterval'> =>
-  (({ clockSpeed, timerInterval }) => ({ clockSpeed, timerInterval }))(
-    state.controller.configuration
-  )
+export const selectRuntimeConfiguration = createSelector(
+  selectClockSpeed,
+  selectTimerInterval,
+  (clockSpeed, timerInterval) => ({ clockSpeed, timerInterval })
+)
 
 export const selectIsRunning = (state: RootState): boolean => state.controller.isRunning
 

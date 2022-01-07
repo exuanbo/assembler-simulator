@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
 import type { RootState } from '../../app/store'
-import { useShallowEqualSelector, useGetState, useDispatch } from '../../app/hooks'
+import { useGetState, useSelector, useDispatch } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
   selectRuntimeConfiguration,
@@ -111,7 +111,7 @@ export const useController = (): Controller => {
     return isSuspended
   }
 
-  const { clockSpeed, timerInterval } = useShallowEqualSelector(selectRuntimeConfiguration)
+  const { clockSpeed, timerInterval } = useSelector(selectRuntimeConfiguration)
 
   const setMainLoop = (): void => {
     stepIntervalId = window.setInterval(step, 1000 / clockSpeed)

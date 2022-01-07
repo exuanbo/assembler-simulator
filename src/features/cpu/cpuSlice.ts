@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import {
   GeneralPurposeRegisters,
+  InstructionPointer,
+  StackPointer,
   StatusRegister,
   Registers,
   initRegisters,
@@ -52,8 +54,15 @@ export const selectCpuRegisters = (state: RootState): Registers => state.cpu.reg
 export const selectCpuGeneralPurposeRegisters = (state: RootState): GeneralPurposeRegisters =>
   state.cpu.registers.gpr
 
-export const selectCpuPointerRegisters = (state: RootState): Pick<Registers, 'ip' | 'sp'> =>
-  (({ ip, sp }) => ({ ip, sp }))(state.cpu.registers)
+const selectCpuInstructionPointer = (state: RootState): InstructionPointer => state.cpu.registers.ip
+
+const selectCpuStackPointer = (state: RootState): StackPointer => state.cpu.registers.sp
+
+export const selectCpuPointerRegisters = createSelector(
+  selectCpuInstructionPointer,
+  selectCpuStackPointer,
+  (ip, sp) => ({ ip, sp })
+)
 
 const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
 

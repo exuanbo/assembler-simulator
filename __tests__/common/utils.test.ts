@@ -1,4 +1,4 @@
-import { range, asciiToChars, curry2 } from '../../src/common/utils'
+import { range, asciiToChars, compareArrayWithSameLength, curry2 } from '../../src/common/utils'
 
 describe('utils', () => {
   describe('range', () => {
@@ -14,6 +14,16 @@ describe('utils', () => {
   describe('asciiToChars', () => {
     it('should convert an array of numbers to characters', () => {
       expect(asciiToChars([97, 98, 99])).toEqual(['a', 'b', 'c'])
+    })
+  })
+
+  describe('compareArrayWithSameLength', () => {
+    it('should return true if arrays are equal', () => {
+      expect(compareArrayWithSameLength([1, 2, 3], [1, 2, 3])).toBe(true)
+    })
+
+    it('should return false if arrays are not equal', () => {
+      expect(compareArrayWithSameLength([1, 2, 3], [1, 2, 4])).toBe(false)
     })
   })
 

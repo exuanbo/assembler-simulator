@@ -48,6 +48,9 @@ export const stringToAscii = (str: string): number[] =>
 
 export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
 
+export const compareArrayWithSameLength = <T>(a: T[], b: T[]): boolean =>
+  a.every((value, index) => value === b[index])
+
 export const chunk = <T>(size: number, arr: T[]): T[][] => {
   const chunks: T[][] = []
   for (let i = 0; i < arr.length; i += size) {

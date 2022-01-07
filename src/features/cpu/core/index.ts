@@ -42,9 +42,9 @@ export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 export type GeneralPurposeRegisters = [AL: number, BL: number, CL: number, DL: number]
 
-type InstructionPointer = number
+export type InstructionPointer = number
 
-type StackPointer = number
+export type StackPointer = number
 
 export const MAX_SP = 0xbf
 
