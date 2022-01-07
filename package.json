@@ -7,7 +7,7 @@
     "preview": "vite preview",
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
-    "jest": "jest --no-cache",
+    "jest": "jest",
     "test": "npm run lint && npm run build && npm run jest"
   },
   "repository": {
