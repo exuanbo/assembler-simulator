@@ -39,27 +39,27 @@ class ParserError extends AssemblerError {
 
 export class StatementError extends ParserError {
   constructor({ raw, range }: Token, hasLabel: boolean) {
-    super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'`, range)
+    super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'.`, range)
   }
 }
 
 export class InvalidLabelError extends ParserError {
   constructor({ raw, range }: Token) {
     const identifier = raw.replace(/:$/, '')
-    super(`Label should contain only letter or underscore, got '${identifier}'`, range)
+    super(`Label should contain only letter or underscore, got '${identifier}'.`, range)
   }
 }
 
 export class MissingEndError extends ParserError {
   constructor() {
-    super('Expected END at the end of the source code')
+    super('Expected END at the end of the source code.')
   }
 }
 
 export class InvalidNumberError extends ParserError {
   constructor({ raw, range }: Token) {
     const numberValue = trimBracketsAndQuotes(raw)
-    super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'`, range)
+    super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'.`, range)
   }
 }
 
@@ -67,7 +67,7 @@ export class AddressError extends ParserError {
   constructor({ raw, range }: Token) {
     const addressValue = trimBracketsAndQuotes(raw)
     super(
-      `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'`,
+      `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'.`,
       range
     )
   }
@@ -87,13 +87,13 @@ export class OperandTypeError extends ParserError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}, got '${raw}'`, range)
+    super(`Expected ${types}, got '${raw}'.`, range)
   }
 }
 
 export class MissingCommaError extends ParserError {
   constructor({ raw, range }: Token) {
-    super(`Expected comma, got '${raw}'`, range)
+    super(`Expected comma, got '${raw}'.`, range)
   }
 }
 
@@ -108,24 +108,24 @@ class AssembleError extends AssemblerError {
 
 export class DuplicateLabelError extends AssembleError {
   constructor({ identifier, range }: Label) {
-    super(`Duplicate label '${identifier}'`, range)
+    super(`Duplicate label '${identifier}'.`, range)
   }
 }
 
 export class AssembleEndOfMemoryError extends AssembleError {
   constructor({ range }: Statement) {
-    super('Can not generate code beyond the end of RAM', range)
+    super('Can not generate code beyond the end of RAM.', range)
   }
 }
 
 export class LabelNotExistError extends AssembleError {
   constructor({ raw, range }: Operand) {
-    super(`Label '${raw}' does not exist`, range)
+    super(`Label '${raw}' does not exist.`, range)
   }
 }
 
 export class JumpDistanceError extends AssembleError {
   constructor({ raw, range }: Operand) {
-    super(`Jump distance should be between -128 and 127, to label '${raw}'`, range)
+    super(`Jump distance should be between -128 and 127, to label '${raw}'.`, range)
   }
 }
