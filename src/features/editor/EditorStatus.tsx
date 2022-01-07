@@ -31,13 +31,13 @@ const EditorStatus = (): JSX.Element | null => {
   }, [])
 
   const message =
-    assemblerError === null
-      ? cpuFault === null
-        ? shouldShowHalted
-          ? 'Info: Program has halted'
-          : null
-        : `RuntimeError: ${cpuFault}`
-      : `${assemblerError.type}: ${assemblerError.message}`
+    assemblerError !== null
+      ? `${assemblerError.type}: ${assemblerError.message}`
+      : cpuFault !== null
+      ? `RuntimeError: ${cpuFault}`
+      : shouldShowHalted
+      ? 'Info: Program has halted.'
+      : null
 
   return message === null ? null : (
     <div className={`${shouldShowHalted ? 'bg-blue-500' : 'bg-red-500'} py-1 px-2 text-light-100`}>
