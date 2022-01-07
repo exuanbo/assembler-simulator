@@ -1,7 +1,7 @@
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
 import type { Dispatch } from '../../app/store'
-import { AssembleResult, assemble } from './core'
+import { Statement, AssembleResult, assemble } from './core'
 import { AssemblerError } from './core/exceptions'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
@@ -33,7 +33,7 @@ export const useAssembler =
       dispatch(setMemoryDataFrom(addressToOpcodeMap))
       dispatch(resetCpu())
       dispatch(setAssemblerState(addressToStatementMap))
-      const firstStatement = addressToStatementMap[0]
+      const firstStatement = addressToStatementMap[0] as Statement | undefined
       dispatch(
         firstStatement === undefined
           ? clearEditorActiveRange()
