@@ -44,7 +44,7 @@ export const createWatch = (store: Store): Watch => {
         callbacks: new Set()
       })
     }
-    const callbacks = subscriptions.get(selector)!.callbacks
+    const { callbacks } = subscriptions.get(selector)!
     callbacks.add(callback)
     return () => {
       callbacks.delete(callback)
