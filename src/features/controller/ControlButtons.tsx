@@ -24,6 +24,13 @@ const ControlButton = ({ children, onClick, disabled = false }: Props): JSX.Elem
 const ControlButtons = (): JSX.Element => {
   const { assemble, run, step, reset } = useController()
 
+  const AssembleButton = (): JSX.Element => (
+    <ControlButton onClick={assemble}>
+      <Arrow />
+      <span>Assemble</span>
+    </ControlButton>
+  )
+
   const RunButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
     return (
@@ -53,18 +60,19 @@ const ControlButtons = (): JSX.Element => {
     )
   }
 
+  const ResetButton = (): JSX.Element => (
+    <ControlButton onClick={reset}>
+      <Undo />
+      <span>Reset</span>
+    </ControlButton>
+  )
+
   return (
     <>
-      <ControlButton onClick={assemble}>
-        <Arrow />
-        <span>Assemble</span>
-      </ControlButton>
+      <AssembleButton />
       <RunButton />
       <StepButton />
-      <ControlButton onClick={reset}>
-        <Undo />
-        <span>Reset</span>
-      </ControlButton>
+      <ResetButton />
     </>
   )
 }
