@@ -2,7 +2,8 @@ import React, { useRef } from 'react'
 import { createPortal } from 'react-dom'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { useSelector, useDispatch } from '../../app/hooks'
+import { dispatch } from '../../app/store'
+import { useSelector } from '../../app/hooks'
 import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
 import {
   selectIsWaitingForKeyboardInput,
@@ -15,7 +16,6 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   const inputRef = useRef<HTMLInputElement>(null)
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
-  const dispatch = useDispatch()
 
   const focusInput: React.FocusEventHandler<HTMLInputElement> = () => {
     inputRef.current!.focus()

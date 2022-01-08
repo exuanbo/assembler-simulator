@@ -4,13 +4,12 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '../../common/components/icons'
-import { useGetState, useDispatch } from '../../app/hooks'
+import { getState, dispatch } from '../../app/store'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { samples } from '../editor/samples'
 
 const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const dispatch = useDispatch()
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
     event.stopPropagation()
@@ -59,8 +58,6 @@ const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element
 }
 
 const Download = (): JSX.Element => {
-  const getState = useGetState()
-
   const handleClickDownload: React.MouseEventHandler<HTMLDivElement> = () => {
     const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
@@ -83,31 +80,27 @@ const Download = (): JSX.Element => {
 }
 
 const SampleItems = memo(
-  ({ innerRef: menuItemsRef }: { innerRef: RefCallback<HTMLDivElement> }) => {
-    const dispatch = useDispatch()
-
-    return (
-      <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-        {samples.map(({ title, content }, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => {
-              dispatch(
-                setEditorInput({
-                  value: content,
-                  isFromFile: true
-                })
-              )
-            }}>
-            <MenuButton>
-              <span className="w-4" />
-              <span>{title}</span>
-            </MenuButton>
-          </MenuItem>
-        ))}
-      </MenuItems.Expanded>
-    )
-  }
+  ({ innerRef: menuItemsRef }: { innerRef: RefCallback<HTMLDivElement> }) => (
+    <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+      {samples.map(({ title, content }, index) => (
+        <MenuItem
+          key={index}
+          onClick={() => {
+            dispatch(
+              setEditorInput({
+                value: content,
+                isFromFile: true
+              })
+            )
+          }}>
+          <MenuButton>
+            <span className="w-4" />
+            <span>{title}</span>
+          </MenuButton>
+        </MenuItem>
+      ))}
+    </MenuItems.Expanded>
+  )
 )
 
 const SamplesMenu = (): JSX.Element => (

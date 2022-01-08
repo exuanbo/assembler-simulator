@@ -1,7 +1,7 @@
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import type { Dispatch } from '../../app/store'
-import { Statement, AssembleResult, assemble } from './core'
+import { dispatch } from '../../app/store'
+import { Statement, AssembleResult, assemble as __assemble } from './core'
 import { AssemblerError } from './core/exceptions'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
@@ -10,34 +10,32 @@ import { setEditorActiveRange, clearEditorActiveRange } from '../editor/editorSl
 
 type Assemble = (input: string) => void
 
-export const useAssembler =
-  (dispatch: Dispatch): Assemble =>
-  input => {
-    let assembleResult: AssembleResult
-    try {
-      assembleResult = assemble(input)
-    } catch (err) {
-      if (err instanceof AssemblerError) {
-        const assemblerError = err.toPlainObject()
-        batch(() => {
-          dispatch(clearEditorActiveRange())
-          dispatch(setAssemblerError(assemblerError))
-        })
-        return
-      }
-      // TODO: handle unexpected assemble errors
-      throw err
+const assemble: Assemble = input => {
+  let assembleResult: AssembleResult
+  try {
+    assembleResult = __assemble(input)
+  } catch (err) {
+    if (err instanceof AssemblerError) {
+      const assemblerError = err.toPlainObject()
+      batch(() => {
+        dispatch(clearEditorActiveRange())
+        dispatch(setAssemblerError(assemblerError))
+      })
+      return
     }
-    const [addressToOpcodeMap, addressToStatementMap] = assembleResult
-    batch(() => {
-      dispatch(setMemoryDataFrom(addressToOpcodeMap))
-      dispatch(resetCpu())
-      dispatch(setAssemblerState(addressToStatementMap))
-      const firstStatement = addressToStatementMap[0] as Statement | undefined
-      dispatch(
-        firstStatement === undefined
-          ? clearEditorActiveRange()
-          : setEditorActiveRange(firstStatement)
-      )
-    })
+    // TODO: handle unexpected assemble errors
+    throw err
   }
+  const [addressToOpcodeMap, addressToStatementMap] = assembleResult
+  batch(() => {
+    dispatch(setMemoryDataFrom(addressToOpcodeMap))
+    dispatch(resetCpu())
+    dispatch(setAssemblerState(addressToStatementMap))
+    const firstStatement = addressToStatementMap[0] as Statement | undefined
+    dispatch(
+      firstStatement === undefined ? clearEditorActiveRange() : setEditorActiveRange(firstStatement)
+    )
+  })
+}
+
+export const useAssembler = (): Assemble => assemble

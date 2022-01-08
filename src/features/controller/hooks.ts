@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import type { RootState } from '../../app/store'
-import { useGetState, useSelector, useDispatch } from '../../app/hooks'
+import { RootState, getState, dispatch } from '../../app/store'
+import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
   selectRuntimeConfiguration,
@@ -73,11 +73,9 @@ interface Controller {
   reset: () => Promise<void>
 }
 
+// TODO: move some functions out
 export const useController = (): Controller => {
-  const getState = useGetState()
-  const dispatch = useDispatch()
-
-  const __assemble = useAssembler(dispatch)
+  const __assemble = useAssembler()
 
   const assemble = (): void => {
     __assemble(selectEditortInput(getState()))

@@ -4,7 +4,8 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, Wrench } from '../../common/components/icons'
-import { useSelector, useDispatch } from '../../app/hooks'
+import { dispatch } from '../../app/store'
+import { useSelector } from '../../app/hooks'
 import {
   ClockSpeed,
   CLOCK_SPEED_OPTION_NAMES,
@@ -20,7 +21,6 @@ import {
 
 const AutoAssemble = (): JSX.Element => {
   const autoAssemble = useSelector(selectAutoAssemble)
-  const dispatch = useDispatch()
 
   const toggleAutoAssemble: React.MouseEventHandler<HTMLDivElement> = () => {
     dispatch(setAutoAssemble(!autoAssemble))
@@ -38,7 +38,6 @@ const AutoAssemble = (): JSX.Element => {
 
 const ClockSpeedMenu = (): JSX.Element => {
   const clockSpeed = useSelector(selectClockSpeed)
-  const dispatch = useDispatch()
 
   return (
     <MenuItem.Expandable>
@@ -76,7 +75,6 @@ const ClockSpeedMenu = (): JSX.Element => {
 
 const TimerIntervalMenu = (): JSX.Element => {
   const timerInterval = useSelector(selectTimerInterval)
-  const dispatch = useDispatch()
 
   return (
     <MenuItem.Expandable>

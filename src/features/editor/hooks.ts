@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Transaction, StateEffect } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { useGetState, useSelector, useDispatch } from '../../app/hooks'
+import { getState, dispatch } from '../../app/store'
+import { useSelector } from '../../app/hooks'
 import { addActionListener } from '../../app/actionListener'
 import {
   selectEditortInput,
@@ -35,10 +36,8 @@ const isChangedFromState = (transation: Transaction): boolean =>
 let syncStateTimeoutId: number | undefined
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
-  const getState = useGetState()
   const [defaultInput] = useState(() => selectEditortInput(getState()))
-  const dispatch = useDispatch()
-  const assemble = useAssembler(dispatch)
+  const assemble = useAssembler()
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     {
@@ -89,9 +88,6 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
 }
 
 export const useBreakpoints = (view: EditorView | undefined): void => {
-  const getState = useGetState()
-  const dispatch = useDispatch()
-
   useEffect(() => {
     if (view === undefined) {
       return
