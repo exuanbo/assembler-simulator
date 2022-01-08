@@ -1,6 +1,12 @@
-import type { RootState, Store } from './store'
+import type { Middleware } from 'redux'
+import type { RootState, Dispatch } from './store'
 
-type WatchCallback<TSelected> = (selectedState: TSelected, getState: () => RootState) => void
+interface WatchAPI {
+  getPrevState: () => RootState
+  dispatch: Dispatch
+}
+
+type WatchCallback<TSelected> = (selectedState: TSelected, api: WatchAPI) => void
 
 type Unsubscribe = () => void
 
@@ -18,29 +24,43 @@ type Subscriptions<TSelected = any> = Map<
   }
 >
 
-export const createWatch = (store: Store): Watch => {
-  const { getState, subscribe: subscribeStore } = store
+const uninitialized = Symbol('uninitialized')
 
+interface Watcher {
+  middleware: Middleware
+  watch: Watch
+}
+
+export const createWatcher = (): Watcher => {
   const subscriptions: Subscriptions = new Map()
 
-  subscribeStore(() => {
-    const state = getState()
+  const middleware: Middleware = api => next => action => {
+    const startState = api.getState()
+    const result = next(action)
+    const state = api.getState()
     subscriptions.forEach((subscription, selector) => {
+      if (subscription.prev === uninitialized) {
+        subscription.prev = selector(startState)
+      }
       const { prev, callbacks } = subscription
       const selectedState = selector(state)
       if (selectedState !== prev) {
         callbacks.forEach(cb => {
-          cb(selectedState, getState)
+          cb(selectedState, {
+            getPrevState: () => prev,
+            dispatch: api.dispatch
+          })
         })
         subscription.prev = selectedState
       }
     })
-  })
+    return result
+  }
 
-  return (selector, callback) => {
+  const watch: Watch = (selector, callback) => {
     if (!subscriptions.has(selector)) {
       subscriptions.set(selector, {
-        prev: selector(getState()),
+        prev: uninitialized,
         callbacks: new Set()
       })
     }
@@ -53,4 +73,6 @@ export const createWatch = (store: Store): Watch => {
       }
     }
   }
+
+  return { middleware, watch }
 }

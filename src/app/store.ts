@@ -7,7 +7,7 @@ import cpuReducer from '../features/cpu/cpuSlice'
 import ioReducer from '../features/io/ioSlice'
 import actionListenerMiddleware from './actionListener'
 import { loadState } from './localStorage'
-import { createWatch } from './watch'
+import { createWatcher } from './watch'
 
 const rootReducer = combineReducers({
   editor: editorReducer,
@@ -20,16 +20,18 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>
 
+const watcher = createWatcher()
+
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(actionListenerMiddleware),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(actionListenerMiddleware, watcher.middleware),
   preloadedState: loadState()
 })
 
 export default store
-export type Store = typeof store
 
 export const { getState, dispatch } = store
 export type Dispatch = typeof dispatch
 
-export const watch = createWatch(store)
+export const { watch } = watcher
