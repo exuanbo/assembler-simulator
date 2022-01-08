@@ -1,4 +1,4 @@
-import React, { RefCallback, memo, useRef } from 'react'
+import React, { useRef } from 'react'
 import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
@@ -79,30 +79,6 @@ const Download = (): JSX.Element => {
   )
 }
 
-const SampleItems = memo(
-  ({ innerRef: menuItemsRef }: { innerRef: RefCallback<HTMLDivElement> }) => (
-    <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-      {samples.map(({ title, content }, index) => (
-        <MenuItem
-          key={index}
-          onClick={() => {
-            dispatch(
-              setEditorInput({
-                value: content,
-                isFromFile: true
-              })
-            )
-          }}>
-          <MenuButton>
-            <span className="w-4" />
-            <span>{title}</span>
-          </MenuButton>
-        </MenuItem>
-      ))}
-    </MenuItems.Expanded>
-  )
-)
-
 const SamplesMenu = (): JSX.Element => (
   <MenuItem.Expandable>
     {(isHovered, menuItemsRef) => (
@@ -111,7 +87,27 @@ const SamplesMenu = (): JSX.Element => (
           <span className="w-4" />
           <span>Samples</span>
         </MenuButton>
-        {isHovered && <SampleItems innerRef={menuItemsRef} />}
+        {isHovered && (
+          <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+            {samples.map(({ title, content }, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => {
+                  dispatch(
+                    setEditorInput({
+                      value: content,
+                      isFromFile: true
+                    })
+                  )
+                }}>
+                <MenuButton>
+                  <span className="w-4" />
+                  <span>{title}</span>
+                </MenuButton>
+              </MenuItem>
+            ))}
+          </MenuItems.Expanded>
+        )}
       </>
     )}
   </MenuItem.Expandable>
