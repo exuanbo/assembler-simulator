@@ -54,6 +54,36 @@ const cancelMainLoop = (): void => {
   window.clearInterval(interruptIntervalId)
 }
 
+const stop = (): void => {
+  cancelMainLoop()
+  dispatch(setRunning(false))
+}
+
+/**
+ * @returns {boolean} if was running
+ */
+const stopIfRunning = (state: RootState): boolean => {
+  const isRunning = selectIsRunning(state)
+  if (isRunning) {
+    stop()
+  }
+  return isRunning
+}
+
+let removeSetSuspendedListener: () => void
+
+/**
+ * @returns {boolean} if was suspended
+ */
+const restoreIfSuspended = (state: RootState): boolean => {
+  const isSuspended = selectIsSuspended(state)
+  if (isSuspended) {
+    removeSetSuspendedListener()
+    dispatch(setSuspended(false))
+  }
+  return isSuspended
+}
+
 let lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
 let dispatchChangesTimeoutId: number | undefined
@@ -63,7 +93,25 @@ const cancelDispatchChanges = (): void => {
   dispatchChangesTimeoutId = undefined
 }
 
-let removeSetSuspendedListener: () => void
+const fullyStop = async (): Promise<void> => {
+  const state = getState()
+  stopIfRunning(state)
+  restoreIfSuspended(state)
+  await lastStep
+  lastStep = Promise.resolve(undefined)
+  cancelDispatchChanges()
+}
+
+const reset = async (): Promise<void> => {
+  await fullyStop()
+  batch(() => {
+    dispatch(resetMemory())
+    dispatch(resetCpu())
+    dispatch(resetAssembler())
+    dispatch(clearEditorActiveRange())
+    dispatch(resetIo())
+  })
+}
 
 interface Controller {
   assemble: () => void
@@ -72,37 +120,8 @@ interface Controller {
   reset: () => Promise<void>
 }
 
-// TODO: move some functions out
 export const useController = (): Controller => {
   const assemble = useAssembler({ inputFromState: true })
-
-  const __stop = (): void => {
-    cancelMainLoop()
-    dispatch(setRunning(false))
-  }
-
-  /**
-   * @returns {boolean} if was running
-   */
-  const stopIfRunning = (state: RootState): boolean => {
-    const isRunning = selectIsRunning(state)
-    if (isRunning) {
-      __stop()
-    }
-    return isRunning
-  }
-
-  /**
-   * @returns {boolean} if was suspended
-   */
-  const restoreIfSuspended = (state: RootState): boolean => {
-    const isSuspended = selectIsSuspended(state)
-    if (isSuspended) {
-      removeSetSuspendedListener()
-      dispatch(setSuspended(false))
-    }
-    return isSuspended
-  }
 
   const { clockSpeed, timerInterval } = useSelector(selectRuntimeConfiguration)
 
@@ -126,6 +145,9 @@ export const useController = (): Controller => {
     }
   }, [clockSpeed, timerInterval])
 
+  /**
+   * or stop if running
+   */
   const run = (): void => {
     const state = getState()
     if (stopIfRunning(state)) {
@@ -222,6 +244,7 @@ export const useController = (): Controller => {
                 dispatch(setWaitingForKeyboardInput(true))
             }
           })
+          // TODO: add option `once`
           removeSetSuspendedListener = addActionListener(setSuspended, () => {
             removeSetSuspendedListener()
             if (isRunning) {
@@ -234,7 +257,7 @@ export const useController = (): Controller => {
           dispatch(clearInputData())
         }
       } else if (selectIsWaitingForInput(state)) {
-        // step() called on line 235
+        // step() called from actionListener
         dispatch(setWaitingForInput(false))
         dispatch(clearInputData())
       }
@@ -259,34 +282,14 @@ export const useController = (): Controller => {
           if (!willDispatchChanges) {
             dispatchChanges()
           }
-          __stop()
+          stop()
         }
       }
       resolve([memoryData, registers])
     })
   }
 
-  const __reset = async (): Promise<void> => {
-    const state = getState()
-    stopIfRunning(state)
-    restoreIfSuspended(state)
-    await lastStep
-    lastStep = Promise.resolve(undefined)
-    cancelDispatchChanges()
-  }
-
-  useEffect(() => addActionListener(setAssemblerState, __reset), [])
-
-  const reset = async (): Promise<void> => {
-    await __reset()
-    batch(() => {
-      dispatch(resetMemory())
-      dispatch(resetCpu())
-      dispatch(resetAssembler())
-      dispatch(clearEditorActiveRange())
-      dispatch(resetIo())
-    })
-  }
+  useEffect(() => addActionListener(setAssemblerState, fullyStop), [])
 
   return {
     assemble,
