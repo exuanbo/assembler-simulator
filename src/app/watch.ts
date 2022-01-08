@@ -19,11 +19,11 @@ type Subscriptions<TSelected = any> = Map<
 >
 
 export const createWatch = (store: Store): Watch => {
-  const { getState, subscribe } = store
+  const { getState, subscribe: subscribeStore } = store
 
   const subscriptions: Subscriptions = new Map()
 
-  subscribe(() => {
+  subscribeStore(() => {
     const state = getState()
     subscriptions.forEach((subscription, selector) => {
       const { prev, callbacks } = subscription
