@@ -3,7 +3,7 @@ interface Sample {
   readonly content: string
 }
 
-export const samples: Sample[] = [
+export const samples: readonly Sample[] = [
   {
     title: 'Hello World',
     content: `jmp start
@@ -23,6 +23,21 @@ loop:
 	mov cl, [bl]
 	cmp cl, 00
 	jnz loop
+
+end
+`
+  },
+  {
+    title: 'Traffic Lights',
+    content: `start:
+	mov al, 80
+
+loop:
+	out 01
+	div al, 02
+	cmp al, 00
+	jnz loop
+	jmp start
 
 end
 `
