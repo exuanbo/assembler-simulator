@@ -12,7 +12,6 @@ import {
   setSuspended
 } from './controllerSlice'
 import {
-  selectEditortInput,
   selectEditorBreakpoints,
   setEditorActiveRange,
   clearEditorActiveRange
@@ -75,11 +74,7 @@ interface Controller {
 
 // TODO: move some functions out
 export const useController = (): Controller => {
-  const __assemble = useAssembler()
-
-  const assemble = (): void => {
-    __assemble(selectEditortInput(getState()))
-  }
+  const assemble = useAssembler({ inputFromState: true })
 
   const __stop = (): void => {
     cancelMainLoop()

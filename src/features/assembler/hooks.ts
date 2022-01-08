@@ -1,12 +1,16 @@
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { dispatch } from '../../app/store'
+import { getState, dispatch } from '../../app/store'
 import { Statement, AssembleResult, assemble as __assemble } from './core'
 import { AssemblerError } from './core/exceptions'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
-import { setEditorActiveRange, clearEditorActiveRange } from '../editor/editorSlice'
+import {
+  selectEditortInput,
+  setEditorActiveRange,
+  clearEditorActiveRange
+} from '../editor/editorSlice'
 
 type Assemble = (input: string) => void
 
@@ -38,4 +42,16 @@ const assemble: Assemble = input => {
   })
 }
 
-export const useAssembler = (): Assemble => assemble
+type AssembleInputFromState = () => void
+
+const assembleInputFromState: AssembleInputFromState = () => {
+  assemble(selectEditortInput(getState()))
+}
+
+interface UseAssemblerHook {
+  (option?: { inputFromState?: false }): Assemble
+  (option?: { inputFromState: true }): AssembleInputFromState
+}
+
+export const useAssembler = (({ inputFromState = false } = {}) =>
+  inputFromState ? assembleInputFromState : assemble) as UseAssemblerHook
