@@ -33,7 +33,7 @@ enum AnnotationValue {
 const isChangedFromState = (transation: Transaction): boolean =>
   transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
-let syncStateTimeoutId: number | undefined
+let updateInputTimeoutId: number | undefined
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const [defaultInput] = useState(() => selectEditortInput(getState()))
@@ -49,8 +49,8 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
         // doc changes must be caused by at least one transaction
         const firstTransaction = viewUpdate.transactions[0]
         const input = viewUpdate.state.doc.sliceString(0)
-        window.clearTimeout(syncStateTimeoutId)
-        syncStateTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(updateInputTimeoutId)
+        updateInputTimeoutId = window.setTimeout(() => {
           // only one transaction is dispatched if input is set from file
           if (!isChangedFromState(firstTransaction)) {
             dispatch(setEditorInput({ value: input }))
