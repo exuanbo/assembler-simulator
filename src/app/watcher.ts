@@ -1,12 +1,12 @@
 import type { Middleware } from 'redux'
 import type { RootState, Dispatch } from './store'
 
-interface WatchAPI {
-  getPrevState: () => RootState
+interface WatchAPI<TSelected> {
+  getPrev: () => TSelected
   dispatch: Dispatch
 }
 
-type WatchCallback<TSelected> = (selectedState: TSelected, api: WatchAPI) => void
+type WatchCallback<TSelected> = (selectedState: TSelected, api: WatchAPI<TSelected>) => void
 
 type Unsubscribe = () => void
 
@@ -47,7 +47,7 @@ export const createWatcher = (): Watcher => {
       if (selectedState !== prev) {
         callbacks.forEach(cb => {
           cb(selectedState, {
-            getPrevState: () => prev,
+            getPrev: () => prev,
             dispatch: api.dispatch
           })
         })
