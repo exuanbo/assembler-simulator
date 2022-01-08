@@ -6,7 +6,7 @@ import memoryReducer from '../features/memory/memorySlice'
 import cpuReducer from '../features/cpu/cpuSlice'
 import ioReducer from '../features/io/ioSlice'
 import { createActionListener } from './actionListener'
-import { createWatcher } from './watch'
+import { createWatcher } from './watcher'
 import { loadState } from './localStorage'
 
 const rootReducer = combineReducers({
