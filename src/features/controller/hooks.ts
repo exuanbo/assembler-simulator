@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { RootState, getState, dispatch } from '../../app/store'
+import { RootState, getState, dispatch, listenAction } from '../../app/store'
 import { useSelector } from '../../app/hooks'
-import { addActionListener } from '../../app/actionListener'
 import {
   selectRuntimeConfiguration,
   selectIsRunning,
@@ -70,7 +69,7 @@ const stopIfRunning = (state: RootState): boolean => {
   return isRunning
 }
 
-let removeSetSuspendedListener: () => void
+let unsubscribeSetSuspended: () => void
 
 /**
  * @returns {boolean} if was suspended
@@ -78,7 +77,7 @@ let removeSetSuspendedListener: () => void
 const restoreIfSuspended = (state: RootState): boolean => {
   const isSuspended = selectIsSuspended(state)
   if (isSuspended) {
-    removeSetSuspendedListener()
+    unsubscribeSetSuspended()
     dispatch(setSuspended(false))
   }
   return isSuspended
@@ -245,8 +244,8 @@ export const useController = (): Controller => {
             }
           })
           // TODO: add option `once`
-          removeSetSuspendedListener = addActionListener(setSuspended, () => {
-            removeSetSuspendedListener()
+          unsubscribeSetSuspended = listenAction(setSuspended, () => {
+            unsubscribeSetSuspended()
             if (isRunning) {
               setMainLoop()
             }
@@ -289,7 +288,7 @@ export const useController = (): Controller => {
     })
   }
 
-  useEffect(() => addActionListener(setAssemblerState, fullyStop), [])
+  useEffect(() => listenAction(setAssemblerState, fullyStop), [])
 
   return {
     assemble,

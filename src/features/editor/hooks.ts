@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Transaction, StateEffect } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { getState, dispatch } from '../../app/store'
+import { getState, dispatch, listenAction } from '../../app/store'
 import { useSelector } from '../../app/hooks'
-import { addActionListener } from '../../app/actionListener'
 import {
   selectEditortInput,
   selectEditorBreakpoints,
@@ -70,7 +69,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     if (selectAutoAssemble(getState())) {
       assemble(defaultInput)
     }
-    return addActionListener(setEditorInput, ({ value, isFromFile = false }) => {
+    return listenAction(setEditorInput, ({ value, isFromFile = false }) => {
       if (isFromFile) {
         view.dispatch({
           changes: {
@@ -183,7 +182,7 @@ export const useStatusMessage = (): StatusMessage | null => {
 
   useEffect(() => {
     let showHaltedTimeoutId: number | undefined
-    const removeSetCpuHaltedListener = addActionListener(setCpuHalted, isHalted => {
+    const unsubscribeSetCpuHalted = listenAction(setCpuHalted, isHalted => {
       setShouldShowHalted(isHalted)
       if (isHalted) {
         window.clearTimeout(showHaltedTimeoutId)
@@ -192,12 +191,12 @@ export const useStatusMessage = (): StatusMessage | null => {
         }, 2000)
       }
     })
-    const removeResetCpuListener = addActionListener(resetCpu, () => {
+    const unsubscribeResetCpu = listenAction(resetCpu, () => {
       setShouldShowHalted(false)
     })
     return () => {
-      removeSetCpuHaltedListener()
-      removeResetCpuListener()
+      unsubscribeSetCpuHalted()
+      unsubscribeResetCpu()
     }
   }, [])
 

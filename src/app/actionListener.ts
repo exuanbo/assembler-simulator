@@ -2,37 +2,48 @@ import { PayloadActionCreator, getType } from '@reduxjs/toolkit'
 import type { Middleware, MiddlewareAPI } from 'redux'
 import type { RootState, Dispatch } from './store'
 
-type Listener<P> = (payload: P, api: MiddlewareAPI<Dispatch, RootState>) => void | Promise<void>
+type ListenAPI = MiddlewareAPI<Dispatch, RootState>
+
+type ListenCallback<P> = (payload: P, api: ListenAPI) => void | Promise<void>
+
+type Unsubscribe = () => void
+
+type ListenAction = <P>(
+  actionCreator: PayloadActionCreator<P>,
+  callback: ListenCallback<P>
+) => Unsubscribe
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscription<P = any> = Map<string, Set<Listener<P>>>
+type Subscriptions<P = any> = Map<string, Set<ListenCallback<P>>>
 
-const subscriptions: Subscription = new Map()
+interface ActionListener {
+  middleware: Middleware
+  listenAction: ListenAction
+}
 
-type RemoveActionListener = () => void
+export const createActionListener = (): ActionListener => {
+  const subscriptions: Subscriptions = new Map()
 
-export const addActionListener = <P>(
-  actionCreator: PayloadActionCreator<P>,
-  listener: Listener<P>
-): RemoveActionListener => {
-  const actionType = getType(actionCreator)
-  if (!subscriptions.has(actionType)) {
-    subscriptions.set(actionType, new Set())
+  const middleware: Middleware = api => next => action => {
+    const result = next(action)
+    subscriptions.get(action.type)?.forEach(cb => cb(action.payload, api))
+    return result
   }
-  const listeners = subscriptions.get(actionType)!
-  listeners.add(listener)
-  return () => {
-    listeners.delete(listener)
-    if (listeners.size === 0) {
-      subscriptions.delete(actionType)
+
+  const listenAction: ListenAction = (actionCreator, callback) => {
+    const actionType = getType(actionCreator)
+    if (!subscriptions.has(actionType)) {
+      subscriptions.set(actionType, new Set())
+    }
+    const callbacks = subscriptions.get(actionType)!
+    callbacks.add(callback)
+    return () => {
+      callbacks.delete(callback)
+      if (callbacks.size === 0) {
+        subscriptions.delete(actionType)
+      }
     }
   }
-}
 
-const actionListenerMiddleware: Middleware = api => next => action => {
-  const result = next(action)
-  subscriptions.get(action.type)?.forEach(listener => listener(action.payload, api))
-  return result
+  return { middleware, listenAction }
 }
-
-export default actionListenerMiddleware
