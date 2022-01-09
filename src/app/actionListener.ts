@@ -4,17 +4,17 @@ import type { RootState, Dispatch } from './store'
 
 type ListenAPI = MiddlewareAPI<Dispatch, RootState>
 
-type ListenCallback<P> = (payload: P, api: ListenAPI) => void | Promise<void>
+type ListenCallback<TPayload> = (payload: TPayload, api: ListenAPI) => void | Promise<void>
 
 type Unsubscribe = () => void
 
-type ListenAction = <P>(
-  actionCreator: PayloadActionCreator<P>,
-  callback: ListenCallback<P>
+type ListenAction = <TPayload>(
+  actionCreator: PayloadActionCreator<TPayload>,
+  callback: ListenCallback<TPayload>
 ) => Unsubscribe
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscriptions<P = any> = Map<string, Set<ListenCallback<P>>>
+type Subscriptions<TPayload = any> = Map<string, Set<ListenCallback<TPayload>>>
 
 interface ActionListener {
   middleware: Middleware
