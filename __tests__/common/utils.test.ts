@@ -1,4 +1,10 @@
-import { range, asciiToChars, compareArrayWithSameLength, curry2 } from '../../src/common/utils'
+import {
+  range,
+  asciiToChars,
+  compareArrayWithSameLength,
+  curry2,
+  throttle
+} from '../../src/common/utils'
 
 describe('utils', () => {
   describe('range', () => {
@@ -32,6 +38,38 @@ describe('utils', () => {
       const add = (a: number, b: number): number => a + b
       const curriedAdd = curry2(add)
       expect(curriedAdd(1)(2)).toBe(3)
+    })
+  })
+
+  describe('throttle', () => {
+    it('should throttle a function', () => {
+      const fn = jest.fn()
+      const throttledFn = throttle(fn, 1000)
+      throttledFn()
+      throttledFn()
+      throttledFn()
+      throttledFn()
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throttle a function with arguments', () => {
+      const fn = jest.fn()
+      const throttledFn = throttle(fn, 1000)
+      throttledFn(1, 2, 3)
+      throttledFn(1, 2, 3)
+      throttledFn(1, 2, 3)
+      throttledFn(1, 2, 3)
+      expect(fn).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throttle a function and queue', async () => {
+      const fn = jest.fn()
+      const throttledFn = throttle(fn, 1000)
+      throttledFn()
+      throttledFn()
+      throttledFn()
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      expect(fn).toHaveBeenCalledTimes(2)
     })
   })
 })
