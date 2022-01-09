@@ -6,7 +6,10 @@ interface WatchAPI<TSelected> {
   dispatch: Dispatch
 }
 
-type WatchCallback<TSelected> = (selectedState: TSelected, api: WatchAPI<TSelected>) => void
+type WatchCallback<TSelected> = (
+  selectedState: TSelected,
+  api: WatchAPI<TSelected>
+) => void | Promise<void>
 
 type Unsubscribe = () => void
 
@@ -45,12 +48,12 @@ export const createWatcher = (): Watcher => {
       const { prev, callbacks } = subscription
       const selectedState = selector(state)
       if (selectedState !== prev) {
-        callbacks.forEach(cb => {
+        callbacks.forEach(cb =>
           cb(selectedState, {
             getPrev: () => prev,
             dispatch: api.dispatch
           })
-        })
+        )
         subscription.prev = selectedState
       }
     })
