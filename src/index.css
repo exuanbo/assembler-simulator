@@ -2,14 +2,6 @@ body {
   @apply overscroll-none;
 }
 
-:not(a):not(a *) {
-  @apply cursor-default;
-}
-
-.cm-content * {
-  @apply cursor-auto;
-}
-
 * {
   @apply select-none;
 }
