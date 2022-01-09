@@ -12,7 +12,7 @@ export const useToggle = (
 ): [state: boolean, toggleState: DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
-export const useOutsideClick = <T extends Element = Element>(): [
+export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   isClicked: boolean,
   clickRef: RefCallback<T>
 ] => {
@@ -42,7 +42,7 @@ export const useOutsideClick = <T extends Element = Element>(): [
   return [isClicked, refCallback]
 }
 
-export const useHover = <T extends Element = Element>(): [
+export const useHover = <T extends HTMLElement = HTMLElement>(): [
   isHovered: boolean,
   hoverRef: RefCallback<T>
 ] => {
