@@ -57,7 +57,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
           if (selectAutoAssemble(getState())) {
             assemble(input)
           }
-        }, 200)
+        }, 250)
       }
     }
   )
