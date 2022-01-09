@@ -14,7 +14,7 @@ interface Props {
 const ControlButton = ({ children, onClick, disabled = false }: Props): JSX.Element => (
   <div
     className={`flex space-x-2 py-1 px-2 items-center ${
-      disabled ? 'text-gray-500 fill-gray-500' : 'hover:bg-gray-200'
+      disabled ? 'text-gray-400 fill-gray-400' : 'hover:bg-gray-200'
     }`}
     onClick={onClick}>
     {children}
