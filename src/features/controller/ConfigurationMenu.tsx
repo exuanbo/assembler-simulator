@@ -22,7 +22,7 @@ import {
 const AutoAssemble = (): JSX.Element => {
   const autoAssemble = useSelector(selectAutoAssemble)
 
-  const toggleAutoAssemble: React.MouseEventHandler<HTMLDivElement> = () => {
+  const toggleAutoAssemble = (): void => {
     dispatch(setAutoAssemble(!autoAssemble))
   }
 

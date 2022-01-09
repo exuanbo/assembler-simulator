@@ -58,7 +58,7 @@ const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element
 }
 
 const Download = (): JSX.Element => {
-  const handleClickDownload: React.MouseEventHandler<HTMLDivElement> = () => {
+  const handleClickDownload = (): void => {
     const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
