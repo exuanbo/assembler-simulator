@@ -66,3 +66,27 @@ export const curry2 =
   (t1: T1) =>
   (t2: T2): R =>
     fn(t1, t2)
+
+export const throttle = <T extends unknown[]>(
+  fn: (...params: T) => unknown,
+  wait: number
+): ((...args: T) => void) => {
+  let lastTime: number | undefined
+  let queuedTimeoutId: number | undefined
+
+  return function invokeFn(...args: T) {
+    const now = Date.now()
+
+    window.clearTimeout(queuedTimeoutId)
+    queuedTimeoutId = undefined
+
+    if (lastTime === undefined || now - lastTime >= wait) {
+      fn(...args)
+      lastTime = now
+    } else {
+      queuedTimeoutId = window.setTimeout(() => {
+        invokeFn(...args)
+      }, wait - (now - lastTime))
+    }
+  }
+}

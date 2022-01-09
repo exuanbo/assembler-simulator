@@ -6,11 +6,7 @@ import {
   useUnderlineAssemblerError
 } from './hooks'
 
-interface Props {
-  className: string
-}
-
-const Editor = ({ className }: Props): JSX.Element => {
+const Editor = (): JSX.Element => {
   const { view, editorRef } = useCodeMirror()
 
   useBreakpoints(view)
@@ -18,7 +14,7 @@ const Editor = ({ className }: Props): JSX.Element => {
   useUnderlineAssemblerError(view)
 
   return (
-    <div ref={editorRef} className={`flex flex-col ${className}`}>
+    <div ref={editorRef} className="flex flex-col h-full">
       <EditorStatus />
     </div>
   )

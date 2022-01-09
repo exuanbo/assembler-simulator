@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import ToolBar from '../features/controller/Toolbar'
+import ResizablePanel from '../common/components/ResizablePanel'
 import Editor from '../features/editor/Editor'
 import CpuRegisters from '../features/cpu/CpuRegisters'
 import Memory from '../features/memory/Memory'
@@ -18,14 +19,14 @@ const App = (): JSX.Element => {
   return (
     <div className="flex flex-col font-mono">
       <ToolBar className="flex-none" />
-      <div className="divide-x flex h-[calc(100vh-2rem)] mt-8">
-        <Editor className="flex-1" />
-        <div className="divide-y flex flex-col flex-1 overflow-y-auto">
+      <ResizablePanel className="h-[calc(100vh-2rem)] mt-8">
+        <Editor />
+        <div className="divide-y flex flex-col h-full overflow-y-auto">
           <CpuRegisters />
           <Memory />
           <IoDevices />
         </div>
-      </div>
+      </ResizablePanel>
     </div>
   )
 }
