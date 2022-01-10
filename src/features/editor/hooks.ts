@@ -34,6 +34,25 @@ const isChangedFromState = (transation: Transaction): boolean =>
 
 let updateInputTimeoutId: number | undefined
 
+const inputUpdateListener: ViewUpdateListener = viewUpdate => {
+  if (!viewUpdate.docChanged) {
+    return
+  }
+  // doc changes must be caused by at least one transaction
+  const firstTransaction = viewUpdate.transactions[0]
+  const input = viewUpdate.state.doc.sliceString(0)
+  window.clearTimeout(updateInputTimeoutId)
+  updateInputTimeoutId = window.setTimeout(() => {
+    // only one transaction is dispatched if input is set from file
+    if (!isChangedFromState(firstTransaction)) {
+      dispatch(setEditorInput({ value: input }))
+    }
+    if (selectAutoAssemble(getState())) {
+      assemble(input)
+    }
+  }, 250)
+}
+
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const [defaultInput] = useState(() => selectEditortInput(getState()))
 
@@ -42,24 +61,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
       doc: defaultInput,
       extensions: setup
     },
-    // TODO: extract
-    viewUpdate => {
-      if (viewUpdate.docChanged) {
-        // doc changes must be caused by at least one transaction
-        const firstTransaction = viewUpdate.transactions[0]
-        const input = viewUpdate.state.doc.sliceString(0)
-        window.clearTimeout(updateInputTimeoutId)
-        updateInputTimeoutId = window.setTimeout(() => {
-          // only one transaction is dispatched if input is set from file
-          if (!isChangedFromState(firstTransaction)) {
-            dispatch(setEditorInput({ value: input }))
-          }
-          if (selectAutoAssemble(getState())) {
-            assemble(input)
-          }
-        }, 250)
-      }
-    }
+    inputUpdateListener
   )
 
   useEffect(() => {
@@ -86,36 +88,37 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   return { view, editorRef }
 }
 
+const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
+  if (viewUpdate.docChanged) {
+    if (breakpointsChanged(viewUpdate)) {
+      const breakpointRangeSet = getBreakpoints(viewUpdate.state)
+      const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
+        lineRangeAt(viewUpdate.state.doc, from)
+      )
+      dispatch(setBreakpoints(breakpoints))
+    }
+  } else {
+    const transaction = viewUpdate.transactions[0] as Transaction | undefined
+    if (transaction === undefined || isChangedFromState(transaction)) {
+      return
+    }
+    transaction.effects.forEach(effect => {
+      if (effect.is(breakpointEffect)) {
+        const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+        const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
+        dispatch(actionCreator(lineRange))
+      }
+    })
+  }
+}
+
 export const useBreakpoints = (view: EditorView | undefined): void => {
   useEffect(() => {
     if (view === undefined) {
       return
     }
-    const viewUpdateListener: ViewUpdateListener = viewUpdate => {
-      if (viewUpdate.docChanged) {
-        if (breakpointsChanged(viewUpdate)) {
-          const breakpointRangeSet = getBreakpoints(viewUpdate.state)
-          const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
-            lineRangeAt(viewUpdate.state.doc, from)
-          )
-          dispatch(setBreakpoints(breakpoints))
-        }
-      } else {
-        const transaction = viewUpdate.transactions[0] as Transaction | undefined
-        if (transaction === undefined || isChangedFromState(transaction)) {
-          return
-        }
-        transaction.effects.forEach(effect => {
-          if (effect.is(breakpointEffect)) {
-            const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-            const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
-            dispatch(actionCreator(lineRange))
-          }
-        })
-      }
-    }
     view.dispatch({
-      effects: StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
+      effects: StateEffect.appendConfig.of(EditorView.updateListener.of(breakpointsUpdateListener))
     })
     const breakpoints = selectEditorBreakpoints(getState())
     // persisted state might not be in sync with codemirror
