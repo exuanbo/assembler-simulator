@@ -6,7 +6,7 @@ import MenuItem from './MenuItem'
 import { File as FileIcon } from '../../common/components/icons'
 import { getState, dispatch } from '../../app/store'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
-import { samples } from '../editor/samples'
+import { examples } from '../editor/examples'
 
 const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -79,17 +79,17 @@ const Download = (): JSX.Element => {
   )
 }
 
-const SamplesMenu = (): JSX.Element => (
+const ExamplesMenu = (): JSX.Element => (
   <MenuItem.Expandable>
     {(isHovered, menuItemsRef) => (
       <>
         <MenuButton>
           <span className="w-4" />
-          <span>Samples</span>
+          <span>Examples</span>
         </MenuButton>
         {isHovered && (
           <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-            {samples.map(({ title, content }, index) => (
+            {examples.map(({ title, content }, index) => (
               <MenuItem
                 key={index}
                 onClick={() => {
@@ -125,7 +125,7 @@ const FileMenu = (): JSX.Element => (
           <MenuItems>
             <Upload onFileUploaded={toggleOpen} />
             <Download />
-            <SamplesMenu />
+            <ExamplesMenu />
           </MenuItems>
         )}
       </>

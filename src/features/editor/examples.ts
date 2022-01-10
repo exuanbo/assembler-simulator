@@ -1,9 +1,9 @@
-interface Sample {
+interface Example {
   readonly title: string
   readonly content: string
 }
 
-export const samples: readonly Sample[] = [
+export const examples: readonly Example[] = [
   {
     title: 'Hello World',
     content: `jmp start

@@ -3,7 +3,7 @@ import type { EditorView } from '@codemirror/view'
 import { LineRange, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '../../app/store'
 import type { SourceRange, Statement } from '../assembler/core'
-import { samples } from './samples'
+import { examples } from './examples'
 import { range, curry2 } from '../../common/utils'
 
 interface EditorState {
@@ -12,7 +12,7 @@ interface EditorState {
   activeRange: SourceRange | null
 }
 
-const [helloWorld] = samples
+const [helloWorld] = examples
 
 const initialState: EditorState = {
   input: helloWorld.content,
