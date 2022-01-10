@@ -8,6 +8,23 @@ import { getState, dispatch } from '../../app/store'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { examples } from '../editor/examples'
 
+const NewFile = (): JSX.Element => (
+  <MenuItem
+    onClick={() => {
+      dispatch(
+        setEditorInput({
+          value: '',
+          isFromFile: true
+        })
+      )
+    }}>
+    <MenuButton>
+      <span className="w-4" />
+      <span>New File</span>
+    </MenuButton>
+  </MenuItem>
+)
+
 const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -88,7 +105,7 @@ const ExamplesMenu = (): JSX.Element => (
           <span>Examples</span>
         </MenuButton>
         {isHovered && (
-          <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+          <MenuItems.Expanded className="mt-3px top-32" innerRef={menuItemsRef}>
             {examples.map(({ title, content }, index) => (
               <MenuItem
                 key={index}
@@ -123,6 +140,7 @@ const FileMenu = (): JSX.Element => (
         </MenuButton.Main>
         {isOpen && (
           <MenuItems>
+            <NewFile />
             <Upload onFileUploaded={toggleOpen} />
             <Download />
             <ExamplesMenu />
