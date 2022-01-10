@@ -10,6 +10,8 @@ import { Mnemonic } from '../../../common/constants'
 import { call } from '../../../common/utils'
 
 export type { SourceRange } from './types'
+export type { AssemblerErrorObject } from './exceptions'
+export { AssemblerError } from './exceptions'
 export type { Statement } from './parser'
 
 interface LabelToAddressMap {

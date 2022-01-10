@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import type { AddressToStatementMap } from './core'
-import type { AssemblerErrorObject } from './core/exceptions'
+import type { AddressToStatementMap, AssemblerErrorObject } from './core'
 import type { RootState } from '../../app/store'
 import type { SourceRange } from '../assembler/core'
 

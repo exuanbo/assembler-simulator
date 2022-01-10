@@ -1,8 +1,7 @@
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
 import { getState, dispatch } from '../../app/store'
-import { Statement, AssembleResult, assemble as __assemble } from './core'
-import { AssemblerError } from './core/exceptions'
+import { Statement, AssembleResult, AssemblerError, assemble as __assemble } from './core'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '../memory/memorySlice'
 import { resetCpu } from '../cpu/cpuSlice'
