@@ -23,8 +23,7 @@ import {
   resetAssembler
 } from '../assembler/assemblerSlice'
 import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
-import { StepResult, step as __step } from '../cpu/core'
-import { RuntimeError } from '../cpu/core/exceptions'
+import { StepResult, RuntimeError, step as __step } from '../cpu/core'
 import {
   selectCpuStatus,
   selectCpuRegisters,

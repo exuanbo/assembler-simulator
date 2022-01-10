@@ -29,6 +29,8 @@ import { Signals, MAX_PORT } from '../../io/core'
 import { Opcode } from '../../../common/constants'
 import { ExcludeTupleTail, sign8, unsign8 } from '../../../common/utils'
 
+export { RuntimeError } from './exceptions'
+
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
 
 export enum GeneralPurposeRegister {
