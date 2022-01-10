@@ -2,6 +2,7 @@ import { createNextState } from '@reduxjs/toolkit'
 import { assemble } from '../../src/features/assembler/core'
 import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
 import {
+  RuntimeError,
   GeneralPurposeRegister,
   Registers,
   initRegisters,
@@ -36,6 +37,18 @@ const step = (
 
 describe('cpu', () => {
   describe('step', () => {
+    it('should throw instance of RuntimeError', () => {
+      const memoryData = createNextState(initialMemoryData, draft => {
+        draft[0] = -1
+      })
+      try {
+        step(memoryData, initialRegisters)
+      } catch (err) {
+        expect(err).toBeInstanceOf(RuntimeError)
+      }
+      expect.assertions(1)
+    })
+
     it('should throw InvalidRegisterError', () => {
       const memoryData = createNextState(initialMemoryData, draft => {
         draft[0] = Opcode.INC_REG

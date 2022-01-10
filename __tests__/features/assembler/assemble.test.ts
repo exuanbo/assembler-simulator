@@ -1,10 +1,10 @@
-import { assemble } from '../../../src/features/assembler/core'
+import { AssemblerError, assemble } from '../../../src/features/assembler/core'
 import { initDataFrom } from '../../../src/features/memory/core'
 import { memorySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(memorySerializer)
 
-const SAMPLE_INPUT = `
+const INPUT = `
 ; --------------------------------------------------------------
 ; An example of using hardware interrupts.
 ; This program spins the stepper motor continuously and
@@ -66,8 +66,17 @@ END
 
 describe('assembler', () => {
   it('should assemble correctly', () => {
-    const [addressToMachineCodeMap] = assemble(SAMPLE_INPUT)
+    const [addressToMachineCodeMap] = assemble(INPUT)
     expect(initDataFrom(addressToMachineCodeMap)).toMatchSnapshot()
+  })
+
+  it('should throw instance of AssemblerError', () => {
+    try {
+      assemble('foo')
+    } catch (err) {
+      expect(err).toBeInstanceOf(AssemblerError)
+    }
+    expect.assertions(1)
   })
 
   it('should throw DuplicateLabelError', () => {
