@@ -23,7 +23,7 @@ const ToolBar = ({ className }: Props): JSX.Element => (
         href="https://github.com/exuanbo/assembler-simulator"
         rel="noopener noreferrer"
         target="_blank">
-        <Github className="h-1.2rem" />
+        <Github className="w-4.5" />
       </a>
     </div>
   </div>

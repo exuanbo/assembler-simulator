@@ -42,7 +42,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
       onClick={handleClick}>
       {children(isHovered, menuItemsRef)}
       <div className="flex ml-4 w-4 justify-end">
-        <Play className="h-2.5" />
+        <Play className="w-2.5" />
       </div>
     </div>
   )
