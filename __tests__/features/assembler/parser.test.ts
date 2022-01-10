@@ -148,6 +148,12 @@ end
 
   const MISSING_END_ERROR_MSG = 'Expected END at the end of the source code'
 
+  it('should throw MissingEndError if instruction is missing at the end', () => {
+    expect(() => {
+      parse('start:')
+    }).toThrowError(MISSING_END_ERROR_MSG)
+  })
+
   it('should throw MissingEndError if the first operand is missing at the end', () => {
     expect(() => {
       parse('mov')
@@ -160,9 +166,9 @@ end
     }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  it('should throw MissingEndError if instruction is missing at the end', () => {
+  it('should throw MissingEndError if the second operand is missing at the end', () => {
     expect(() => {
-      parse('start:')
+      parse('mov al,')
     }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
