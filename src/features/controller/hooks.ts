@@ -44,6 +44,7 @@ import {
   resetIo
 } from '../io/ioSlice'
 
+// they must be assigned in `setMainLoop` when they are read in `cancelMainLoop`
 let stepIntervalId: number
 let interruptIntervalId: number
 
@@ -68,6 +69,7 @@ const stopIfRunning = (state: RootState): boolean => {
   return isRunning
 }
 
+// it must be assigned in `step` when it is called in `restoreIfSuspended`
 let unsubscribeSetSuspended: () => void
 
 /**
@@ -278,6 +280,7 @@ export const useController = (): Controller => {
           if (!willDispatchChanges) {
             dispatchChanges()
           }
+          // isRunning is already checked
           stop()
         }
       }
