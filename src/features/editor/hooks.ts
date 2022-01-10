@@ -185,7 +185,7 @@ export const useStatusMessage = (): StatusMessage | null => {
 
   useEffect(() => {
     let showHaltedTimeoutId: number | undefined
-    const unsubscribeSetCpuHalted = listenAction(setCpuHalted, isHalted => {
+    return listenAction(setCpuHalted, isHalted => {
       setShouldShowHalted(isHalted)
       if (isHalted) {
         window.clearTimeout(showHaltedTimeoutId)
@@ -194,13 +194,12 @@ export const useStatusMessage = (): StatusMessage | null => {
         }, 2000)
       }
     })
-    const unsubscribeResetCpu = listenAction(resetCpu, () => {
+  }, [])
+
+  useEffect(() => {
+    return listenAction(resetCpu, () => {
       setShouldShowHalted(false)
     })
-    return () => {
-      unsubscribeSetCpuHalted()
-      unsubscribeResetCpu()
-    }
   }, [])
 
   return assemblerError !== null
