@@ -277,7 +277,8 @@ export const useController = (): Controller => {
   useEffect(() => {
     return watch(selectRuntimeConfiguration, () => {
       const state = getState()
-      if (stopIfRunning(state) && !restoreIfSuspended(state)) {
+      // `setSuspended` action listener will reset the main loop
+      if (!selectIsSuspended(state) && stopIfRunning(state)) {
         run()
       }
     })
