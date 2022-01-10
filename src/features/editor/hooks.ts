@@ -21,7 +21,7 @@ import { StringAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '../controller/controllerSlice'
-import { useAssembler } from '../assembler/hooks'
+import { assemble } from '../assembler/assemble'
 import { selectAssemblerError, selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '../cpu/cpuSlice'
 
@@ -36,13 +36,13 @@ let updateInputTimeoutId: number | undefined
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const [defaultInput] = useState(() => selectEditortInput(getState()))
-  const assemble = useAssembler()
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     {
       doc: defaultInput,
       extensions: setup
     },
+    // TODO: extract
     viewUpdate => {
       if (viewUpdate.docChanged) {
         // doc changes must be caused by at least one transaction

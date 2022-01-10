@@ -11,9 +11,7 @@ import {
   clearEditorActiveRange
 } from '../editor/editorSlice'
 
-type Assemble = (input: string) => void
-
-const assemble: Assemble = input => {
+export const assemble = (input: string): void => {
   let assembleResult: AssembleResult
   try {
     assembleResult = __assemble(input)
@@ -41,16 +39,6 @@ const assemble: Assemble = input => {
   })
 }
 
-type AssembleInputFromState = () => void
-
-const assembleInputFromState: AssembleInputFromState = () => {
+export const assembleInputFromState = (): void => {
   assemble(selectEditortInput(getState()))
 }
-
-interface UseAssemblerHook {
-  (option?: { inputFromState?: false }): Assemble
-  (option?: { inputFromState: true }): AssembleInputFromState
-}
-
-export const useAssembler = (({ inputFromState = false } = {}) =>
-  inputFromState ? assembleInputFromState : assemble) as UseAssemblerHook

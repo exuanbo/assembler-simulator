@@ -16,7 +16,7 @@ import {
   clearEditorActiveRange
 } from '../editor/editorSlice'
 import { lineRangesOverlap } from '../editor/codemirror/line'
-import { useAssembler } from '../assembler/hooks'
+import { assembleInputFromState } from '../assembler/assemble'
 import {
   selectAddressToStatementMap,
   setAssemblerState,
@@ -119,8 +119,6 @@ interface Controller {
 }
 
 export const useController = (): Controller => {
-  const assemble = useAssembler({ inputFromState: true })
-
   const { clockSpeed, timerInterval } = useSelector(selectRuntimeConfiguration)
 
   const setMainLoop = (): void => {
@@ -290,7 +288,7 @@ export const useController = (): Controller => {
   useEffect(() => listenAction(setAssemblerState, fullyStop), [])
 
   return {
-    assemble,
+    assemble: assembleInputFromState,
     run,
     step,
     reset
