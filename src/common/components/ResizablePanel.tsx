@@ -1,10 +1,15 @@
 import { ReactNode, memo, useState, useEffect, useRef } from 'react'
 import { range, throttle } from '../utils'
 
-const Dots = memo(() => (
+const Dots = memo(({ isHovered }: { isHovered: boolean }) => (
   <>
     {range(3).map(index => (
-      <span key={index} className="rounded-full bg-blue-gray-300 h-1 m-1 w-1" />
+      <span
+        key={index}
+        className={`rounded-full h-1 m-1 w-1 group-hover:bg-blue-gray-400 ${
+          isHovered ? 'bg-blue-gray-400' : 'bg-blue-gray-300'
+        }`}
+      />
     ))}
   </>
 ))
@@ -75,11 +80,11 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       </div>
       <div
         ref={dividerRef}
-        className={`border-l border-r cursor-col-resize flex-none flex flex-col bg-gray-100 items-center justify-center hover:bg-gray-400 ${
-          isDragging ? 'bg-gray-400' : ''
+        className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
+          isDragging ? 'bg-gray-200' : 'bg-gray-100'
         }`}
         onMouseDown={handleMouseDown}>
-        <Dots />
+        <Dots isHovered={isDragging} />
       </div>
       <div className="flex-1">{children[1]}</div>
     </div>
