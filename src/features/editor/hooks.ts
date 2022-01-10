@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Transaction, StateEffect } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '../../app/store'
@@ -183,14 +183,16 @@ export const useStatusMessage = (): StatusMessage | null => {
   const cpuFault = useSelector(selectCpuFault)
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
 
+  const showHaltedTimeoutIdRef = useRef<number | undefined>()
+
   useEffect(() => {
-    let showHaltedTimeoutId: number | undefined
     return listenAction(setCpuHalted, isHalted => {
       setShouldShowHalted(isHalted)
       if (isHalted) {
-        window.clearTimeout(showHaltedTimeoutId)
-        showHaltedTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(showHaltedTimeoutIdRef.current)
+        showHaltedTimeoutIdRef.current = window.setTimeout(() => {
           setShouldShowHalted(false)
+          showHaltedTimeoutIdRef.current = undefined
         }, 2000)
       }
     })
@@ -199,6 +201,10 @@ export const useStatusMessage = (): StatusMessage | null => {
   useEffect(() => {
     return listenAction(resetCpu, () => {
       setShouldShowHalted(false)
+      if (showHaltedTimeoutIdRef.current !== undefined) {
+        window.clearTimeout(showHaltedTimeoutIdRef.current)
+        showHaltedTimeoutIdRef.current = undefined
+      }
     })
   }, [])
 
