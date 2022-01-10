@@ -14,8 +14,6 @@ const Dots = memo(({ isHovered }: { isHovered: boolean }) => (
   </>
 ))
 
-let clickCount = 0
-
 interface Props {
   children: [left: ReactNode, right: ReactNode]
   className?: string
@@ -26,17 +24,19 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const [leftWidthPct, setLeftWidthPct] = useState<number>(1)
   const dividerRef = useRef<HTMLDivElement>(null)
 
+  const clickCountRef = useRef(0)
+
   const handleMouseDown = (): void => {
     setIsDragging(true)
 
-    clickCount += 1
-    if (clickCount === 2) {
+    clickCountRef.current += 1
+    if (clickCountRef.current === 2) {
       setLeftWidthPct(1)
-      clickCount = 0
+      clickCountRef.current = 0
       return
     }
     window.setTimeout(() => {
-      clickCount = 0
+      clickCountRef.current = 0
     }, 500)
   }
 
