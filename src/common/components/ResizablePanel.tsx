@@ -25,6 +25,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const dividerRef = useRef<HTMLDivElement>(null)
 
   const clickCountRef = useRef(0)
+  const clickTimeoutIdRef = useRef<number | undefined>()
 
   const handleMouseDown = (): void => {
     setIsDragging(true)
@@ -33,9 +34,10 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
     if (clickCountRef.current === 2) {
       setLeftWidthPct(1)
       clickCountRef.current = 0
+      window.clearTimeout(clickTimeoutIdRef.current)
       return
     }
-    window.setTimeout(() => {
+    clickTimeoutIdRef.current = window.setTimeout(() => {
       clickCountRef.current = 0
     }, 500)
   }
