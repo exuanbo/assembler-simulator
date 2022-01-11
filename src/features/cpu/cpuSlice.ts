@@ -35,8 +35,8 @@ export const cpuSlice = createSlice({
     setFault: (state, action: PayloadAction<string>) => {
       state.status.fault = action.payload
     },
-    setHalted: (state, action: PayloadAction<boolean>) => {
-      state.status.halted = action.payload
+    setHalted: state => {
+      state.status.halted = true
     },
     setRegisters: (state, action: PayloadAction<Registers>) => {
       state.registers = action.payload

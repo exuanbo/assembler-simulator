@@ -186,15 +186,13 @@ export const useStatusMessage = (): StatusMessage | null => {
   const showHaltedTimeoutIdRef = useRef<number | undefined>()
 
   useEffect(() => {
-    return listenAction(setCpuHalted, isHalted => {
-      setShouldShowHalted(isHalted)
-      if (isHalted) {
-        window.clearTimeout(showHaltedTimeoutIdRef.current)
-        showHaltedTimeoutIdRef.current = window.setTimeout(() => {
-          setShouldShowHalted(false)
-          showHaltedTimeoutIdRef.current = undefined
-        }, 2000)
-      }
+    return listenAction(setCpuHalted, () => {
+      setShouldShowHalted(true)
+      window.clearTimeout(showHaltedTimeoutIdRef.current)
+      showHaltedTimeoutIdRef.current = window.setTimeout(() => {
+        setShouldShowHalted(false)
+        showHaltedTimeoutIdRef.current = undefined
+      }, 2000)
     })
   }, [])
 

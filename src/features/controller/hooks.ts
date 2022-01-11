@@ -126,7 +126,7 @@ const step = async (): Promise<void> => {
     stopIfRunning(state)
     if (fault === null && halted) {
       // trigger EditorStatus re-render
-      dispatch(setCpuHalted(true))
+      dispatch(setCpuHalted())
     }
     return
   }
@@ -182,7 +182,7 @@ const step = async (): Promise<void> => {
     }
     if (shouldHalt) {
       stopIfRunning(state)
-      dispatch(setCpuHalted(true))
+      dispatch(setCpuHalted())
       resolve(undefined)
       return
     }
