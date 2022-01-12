@@ -4,7 +4,7 @@ import { LineRange, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '../../app/store'
 import type { SourceRange, Statement } from '../assembler/core'
 import { examples } from './examples'
-import { range, curry2 } from '../../common/utils'
+import { range, curry2rev } from '../../common/utils'
 
 interface EditorState {
   input: string
@@ -64,20 +64,18 @@ export const selectEditorBreakpoints = (state: RootState): LineRange[] => state.
 
 const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
 
-export const selectEditorActiveLinePos = curry2(
-  createSelector(
-    [(view?: EditorView) => view, (_, state: RootState) => selectEditorActiveRange(state)],
-    (view, activeRange) =>
-      view === undefined || activeRange === null
-        ? undefined
-        : [
-            ...new Set(
-              range(activeRange.from, activeRange.to).map(pos => {
-                const line = view.state.doc.lineAt(pos)
-                return line.from
-              })
-            )
-          ]
+export const selectEditorActiveLinePos = curry2rev(
+  createSelector([selectEditorActiveRange, (_, view?: EditorView) => view], (activeRange, view) =>
+    activeRange === null || view === undefined
+      ? undefined
+      : [
+          ...new Set(
+            range(activeRange.from, activeRange.to).map(pos => {
+              const line = view.state.doc.lineAt(pos)
+              return line.from
+            })
+          )
+        ]
   )
 )
 

@@ -2,7 +2,7 @@ import {
   range,
   asciiToChars,
   compareArrayWithSameLength,
-  curry2,
+  curry2rev,
   throttle
 } from '../../src/common/utils'
 
@@ -33,11 +33,15 @@ describe('utils', () => {
     })
   })
 
-  describe('curry2', () => {
+  describe('curry2rev', () => {
     it('should curry a function with two arguments', () => {
       const add = (a: number, b: number): number => a + b
-      const curriedAdd = curry2(add)
-      expect(curriedAdd(1)(2)).toBe(3)
+      expect(curry2rev(add)(1)(2)).toBe(3)
+    })
+
+    it('should curry a function with its arguments reversed', () => {
+      const concatStrings = (a: string, b: string): string => a + b
+      expect(curry2rev(concatStrings)('a')('b')).toBe('ba')
     })
   })
 

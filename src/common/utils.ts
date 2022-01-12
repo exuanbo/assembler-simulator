@@ -61,10 +61,10 @@ export const chunk = <T>(size: number, arr: T[]): T[][] => {
 
 export const call = <T>(fn: () => T): T => fn()
 
-export const curry2 =
+export const curry2rev =
   <T1, T2, R>(fn: (t1: T1, t2: T2) => R) =>
-  (t1: T1) =>
-  (t2: T2): R =>
+  (t2: T2) =>
+  (t1: T1): R =>
     fn(t1, t2)
 
 export const throttle = <T extends unknown[]>(
