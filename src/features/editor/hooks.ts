@@ -57,11 +57,13 @@ const inputUpdateListener: ViewUpdateListener = viewUpdate => {
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const defaultInput = useConstant(() => selectEditortInput(getState()))
 
+  const editorStateConfig = useConstant({
+    doc: defaultInput,
+    extensions: setup
+  })
+
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
-    {
-      doc: defaultInput,
-      extensions: setup
-    },
+    editorStateConfig,
     inputUpdateListener
   )
 

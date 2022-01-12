@@ -35,7 +35,7 @@ export const useCodeMirror = <T extends Element = Element>(
       parent: current
     })
     setView(initialView)
-  }, [current])
+  }, [current, editorStateConfig, viewUpdateListener])
 
   useEffect(() => {
     if (view !== undefined) {
