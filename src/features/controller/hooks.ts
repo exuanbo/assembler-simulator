@@ -45,15 +45,15 @@ import {
 
 class Controller {
   // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`
-  private declare stepIntervalId: number
-  private declare interruptIntervalId: number
+  private stepIntervalId!: number
+  private interruptIntervalId!: number
 
   private lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
   private dispatchChangesTimeoutId: number | undefined
 
   // it must have been assigned in `step` when it is called in `restoreIfSuspended`
-  private declare unsubscribeSetSuspended: () => void
+  private unsubscribeSetSuspended!: () => void
 
   public readonly assemble = assembleInputFromState
 
