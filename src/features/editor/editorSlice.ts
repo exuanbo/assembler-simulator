@@ -62,9 +62,11 @@ export const selectEditortInput = (state: RootState): string => state.editor.inp
 
 export const selectEditorBreakpoints = (state: RootState): LineRange[] => state.editor.breakpoints
 
+const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
+
 export const selectEditorActiveLinePos = curry2(
   createSelector(
-    [(view?: EditorView) => view, (_, state: RootState) => state.editor.activeRange],
+    [(view?: EditorView) => view, (_, state: RootState) => selectEditorActiveRange(state)],
     (view, activeRange) =>
       view === undefined || activeRange === null
         ? undefined
