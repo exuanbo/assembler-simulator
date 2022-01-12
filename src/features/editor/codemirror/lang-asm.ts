@@ -52,9 +52,15 @@ const asmLanguage = StreamLanguage.define<State>({
 
       if (stream.eat('"')) {
         stream.skipToEnd()
-        const currentToken = stream.current()
-        const lastQuoteIndex = currentToken.lastIndexOf('"')
-        const lastCharIndex = currentToken.length - 1
+        const tokens = stream.current()
+        let lastQuoteIndex = 0
+        for (let i = 1; i < tokens.length; i++) {
+          if (tokens[i] === '"' && tokens[i - 1] !== '\\') {
+            lastQuoteIndex = i
+            break
+          }
+        }
+        const lastCharIndex = tokens.length - 1
         if (lastQuoteIndex !== 0 && lastQuoteIndex !== lastCharIndex) {
           stream.backUp(lastCharIndex - lastQuoteIndex)
         }
