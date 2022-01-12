@@ -27,6 +27,7 @@ const asmLanguage = StreamLanguage.define<State>({
     }
 
     if (stream.match(/^[a-zA-Z_]+(?=:)/)) {
+      state.operandsLeft = 0
       return 'labelName'
     }
 
@@ -73,6 +74,8 @@ const asmLanguage = StreamLanguage.define<State>({
         state.expectLabel = false
         return 'labelName'
       }
+
+      state.operandsLeft = 0
     }
 
     stream.eatWhile(/\S/)
