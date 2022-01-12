@@ -69,10 +69,17 @@ class Controller {
     await this.run()
   }
 
+  public async stopAndRun(): Promise<void> {
+    this.cancelMainLoop()
+    await this.lastStep
+    this.setMainLoop()
+    await this.step()
+  }
+
   /**
    * @returns true if was running
    */
-  public stopIfRunning(state: RootState): boolean {
+  private stopIfRunning(state: RootState): boolean {
     const isRunning = selectIsRunning(state)
     if (isRunning) {
       this.stop()
@@ -102,7 +109,7 @@ class Controller {
     return isSuspended
   }
 
-  public async run(): Promise<void> {
+  private async run(): Promise<void> {
     dispatch(setRunning(true))
     this.setMainLoop()
     await this.step()
@@ -270,11 +277,6 @@ class Controller {
     window.clearTimeout(this.dispatchChangesTimeoutId)
     this.dispatchChangesTimeoutId = undefined
   }
-
-  public resetMainLoop(): void {
-    this.cancelMainLoop()
-    this.setMainLoop()
-  }
 }
 
 export const useController = (): Controller => {
@@ -284,8 +286,8 @@ export const useController = (): Controller => {
     return watch(selectRuntimeConfiguration, async () => {
       const state = getState()
       // `setSuspended` action listener will reset the main loop
-      if (!selectIsSuspended(state) && controller.stopIfRunning(state)) {
-        await controller.run()
+      if (!selectIsSuspended(state) && selectIsRunning(state)) {
+        await controller.stopAndRun()
       }
     })
   }, [])
