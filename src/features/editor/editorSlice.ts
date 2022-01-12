@@ -12,10 +12,8 @@ interface EditorState {
   activeRange: SourceRange | null
 }
 
-const [helloWorld] = examples
-
 const initialState: EditorState = {
-  input: helloWorld.content,
+  input: examples[0].content,
   breakpoints: [],
   activeRange: null
 }
