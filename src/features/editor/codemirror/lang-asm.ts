@@ -4,7 +4,7 @@ import { LanguageSupport, indentUnit, indentService } from '@codemirror/language
 import { Mnemonic, MnemonicToOperandsCountMap } from '../../../common/constants'
 
 interface State {
-  end: boolean
+  ended: boolean
   operandsLeft: number
   expectLabel: boolean
 }
@@ -12,7 +12,7 @@ interface State {
 const asmLanguage = StreamLanguage.define<State>({
   /* eslint-disable @typescript-eslint/strict-boolean-expressions */
   token(stream, state) {
-    if (state.end) {
+    if (state.ended) {
       stream.skipToEnd()
       return 'comment'
     }
@@ -31,18 +31,18 @@ const asmLanguage = StreamLanguage.define<State>({
     }
 
     if (state.operandsLeft === 0) {
-      const currentToken = (stream.match(/^\S+/) as RegExpMatchArray)[0]
-      const upperCaseToken = currentToken.toUpperCase()
+      const token = (stream.match(/^\S+/) as RegExpMatchArray)[0]
+      const upperCaseToken = token.toUpperCase()
       if (upperCaseToken in Mnemonic) {
         const mnemonic = upperCaseToken as Mnemonic
         if (mnemonic === Mnemonic.END) {
-          state.end = true
+          state.ended = true
         }
         state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
         state.expectLabel = mnemonic.startsWith('J')
         return 'keyword'
       } else {
-        stream.backUp(currentToken.length)
+        stream.backUp(token.length)
       }
     } else if (state.operandsLeft > 0) {
       if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
@@ -82,7 +82,7 @@ const asmLanguage = StreamLanguage.define<State>({
 
   startState() {
     return {
-      end: false,
+      ended: false,
       operandsLeft: 0,
       expectLabel: false
     }
