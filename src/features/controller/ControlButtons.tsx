@@ -22,7 +22,7 @@ const ControlButton = ({ children, onClick, disabled = false }: Props): JSX.Elem
 )
 
 const ControlButtons = (): JSX.Element => {
-  const { assemble, run, step, reset } = useController()
+  const { assemble, runOrStop, step, reset } = useController()
 
   const AssembleButton = (): JSX.Element => (
     <ControlButton onClick={assemble}>
@@ -34,7 +34,7 @@ const ControlButtons = (): JSX.Element => {
   const RunButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
     return (
-      <ControlButton onClick={run}>
+      <ControlButton onClick={runOrStop}>
         {isRunning ? (
           <>
             <Stop />
