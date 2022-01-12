@@ -42,7 +42,7 @@ const asmLanguage = StreamLanguage.define<State>({
         state.expectLabel = mnemonic.startsWith('J')
         return 'keyword'
       } else {
-        stream.backUp(token.length)
+        return null
       }
     } else if (state.operandsLeft > 0) {
       if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
