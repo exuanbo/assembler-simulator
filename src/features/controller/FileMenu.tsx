@@ -8,7 +8,7 @@ import { getState, dispatch } from '../../app/store'
 import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
 import { examples } from '../editor/examples'
 
-const NewFile = (): JSX.Element => (
+const NewFileButton = (): JSX.Element => (
   <MenuItem
     onClick={() => {
       dispatch(
@@ -25,7 +25,7 @@ const NewFile = (): JSX.Element => (
   </MenuItem>
 )
 
-const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
+const UploadButton = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
@@ -74,7 +74,7 @@ const Upload = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element
   )
 }
 
-const Download = (): JSX.Element => {
+const DownloadButton = (): JSX.Element => {
   const handleClickDownload = (): void => {
     const editorInput = selectEditortInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
@@ -140,9 +140,9 @@ const FileMenu = (): JSX.Element => (
         </MenuButton.Main>
         {isOpen && (
           <MenuItems>
-            <NewFile />
-            <Upload onFileUploaded={toggleOpen} />
-            <Download />
+            <NewFileButton />
+            <UploadButton onFileUploaded={toggleOpen} />
+            <DownloadButton />
             <ExamplesMenu />
           </MenuItems>
         )}

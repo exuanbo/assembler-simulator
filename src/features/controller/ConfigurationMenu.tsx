@@ -19,7 +19,7 @@ import {
   setTimerInterval
 } from './controllerSlice'
 
-const AutoAssemble = (): JSX.Element => {
+const AutoAssembleSwitch = (): JSX.Element => {
   const autoAssemble = useSelector(selectAutoAssemble)
 
   const toggleAutoAssemble = (): void => {
@@ -120,7 +120,7 @@ const ConfigurationMenu = (): JSX.Element => (
         </MenuButton.Main>
         {isOpen && (
           <MenuItems>
-            <AutoAssemble />
+            <AutoAssembleSwitch />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
           </MenuItems>
