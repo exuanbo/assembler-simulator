@@ -1,15 +1,8 @@
-import {
-  DispatchWithoutAction,
-  RefCallback,
-  useState,
-  useEffect,
-  useReducer,
-  useCallback
-} from 'react'
+import { RefCallback, useState, useEffect, useReducer, useCallback } from 'react'
 
 export const useToggle = (
   initialState: boolean
-): [state: boolean, toggleState: DispatchWithoutAction] =>
+): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
 export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
