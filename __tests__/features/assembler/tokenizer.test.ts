@@ -35,4 +35,8 @@ describe('tokenizer', () => {
   it('should tokenize string', () => {
     expect(tokenize('"" "this is a string" "\\"" "\\n"')).toMatchSnapshot()
   })
+
+  it('should emit token with type `Unknown` if closing quote is missing', () => {
+    expect(tokenize('"\\"')[0].type).toBe('Unknown')
+  })
 })
