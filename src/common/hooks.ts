@@ -1,5 +1,7 @@
 import { RefCallback, useState, useEffect, useReducer, useCallback } from 'react'
 
+export const useConstant = <T>(initialValue: T | (() => T)): T => useState(initialValue)[0]
+
 export const useToggle = (
   initialState: boolean
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>

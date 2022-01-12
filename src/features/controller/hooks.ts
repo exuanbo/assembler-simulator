@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
 import { RootState, getState, dispatch, listenAction, watch } from '../../app/store'
@@ -42,6 +42,7 @@ import {
   setTrafficLightsData,
   resetIo
 } from '../io/ioSlice'
+import { useConstant } from '../../common/hooks'
 
 class Controller {
   // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`
@@ -280,7 +281,7 @@ class Controller {
 }
 
 export const useController = (): Controller => {
-  const [controller] = useState(() => new Controller())
+  const controller = useConstant(() => new Controller())
 
   useEffect(() => {
     return watch(selectRuntimeConfiguration, async () => {

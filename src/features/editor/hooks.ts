@@ -24,6 +24,7 @@ import { selectAutoAssemble } from '../controller/controllerSlice'
 import { assemble } from '../assembler/assemble'
 import { selectAssemblerError, selectAssemblerErrorRange } from '../assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '../cpu/cpuSlice'
+import { useConstant } from '../../common/hooks'
 
 enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'
@@ -54,7 +55,7 @@ const inputUpdateListener: ViewUpdateListener = viewUpdate => {
 }
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
-  const [defaultInput] = useState(() => selectEditortInput(getState()))
+  const defaultInput = useConstant(() => selectEditortInput(getState()))
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     {
