@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Arrow, Play, Stop, Forward, Undo } from '../../common/components/icons'
 import { useController } from './hooks'
 import { selectIsRunning } from './controllerSlice'

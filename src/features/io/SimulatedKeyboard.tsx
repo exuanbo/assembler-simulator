@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'

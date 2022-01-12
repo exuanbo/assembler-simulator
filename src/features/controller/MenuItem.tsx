@@ -1,4 +1,4 @@
-import React, { ReactNode, RefCallback, useState, useCallback } from 'react'
+import { ReactNode, RefCallback, useState, useCallback } from 'react'
 import { Play } from '../../common/components/icons'
 import { useHover } from '../../common/hooks'
 
