@@ -181,8 +181,8 @@ interface StatusMessage {
 export const useStatusMessage = (): StatusMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
   const cpuFault = useSelector(selectCpuFault)
-  const [shouldShowHalted, setShouldShowHalted] = useState(false)
 
+  const [shouldShowHalted, setShouldShowHalted] = useState(false)
   const showHaltedTimeoutIdRef = useRef<number | undefined>()
 
   useEffect(() => {
