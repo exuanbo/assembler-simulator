@@ -39,4 +39,8 @@ describe('tokenizer', () => {
   it('should emit token with type `Unknown` if closing quote is missing', () => {
     expect(tokenize('"\\"')[0].type).toBe('Unknown')
   })
+
+  it('should tokenize string with missing ending quote', () => {
+    expect(tokenize('"Hello, World done: ;comment')).toMatchSnapshot()
+  })
 })

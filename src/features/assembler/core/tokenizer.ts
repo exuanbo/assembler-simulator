@@ -62,7 +62,7 @@ const tokenMatchers: readonly TokenMatcher[] = [
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
   matchRegExp(/^"(?:[^\\]|\\.)*?"/, TokenType.String),
-  matchRegExp(/^[^\s;:,]+/, TokenType.Unknown)
+  matchRegExp(/^(?:[^\s;:,"]+|".*)/, TokenType.Unknown)
 ]
 
 export const tokenize = (input: string): Token[] => {
