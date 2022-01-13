@@ -11,6 +11,7 @@ import {
 } from './controllerSlice'
 import {
   selectEditorBreakpoints,
+  setEditorInput,
   setEditorActiveRange,
   clearEditorActiveRange
 } from '../editor/editorSlice'
@@ -291,6 +292,10 @@ export const useController = (): Controller => {
         await controller.stopAndRun()
       }
     })
+  }, [])
+
+  useEffect(() => {
+    return listenAction(setEditorInput, controller.fullyStop)
   }, [])
 
   useEffect(() => {
