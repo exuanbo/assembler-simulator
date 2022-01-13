@@ -190,20 +190,6 @@ end
     }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  const ADDRESS_ERROR_MSG_PREFIX = 'Expected number or register, got '
-
-  it('should throw AddressError if address is invalid', () => {
-    expect(() => {
-      parse('mov [gg], al')
-    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + "'gg'")
-  })
-
-  it('should throw AddressError if address is empty', () => {
-    expect(() => {
-      parse('mov [], al')
-    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + "']'")
-  })
-
   const INVALID_NUMBER_ERROR_MSG_PREFIX =
     'Number should be hexadecimal and less than or equal to FF, got '
 
@@ -223,6 +209,26 @@ end
     expect(() => {
       parse('mov al, fff')
     }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'fff'")
+  })
+
+  const ADDRESS_ERROR_MSG_PREFIX = 'Expected number or register, got '
+
+  it('should throw AddressError if address is invalid', () => {
+    expect(() => {
+      parse('mov [gg], al')
+    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + "'gg'")
+  })
+
+  it('should throw AddressError if address is empty', () => {
+    expect(() => {
+      parse('mov [], al')
+    }).toThrowError(ADDRESS_ERROR_MSG_PREFIX + "']'")
+  })
+
+  it('should throw UnterminatedAddressError if closing bracket is missing', () => {
+    expect(() => {
+      parse('mov [al')
+    }).toThrowError("Unterminated address '[al'.")
   })
 
   it('should throw SingleQuoteError if single quote is used', () => {

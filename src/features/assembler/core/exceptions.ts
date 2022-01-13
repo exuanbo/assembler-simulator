@@ -77,6 +77,12 @@ export class AddressError extends ParserError {
   }
 }
 
+export class UnterminatedAddressError extends ParserError {
+  constructor({ raw, range }: Token) {
+    super(`Unterminated address '${raw}'.`, range)
+  }
+}
+
 export class SingleQuoteError extends ParserError {
   constructor({ range }: Token) {
     super('Single quote is not allowed.', range)

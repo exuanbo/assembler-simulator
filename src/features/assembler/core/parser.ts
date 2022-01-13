@@ -5,8 +5,9 @@ import {
   InvalidLabelError,
   StatementError,
   MissingEndError,
-  AddressError,
   InvalidNumberError,
+  AddressError,
+  UnterminatedAddressError,
   SingleQuoteError,
   UnterminatedStringError,
   OperandTypeError,
@@ -187,6 +188,9 @@ const parseSingleOperand =
         }
         break
       case TokenType.Unknown:
+        if (token.raw.startsWith('[')) {
+          throw new UnterminatedAddressError(token)
+        }
         if (token.raw.startsWith("'")) {
           throw new SingleQuoteError(token)
         }
