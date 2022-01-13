@@ -47,9 +47,14 @@ const asmLanguage = StreamLanguage.define<State>({
         return null
       }
     } else if (state.operandsLeft > 0) {
-      if (stream.match(/^(?:[\da-fA-F]+|[a-dA-D][lL])\b/)) {
+      if (stream.match(/^[\da-fA-F]+\b/)) {
         state.operandsLeft -= 1
         return 'number'
+      }
+
+      if (stream.match(/^[a-dA-D][lL]\b/)) {
+        state.operandsLeft -= 1
+        return 'variableName'
       }
 
       if (stream.eat('"')) {
@@ -96,6 +101,7 @@ const asmLanguage = StreamLanguage.define<State>({
 const highlightStyle = HighlightStyle.define([
   { tag: tags.comment, color: '#940' },
   { tag: tags.number, color: '#164' },
+  { tag: tags.variableName, color: '#00c' },
   { tag: tags.string, color: '#a11' },
   { tag: tags.labelName, color: '#219' },
   { tag: tags.keyword, color: '#708' }
