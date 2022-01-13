@@ -115,13 +115,13 @@ end
   it('should escape backslashes in ParserError message', () => {
     expect(() => {
       parse('db "\\"')
-    }).toThrowError("Unterminated string '\\\\\"'.")
+    }).toThrowError('Unterminated string \'"\\\\"\'.')
   })
 
   it('should escape single quotes in ParserError message', () => {
     expect(() => {
       parse('db "\'')
-    }).toThrowError("Unterminated string '\\''.")
+    }).toThrowError("Unterminated string '\"\\''.")
   })
 
   const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should contain only letter or underscore, got '
@@ -234,7 +234,7 @@ end
   it('should throw UnterminatedStringError if ending quote is missing', () => {
     expect(() => {
       parse('db "foo')
-    }).toThrowError("Unterminated string 'foo'")
+    }).toThrowError("Unterminated string '\"foo'")
   })
 
   it('should throw OperandTypeError if token does not match any operand types', () => {

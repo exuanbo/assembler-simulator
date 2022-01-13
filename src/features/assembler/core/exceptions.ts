@@ -85,8 +85,7 @@ export class SingleQuoteError extends ParserError {
 
 export class UnterminatedStringError extends ParserError {
   constructor({ raw, range }: Token) {
-    const stringValue = raw.slice(1)
-    super(`Unterminated string '${stringValue}'.`, range)
+    super(`Unterminated string '${raw}'.`, range)
   }
 }
 
