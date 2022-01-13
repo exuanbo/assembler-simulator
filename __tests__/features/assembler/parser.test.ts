@@ -213,6 +213,12 @@ end
     }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'fff'")
   })
 
+  it('should throw UnterminatedStringError if ending quote is missing', () => {
+    expect(() => {
+      parse('db "foo')
+    }).toThrowError("Unterminated string 'foo'")
+  })
+
   it('should throw OperandTypeError if token does not match any operand types', () => {
     expect(() => {
       parse('inc unknown')

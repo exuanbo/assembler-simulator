@@ -73,6 +73,13 @@ export class AddressError extends ParserError {
   }
 }
 
+export class UnterminatedStringError extends ParserError {
+  constructor({ raw, range }: Token) {
+    const stringValue = raw.slice(1)
+    super(`Unterminated string '${stringValue}'.`, range)
+  }
+}
+
 export class OperandTypeError extends ParserError {
   constructor({ raw, range }: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes

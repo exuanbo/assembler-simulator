@@ -7,6 +7,7 @@ import {
   MissingEndError,
   AddressError,
   InvalidNumberError,
+  UnterminatedStringError,
   OperandTypeError,
   MissingCommaError
 } from './exceptions'
@@ -185,6 +186,9 @@ const parseSingleOperand =
         }
         break
       case TokenType.Unknown:
+        if (token.raw.startsWith('"')) {
+          throw new UnterminatedStringError(token)
+        }
         if (isExpected(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
           return createOperand(OperandType.Number, validateNumber(token))
         }
