@@ -61,7 +61,7 @@ const tokenMatchers: readonly TokenMatcher[] = [
   matchRegExp(/^\d+\b/, TokenType.Digits),
   matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
   matchRegExp(/^\[.*?\]/, TokenType.Address),
-  matchRegExp(/^"(?:[^\\]|\\.)*?"/, TokenType.String),
+  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/, TokenType.String),
   matchRegExp(/^(?:[^\s;:,"]+|".*)/, TokenType.Unknown)
 ]
 

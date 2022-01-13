@@ -256,17 +256,3 @@ Array [
   },
 ]
 `;
-
-exports[`tokenizer should tokenize string with missing ending quote 1`] = `
-Array [
-  Object {
-    "range": Object {
-      "from": 0,
-      "to": 28,
-    },
-    "raw": "\\"Hello, World done: ;comment",
-    "type": "Unknown",
-    "value": "\\"HELLO, WORLD DONE: ;COMMENT",
-  },
-]
-`;

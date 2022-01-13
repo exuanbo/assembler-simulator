@@ -36,11 +36,15 @@ describe('tokenizer', () => {
     expect(tokenize('"" "this is a string" "\\"" "\\n"')).toMatchSnapshot()
   })
 
-  it('should emit token with type `Unknown` if closing quote is missing', () => {
+  it('should emit token with type `Unknown` when tokenizing string if closing quote is missing', () => {
     expect(tokenize('"\\"')[0].type).toBe('Unknown')
   })
 
   it('should tokenize string with missing ending quote', () => {
-    expect(tokenize('"Hello, World done: ;comment')).toMatchSnapshot()
+    expect(tokenize('"foo, bar done: ; this is a comment')).toHaveLength(1)
+  })
+
+  it('should not continue matching string if it ends with newline', () => {
+    expect(tokenize('"foo\nbar"')[0].type).toBe('Unknown')
   })
 })
