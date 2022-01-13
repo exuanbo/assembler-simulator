@@ -20,10 +20,10 @@ You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
 
 ## Todo
 
-- [ ] Progressive Web App
 - [ ] More simulated I/O devices
+- [ ] More example code
+- [ ] Progressive Web App
 - [ ] Activity log
-- [ ] More sample code
 
 ## Inspired by
 
@@ -33,4 +33,4 @@ You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
 
 ## License
 
-[MIT License](https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE) © 2021 [Exuanbo](https://github.com/exuanbo)
+[GPL-3.0 License](https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE) © 2022 [Exuanbo](https://github.com/exuanbo)
