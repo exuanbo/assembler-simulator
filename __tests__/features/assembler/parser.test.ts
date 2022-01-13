@@ -120,8 +120,8 @@ end
 
   it('should escape single quotes in ParserError message', () => {
     expect(() => {
-      parse("db ''")
-    }).toThrowError("Expected number or string, got '\\'\\''.")
+      parse('db "\'')
+    }).toThrowError("Unterminated string '\\''.")
   })
 
   const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should contain only letter or underscore, got '
@@ -223,6 +223,12 @@ end
     expect(() => {
       parse('mov al, fff')
     }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'fff'")
+  })
+
+  it('should throw SingleQuoteError if single quote is used', () => {
+    expect(() => {
+      parse("db 'foo'")
+    }).toThrowError('Single quote is not allowed.')
   })
 
   it('should throw UnterminatedStringError if ending quote is missing', () => {

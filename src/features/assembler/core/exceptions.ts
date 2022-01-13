@@ -77,6 +77,12 @@ export class AddressError extends ParserError {
   }
 }
 
+export class SingleQuoteError extends ParserError {
+  constructor({ range }: Token) {
+    super('Single quote is not allowed.', range)
+  }
+}
+
 export class UnterminatedStringError extends ParserError {
   constructor({ raw, range }: Token) {
     const stringValue = raw.slice(1)
