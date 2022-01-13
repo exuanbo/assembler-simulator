@@ -33,7 +33,11 @@ const asmLanguage = StreamLanguage.define<State>({
     }
 
     if (state.operandsLeft === 0) {
-      const token = (stream.match(/^\S+/) as RegExpMatchArray)[0]
+      const token = (stream.match(/^[^\s;:,"]+/) as RegExpMatchArray | null)?.[0]
+      if (token === undefined) {
+        stream.eatWhile(/\S/)
+        return null
+      }
       const upperCaseToken = token.toUpperCase()
       if (upperCaseToken in Mnemonic) {
         const mnemonic = upperCaseToken as Mnemonic
