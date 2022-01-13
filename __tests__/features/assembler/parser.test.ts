@@ -112,6 +112,12 @@ end
     ).toMatchSnapshot()
   })
 
+  it('should escape backslashes in ParserError message', () => {
+    expect(() => {
+      parse('db "\\"')
+    }).toThrowError("Unterminated string '\\\\\"'.")
+  })
+
   it('should escape single quotes in ParserError message', () => {
     expect(() => {
       parse("db ''")

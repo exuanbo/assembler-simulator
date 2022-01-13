@@ -30,6 +30,10 @@ export const decToHex = (num: number): string => num.toString(16).padStart(2, '0
 
 export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
 
+const BACKSLASHES_REGEXP = /\\/g
+
+export const escapeBackslashes = (str: string): string => str.replace(BACKSLASHES_REGEXP, '\\\\')
+
 const SINGLE_QUOTES_REGEXP = /'/g
 
 const escapeSingleQuote = (str: string): string => str.replace(SINGLE_QUOTES_REGEXP, "\\'")
