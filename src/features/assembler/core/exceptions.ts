@@ -1,7 +1,7 @@
 import type { SourceRange } from './types'
 import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
-import { trimBracketsAndQuotes } from '../../../common/utils'
+import { trimBracketsAndQuotes, escapeInnerSingleQuotes } from '../../../common/utils'
 
 export interface AssemblerErrorObject {
   readonly type: string
@@ -32,7 +32,7 @@ class ParserError extends AssemblerError {
   public type: string
 
   constructor(message: string, range?: SourceRange) {
-    super(message, range)
+    super(escapeInnerSingleQuotes(message), range)
     this.type = 'ParserError'
   }
 }

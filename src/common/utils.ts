@@ -30,6 +30,19 @@ export const decToHex = (num: number): string => num.toString(16).padStart(2, '0
 
 export const trimBracketsAndQuotes = (str: string): string => str.replace(/^[["](.*)["\]]$/, '$1')
 
+const SINGLE_QUOTES_REGEXP = /'/g
+
+const escapeSingleQuote = (str: string): string => str.replace(SINGLE_QUOTES_REGEXP, "\\'")
+
+const SINGLE_QUOTED_STRING_REGEX = /'.*'/
+
+export const escapeInnerSingleQuotes = (str: string): string => {
+  const quotedPart = SINGLE_QUOTED_STRING_REGEX.exec(str)?.[0]
+  return quotedPart === undefined
+    ? str
+    : str.replace(quotedPart, `'${escapeSingleQuote(quotedPart.slice(1, -1))}'`)
+}
+
 interface RangeFn {
   (stop: number): number[]
   (start: number, stop: number): number[]

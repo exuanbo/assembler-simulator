@@ -112,6 +112,12 @@ end
     ).toMatchSnapshot()
   })
 
+  it('should escape single quotes in ParserError message', () => {
+    expect(() => {
+      parse("db ''")
+    }).toThrowError("Expected number or string, got '\\'\\''.")
+  })
+
   const INVALID_LABEL_ERROR_MSG_PREFIX = 'Label should contain only letter or underscore, got '
 
   it('should throw InvalidLabelError if label identifier is illegal', () => {
