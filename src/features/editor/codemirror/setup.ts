@@ -3,7 +3,6 @@ import { EditorView, keymap, drawSelection } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
-import { defaultHighlightStyle } from '@codemirror/highlight'
 import { theme } from './theme'
 import { wavyUnderline } from './wavyUnderline'
 import { highlightLine } from './highlightLine'
@@ -23,6 +22,5 @@ export const setup: Extension = [
   breakpoints(),
   lineNumbers(),
   closeBrackets(),
-  defaultHighlightStyle,
   keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
 ]

@@ -1,6 +1,7 @@
 import type { Extension } from '@codemirror/state'
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
+import { HighlightStyle, tags } from '@codemirror/highlight'
 import { Mnemonic, MnemonicToOperandsCountMap } from '../../../common/constants'
 
 interface State {
@@ -23,7 +24,7 @@ const asmLanguage = StreamLanguage.define<State>({
 
     if (stream.eat(';')) {
       stream.skipToEnd()
-      return 'lineComment'
+      return 'comment'
     }
 
     if (stream.match(/^[a-zA-Z_]+(?=:)/)) {
@@ -92,11 +93,20 @@ const asmLanguage = StreamLanguage.define<State>({
   }
 })
 
+const highlightStyle = HighlightStyle.define([
+  { tag: tags.comment, color: '#940' },
+  { tag: tags.number, color: '#164' },
+  { tag: tags.string, color: '#a11' },
+  { tag: tags.labelName, color: '#219' },
+  { tag: tags.keyword, color: '#708' }
+])
+
 const LEADING_SPACE_REGEXP = /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
+  highlightStyle,
   indentUnit.of('\t'),
   indentService.of(({ state }, pos) => {
     const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
