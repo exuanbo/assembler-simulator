@@ -61,7 +61,7 @@ const UploadButton = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.E
     <MenuItem onClick={handleClick}>
       <MenuButton>
         <span className="w-4" />
-        <span>Upload</span>
+        <span>Open..</span>
       </MenuButton>
       <input
         ref={inputRef}
@@ -90,7 +90,7 @@ const DownloadButton = (): JSX.Element => {
     <MenuItem onClick={handleClickDownload}>
       <MenuButton>
         <span className="w-4" />
-        <span>Download</span>
+        <span>Save As..</span>
       </MenuButton>
     </MenuItem>
   )
