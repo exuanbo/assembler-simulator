@@ -25,7 +25,7 @@ const NewFileButton = (): JSX.Element => (
   </MenuItem>
 )
 
-const UploadButton = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.Element => {
+const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
@@ -37,7 +37,7 @@ const UploadButton = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.E
     event.stopPropagation()
   }
 
-  const handleUploadedFile = (file: File): void => {
+  const loadFile = (file: File): void => {
     const reader = new FileReader()
     reader.onload = function () {
       const fileContent = this.result as string
@@ -51,61 +51,39 @@ const UploadButton = ({ onFileUploaded }: { onFileUploaded: () => void }): JSX.E
     reader.readAsText(file)
   }
 
-  const handleFileUploaded: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+  const handleFileSelect: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const file = target.files![0]
-    handleUploadedFile(file)
-    onFileUploaded()
+    loadFile(file)
+    onFileLoad()
   }
 
   return (
     <MenuItem onClick={handleClick}>
       <MenuButton>
         <span className="w-4" />
-        <span>Open..</span>
+        <span>Open...</span>
       </MenuButton>
       <input
         ref={inputRef}
         className="hidden"
         type="file"
-        onChange={handleFileUploaded}
+        onChange={handleFileSelect}
         onClick={handleInputClick}
       />
     </MenuItem>
   )
 }
 
-const DownloadButton = (): JSX.Element => {
-  const handleClickDownload = (): void => {
-    const editorInput = selectEditortInput(getState())
-    const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
-    const fileUrl = URL.createObjectURL(fileBlob)
-    const el = document.createElement('a')
-    el.download = 'file.asm'
-    el.href = fileUrl
-    el.click()
-    URL.revokeObjectURL(fileUrl)
-  }
-
-  return (
-    <MenuItem onClick={handleClickDownload}>
-      <MenuButton>
-        <span className="w-4" />
-        <span>Save As..</span>
-      </MenuButton>
-    </MenuItem>
-  )
-}
-
-const ExamplesMenu = (): JSX.Element => (
+const OpenExampleMenu = (): JSX.Element => (
   <MenuItem.Expandable>
     {(isHovered, menuItemsRef) => (
       <>
         <MenuButton>
           <span className="w-4" />
-          <span>Examples</span>
+          <span>Open Example</span>
         </MenuButton>
         {isHovered && (
-          <MenuItems.Expanded className="mt-3px top-32" innerRef={menuItemsRef}>
+          <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
             {examples.map(({ title, content }, index) => (
               <MenuItem
                 key={index}
@@ -130,6 +108,28 @@ const ExamplesMenu = (): JSX.Element => (
   </MenuItem.Expandable>
 )
 
+const SaveButton = (): JSX.Element => {
+  const handleClickSave = (): void => {
+    const editorInput = selectEditortInput(getState())
+    const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
+    const fileUrl = URL.createObjectURL(fileBlob)
+    const el = document.createElement('a')
+    el.download = 'file.asm'
+    el.href = fileUrl
+    el.click()
+    URL.revokeObjectURL(fileUrl)
+  }
+
+  return (
+    <MenuItem onClick={handleClickSave}>
+      <MenuButton>
+        <span className="w-4" />
+        <span>Save As...</span>
+      </MenuButton>
+    </MenuItem>
+  )
+}
+
 const FileMenu = (): JSX.Element => (
   <Menu>
     {(isOpen, toggleOpen) => (
@@ -141,9 +141,9 @@ const FileMenu = (): JSX.Element => (
         {isOpen && (
           <MenuItems>
             <NewFileButton />
-            <UploadButton onFileUploaded={toggleOpen} />
-            <DownloadButton />
-            <ExamplesMenu />
+            <OpenButton onFileLoad={toggleOpen} />
+            <OpenExampleMenu />
+            <SaveButton />
           </MenuItems>
         )}
       </>
