@@ -115,7 +115,7 @@ const asmLanguage = StreamLanguage.define<State>({
 const highlightStyle = HighlightStyle.define([
   { tag: tags.comment, color: '#940' },
   { tag: tags.number, color: '#164' },
-  { tag: tags.variableName, color: '#00c' },
+  { tag: tags.variableName, color: '#256' },
   { tag: tags.string, color: '#a11' },
   { tag: tags.labelName, color: '#219' },
   { tag: tags.keyword, color: '#708' }
