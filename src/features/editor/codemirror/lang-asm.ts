@@ -4,6 +4,16 @@ import { LanguageSupport, indentUnit, indentService } from '@codemirror/language
 import { HighlightStyle, tags } from '@codemirror/highlight'
 import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
+/* eslint-disable prettier/prettier */
+const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
+const LABEL_DEFINITION_REGEXP =   /^[a-zA-Z_]+(?=:)/
+const LABEL_USAGE_REGEXP =        /^[a-zA-Z_]+/
+const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,"]+/
+const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
+const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
+const NON_WHITESPACE_REGEXP =     /\S/
+/* eslint-enable prettier/prettier */
+
 interface State {
   ended: boolean
   operandsLeft: number
@@ -18,7 +28,7 @@ const asmLanguage = StreamLanguage.define<State>({
       return 'comment'
     }
 
-    if (stream.eatSpace() || stream.eat(/[,[\]:]/)) {
+    if (stream.eatSpace() || stream.eat(SKIPABLE_CHARACTER_REGEXP)) {
       return null
     }
 
@@ -27,15 +37,15 @@ const asmLanguage = StreamLanguage.define<State>({
       return 'comment'
     }
 
-    if (stream.match(/^[a-zA-Z_]+(?=:)/)) {
+    if (stream.match(LABEL_DEFINITION_REGEXP)) {
       state.operandsLeft = 0
       return 'labelName'
     }
 
     if (state.operandsLeft === 0) {
-      const token = (stream.match(/^[^\s;:,"]+/) as RegExpMatchArray | null)?.[0]
+      const token = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
       if (token === undefined) {
-        stream.eatWhile(/\S/)
+        stream.eatWhile(NON_WHITESPACE_REGEXP)
         return null
       }
       const upperCaseToken = token.toUpperCase()
@@ -51,12 +61,12 @@ const asmLanguage = StreamLanguage.define<State>({
         return null
       }
     } else if (state.operandsLeft > 0) {
-      if (stream.match(/^[\da-fA-F]+\b/)) {
+      if (stream.match(NUMBER_REGEXP)) {
         state.operandsLeft -= 1
         return 'number'
       }
 
-      if (stream.match(/^[a-dA-D][lL]\b/)) {
+      if (stream.match(REGISTER_REGEXP)) {
         state.operandsLeft -= 1
         return 'variableName'
       }
@@ -79,7 +89,7 @@ const asmLanguage = StreamLanguage.define<State>({
         return 'string'
       }
 
-      if (state.expectLabel && stream.match(/^[a-zA-Z_]+/)) {
+      if (state.expectLabel && stream.match(LABEL_USAGE_REGEXP)) {
         state.operandsLeft -= 1
         state.expectLabel = false
         return 'labelName'
@@ -88,7 +98,7 @@ const asmLanguage = StreamLanguage.define<State>({
       state.operandsLeft = 0
     }
 
-    stream.eatWhile(/\S/)
+    stream.eatWhile(NON_WHITESPACE_REGEXP)
     return null
   },
   /* eslint-enable @typescript-eslint/strict-boolean-expressions */
@@ -111,8 +121,10 @@ const highlightStyle = HighlightStyle.define([
   { tag: tags.keyword, color: '#708' }
 ])
 
-const LEADING_SPACE_REGEXP = /^ */
+/* eslint-disable prettier/prettier */
+const LEADING_SPACE_REGEXP =      /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
+/* eslint-enable prettier/prettier */
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
