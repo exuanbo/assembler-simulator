@@ -18,7 +18,7 @@ const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Ele
         </div>
       )}
     </header>
-    <div className="overflow-auto">{children}</div>
+    {children}
   </div>
 )
 
