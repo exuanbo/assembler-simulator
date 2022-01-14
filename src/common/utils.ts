@@ -94,8 +94,10 @@ export const throttle = <T extends unknown[]>(
   return function invokeFn(...args: T) {
     const now = Date.now()
 
-    window.clearTimeout(queuedTimeoutId)
-    queuedTimeoutId = undefined
+    if (queuedTimeoutId !== undefined) {
+      window.clearTimeout(queuedTimeoutId)
+      queuedTimeoutId = undefined
+    }
 
     if (lastTime === undefined || now - lastTime >= wait) {
       fn(...args)
