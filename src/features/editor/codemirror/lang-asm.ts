@@ -2,7 +2,7 @@ import type { Extension } from '@codemirror/state'
 import { StreamLanguage } from '@codemirror/stream-parser'
 import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
 import { HighlightStyle, tags } from '@codemirror/highlight'
-import { Mnemonic, MnemonicToOperandsCountMap } from '../../../common/constants'
+import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
 interface State {
   ended: boolean

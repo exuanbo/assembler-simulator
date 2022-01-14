@@ -4,7 +4,7 @@ import {
   compareArrayWithSameLength,
   curry2rev,
   throttle
-} from '../../src/common/utils'
+} from '@/common/utils'
 
 describe('utils', () => {
   describe('range', () => {

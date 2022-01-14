@@ -1,5 +1,5 @@
-import type { AddressToMachineCodeMap, AddressToStatementMap } from '../assembler/core'
-import { Mnemonic } from '../../common/constants'
+import type { AddressToMachineCodeMap, AddressToStatementMap } from '@/features/assembler/core'
+import { Mnemonic } from '@/common/constants'
 
 export type MemoryData = number[]
 

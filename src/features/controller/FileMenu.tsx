@@ -3,10 +3,10 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { File as FileIcon } from '../../common/components/icons'
-import { getState, dispatch } from '../../app/store'
-import { setEditorInput, selectEditortInput } from '../editor/editorSlice'
-import { examples } from '../editor/examples'
+import { File as FileIcon } from '@/common/components/icons'
+import { getState, dispatch } from '@/app/store'
+import { setEditorInput, selectEditortInput } from '@/features/editor/editorSlice'
+import { examples } from '@/features/editor/examples'
 
 const NewFileButton = (): JSX.Element => (
   <MenuItem

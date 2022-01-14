@@ -6,8 +6,8 @@ import {
   LabelNotExistError,
   JumpDistanceError
 } from './exceptions'
-import { Mnemonic } from '../../../common/constants'
-import { call } from '../../../common/utils'
+import { Mnemonic } from '@/common/constants'
+import { call } from '@/common/utils'
 
 export type { SourceRange } from './types'
 export type { AssemblerErrorObject } from './exceptions'

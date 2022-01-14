@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react'
-import { useToggle, useOutsideClick } from '../../common/hooks'
+import { useToggle, useOutsideClick } from '@/common/hooks'
 
 interface Props {
   children: (isOpen: boolean, toggleOpen: React.DispatchWithoutAction) => ReactNode

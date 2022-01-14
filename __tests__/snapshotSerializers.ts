@@ -1,4 +1,4 @@
-import { decToHex, chunk } from '../src/common/utils'
+import { decToHex, chunk } from '@/common/utils'
 
 const SEPARATOR = ', '
 

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
-import type { UnionToTuple } from '../../common/utils'
+import type { RootState } from '@/app/store'
+import type { UnionToTuple } from '@/common/utils'
 
 export enum MemoryView {
   Hexadecimal = 'Hexadecimal',

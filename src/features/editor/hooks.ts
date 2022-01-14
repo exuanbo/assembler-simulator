@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Transaction, StateEffect } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { getState, dispatch, listenAction } from '../../app/store'
-import { useSelector } from '../../app/hooks'
+import { getState, dispatch, listenAction } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import {
   selectEditortInput,
   selectEditorBreakpoints,
@@ -20,11 +20,14 @@ import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { StringAnnotation } from './codemirror/annotations'
 import { lineRangeAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
-import { selectAutoAssemble } from '../controller/controllerSlice'
-import { assemble } from '../assembler/assemble'
-import { selectAssemblerError, selectAssemblerErrorRange } from '../assembler/assemblerSlice'
-import { selectCpuFault, setCpuHalted, resetCpu } from '../cpu/cpuSlice'
-import { useConstant } from '../../common/hooks'
+import { selectAutoAssemble } from '@/features/controller/controllerSlice'
+import { assemble } from '@/features/assembler/assemble'
+import {
+  selectAssemblerError,
+  selectAssemblerErrorRange
+} from '@/features/assembler/assemblerSlice'
+import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
+import { useConstant } from '@/common/hooks'
 
 enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'

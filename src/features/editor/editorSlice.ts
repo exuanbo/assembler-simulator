@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { EditorView } from '@codemirror/view'
 import { LineRange, lineRangesEqual } from './codemirror/line'
-import type { RootState } from '../../app/store'
-import type { SourceRange, Statement } from '../assembler/core'
+import type { RootState } from '@/app/store'
+import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'
-import { range, curry2rev } from '../../common/utils'
+import { range, curry2rev } from '@/common/utils'
 
 interface EditorState {
   input: string

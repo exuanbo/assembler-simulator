@@ -13,9 +13,9 @@ import {
   OperandTypeError,
   MissingCommaError
 } from './exceptions'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '../../cpu/core'
-import { Mnemonic, MnemonicToOperandsCountMap, Opcode } from '../../../common/constants'
-import { hexToDec, stringToAscii, call } from '../../../common/utils'
+import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '@/features/cpu/core'
+import { Mnemonic, MnemonicToOperandsCountMap, Opcode } from '@/common/constants'
+import { hexToDec, stringToAscii, call } from '@/common/utils'
 
 interface BaseNode {
   readonly range: SourceRange

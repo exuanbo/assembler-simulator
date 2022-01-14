@@ -2,9 +2,9 @@ import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { dispatch } from '../../app/store'
-import { useSelector } from '../../app/hooks'
-import { selectIsSuspended, setSuspended } from '../controller/controllerSlice'
+import { dispatch } from '@/app/store'
+import { useSelector } from '@/app/hooks'
+import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
 import {
   selectIsWaitingForKeyboardInput,
   setWaitingForKeyboardInput,

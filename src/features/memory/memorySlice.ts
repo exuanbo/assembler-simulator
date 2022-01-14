@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { MemoryData, VDU_START_ADDRESS, initData, initDataFrom, getSourceFrom } from './core'
-import type { AddressToMachineCodeMap } from '../assembler/core'
-import type { RootState } from '../../app/store'
-import { selectAddressToStatementMap } from '../assembler/assemblerSlice'
-import { chunk } from '../../common/utils'
+import type { AddressToMachineCodeMap } from '@/features/assembler/core'
+import type { RootState } from '@/app/store'
+import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
+import { chunk } from '@/common/utils'
 
 interface MemoryState {
   data: MemoryData

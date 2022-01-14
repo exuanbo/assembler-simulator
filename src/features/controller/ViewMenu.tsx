@@ -2,9 +2,9 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { View, CheckMark } from '../../common/components/icons'
-import { dispatch } from '../../app/store'
-import { useSelector } from '../../app/hooks'
+import { View, CheckMark } from '@/common/components/icons'
+import { dispatch } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import { MemoryView, selectMemoryView, setMemoryView } from './controllerSlice'
 
 const MemoryMenu = (): JSX.Element => {

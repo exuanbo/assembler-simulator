@@ -1,11 +1,11 @@
 import { memo } from 'react'
-import Card from '../../common/components/Card'
-import { useSelector } from '../../app/hooks'
+import Card from '@/common/components/Card'
+import { useSelector } from '@/app/hooks'
 import { selectMemoryDataRowsGetter, selectMemorySourceRowsGetter } from './memorySlice'
-import { MAX_SP } from '../cpu/core'
-import { selectCpuPointerRegisters } from '../cpu/cpuSlice'
-import { MemoryView, selectMemoryView } from '../controller/controllerSlice'
-import { decToHex, range } from '../../common/utils'
+import { MAX_SP } from '@/features/cpu/core'
+import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
+import { MemoryView, selectMemoryView } from '@/features/controller/controllerSlice'
+import { decToHex, range } from '@/common/utils'
 
 const ColumIndicatorTableRow = memo(() => (
   <tr className="divide-x bg-gray-50 text-gray-400">

@@ -1,15 +1,15 @@
 import { memo } from 'react'
-import Card from '../../common/components/Card'
+import Card from '@/common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
-import { useSelector } from '../../app/hooks'
+import { useSelector } from '@/app/hooks'
 import {
   selectCpuGeneralPurposeRegisters,
   selectCpuPointerRegisters,
   selectStatusRegisterValue
 } from './cpuSlice'
 import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
-import { compareArrayWithSameLength } from '../../common/utils'
-import { NO_BREAK_SPACE } from '../../common/constants'
+import { compareArrayWithSameLength } from '@/common/utils'
+import { NO_BREAK_SPACE } from '@/common/constants'
 
 const FlagIndicatorTableRow = memo(() => (
   <tr>

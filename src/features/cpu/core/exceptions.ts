@@ -1,4 +1,4 @@
-import { decToHex } from '../../../common/utils'
+import { decToHex } from '@/common/utils'
 
 export abstract class RuntimeError extends Error {}
 

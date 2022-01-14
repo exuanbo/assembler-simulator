@@ -24,10 +24,10 @@ import {
   InvalidPortError,
   InvalidOpcodeError
 } from './exceptions'
-import type { MemoryData } from '../../memory/core'
-import { Signals, MAX_PORT } from '../../io/core'
-import { Opcode } from '../../../common/constants'
-import { ExcludeTupleTail, sign8, unsign8 } from '../../../common/utils'
+import type { MemoryData } from '@/features/memory/core'
+import { Signals, MAX_PORT } from '@/features/io/core'
+import { Opcode } from '@/common/constants'
+import { ExcludeTupleTail, sign8, unsign8 } from '@/common/utils'
 
 export { RuntimeError } from './exceptions'
 

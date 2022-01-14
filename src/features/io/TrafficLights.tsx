@@ -1,8 +1,8 @@
 import { memo } from 'react'
-import Card from '../../common/components/Card'
-import { useSelector } from '../../app/hooks'
+import Card from '@/common/components/Card'
+import { useSelector } from '@/app/hooks'
 import { selectTrafficLightsDataDigits } from './ioSlice'
-import { range } from '../../common/utils'
+import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
   <>

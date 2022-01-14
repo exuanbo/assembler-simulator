@@ -2,9 +2,9 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { CheckMark, Wrench } from '../../common/components/icons'
-import { dispatch } from '../../app/store'
-import { useSelector } from '../../app/hooks'
+import { CheckMark, Wrench } from '@/common/components/icons'
+import { dispatch } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import {
   ClockSpeed,
   CLOCK_SPEED_OPTION_NAMES,

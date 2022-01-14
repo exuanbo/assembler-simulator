@@ -1,15 +1,15 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { assemble } from '../../src/features/assembler/core'
-import { MemoryData, initData, initDataFrom } from '../../src/features/memory/core'
+import { assemble } from '@/features/assembler/core'
+import { MemoryData, initData, initDataFrom } from '@/features/memory/core'
 import {
   RuntimeError,
   GeneralPurposeRegister,
   Registers,
   initRegisters,
   step as __step
-} from '../../src/features/cpu/core'
-import { Signals, initialInputSignals } from '../../src/features/io/core'
-import { Opcode } from '../../src/common/constants'
+} from '@/features/cpu/core'
+import { Signals, initialInputSignals } from '@/features/io/core'
+import { Opcode } from '@/common/constants'
 import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
-import { RootState, getState, dispatch, listenAction, watch } from '../../app/store'
+import { RootState, getState, dispatch, listenAction, watch } from '@/app/store'
 import {
   selectRuntimeConfiguration,
   selectIsRunning,
@@ -14,16 +14,16 @@ import {
   setEditorInput,
   setEditorActiveRange,
   clearEditorActiveRange
-} from '../editor/editorSlice'
-import { lineRangesOverlap } from '../editor/codemirror/line'
-import { assembleInputFromState } from '../assembler/assemble'
+} from '@/features/editor/editorSlice'
+import { lineRangesOverlap } from '@/features/editor/codemirror/line'
+import { assembleInputFromState } from '@/features/assembler/assemble'
 import {
   selectAddressToStatementMap,
   setAssemblerState,
   resetAssembler
-} from '../assembler/assemblerSlice'
-import { setMemoryData, resetMemory, selectMemoryData } from '../memory/memorySlice'
-import { StepResult, RuntimeError, step as __step } from '../cpu/core'
+} from '@/features/assembler/assemblerSlice'
+import { setMemoryData, resetMemory, selectMemoryData } from '@/features/memory/memorySlice'
+import { StepResult, RuntimeError, step as __step } from '@/features/cpu/core'
 import {
   selectCpuStatus,
   selectCpuRegisters,
@@ -31,8 +31,8 @@ import {
   setCpuHalted,
   setCpuRegisters,
   resetCpu
-} from '../cpu/cpuSlice'
-import { InputPort, OutputPort } from '../io/core'
+} from '@/features/cpu/cpuSlice'
+import { InputPort, OutputPort } from '@/features/io/core'
 import {
   selectInputSignals,
   selectIsWaitingForInput,
@@ -42,8 +42,8 @@ import {
   setWaitingForKeyboardInput,
   setTrafficLightsData,
   resetIo
-} from '../io/ioSlice'
-import { useConstant } from '../../common/hooks'
+} from '@/features/io/ioSlice'
+import { useConstant } from '@/common/hooks'
 
 class Controller {
   // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { InputSignals, InputPort, initialInputSignals } from './core'
-import type { RootState } from '../../app/store'
+import type { RootState } from '@/app/store'
 
 interface IoState {
   inputSignals: InputSignals

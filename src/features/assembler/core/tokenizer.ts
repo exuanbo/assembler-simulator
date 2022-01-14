@@ -1,6 +1,6 @@
 import type { SourceRange } from './types'
-import { Mnemonic } from '../../../common/constants'
-import { trimBracketsAndQuotes, call } from '../../../common/utils'
+import { Mnemonic } from '@/common/constants'
+import { trimBracketsAndQuotes, call } from '@/common/utils'
 
 export enum TokenType {
   Whitespace = 'Whitespace',

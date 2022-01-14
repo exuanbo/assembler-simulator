@@ -1,8 +1,8 @@
-import Card from '../../common/components/Card'
-import { useSelector } from '../../app/hooks'
-import { selectVduBuffer } from '../memory/memorySlice'
-import { NO_BREAK_SPACE } from '../../common/constants'
-import { asciiToChars, chunk } from '../../common/utils'
+import Card from '@/common/components/Card'
+import { useSelector } from '@/app/hooks'
+import { selectVduBuffer } from '@/features/memory/memorySlice'
+import { NO_BREAK_SPACE } from '@/common/constants'
+import { asciiToChars, chunk } from '@/common/utils'
 
 const VisualDisplayUnit = (): JSX.Element => {
   const vduData = useSelector(selectVduBuffer)

@@ -1,6 +1,6 @@
 import { ReactNode, RefCallback, useState, useCallback } from 'react'
-import { Play } from '../../common/components/icons'
-import { useHover } from '../../common/hooks'
+import { Play } from '@/common/components/icons'
+import { useHover } from '@/common/hooks'
 
 interface Props {
   children: ReactNode

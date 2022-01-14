@@ -8,7 +8,7 @@ import {
   initRegisters,
   getSrValue
 } from './core'
-import type { RootState } from '../../app/store'
+import type { RootState } from '@/app/store'
 
 interface Status {
   fault: string | null

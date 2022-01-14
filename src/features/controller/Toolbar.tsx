@@ -2,7 +2,7 @@ import FileMenu from './FileMenu'
 import ViewMenu from './ViewMenu'
 import ConfigurationMenu from './ConfigurationMenu'
 import ControlButtons from './ControlButtons'
-import { Github } from '../../common/components/icons'
+import { Github } from '@/common/components/icons'
 
 interface Props {
   className: string

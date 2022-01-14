@@ -1,4 +1,4 @@
-import type { Mnemonic } from '../../../common/constants'
+import type { Mnemonic } from '@/common/constants'
 
 export interface SourceRange {
   readonly from: number

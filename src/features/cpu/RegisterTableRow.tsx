@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import RegisterValueTableDataCell, { RadixLabel } from './RegisterValueTableCell'
 import type { GeneralPurposeRegisterName } from './core'
-import { sign8, decToHex } from '../../common/utils'
+import { sign8, decToHex } from '@/common/utils'
 
 type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
 

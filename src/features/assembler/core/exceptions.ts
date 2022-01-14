@@ -1,11 +1,7 @@
 import type { SourceRange } from './types'
 import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
-import {
-  trimBracketsAndQuotes,
-  escapeBackslashes,
-  escapeInnerSingleQuotes
-} from '../../../common/utils'
+import { trimBracketsAndQuotes, escapeBackslashes, escapeInnerSingleQuotes } from '@/common/utils'
 
 export interface AssemblerErrorObject {
   readonly type: string

@@ -1,5 +1,5 @@
-import { AssemblerError, assemble } from '../../../src/features/assembler/core'
-import { initDataFrom } from '../../../src/features/memory/core'
+import { AssemblerError, assemble } from '@/features/assembler/core'
+import { initDataFrom } from '@/features/memory/core'
 import { memorySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(memorySerializer)
