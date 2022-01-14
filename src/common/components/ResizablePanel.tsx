@@ -21,7 +21,7 @@ interface Props {
 
 const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const [isDragging, setIsDragging] = useState(false)
-  const [leftWidthPct, setLeftWidthPct] = useState<number>(1)
+  const [leftWidthPct, setLeftWidthPct] = useState(1)
   const dividerRef = useRef<HTMLDivElement>(null)
 
   const clickCountRef = useRef(0)

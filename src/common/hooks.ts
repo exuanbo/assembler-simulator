@@ -12,7 +12,7 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   clickRef: RefCallback<T>
 ] => {
   const [current, setCurrent] = useState<T | null>(null)
-  const [isClicked, setClicked] = useState<boolean>(false)
+  const [isClicked, setClicked] = useState(false)
 
   const refCallback = useCallback<RefCallback<T>>(node => {
     setCurrent(node)
@@ -42,7 +42,7 @@ export const useHover = <T extends HTMLElement = HTMLElement>(): [
   hoverRef: RefCallback<T>
 ] => {
   const [current, setCurrent] = useState<T | null>(null)
-  const [isHovered, setHovered] = useState<boolean>(false)
+  const [isHovered, setHovered] = useState(false)
 
   const refCallback = useCallback<RefCallback<T>>(node => {
     setCurrent(node)
