@@ -14,7 +14,8 @@ const Editor = (): JSX.Element => {
   useUnderlineAssemblerError(view)
 
   return (
-    <div ref={editorRef} className="flex flex-col h-full">
+    <div className="flex flex-col h-full">
+      <div ref={editorRef} className="h-full overflow-y-auto" />
       <EditorStatus />
     </div>
   )
