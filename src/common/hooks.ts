@@ -1,4 +1,4 @@
-import { RefCallback, useState, useEffect, useReducer, useCallback } from 'react'
+import { RefCallback, useState, useEffect, useReducer, useCallback, useRef } from 'react'
 
 export const useConstant = <T>(initialValue: T | (() => T)): T => useState(initialValue)[0]
 
@@ -37,10 +37,9 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   return [isClicked, refCallback]
 }
 
-export const useHover = <T extends HTMLElement = HTMLElement>(): [
-  isHovered: boolean,
-  hoverRef: RefCallback<T>
-] => {
+export const useHover = <T extends HTMLElement = HTMLElement>(
+  delay?: number
+): [isHovered: boolean, hoverRef: RefCallback<T>] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isHovered, setHovered] = useState(false)
 
@@ -48,15 +47,28 @@ export const useHover = <T extends HTMLElement = HTMLElement>(): [
     setCurrent(node)
   }, [])
 
+  const hoverTimeoutIdRef = useRef<number | undefined>()
+
   useEffect(() => {
     if (current === null) {
       return
     }
     const handleMouseEnter = (): void => {
-      setHovered(true)
+      if (delay === undefined) {
+        setHovered(true)
+      } else {
+        hoverTimeoutIdRef.current = window.setTimeout(() => {
+          setHovered(true)
+          hoverTimeoutIdRef.current = undefined
+        }, delay)
+      }
     }
     const handleMouseLeave = (): void => {
       setHovered(false)
+      if (hoverTimeoutIdRef.current !== undefined) {
+        window.clearTimeout(hoverTimeoutIdRef.current)
+        hoverTimeoutIdRef.current = undefined
+      }
     }
 
     current.addEventListener('mouseenter', handleMouseEnter)
@@ -68,7 +80,7 @@ export const useHover = <T extends HTMLElement = HTMLElement>(): [
 
       setHovered(false)
     }
-  }, [current])
+  }, [current, delay])
 
   return [isHovered, refCallback]
 }

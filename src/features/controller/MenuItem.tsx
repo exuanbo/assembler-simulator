@@ -18,7 +18,7 @@ interface ExpandableProps {
 }
 
 MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
-  const [isHovered, hoverRef] = useHover<HTMLDivElement>()
+  const [isHovered, hoverRef] = useHover<HTMLDivElement>(100)
   const [menuItems, setMenuItems] = useState<HTMLDivElement | null>(null)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
