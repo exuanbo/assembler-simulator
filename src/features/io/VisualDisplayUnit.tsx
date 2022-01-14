@@ -10,7 +10,7 @@ const VisualDisplayUnit = (): JSX.Element => {
 
   return (
     <Card className="border-b border-r max-w-max" title="VDU">
-      <div className="flex flex-col space-y-1 p-1 resize overflow-auto items-center justify-center">
+      <div className="flex flex-col space-y-1 p-1 items-center justify-center">
         {chunk(0x10, chars).map((line, lineIndex) => (
           <div key={lineIndex} className="flex space-x-1">
             {line.map((char, charIndex) => (
