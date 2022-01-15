@@ -209,14 +209,16 @@ class Controller {
                 dispatch(setWaitingForKeyboardInput(true))
             }
           })
-          // TODO: add option `once`
-          this.unsubscribeSetSuspended = listenAction(setSuspended, () => {
-            this.unsubscribeSetSuspended()
-            if (isRunning) {
-              this.setMainLoop()
-            }
-            void this.step()
-          })
+          this.unsubscribeSetSuspended = listenAction(
+            setSuspended,
+            async () => {
+              if (isRunning) {
+                this.setMainLoop()
+              }
+              await this.step()
+            },
+            { once: true }
+          )
         } else {
           // wrong port
           dispatch(clearInputData())
