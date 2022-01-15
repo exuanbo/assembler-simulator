@@ -20,19 +20,31 @@ interface Props {
 }
 
 const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
-  const [isDragging, setIsDragging] = useState(false)
-  const [leftWidthPct, setLeftWidthPct] = useState(1)
+  const [leftWidth, setLeftWidth] = useState('')
+  const [showChildren, setShowChildren] = useState(false)
+
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
 
+  const getInitialLeftWidth = (): string =>
+    `${0.5 * (wrapperRef.current!.offsetWidth - dividerRef.current!.offsetWidth)}px`
+
+  useEffect(() => {
+    setLeftWidth(getInitialLeftWidth())
+    setShowChildren(true)
+  }, [])
+
+  const [isDragging, setIsDragging] = useState(false)
+
   const clickCountRef = useRef(0)
-  const clickTimeoutIdRef = useRef<number | undefined>()
+  const clickTimeoutIdRef = useRef<number>()
 
   const handleMouseDown = (): void => {
     setIsDragging(true)
 
     clickCountRef.current += 1
     if (clickCountRef.current === 2) {
-      setLeftWidthPct(1)
+      setLeftWidth(getInitialLeftWidth())
       clickCountRef.current = 0
       window.clearTimeout(clickTimeoutIdRef.current)
       return
@@ -49,13 +61,14 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
 
     const handleMouseMove = throttle((event: MouseEvent) => {
       const { offsetWidth: dividerOffsetWidth } = dividerRef.current!
-      const clientXAdjusted = event.clientX - dividerOffsetWidth /* / 2 */
-      const widthAdjusted = document.body.offsetWidth - dividerOffsetWidth
+      const clientXAdjusted = event.clientX - dividerOffsetWidth / 2
+      const wrapperWidthAdjusted = wrapperRef.current!.offsetWidth - dividerOffsetWidth
 
-      const percentage = clientXAdjusted / (widthAdjusted / 2)
-      const percentageAdjusted = Math.max(0.5, Math.min(1.5, percentage))
+      const percentage = clientXAdjusted / wrapperWidthAdjusted
+      const percentageAdjusted = Math.max(0.25, Math.min(0.75, percentage))
 
-      setLeftWidthPct(percentageAdjusted)
+      const widthAdjusted = percentageAdjusted * wrapperWidthAdjusted
+      setLeftWidth(`${widthAdjusted}px`)
     }, 10)
 
     const handleMouseUp = (): void => {
@@ -69,17 +82,12 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, leftWidthPct])
+  }, [isDragging, leftWidth])
 
   return (
-    <div className={`flex ${className}`}>
+    <div ref={wrapperRef} className={`flex ${className}`}>
       <div className={isDragging ? 'cursor-col-resize inset-0 z-50 fixed' : 'hidden'} />
-      <div
-        style={{
-          width: `${leftWidthPct * 50}%`
-        }}>
-        {children[0]}
-      </div>
+      {showChildren && <div style={{ width: leftWidth }}>{children[0]}</div>}
       <div
         ref={dividerRef}
         className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
@@ -88,7 +96,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
         onMouseDown={handleMouseDown}>
         <Dots isHovered={isDragging} />
       </div>
-      <div className="flex-1">{children[1]}</div>
+      {showChildren && <div className="flex-1">{children[1]}</div>}
     </div>
   )
 }
