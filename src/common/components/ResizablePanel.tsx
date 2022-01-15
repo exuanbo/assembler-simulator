@@ -65,6 +65,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       const wrapperWidthAdjusted = wrapperRef.current!.offsetWidth - dividerOffsetWidth
 
       const percentage = clientXAdjusted / wrapperWidthAdjusted
+      // TODO: should not be hardcoded
       const percentageAdjusted = Math.max(0.25, Math.min(0.75, percentage))
 
       const widthAdjusted = percentageAdjusted * wrapperWidthAdjusted
@@ -91,7 +92,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       <div
         ref={dividerRef}
         className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
-          isDragging ? 'bg-gray-200' : 'bg-gray-100'
+          showChildren ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'hidden'
         }`}
         onMouseDown={handleMouseDown}>
         <Dots isHovered={isDragging} />
