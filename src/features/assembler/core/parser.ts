@@ -203,6 +203,7 @@ const parseSingleOperand =
         if (isExpected(OperandType.Label)) {
           return createOperand(OperandType.Label, validateLabel(token))
         }
+        break
     }
     throw new OperandTypeError(token, ...expectedTypes)
   }
@@ -375,6 +376,7 @@ const parseStatement = (
           break
         case Mnemonic.DB:
           addOperands(parseOperand(OperandType.Number, OperandType.String))
+          break
       }
 
       consumeToken(1)
@@ -397,6 +399,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.ADD_NUM_TO_REG)
+              break
           }
           break
         case Mnemonic.SUB:
@@ -410,6 +413,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.SUB_NUM_FROM_REG)
+              break
           }
           break
         case Mnemonic.MUL:
@@ -423,6 +427,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.MUL_REG_BY_NUM)
+              break
           }
           break
         case Mnemonic.DIV:
@@ -436,6 +441,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.DIV_REG_BY_NUM)
+              break
           }
           break
         case Mnemonic.MOD:
@@ -449,6 +455,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.MOD_REG_BY_NUM)
+              break
           }
           break
         case Mnemonic.AND:
@@ -462,6 +469,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.AND_REG_WITH_NUM)
+              break
           }
           break
         case Mnemonic.OR:
@@ -475,6 +483,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.OR_REG_WITH_NUM)
+              break
           }
           break
         case Mnemonic.XOR:
@@ -488,6 +497,7 @@ const parseStatement = (
               break
             case OperandType.Number:
               setOpcode(Opcode.XOR_REG_WITH_NUM)
+              break
           }
           break
         case Mnemonic.MOV:
@@ -509,6 +519,7 @@ const parseStatement = (
                   break
                 case OperandType.RegisterAddress:
                   setOpcode(Opcode.MOV_REG_ADDR_TO_REG)
+                  break
               }
               break
             case OperandType.Address:
@@ -533,11 +544,14 @@ const parseStatement = (
               break
             case OperandType.Address:
               setOpcode(Opcode.CMP_REG_WITH_ADDR)
+              break
           }
+          break
       }
 
       addOperands(firstOperand, secondOperand)
       consumeToken(3 /* operand + comma + operand */)
+      break
     }
   }
 

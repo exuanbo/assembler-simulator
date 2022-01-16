@@ -207,6 +207,7 @@ class Controller {
             switch (requiredInputDataPort) {
               case InputPort.SimulatedKeyboard:
                 dispatch(setWaitingForKeyboardInput(true))
+                break
             }
           })
           this.unsubscribeSetSuspended = listenAction(
@@ -233,6 +234,7 @@ class Controller {
         switch (outputDataPort) {
           case OutputPort.TrafficLights:
             dispatch(setTrafficLightsData(outputDataContent))
+            break
         }
       }
       const breakpoints = selectEditorBreakpoints(state)
