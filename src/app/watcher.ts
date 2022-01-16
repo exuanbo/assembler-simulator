@@ -69,8 +69,7 @@ export const createWatcher = (): Watcher => {
     const { callbacks } = subscriptions.get(selector)!
     callbacks.add(callback)
     return () => {
-      callbacks.delete(callback)
-      if (callbacks.size === 0) {
+      if (callbacks.delete(callback) && callbacks.size === 0) {
         subscriptions.delete(selector)
       }
     }
