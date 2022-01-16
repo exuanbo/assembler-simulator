@@ -225,14 +225,14 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     const setRequiredInputDataPort = (port: number): void => {
       signals.output.requiredInputDataPort = port
     }
-    const setOutputDataSignal = (content: number, port: number): void => {
+    const setOutputData = (content: number, port: number): void => {
       signals.output.data = { content, port }
     }
-    const setHaltedSignal = (): void => {
+    const setHalted = (): void => {
       signals.output.halted = true
     }
-    const getInterruptSignal = (): boolean => signals.input.interrupt
-    const setCloseWindowsSignal = (): void => {
+    const getInterrupt = (): boolean => signals.input.interrupt
+    const setCloseWindows = (): void => {
       signals.output.closeWindows = true
     }
 
@@ -240,14 +240,14 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
     /*                                     Run                                    */
     /* -------------------------------------------------------------------------- */
 
-    const shouldTrapHardwareInterrupt = getInterruptSignal() && isFlagOn(Flag.Interrupt)
+    const shouldTrapHardwareInterrupt = getInterrupt() && isFlagOn(Flag.Interrupt)
 
     const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIp())
 
     switch (opcode) {
       case Opcode.END:
       case Opcode.HALT:
-        setHaltedSignal()
+        setHalted()
         break
 
       // Direct Arithmetic
@@ -583,7 +583,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
       case Opcode.OUT_FROM_AL_TO_PORT: {
         const dataContent = getGpr(GeneralPurposeRegister.AL)
         const dataPort = checkPort(loadFromMemory(incIp()))
-        setOutputDataSignal(dataContent, dataPort)
+        setOutputData(dataContent, dataPort)
         incIp()
         break
       }
@@ -600,7 +600,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
         break
       }
       case Opcode.CLO: {
-        setCloseWindowsSignal()
+        setCloseWindows()
         incIp()
         break
       }

@@ -161,8 +161,8 @@ class Controller {
         // TODO: handle unexpected runtime errors
         throw err
       }
-      const [memoryData, registers, signals] = stepResultWithSignals
-      const instructionAdress = registers.ip
+      const [memoryData, cpuRegisters, signals] = stepResultWithSignals
+      const instructionAdress = cpuRegisters.ip
       const statement = selectAddressToStatementMap(state)[instructionAdress]
       const hasStatement = statement?.machineCode.every(
         (machineCode, index) => machineCode === memoryData[instructionAdress + index]
@@ -171,7 +171,7 @@ class Controller {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
           batch(() => {
             dispatch(setMemoryData(memoryData))
-            dispatch(setCpuRegisters(registers))
+            dispatch(setCpuRegisters(cpuRegisters))
             dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
           })
           this.dispatchChangesTimeoutId = undefined
@@ -253,7 +253,7 @@ class Controller {
           this.stop()
         }
       }
-      resolve([memoryData, registers])
+      resolve([memoryData, cpuRegisters])
     })
   }
 
