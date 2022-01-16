@@ -1,4 +1,5 @@
 import {
+  decTo8bitBinDigits,
   range,
   asciiToChars,
   compareArrayWithSameLength,
@@ -7,6 +8,13 @@ import {
 } from '@/common/utils'
 
 describe('utils', () => {
+  describe('decTo8bitBinDigits', () => {
+    it('should convert decimal to 8 bit binary digits', () => {
+      expect(decTo8bitBinDigits(0)).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
+      expect(decTo8bitBinDigits(255)).toEqual([1, 1, 1, 1, 1, 1, 1, 1])
+    })
+  })
+
   describe('range', () => {
     it('should generate an array of numbers', () => {
       expect(range(1, 5)).toEqual([1, 2, 3, 4])

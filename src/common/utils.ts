@@ -28,6 +28,9 @@ export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
 
+export const decTo8bitBinDigits = (num: number): number[] =>
+  num.toString(2).padStart(8, '0').split('').map(Number)
+
 const PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP = /^[["](.*)["\]]$/
 
 export const trimBracketsAndQuotes = (str: string): string =>

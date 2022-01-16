@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { InputSignals, InputPort, initialInputSignals } from './core'
 import type { RootState } from '@/app/store'
+import { decTo8bitBinDigits } from '@/common/utils'
 
 interface IoState {
   inputSignals: InputSignals
@@ -52,9 +53,11 @@ export const selectIsWaitingForInput = (state: RootState): boolean => state.io.i
 export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
   state.io.isWaitingForKeyboardInput
 
+const selectTrafficLightsData = (state: RootState): number => state.io.trafficLightsData
+
 export const selectTrafficLightsDataDigits = createSelector(
-  (state: RootState) => state.io.trafficLightsData,
-  trafficLightsData => trafficLightsData.toString(2).padStart(8, '0').split('').map(Number)
+  selectTrafficLightsData,
+  decTo8bitBinDigits
 )
 
 export const {
