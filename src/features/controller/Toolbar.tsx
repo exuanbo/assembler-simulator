@@ -12,7 +12,7 @@ const ToolBar = ({ className }: Props): JSX.Element => (
   <div
     className={`border-b flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between ${className}`}>
     <div className="flex space-x-2 px-2 items-center">
-      <h1 className="min-w-max">Assembler Simulator</h1>
+      <h1>Assembler Simulator</h1>
       <a
         href="https://github.com/exuanbo/assembler-simulator"
         rel="noopener noreferrer"
