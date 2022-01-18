@@ -41,15 +41,15 @@ const CpuRegisters = ({ className }: Props): JSX.Element => {
           <tbody className="divide-y">
             {gpr.map((value, index) => {
               const registerName = GeneralPurposeRegister[index] as GeneralPurposeRegisterName
-              return <RegisterTableRow key={index} registerName={registerName} value={value} />
+              return <RegisterTableRow key={index} name={registerName} value={value} />
             })}
           </tbody>
         </table>
         <table className="flex-1">
           <tbody className="divide-y">
-            <RegisterTableRow registerName="IP" value={ip} valueClassName="bg-green-100" />
-            <RegisterTableRow registerName="SP" value={sp} valueClassName="bg-blue-100" />
-            <RegisterTableRow registerName="SR" value={srValue} />
+            <RegisterTableRow name="IP" value={ip} valueClassName="bg-green-100" />
+            <RegisterTableRow name="SP" value={sp} valueClassName="bg-blue-100" />
+            <RegisterTableRow name="SR" value={srValue} />
             <FlagIndicatorTableRow />
           </tbody>
         </table>

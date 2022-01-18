@@ -6,12 +6,12 @@ import { sign8, decToHex } from '@/common/utils'
 type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
 
 interface Props {
-  registerName: RegisterName
+  name: RegisterName
   value: number
   valueClassName?: string
 }
 
-const RegisterTableRow = memo(({ registerName, value, valueClassName = '' }: Props) => {
+const RegisterTableRow = memo(({ name, value, valueClassName = '' }: Props) => {
   const signedValue = sign8(value)
   const hexValue = decToHex(value)
   const binValue = value.toString(2).padStart(8, '0')
@@ -19,7 +19,7 @@ const RegisterTableRow = memo(({ registerName, value, valueClassName = '' }: Pro
 
   return (
     <tr className="divide-x">
-      <td className="bg-gray-50 text-center px-2">{registerName}</td>
+      <td className="bg-gray-50 text-center px-2">{name}</td>
       <RegisterValueTableDataCell radixLabel={RadixLabel.Hex}>
         <span className={`rounded text-sm px-1 ${valueClassName}`}>{hexValue}</span>
       </RegisterValueTableDataCell>
