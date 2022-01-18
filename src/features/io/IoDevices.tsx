@@ -20,7 +20,7 @@ const IoDevices = ({ className }: Props): JSX.Element => {
       onIconClick={toggleActive}>
       <SimulatedKeyboard />
       {isActive && (
-        <div className="flex items-start">
+        <div className="flex space-x-2 py-2 px-2 items-start">
           <VisualDisplayUnit />
           <TrafficLights />
         </div>

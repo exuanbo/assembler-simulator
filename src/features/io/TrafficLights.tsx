@@ -58,36 +58,38 @@ const TrafficLights = (): JSX.Element => {
   const dataDigits = useSelector(selectTrafficLightsDataDigits)
 
   return (
-    <Card className="border-b border-r" title="Traffic Lights">
-      <svg height="240" width="320" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <title>Static Layer</title>
-          <StaticParts />
-        </g>
-        <g className="font-mono" fill="#fff" textAnchor="middle">
-          <title>Data Layer</title>
-          {dataDigits.map((digit, index) => (
-            <text key={index} x={104 + index * 16} y="224">
-              {digit}
-            </text>
-          ))}
-        </g>
-        <g>
-          <title>Lights Layer</title>
-          {range(6).map(index => {
-            const isOn = Boolean(dataDigits[index])
-            return (
-              <circle
-                key={index}
-                cx={index < 3 ? /* Left */ 56 : /* Right */ 264}
-                cy={44 + (index % 3) * 32}
-                fill={isOn ? lightColors[index % 3] : 'none'}
-                r="12"
-              />
-            )
-          })}
-        </g>
-      </svg>
+    <Card className="border shadow" title="Traffic Lights (Port 01)">
+      <div className="p-1">
+        <svg height="240" width="320" xmlns="http://www.w3.org/2000/svg">
+          <g>
+            <title>Static Layer</title>
+            <StaticParts />
+          </g>
+          <g className="font-mono" fill="#fff" textAnchor="middle">
+            <title>Data Layer</title>
+            {dataDigits.map((digit, index) => (
+              <text key={index} x={104 + index * 16} y="224">
+                {digit}
+              </text>
+            ))}
+          </g>
+          <g>
+            <title>Lights Layer</title>
+            {range(6).map(index => {
+              const isOn = Boolean(dataDigits[index])
+              return (
+                <circle
+                  key={index}
+                  cx={index < 3 ? /* Left */ 56 : /* Right */ 264}
+                  cy={44 + (index % 3) * 32}
+                  fill={isOn ? lightColors[index % 3] : 'none'}
+                  r="12"
+                />
+              )
+            })}
+          </g>
+        </svg>
+      </div>
     </Card>
   )
 }
