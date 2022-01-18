@@ -44,23 +44,21 @@ const asmLanguage = StreamLanguage.define<State>({
 
     if (state.operandsLeft === 0) {
       const token = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
-      if (token === undefined) {
-        stream.eatWhile(NON_WHITESPACE_REGEXP)
-        return null
-      }
-      const upperCaseToken = token.toUpperCase()
-      if (upperCaseToken in Mnemonic) {
-        const mnemonic = upperCaseToken as Mnemonic
-        if (mnemonic === Mnemonic.END) {
-          state.ended = true
+      if (token !== undefined) {
+        const upperCaseToken = token.toUpperCase()
+        if (upperCaseToken in Mnemonic) {
+          const mnemonic = upperCaseToken as Mnemonic
+          if (mnemonic === Mnemonic.END) {
+            state.ended = true
+          }
+          state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
+          state.expectLabel = mnemonic.startsWith('J')
+          return 'keyword'
+        } else {
+          return null
         }
-        state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
-        state.expectLabel = mnemonic.startsWith('J')
-        return 'keyword'
-      } else {
-        return null
       }
-    } else if (state.operandsLeft > 0) {
+    } /* if (state.operandsLeft > 0) */ else {
       if (stream.match(NUMBER_REGEXP)) {
         state.operandsLeft -= 1
         return 'number'
