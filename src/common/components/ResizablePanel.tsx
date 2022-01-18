@@ -92,7 +92,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       <div
         ref={dividerRef}
         className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
-          showChildren ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'hidden'
+          showChildren ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
         }`}
         onMouseDown={handleMouseDown}>
         <Dots isHovered={isDragging} />
