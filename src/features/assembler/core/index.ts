@@ -7,7 +7,6 @@ import {
   JumpDistanceError
 } from './exceptions'
 import { Mnemonic } from '@/common/constants'
-import { call } from '@/common/utils'
 
 export type { SourceRange } from './types'
 export type { AssemblerErrorObject } from './exceptions'
@@ -30,17 +29,14 @@ const getLabelToAddressMap = (statements: Statement[]): Readonly<LabelToAddressM
       labelToAddressMap[label.identifier] = address
     }
     const firstOperand = operands[0] as Operand | undefined
-    address =
-      instruction.mnemonic === Mnemonic.ORG
-        ? (firstOperand!.value as number)
-        : call((): number => {
-            const nextAddress =
-              address + machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
-            if (nextAddress > 0xff && index !== statements.length - 1) {
-              throw new AssembleEndOfMemoryError(statement)
-            }
-            return nextAddress
-          })
+    if (instruction.mnemonic === Mnemonic.ORG) {
+      address = firstOperand!.value as number
+    } else {
+      address += machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
+      if (address > 0xff && index !== statements.length - 1) {
+        throw new AssembleEndOfMemoryError(statement)
+      }
+    }
   })
   return labelToAddressMap
 }
