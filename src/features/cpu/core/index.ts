@@ -25,7 +25,7 @@ import {
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '@/features/memory/core'
-import { Signals, MAX_PORT } from '@/features/io/core'
+import { InputSignals, Signals, MAX_PORT } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
 import { ExcludeTupleTail, sign8, unsign8 } from '@/common/utils'
 
@@ -221,7 +221,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
       return finalResult
     }
 
-    const getSignals = (): Signals => signals
+    const getInput = (): InputSignals => signals.input
     const setRequiredInputDataPort = (port: number): void => {
       signals.output.requiredInputDataPort = port
     }
@@ -570,7 +570,7 @@ export const step = (...args: StepArgs): [...StepResult, Signals] =>
 
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
-        const { data: inputData } = getSignals().input
+        const { data: inputData } = getInput()
         const requiredInputDataPort = checkPort(loadFromMemory(getNextIp()))
         if (inputData.content === null || inputData.port !== requiredInputDataPort) {
           setRequiredInputDataPort(requiredInputDataPort)
