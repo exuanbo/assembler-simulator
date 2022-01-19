@@ -20,7 +20,7 @@ const StaticParts = memo(() => (
       <rect height="80" width="16" x="256" y="136" />
       <rect height="12" width="32" x="248" y="216" />
     </g>
-    <g fill="none" stroke="white" strokeWidth="2">
+    <g fill="none" stroke="#fff" strokeWidth="2">
       <title>Circut</title>
       {/* Left */}
       <polyline points="44 44,36 44,36 132,52 132,52 180,104 180,104 200" />
