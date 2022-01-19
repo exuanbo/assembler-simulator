@@ -20,14 +20,17 @@ interface Props {
 }
 
 const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
-  const [leftWidth, setLeftWidth] = useState('')
+  const [leftWidth, setLeftWidth] = useState<number>()
   const [showChildren, setShowChildren] = useState(false)
 
   const wrapperRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
 
-  const getInitialLeftWidth = (): string =>
-    `${0.5 * (wrapperRef.current!.offsetWidth - dividerRef.current!.offsetWidth)}px`
+  const getDividerWidth = (): number => dividerRef.current!.offsetWidth
+
+  const getTotalWidthAdjusted = (): number => wrapperRef.current!.offsetWidth - getDividerWidth()
+
+  const getInitialLeftWidth = (): number => 0.5 * getTotalWidthAdjusted()
 
   useEffect(() => {
     setLeftWidth(getInitialLeftWidth())
@@ -60,16 +63,16 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
     }
 
     const handleMouseMove = throttle((event: MouseEvent) => {
-      const { offsetWidth: dividerOffsetWidth } = dividerRef.current!
-      const clientXAdjusted = event.clientX - dividerOffsetWidth / 2
-      const wrapperWidthAdjusted = wrapperRef.current!.offsetWidth - dividerOffsetWidth
+      const dividerWidth = getDividerWidth()
+      const clientXAdjusted = event.clientX - dividerWidth / 2
 
-      const percentage = clientXAdjusted / wrapperWidthAdjusted
-      // TODO: should not be hardcoded
+      const totalWidthAdjusted = getTotalWidthAdjusted()
+
+      const percentage = clientXAdjusted / totalWidthAdjusted
       const percentageAdjusted = Math.max(0.25, Math.min(0.75, percentage))
 
-      const widthAdjusted = percentageAdjusted * wrapperWidthAdjusted
-      setLeftWidth(`${widthAdjusted}px`)
+      const widthAdjusted = percentageAdjusted * totalWidthAdjusted
+      setLeftWidth(widthAdjusted)
     }, 10)
 
     const handleMouseUp = (): void => {
