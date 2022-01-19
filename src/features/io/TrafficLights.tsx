@@ -64,14 +64,6 @@ const TrafficLights = (): JSX.Element => {
           <title>Static Layer</title>
           <StaticParts />
         </g>
-        <g className="font-mono" fill="#fff" textAnchor="middle">
-          <title>Data Layer</title>
-          {dataDigits.map((digit, index) => (
-            <text key={index} x={104 + index * 16} y="224">
-              {digit}
-            </text>
-          ))}
-        </g>
         <g>
           <title>Lights Layer</title>
           {range(6).map(index => {
@@ -86,6 +78,14 @@ const TrafficLights = (): JSX.Element => {
               />
             )
           })}
+        </g>
+        <g className="font-mono" fill="#fff" textAnchor="middle">
+          <title>Data Layer</title>
+          {dataDigits.map((digit, index) => (
+            <text key={index} x={104 + index * 16} y="224">
+              {digit}
+            </text>
+          ))}
         </g>
       </svg>
     </DeviceCard>
