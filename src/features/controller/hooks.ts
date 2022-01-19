@@ -274,9 +274,13 @@ class Controller {
     const state = getState()
     this.stopIfRunning(state)
     this.restoreIfSuspended(state)
+    await this.resetLastStep()
+    this.cancelDispatchChanges()
+  }
+
+  private async resetLastStep(): Promise<void> {
     await this.lastStep
     this.lastStep = Promise.resolve(undefined)
-    this.cancelDispatchChanges()
   }
 
   private cancelDispatchChanges(): void {
