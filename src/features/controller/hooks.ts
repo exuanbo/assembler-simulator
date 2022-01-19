@@ -280,8 +280,10 @@ class Controller {
   }
 
   private cancelDispatchChanges(): void {
-    window.clearTimeout(this.dispatchChangesTimeoutId)
-    this.dispatchChangesTimeoutId = undefined
+    if (this.dispatchChangesTimeoutId !== undefined) {
+      window.clearTimeout(this.dispatchChangesTimeoutId)
+      this.dispatchChangesTimeoutId = undefined
+    }
   }
 }
 
