@@ -11,7 +11,7 @@ interface Props {
 
 const DeviceCard = ({ name, port, className = '', children }: Props): JSX.Element => (
   <Card
-    className="border shadow"
+    className="border shadow m-1"
     title={`${name}${port === undefined ? '' : ` (Port ${decToHex(port)})`}`}>
     <div className={`p-1 ${className}`}>{children}</div>
   </Card>
