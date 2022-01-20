@@ -5,7 +5,7 @@ interface Example {
 
 export const examples: readonly Example[] = [
   {
-    title: 'Hello World',
+    title: 'Visual Display Unit',
     content: `jmp start
 
 db "Hello World!"
@@ -30,7 +30,7 @@ end
   {
     title: 'Traffic Lights',
     content: `start:
-	mov al, 80
+	mov al, 80	; 1000 0000
 
 loop:
 	out 01
