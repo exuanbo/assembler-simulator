@@ -41,5 +41,39 @@ loop:
 
 end
 `
+  },
+  {
+    title: 'Seven-Segment Display',
+    content: `jmp start
+
+db fa	; 1111 1010
+db 60	; 0110 0000
+db b6	; 1011 0110
+db 9e	; 1001 1110
+db 4e	; 0100 1110
+db dc	; 1101 1100
+db fc	; 1111 1100
+db 8a	; 1000 1010
+db fe	; 1111 1110
+db de	; 1101 1110
+db 00
+
+start:
+	mov bl, 02
+	mov al, [bl]
+
+loop:
+	out 02
+	inc al
+	nop nop nop nop
+	out 02
+	inc bl
+	mov al, [bl]
+	cmp al, 00
+	jnz loop
+	jmp start
+
+end
+`
   }
 ]
