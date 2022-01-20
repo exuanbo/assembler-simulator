@@ -8,13 +8,15 @@ interface IoState {
   isWaitingForInput: boolean
   isWaitingForKeyboardInput: boolean
   trafficLightsData: number
+  sevenSegmentDisplayData: number
 }
 
 const initialState: IoState = {
   inputSignals: initialInputSignals,
   isWaitingForInput: false,
   isWaitingForKeyboardInput: false,
-  trafficLightsData: 0
+  trafficLightsData: 0,
+  sevenSegmentDisplayData: 0
 }
 
 export const ioSlice = createSlice({
@@ -42,6 +44,9 @@ export const ioSlice = createSlice({
     setTrafficLightsData: (state, action: PayloadAction<number>): void => {
       state.trafficLightsData = action.payload
     },
+    setSevenSegmentDisplayData: (state, action: PayloadAction<number>): void => {
+      state.sevenSegmentDisplayData = action.payload
+    },
     reset: () => initialState
   }
 })
@@ -60,6 +65,13 @@ export const selectTrafficLightsDataDigits = createSelector(
   decTo8bitBinDigits
 )
 
+const selectSevenSegmentDisplayData = (state: RootState): number => state.io.sevenSegmentDisplayData
+
+export const selectSevenSegmentDisplayDataDigits = createSelector(
+  selectSevenSegmentDisplayData,
+  decTo8bitBinDigits
+)
+
 export const {
   setInputData,
   clearInputData,
@@ -67,6 +79,7 @@ export const {
   setWaitingForInput,
   setWaitingForKeyboardInput,
   setTrafficLightsData,
+  setSevenSegmentDisplayData,
   reset: resetIo
 } = ioSlice.actions
 

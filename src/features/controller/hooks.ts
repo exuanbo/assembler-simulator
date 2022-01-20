@@ -41,6 +41,7 @@ import {
   setWaitingForInput,
   setWaitingForKeyboardInput,
   setTrafficLightsData,
+  setSevenSegmentDisplayData,
   resetIo
 } from '@/features/io/ioSlice'
 import { useConstant } from '@/common/hooks'
@@ -231,9 +232,13 @@ class Controller {
       }
       if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputDataPort } = outputData
+        // TODO: extract function
         switch (outputDataPort) {
           case OutputPort.TrafficLights:
             dispatch(setTrafficLightsData(outputDataContent))
+            break
+          case OutputPort.SevenSegmentDisplay:
+            dispatch(setSevenSegmentDisplayData(outputDataContent))
             break
         }
       }
