@@ -59,7 +59,7 @@ const TrafficLights = (): JSX.Element => {
 
   return (
     <DeviceCard name="Traffic Lights" port={1}>
-      <svg viewBox="0 0 320 240" width="312" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
           <StaticParts />
