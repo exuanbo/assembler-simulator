@@ -150,7 +150,7 @@ const SevenSegmentDisplay = (): JSX.Element => {
 
   return (
     <DeviceCard name="Seven-Segment Display" port={2}>
-      <svg height="300" width="312" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 312 300" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
           <StaticParts />
