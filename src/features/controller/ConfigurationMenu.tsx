@@ -7,9 +7,9 @@ import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import {
   ClockSpeed,
-  CLOCK_SPEED_OPTION_NAMES,
+  clockSpeedOptionNames,
   TimerInterval,
-  TIMER_INTERVAL_OPTION_NAMES,
+  timerIntervalOptionNames,
   selectAutoAssemble,
   selectClockSpeed,
   selectTimerInterval,
@@ -48,7 +48,7 @@ const ClockSpeedMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
-              {CLOCK_SPEED_OPTION_NAMES.map((clockSpeedOptionName, index) => (
+              {clockSpeedOptionNames.map((clockSpeedOptionName, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {
@@ -85,7 +85,7 @@ const TimerIntervalMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
-              {TIMER_INTERVAL_OPTION_NAMES.map((timerIntervalOptionName, index) => (
+              {timerIntervalOptionNames.map((timerIntervalOptionName, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {
