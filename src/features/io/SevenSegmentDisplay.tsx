@@ -8,95 +8,95 @@ import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
   <>
-    <rect fill="#a1a1aa" height="300" width="320">
+    <rect fill="#a1a1aa" height="320" width="320">
       <title>Background</title>
     </rect>
     <g fill="#000">
       <title>Screen</title>
-      <rect height="128" width="80" x="40" y="56" />
-      <rect height="128" width="80" x="192" y="56" />
+      <rect height="128" width="80" x="40" y="76" />
+      <rect height="128" width="80" x="192" y="76" />
     </g>
     <g fill="none" stroke="#fff" strokeWidth="2">
       <title>Circut</title>
       <g>
         <title>Digit 0</title>
-        <polyline points="100,260 100,248 20,248 20,40 232,40 232,64" />
-        <line x1="80" x2="80" y1="40" y2="64" />
-        <line x1="56" x2="104" y1="64" y2="64" />
-        <line x1="208" x2="256" y1="64" y2="64" />
+        <polyline points="100,280 100,268 20,268 20,60 232,60 232,84" />
+        <line x1="80" x2="80" y1="60" y2="84" />
+        <line x1="56" x2="104" y1="84" y2="84" />
+        <line x1="208" x2="256" y1="84" y2="84" />
       </g>
       <g>
         <title>Digit 1</title>
-        <polyline points="116,260 116,240 28,240 28,48 188,48 188,92 204,92" />
-        <line x1="28" x2="52" y1="92" y2="92" />
-        <line x1="52" x2="52" y1="68" y2="116" />
-        <line x1="204" x2="204" y1="68" y2="116" />
+        <polyline points="116,280 116,260 28,260 28,68 188,68 188,112 204,112" />
+        <line x1="28" x2="52" y1="112" y2="112" />
+        <line x1="52" x2="52" y1="88" y2="136" />
+        <line x1="204" x2="204" y1="88" y2="136" />
       </g>
       <g>
         <title>Digit 2</title>
-        <polyline points="132,260 132,232 36,232 36,148 52,148" />
-        <polyline points="132,232 208,232 208,192 188,192 188,148 204,148" />
-        <line x1="52" x2="52" y1="124" y2="172" />
-        <line x1="204" x2="204" y1="124" y2="172" />
+        <polyline points="132,280 132,252 36,252 36,168 52,168" />
+        <polyline points="132,252 208,252 208,212 188,212 188,168 204,168" />
+        <line x1="52" x2="52" y1="144" y2="192" />
+        <line x1="204" x2="204" y1="144" y2="192" />
       </g>
       <g>
         <title>Digit 3</title>
-        <polyline points="148,260 148,224 80,224 80,176" />
-        <polyline points="148,224 232,224 232,176" />
-        <line x1="56" x2="104" y1="176" y2="176" />
-        <line x1="208" x2="256" y1="176" y2="176" />
+        <polyline points="148,280 148,244 80,244 80,196" />
+        <polyline points="148,244 232,244 232,196" />
+        <line x1="56" x2="104" y1="196" y2="196" />
+        <line x1="208" x2="256" y1="196" y2="196" />
       </g>
       <g>
         <title>Digit 4</title>
-        <polyline points="164,260 164,216 124,216 124,148 108,148" />
-        <polyline points="164,216 276,216 276,148 260,148" />
-        <line x1="108" x2="108" y1="124" y2="172" />
-        <line x1="260" x2="260" y1="124" y2="172" />
+        <polyline points="164,280 164,236 124,236 124,168 108,168" />
+        <polyline points="164,236 276,236 276,168 260,168" />
+        <line x1="108" x2="108" y1="144" y2="192" />
+        <line x1="260" x2="260" y1="144" y2="192" />
       </g>
       <g>
         <title>Digit 5</title>
-        <polyline points="180,260 180,208 132,208 132,120 56,120" />
-        <polyline points="180,208 284,208 284,120 208,120" />
+        <polyline points="180,280 180,228 132,228 132,140 56,140" />
+        <polyline points="180,228 284,228 284,140 208,140" />
       </g>
       <g>
         <title>Digit 6</title>
-        <polyline points="196,260 196,200 140,200 140,92 108,92" />
-        <polyline points="196,200 292,200 292,92 260,92" />
-        <line x1="108" x2="108" y1="68" y2="116" />
-        <line x1="260" x2="260" y1="68" y2="116" />
+        <polyline points="196,280 196,220 140,220 140,112 108,112" />
+        <polyline points="196,220 292,220 292,112 260,112" />
+        <line x1="108" x2="108" y1="88" y2="136" />
+        <line x1="260" x2="260" y1="88" y2="136" />
       </g>
       <g>
         <title>Digit 7</title>
-        <polyline points="212,260 212,240 300,240 300,24 204,24" />
+        <polyline points="212,280 212,260 300,260 300,36 215,36" />
         <g fill="#a1a1aa">
           <title>Inverter</title>
-          <polygon points="204,24 204,14 194,24 204,34 204,24" />
-          <circle cx="190" cy="24" r="2" />
+          <polygon points="215,36 215,20 199,36 215,52 215,36" />
+          <circle cx="194" cy="36" r="3" />
         </g>
-        <polyline points="188,24 118,24 118,56" />
-        <line x1="270" x2="270" y1="24" y2="56" />
+        <polyline points="190,36 118,36 118,76" />
+        <line x1="270" x2="270" y1="36" y2="76" />
       </g>
     </g>
     <g fill="#fff">
       <title>Circut Node</title>
       {range(8).map(index => (
-        <rect key={index} height="8" width="8" x={96 + index * 16} y="260" />
+        <rect key={index} height="8" width="8" x={96 + index * 16} y="280" />
       ))}
       {range(5).map(index => (
-        <rect key={index} height="4" width="8" x={128 + index * 16} y={230 - index * 8} />
+        <rect key={index} height="4" width="8" x={128 + index * 16} y={250 - index * 8} />
       ))}
-      <rect height="4" width="8" x="76" y="38" />
-      <rect height="4" width="8" x="24" y="90" />
-      <rect height="4" width="8" x="266" y="22" />
-      <rect height="8" width="8" x="266" y="54" />
-      <rect height="8" width="8" x="114" y="54" />
+      <rect height="4" width="8" x="76" y="58" />
+      <rect height="4" width="8" x="24" y="110" />
+      <rect height="4" width="8" x="266" y="34" />
+      <rect height="8" width="8" x="266" y="74" />
+      <rect height="8" width="8" x="114" y="74" />
     </g>
     <g className="font-mono" fill="#fff" textAnchor="middle">
       <title>Label</title>
-      <text x="60" y="270">
+      <text x="60" y="290">
         MSB
       </text>
-      <text x="252" y="270">
+      <text x="252" y="290">
         LSB
       </text>
     </g>
@@ -105,26 +105,26 @@ const StaticParts = memo(() => (
 
 const segments: readonly JSX.Element[] = [
   // 0
-  <polygon key={0} points="56,64 104,64 96,72 64,72" />,
-  <polygon key={1} points="208,64 256,64 248,72 216,72" />,
+  <polygon key={0} points="56,84 104,84 96,92 64,92" />,
+  <polygon key={1} points="208,84 256,84 248,92 216,92" />,
   // 1
-  <polygon key={2} points="52,68 60,76 60,108 52,116" />,
-  <polygon key={3} points="204,68 212,76 212,108 204,116" />,
+  <polygon key={2} points="52,88 60,96 60,128 52,136" />,
+  <polygon key={3} points="204,88 212,96 212,128 204,136" />,
   // 2
-  <polygon key={4} points="52,124 60,132 60,164 52,172" />,
-  <polygon key={5} points="204,124 212,132 212,164 204,172" />,
+  <polygon key={4} points="52,144 60,152 60,184 52,192" />,
+  <polygon key={5} points="204,144 212,152 212,184 204,192" />,
   // 3
-  <polygon key={6} points="56,176 64,168 96,168 104,176" />,
-  <polygon key={7} points="208,176 216,168 248,168 256,176" />,
+  <polygon key={6} points="56,196 64,188 96,188 104,196" />,
+  <polygon key={7} points="208,196 216,188 248,188 256,196" />,
   // 4
-  <polygon key={8} points="108,124 108,172 100,164 100,132" />,
-  <polygon key={9} points="260,124 260,172 252,164 252,132" />,
+  <polygon key={8} points="108,144 108,192 100,184 100,152" />,
+  <polygon key={9} points="260,144 260,192 252,184 252,152" />,
   // 5
-  <polygon key={10} points="56,120 60,116 100,116 104,120 100,124 60,124" />,
-  <polygon key={11} points="208,120 212,116 252,116 256,120 252,124 212,124" />,
+  <polygon key={10} points="56,140 60,136 100,136 104,140 100,144 60,144" />,
+  <polygon key={11} points="208,140 212,136 252,136 256,140 252,144 212,144" />,
   // 6
-  <polygon key={12} points="108,68 108,116 100,108 100,76" />,
-  <polygon key={13} points="260,68 260,116 252,108 252,76" />
+  <polygon key={12} points="108,88 108,136 100,128 100,96" />,
+  <polygon key={13} points="260,88 260,136 252,128 252,96" />
 ]
 
 const initialDataDigits: readonly number[] = Array(14).fill(0)
@@ -150,7 +150,7 @@ const SevenSegmentDisplay = (): JSX.Element => {
 
   return (
     <DeviceCard name="Seven-Segment Display" port={2}>
-      <svg viewBox="0 0 320 300" width="312" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 320 320" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
           <StaticParts />
@@ -162,7 +162,7 @@ const SevenSegmentDisplay = (): JSX.Element => {
         <g className="font-mono" fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
           {outputDataDigits.map((digit, index) => (
-            <text key={index} x={100 + index * 16} y="284">
+            <text key={index} x={100 + index * 16} y="304">
               {digit}
             </text>
           ))}
