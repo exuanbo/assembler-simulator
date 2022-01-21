@@ -15,10 +15,13 @@ const IoDevices = ({ className }: Props): JSX.Element => {
 
   return (
     <Card
-      Icon={isActive ? EyeClosed : EyeOpen}
       className={className}
-      title="I/O Devices"
-      onIconClick={toggleActive}>
+      icon={
+        <div className="flex items-center" onClick={toggleActive}>
+          {isActive ? <EyeClosed /> : <EyeOpen />}
+        </div>
+      }
+      title="I/O Devices">
       <SimulatedKeyboard />
       {isActive && (
         <div className="flex flex-wrap py-1 px-1 items-start">

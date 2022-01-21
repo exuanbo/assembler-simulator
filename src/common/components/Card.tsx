@@ -4,19 +4,14 @@ interface Props {
   title: string
   children: ReactNode
   className?: string
-  Icon?: (props: Record<string, unknown>) => JSX.Element
-  onIconClick?: React.MouseEventHandler<HTMLDivElement>
+  icon?: JSX.Element
 }
 
-const Card = ({ children, title, className, Icon, onIconClick }: Props): JSX.Element => (
+const Card = ({ title, children, className, icon }: Props): JSX.Element => (
   <div className={className}>
     <header className="border-b flex bg-gray-100 py-1 px-2 items-center justify-between">
       <span>{title}</span>
-      {Icon !== undefined && (
-        <div className="flex items-center" onClick={onIconClick}>
-          <Icon />
-        </div>
-      )}
+      {icon}
     </header>
     {children}
   </div>
