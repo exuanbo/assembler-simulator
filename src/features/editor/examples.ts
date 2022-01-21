@@ -65,7 +65,7 @@ start:
 loop:
 	out 02
 	inc al
-	nop nop nop nop
+	nop nop nop
 	out 02
 	inc bl
 	mov al, [bl]
