@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 
 interface Props {
-  children: ReactNode
   title: string
+  children: ReactNode
   className?: string
   Icon?: (props: Record<string, unknown>) => JSX.Element
   onIconClick?: React.MouseEventHandler<HTMLDivElement>
