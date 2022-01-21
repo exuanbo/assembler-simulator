@@ -1,4 +1,4 @@
-import { createNextState, nanoid } from '@reduxjs/toolkit'
+import { createNextState } from '@reduxjs/toolkit'
 import { memo, useState, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
@@ -105,26 +105,26 @@ const StaticParts = memo(() => (
 
 const segments: readonly JSX.Element[] = [
   // 0
-  <polygon key={nanoid()} points="56,64 104,64 96,72 64,72" />,
-  <polygon key={nanoid()} points="208,64 256,64 248,72 216,72" />,
+  <polygon key={0} points="56,64 104,64 96,72 64,72" />,
+  <polygon key={1} points="208,64 256,64 248,72 216,72" />,
   // 1
-  <polygon key={nanoid()} points="52,68 60,76 60,108 52,116" />,
-  <polygon key={nanoid()} points="204,68 212,76 212,108 204,116" />,
+  <polygon key={2} points="52,68 60,76 60,108 52,116" />,
+  <polygon key={3} points="204,68 212,76 212,108 204,116" />,
   // 2
-  <polygon key={nanoid()} points="52,124 60,132 60,164 52,172" />,
-  <polygon key={nanoid()} points="204,124 212,132 212,164 204,172" />,
+  <polygon key={4} points="52,124 60,132 60,164 52,172" />,
+  <polygon key={5} points="204,124 212,132 212,164 204,172" />,
   // 3
-  <polygon key={nanoid()} points="56,176 64,168 96,168 104,176" />,
-  <polygon key={nanoid()} points="208,176 216,168 248,168 256,176" />,
+  <polygon key={6} points="56,176 64,168 96,168 104,176" />,
+  <polygon key={7} points="208,176 216,168 248,168 256,176" />,
   // 4
-  <polygon key={nanoid()} points="108,124 108,172 100,164 100,132" />,
-  <polygon key={nanoid()} points="260,124 260,172 252,164 252,132" />,
+  <polygon key={8} points="108,124 108,172 100,164 100,132" />,
+  <polygon key={9} points="260,124 260,172 252,164 252,132" />,
   // 5
-  <polygon key={nanoid()} points="56,120 60,116 100,116 104,120 100,124 60,124" />,
-  <polygon key={nanoid()} points="208,120 212,116 252,116 256,120 252,124 212,124" />,
+  <polygon key={10} points="56,120 60,116 100,116 104,120 100,124 60,124" />,
+  <polygon key={11} points="208,120 212,116 252,116 256,120 252,124 212,124" />,
   // 6
-  <polygon key={nanoid()} points="108,68 108,116 100,108 100,76" />,
-  <polygon key={nanoid()} points="260,68 260,116 252,108 252,76" />
+  <polygon key={12} points="108,68 108,116 100,108 100,76" />,
+  <polygon key={13} points="260,68 260,116 252,108 252,76" />
 ]
 
 const initialDataDigits: readonly number[] = Array(14).fill(0)
