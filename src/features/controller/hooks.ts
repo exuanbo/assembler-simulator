@@ -34,17 +34,18 @@ import {
 } from '@/features/cpu/cpuSlice'
 import { InputPort, OutputPort } from '@/features/io/core'
 import {
+  IoDeviceName,
   selectInputSignals,
   selectIsWaitingForInput,
   clearInputData,
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
-  setTrafficLightsData,
-  setSevenSegmentDisplayData,
+  setIoDeviceData,
   resetIo
 } from '@/features/io/ioSlice'
 import { useConstant } from '@/common/hooks'
+import { call } from '@/common/utils'
 
 class Controller {
   // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`
@@ -233,13 +234,21 @@ class Controller {
       if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputDataPort } = outputData
         // TODO: extract function
-        switch (outputDataPort) {
-          case OutputPort.TrafficLights:
-            dispatch(setTrafficLightsData(outputDataContent))
-            break
-          case OutputPort.SevenSegmentDisplay:
-            dispatch(setSevenSegmentDisplayData(outputDataContent))
-            break
+        const ioDeviceName = call(() => {
+          switch (outputDataPort) {
+            case OutputPort.TrafficLights:
+              return IoDeviceName.TrafficLights
+            case OutputPort.SevenSegmentDisplay:
+              return IoDeviceName.SevenSegmentDisplay
+          }
+        })
+        if (ioDeviceName !== undefined) {
+          dispatch(
+            setIoDeviceData({
+              name: ioDeviceName,
+              data: outputDataContent
+            })
+          )
         }
       }
       const breakpoints = selectEditorBreakpoints(state)

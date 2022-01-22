@@ -3,7 +3,12 @@ import { memo, useState, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
 import { listenAction } from '@/app/store'
-import { selectSevenSegmentDisplayDataDigits, resetIo } from './ioSlice'
+import {
+  IoDeviceName,
+  selectIoDeviceView,
+  selectSevenSegmentDisplayDataDigits,
+  resetIo
+} from './ioSlice'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -129,8 +134,10 @@ const segments: readonly JSX.Element[] = [
 
 const initialDataDigits: readonly number[] = Array(14).fill(0)
 
-const SevenSegmentDisplay = (): JSX.Element => {
+const SevenSegmentDisplay = (): JSX.Element | null => {
   const [dataDigits, setDataDigits] = useState(initialDataDigits)
+  const { isActive } = useSelector(selectIoDeviceView(IoDeviceName.SevenSegmentDisplay))
+  // TODO: use a getter
   const outputDataDigits = useSelector(selectSevenSegmentDisplayDataDigits)
 
   useEffect(() => {
@@ -148,7 +155,7 @@ const SevenSegmentDisplay = (): JSX.Element => {
     })
   }, [])
 
-  return (
+  return isActive ? (
     <DeviceCard name="Seven-Segment Display" port={2}>
       <svg viewBox="0 0 320 300" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
@@ -169,7 +176,7 @@ const SevenSegmentDisplay = (): JSX.Element => {
         </g>
       </svg>
     </DeviceCard>
-  )
+  ) : null
 }
 
 export default SevenSegmentDisplay

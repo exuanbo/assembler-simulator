@@ -2,16 +2,6 @@ import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
 import type { UnionToTuple } from '@/common/utils'
 
-interface IoView {
-  visualDisplayUnit: boolean
-  trafficLights: boolean
-  sevenSegmentDisplay: boolean
-}
-
-interface View {
-  io: IoView
-}
-
 export enum ClockSpeed {
   '2 Hz' = 2,
   '4 Hz' = 4,
@@ -51,20 +41,12 @@ interface Configuration {
 }
 
 interface ControllerState {
-  view: View
   configuration: Configuration
   isRunning: boolean
   isSuspended: boolean
 }
 
 const initialState: ControllerState = {
-  view: {
-    io: {
-      visualDisplayUnit: true,
-      trafficLights: false,
-      sevenSegmentDisplay: false
-    }
-  },
   configuration: {
     autoAssemble: true,
     clockSpeed: ClockSpeed['4 Hz'],
@@ -78,15 +60,6 @@ export const controllerSlice = createSlice({
   name: 'controller',
   initialState,
   reducers: {
-    toggleVisualDisplayUnit: state => {
-      state.view.io.visualDisplayUnit = !state.view.io.visualDisplayUnit
-    },
-    toggleTrafficLights: state => {
-      state.view.io.trafficLights = !state.view.io.trafficLights
-    },
-    toggleSevenSegmentDisplay: state => {
-      state.view.io.sevenSegmentDisplay = !state.view.io.sevenSegmentDisplay
-    },
     setAutoAssemble: (state, action: PayloadAction<boolean>) => {
       state.configuration.autoAssemble = action.payload
     },
@@ -104,31 +77,6 @@ export const controllerSlice = createSlice({
     }
   }
 })
-
-const selectView = (state: RootState): View => state.controller.view
-
-export const selectIoView = (state: RootState): IoView => state.controller.view.io
-
-export const selectIoViewOptions = createSelector(
-  selectIoView,
-  ({ visualDisplayUnit, trafficLights, sevenSegmentDisplay }) => [
-    {
-      isActive: visualDisplayUnit,
-      label: 'Visual Display Unit',
-      action: toggleVisualDisplayUnit
-    },
-    {
-      isActive: trafficLights,
-      label: 'Traffic Lights',
-      action: toggleTrafficLights
-    },
-    {
-      isActive: sevenSegmentDisplay,
-      label: 'Seven Segment Display',
-      action: toggleSevenSegmentDisplay
-    }
-  ]
-)
 
 const selectConfiguration = (state: RootState): Configuration => state.controller.configuration
 
@@ -152,20 +100,11 @@ export const selectIsRunning = (state: RootState): boolean => state.controller.i
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
 
 export const selectControllerStateToPersist = createSelector(
-  selectView,
   selectConfiguration,
-  (view, configuration) => ({ view, configuration })
+  configuration => ({ configuration })
 )
 
-export const {
-  toggleVisualDisplayUnit,
-  toggleTrafficLights,
-  toggleSevenSegmentDisplay,
-  setAutoAssemble,
-  setClockSpeed,
-  setTimerInterval,
-  setRunning,
-  setSuspended
-} = controllerSlice.actions
+export const { setAutoAssemble, setClockSpeed, setTimerInterval, setRunning, setSuspended } =
+  controllerSlice.actions
 
 export default controllerSlice.reducer
