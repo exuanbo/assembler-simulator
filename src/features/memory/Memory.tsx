@@ -1,10 +1,14 @@
 import { memo } from 'react'
 import Card from '@/common/components/Card'
 import { useSelector } from '@/app/hooks'
-import { selectMemoryDataRowsGetter, selectMemorySourceRowsGetter } from './memorySlice'
+import {
+  MemoryView,
+  selectMemoryDataRowsGetter,
+  selectMemorySourceRowsGetter,
+  selectMemoryView
+} from './memorySlice'
 import { MAX_SP } from '@/features/cpu/core'
 import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
-import { MemoryView, selectMemoryView } from '@/features/controller/controllerSlice'
 import { decToHex, range } from '@/common/utils'
 
 const ColumIndicatorTableRow = memo(() => (

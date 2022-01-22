@@ -5,7 +5,8 @@ import MenuItem from './MenuItem'
 import { View, CheckMark } from '@/common/components/icons'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
-import { MemoryView, selectMemoryView, selectIoViewOptions, setMemoryView } from './controllerSlice'
+import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
+import { selectIoViewOptions } from './controllerSlice'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
@@ -20,7 +21,7 @@ const MemoryMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded className="top-8" innerRef={menuItemsRef}>
-              {Object.values(MemoryView /* TODO: extract */).map((memoryViewOption, index) => (
+              {memoryViewOptions.map((memoryViewOption, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {

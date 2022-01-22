@@ -2,12 +2,6 @@ import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
 import type { UnionToTuple } from '@/common/utils'
 
-export enum MemoryView {
-  Hexadecimal = 'Hexadecimal',
-  Decimal = 'Decimal',
-  Source = 'Source'
-}
-
 interface IoView {
   visualDisplayUnit: boolean
   trafficLights: boolean
@@ -15,7 +9,6 @@ interface IoView {
 }
 
 interface View {
-  memory: MemoryView
   io: IoView
 }
 
@@ -66,7 +59,6 @@ interface ControllerState {
 
 const initialState: ControllerState = {
   view: {
-    memory: MemoryView.Hexadecimal,
     io: {
       visualDisplayUnit: true,
       trafficLights: false,
@@ -86,9 +78,6 @@ export const controllerSlice = createSlice({
   name: 'controller',
   initialState,
   reducers: {
-    setMemoryView: (state, action: PayloadAction<MemoryView>) => {
-      state.view.memory = action.payload
-    },
     toggleVisualDisplayUnit: state => {
       state.view.io.visualDisplayUnit = !state.view.io.visualDisplayUnit
     },
@@ -117,8 +106,6 @@ export const controllerSlice = createSlice({
 })
 
 const selectView = (state: RootState): View => state.controller.view
-
-export const selectMemoryView = (state: RootState): MemoryView => state.controller.view.memory
 
 export const selectIoView = (state: RootState): IoView => state.controller.view.io
 
@@ -171,7 +158,6 @@ export const selectControllerStateToPersist = createSelector(
 )
 
 export const {
-  setMemoryView,
   toggleVisualDisplayUnit,
   toggleTrafficLights,
   toggleSevenSegmentDisplay,

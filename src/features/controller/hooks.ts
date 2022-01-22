@@ -22,7 +22,7 @@ import {
   setAssemblerState,
   resetAssembler
 } from '@/features/assembler/assemblerSlice'
-import { setMemoryData, resetMemory, selectMemoryData } from '@/features/memory/memorySlice'
+import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
 import { StepResult, RuntimeError, step as __step } from '@/features/cpu/core'
 import {
   selectCpuStatus,
@@ -267,7 +267,7 @@ class Controller {
   public readonly reset = async (): Promise<void> => {
     await this.fullyStop()
     batch(() => {
-      dispatch(resetMemory())
+      dispatch(resetMemoryData())
       dispatch(resetCpu())
       dispatch(resetAssembler())
       dispatch(clearEditorActiveRange())
