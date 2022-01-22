@@ -17,9 +17,9 @@ const IoDevices = ({ className }: Props): JSX.Element => {
     <Card
       className={className}
       icon={
-        <div className="flex items-center" onClick={toggleActive}>
+        <span className="flex items-center" onClick={toggleActive}>
           {isActive ? <EyeClosed /> : <EyeOpen />}
-        </div>
+        </span>
       }
       title="I/O Devices">
       <SimulatedKeyboard />
