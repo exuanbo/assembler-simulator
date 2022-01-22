@@ -1,11 +1,11 @@
+import { memo, useState, useEffect, useMemo } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
-import { memo, useState, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
 import { listenAction } from '@/app/store'
 import {
   IoDeviceName,
-  selectIoDeviceView,
+  createIoDeviceViewSelector,
   selectSevenSegmentDisplayDataDigits,
   resetIo
 } from './ioSlice'
@@ -136,7 +136,8 @@ const initialDataDigits: readonly number[] = Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
   const [dataDigits, setDataDigits] = useState(initialDataDigits)
-  const { isActive } = useSelector(selectIoDeviceView(IoDeviceName.SevenSegmentDisplay))
+  const selectView = useMemo(() => createIoDeviceViewSelector(IoDeviceName.SevenSegmentDisplay), [])
+  const { isActive } = useSelector(selectView)
   // TODO: use a getter
   const outputDataDigits = useSelector(selectSevenSegmentDisplayDataDigits)
 

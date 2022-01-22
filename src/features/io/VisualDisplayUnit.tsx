@@ -1,12 +1,15 @@
+import { useMemo } from 'react'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
 import { selectVduBuffer } from '@/features/memory/memorySlice'
-import { IoDeviceName, selectIoDeviceView } from './ioSlice'
+import { IoDeviceName, createIoDeviceViewSelector } from './ioSlice'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
-  const { isActive } = useSelector(selectIoDeviceView(IoDeviceName.VisualDisplayUnit))
+  const selectView = useMemo(() => createIoDeviceViewSelector(IoDeviceName.VisualDisplayUnit), [])
+  const { isActive } = useSelector(selectView)
+
   // TODO: use a getter
   const vduData = useSelector(selectVduBuffer)
 

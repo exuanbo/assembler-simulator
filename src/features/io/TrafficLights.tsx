@@ -1,7 +1,7 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
-import { IoDeviceName, selectIoDeviceView, selectTrafficLightsDataDigits } from './ioSlice'
+import { IoDeviceName, createIoDeviceViewSelector, selectTrafficLightsDataDigits } from './ioSlice'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -55,7 +55,8 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { isActive } = useSelector(selectIoDeviceView(IoDeviceName.TrafficLights))
+  const selectView = useMemo(() => createIoDeviceViewSelector(IoDeviceName.TrafficLights), [])
+  const { isActive } = useSelector(selectView)
   // TODO: use a getter
   const dataDigits = useSelector(selectTrafficLightsDataDigits)
 

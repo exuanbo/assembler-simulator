@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { InputSignals, InputPort, initialInputSignals } from './core'
 import type { RootState } from '@/app/store'
-import { decTo8bitBinDigits, curry2rev } from '@/common/utils'
+import { decTo8bitBinDigits } from '@/common/utils'
 
 export enum IoDeviceName {
   VisualDisplayUnit = 'Visual Display Unit',
@@ -107,18 +107,14 @@ const getIoDeviceView = (name: IoDeviceName, devices: IoDevices): IoDeviceView =
   toggleActive: () => toggleIoDevice(name)
 })
 
-export const selectIoDeviceView = curry2rev(
-  createSelector(
-    [selectIoDevices, (_, name: IoDeviceName) => name],
-    (devices, name) => getIoDeviceView(name, devices),
-    {
-      memoizeOptions: {
-        resultEqualityCheck: (prev, curr) => prev.isActive === curr.isActive,
-        maxSize: ioDeviceNames.length
-      }
+type IoDeviceViewSelector = (state: RootState) => IoDeviceView
+
+export const createIoDeviceViewSelector = (name: IoDeviceName): IoDeviceViewSelector =>
+  createSelector(selectIoDevices, devices => getIoDeviceView(name, devices), {
+    memoizeOptions: {
+      resultEqualityCheck: (prev, curr) => prev.isActive === curr.isActive
     }
-  )
-)
+  })
 
 export const selectIoDeviceViewOptions = createSelector(selectIoDevices, devices =>
   ioDeviceNames.map(name => ({
