@@ -8,8 +8,15 @@ export enum MemoryView {
   Source = 'Source'
 }
 
+interface IoView {
+  visualDisplayUnit: boolean
+  trafficLights: boolean
+  sevenSegmentDisplay: boolean
+}
+
 interface View {
   memory: MemoryView
+  io: IoView
 }
 
 export enum ClockSpeed {
@@ -59,7 +66,12 @@ interface ControllerState {
 
 const initialState: ControllerState = {
   view: {
-    memory: MemoryView.Hexadecimal
+    memory: MemoryView.Hexadecimal,
+    io: {
+      visualDisplayUnit: true,
+      trafficLights: false,
+      sevenSegmentDisplay: false
+    }
   },
   configuration: {
     autoAssemble: true,
@@ -76,6 +88,15 @@ export const controllerSlice = createSlice({
   reducers: {
     setMemoryView: (state, action: PayloadAction<MemoryView>) => {
       state.view.memory = action.payload
+    },
+    toggleVisualDisplayUnit: state => {
+      state.view.io.visualDisplayUnit = !state.view.io.visualDisplayUnit
+    },
+    toggleTrafficLights: state => {
+      state.view.io.trafficLights = !state.view.io.trafficLights
+    },
+    toggleSevenSegmentDisplay: state => {
+      state.view.io.sevenSegmentDisplay = !state.view.io.sevenSegmentDisplay
     },
     setAutoAssemble: (state, action: PayloadAction<boolean>) => {
       state.configuration.autoAssemble = action.payload
@@ -98,6 +119,29 @@ export const controllerSlice = createSlice({
 const selectView = (state: RootState): View => state.controller.view
 
 export const selectMemoryView = (state: RootState): MemoryView => state.controller.view.memory
+
+export const selectIoView = (state: RootState): IoView => state.controller.view.io
+
+export const selectIoViewOptions = createSelector(
+  selectIoView,
+  ({ visualDisplayUnit, trafficLights, sevenSegmentDisplay }) => [
+    {
+      isActive: visualDisplayUnit,
+      label: 'Visual Display Unit',
+      action: toggleVisualDisplayUnit
+    },
+    {
+      isActive: trafficLights,
+      label: 'Traffic Lights',
+      action: toggleTrafficLights
+    },
+    {
+      isActive: sevenSegmentDisplay,
+      label: 'Seven Segment Display',
+      action: toggleSevenSegmentDisplay
+    }
+  ]
+)
 
 const selectConfiguration = (state: RootState): Configuration => state.controller.configuration
 
@@ -128,6 +172,9 @@ export const selectControllerStateToPersist = createSelector(
 
 export const {
   setMemoryView,
+  toggleVisualDisplayUnit,
+  toggleTrafficLights,
+  toggleSevenSegmentDisplay,
   setAutoAssemble,
   setClockSpeed,
   setTimerInterval,

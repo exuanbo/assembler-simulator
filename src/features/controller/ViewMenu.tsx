@@ -5,7 +5,7 @@ import MenuItem from './MenuItem'
 import { View, CheckMark } from '@/common/components/icons'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
-import { MemoryView, selectMemoryView, setMemoryView } from './controllerSlice'
+import { MemoryView, selectMemoryView, selectIoViewOptions, setMemoryView } from './controllerSlice'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
@@ -20,7 +20,7 @@ const MemoryMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded className="top-8" innerRef={menuItemsRef}>
-              {Object.values(MemoryView).map((memoryViewOption, index) => (
+              {Object.values(MemoryView /* TODO: extract */).map((memoryViewOption, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {
@@ -29,6 +29,39 @@ const MemoryMenu = (): JSX.Element => {
                   <MenuButton>
                     {memoryView === memoryViewOption ? <CheckMark /> : <span className="w-4" />}
                     <span>{memoryViewOption}</span>
+                  </MenuButton>
+                </MenuItem>
+              ))}
+            </MenuItems.Expanded>
+          )}
+        </>
+      )}
+    </MenuItem.Expandable>
+  )
+}
+
+const IoMenu = (): JSX.Element => {
+  const ioViewOptions = useSelector(selectIoViewOptions)
+
+  return (
+    <MenuItem.Expandable>
+      {(isHovered, menuItemsRef) => (
+        <>
+          <MenuButton>
+            <span className="w-4" />
+            <span>I/O Devices</span>
+          </MenuButton>
+          {isHovered && (
+            <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
+              {ioViewOptions.map(({ isActive, label, action }, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    dispatch(action())
+                  }}>
+                  <MenuButton>
+                    {isActive ? <CheckMark /> : <span className="w-4" />}
+                    <span>{label}</span>
                   </MenuButton>
                 </MenuItem>
               ))}
@@ -51,6 +84,7 @@ const ViewMenu = (): JSX.Element => (
         {isOpen && (
           <MenuItems>
             <MemoryMenu />
+            <IoMenu />
           </MenuItems>
         )}
       </>
