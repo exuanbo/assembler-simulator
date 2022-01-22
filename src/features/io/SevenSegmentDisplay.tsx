@@ -1,4 +1,4 @@
-import { memo, useState, useEffect, useMemo } from 'react'
+import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
 import { useSelector } from '@/app/hooks'
@@ -10,6 +10,7 @@ import {
   setIoDeviceData,
   resetIo
 } from './ioSlice'
+import { useConstant } from '@/common/hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -136,7 +137,7 @@ const segments: readonly JSX.Element[] = [
 const initialDataDigits: readonly number[] = Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  const selectView = useMemo(() => createIoDeviceViewSelector(IoDeviceName.SevenSegmentDisplay), [])
+  const selectView = useConstant(() => createIoDeviceViewSelector(IoDeviceName.SevenSegmentDisplay))
   const { isActive, toggleActive } = useSelector(selectView)
 
   useEffect(() => {
