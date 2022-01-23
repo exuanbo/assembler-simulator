@@ -70,7 +70,7 @@ export const ioSlice = createSlice({
     setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
       state.isWaitingForKeyboardInput = action.payload
     },
-    toggleDevice: (state: IoState, action: PayloadAction<IoDeviceName>): void => {
+    toggleDeviceActive: (state: IoState, action: PayloadAction<IoDeviceName>): void => {
       const name = action.payload
       state.devices[name].isActive = !state.devices[name].isActive
     },
@@ -99,12 +99,12 @@ const selectIoDevices = (state: RootState): IoDevices => state.io.devices
 
 interface IoDeviceView {
   isActive: boolean
-  toggleActive: () => ReturnType<typeof toggleIoDevice>
+  toggleActive: () => ReturnType<typeof toggleIoDeviceActive>
 }
 
 const getIoDeviceView = (name: IoDeviceName, devices: IoDevices): IoDeviceView => ({
   isActive: devices[name].isActive,
-  toggleActive: () => toggleIoDevice(name)
+  toggleActive: () => toggleIoDeviceActive(name)
 })
 
 type IoDeviceViewSelector = (state: RootState) => IoDeviceView
@@ -147,7 +147,7 @@ export const {
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
-  toggleDevice: toggleIoDevice,
+  toggleDeviceActive: toggleIoDeviceActive,
   setDeviceData: setIoDeviceData,
   reset: resetIo
 } = ioSlice.actions
