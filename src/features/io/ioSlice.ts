@@ -9,7 +9,7 @@ export enum IoDeviceName {
   SevenSegmentDisplay = 'Seven Segment Display'
 }
 
-const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
+export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
 interface IoDevice {
   isActive: boolean
@@ -95,33 +95,23 @@ export const selectIsWaitingForInput = (state: RootState): boolean => state.io.i
 export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
   state.io.isWaitingForKeyboardInput
 
-const selectIoDevices = (state: RootState): IoDevices => state.io.devices
+export const selectIoDevices = (state: RootState): IoDevices => state.io.devices
 
-interface IoDeviceView {
+interface IoDeviceActivity {
   isActive: boolean
   toggleActive: () => ReturnType<typeof toggleIoDeviceActive>
 }
 
-const getIoDeviceView = (name: IoDeviceName, devices: IoDevices): IoDeviceView => ({
-  isActive: devices[name].isActive,
-  toggleActive: () => toggleIoDeviceActive(name)
-})
+type IoDeviceActivitySelector = (state: RootState) => IoDeviceActivity
 
-type IoDeviceViewSelector = (state: RootState) => IoDeviceView
-
-export const createIoDeviceViewSelector = (name: IoDeviceName): IoDeviceViewSelector =>
-  createSelector(selectIoDevices, devices => getIoDeviceView(name, devices), {
-    memoizeOptions: {
-      resultEqualityCheck: (prev, curr) => prev.isActive === curr.isActive
-    }
-  })
-
-export const selectIoDeviceViewOptions = createSelector(selectIoDevices, devices =>
-  ioDeviceNames.map(name => ({
-    name,
-    ...getIoDeviceView(name as IoDeviceName, devices)
-  }))
-)
+export const createIoDeviceActivitySelector = (name: IoDeviceName): IoDeviceActivitySelector =>
+  createSelector(
+    (state: RootState) => state.io.devices[name].isActive,
+    isActive => ({
+      isActive,
+      toggleActive: () => toggleIoDeviceActive(name)
+    })
+  )
 
 // TODO: extract more generic selector
 

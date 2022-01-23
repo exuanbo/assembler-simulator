@@ -6,7 +6,7 @@ import { View, CheckMark } from '@/common/components/icons'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
-import { selectIoDeviceViewOptions } from '@/features/io/ioSlice'
+import { ioDeviceNames, selectIoDevices, toggleIoDeviceActive } from '@/features/io/ioSlice'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
@@ -42,7 +42,7 @@ const MemoryMenu = (): JSX.Element => {
 }
 
 const IoMenu = (): JSX.Element => {
-  const ioDeviceViewOptions = useSelector(selectIoDeviceViewOptions)
+  const ioDevices = useSelector(selectIoDevices)
 
   return (
     <MenuItem.Expandable>
@@ -54,14 +54,14 @@ const IoMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded className="mt-1px top-16" innerRef={menuItemsRef}>
-              {ioDeviceViewOptions.map(({ name, isActive, toggleActive }, index) => (
+              {ioDeviceNames.map((name, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(toggleActive())
+                    dispatch(toggleIoDeviceActive(name))
                   }}>
                   <MenuButton>
-                    {isActive ? <CheckMark /> : <span className="w-4" />}
+                    {ioDevices[name].isActive ? <CheckMark /> : <span className="w-4" />}
                     <span>{name}</span>
                   </MenuButton>
                 </MenuItem>

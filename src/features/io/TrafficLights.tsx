@@ -4,7 +4,7 @@ import { useSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
-  createIoDeviceViewSelector,
+  createIoDeviceActivitySelector,
   selectTrafficLightsDataDigits,
   setIoDeviceData
 } from './ioSlice'
@@ -62,8 +62,10 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const selectView = useConstant(() => createIoDeviceViewSelector(IoDeviceName.TrafficLights))
-  const { isActive, toggleActive } = useSelector(selectView)
+  const selectActivity = useConstant(() =>
+    createIoDeviceActivitySelector(IoDeviceName.TrafficLights)
+  )
+  const { isActive, toggleActive } = useSelector(selectActivity)
 
   useEffect(() => {
     if (!isActive) {

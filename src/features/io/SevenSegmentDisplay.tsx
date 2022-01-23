@@ -5,7 +5,7 @@ import { useSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
-  createIoDeviceViewSelector,
+  createIoDeviceActivitySelector,
   selectSevenSegmentDisplayDataDigits,
   setIoDeviceData,
   resetIo
@@ -137,8 +137,10 @@ const segments: readonly JSX.Element[] = [
 const initialDataDigits: readonly number[] = Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  const selectView = useConstant(() => createIoDeviceViewSelector(IoDeviceName.SevenSegmentDisplay))
-  const { isActive, toggleActive } = useSelector(selectView)
+  const selectActivity = useConstant(() =>
+    createIoDeviceActivitySelector(IoDeviceName.SevenSegmentDisplay)
+  )
+  const { isActive, toggleActive } = useSelector(selectActivity)
 
   useEffect(() => {
     if (!isActive) {
