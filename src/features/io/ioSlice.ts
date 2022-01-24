@@ -15,7 +15,10 @@ type IoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
 
 interface IoDevice {
   isActive: boolean
-  data: number
+  /**
+   * 8-bit binary digits
+   */
+  data: number[]
 }
 
 type IoDevices = {
@@ -31,6 +34,8 @@ interface IoState {
   devices: IoDevices
 }
 
+const initialData = new Array(8).fill(0)
+
 const initialState: IoState = {
   inputSignals: initialInputSignals,
   isWaitingForInput: false,
@@ -41,11 +46,11 @@ const initialState: IoState = {
     },
     [IoDeviceName.TrafficLights]: {
       isActive: false,
-      data: 0
+      data: initialData
     },
     [IoDeviceName.SevenSegmentDisplay]: {
       isActive: false,
-      data: 0
+      data: initialData
     }
   }
 }
@@ -81,7 +86,7 @@ export const ioSlice = createSlice({
       action: PayloadAction<{ name: IoDeviceWithData; data: number }>
     ): void => {
       const { name, data } = action.payload
-      state.devices[name].data = data
+      state.devices[name].data = decTo8bitBinDigits(data)
     },
     reset: () => initialState
   }
@@ -112,12 +117,10 @@ export const createIoDeviceActivitySelector = (name: IoDeviceName): IoDeviceActi
     })
   )
 
-type IoDeviceDataDigitsSelector = (state: RootState) => number[]
-
-export const createIoDeviceDataDigitsSelector = (
-  name: IoDeviceWithData
-): IoDeviceDataDigitsSelector =>
-  createSelector((state: RootState) => state.io.devices[name].data, decTo8bitBinDigits)
+export const selectIoDeviceData =
+  (name: IoDeviceWithData) =>
+  (state: RootState): number[] =>
+    state.io.devices[name].data
 
 export const {
   setInputData,

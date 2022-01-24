@@ -1,11 +1,11 @@
 import { memo, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
-import { useLazilyInitializedSelector } from '@/app/hooks'
+import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
   createIoDeviceActivitySelector,
-  createIoDeviceDataDigitsSelector,
+  selectIoDeviceData,
   setIoDeviceData
 } from './ioSlice'
 import { range } from '@/common/utils'
@@ -75,9 +75,7 @@ const TrafficLights = (): JSX.Element | null => {
     }
   }, [isActive])
 
-  const dataDigits = useLazilyInitializedSelector(() =>
-    createIoDeviceDataDigitsSelector(IoDeviceName.TrafficLights)
-  )
+  const data = useSelector(selectIoDeviceData(IoDeviceName.TrafficLights))
 
   return isActive ? (
     <DeviceCard name="Traffic Lights" port={1}>
@@ -89,11 +87,11 @@ const TrafficLights = (): JSX.Element | null => {
         <g>
           <title>Lights Layer</title>
           {range(6).map(index => {
-            const isOn = Boolean(dataDigits[index])
+            const isOn = Boolean(data[index])
             return (
               <circle
                 key={index}
-                cx={index < 3 ? /* Left */ 56 : /* Right */ 264}
+                cx={index < 3 ? 56 : 264}
                 cy={44 + (index % 3) * 32}
                 fill={isOn ? lightColors[index % 3] : 'none'}
                 r="12"
@@ -103,7 +101,7 @@ const TrafficLights = (): JSX.Element | null => {
         </g>
         <g className="font-mono" fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
-          {dataDigits.map((digit, index) => (
+          {data.map((digit, index) => (
             <text key={index} x={104 + index * 16} y="224">
               {digit}
             </text>

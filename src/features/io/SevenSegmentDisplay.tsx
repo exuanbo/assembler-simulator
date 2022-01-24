@@ -1,12 +1,12 @@
 import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
-import { useLazilyInitializedSelector } from '@/app/hooks'
+import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
   createIoDeviceActivitySelector,
-  createIoDeviceDataDigitsSelector,
+  selectIoDeviceData,
   setIoDeviceData,
   resetIo
 } from './ioSlice'
@@ -133,7 +133,7 @@ const segments: readonly JSX.Element[] = [
   <polygon key={13} points="260,68 260,116 252,108 252,76" />
 ]
 
-const initialDataDigits: readonly number[] = Array(14).fill(0)
+const initialData = new Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
   const { isActive, toggleActive } = useLazilyInitializedSelector(() =>
@@ -150,23 +150,21 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     }
   }, [isActive])
 
-  const [dataDigits, setDataDigits] = useState(initialDataDigits)
-  const outputDataDigits = useLazilyInitializedSelector(() =>
-    createIoDeviceDataDigitsSelector(IoDeviceName.SevenSegmentDisplay)
-  )
+  const [data, setData] = useState(initialData)
+  const outputData = useSelector(selectIoDeviceData(IoDeviceName.SevenSegmentDisplay))
 
   useEffect(() => {
-    const newDataDigits = createNextState(dataDigits, draft => {
-      for (let i = outputDataDigits[7]; i < 14; i += 2) {
-        draft[i] = outputDataDigits[Math.floor(i / 2)]
+    const newData = createNextState(data, draft => {
+      for (let i = outputData[7]; i < 14; i += 2) {
+        draft[i] = outputData[Math.floor(i / 2)]
       }
     })
-    setDataDigits(newDataDigits)
-  }, [outputDataDigits])
+    setData(newData)
+  }, [outputData])
 
   useEffect(() => {
     return listenAction(resetIo, () => {
-      setDataDigits(initialDataDigits)
+      setData(initialData)
     })
   }, [])
 
@@ -179,11 +177,11 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
         </g>
         <g fill="lime" stroke="lime" strokeWidth="2">
           <title>Segments Layer</title>
-          {segments.filter((_, index) => dataDigits[index] === 1)}
+          {segments.filter((_, index) => data[index] === 1)}
         </g>
         <g className="font-mono" fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
-          {outputDataDigits.map((digit, index) => (
+          {outputData.map((digit, index) => (
             <text key={index} x={100 + index * 16} y="284">
               {digit}
             </text>
