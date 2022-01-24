@@ -106,21 +106,25 @@ export const selectIoDeviceData =
   (state: RootState): number[] =>
     state.io.devices[name].data
 
+type ToggleVisible = () => ReturnType<typeof toggleIoDeviceVisible>
+
 interface IoDeviceVisibility {
   isVisible: boolean
-  toggleVisible: () => ReturnType<typeof toggleIoDeviceVisible>
+  toggleVisible: ToggleVisible
 }
 
 type IoDeviceVisibilitySelector = (state: RootState) => IoDeviceVisibility
 
-export const createIoDeviceVisibilitySelector = (name: IoDeviceName): IoDeviceVisibilitySelector =>
-  createSelector(
+export const createIoDeviceVisibilitySelector = (
+  name: IoDeviceName
+): IoDeviceVisibilitySelector => {
+  const toggleVisible: ToggleVisible = () => toggleIoDeviceVisible(name)
+
+  return createSelector(
     (state: RootState) => state.io.devices[name].isVisible,
-    isVisible => ({
-      isVisible,
-      toggleVisible: () => toggleIoDeviceVisible(name)
-    })
+    isVisible => ({ isVisible, toggleVisible })
   )
+}
 
 export const {
   setInputData,
