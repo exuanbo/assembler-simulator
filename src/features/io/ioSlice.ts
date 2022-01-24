@@ -11,13 +11,15 @@ export enum IoDeviceName {
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
+type IoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
+
 interface IoDevice {
   isActive: boolean
   data: number
 }
 
 type IoDevices = {
-  [name in Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>]: IoDevice
+  [name in IoDeviceWithData]: IoDevice
 } & {
   [IoDeviceName.VisualDisplayUnit]: Omit<IoDevice, 'data'>
 }
@@ -75,11 +77,8 @@ export const ioSlice = createSlice({
       state.devices[name].isActive = !state.devices[name].isActive
     },
     setDeviceData: (
-      state: IoState,
-      action: PayloadAction<{
-        name: Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
-        data: number
-      }>
+      state,
+      action: PayloadAction<{ name: IoDeviceWithData; data: number }>
     ): void => {
       const { name, data } = action.payload
       state.devices[name].data = data
@@ -113,23 +112,12 @@ export const createIoDeviceActivitySelector = (name: IoDeviceName): IoDeviceActi
     })
   )
 
-// TODO: extract more generic selector
+type IoDeviceDataDigitsSelector = (state: RootState) => number[]
 
-const selectTrafficLightsData = (state: RootState): number =>
-  state.io.devices[IoDeviceName.TrafficLights].data
-
-export const selectTrafficLightsDataDigits = createSelector(
-  selectTrafficLightsData,
-  decTo8bitBinDigits
-)
-
-const selectSevenSegmentDisplayData = (state: RootState): number =>
-  state.io.devices[IoDeviceName.SevenSegmentDisplay].data
-
-export const selectSevenSegmentDisplayDataDigits = createSelector(
-  selectSevenSegmentDisplayData,
-  decTo8bitBinDigits
-)
+export const createIoDeviceDataDigitsSelector = (
+  name: IoDeviceWithData
+): IoDeviceDataDigitsSelector =>
+  createSelector((state: RootState) => state.io.devices[name].data, decTo8bitBinDigits)
 
 export const {
   setInputData,

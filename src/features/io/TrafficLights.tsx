@@ -1,11 +1,11 @@
 import { memo, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
-import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
+import { useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
   createIoDeviceActivitySelector,
-  selectTrafficLightsDataDigits,
+  createIoDeviceDataDigitsSelector,
   setIoDeviceData
 } from './ioSlice'
 import { range } from '@/common/utils'
@@ -75,8 +75,9 @@ const TrafficLights = (): JSX.Element | null => {
     }
   }, [isActive])
 
-  // TODO: use a getter
-  const dataDigits = useSelector(selectTrafficLightsDataDigits)
+  const dataDigits = useLazilyInitializedSelector(() =>
+    createIoDeviceDataDigitsSelector(IoDeviceName.TrafficLights)
+  )
 
   return isActive ? (
     <DeviceCard name="Traffic Lights" port={1}>
