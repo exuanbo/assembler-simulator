@@ -1,7 +1,7 @@
 import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
-import { useSelector } from '@/app/hooks'
+import { useSelector, useLazySelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
@@ -10,7 +10,6 @@ import {
   setIoDeviceData,
   resetIo
 } from './ioSlice'
-import { useConstant } from '@/common/hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -137,10 +136,9 @@ const segments: readonly JSX.Element[] = [
 const initialDataDigits: readonly number[] = Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  const selectActivity = useConstant(() =>
+  const { isActive, toggleActive } = useLazySelector(() =>
     createIoDeviceActivitySelector(IoDeviceName.SevenSegmentDisplay)
   )
-  const { isActive, toggleActive } = useSelector(selectActivity)
 
   useEffect(() => {
     if (!isActive) {
