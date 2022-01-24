@@ -1,12 +1,12 @@
 import DeviceCard from './DeviceCard'
-import { useSelector, useLazySelector } from '@/app/hooks'
+import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { selectVduBuffer } from '@/features/memory/memorySlice'
 import { IoDeviceName, createIoDeviceActivitySelector } from './ioSlice'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
-  const { isActive } = useLazySelector(() =>
+  const { isActive } = useLazilyInitializedSelector(() =>
     createIoDeviceActivitySelector(IoDeviceName.VisualDisplayUnit)
   )
 

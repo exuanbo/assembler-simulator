@@ -1,6 +1,6 @@
 import { memo, useEffect } from 'react'
 import DeviceCard from './DeviceCard'
-import { useSelector, useLazySelector } from '@/app/hooks'
+import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
@@ -61,7 +61,7 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { isActive, toggleActive } = useLazySelector(() =>
+  const { isActive, toggleActive } = useLazilyInitializedSelector(() =>
     createIoDeviceActivitySelector(IoDeviceName.TrafficLights)
   )
 
