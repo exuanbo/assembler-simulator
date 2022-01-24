@@ -13,9 +13,10 @@ import {
 import { InputPort } from './core'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
-  const inputRef = useRef<HTMLInputElement>(null)
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
+
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const focusInput: React.FocusEventHandler<HTMLInputElement> = () => {
     inputRef.current!.focus()

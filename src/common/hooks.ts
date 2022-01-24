@@ -14,10 +14,6 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   const [current, setCurrent] = useState<T | null>(null)
   const [isClicked, setClicked] = useState(false)
 
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
-  }, [])
-
   useEffect(() => {
     if (current === null) {
       return
@@ -34,6 +30,10 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
     }
   }, [current])
 
+  const refCallback = useCallback<RefCallback<T>>(node => {
+    setCurrent(node)
+  }, [])
+
   return [isClicked, refCallback]
 }
 
@@ -42,10 +42,6 @@ export const useHover = <T extends HTMLElement = HTMLElement>(
 ): [isHovered: boolean, hoverRef: RefCallback<T>] => {
   const [current, setCurrent] = useState<T | null>(null)
   const [isHovered, setHovered] = useState(false)
-
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
-  }, [])
 
   const hoverTimeoutIdRef = useRef<number | undefined>()
 
@@ -81,6 +77,10 @@ export const useHover = <T extends HTMLElement = HTMLElement>(
       setHovered(false)
     }
   }, [current, delay])
+
+  const refCallback = useCallback<RefCallback<T>>(node => {
+    setCurrent(node)
+  }, [])
 
   return [isHovered, refCallback]
 }
