@@ -46,16 +46,17 @@ export const memorySlice = createSlice({
 
 export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
 
-export const selectVduBuffer = createSelector(selectMemoryData, memoryData =>
-  memoryData.slice(VDU_START_ADDRESS)
+export const selectVduBufferLazily = createSelector(
+  selectMemoryData,
+  memoryData => () => memoryData.slice(VDU_START_ADDRESS)
 )
 
-export const selectMemoryDataRowsGetter = createSelector(
+export const selectMemoryDataRowsLazily = createSelector(
   selectMemoryData,
   memoryData => () => chunk(0x10, memoryData)
 )
 
-export const selectMemorySourceRowsGetter = createSelector(
+export const selectMemorySourceRowsLazily = createSelector(
   selectAddressToStatementMap,
   addressToStatementMap => () => {
     const memorySource = getSourceFrom(addressToStatementMap)

@@ -3,8 +3,8 @@ import Card from '@/common/components/Card'
 import { useSelector } from '@/app/hooks'
 import {
   MemoryView,
-  selectMemoryDataRowsGetter,
-  selectMemorySourceRowsGetter,
+  selectMemoryDataRowsLazily,
+  selectMemorySourceRowsLazily,
   selectMemoryView
 } from './memorySlice'
 import { MAX_SP } from '@/features/cpu/core'
@@ -29,8 +29,8 @@ interface Props {
 const Memory = ({ className }: Props): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
 
-  const getDataRows = useSelector(selectMemoryDataRowsGetter)
-  const getSourceRows = useSelector(selectMemorySourceRowsGetter)
+  const getDataRows = useSelector(selectMemoryDataRowsLazily)
+  const getSourceRows = useSelector(selectMemorySourceRowsLazily)
 
   const rows = memoryView === MemoryView.Source ? getSourceRows() : getDataRows()
 
