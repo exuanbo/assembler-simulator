@@ -11,9 +11,9 @@ export enum IoDeviceName {
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
-type IoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
+export type NameOfIoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
 
-interface IoDevice {
+export interface IoDevice {
   /**
    * 8-bit binary digits
    */
@@ -22,7 +22,7 @@ interface IoDevice {
 }
 
 type IoDevices = {
-  [name in IoDeviceWithData]: IoDevice
+  [name in NameOfIoDeviceWithData]: IoDevice
 } & {
   [IoDeviceName.VisualDisplayUnit]: Omit<IoDevice, 'data'>
 }
@@ -79,7 +79,7 @@ export const ioSlice = createSlice({
     },
     setDeviceData: (
       state,
-      action: PayloadAction<{ name: IoDeviceWithData; data: number }>
+      action: PayloadAction<{ name: NameOfIoDeviceWithData; data: number }>
     ): void => {
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
@@ -102,7 +102,7 @@ export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
 export const selectIoDevices = (state: RootState): IoDevices => state.io.devices
 
 export const selectIoDeviceData =
-  (name: IoDeviceWithData) =>
+  (name: NameOfIoDeviceWithData) =>
   (state: RootState): number[] =>
     state.io.devices[name].data
 

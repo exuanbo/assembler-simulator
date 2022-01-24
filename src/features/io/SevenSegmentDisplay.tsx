@@ -1,15 +1,9 @@
 import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
-import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
-import { dispatch, listenAction } from '@/app/store'
-import {
-  IoDeviceName,
-  createIoDeviceVisibilitySelector,
-  selectIoDeviceData,
-  setIoDeviceData,
-  resetIo
-} from './ioSlice'
+import { listenAction } from '@/app/store'
+import { IoDeviceName, resetIo } from './ioSlice'
+import { useIoDeviceWithData } from './hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -136,22 +130,9 @@ const segments: readonly JSX.Element[] = [
 const initialData = new Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
-    createIoDeviceVisibilitySelector(IoDeviceName.SevenSegmentDisplay)
-  )
-
-  useEffect(() => {
-    if (!isVisible) {
-      return listenAction(setIoDeviceData, ({ name }) => {
-        if (name === IoDeviceName.SevenSegmentDisplay) {
-          dispatch(toggleVisible())
-        }
-      })
-    }
-  }, [isVisible])
-
   const [data, setData] = useState(initialData)
-  const outputData = useSelector(selectIoDeviceData(IoDeviceName.SevenSegmentDisplay))
+
+  const { data: outputData, isVisible } = useIoDeviceWithData(IoDeviceName.SevenSegmentDisplay)
 
   useEffect(() => {
     const newData = createNextState(data, draft => {

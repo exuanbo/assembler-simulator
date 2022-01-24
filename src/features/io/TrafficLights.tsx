@@ -1,13 +1,7 @@
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 import DeviceCard from './DeviceCard'
-import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
-import { dispatch, listenAction } from '@/app/store'
-import {
-  IoDeviceName,
-  createIoDeviceVisibilitySelector,
-  selectIoDeviceData,
-  setIoDeviceData
-} from './ioSlice'
+import { IoDeviceName } from './ioSlice'
+import { useIoDeviceWithData } from './hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -61,21 +55,7 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
-    createIoDeviceVisibilitySelector(IoDeviceName.TrafficLights)
-  )
-
-  useEffect(() => {
-    if (!isVisible) {
-      return listenAction(setIoDeviceData, ({ name }) => {
-        if (name === IoDeviceName.TrafficLights) {
-          dispatch(toggleVisible())
-        }
-      })
-    }
-  }, [isVisible])
-
-  const data = useSelector(selectIoDeviceData(IoDeviceName.TrafficLights))
+  const { data, isVisible } = useIoDeviceWithData(IoDeviceName.TrafficLights)
 
   return isVisible ? (
     <DeviceCard name="Traffic Lights" port={1}>
