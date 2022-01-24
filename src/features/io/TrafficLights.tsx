@@ -4,7 +4,7 @@ import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
-  createIoDeviceActivitySelector,
+  createIoDeviceVisibilitySelector,
   selectIoDeviceData,
   setIoDeviceData
 } from './ioSlice'
@@ -61,23 +61,23 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { isActive, toggleActive } = useLazilyInitializedSelector(() =>
-    createIoDeviceActivitySelector(IoDeviceName.TrafficLights)
+  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
+    createIoDeviceVisibilitySelector(IoDeviceName.TrafficLights)
   )
 
   useEffect(() => {
-    if (!isActive) {
+    if (!isVisible) {
       return listenAction(setIoDeviceData, ({ name }) => {
         if (name === IoDeviceName.TrafficLights) {
-          dispatch(toggleActive())
+          dispatch(toggleVisible())
         }
       })
     }
-  }, [isActive])
+  }, [isVisible])
 
   const data = useSelector(selectIoDeviceData(IoDeviceName.TrafficLights))
 
-  return isActive ? (
+  return isVisible ? (
     <DeviceCard name="Traffic Lights" port={1}>
       <svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>

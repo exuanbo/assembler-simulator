@@ -6,7 +6,7 @@ import { View, CheckMark } from '@/common/components/icons'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
-import { ioDeviceNames, selectIoDevices, toggleIoDeviceActive } from '@/features/io/ioSlice'
+import { ioDeviceNames, selectIoDevices, toggleIoDeviceVisible } from '@/features/io/ioSlice'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
@@ -58,10 +58,10 @@ const IoMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(toggleIoDeviceActive(name))
+                    dispatch(toggleIoDeviceVisible(name))
                   }}>
                   <MenuButton>
-                    {ioDevices[name].isActive ? <CheckMark /> : <span className="w-4" />}
+                    {ioDevices[name].isVisible ? <CheckMark /> : <span className="w-4" />}
                     <span>{name}</span>
                   </MenuButton>
                 </MenuItem>

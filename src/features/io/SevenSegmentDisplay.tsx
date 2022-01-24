@@ -5,7 +5,7 @@ import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { dispatch, listenAction } from '@/app/store'
 import {
   IoDeviceName,
-  createIoDeviceActivitySelector,
+  createIoDeviceVisibilitySelector,
   selectIoDeviceData,
   setIoDeviceData,
   resetIo
@@ -136,19 +136,19 @@ const segments: readonly JSX.Element[] = [
 const initialData = new Array(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  const { isActive, toggleActive } = useLazilyInitializedSelector(() =>
-    createIoDeviceActivitySelector(IoDeviceName.SevenSegmentDisplay)
+  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
+    createIoDeviceVisibilitySelector(IoDeviceName.SevenSegmentDisplay)
   )
 
   useEffect(() => {
-    if (!isActive) {
+    if (!isVisible) {
       return listenAction(setIoDeviceData, ({ name }) => {
         if (name === IoDeviceName.SevenSegmentDisplay) {
-          dispatch(toggleActive())
+          dispatch(toggleVisible())
         }
       })
     }
-  }, [isActive])
+  }, [isVisible])
 
   const [data, setData] = useState(initialData)
   const outputData = useSelector(selectIoDeviceData(IoDeviceName.SevenSegmentDisplay))
@@ -168,7 +168,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     })
   }, [])
 
-  return isActive ? (
+  return isVisible ? (
     <DeviceCard name="Seven-Segment Display" port={2}>
       <svg viewBox="0 0 320 300" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>

@@ -14,11 +14,11 @@ export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName
 type IoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
 
 interface IoDevice {
-  isActive: boolean
   /**
    * 8-bit binary digits
    */
   data: number[]
+  isVisible: boolean
 }
 
 type IoDevices = {
@@ -42,15 +42,15 @@ const initialState: IoState = {
   isWaitingForKeyboardInput: false,
   devices: {
     [IoDeviceName.VisualDisplayUnit]: {
-      isActive: true
+      isVisible: true
     },
     [IoDeviceName.TrafficLights]: {
-      isActive: false,
-      data: initialData
+      data: initialData,
+      isVisible: false
     },
     [IoDeviceName.SevenSegmentDisplay]: {
-      isActive: false,
-      data: initialData
+      data: initialData,
+      isVisible: false
     }
   }
 }
@@ -77,16 +77,16 @@ export const ioSlice = createSlice({
     setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
       state.isWaitingForKeyboardInput = action.payload
     },
-    toggleDeviceActive: (state: IoState, action: PayloadAction<IoDeviceName>): void => {
-      const name = action.payload
-      state.devices[name].isActive = !state.devices[name].isActive
-    },
     setDeviceData: (
       state,
       action: PayloadAction<{ name: IoDeviceWithData; data: number }>
     ): void => {
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
+    },
+    toggleDeviceVisible: (state: IoState, action: PayloadAction<IoDeviceName>): void => {
+      const name = action.payload
+      state.devices[name].isVisible = !state.devices[name].isVisible
     },
     reset: () => initialState
   }
@@ -101,26 +101,26 @@ export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
 
 export const selectIoDevices = (state: RootState): IoDevices => state.io.devices
 
-interface IoDeviceActivity {
-  isActive: boolean
-  toggleActive: () => ReturnType<typeof toggleIoDeviceActive>
-}
-
-type IoDeviceActivitySelector = (state: RootState) => IoDeviceActivity
-
-export const createIoDeviceActivitySelector = (name: IoDeviceName): IoDeviceActivitySelector =>
-  createSelector(
-    (state: RootState) => state.io.devices[name].isActive,
-    isActive => ({
-      isActive,
-      toggleActive: () => toggleIoDeviceActive(name)
-    })
-  )
-
 export const selectIoDeviceData =
   (name: IoDeviceWithData) =>
   (state: RootState): number[] =>
     state.io.devices[name].data
+
+interface IoDeviceVisibility {
+  isVisible: boolean
+  toggleVisible: () => ReturnType<typeof toggleIoDeviceVisible>
+}
+
+type IoDeviceVisibilitySelector = (state: RootState) => IoDeviceVisibility
+
+export const createIoDeviceVisibilitySelector = (name: IoDeviceName): IoDeviceVisibilitySelector =>
+  createSelector(
+    (state: RootState) => state.io.devices[name].isVisible,
+    isVisible => ({
+      isVisible,
+      toggleVisible: () => toggleIoDeviceVisible(name)
+    })
+  )
 
 export const {
   setInputData,
@@ -128,8 +128,8 @@ export const {
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
-  toggleDeviceActive: toggleIoDeviceActive,
   setDeviceData: setIoDeviceData,
+  toggleDeviceVisible: toggleIoDeviceVisible,
   reset: resetIo
 } = ioSlice.actions
 

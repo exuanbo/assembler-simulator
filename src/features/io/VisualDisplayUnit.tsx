@@ -1,18 +1,18 @@
 import DeviceCard from './DeviceCard'
 import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { selectVduBufferLazily } from '@/features/memory/memorySlice'
-import { IoDeviceName, createIoDeviceActivitySelector } from './ioSlice'
+import { IoDeviceName, createIoDeviceVisibilitySelector } from './ioSlice'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
-  const { isActive } = useLazilyInitializedSelector(() =>
-    createIoDeviceActivitySelector(IoDeviceName.VisualDisplayUnit)
+  const { isVisible } = useLazilyInitializedSelector(() =>
+    createIoDeviceVisibilitySelector(IoDeviceName.VisualDisplayUnit)
   )
 
   const getBuffer = useSelector(selectVduBufferLazily)
 
-  return isActive ? (
+  return isVisible ? (
     <DeviceCard
       className="flex flex-col space-y-1 items-center justify-center"
       name="Visual Display Unit">
