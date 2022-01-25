@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import RegisterValueTableDataCell, { RadixLabel } from './RegisterValueTableCell'
+import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 import type { GeneralPurposeRegisterName } from './core'
 import { sign8, decToHex } from '@/common/utils'
 
@@ -20,15 +20,15 @@ const RegisterTableRow = memo(({ name, value, valueClassName = '' }: Props) => {
   return (
     <tr className="divide-x">
       <td className="bg-gray-50 text-center px-2">{name}</td>
-      <RegisterValueTableDataCell radixLabel={RadixLabel.Hex}>
+      <RegisterValueTableCell radixLabel={RadixLabel.Hex}>
         <span className={`rounded text-sm px-1 ${valueClassName}`}>{hexValue}</span>
-      </RegisterValueTableDataCell>
-      <RegisterValueTableDataCell radixLabel={RadixLabel.Bin}>
+      </RegisterValueTableCell>
+      <RegisterValueTableCell radixLabel={RadixLabel.Bin}>
         <span className="rounded text-sm px-1">{binValue}</span>
-      </RegisterValueTableDataCell>
-      <RegisterValueTableDataCell radixLabel={RadixLabel.Dec}>
+      </RegisterValueTableCell>
+      <RegisterValueTableCell radixLabel={RadixLabel.Dec}>
         <span className="rounded text-sm px-1">{decValue}</span>
-      </RegisterValueTableDataCell>
+      </RegisterValueTableCell>
     </tr>
   )
 })

@@ -11,7 +11,7 @@ interface Props {
   children: ReactNode
 }
 
-const RegisterValueTableDataCell = ({ radixLabel, children }: Props): JSX.Element => (
+const RegisterValueTableCell = ({ radixLabel, children }: Props): JSX.Element => (
   <td className="px-2">
     <div className="flex space-x-1 items-center justify-center">
       <span className="rounded bg-gray-100 text-xs px-1 text-gray-400">{radixLabel}</span>
@@ -20,4 +20,4 @@ const RegisterValueTableDataCell = ({ radixLabel, children }: Props): JSX.Elemen
   </td>
 )
 
-export default RegisterValueTableDataCell
+export default RegisterValueTableCell
