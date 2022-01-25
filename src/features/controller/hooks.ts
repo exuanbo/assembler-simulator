@@ -147,10 +147,7 @@ class Controller {
       try {
         stepResultWithSignals = __step(
           ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
-          {
-            input: selectInputSignals(state),
-            output: {}
-          }
+          selectInputSignals(state)
         )
       } catch (err) {
         this.stopIfRunning(state)

@@ -8,7 +8,7 @@ import {
   initRegisters,
   step as __step
 } from '@/features/cpu/core'
-import { Signals, initialInputSignals } from '@/features/io/core'
+import { InputSignals, initialInputSignals } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
 import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 
@@ -24,16 +24,11 @@ const getMemoryData = (input: string): MemoryData => {
 
 const initialRegisters = initRegisters()
 
-const initialSignals: Signals = {
-  input: initialInputSignals,
-  output: {}
-}
-
 const step = (
   memoryData: MemoryData,
   cpuRegisters: Registers,
-  signals: Signals = initialSignals
-): ReturnType<typeof __step> => __step(memoryData, cpuRegisters, signals)
+  inputSignals: InputSignals = initialInputSignals
+): ReturnType<typeof __step> => __step(memoryData, cpuRegisters, inputSignals)
 
 describe('cpu', () => {
   describe('step', () => {
@@ -629,9 +624,9 @@ describe('cpu', () => {
           step(
             memoryData,
             initialRegisters,
-            createNextState(initialSignals, draft => {
-              draft.input.data.content = 0x61
-              draft.input.data.port = 0x01
+            createNextState(initialInputSignals, draft => {
+              draft.data.content = 0x61
+              draft.data.port = 0x01
             })
           )
         ).toMatchSnapshot()
@@ -642,9 +637,9 @@ describe('cpu', () => {
           step(
             memoryData,
             initialRegisters,
-            createNextState(initialSignals, draft => {
-              draft.input.data.content = 0x61
-              draft.input.data.port = 0x00
+            createNextState(initialInputSignals, draft => {
+              draft.data.content = 0x61
+              draft.data.port = 0x00
             })
           )
         ).toMatchSnapshot()
@@ -680,8 +675,8 @@ end
         step(
           memoryData,
           cpuRegisters,
-          createNextState(initialSignals, draft => {
-            draft.input.interrupt = true
+          createNextState(initialInputSignals, draft => {
+            draft.interrupt = true
           })
         )
       ).toMatchSnapshot()
