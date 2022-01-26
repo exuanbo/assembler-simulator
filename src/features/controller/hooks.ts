@@ -22,6 +22,7 @@ import {
   setAssemblerState,
   resetAssembler
 } from '@/features/assembler/assemblerSlice'
+import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
 import { StepResult, RuntimeError, step as __step } from '@/features/cpu/core'
 import {
@@ -41,6 +42,7 @@ import {
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
+  setVduDataFrom,
   setIoDeviceData,
   resetIo
 } from '@/features/io/ioSlice'
@@ -163,7 +165,7 @@ class Controller {
         // TODO: handle unexpected runtime errors
         throw err
       }
-      const { memoryData, cpuRegisters, signals } = stepResultWithSignals
+      const { memoryData, cpuRegisters, signals, changes } = stepResultWithSignals
       const instructionAdress = cpuRegisters.ip
       const statement = selectAddressToStatementMap(state)[instructionAdress]
       const hasStatement = statement?.machineCode.every(
@@ -173,6 +175,12 @@ class Controller {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
           batch(() => {
             dispatch(setMemoryData(memoryData))
+            if (changes.memoryData !== undefined) {
+              const { address: addressWritten } = changes.memoryData
+              if (addressWritten >= VDU_START_ADDRESS) {
+                dispatch(setVduDataFrom(memoryData))
+              }
+            }
             dispatch(setCpuRegisters(cpuRegisters))
             dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
           })
@@ -309,7 +317,7 @@ export const useController = (): Controller => {
   const controller = useConstant(() => new Controller())
 
   useEffect(() => {
-    return watch(selectRuntimeConfiguration, async () => {
+    return watch(selectRuntimeConfiguration, async (_, { getState }) => {
       const state = getState()
       // `setSuspended` action listener will reset the main loop
       if (!selectIsSuspended(state) && selectIsRunning(state)) {

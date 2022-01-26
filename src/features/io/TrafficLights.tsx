@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import DeviceCard from './DeviceCard'
 import { IoDeviceName } from './ioSlice'
-import { useIoDeviceWithData } from './hooks'
+import { useIoDevice } from './hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -55,7 +55,7 @@ const StaticParts = memo(() => (
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { data, isVisible } = useIoDeviceWithData(IoDeviceName.TrafficLights)
+  const { data, isVisible } = useIoDevice(IoDeviceName.TrafficLights)
 
   return isVisible ? (
     <DeviceCard name="Traffic Lights" port={1}>

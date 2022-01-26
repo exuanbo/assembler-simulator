@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getSourceFrom should return correct source 1`] = `
+exports[`memory getSourceFrom should return correct source 1`] = `
 Array [
   JMP, START, ADD, AL, 01, MOV, BL, [CL], END, END, END, END, END, END, END, END,
   END, END, END, END, END, END, END, END, END, END, END, END, END, END, END, END,
@@ -21,7 +21,7 @@ Array [
 ]
 `;
 
-exports[`getSourceFrom with DB should display number 1`] = `
+exports[`memory getSourceFrom with DB should display number 1`] = `
 Array [
   A0, END, END, END, END, END, END, END, END, END, END, END, END, END, END, END,
   END, END, END, END, END, END, END, END, END, END, END, END, END, END, END, END,
@@ -42,7 +42,7 @@ Array [
 ]
 `;
 
-exports[`getSourceFrom with DB should split string 1`] = `
+exports[`memory getSourceFrom with DB should split string 1`] = `
 Array [
   H, e, l, l, o, ,,  , w, o, r, l, d, !, END, END, END,
   END, END, END, END, END, END, END, END, END, END, END, END, END, END, END, END,
@@ -60,5 +60,14 @@ Array [
   , , , , , , , , , , , , , , , ,
   , , , , , , , , , , , , , , , ,
   , , , , , , , , , , , , , , , ,
+]
+`;
+
+exports[`memory getVduDataFrom should return the VDU data 1`] = `
+Array [
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
 ]
 `;

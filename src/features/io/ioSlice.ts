@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import { InputSignals, InputPort, initialInputSignals } from './core'
+import { MemoryData, initVduData, getVduDataFrom } from '@/features/memory/core'
 import type { RootState } from '@/app/store'
 import { decTo8bitBinDigits } from '@/common/utils'
 
@@ -11,20 +12,13 @@ export enum IoDeviceName {
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
-export type NameOfIoDeviceWithData = Exclude<IoDeviceName, IoDeviceName.VisualDisplayUnit>
-
 export interface IoDevice {
-  /**
-   * 8-bit binary digits
-   */
   data: number[]
   isVisible: boolean
 }
 
 type IoDevices = {
-  [name in NameOfIoDeviceWithData]: IoDevice
-} & {
-  [IoDeviceName.VisualDisplayUnit]: Omit<IoDevice, 'data'>
+  [name in IoDeviceName]: IoDevice
 }
 
 interface IoState {
@@ -34,7 +28,9 @@ interface IoState {
   devices: IoDevices
 }
 
-const initialData = new Array(8).fill(0)
+const initialVduData = initVduData()
+
+const initialData = new Array<number>(8).fill(0)
 
 const initialState: IoState = {
   inputSignals: initialInputSignals,
@@ -42,6 +38,7 @@ const initialState: IoState = {
   isWaitingForKeyboardInput: false,
   devices: {
     [IoDeviceName.VisualDisplayUnit]: {
+      data: initialVduData,
       isVisible: true
     },
     [IoDeviceName.TrafficLights]: {
@@ -77,10 +74,11 @@ export const ioSlice = createSlice({
     setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
       state.isWaitingForKeyboardInput = action.payload
     },
-    setDeviceData: (
-      state,
-      action: PayloadAction<{ name: NameOfIoDeviceWithData; data: number }>
-    ): void => {
+    setVduDataFrom: (state, action: PayloadAction<MemoryData>): void => {
+      const memoryData = action.payload
+      state.devices[IoDeviceName.VisualDisplayUnit].data = getVduDataFrom(memoryData)
+    },
+    setDeviceData: (state, action: PayloadAction<{ name: IoDeviceName; data: number }>): void => {
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
     },
@@ -102,13 +100,13 @@ export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
 export const selectIoDevices = (state: RootState): IoDevices => state.io.devices
 
 export const selectIoDeviceData =
-  (name: NameOfIoDeviceWithData) =>
+  (name: IoDeviceName) =>
   (state: RootState): number[] =>
     state.io.devices[name].data
 
 type ToggleVisible = () => ReturnType<typeof toggleIoDeviceVisible>
 
-interface IoDeviceVisibility {
+export interface IoDeviceVisibility {
   isVisible: boolean
   toggleVisible: ToggleVisible
 }
@@ -132,6 +130,7 @@ export const {
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
+  setVduDataFrom,
   setDeviceData: setIoDeviceData,
   toggleDeviceVisible: toggleIoDeviceVisible,
   reset: resetIo

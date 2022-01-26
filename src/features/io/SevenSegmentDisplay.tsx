@@ -3,7 +3,7 @@ import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
 import { listenAction } from '@/app/store'
 import { IoDeviceName, resetIo } from './ioSlice'
-import { useIoDeviceWithData } from './hooks'
+import { useIoDevice } from './hooks'
 import { range } from '@/common/utils'
 
 const StaticParts = memo(() => (
@@ -127,12 +127,12 @@ const segments: readonly JSX.Element[] = [
   <polygon key={13} points="260,68 260,116 252,108 252,76" />
 ]
 
-const initialData = new Array(14).fill(0)
+const initialData = new Array<number>(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
   const [data, setData] = useState(initialData)
 
-  const { data: outputData, isVisible } = useIoDeviceWithData(IoDeviceName.SevenSegmentDisplay)
+  const { data: outputData, isVisible } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
   useEffect(() => {
     const newData = createNextState(data, draft => {

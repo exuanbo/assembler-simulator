@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
-import { MemoryData, VDU_START_ADDRESS, initData, initDataFrom, getSourceFrom } from './core'
+import { MemoryData, initData, initDataFrom, getSourceFrom } from './core'
 import type { AddressToMachineCodeMap } from '@/features/assembler/core'
 import type { RootState } from '@/app/store'
 import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
@@ -45,11 +45,6 @@ export const memorySlice = createSlice({
 })
 
 export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
-
-export const selectVduBufferLazily = createSelector(
-  selectMemoryData,
-  memoryData => () => memoryData.slice(VDU_START_ADDRESS)
-)
 
 export const selectMemoryDataRowsLazily = createSelector(
   selectMemoryData,
