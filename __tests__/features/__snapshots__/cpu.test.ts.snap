@@ -1,8 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`cpu step should call INT if interrupt flag is set and receives an interrupt signal 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 80,
+    "sp": 190,
+    "sr": Array [0, 0, 0, 1,],
+  },
+  "memoryData": Array [
     C0, 03, 50, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -20,13 +26,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 80,
-    "sp": 190,
-    "sr": Array [0, 0, 0, 1,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -36,12 +36,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with ADD should only set sign flag 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [129, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -59,13 +65,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [129, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -75,12 +75,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with ADD should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [3, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     B0, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -98,13 +104,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [3, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -114,51 +114,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with ADD should operate on two registers 1`] = `
-Array [
-  Array [
-    A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-  ],
-  Object {
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [3, 2, 0, 0,],
     "ip": 3,
     "sp": 191,
     "sr": Array [0, 0, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with ADD should set both overflow and sign flag 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -176,28 +143,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with ADD should set both overflow and sign flag 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [128, 1, 0, 0,],
     "ip": 3,
     "sp": 191,
     "sr": Array [0, 1, 1, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with ADD should set only zero flag 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -215,13 +182,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [1, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -231,12 +192,57 @@ Array [
     },
     "output": Object {},
   },
-]
+}
+`;
+
+exports[`cpu step with ADD should set only zero flag 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [1, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  ],
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
 `;
 
 exports[`cpu step with AND should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     BA, 00, 03, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -254,13 +260,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -270,12 +270,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with AND should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 3, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     AA, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -293,13 +299,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 3, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -309,12 +309,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with CALL should jump to address 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 80,
+    "sp": 190,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     CA, 50, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -332,13 +338,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 80,
-    "sp": 190,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -348,12 +348,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with CLI should unset interrupt flag 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     FD, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -371,13 +377,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -387,12 +387,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with CLO should create closeWindows signal 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     FE, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -410,13 +416,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -428,12 +428,18 @@ Array [
       "closeWindows": true,
     },
   },
-]
+}
 `;
 
 exports[`cpu step with CMP should compare register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     DB, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -451,13 +457,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -467,12 +467,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with CMP should compare register and number from address 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [3, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     DC, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -490,13 +496,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [3, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -506,12 +506,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with CMP should compare two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [1, 0, 0, 0,],
+  },
+  "memoryData": Array [
     DA, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -529,13 +535,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [1, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -545,12 +545,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with DEC should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A5, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -568,13 +574,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -584,12 +584,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with DIV should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     B3, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -607,13 +613,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -623,12 +623,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with DIV should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 2, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A3, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -646,13 +652,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 2, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -662,12 +662,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with END should set halted 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -685,13 +691,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -703,12 +703,18 @@ Array [
       "halted": true,
     },
   },
-]
+}
 `;
 
 exports[`cpu step with IN should create signal with input port 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 0,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     F0, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -726,13 +732,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 0,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -744,12 +744,18 @@ Array [
       "requiredInputDataPort": 0,
     },
   },
-]
+}
 `;
 
 exports[`cpu step with IN should create signal with required input port if provided is wrong 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 0,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     F0, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -767,13 +773,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 0,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": 97,
@@ -785,12 +785,18 @@ Array [
       "requiredInputDataPort": 0,
     },
   },
-]
+}
 `;
 
 exports[`cpu step with IN should read input from signal and move to AL 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [97, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     F0, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -808,13 +814,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [97, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": 97,
@@ -824,12 +824,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with INC should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [2, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A4, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -847,13 +853,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [2, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -863,12 +863,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with INT should jump to address 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 80,
+    "sp": 190,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     CC, 03, 00, 50, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -886,13 +892,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 80,
-    "sp": 190,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -902,12 +902,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with IRET should return 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 16,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     CD, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -925,13 +931,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 16,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -941,12 +941,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JMP should jump backward 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 0,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A0, 00, 01, C0, FD, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -964,13 +970,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 0,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -980,12 +980,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JMP should jump forward 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 5,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     C0, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1003,13 +1009,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 5,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1019,12 +1019,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JNO should jump 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 5,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     C6, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1042,13 +1048,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 5,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1058,12 +1058,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JNO should not jump 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 1, 0, 0,],
+  },
+  "memoryData": Array [
     C6, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1081,13 +1087,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 1, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1097,12 +1097,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JNS should jump 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 5,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     C4, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1120,13 +1126,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 5,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1136,52 +1136,19 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with JNS should not jump 1`] = `
-Array [
-  Array [
-    C4, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-  ],
-  Object {
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
     "sp": 191,
     "sr": Array [0, 0, 1, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with JNZ should jump 1`] = `
-Array [
-  Array [
-    C2, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+  "memoryData": Array [
+    C4, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1198,28 +1165,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with JNZ should jump 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
     "sp": 191,
     "sr": Array [0, 0, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with JNZ should not jump 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     C2, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1237,13 +1204,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [1, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1253,13 +1214,19 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
-exports[`cpu step with JO should jump 1`] = `
-Array [
-  Array [
-    C5, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+exports[`cpu step with JNZ should not jump 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [1, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    C2, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1276,28 +1243,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with JO should jump 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
     "sp": 191,
     "sr": Array [0, 1, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with JO should not jump 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     C5, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1315,13 +1282,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1331,13 +1292,19 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
-exports[`cpu step with JS should jump 1`] = `
-Array [
-  Array [
-    C3, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+exports[`cpu step with JO should not jump 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    C5, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1354,28 +1321,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with JS should jump 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
     "sp": 191,
     "sr": Array [0, 0, 1, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with JS should not jump 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     C3, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1393,13 +1360,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1409,13 +1370,19 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
-exports[`cpu step with JZ should jump 1`] = `
-Array [
-  Array [
-    C1, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+exports[`cpu step with JS should not jump 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    C3, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1432,28 +1399,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with JZ should jump 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
     "sp": 191,
     "sr": Array [1, 0, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with JZ should not jump 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     C1, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1471,13 +1438,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1487,12 +1448,57 @@ Array [
     },
     "output": Object {},
   },
-]
+}
+`;
+
+exports[`cpu step with JZ should not jump 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    C1, 05, A0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  ],
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
 `;
 
 exports[`cpu step with MOD should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [2, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     B6, 00, 03, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1510,13 +1516,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [2, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1526,12 +1526,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOD should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [2, 3, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     A6, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1549,13 +1555,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [2, 3, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1565,12 +1565,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOV should move number from address to register 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [2, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     D1, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1588,13 +1594,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [2, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1604,12 +1604,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOV should move number from register address to register 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 2, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     D3, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1627,13 +1633,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 2, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1643,12 +1643,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOV should move number from register to address 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     D2, 03, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1666,13 +1672,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1682,12 +1682,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOV should move number from register to register address 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [3, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     D4, 00, 01, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1705,13 +1711,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [3, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1721,12 +1721,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MOV should move number to register 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     D0, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1744,13 +1750,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1760,12 +1760,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MUL should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [252, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     B2, 00, 04, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1783,13 +1789,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [252, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1799,12 +1799,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with MUL should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [252, 4, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     A2, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1822,13 +1828,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [252, 4, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1838,12 +1838,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with NOP should do nothing 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     FF, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1861,13 +1867,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1877,12 +1877,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with NOT should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [254, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     AD, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1900,13 +1906,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [254, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1916,12 +1916,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with OR should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [7, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     BB, 00, 03, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1939,13 +1945,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [7, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1955,12 +1955,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with OR should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [7, 3, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     AB, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -1978,13 +1984,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [7, 3, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -1994,12 +1994,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with OUT should create signal with output port 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     F1, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2017,13 +2023,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2038,12 +2038,18 @@ Array [
       },
     },
   },
-]
+}
 `;
 
 exports[`cpu step with POP should pop to register from stack 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     E1, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2061,13 +2067,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2077,12 +2077,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with POPF should restore SR from stack 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 191,
+    "sr": Array [0, 1, 0, 1,],
+  },
+  "memoryData": Array [
     EB, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2100,13 +2106,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 191,
-    "sr": Array [0, 1, 0, 1,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2116,12 +2116,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with PUSH should push to stack 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 2,
+    "sp": 190,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     E0, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2139,13 +2145,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 2,
-    "sp": 190,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2155,12 +2155,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with PUSHF should push SR to stack 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 190,
+    "sr": Array [0, 1, 0, 1,],
+  },
+  "memoryData": Array [
     EA, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2178,13 +2184,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 190,
-    "sr": Array [0, 1, 0, 1,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2194,12 +2194,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with RET should return 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 16,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     CB, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2217,13 +2223,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 16,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2233,12 +2233,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with ROL should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [3, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     9A, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2256,13 +2262,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [3, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2272,12 +2272,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with ROR should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [192, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     9B, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2295,13 +2301,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [192, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2311,12 +2311,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with SHL should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [2, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     9C, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2334,13 +2340,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [2, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2350,12 +2350,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with SHR should operate correctly 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 2,
+    "sp": 191,
+    "sr": Array [1, 0, 0, 0,],
+  },
+  "memoryData": Array [
     9D, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2373,13 +2379,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 2,
-    "sp": 191,
-    "sr": Array [1, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2389,12 +2389,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with STI should set interrupt flag 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 0, 0, 0,],
+    "ip": 1,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 1,],
+  },
+  "memoryData": Array [
     FC, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2412,13 +2418,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 0, 0, 0,],
-    "ip": 1,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 1,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2428,12 +2428,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with SUB should only set sign flag 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [128, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 1, 0,],
+  },
+  "memoryData": Array [
     A1, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2451,13 +2457,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [128, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 1, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2467,12 +2467,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with SUB should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [1, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     B1, 00, 02, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2490,13 +2496,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [1, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2506,51 +2506,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with SUB should operate on two registers 1`] = `
-Array [
-  Array [
-    A1, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
-  ],
-  Object {
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [1, 2, 0, 0,],
     "ip": 3,
     "sp": 191,
     "sr": Array [0, 0, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with SUB should set only overflow flag 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     A1, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2568,28 +2535,28 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
+`;
+
+exports[`cpu step with SUB should set only overflow flag 1`] = `
+Object {
+  "cpuRegisters": Object {
     "gpr": Array [127, 1, 0, 0,],
     "ip": 3,
     "sp": 191,
     "sr": Array [0, 1, 0, 0,],
   },
-  Object {
-    "input": Object {
-      "data": Object {
-        "content": null,
-        "port": null,
-      },
-      "interrupt": false,
-    },
-    "output": Object {},
-  },
-]
-`;
-
-exports[`cpu step with SUB should set only zero flag 1`] = `
-Array [
-  Array [
+  "memoryData": Array [
     A1, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2607,13 +2574,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [0, 1, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [1, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2623,12 +2584,57 @@ Array [
     },
     "output": Object {},
   },
-]
+}
+`;
+
+exports[`cpu step with SUB should set only zero flag 1`] = `
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [0, 1, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [1, 0, 0, 0,],
+  },
+  "memoryData": Array [
+    A1, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+    20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+  ],
+  "signals": Object {
+    "input": Object {
+      "data": Object {
+        "content": null,
+        "port": null,
+      },
+      "interrupt": false,
+    },
+    "output": Object {},
+  },
+}
 `;
 
 exports[`cpu step with XOR should operate on register and number 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [6, 0, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     BC, 00, 03, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2646,13 +2652,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [6, 0, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2662,12 +2662,18 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;
 
 exports[`cpu step with XOR should operate on two registers 1`] = `
-Array [
-  Array [
+Object {
+  "cpuRegisters": Object {
+    "gpr": Array [6, 3, 0, 0,],
+    "ip": 3,
+    "sp": 191,
+    "sr": Array [0, 0, 0, 0,],
+  },
+  "memoryData": Array [
     AC, 00, 01, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -2685,13 +2691,7 @@ Array [
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
     20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
   ],
-  Object {
-    "gpr": Array [6, 3, 0, 0,],
-    "ip": 3,
-    "sp": 191,
-    "sr": Array [0, 0, 0, 0,],
-  },
-  Object {
+  "signals": Object {
     "input": Object {
       "data": Object {
         "content": null,
@@ -2701,5 +2701,5 @@ Array [
     },
     "output": Object {},
   },
-]
+}
 `;

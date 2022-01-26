@@ -146,7 +146,10 @@ class Controller {
       let stepResultWithSignals: ReturnType<typeof __step>
       try {
         stepResultWithSignals = __step(
-          ...(lastStepResult ?? [selectMemoryData(state), selectCpuRegisters(state)]),
+          lastStepResult ?? {
+            memoryData: selectMemoryData(state),
+            cpuRegisters: selectCpuRegisters(state)
+          },
           selectInputSignals(state)
         )
       } catch (err) {
@@ -160,7 +163,7 @@ class Controller {
         // TODO: handle unexpected runtime errors
         throw err
       }
-      const [memoryData, cpuRegisters, signals] = stepResultWithSignals
+      const { memoryData, cpuRegisters, signals } = stepResultWithSignals
       const instructionAdress = cpuRegisters.ip
       const statement = selectAddressToStatementMap(state)[instructionAdress]
       const hasStatement = statement?.machineCode.every(
@@ -266,7 +269,7 @@ class Controller {
           this.stop()
         }
       }
-      resolve([memoryData, cpuRegisters])
+      resolve({ memoryData, cpuRegisters })
     })
   }
 

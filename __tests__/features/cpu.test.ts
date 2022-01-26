@@ -28,7 +28,7 @@ const step = (
   memoryData: MemoryData,
   cpuRegisters: Registers,
   inputSignals: InputSignals = initialInputSignals
-): ReturnType<typeof __step> => __step(memoryData, cpuRegisters, inputSignals)
+): ReturnType<typeof __step> => __step({ memoryData, cpuRegisters }, inputSignals)
 
 describe('cpu', () => {
   describe('step', () => {

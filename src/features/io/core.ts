@@ -7,7 +7,7 @@ export enum InputPort {
   NumericKeypad = 8
 }
 
-type InputData =
+export type InputData =
   | {
       content: number
       port: InputPort
