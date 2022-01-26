@@ -1,4 +1,5 @@
 import { createNextState } from '@reduxjs/toolkit'
+import type { StepChanges } from './changes'
 import {
   add,
   substract,
@@ -160,6 +161,7 @@ export interface StepResult {
 
 interface StepOutput extends StepResult {
   signals: Signals
+  changes: StepChanges
 }
 
 export const step = (__stepResult: StepResult, __inputSignals: InputSignals): StepOutput => {
@@ -186,12 +188,19 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
     output: __outputSignals
   }
 
+  const changes: StepChanges = {}
+
   const stepResult: StepResult = createNextState(__stepResult, ({ memoryData, cpuRegisters }) => {
     const loadFromMemory = (address: number): number => {
       return memoryData[address]
     }
     const storeToMemory = (address: number, machineCode: number): void => {
       memoryData[address] = machineCode
+      changes.memoryData = {
+        address,
+        from: memoryData[address],
+        to: machineCode
+      }
     }
 
     const getGpr = (register: GeneralPurposeRegister): number => cpuRegisters.gpr[register]
@@ -625,5 +634,5 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
     }
   })
 
-  return { ...stepResult, signals }
+  return { ...stepResult, signals, changes }
 }
