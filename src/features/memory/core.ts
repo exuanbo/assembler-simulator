@@ -1,12 +1,19 @@
 import type { AddressToMachineCodeMap, AddressToStatementMap } from '@/features/assembler/core'
-import { Mnemonic } from '@/common/constants'
+import { Mnemonic, SPACE_ASCII } from '@/common/constants'
 
-export type MemoryData = number[]
+export const MEMORY_SIZE = 0x100
 
 export const VDU_START_ADDRESS = 0xc0
 
+type VduData = number[]
+
+export const initVduData = (): VduData =>
+  new Array<number>(MEMORY_SIZE - VDU_START_ADDRESS).fill(SPACE_ASCII)
+
+export type MemoryData = number[]
+
 export const initData = (): MemoryData =>
-  Array.from({ length: 0x100 }, (_, address) => (address < VDU_START_ADDRESS ? 0 : 0x20))
+  new Array<number>(VDU_START_ADDRESS).fill(0).concat(initVduData())
 
 export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
   const data = initData()
@@ -17,7 +24,7 @@ export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
 }
 
 export const getSourceFrom = (map: AddressToStatementMap): string[] => {
-  const source: string[] = Array.from({ length: 0x100 }, (_, address) =>
+  const source: string[] = Array.from({ length: MEMORY_SIZE }, (_, address) =>
     address < VDU_START_ADDRESS ? Mnemonic.END : ''
   )
   for (const address in map) {

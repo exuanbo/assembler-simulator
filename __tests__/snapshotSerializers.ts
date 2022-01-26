@@ -1,3 +1,4 @@
+import { MEMORY_SIZE } from '@/features/memory/core'
 import { decToHex, chunk } from '@/common/utils'
 
 const SEPARATOR = ', '
@@ -14,7 +15,7 @@ export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
-  test: val => isArrayOf('number', 'string')(val) && val.length === 0x100,
+  test: val => isArrayOf('number', 'string')(val) && val.length === MEMORY_SIZE,
   serialize: (val: Array<number | string>, _config, indentation) => `Array [
 ${chunk(0x10, val)
   .map(
