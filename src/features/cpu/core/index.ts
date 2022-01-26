@@ -121,15 +121,8 @@ export const getSrValue = (sr: StatusRegister): number =>
   sr.reduce((value, flagStatus, index) => value + flagStatus * 0b10 ** (index + 1), 0)
 
 const getSrFrom = (value: number): StatusRegister => {
-  const valueStr = value.toString(2).padStart(5, '0')
-  return valueStr
-    .slice(-5, -1)
-    .split('')
-    .map(Number)
-    .reduceRight<FlagStatus[]>(
-      (result, flagStatus) => [...result, flagStatus],
-      []
-    ) as StatusRegister
+  const valueStr = value.toString(2).padStart(5, '0') // I S O Z *
+  return valueStr.slice(-5, -1).split('').map(Number).reverse() as StatusRegister
 }
 
 const checkOperationResult = (

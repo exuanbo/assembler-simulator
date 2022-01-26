@@ -565,14 +565,14 @@ describe('cpu', () => {
     it('with PUSHF should push SR to stack', () => {
       const memoryData = getMemoryData('pushf end')
       const cpuRegisters = createNextState(initialRegisters, draft => {
-        draft.sr = [0, 1, 1, 0]
+        draft.sr = [0, 1, 0, 1]
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })
 
     it('with POPF should restore SR from stack', () => {
       const memoryData = createNextState(getMemoryData('popf end'), draft => {
-        draft[0xbf] = 0x0c
+        draft[0xbf] = 0x14
       })
       const cpuRegisters = createNextState(initialRegisters, draft => {
         draft.sp = 0xbf - 1
