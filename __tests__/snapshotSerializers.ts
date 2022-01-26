@@ -9,7 +9,8 @@ const isArrayOf =
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: val => isArrayOf('number', 'boolean')(val) && val.length <= 4,
-  serialize: (val: Array<number | boolean>) => `Array [${val.join(SEPARATOR)},]`
+  serialize: (val: Array<number | boolean>) =>
+    `Array [${val.join(SEPARATOR)}${val.length > 0 ? ',' : ''}]`
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
