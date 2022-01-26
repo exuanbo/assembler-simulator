@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 import type { GeneralPurposeRegisterName } from './core'
-import { sign8, decToHex } from '@/common/utils'
+import { sign8, decToBin, decToHex } from '@/common/utils'
 
 type RegisterName = GeneralPurposeRegisterName | 'IP' | 'SP' | 'SR'
 
@@ -12,9 +12,10 @@ interface Props {
 }
 
 const RegisterTableRow = memo(({ name, value, valueClassName = '' }: Props) => {
-  const signedValue = sign8(value)
   const hexValue = decToHex(value)
-  const binValue = value.toString(2).padStart(8, '0')
+  const binValue = decToBin(value)
+
+  const signedValue = sign8(value)
   const decValue = `${signedValue >= 0 ? '+' : '-'}${`${Math.abs(signedValue)}`.padStart(3, '0')}`
 
   return (

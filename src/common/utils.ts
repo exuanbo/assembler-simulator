@@ -24,12 +24,13 @@ export const sign8 = (unsigned: number): number =>
 
 export const unsign8 = (signed: number): number => (signed < 0 ? signed + 0xff + 1 : signed)
 
-export const hexToDec = (str: string): number => Number.parseInt(str, 16)
+export const decToBin = (num: number): string => num.toString(2).padStart(8, '0')
 
 export const decToHex = (num: number): string => num.toString(16).padStart(2, '0').toUpperCase()
 
-export const decTo8bitBinDigits = (num: number): number[] =>
-  num.toString(2).padStart(8, '0').split('').map(Number)
+export const decTo8bitBinDigits = (num: number): number[] => decToBin(num).split('').map(Number)
+
+export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 const PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP = /^[["](.*)["\]]$/
 

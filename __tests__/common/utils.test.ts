@@ -1,4 +1,5 @@
 import {
+  decToBin,
   decTo8bitBinDigits,
   range,
   asciiToChars,
@@ -8,6 +9,13 @@ import {
 } from '@/common/utils'
 
 describe('utils', () => {
+  describe('decToBin', () => {
+    it('should convert decimal to binary', () => {
+      expect(decToBin(0)).toBe('00000000')
+      expect(decToBin(255)).toBe('11111111')
+    })
+  })
+
   describe('decTo8bitBinDigits', () => {
     it('should convert decimal to 8 bit binary digits', () => {
       expect(decTo8bitBinDigits(0)).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
