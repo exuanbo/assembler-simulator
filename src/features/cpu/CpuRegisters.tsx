@@ -7,7 +7,11 @@ import {
   selectCpuPointerRegisters,
   selectStatusRegisterValue
 } from './cpuSlice'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName } from './core'
+import {
+  GeneralPurposeRegister,
+  GeneralPurposeRegisterName,
+  SpecialPurposeRegisterName
+} from './core'
 import { compareArrayWithSameLength } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
@@ -47,9 +51,17 @@ const CpuRegisters = ({ className }: Props): JSX.Element => {
         </table>
         <table className="flex-1">
           <tbody className="divide-y">
-            <RegisterTableRow name="IP" value={ip} valueClassName="bg-green-100" />
-            <RegisterTableRow name="SP" value={sp} valueClassName="bg-blue-100" />
-            <RegisterTableRow name="SR" value={srValue} />
+            <RegisterTableRow
+              name={SpecialPurposeRegisterName.IP}
+              value={ip}
+              valueClassName="bg-green-100"
+            />
+            <RegisterTableRow
+              name={SpecialPurposeRegisterName.SP}
+              value={sp}
+              valueClassName="bg-blue-100"
+            />
+            <RegisterTableRow name={SpecialPurposeRegisterName.SR} value={srValue} />
             <FlagIndicatorTableRow />
           </tbody>
         </table>

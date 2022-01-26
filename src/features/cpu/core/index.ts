@@ -69,6 +69,14 @@ export type StatusRegister = [
   interrupt: FlagStatus
 ]
 
+export enum SpecialPurposeRegisterName {
+  IP = 'IP',
+  SP = 'SP',
+  SR = 'SR'
+}
+
+export type RegisterName = GeneralPurposeRegisterName | SpecialPurposeRegisterName
+
 export interface Registers {
   gpr: GeneralPurposeRegisters
   ip: InstructionPointer
