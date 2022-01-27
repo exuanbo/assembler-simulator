@@ -171,15 +171,19 @@ class Controller {
       const hasStatement = statement?.machineCode.every(
         (machineCode, index) => machineCode === memoryData[instructionAdress + index]
       )
+      let isVduBufferChanged = false
+      if (changes.memoryData !== undefined) {
+        const { address: addressChanged } = changes.memoryData
+        if (addressChanged >= VDU_START_ADDRESS) {
+          isVduBufferChanged = true
+        }
+      }
       const dispatchChanges = (): void => {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
           batch(() => {
             dispatch(setMemoryData(memoryData))
-            if (changes.memoryData !== undefined) {
-              const { address: addressWritten } = changes.memoryData
-              if (addressWritten >= VDU_START_ADDRESS) {
-                dispatch(setVduDataFrom(memoryData))
-              }
+            if (isVduBufferChanged) {
+              dispatch(setVduDataFrom(memoryData))
             }
             dispatch(setCpuRegisters(cpuRegisters))
             dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
@@ -188,7 +192,7 @@ class Controller {
         })
       }
       let willDispatchChanges = false
-      if (this.dispatchChangesTimeoutId === undefined) {
+      if (this.dispatchChangesTimeoutId === undefined || isVduBufferChanged) {
         willDispatchChanges = true
         dispatchChanges()
       }
