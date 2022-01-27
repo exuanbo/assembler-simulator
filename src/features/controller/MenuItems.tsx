@@ -5,7 +5,7 @@ interface Props {
 }
 
 const MenuItems = ({ children }: Props): JSX.Element => (
-  <div className="divide-y border bg-gray-50 shadow-lg -ml-1px top-8 fixed">{children}</div>
+  <div className="divide-y border bg-gray-50 shadow-md -ml-1px top-8 fixed">{children}</div>
 )
 
 interface ExpandedProps {
@@ -23,7 +23,7 @@ MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JS
   }
 
   return (
-    <div ref={refCallback} className={`divide-y border bg-gray-50 shadow-lg fixed ${className}`}>
+    <div ref={refCallback} className={`divide-y border bg-gray-50 shadow-md fixed ${className}`}>
       {children}
     </div>
   )
