@@ -18,11 +18,11 @@ import { Mnemonic, MnemonicToOperandsCountMap, Opcode } from '@/common/constants
 import { hexToDec, stringToAscii, call } from '@/common/utils'
 
 interface BaseNode {
-  readonly range: SourceRange
+  range: SourceRange
 }
 
 export interface Label extends BaseNode {
-  readonly identifier: string
+  identifier: string
 }
 
 const createLabel = ({ value, range }: Token): Label => {
@@ -33,7 +33,7 @@ const createLabel = ({ value, range }: Token): Label => {
 }
 
 interface Instruction extends BaseNode {
-  readonly mnemonic: string
+  mnemonic: string
   opcode: Opcode | null
 }
 
@@ -55,11 +55,10 @@ export enum OperandType {
 }
 
 export interface Operand<T extends OperandType = OperandType> extends BaseNode {
-  readonly type: T
+  type: T
   value: number | number[] | undefined
-
-  readonly rawValue: string
-  readonly raw: string
+  rawValue: string
+  raw: string
 }
 
 const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
@@ -88,10 +87,10 @@ const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<
 }
 
 export interface Statement extends BaseNode {
-  readonly label: Label | null
-  readonly instruction: Instruction
-  readonly operands: Operand[]
-  readonly machineCode: number[]
+  label: Label | null
+  instruction: Instruction
+  operands: Operand[]
+  machineCode: number[]
 }
 
 const createStatement = (

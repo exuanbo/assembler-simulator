@@ -17,7 +17,7 @@ interface LabelToAddressMap {
   [labelIdentifier: string]: number
 }
 
-const getLabelToAddressMap = (statements: Statement[]): Readonly<LabelToAddressMap> => {
+const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   let address = 0
   const labelToAddressMap: LabelToAddressMap = {}
   statements.forEach((statement, index) => {
@@ -49,10 +49,7 @@ export interface AddressToStatementMap {
   [address: number]: Statement
 }
 
-export type AssembleResult = readonly [
-  Readonly<AddressToMachineCodeMap>,
-  Readonly<AddressToStatementMap>
-]
+export type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
 
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))

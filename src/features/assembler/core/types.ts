@@ -1,8 +1,8 @@
 import type { Mnemonic } from '@/common/constants'
 
 export interface SourceRange {
-  readonly from: number
-  readonly to: number
+  from: number
+  to: number
 }
 
 export type MnemonicWithOneOperand =

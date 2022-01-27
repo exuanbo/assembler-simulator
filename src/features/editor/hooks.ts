@@ -180,8 +180,8 @@ export enum MessageType {
 }
 
 interface StatusMessage {
-  readonly type: MessageType
-  readonly content: string
+  type: MessageType
+  content: string
 }
 
 export const useStatusMessage = (): StatusMessage | null => {

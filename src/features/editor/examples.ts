@@ -1,6 +1,6 @@
 interface Example {
-  readonly title: string
-  readonly content: string
+  title: string
+  content: string
 }
 
 export const examples: readonly Example[] = [
