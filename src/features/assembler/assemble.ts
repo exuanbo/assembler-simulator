@@ -28,14 +28,12 @@ export const assemble = (input: string): void => {
     throw err
   }
   const [addressToOpcodeMap, addressToStatementMap] = assembleResult
+  const statement = addressToStatementMap[0] as Statement | undefined
   batch(() => {
     dispatch(setMemoryDataFrom(addressToOpcodeMap))
     dispatch(resetCpu())
     dispatch(setAssemblerState(addressToStatementMap))
-    const firstStatement = addressToStatementMap[0] as Statement | undefined
-    dispatch(
-      firstStatement === undefined ? clearEditorActiveRange() : setEditorActiveRange(firstStatement)
-    )
+    dispatch(statement === undefined ? clearEditorActiveRange() : setEditorActiveRange(statement))
   })
 }
 
