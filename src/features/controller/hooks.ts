@@ -61,9 +61,9 @@ class Controller {
   // it must have been assigned in `step` when it is called in `restoreIfSuspended`
   private unsubscribeSetSuspended!: () => void
 
-  public readonly assemble = assembleInputFromState
+  public assemble = assembleInputFromState
 
-  public readonly runOrStop = async (): Promise<void> => {
+  public runOrStop = async (): Promise<void> => {
     const state = getState()
     if (this.stopIfRunning(state)) {
       this.restoreIfSuspended(state)
@@ -129,7 +129,7 @@ class Controller {
     }, timerInterval)
   }
 
-  public readonly step = async (): Promise<void> => {
+  public step = async (): Promise<void> => {
     const lastStepResult = await this.lastStep
     const state = getState()
     const { fault, halted } = selectCpuStatus(state)
@@ -285,7 +285,7 @@ class Controller {
     })
   }
 
-  public readonly reset = async (): Promise<void> => {
+  public reset = async (): Promise<void> => {
     await this.fullyStop()
     batch(() => {
       dispatch(resetMemoryData())
@@ -296,7 +296,7 @@ class Controller {
     })
   }
 
-  public readonly fullyStop = async (): Promise<void> => {
+  public fullyStop = async (): Promise<void> => {
     const state = getState()
     this.stopIfRunning(state)
     this.restoreIfSuspended(state)
