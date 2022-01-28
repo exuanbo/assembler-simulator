@@ -44,6 +44,7 @@ import {
   setWaitingForKeyboardInput,
   setVduDataFrom,
   setIoDeviceData,
+  setIoDevicesInvisible,
   resetIo
 } from '@/features/io/ioSlice'
 import { useConstant } from '@/common/hooks'
@@ -197,7 +198,12 @@ class Controller {
         dispatchChanges()
       }
       const { data: inputData, interrupt } = signals.input
-      const { requiredInputDataPort, data: outputData, halted: shouldHalt = false } = signals.output
+      const {
+        requiredInputDataPort,
+        data: outputData,
+        halted: shouldHalt = false,
+        closeWindows: shouldCloseWindows = false
+      } = signals.output
       if (interrupt) {
         dispatch(setInterrupt(false))
       }
@@ -239,13 +245,12 @@ class Controller {
           dispatch(clearInputData())
         }
       } else if (selectIsWaitingForInput(state)) {
-        // step() called from actionListener
+        // `step` called from actionListener
         dispatch(setWaitingForInput(false))
         dispatch(clearInputData())
       }
       if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputDataPort } = outputData
-        // TODO: extract function
         const ioDeviceName = call(() => {
           switch (outputDataPort) {
             case OutputPort.TrafficLights:
@@ -262,6 +267,9 @@ class Controller {
             })
           )
         }
+      }
+      if (shouldCloseWindows) {
+        dispatch(setIoDevicesInvisible())
       }
       const breakpoints = selectEditorBreakpoints(state)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {

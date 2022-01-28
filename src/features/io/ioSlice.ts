@@ -71,21 +71,27 @@ export const ioSlice = createSlice({
     setWaitingForInput: (state, action: PayloadAction<boolean>) => {
       state.isWaitingForInput = action.payload
     },
-    setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>): void => {
+    setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>) => {
       state.isWaitingForKeyboardInput = action.payload
     },
-    setVduDataFrom: (state, action: PayloadAction<MemoryData>): void => {
+    setVduDataFrom: (state, action: PayloadAction<MemoryData>) => {
       const memoryData = action.payload
       state.devices[IoDeviceName.VisualDisplayUnit].data = getVduDataFrom(memoryData)
     },
-    setDeviceData: (state, action: PayloadAction<{ name: IoDeviceName; data: number }>): void => {
+    setDeviceData: (state, action: PayloadAction<{ name: IoDeviceName; data: number }>) => {
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
     },
-    toggleDeviceVisible: (state: IoState, action: PayloadAction<IoDeviceName>): void => {
+    toggleDeviceVisible: (state: IoState, action: PayloadAction<IoDeviceName>) => {
       const name = action.payload
       state.devices[name].isVisible = !state.devices[name].isVisible
     },
+    setDevicesInvisible: (state: IoState) => {
+      for (const name of ioDeviceNames) {
+        state.devices[name].isVisible = false
+      }
+    },
+    // TODO: preserve visibility
     reset: () => initialState
   }
 })
@@ -133,6 +139,7 @@ export const {
   setVduDataFrom,
   setDeviceData: setIoDeviceData,
   toggleDeviceVisible: toggleIoDeviceVisible,
+  setDevicesInvisible: setIoDevicesInvisible,
   reset: resetIo
 } = ioSlice.actions
 
