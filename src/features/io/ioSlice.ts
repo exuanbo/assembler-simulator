@@ -5,9 +5,9 @@ import type { RootState } from '@/app/store'
 import { decTo8bitBinDigits } from '@/common/utils'
 
 export enum IoDeviceName {
-  VisualDisplayUnit = 'Visual Display Unit',
-  TrafficLights = 'Traffic Lights',
-  SevenSegmentDisplay = 'Seven Segment Display'
+  VisualDisplayUnit = 'VisualDisplayUnit',
+  TrafficLights = 'TrafficLights',
+  SevenSegmentDisplay = 'SevenSegmentDisplay'
 }
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)

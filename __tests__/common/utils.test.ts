@@ -1,6 +1,7 @@
 import {
   decToBin,
   decTo8bitBinDigits,
+  splitCamelCaseToString,
   range,
   asciiToChars,
   compareArrayWithSameLength,
@@ -20,6 +21,12 @@ describe('utils', () => {
     it('should convert decimal to 8 bit binary digits', () => {
       expect(decTo8bitBinDigits(0)).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
       expect(decTo8bitBinDigits(255)).toEqual([1, 1, 1, 1, 1, 1, 1, 1])
+    })
+  })
+
+  describe('splitCamelCaseToString', () => {
+    it('should convert camelCase to startCase', () => {
+      expect(splitCamelCaseToString('camelCase')).toBe('camel Case')
     })
   })
 

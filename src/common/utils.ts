@@ -32,6 +32,8 @@ export const decTo8bitBinDigits = (num: number): number[] => decToBin(num).split
 
 export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
+export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')
+
 const PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP = /^[["](.*)["\]]$/
 
 export const trimBracketsAndQuotes = (str: string): string =>

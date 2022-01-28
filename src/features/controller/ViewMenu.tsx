@@ -7,6 +7,7 @@ import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
 import { ioDeviceNames, selectIoDevices, toggleIoDeviceVisible } from '@/features/io/ioSlice'
+import { splitCamelCaseToString } from '@/common/utils'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
@@ -62,7 +63,7 @@ const IoMenu = (): JSX.Element => {
                   }}>
                   <MenuButton>
                     {ioDevices[name].isVisible ? <CheckMark /> : <span className="w-4" />}
-                    <span>{name}</span>
+                    <span>{splitCamelCaseToString(name)}</span>
                   </MenuButton>
                 </MenuItem>
               ))}
