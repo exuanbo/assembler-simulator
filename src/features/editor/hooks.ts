@@ -186,7 +186,7 @@ interface StatusMessage {
 
 export const useStatusMessage = (): StatusMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
-  const cpuFault = useSelector(selectCpuFault)
+  const runtimeError = useSelector(selectCpuFault)
 
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
   const showHaltedTimeoutIdRef = useRef<number | undefined>()
@@ -217,10 +217,10 @@ export const useStatusMessage = (): StatusMessage | null => {
         type: MessageType.Error,
         content: `${assemblerError.type}: ${assemblerError.message}`
       }
-    : cpuFault !== null
+    : runtimeError !== null
     ? {
         type: MessageType.Error,
-        content: `RuntimeError: ${cpuFault}`
+        content: `${runtimeError.type}: ${runtimeError.message}`
       }
     : shouldShowHalted
     ? {

@@ -30,6 +30,7 @@ import { InputData, InputSignals, OutputSignals, Signals, MAX_PORT } from '@/fea
 import { Opcode } from '@/common/constants'
 import { ExcludeTupleTail, sign8, unsign8 } from '@/common/utils'
 
+export type { RuntimeErrorObject } from './exceptions'
 export { RuntimeError } from './exceptions'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2

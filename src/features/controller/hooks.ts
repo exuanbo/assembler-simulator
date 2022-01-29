@@ -158,7 +158,8 @@ class Controller {
       } catch (err) {
         this.stopIfRunning(state)
         if (err instanceof RuntimeError) {
-          dispatch(setCpuFault(err.message))
+          const runtimeError = err.toPlainObject()
+          dispatch(setCpuFault(runtimeError))
           resolve(undefined)
           return
         }

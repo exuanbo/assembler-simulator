@@ -1,6 +1,21 @@
 import { decToHex } from '@/common/utils'
 
-export abstract class RuntimeError extends Error {}
+export interface RuntimeErrorObject {
+  type: string
+  message: string
+}
+
+export abstract class RuntimeError extends Error {
+  public type = 'RuntimeError'
+
+  // istanbul ignore next
+  public toPlainObject(): RuntimeErrorObject {
+    return {
+      type: this.type,
+      message: this.message
+    }
+  }
+}
 
 export class InvalidRegisterError extends RuntimeError {
   constructor(value: number) {

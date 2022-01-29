@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import {
+  RuntimeErrorObject,
   GeneralPurposeRegisters,
   InstructionPointer,
   StackPointer,
@@ -11,7 +12,7 @@ import {
 import type { RootState } from '@/app/store'
 
 interface Status {
-  fault: string | null
+  fault: RuntimeErrorObject | null
   halted: boolean
 }
 
@@ -32,7 +33,7 @@ export const cpuSlice = createSlice({
   name: 'cpu',
   initialState,
   reducers: {
-    setFault: (state, action: PayloadAction<string>) => {
+    setFault: (state, action: PayloadAction<RuntimeErrorObject>) => {
       state.status.fault = action.payload
     },
     setHalted: state => {
@@ -47,7 +48,8 @@ export const cpuSlice = createSlice({
 
 export const selectCpuStatus = (state: RootState): Status => state.cpu.status
 
-export const selectCpuFault = (state: RootState): string | null => state.cpu.status.fault
+export const selectCpuFault = (state: RootState): RuntimeErrorObject | null =>
+  state.cpu.status.fault
 
 export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
 
