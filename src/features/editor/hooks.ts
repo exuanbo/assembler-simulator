@@ -36,34 +36,38 @@ enum AnnotationValue {
 const isChangedFromState = (transation: Transaction): boolean =>
   transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
-let updateInputTimeoutId: number | undefined
+const createInputUpdateListener = (): ViewUpdateListener => {
+  let updateInputTimeoutId: number | undefined
 
-const inputUpdateListener: ViewUpdateListener = viewUpdate => {
-  if (!viewUpdate.docChanged) {
-    return
+  return viewUpdate => {
+    if (!viewUpdate.docChanged) {
+      return
+    }
+    // doc changes must be caused by at least one transaction
+    const firstTransaction = viewUpdate.transactions[0]
+    const input = viewUpdate.state.doc.sliceString(0)
+    window.clearTimeout(updateInputTimeoutId)
+    updateInputTimeoutId = window.setTimeout(() => {
+      // only one transaction is dispatched if input is set from file
+      if (!isChangedFromState(firstTransaction)) {
+        dispatch(setEditorInput({ value: input }))
+      }
+      if (selectAutoAssemble(getState())) {
+        assemble(input)
+      }
+    }, 250)
   }
-  // doc changes must be caused by at least one transaction
-  const firstTransaction = viewUpdate.transactions[0]
-  const input = viewUpdate.state.doc.sliceString(0)
-  window.clearTimeout(updateInputTimeoutId)
-  updateInputTimeoutId = window.setTimeout(() => {
-    // only one transaction is dispatched if input is set from file
-    if (!isChangedFromState(firstTransaction)) {
-      dispatch(setEditorInput({ value: input }))
-    }
-    if (selectAutoAssemble(getState())) {
-      assemble(input)
-    }
-  }, 250)
 }
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const defaultInput = useConstant(() => selectEditortInput(getState()))
 
-  const editorStateConfig = useConstant({
+  const editorStateConfig = useConstant(() => ({
     doc: defaultInput,
     extensions: setup
-  })
+  }))
+
+  const inputUpdateListener = useConstant(createInputUpdateListener)
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     editorStateConfig,
