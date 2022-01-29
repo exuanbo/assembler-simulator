@@ -1,17 +1,17 @@
 import { decToHex } from '@/common/utils'
 
 export interface RuntimeErrorObject {
-  type: string
+  name: string
   message: string
 }
 
 export abstract class RuntimeError extends Error {
-  public type = 'RuntimeError'
+  public name = 'RuntimeError'
 
   // istanbul ignore next
   public toPlainObject(): RuntimeErrorObject {
     return {
-      type: this.type,
+      name: this.name,
       message: this.message
     }
   }

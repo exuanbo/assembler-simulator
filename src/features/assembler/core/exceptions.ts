@@ -4,13 +4,13 @@ import type { Label, OperandType, Operand, Statement } from './parser'
 import { trimBracketsAndQuotes, escapeBackslashes, escapeInnerSingleQuotes } from '@/common/utils'
 
 export interface AssemblerErrorObject {
-  type: string
+  name: string
   message: string
   range: SourceRange | undefined
 }
 
 export abstract class AssemblerError extends Error {
-  public abstract type: string
+  public abstract name: string
   public range: SourceRange | undefined
 
   constructor(message: string, range?: SourceRange) {
@@ -21,7 +21,7 @@ export abstract class AssemblerError extends Error {
   // istanbul ignore next
   public toPlainObject(): AssemblerErrorObject {
     return {
-      type: this.type,
+      name: this.name,
       message: this.message,
       range: this.range
     }
@@ -29,7 +29,7 @@ export abstract class AssemblerError extends Error {
 }
 
 class ParserError extends AssemblerError {
-  public type = 'ParserError'
+  public name = 'ParserError'
 
   constructor(message: string, range?: SourceRange) {
     super(escapeInnerSingleQuotes(escapeBackslashes(message)), range)
@@ -115,7 +115,7 @@ export class MissingCommaError extends ParserError {
 }
 
 class AssembleError extends AssemblerError {
-  public type = 'AssembleError'
+  public name = 'AssembleError'
 }
 
 export class DuplicateLabelError extends AssembleError {

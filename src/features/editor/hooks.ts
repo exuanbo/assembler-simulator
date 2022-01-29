@@ -184,9 +184,24 @@ interface StatusMessage {
   content: string
 }
 
+const haltedMessage: StatusMessage = {
+  type: MessageType.Info,
+  content: 'Info: Program has halted.'
+}
+
+const getStatusMessageFrom = (err: Error | null): StatusMessage | null =>
+  err === null
+    ? null
+    : {
+        type: MessageType.Error,
+        content: `${err.name}: ${err.message}`
+      }
+
 export const useStatusMessage = (): StatusMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
+
+  const err = assemblerError ?? runtimeError
 
   const [shouldShowHalted, setShouldShowHalted] = useState(false)
   const showHaltedTimeoutIdRef = useRef<number | undefined>()
@@ -212,20 +227,5 @@ export const useStatusMessage = (): StatusMessage | null => {
     })
   }, [])
 
-  return assemblerError !== null
-    ? {
-        type: MessageType.Error,
-        content: `${assemblerError.type}: ${assemblerError.message}`
-      }
-    : runtimeError !== null
-    ? {
-        type: MessageType.Error,
-        content: `${runtimeError.type}: ${runtimeError.message}`
-      }
-    : shouldShowHalted
-    ? {
-        type: MessageType.Info,
-        content: 'Info: Program has halted.'
-      }
-    : null
+  return getStatusMessageFrom(err) ?? (shouldShowHalted ? haltedMessage : null)
 }
