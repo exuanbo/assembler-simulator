@@ -29,11 +29,10 @@ export abstract class AssemblerError extends Error {
 }
 
 class ParserError extends AssemblerError {
-  public type: string
+  public type = 'ParserError'
 
   constructor(message: string, range?: SourceRange) {
     super(escapeInnerSingleQuotes(escapeBackslashes(message)), range)
-    this.type = 'ParserError'
   }
 }
 
@@ -116,12 +115,7 @@ export class MissingCommaError extends ParserError {
 }
 
 class AssembleError extends AssemblerError {
-  public type: string
-
-  constructor(message: string, range?: SourceRange) {
-    super(message, range)
-    this.type = 'AssembleError'
-  }
+  public type = 'AssembleError'
 }
 
 export class DuplicateLabelError extends AssembleError {
