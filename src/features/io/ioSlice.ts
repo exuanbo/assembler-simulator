@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
+import { merge } from 'merge-anything'
 import { InputSignals, InputPort, initialInputSignals } from './core'
 import { MemoryData, initVduData, getVduDataFrom } from '@/features/memory/core'
 import type { RootState } from '@/app/store'
@@ -82,17 +83,25 @@ export const ioSlice = createSlice({
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
     },
-    toggleDeviceVisible: (state: IoState, action: PayloadAction<IoDeviceName>) => {
+    toggleDeviceVisible: (state, action: PayloadAction<IoDeviceName>) => {
       const name = action.payload
       state.devices[name].isVisible = !state.devices[name].isVisible
     },
-    setDevicesInvisible: (state: IoState) => {
+    setDevicesInvisible: state => {
       for (const name of ioDeviceNames) {
         state.devices[name].isVisible = false
       }
     },
-    // TODO: preserve visibility
-    reset: () => initialState
+    reset: state =>
+      merge(initialState, {
+        devices: Object.entries(state.devices).reduce<Record<string, Pick<IoDevice, 'isVisible'>>>(
+          (result, [name, { isVisible }]) => ({
+            ...result,
+            [name]: { isVisible }
+          }),
+          {}
+        )
+      })
   }
 })
 
