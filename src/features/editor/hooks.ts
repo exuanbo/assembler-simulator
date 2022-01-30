@@ -14,7 +14,7 @@ import {
 } from './editorSlice'
 import { ViewUpdateListener, useCodeMirror as __useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { breakpointEffect, getBreakpoints, breakpointsChanged } from './codemirror/breakpoints'
+import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { StringAnnotation } from './codemirror/annotations'
@@ -100,8 +100,8 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
 
 const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
-    if (breakpointsChanged(viewUpdate)) {
-      const breakpointRangeSet = getBreakpoints(viewUpdate.state)
+    const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
+    if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
       const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
         lineRangeAt(viewUpdate.state.doc, from)
       )

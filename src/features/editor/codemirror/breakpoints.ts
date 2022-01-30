@@ -1,5 +1,5 @@
 import { EditorState, StateField, StateEffect, Extension } from '@codemirror/state'
-import { EditorView, ViewUpdate } from '@codemirror/view'
+import { EditorView } from '@codemirror/view'
 import { RangeSet } from '@codemirror/rangeset'
 import { GutterMarker, gutter } from '@codemirror/gutter'
 
@@ -42,11 +42,11 @@ const breakpointField = StateField.define<RangeSet<BreakpointMarker>>({
   }
 })
 
-export const getBreakpoints = (state: EditorState): RangeSet<BreakpointMarker> =>
+export const getBreakpointRangeSet = (state: EditorState): RangeSet<BreakpointMarker> =>
   state.field(breakpointField)
 
 export const toggleBreakpoint = (view: EditorView, pos: number): void => {
-  const breakpoints = getBreakpoints(view.state)
+  const breakpoints = getBreakpointRangeSet(view.state)
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
     hasBreakpoint = true
@@ -63,7 +63,7 @@ export const breakpoints = (): Extension => [
   breakpointField,
   gutter({
     class: 'cm-breakpoints',
-    markers: view => getBreakpoints(view.state),
+    markers: view => getBreakpointRangeSet(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
       mousedown(view, line) {
@@ -81,20 +81,22 @@ export const breakpoints = (): Extension => [
   })
 ]
 
-export const breakpointsChanged = ({ state, startState }: ViewUpdate): boolean => {
-  const [newBreakpoints, oldBreakpoints] = [state, startState].map(getBreakpoints)
-  if (newBreakpoints.size !== oldBreakpoints.size) {
-    return true
-  }
-  if (newBreakpoints.size === 0) {
+export const breakpointsEqual = (
+  a: RangeSet<BreakpointMarker>,
+  b: RangeSet<BreakpointMarker>
+): boolean => {
+  if (b.size !== a.size) {
     return false
   }
-  const newCursor = newBreakpoints.iter()
-  const oldCursor = oldBreakpoints.iter()
-  for (let i = 0; i < newBreakpoints.size; i++, newCursor.next(), oldCursor.next()) {
-    if (newCursor.from !== oldCursor.from || newCursor.to !== oldCursor.to) {
-      return true
+  if (b.size === 0) {
+    return true
+  }
+  const bCursor = b.iter()
+  const aCursor = a.iter()
+  for (let i = 0; i < b.size; i++, bCursor.next(), aCursor.next()) {
+    if (bCursor.from !== aCursor.from || bCursor.to !== aCursor.to) {
+      return false
     }
   }
-  return false
+  return true
 }
