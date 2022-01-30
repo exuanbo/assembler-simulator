@@ -42,7 +42,7 @@ export const wavyUnderlineEffect = StateEffect.define<{
   }
 })
 
-const wavyUnderlineMark = Decoration.mark({ class: 'cm-wavyUnderline' })
+const markDecoration = Decoration.mark({ class: 'cm-wavyUnderline' })
 
 const wavyUnderlineField = StateField.define<DecorationSet>({
   create() {
@@ -56,7 +56,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
       }
       const { add, filter = () => !clearAll } = effect.value
       return resultSet.update({
-        add: add === undefined ? undefined : [wavyUnderlineMark.range(add.from, add.to)],
+        add: add === undefined ? undefined : [markDecoration.range(add.from, add.to)],
         filter
       })
     }, decorationSet.map(transaction.changes))
