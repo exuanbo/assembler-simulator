@@ -21,21 +21,20 @@ type ListenAction = <TPayload>(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscriptions<TPayload = any> = Map<string, Set<ListenCallback<TPayload>>>
 
-interface ActionListener {
-  middleware: Middleware
+interface ActionListener extends Middleware {
   listenAction: ListenAction
 }
 
 export const createActionListener = (): ActionListener => {
   const subscriptions: Subscriptions = new Map()
 
-  const middleware: Middleware = api => next => action => {
+  const actionListener: ActionListener = api => next => action => {
     const result = next(action)
     subscriptions.get(action.type)?.forEach(cb => cb(action.payload, api))
     return result
   }
 
-  const listenAction: ListenAction = (actionCreator, __callback, { once = false } = {}) => {
+  actionListener.listenAction = (actionCreator, __callback, { once = false } = {}) => {
     const actionType = getType(actionCreator)
     if (!subscriptions.has(actionType)) {
       subscriptions.set(actionType, new Set())
@@ -56,5 +55,5 @@ export const createActionListener = (): ActionListener => {
     return unsubscribe
   }
 
-  return { middleware, listenAction }
+  return actionListener
 }

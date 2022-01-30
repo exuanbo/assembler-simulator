@@ -25,8 +25,7 @@ const watcher = createWatcher()
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(actionListener.middleware, watcher.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(actionListener, watcher),
   preloadedState: loadState()
 })
 

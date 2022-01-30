@@ -28,15 +28,14 @@ type Subscriptions<TSelected = any> = Map<
 
 const uninitialized = Symbol('uninitialized')
 
-interface Watcher {
-  middleware: Middleware
+interface Watcher extends Middleware {
   watch: Watch
 }
 
 export const createWatcher = (): Watcher => {
   const subscriptions: Subscriptions = new Map()
 
-  const middleware: Middleware = api => next => action => {
+  const watcher: Watcher = api => next => action => {
     const startState = api.getState()
     const result = next(action)
     const state = api.getState()
@@ -59,7 +58,7 @@ export const createWatcher = (): Watcher => {
     return result
   }
 
-  const watch: Watch = (selector, callback) => {
+  watcher.watch = (selector, callback) => {
     if (!subscriptions.has(selector)) {
       subscriptions.set(selector, {
         prev: uninitialized,
@@ -75,5 +74,5 @@ export const createWatcher = (): Watcher => {
     }
   }
 
-  return { middleware, watch }
+  return watcher
 }
