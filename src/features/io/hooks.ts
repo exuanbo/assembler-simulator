@@ -13,9 +13,8 @@ import {
   setVduDataFrom,
   setIoDeviceData
 } from './ioSlice'
-import { getVduDataFrom } from '@/features/memory/core'
+import { getVduDataFrom, vduDataChanged } from '@/features/memory/core'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
-import { SPACE_ASCII } from '@/common/constants'
 
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibility => {
   const data = useSelector(selectIoDeviceData(deviceName))
@@ -44,8 +43,7 @@ export const useVisualDisplayUnit = (): IoDevice => {
     return listenAction(setMemoryDataFrom, (_, { getState }) => {
       const memoryData = selectMemoryData(getState())
       const vduData = getVduDataFrom(memoryData)
-      // TODO: extract function
-      const shouldToggleVisible = !isVisible && vduData.some(value => value !== SPACE_ASCII)
+      const shouldToggleVisible = !isVisible && vduDataChanged(vduData)
       batch(() => {
         dispatch(setVduData(vduData))
         if (shouldToggleVisible) {
