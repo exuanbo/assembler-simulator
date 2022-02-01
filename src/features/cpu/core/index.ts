@@ -1,4 +1,5 @@
 import { createNextState } from '@reduxjs/toolkit'
+import { MAX_SP, GeneralPurposeRegister } from './constants'
 import type { StepChanges } from './changes'
 import {
   add,
@@ -30,27 +31,17 @@ import { InputData, InputSignals, OutputSignals, Signals, MAX_PORT } from '@/fea
 import { Opcode } from '@/common/constants'
 import { ExcludeTupleTail, sign8, unsign8 } from '@/common/utils'
 
+export * from './constants'
 export type { RuntimeErrorObject } from './exceptions'
 export { RuntimeError } from './exceptions'
 
 const HARDWARE_INTERRUPT_VECTOR_ADDR = 2
-
-export enum GeneralPurposeRegister {
-  AL,
-  BL,
-  CL,
-  DL
-}
-
-export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 
 export type GeneralPurposeRegisters = [AL: number, BL: number, CL: number, DL: number]
 
 export type InstructionPointer = number
 
 export type StackPointer = number
-
-export const MAX_SP = 0xbf
 
 enum Flag {
   Zero,
@@ -70,14 +61,6 @@ export type StatusRegister = [
   sign: FlagStatus,
   interrupt: FlagStatus
 ]
-
-export enum SpecialPurposeRegisterName {
-  IP = 'IP',
-  SP = 'SP',
-  SR = 'SR'
-}
-
-export type RegisterName = GeneralPurposeRegisterName | SpecialPurposeRegisterName
 
 export interface Registers {
   gpr: GeneralPurposeRegisters
