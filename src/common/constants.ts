@@ -1,3 +1,7 @@
+export const SPACE_ASCII = 0x20
+
+export const NO_BREAK_SPACE = '\u00A0'
+
 export enum Mnemonic {
   END = 'END',
 
@@ -210,7 +214,3 @@ export enum Opcode {
   CLO = 0xfe,
   NOP = 0xff
 }
-
-export const SPACE_ASCII = 0x20
-
-export const NO_BREAK_SPACE = '\u00A0'
