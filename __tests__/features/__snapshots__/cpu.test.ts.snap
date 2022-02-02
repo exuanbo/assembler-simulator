@@ -3,10 +3,17 @@
 exports[`cpu step should call INT if interrupt flag is set and receives an interrupt signal 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 80,
+      },
+      "sp": Object {
+        "value": 190,
+      },
+    },
     "memoryData": Object {
       "address": 191,
-      "from": 0,
-      "to": 0,
+      "value": 0,
     },
   },
   "cpuRegisters": Object {
@@ -48,7 +55,20 @@ Object {
 
 exports[`cpu step with ADD should only set sign flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 129,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [129, 1, 0, 0,],
     "ip": 3,
@@ -88,7 +108,20 @@ Object {
 
 exports[`cpu step with ADD should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 3,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [3, 0, 0, 0,],
     "ip": 3,
@@ -128,7 +161,20 @@ Object {
 
 exports[`cpu step with ADD should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 3,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [3, 2, 0, 0,],
     "ip": 3,
@@ -168,7 +214,20 @@ Object {
 
 exports[`cpu step with ADD should set both overflow and sign flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 128,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 12,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [128, 1, 0, 0,],
     "ip": 3,
@@ -208,7 +267,20 @@ Object {
 
 exports[`cpu step with ADD should set only zero flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 0,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 1, 0, 0,],
     "ip": 3,
@@ -248,7 +320,20 @@ Object {
 
 exports[`cpu step with AND should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 3,
@@ -288,7 +373,20 @@ Object {
 
 exports[`cpu step with AND should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 3, 0, 0,],
     "ip": 3,
@@ -329,10 +427,17 @@ Object {
 exports[`cpu step with CALL should jump to address 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 80,
+      },
+      "sp": Object {
+        "value": 190,
+      },
+    },
     "memoryData": Object {
       "address": 191,
-      "from": 2,
-      "to": 2,
+      "value": 2,
     },
   },
   "cpuRegisters": Object {
@@ -374,7 +479,16 @@ Object {
 
 exports[`cpu step with CLI should unset interrupt flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 1,
@@ -414,7 +528,13 @@ Object {
 
 exports[`cpu step with CLO should create closeWindows signal 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 1,
@@ -456,7 +576,16 @@ Object {
 
 exports[`cpu step with CMP should compare register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 3,
@@ -496,7 +625,16 @@ Object {
 
 exports[`cpu step with CMP should compare register and number from address 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [3, 0, 0, 0,],
     "ip": 3,
@@ -536,7 +674,16 @@ Object {
 
 exports[`cpu step with CMP should compare two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 1, 0, 0,],
     "ip": 3,
@@ -576,7 +723,20 @@ Object {
 
 exports[`cpu step with DEC should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 2,
@@ -616,7 +776,20 @@ Object {
 
 exports[`cpu step with DIV should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 3,
@@ -656,7 +829,20 @@ Object {
 
 exports[`cpu step with DIV should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 2, 0, 0,],
     "ip": 3,
@@ -696,7 +882,9 @@ Object {
 
 exports[`cpu step with END should set halted 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {},
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 3,
@@ -738,7 +926,9 @@ Object {
 
 exports[`cpu step with IN should create signal with input port 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {},
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 0,
@@ -780,7 +970,9 @@ Object {
 
 exports[`cpu step with IN should create signal with required input port if provided is wrong 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {},
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 0,
@@ -822,7 +1014,17 @@ Object {
 
 exports[`cpu step with IN should read input from signal and move to AL 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 97,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [97, 0, 0, 0,],
     "ip": 2,
@@ -862,7 +1064,20 @@ Object {
 
 exports[`cpu step with INC should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 2,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [2, 0, 0, 0,],
     "ip": 2,
@@ -903,10 +1118,17 @@ Object {
 exports[`cpu step with INT should jump to address 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 80,
+      },
+      "sp": Object {
+        "value": 190,
+      },
+    },
     "memoryData": Object {
       "address": 191,
-      "from": 2,
-      "to": 2,
+      "value": 2,
     },
   },
   "cpuRegisters": Object {
@@ -948,7 +1170,16 @@ Object {
 
 exports[`cpu step with IRET should return 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 16,
+      },
+      "sp": Object {
+        "value": 191,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 16,
@@ -988,7 +1219,13 @@ Object {
 
 exports[`cpu step with JMP should jump backward 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 0,
@@ -1028,7 +1265,13 @@ Object {
 
 exports[`cpu step with JMP should jump forward 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1068,7 +1311,13 @@ Object {
 
 exports[`cpu step with JNO should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1108,7 +1357,13 @@ Object {
 
 exports[`cpu step with JNO should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1148,7 +1403,13 @@ Object {
 
 exports[`cpu step with JNS should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1188,7 +1449,13 @@ Object {
 
 exports[`cpu step with JNS should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1228,7 +1495,13 @@ Object {
 
 exports[`cpu step with JNZ should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1268,7 +1541,13 @@ Object {
 
 exports[`cpu step with JNZ should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1308,7 +1587,13 @@ Object {
 
 exports[`cpu step with JO should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1348,7 +1633,13 @@ Object {
 
 exports[`cpu step with JO should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1388,7 +1679,13 @@ Object {
 
 exports[`cpu step with JS should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1428,7 +1725,13 @@ Object {
 
 exports[`cpu step with JS should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1468,7 +1771,13 @@ Object {
 
 exports[`cpu step with JZ should jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 5,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 5,
@@ -1508,7 +1817,13 @@ Object {
 
 exports[`cpu step with JZ should not jump 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -1548,7 +1863,20 @@ Object {
 
 exports[`cpu step with MOD should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 2,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [2, 0, 0, 0,],
     "ip": 3,
@@ -1588,7 +1916,20 @@ Object {
 
 exports[`cpu step with MOD should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 2,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [2, 3, 0, 0,],
     "ip": 3,
@@ -1628,7 +1969,17 @@ Object {
 
 exports[`cpu step with MOV should move number from address to register 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 2,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [2, 0, 0, 0,],
     "ip": 3,
@@ -1668,7 +2019,17 @@ Object {
 
 exports[`cpu step with MOV should move number from register address to register 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 2, 0, 0,],
     "ip": 3,
@@ -1709,10 +2070,14 @@ Object {
 exports[`cpu step with MOV should move number from register to address 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 3,
+      },
+    },
     "memoryData": Object {
       "address": 3,
-      "from": 1,
-      "to": 1,
+      "value": 1,
     },
   },
   "cpuRegisters": Object {
@@ -1755,10 +2120,14 @@ Object {
 exports[`cpu step with MOV should move number from register to register address 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 3,
+      },
+    },
     "memoryData": Object {
       "address": 3,
-      "from": 1,
-      "to": 1,
+      "value": 1,
     },
   },
   "cpuRegisters": Object {
@@ -1800,7 +2169,17 @@ Object {
 
 exports[`cpu step with MOV should move number to register 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 3,
@@ -1840,7 +2219,20 @@ Object {
 
 exports[`cpu step with MUL should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 252,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [252, 0, 0, 0,],
     "ip": 3,
@@ -1880,7 +2272,20 @@ Object {
 
 exports[`cpu step with MUL should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 252,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [252, 4, 0, 0,],
     "ip": 3,
@@ -1920,7 +2325,13 @@ Object {
 
 exports[`cpu step with NOP should do nothing 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 1,
@@ -1960,7 +2371,20 @@ Object {
 
 exports[`cpu step with NOT should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 254,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [254, 0, 0, 0,],
     "ip": 2,
@@ -2000,7 +2424,20 @@ Object {
 
 exports[`cpu step with OR should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 7,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [7, 0, 0, 0,],
     "ip": 3,
@@ -2040,7 +2477,20 @@ Object {
 
 exports[`cpu step with OR should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 7,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [7, 3, 0, 0,],
     "ip": 3,
@@ -2080,7 +2530,13 @@ Object {
 
 exports[`cpu step with OUT should create signal with output port 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 2,
@@ -2125,7 +2581,20 @@ Object {
 
 exports[`cpu step with POP should pop to register from stack 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sp": Object {
+        "value": 191,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 2,
@@ -2165,7 +2634,19 @@ Object {
 
 exports[`cpu step with POPF should restore SR from stack 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+      "sp": Object {
+        "value": 191,
+      },
+      "sr": Object {
+        "value": 20,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 1,
@@ -2206,10 +2687,17 @@ Object {
 exports[`cpu step with PUSH should push to stack 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 2,
+      },
+      "sp": Object {
+        "value": 190,
+      },
+    },
     "memoryData": Object {
       "address": 191,
-      "from": 1,
-      "to": 1,
+      "value": 1,
     },
   },
   "cpuRegisters": Object {
@@ -2252,10 +2740,17 @@ Object {
 exports[`cpu step with PUSHF should push SR to stack 1`] = `
 Object {
   "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+      "sp": Object {
+        "value": 190,
+      },
+    },
     "memoryData": Object {
       "address": 191,
-      "from": 20,
-      "to": 20,
+      "value": 20,
     },
   },
   "cpuRegisters": Object {
@@ -2297,7 +2792,16 @@ Object {
 
 exports[`cpu step with RET should return 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 16,
+      },
+      "sp": Object {
+        "value": 191,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 16,
@@ -2337,7 +2841,20 @@ Object {
 
 exports[`cpu step with ROL should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 3,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [3, 0, 0, 0,],
     "ip": 2,
@@ -2377,7 +2894,20 @@ Object {
 
 exports[`cpu step with ROR should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 192,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [192, 0, 0, 0,],
     "ip": 2,
@@ -2417,7 +2947,20 @@ Object {
 
 exports[`cpu step with SHL should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 2,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [2, 0, 0, 0,],
     "ip": 2,
@@ -2457,7 +3000,20 @@ Object {
 
 exports[`cpu step with SHR should operate correctly 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 0,
+      },
+      "ip": Object {
+        "value": 2,
+      },
+      "sr": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 2,
@@ -2497,7 +3053,16 @@ Object {
 
 exports[`cpu step with STI should set interrupt flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "ip": Object {
+        "value": 1,
+      },
+      "sr": Object {
+        "value": 16,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 0, 0, 0,],
     "ip": 1,
@@ -2537,7 +3102,20 @@ Object {
 
 exports[`cpu step with SUB should only set sign flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 128,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 8,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [128, 1, 0, 0,],
     "ip": 3,
@@ -2577,7 +3155,20 @@ Object {
 
 exports[`cpu step with SUB should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 0, 0, 0,],
     "ip": 3,
@@ -2617,7 +3208,20 @@ Object {
 
 exports[`cpu step with SUB should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 1,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [1, 2, 0, 0,],
     "ip": 3,
@@ -2657,7 +3261,20 @@ Object {
 
 exports[`cpu step with SUB should set only overflow flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 127,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 4,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [127, 1, 0, 0,],
     "ip": 3,
@@ -2697,7 +3314,20 @@ Object {
 
 exports[`cpu step with SUB should set only zero flag 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 0,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 2,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [0, 1, 0, 0,],
     "ip": 3,
@@ -2737,7 +3367,20 @@ Object {
 
 exports[`cpu step with XOR should operate on register and number 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 6,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [6, 0, 0, 0,],
     "ip": 3,
@@ -2777,7 +3420,20 @@ Object {
 
 exports[`cpu step with XOR should operate on two registers 1`] = `
 Object {
-  "changes": Object {},
+  "changes": Object {
+    "cpuRegisters": Object {
+      "gpr": Object {
+        "name": "AL",
+        "value": 6,
+      },
+      "ip": Object {
+        "value": 3,
+      },
+      "sr": Object {
+        "value": 0,
+      },
+    },
+  },
   "cpuRegisters": Object {
     "gpr": Array [6, 3, 0, 0,],
     "ip": 3,

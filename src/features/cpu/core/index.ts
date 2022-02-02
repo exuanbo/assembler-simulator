@@ -1,6 +1,6 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { MAX_SP, GeneralPurposeRegister } from './constants'
-import type { StepChanges } from './changes'
+import { MAX_SP, GeneralPurposeRegister, GeneralPurposeRegisterName } from './constants'
+import type { RegisterChange, MemoryDataChange, StepChanges } from './changes'
 import {
   add,
   substract,
@@ -172,30 +172,37 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
     output: __outputSignals
   }
 
-  const changes: StepChanges = {}
+  const changes: StepChanges = { cpuRegisters: {} }
+  const setMemoryChange = (change: MemoryDataChange): void => {
+    changes.memoryData = change
+  }
+  const setRegisterChange = (name: keyof Registers, change: RegisterChange): void => {
+    changes.cpuRegisters[name] = change
+  }
 
   const stepResult: StepResult = createNextState(__stepResult, ({ memoryData, cpuRegisters }) => {
     const loadFromMemory = (address: number): number => {
       return memoryData[address]
     }
-    const storeToMemory = (address: number, machineCode: number): void => {
-      memoryData[address] = machineCode
-      changes.memoryData = {
-        address,
-        from: memoryData[address],
-        to: machineCode
-      }
+    const storeToMemory = (address: number, value: number): void => {
+      memoryData[address] = value
+      setMemoryChange({ address, value })
     }
 
     const getGpr = (register: GeneralPurposeRegister): number => cpuRegisters.gpr[register]
     const setGpr = (register: GeneralPurposeRegister, value: number): void => {
       cpuRegisters.gpr[register] = value
+      setRegisterChange('gpr', {
+        name: GeneralPurposeRegister[register] as GeneralPurposeRegisterName,
+        value
+      })
     }
 
     const getIp = (): number => cpuRegisters.ip
     const getNextIp = (by = 1): number => cpuRegisters.ip + by
     const setIp = (address: number): void => {
       cpuRegisters.ip = address
+      setRegisterChange('ip', { value: address })
     }
 
     /**
@@ -208,20 +215,27 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
     const push = (value: number): void => {
       storeToMemory(cpuRegisters.sp, value)
-      cpuRegisters.sp = checkSp(cpuRegisters.sp - 1)
+      const address = checkSp(cpuRegisters.sp - 1)
+      cpuRegisters.sp = address
+      setRegisterChange('sp', { value: address })
     }
     const pop = (): number => {
-      cpuRegisters.sp = checkSp(cpuRegisters.sp + 1)
+      const address = checkSp(cpuRegisters.sp + 1)
+      cpuRegisters.sp = address
+      setRegisterChange('sp', { value: address })
       return loadFromMemory(cpuRegisters.sp)
     }
 
     const getSr = (): StatusRegister => cpuRegisters.sr
     const setSr = (flags: Partial<StatusRegister>): void => {
-      Object.assign(cpuRegisters.sr, flags)
+      const value = getSrValue(Object.assign(cpuRegisters.sr, flags))
+      setRegisterChange('sr', { value })
     }
     const isFlagOn = (flag: Flag): boolean => cpuRegisters.sr[flag] === FlagStatus.On
     const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
       cpuRegisters.sr[flag] = flagStatus
+      const value = getSrValue(cpuRegisters.sr)
+      setRegisterChange('sr', { value })
     }
 
     /**
