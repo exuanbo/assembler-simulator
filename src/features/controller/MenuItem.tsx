@@ -41,8 +41,8 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
       className="flex py-1 px-2 items-center justify-between hover:bg-gray-200"
       onClick={handleClick}>
       {children(isHovered, menuItemsRef)}
-      <div className="flex ml-4 w-4 justify-end">
-        <Play className="w-2.5" />
+      <div className="ml-4 w-4">
+        <Play className="mx-auto w-2.5" />
       </div>
     </div>
   )
