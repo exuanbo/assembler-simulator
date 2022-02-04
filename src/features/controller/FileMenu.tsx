@@ -83,7 +83,7 @@ const OpenExampleMenu = (): JSX.Element => (
           <span>Open Example</span>
         </MenuButton>
         {isHovered && (
-          <MenuItems.Expanded className="mt-2px top-24" innerRef={menuItemsRef}>
+          <MenuItems.Expanded innerRef={menuItemsRef}>
             {examples.map(({ title, content }, index) => (
               <MenuItem
                 key={index}

@@ -9,21 +9,25 @@ const MenuItems = ({ children }: Props): JSX.Element => (
 )
 
 interface ExpandedProps {
+  innerRef: RefCallback<HTMLDivElement>
   children: ReactNode
-  className?: string
-  innerRef?: RefCallback<HTMLDivElement>
 }
 
-MenuItems.Expanded = ({ children, innerRef, className = '' }: ExpandedProps): JSX.Element => {
+MenuItems.Expanded = ({ innerRef, children }: ExpandedProps): JSX.Element => {
   const refCallback: RefCallback<HTMLDivElement> = node => {
-    innerRef?.(node)
+    innerRef(node)
     if (node?.parentElement != null) {
-      node.style.left = `${node.parentElement.getBoundingClientRect().right + /* border */ 1}px`
+      // MenuItem.Expandable
+      const { parentElement } = node
+      const { top: parentTop, right: parentRight } = parentElement.getBoundingClientRect()
+      const isParentFirstChild = parentElement.offsetTop === 0
+      node.style.top = `${parentTop - (isParentFirstChild ? /* border */ 1 : 0)}px`
+      node.style.left = `${parentRight + /* border */ 1}px`
     }
   }
 
   return (
-    <div ref={refCallback} className={`divide-y border bg-gray-50 shadow-md fixed ${className}`}>
+    <div ref={refCallback} className="divide-y border bg-gray-50 shadow-md fixed">
       {children}
     </div>
   )
