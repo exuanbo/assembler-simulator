@@ -2,11 +2,10 @@ import { join } from 'path'
 import { defineConfig } from 'vite'
 import WindiCSS from 'vite-plugin-windicss'
 import react from '@vitejs/plugin-react'
-import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
   base: './',
-  plugins: [WindiCSS(), react(), legacy()],
+  plugins: [WindiCSS(), react()],
   resolve: {
     alias: {
       '@': join(__dirname, 'src')
