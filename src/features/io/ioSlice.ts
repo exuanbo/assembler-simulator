@@ -98,10 +98,10 @@ export const ioSlice = createSlice({
     reset: state =>
       merge(initialState, {
         devices: Object.entries(state.devices).reduce<Record<string, Pick<IoDevice, 'isVisible'>>>(
-          (result, [name, { isVisible }]) => ({
-            ...result,
-            [name]: { isVisible }
-          }),
+          (result, [name, { isVisible }]) =>
+            Object.assign(result, {
+              [name]: { isVisible }
+            }),
           {}
         )
       })
