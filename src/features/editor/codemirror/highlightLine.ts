@@ -1,5 +1,6 @@
 import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
+import type { RangeSetUpdateFilter } from './rangeSet'
 
 interface HighlightLineConfig {
   clearOnPointerSelect?: boolean
@@ -28,7 +29,7 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
 
 export const highlightLineEffect = StateEffect.define<{
   addByPos?: number | number[]
-  filter?: (from: number, to: number) => boolean
+  filter?: RangeSetUpdateFilter<Decoration>
 }>({
   map({ addByPos: add, filter }, mapping) {
     return {

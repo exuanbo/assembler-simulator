@@ -1,5 +1,6 @@
 import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
+import type { RangeSetUpdateFilter } from './rangeSet'
 
 interface WavyUnderlineConfig {
   clearAll?: boolean
@@ -22,11 +23,8 @@ const wavyUnderlineConfigFacet = Facet.define<WavyUnderlineConfig, Required<Wavy
 })
 
 export const wavyUnderlineEffect = StateEffect.define<{
-  add?: {
-    from: number
-    to: number
-  }
-  filter?: (from: number, to: number) => boolean
+  add?: { from: number; to: number }
+  filter?: RangeSetUpdateFilter<Decoration>
 }>({
   map({ add, filter }, mapping) {
     return {

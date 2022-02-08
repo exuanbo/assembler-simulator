@@ -1,5 +1,11 @@
 import type { RangeValue, RangeSet } from '@codemirror/rangeset'
 
+export type RangeSetUpdateFilter<T extends RangeValue> = (
+  from: number,
+  to: number,
+  value: T
+) => boolean
+
 export const mapRangeSetToArray = <T extends RangeValue, U>(
   rangeSet: RangeSet<T>,
   callbackfn: (value: T, from: number, to: number) => U
