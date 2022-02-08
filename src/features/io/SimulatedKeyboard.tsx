@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { createPortal } from 'react-dom'
 // TODO: remove batch from React 18
 import { batch } from 'react-redux'
+import Modal from '@/common/components/Modal'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
@@ -36,21 +36,20 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     })
   }
 
-  return isSuspended && isWaitingForKeyboardInput
-    ? createPortal(
-        <div className="bg-black flex font-mono bg-opacity-80 inset-0 fixed items-center justify-center">
-          <div className="rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
-          <input
-            ref={inputRef}
-            autoFocus
-            className="-z-1 absolute"
-            onBlur={focusInput}
-            onChange={handleInputChange}
-          />
-        </div>,
-        document.getElementById('modal-root')!
-      )
-    : null
+  return (
+    <Modal
+      className="bg-black flex bg-opacity-80 inset-0 fixed items-center justify-center"
+      isOpen={isSuspended && isWaitingForKeyboardInput}>
+      <div className="rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
+      <input
+        ref={inputRef}
+        autoFocus
+        className="-z-1 absolute"
+        onBlur={focusInput}
+        onChange={handleInputChange}
+      />
+    </Modal>
+  )
 }
 
 export default SimulatedKeyboard
