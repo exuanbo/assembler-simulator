@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import windicss from 'vite-plugin-windicss'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
+import { name, description } from './package.json'
 
 export default defineConfig({
   base: './',
@@ -13,9 +14,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
-        id: './',
         name: 'Assembler Simulator',
         short_name: 'AssemblerSimulator',
+        description,
+        id: `/${name}/`,
         theme_color: '#ffffff',
         icons: [
           {
