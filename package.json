@@ -1,5 +1,6 @@
 {
   "name": "assembler-simulator",
+  "description": "8-bit Assembler Simulator based on the Samphire Microprocessor Simulator instruction set.",
   "private": "true",
   "scripts": {
     "dev": "vite",
