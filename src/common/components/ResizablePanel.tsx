@@ -1,5 +1,5 @@
 import { ReactNode, memo, useState, useEffect, useRef } from 'react'
-import { range, throttle } from '../utils'
+import { clamp, range, throttle } from '../utils'
 
 const Dots = memo(({ isHovered }: { isHovered: boolean }) => (
   <>
@@ -69,7 +69,8 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       const totalWidthAdjusted = getTotalWidthAdjusted()
 
       const percentage = clientXAdjusted / totalWidthAdjusted
-      const percentageAdjusted = Math.max(0.25, Math.min(0.75, percentage))
+      // TODO: extract constants
+      const percentageAdjusted = clamp(percentage, 0.25, 0.75)
 
       const widthAdjusted = percentageAdjusted * totalWidthAdjusted
       setLeftWidth(widthAdjusted)

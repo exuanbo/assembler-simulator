@@ -1,6 +1,7 @@
 import {
   decToBin,
   decTo8bitBinDigits,
+  clamp,
   splitCamelCaseToString,
   range,
   asciiToChars,
@@ -21,6 +22,14 @@ describe('utils', () => {
     it('should convert decimal to 8 bit binary digits', () => {
       expect(decTo8bitBinDigits(0)).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
       expect(decTo8bitBinDigits(255)).toEqual([1, 1, 1, 1, 1, 1, 1, 1])
+    })
+  })
+
+  describe('clamp', () => {
+    it('should clamp number to min and max', () => {
+      expect(clamp(0, 1, 3)).toBe(1)
+      expect(clamp(2, 1, 3)).toBe(2)
+      expect(clamp(4, 1, 3)).toBe(3)
     })
   })
 

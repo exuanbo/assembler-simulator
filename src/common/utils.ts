@@ -30,6 +30,9 @@ export const decToHex = (num: number): string => num.toString(16).padStart(2, '0
 
 export const decTo8bitBinDigits = (num: number): number[] => decToBin(num).split('').map(Number)
 
+export const clamp = (num: number, min: number, max: number): number =>
+  Math.min(Math.max(num, min), max)
+
 export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
 export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')
