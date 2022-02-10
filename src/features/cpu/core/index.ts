@@ -229,14 +229,12 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
     const getSr = (): StatusRegister => cpuRegisters.sr
     const setSr = (flags: Partial<StatusRegister>): void => {
       Object.assign(cpuRegisters.sr, flags)
-      const value = getSrValue(cpuRegisters.sr)
-      setRegisterChange('sr', { value })
+      setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
     }
     const isFlagOn = (flag: Flag): boolean => cpuRegisters.sr[flag] === FlagStatus.On
     const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
       cpuRegisters.sr[flag] = flagStatus
-      const value = getSrValue(cpuRegisters.sr)
-      setRegisterChange('sr', { value })
+      setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
     }
 
     /**
