@@ -10,7 +10,7 @@ interface Props {
 const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null =>
   isOpen
     ? createPortal(
-        <div className={`font-mono ${className}`}>{children}</div>,
+        <div className={className}>{children}</div>,
         document.getElementById('modal-root')!
       )
     : null

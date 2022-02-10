@@ -17,7 +17,7 @@ const App = (): JSX.Element => {
   }, [])
 
   return (
-    <div className="flex flex-col font-mono">
+    <div className="flex flex-col">
       <ToolBar className="flex-none" />
       <ResizablePanel className="h-[calc(100vh-2rem)] mt-8">
         <Editor />
