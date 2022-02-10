@@ -24,8 +24,7 @@ interface Props {
 
 const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const [leftWidth, setLeftWidth] = useState<number>()
-  // TODO: rename
-  const [showChildren, setShowChildren] = useState(false)
+  const [isReady, setReady] = useState(false)
 
   const wrapperRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
@@ -38,7 +37,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
 
   useEffect(() => {
     setLeftWidth(getInitialLeftWidth())
-    setShowChildren(true)
+    setReady(true)
   }, [])
 
   const [isDragging, setIsDragging] = useState(false)
@@ -95,16 +94,16 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   return (
     <div ref={wrapperRef} className={`flex ${className}`}>
       <div className={isDragging ? 'cursor-col-resize inset-0 z-50 fixed' : 'hidden'} />
-      {showChildren && <div style={{ width: leftWidth }}>{children[0]}</div>}
+      {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
       <div
         ref={dividerRef}
         className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
-          showChildren ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
+          isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
         }`}
         onMouseDown={handleMouseDown}>
         <Dots isHovered={isDragging} />
       </div>
-      {showChildren && <div className="flex-1">{children[1]}</div>}
+      {isReady && <div className="flex-1">{children[1]}</div>}
     </div>
   )
 }
