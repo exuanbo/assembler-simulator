@@ -1,6 +1,9 @@
 import { ReactNode, memo, useState, useEffect, useRef } from 'react'
 import { clamp, range, throttle } from '../utils'
 
+const MIN_WIDTH_PERCENTAGE = 0.25
+const MAX_WIDTH_PERCENTAGE = 0.75
+
 const Dots = memo(({ isHovered }: { isHovered: boolean }) => (
   <>
     {range(3).map(index => (
@@ -21,6 +24,7 @@ interface Props {
 
 const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const [leftWidth, setLeftWidth] = useState<number>()
+  // TODO: rename
   const [showChildren, setShowChildren] = useState(false)
 
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -69,8 +73,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       const totalWidthAdjusted = getTotalWidthAdjusted()
 
       const percentage = clientXAdjusted / totalWidthAdjusted
-      // TODO: extract constants
-      const percentageAdjusted = clamp(percentage, 0.25, 0.75)
+      const percentageAdjusted = clamp(percentage, MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE)
 
       const widthAdjusted = percentageAdjusted * totalWidthAdjusted
       setLeftWidth(widthAdjusted)
