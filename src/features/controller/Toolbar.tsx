@@ -4,13 +4,8 @@ import ConfigurationMenu from './ConfigurationMenu'
 import ControlButtons from './ControlButtons'
 import { Github } from '@/common/components/icons'
 
-interface Props {
-  className: string
-}
-
-const ToolBar = ({ className }: Props): JSX.Element => (
-  <div
-    className={`border-b border-t flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between ${className}`}>
+const ToolBar = (): JSX.Element => (
+  <div className="border-b border-t flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
     <div className="flex space-x-2 px-2 items-center">
       <h1>Assembler Simulator</h1>
       <a

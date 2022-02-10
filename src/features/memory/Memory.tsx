@@ -22,11 +22,7 @@ const ColumIndicatorTableRow = memo(() => (
   </tr>
 ))
 
-interface Props {
-  className?: string
-}
-
-const Memory = ({ className }: Props): JSX.Element => {
+const Memory = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
 
   const getDataRows = useSelector(selectMemoryDataRowsLazily)
@@ -38,7 +34,7 @@ const Memory = ({ className }: Props): JSX.Element => {
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
-    <Card className={className} title="Memory">
+    <Card title="Memory">
       <table className="text-sm w-full">
         <tbody className="divide-y">
           <ColumIndicatorTableRow />

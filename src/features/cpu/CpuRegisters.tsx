@@ -29,17 +29,13 @@ const FlagIndicatorTableRow = memo(() => (
   </tr>
 ))
 
-interface Props {
-  className?: string
-}
-
-const CpuRegisters = ({ className }: Props): JSX.Element => {
+const CpuRegisters = (): JSX.Element => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
   const srValue = useSelector(selectStatusRegisterValue)
 
   return (
-    <Card className={className} title="CPU Registers">
+    <Card title="CPU Registers">
       <div className="divide-x flex">
         <table className="flex-1">
           <tbody className="divide-y">
