@@ -15,7 +15,7 @@ const Editor = (): JSX.Element => {
 
   return (
     <div className="flex flex-col h-full">
-      <div ref={editorRef} className="h-full overflow-y-auto" />
+      <div ref={editorRef} className="cursor-auto h-full overflow-y-auto" />
       <EditorStatus />
     </div>
   )

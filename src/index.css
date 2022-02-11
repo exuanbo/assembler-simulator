@@ -1,8 +1,6 @@
 body {
-  @apply overscroll-none;
+  @apply cursor-default;
   @apply font-mono;
-}
-
-* {
   @apply select-none;
+  @apply overscroll-none;
 }
