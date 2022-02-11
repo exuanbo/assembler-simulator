@@ -6,7 +6,7 @@ export const theme = (): Extension =>
     '&': {
       height: '100%'
     },
-    '&.cm-editor.cm-focused': {
+    '&.cm-focused': {
       outline: '0'
     },
     '.cm-scroller': {
