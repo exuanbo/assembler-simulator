@@ -102,7 +102,7 @@ const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
     const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
     if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
-      const breakpoints = mapRangeSetToArray(breakpointRangeSet, (_, from) =>
+      const breakpoints = mapRangeSetToArray(breakpointRangeSet, from =>
         lineRangeAt(viewUpdate.state.doc, from)
       )
       dispatch(setBreakpoints(breakpoints))
