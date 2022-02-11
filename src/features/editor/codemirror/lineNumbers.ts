@@ -5,7 +5,10 @@ import { toggleBreakpoint } from './breakpoints'
 export const lineNumbers = (): Extension =>
   __lineNumbers({
     domEventHandlers: {
-      mousedown(view, line) {
+      mousedown(view, line, event) {
+        if ((event as MouseEvent).offsetY > line.bottom) {
+          return false
+        }
         toggleBreakpoint(view, line.from)
         return true
       }

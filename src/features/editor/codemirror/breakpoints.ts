@@ -66,7 +66,10 @@ export const breakpoints = (): Extension => [
     markers: view => getBreakpointRangeSet(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
-      mousedown(view, line) {
+      mousedown(view, line, event) {
+        if ((event as MouseEvent).offsetY > line.bottom) {
+          return false
+        }
         toggleBreakpoint(view, line.from)
         return true
       }
