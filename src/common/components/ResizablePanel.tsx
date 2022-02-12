@@ -93,7 +93,6 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
 
   return (
     <div ref={wrapperRef} className={`flex ${className}`}>
-      <div className={isDragging ? 'cursor-col-resize inset-0 z-50 fixed' : 'hidden'} />
       {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
       <div
         ref={dividerRef}
@@ -104,6 +103,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
         <Dots isHovered={isDragging} />
       </div>
       {isReady && <div className="flex-1">{children[1]}</div>}
+      <div className={isDragging ? 'cursor-col-resize inset-0 z-10 fixed' : 'hidden'} />
     </div>
   )
 }
