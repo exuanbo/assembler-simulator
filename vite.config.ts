@@ -66,7 +66,7 @@ export default defineConfig({
   },
   server: {
     watch: {
-      ignored: /coverage/
+      ignored: [/coverage/, /dist/]
     }
   }
 })
