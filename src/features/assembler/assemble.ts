@@ -10,6 +10,8 @@ import {
   setEditorActiveRange,
   clearEditorActiveRange
 } from '@/features/editor/editorSlice'
+import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
+import { errorToPlainObject } from '@/common/utils'
 
 export const assemble = (input: string): void => {
   let assembleResult: AssembleResult
@@ -22,10 +24,11 @@ export const assemble = (input: string): void => {
         dispatch(clearEditorActiveRange())
         dispatch(setAssemblerError(assemblerError))
       })
-      return
+    } else {
+      const unexpectedError = errorToPlainObject(err as Error)
+      dispatch(setUnexpectedError(unexpectedError))
     }
-    // TODO: handle unexpected assemble errors
-    throw err
+    return
   }
   const [addressToOpcodeMap, addressToStatementMap] = assembleResult
   const statement = addressToStatementMap[0] as Statement | undefined

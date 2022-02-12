@@ -121,3 +121,8 @@ export const throttle = <T extends unknown[]>(
     }
   }
 }
+
+// istanbul ignore next
+export const errorToPlainObject = ({ name, message, stack }: Error): Error => {
+  return { name, message, stack }
+}

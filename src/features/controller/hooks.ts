@@ -47,8 +47,9 @@ import {
   setIoDevicesInvisible,
   resetIo
 } from '@/features/io/ioSlice'
+import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
 import { useConstant } from '@/common/hooks'
-import { call } from '@/common/utils'
+import { call, errorToPlainObject } from '@/common/utils'
 
 class Controller {
   // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`
@@ -160,12 +161,12 @@ class Controller {
         if (err instanceof RuntimeError) {
           const runtimeError = err.toPlainObject()
           dispatch(setCpuFault(runtimeError))
-          resolve(undefined)
-          return
+        } else {
+          const unexpectedError = errorToPlainObject(err as Error)
+          dispatch(setUnexpectedError(unexpectedError))
         }
         resolve(undefined)
-        // TODO: handle unexpected runtime errors
-        throw err
+        return
       }
       const { memoryData, cpuRegisters, signals, changes } = stepResultWithSignals
       const instructionAdress = cpuRegisters.ip

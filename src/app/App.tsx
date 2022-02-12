@@ -5,6 +5,7 @@ import Editor from '@/features/editor/Editor'
 import CpuRegisters from '@/features/cpu/CpuRegisters'
 import Memory from '@/features/memory/Memory'
 import IoDevices from '@/features/io/IoDevices'
+import UnexpectedErrorModal from '@/features/unexpectedError/UnexpectedErrorModal'
 import { watch } from './store'
 import { selectStateToPersist } from './selectors'
 import { saveState } from './localStorage'
@@ -27,6 +28,7 @@ const App = (): JSX.Element => {
           <IoDevices />
         </div>
       </ResizablePanel>
+      <UnexpectedErrorModal />
     </div>
   )
 }
