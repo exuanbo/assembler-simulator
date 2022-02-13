@@ -91,7 +91,7 @@ const StaticParts = memo(() => (
       <rect height="8" width="8" x="266" y="54" />
       <rect height="8" width="8" x="114" y="54" />
     </g>
-    <g className="font-mono" fill="#fff" textAnchor="middle">
+    <g fill="#fff" textAnchor="middle">
       <title>Label</title>
       <text x="60" y="270">
         MSB
@@ -160,7 +160,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
           <title>Segments Layer</title>
           {segments.filter((_, index) => data[index] === 1)}
         </g>
-        <g className="font-mono" fill="#fff" textAnchor="middle">
+        <g fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
           {outputData.map((digit, index) => (
             <text key={index} x={100 + index * 16} y="284">

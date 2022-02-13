@@ -40,7 +40,7 @@ const StaticParts = memo(() => (
         <rect key={index} height="8" width="8" x={100 + index * 16} y="200" />
       ))}
     </g>
-    <g className="font-mono" fill="#fff" textAnchor="middle">
+    <g fill="#fff" textAnchor="middle">
       <title>Label</title>
       <text x="24" y="210">
         MSB
@@ -79,7 +79,7 @@ const TrafficLights = (): JSX.Element | null => {
             )
           })}
         </g>
-        <g className="font-mono" fill="#fff" textAnchor="middle">
+        <g fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
           {data.map((digit, index) => (
             <text key={index} x={104 + index * 16} y="224">
