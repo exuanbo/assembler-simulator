@@ -77,7 +77,7 @@ class Controller {
     await this.run()
   }
 
-  public async stopAndRun(): Promise<void> {
+  public stopAndRun = async (): Promise<void> => {
     this.cancelMainLoop()
     await this.lastStep
     this.setMainLoop()
