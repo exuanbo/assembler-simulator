@@ -63,6 +63,8 @@ class Controller {
   // it must have been assigned in `step` when it is called in `restoreIfSuspended`
   private unsubscribeSetSuspended!: () => void
 
+  private lastBreakpointLineNumber: number | undefined
+
   public assemble = assembleInputFromState
 
   public runOrStop = async (): Promise<void> => {
@@ -274,23 +276,37 @@ class Controller {
         dispatch(setIoDevicesInvisible())
       }
       const breakpoints = selectEditorBreakpoints(state)
+      let hasBreakpoint = false
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
         const { label, range: rangeWithoutLabel } = statement
         const statementRange = {
           from: label === null ? rangeWithoutLabel.from : label.range.from,
           to: rangeWithoutLabel.to
         }
-        const willBreak = breakpoints.some(lineLoc => lineRangesOverlap(lineLoc, statementRange))
-        if (willBreak) {
-          if (!willDispatchChanges) {
-            dispatchChanges()
+        const breakpointLineLoc = breakpoints.find(lineLoc =>
+          lineRangesOverlap(lineLoc, statementRange)
+        )
+        if (breakpointLineLoc !== undefined) {
+          hasBreakpoint = true
+          if (breakpointLineLoc.number !== this.lastBreakpointLineNumber) {
+            if (!willDispatchChanges) {
+              dispatchChanges()
+            }
+            // isRunning is already checked
+            this.stop()
+            this.lastBreakpointLineNumber = breakpointLineLoc.number
           }
-          // isRunning is already checked
-          this.stop()
         }
+      }
+      if (!hasBreakpoint && this.lastBreakpointLineNumber !== undefined) {
+        this.resetBreakpointLineNumber()
       }
       resolve({ memoryData, cpuRegisters })
     })
+  }
+
+  private resetBreakpointLineNumber(): void {
+    this.lastBreakpointLineNumber = undefined
   }
 
   public reset = async (): Promise<void> => {
@@ -307,6 +323,7 @@ class Controller {
   public fullyStop = async (): Promise<void> => {
     const state = getState()
     this.stopIfRunning(state)
+    this.resetBreakpointLineNumber()
     this.restoreIfSuspended(state)
     await this.resetLastStep()
     this.cancelDispatchChanges()
