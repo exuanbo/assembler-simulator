@@ -1,9 +1,13 @@
 import type { Text, Line } from '@codemirror/text'
 
-export type LineRange = Pick<Line, 'from' | 'to'>
+export type LineLoc = Pick<Line, 'from' | 'to' | 'number'>
 
-export const lineRangeAt = (text: Text, pos: number): LineRange =>
-  (({ from, to }) => ({ from, to }))(text.lineAt(pos))
+export const lineLocAt = (text: Text, pos: number): LineLoc => {
+  const { from, to, number } = text.lineAt(pos)
+  return { from, to, number }
+}
+
+type LineRange = Omit<LineLoc, 'number'>
 
 export const lineRangesEqual = (a: LineRange, b: LineRange): boolean =>
   a.from === b.from && a.to === b.to

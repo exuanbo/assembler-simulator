@@ -280,9 +280,7 @@ class Controller {
           from: label === null ? rangeWithoutLabel.from : label.range.from,
           to: rangeWithoutLabel.to
         }
-        const willBreak = breakpoints.some(lineRange =>
-          lineRangesOverlap(lineRange, statementRange)
-        )
+        const willBreak = breakpoints.some(lineLoc => lineRangesOverlap(lineLoc, statementRange))
         if (willBreak) {
           if (!willDispatchChanges) {
             dispatchChanges()

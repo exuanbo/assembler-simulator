@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { EditorView } from '@codemirror/view'
-import { LineRange, lineRangesEqual } from './codemirror/line'
+import { LineLoc, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '@/app/store'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'
@@ -8,7 +8,7 @@ import { range, curry2rev } from '@/common/utils'
 
 interface EditorState {
   input: string
-  breakpoints: LineRange[]
+  breakpoints: LineLoc[]
   activeRange: SourceRange | null
 }
 
@@ -25,24 +25,22 @@ export const editorSlice = createSlice({
     setInput: (state, action: PayloadAction<{ value: string; isFromFile?: boolean }>) => {
       state.input = action.payload.value
     },
-    setBreakpoints: (state, action: PayloadAction<LineRange[]>) => {
+    setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
       state.breakpoints = action.payload
     },
-    addBreakpoint: (state, action: PayloadAction<LineRange>) => {
-      const targetLineRange = action.payload
-      const targetIndex = state.breakpoints.findIndex(
-        lineRange => lineRange.from > targetLineRange.from
-      )
+    addBreakpoint: (state, action: PayloadAction<LineLoc>) => {
+      const targetLineLoc = action.payload
+      const targetIndex = state.breakpoints.findIndex(lineLoc => lineLoc.from > targetLineLoc.from)
       if (targetIndex === -1) {
-        state.breakpoints.push(targetLineRange)
+        state.breakpoints.push(targetLineLoc)
       } else {
-        state.breakpoints.splice(targetIndex, 0, targetLineRange)
+        state.breakpoints.splice(targetIndex, 0, targetLineLoc)
       }
     },
-    removeBreakpoint: (state, action: PayloadAction<LineRange>) => {
-      const targetLineRange = action.payload
-      const targetIndex = state.breakpoints.findIndex(lineRange =>
-        lineRangesEqual(lineRange, targetLineRange)
+    removeBreakpoint: (state, action: PayloadAction<LineLoc>) => {
+      const targetLineLoc = action.payload
+      const targetIndex = state.breakpoints.findIndex(lineLoc =>
+        lineRangesEqual(lineLoc, targetLineLoc)
       )
       state.breakpoints.splice(targetIndex, 1)
     },
@@ -58,7 +56,7 @@ export const editorSlice = createSlice({
 
 export const selectEditortInput = (state: RootState): string => state.editor.input
 
-export const selectEditorBreakpoints = (state: RootState): LineRange[] => state.editor.breakpoints
+export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
 
 const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
 

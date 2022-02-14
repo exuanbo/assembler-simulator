@@ -18,7 +18,7 @@ import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './cod
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { StringAnnotation } from './codemirror/annotations'
-import { lineRangeAt, lineRangesEqual } from './codemirror/line'
+import { lineLocAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { assemble } from '@/features/assembler/assemble'
@@ -103,11 +103,12 @@ const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
     const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
     if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
       const breakpoints = mapRangeSetToArray(breakpointRangeSet, from =>
-        lineRangeAt(viewUpdate.state.doc, from)
+        lineLocAt(viewUpdate.state.doc, from)
       )
       dispatch(setBreakpoints(breakpoints))
     }
   } else {
+    // we only consider the first transaction
     const transaction = viewUpdate.transactions[0] as Transaction | undefined
     if (transaction === undefined || isChangedFromState(transaction)) {
       return
@@ -115,8 +116,8 @@ const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
     transaction.effects.forEach(effect => {
       if (effect.is(breakpointEffect)) {
         const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-        const lineRange = lineRangeAt(viewUpdate.state.doc, effect.value.pos)
-        dispatch(actionCreator(lineRange))
+        const lineLoc = lineLocAt(viewUpdate.state.doc, effect.value.pos)
+        dispatch(actionCreator(lineLoc))
       }
     })
   }
@@ -133,17 +134,17 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
     const breakpoints = selectEditorBreakpoints(getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
-      lineRange =>
-        lineRange.to <= view.state.doc.length &&
-        lineRangesEqual(lineRange, lineRangeAt(view.state.doc, lineRange.from))
+      lineLoc =>
+        lineLoc.to <= view.state.doc.length &&
+        lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from))
     )
     if (validBreakpoints.length < breakpoints.length) {
       dispatch(setBreakpoints(validBreakpoints))
     }
     view.dispatch({
-      effects: validBreakpoints.map(lineRange =>
+      effects: validBreakpoints.map(lineLoc =>
         breakpointEffect.of({
-          pos: lineRange.from,
+          pos: lineLoc.from,
           on: true
         })
       ),
