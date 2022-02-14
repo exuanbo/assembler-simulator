@@ -29,7 +29,7 @@
     "@codemirror/history": "0.19.2",
     "@codemirror/language": "0.19.7",
     "@codemirror/rangeset": "0.19.6",
-    "@codemirror/state": "0.19.6",
+    "@codemirror/state": "0.19.7",
     "@codemirror/stream-parser": "0.19.5",
     "@codemirror/text": "0.19.6",
     "@codemirror/view": "0.19.42",
@@ -43,14 +43,14 @@
     "@types/jest": "27.4.0",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
-    "@vitejs/plugin-react": "1.1.4",
-    "jest": "27.5.0",
+    "@vitejs/plugin-react": "1.2.0",
+    "jest": "27.5.1",
     "ts-jest": "27.1.3",
     "ts-standardx": "0.8.4",
     "typescript": "4.4.4",
-    "vite": "2.7.13",
+    "vite": "2.8.2",
     "vite-plugin-pwa": "0.11.13",
-    "vite-plugin-windicss": "1.6.3",
+    "vite-plugin-windicss": "1.7.0",
     "windicss": "3.4.3"
   }
 }
