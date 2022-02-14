@@ -2,7 +2,7 @@ import type { Middleware, MiddlewareAPI } from 'redux'
 import type { RootState, Dispatch } from './store'
 
 interface WatchAPI<TSelected> extends MiddlewareAPI<Dispatch, RootState> {
-  getPrev: () => TSelected
+  getPrevSelected: () => TSelected
 }
 
 type WatchCallback<TSelected> = (
@@ -21,12 +21,12 @@ type Watch = <TSelected>(
 type Subscriptions<TSelected = any> = Map<
   (state: RootState) => TSelected,
   {
-    prev: TSelected
+    prevSelected: TSelected
     callbacks: Set<WatchCallback<TSelected>>
   }
 >
 
-const uninitialized = Symbol('uninitialized')
+const nil = Symbol('nil')
 
 interface Watcher extends Middleware {
   watch: Watch
@@ -40,19 +40,19 @@ export const createWatcher = (): Watcher => {
     const result = next(action)
     const state = api.getState()
     subscriptions.forEach((subscription, selector) => {
-      if (subscription.prev === uninitialized) {
-        subscription.prev = selector(startState)
+      if (subscription.prevSelected === nil) {
+        subscription.prevSelected = selector(startState)
       }
-      const { prev, callbacks } = subscription
+      const { prevSelected, callbacks } = subscription
       const selectedState = selector(state)
-      if (selectedState !== prev) {
+      if (selectedState !== prevSelected) {
         callbacks.forEach(cb =>
           cb(selectedState, {
             ...api,
-            getPrev: () => prev
+            getPrevSelected: () => prevSelected
           })
         )
-        subscription.prev = selectedState
+        subscription.prevSelected = selectedState
       }
     })
     return result
@@ -61,7 +61,7 @@ export const createWatcher = (): Watcher => {
   watcher.watch = (selector, callback) => {
     if (!subscriptions.has(selector)) {
       subscriptions.set(selector, {
-        prev: uninitialized,
+        prevSelected: nil,
         callbacks: new Set()
       })
     }
