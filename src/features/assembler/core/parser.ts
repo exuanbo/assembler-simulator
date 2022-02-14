@@ -150,7 +150,6 @@ const parseSingleOperand =
     if (index >= tokens.length) {
       throw new MissingEndError()
     }
-
     const token = tokens[index]
 
     const isExpected = (type: OperandType): boolean =>

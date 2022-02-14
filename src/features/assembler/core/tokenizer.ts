@@ -30,7 +30,7 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
       case TokenType.Unknown:
         return normalizedValue.toUpperCase()
       case TokenType.String:
-        return JSON.parse(`"${normalizedValue}"`) // manually escape
+        return JSON.parse(`"${normalizedValue}"`) // escape
       default:
         return normalizedValue
     }
