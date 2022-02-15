@@ -4,9 +4,21 @@ interface Props {
   children: ReactNode
 }
 
-const MenuItems = ({ children }: Props): JSX.Element => (
-  <div className="divide-y border bg-gray-50 shadow-md -ml-1px top-8 fixed">{children}</div>
-)
+const MenuItems = ({ children }: Props): JSX.Element => {
+  const refCallback: RefCallback<HTMLDivElement> = node => {
+    if (node === null) {
+      return
+    }
+    const { left: parentLeft } = node.parentElement!.getBoundingClientRect()
+    node.style.left = `${parentLeft}px`
+  }
+
+  return (
+    <div ref={refCallback} className="divide-y border bg-gray-50 shadow-md top-8 fixed">
+      {children}
+    </div>
+  )
+}
 
 interface ExpandedProps {
   innerRef: RefCallback<HTMLDivElement>
