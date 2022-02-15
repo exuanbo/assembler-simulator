@@ -1,7 +1,7 @@
+export { default as CheckMark } from './CheckMark'
 export { default as File } from './File'
 export { default as View } from './View'
 export { default as Wrench } from './Wrench'
-export { default as CheckMark } from './CheckMark'
 export { default as Arrow } from './Arrow'
 export { default as Play } from './Play'
 export { default as Stop } from './Stop'
