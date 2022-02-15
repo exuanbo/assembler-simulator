@@ -1,6 +1,6 @@
-import { ReactNode, RefCallback, useState, useCallback } from 'react'
+import type { ReactNode, RefCallback } from 'react'
 import { Play } from '@/common/components/icons'
-import { useHover } from '@/common/hooks'
+import { useRefCallback, useHover } from '@/common/hooks'
 
 interface Props {
   children: ReactNode
@@ -19,7 +19,7 @@ interface ExpandableProps {
 
 MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [isHovered, hoverRef] = useHover<HTMLDivElement>(100)
-  const [menuItems, setMenuItems] = useState<HTMLDivElement | null>(null)
+  const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
     if (menuItems === null) {
@@ -30,10 +30,6 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
       event.stopPropagation()
     }
   }
-
-  const menuItemsRef = useCallback<RefCallback<HTMLDivElement>>(node => {
-    setMenuItems(node)
-  }, [])
 
   return (
     <div
