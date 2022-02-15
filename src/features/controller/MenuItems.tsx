@@ -16,14 +16,15 @@ interface ExpandedProps {
 MenuItems.Expanded = ({ innerRef, children }: ExpandedProps): JSX.Element => {
   const refCallback: RefCallback<HTMLDivElement> = node => {
     innerRef(node)
-    if (node?.parentElement != null) {
-      // MenuItem.Expandable
-      const { parentElement } = node
-      const { top: parentTop, right: parentRight } = parentElement.getBoundingClientRect()
-      const isParentFirstChild = parentElement.offsetTop === 0
-      node.style.top = `${parentTop - (isParentFirstChild ? /* border */ 1 : 0)}px`
-      node.style.left = `${parentRight + /* border */ 1}px`
+    if (node === null) {
+      return
     }
+    // MenuItem.Expandable
+    const parentElement = node.parentElement!
+    const { top: parentTop, right: parentRight } = parentElement.getBoundingClientRect()
+    const isParentFirstChild = parentElement.offsetTop === 0
+    node.style.top = `${parentTop - (isParentFirstChild ? /* border */ 1 : 0)}px`
+    node.style.left = `${parentRight + /* border */ 1}px`
   }
 
   return (
