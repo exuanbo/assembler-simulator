@@ -2,7 +2,7 @@ import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { View, CheckMark } from '@/common/components/icons'
+import { CheckMark, View as ViewIcon } from '@/common/components/icons'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
@@ -80,7 +80,7 @@ const ViewMenu = (): JSX.Element => (
     {isOpen => (
       <>
         <MenuButton.Main>
-          <View />
+          <ViewIcon />
           <span>View</span>
         </MenuButton.Main>
         {isOpen && (
