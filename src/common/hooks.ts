@@ -7,11 +7,22 @@ export const useToggle = (
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
+export const useRefCallback = <T extends HTMLElement = HTMLElement>(): [
+  T | null,
+  RefCallback<T>
+] => {
+  const [current, setCurrent] = useState<T | null>(null)
+  const refCallback = useCallback<RefCallback<T>>(node => {
+    setCurrent(node)
+  }, [])
+  return [current, refCallback]
+}
+
 export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   isClicked: boolean,
   clickRef: RefCallback<T>
 ] => {
-  const [current, setCurrent] = useState<T | null>(null)
+  const [current, refCallback] = useRefCallback<T>()
   const [isClicked, setClicked] = useState(false)
 
   useEffect(() => {
@@ -30,17 +41,13 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
     }
   }, [current])
 
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
-  }, [])
-
   return [isClicked, refCallback]
 }
 
 export const useHover = <T extends HTMLElement = HTMLElement>(
   delay?: number
 ): [isHovered: boolean, hoverRef: RefCallback<T>] => {
-  const [current, setCurrent] = useState<T | null>(null)
+  const [current, refCallback] = useRefCallback<T>()
   const [isHovered, setHovered] = useState(false)
 
   const hoverTimeoutIdRef = useRef<number | undefined>()
@@ -77,10 +84,6 @@ export const useHover = <T extends HTMLElement = HTMLElement>(
       setHovered(false)
     }
   }, [current, delay])
-
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
-  }, [])
 
   return [isHovered, refCallback]
 }
