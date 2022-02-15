@@ -31,12 +31,11 @@ MenuItems.Expanded = ({ innerRef, children }: ExpandedProps): JSX.Element => {
     if (node === null) {
       return
     }
-    // MenuItem.Expandable
-    const parentElement = node.parentElement!
+    const parentElement /* :MenuItem.Expandable */ = node.parentElement!
     const { top: parentTop, right: parentRight } = parentElement.getBoundingClientRect()
     const isParentFirstChild = parentElement.offsetTop === 0
-    node.style.top = `${parentTop - (isParentFirstChild ? /* border */ 1 : 0)}px`
-    node.style.left = `${parentRight + /* border */ 1}px`
+    node.style.top = `${parentTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
+    node.style.left = `${parentRight + /* border: */ 1}px`
   }
 
   return (

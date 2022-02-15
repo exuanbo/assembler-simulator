@@ -115,9 +115,9 @@ const checkOperationResult = (
   previousValue: number
 ): [finalResult: number, flags: ExcludeTupleTail<StatusRegister>] => {
   const flags: ExcludeTupleTail<StatusRegister> = [
-    /* zero */ FlagStatus.Off,
-    /* overflow */ FlagStatus.Off,
-    /* sign */ FlagStatus.Off
+    /* zero: */ FlagStatus.Off,
+    /* overflow: */ FlagStatus.Off,
+    /* sign: */ FlagStatus.Off
   ]
   if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
     flags[Flag.Overflow] = FlagStatus.On
