@@ -14,7 +14,9 @@ const MenuItems = ({ children }: Props): JSX.Element => {
   }
 
   return (
-    <div ref={refCallback} className="divide-y border bg-gray-50 shadow-md top-8 fixed">
+    <div
+      ref={refCallback}
+      className="divide-y border-r border-b border-l bg-gray-50 shadow-md top-8 fixed">
       {children}
     </div>
   )
