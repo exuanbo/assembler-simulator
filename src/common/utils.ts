@@ -35,6 +35,19 @@ export const clamp = (num: number, min: number, max: number): number =>
 
 export const hexToDec = (str: string): number => Number.parseInt(str, 16)
 
+interface RangeFn {
+  (stop: number): number[]
+  (start: number, stop: number): number[]
+}
+
+export const range: RangeFn = (start: number, stop?: number): number[] => {
+  if (stop === undefined) {
+    stop = start
+    start = 0
+  }
+  return Array.from({ length: stop - start }, (_, index) => start + index)
+}
+
 export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')
 
 const PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP = /^[["](.*)["\]]$/
@@ -57,19 +70,6 @@ export const escapeInnerSingleQuotes = (str: string): string => {
   return quotedPart === undefined
     ? str
     : str.replace(quotedPart, `'${escapeSingleQuote(quotedPart.slice(1, -1))}'`)
-}
-
-interface RangeFn {
-  (stop: number): number[]
-  (start: number, stop: number): number[]
-}
-
-export const range: RangeFn = (start: number, stop?: number): number[] => {
-  if (stop === undefined) {
-    stop = start
-    start = 0
-  }
-  return Array.from({ length: stop - start }, (_, index) => start + index)
 }
 
 export const stringToAscii = (str: string): number[] =>

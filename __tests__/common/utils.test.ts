@@ -2,8 +2,8 @@ import {
   decToBin,
   decTo8bitBinDigits,
   clamp,
-  splitCamelCaseToString,
   range,
+  splitCamelCaseToString,
   asciiToChars,
   compareArrayWithSameLength,
   curry2rev,
@@ -33,12 +33,6 @@ describe('utils', () => {
     })
   })
 
-  describe('splitCamelCaseToString', () => {
-    it('should convert camelCase to startCase', () => {
-      expect(splitCamelCaseToString('camelCase')).toBe('camel Case')
-    })
-  })
-
   describe('range', () => {
     it('should generate an array of numbers', () => {
       expect(range(1, 5)).toEqual([1, 2, 3, 4])
@@ -46,6 +40,12 @@ describe('utils', () => {
 
     it('should generate an array of numbers without `start`', () => {
       expect(range(3)).toEqual([0, 1, 2])
+    })
+  })
+
+  describe('splitCamelCaseToString', () => {
+    it('should convert camelCase to startCase', () => {
+      expect(splitCamelCaseToString('camelCase')).toBe('camel Case')
     })
   })
 
