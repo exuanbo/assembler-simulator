@@ -44,17 +44,16 @@ const Memory = (): JSX.Element => {
                 <span className="px-1">{decToHex(rowIndex)[1]}</span>
               </td>
               {row.map((value, colIndex) => {
+                const tdClassName = sp < address && address <= MAX_SP ? 'bg-blue-50' : ''
                 const spanClassName =
                   address === ip
                     ? 'rounded bg-green-100'
                     : address === sp
                     ? 'rounded bg-blue-100'
-                    : sp < address && address <= MAX_SP
-                    ? 'rounded bg-blue-50'
                     : ''
                 address += 1
                 return (
-                  <td key={colIndex} className="text-center">
+                  <td key={colIndex} className={`text-center ${tdClassName}`}>
                     <span className={`px-1 ${spanClassName}`}>
                       {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
                     </span>
