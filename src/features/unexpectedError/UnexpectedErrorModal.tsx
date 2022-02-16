@@ -23,7 +23,7 @@ const UnexpectedErrorModal = (): JSX.Element => {
       isOpen={hasUnexpectedError}>
       <div
         ref={clickRef}
-        className="border rounded space-y-2 bg-light-100 shadow-md py-2 px-4 select-text all:select-text">
+        className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 select-text all:select-text">
         {hasUnexpectedError
           ? unexpectedError.stack
               ?.split(/\n(.*)/s)
