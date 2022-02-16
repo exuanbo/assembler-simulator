@@ -37,7 +37,7 @@ MenuItems.Expanded = ({ innerRef, children }: ExpandedProps): JSX.Element => {
     const { top: parentTop, right: parentRight } = parentElement.getBoundingClientRect()
     const isParentFirstChild = parentElement.offsetTop === 0
     node.style.top = `${parentTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
-    node.style.left = `${parentRight + /* border: */ 1}px`
+    node.style.left = `${parentRight}px`
   }
 
   return (
