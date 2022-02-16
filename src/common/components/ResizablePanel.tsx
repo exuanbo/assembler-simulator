@@ -9,7 +9,7 @@ const Dots = memo(({ isHovered }: { isHovered: boolean }) => (
     {range(3).map(index => (
       <span
         key={index}
-        className={`rounded-full h-1 m-1 w-1 group-hover:bg-blue-gray-400 ${
+        className={`rounded-full h-1 w-1 group-hover:bg-blue-gray-400 ${
           isHovered ? 'bg-blue-gray-400' : 'bg-blue-gray-300'
         }`}
       />
@@ -96,7 +96,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
       {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
       <div
         ref={dividerRef}
-        className={`border-l border-r cursor-col-resize flex-none flex flex-col items-center justify-center group hover:bg-gray-200 ${
+        className={`border-r border-l cursor-col-resize flex-none flex flex-col space-y-2 px-1 items-center justify-center group hover:bg-gray-200 ${
           isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
         }`}
         onMouseDown={handleMouseDown}>
