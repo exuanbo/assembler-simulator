@@ -1,5 +1,5 @@
 import type { Extension } from '@codemirror/state'
-import { EditorView, keymap, drawSelection } from '@codemirror/view'
+import { keymap, drawSelection } from '@codemirror/view'
 import { defaultKeymap } from '@codemirror/commands'
 import { history, historyKeymap } from '@codemirror/history'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets'
@@ -13,7 +13,6 @@ import { indentWithTab } from './indentWithTab'
 
 export const setup: Extension = [
   theme(),
-  EditorView.lineWrapping,
   drawSelection(),
   wavyUnderline(),
   highlightLine(),
