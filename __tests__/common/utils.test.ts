@@ -231,92 +231,27 @@ describe('utils', () => {
     })
     test('works with very deep props & dates', () => {
       const newDate = new Date()
-      const origin = {
-        info: {
-          time: 'now',
-          newDate,
-          very: { deep: { prop: false } }
-        }
-      }
-      const target = {
-        info: {
-          date: 'tomorrow',
-          very: { deep: { prop: true } }
-        }
-      }
+      const origin = { info: { time: 'now', newDate, very: { deep: { prop: false } } } }
+      const target = { info: { date: 'tomorrow', very: { deep: { prop: true } } } }
       const res = merge(origin, target)
-      expect(res).toEqual({
-        info: {
-          time: 'now',
-          newDate,
-          date: 'tomorrow',
-          very: { deep: { prop: true } }
-        }
-      })
-      expect(origin).toEqual({
-        info: {
-          time: 'now',
-          newDate,
-          very: { deep: { prop: false } }
-        }
-      })
-      expect(target).toEqual({
-        info: {
-          date: 'tomorrow',
-          very: { deep: { prop: true } }
-        }
-      })
+      expect(res).toEqual({ info: { time: 'now', newDate, date: 'tomorrow', very: { deep: { prop: true } } } }) // prettier-ignore
+      expect(origin).toEqual({ info: { time: 'now', newDate, very: { deep: { prop: false } } } })
+      expect(target).toEqual({ info: { date: 'tomorrow', very: { deep: { prop: true } } } })
       expect(res.info.newDate instanceof Date).toEqual(true)
     })
     test('1. does not overwrite origin prop if target prop is an empty object | 2. properly merges deep props', () => {
-      const origin = {
-        info: {
-          time: { when: 'now' },
-          very: { deep: { prop: false } }
-        }
-      }
-      const target = {
-        info: {
-          time: {},
-          very: { whole: 1 }
-        }
-      }
+      const origin = { info: { time: { when: 'now' }, very: { deep: { prop: false } } } }
+      const target = { info: { time: {}, very: { whole: 1 } } }
       const res = merge(origin, target)
-      expect(res).toEqual({
-        info: {
-          time: { when: 'now' },
-          very: {
-            deep: { prop: false },
-            whole: 1
-          }
-        }
-      })
+      expect(res).toEqual({ info: { time: { when: 'now' }, very: { deep: { prop: false }, whole: 1 } } }) // prettier-ignore
     })
     test('overwrites any origin prop when target prop is an object with props', () => {
-      const origin = {
-        body: 'a',
-        body2: { head: false },
-        tail: {}
-      }
-      const target = {
-        body: { head: true },
-        body2: { head: { eyes: true } }
-      }
+      const origin = { body: 'a', body2: { head: false }, tail: {} }
+      const target = { body: { head: true }, body2: { head: { eyes: true } } }
       const res = merge(origin, target)
-      expect(res).toEqual({
-        body: { head: true },
-        body2: { head: { eyes: true } },
-        tail: {}
-      })
-      expect(origin).toEqual({
-        body: 'a',
-        body2: { head: false },
-        tail: {}
-      })
-      expect(target).toEqual({
-        body: { head: true },
-        body2: { head: { eyes: true } }
-      })
+      expect(res).toEqual({ body: { head: true }, body2: { head: { eyes: true } }, tail: {} })
+      expect(origin).toEqual({ body: 'a', body2: { head: false }, tail: {} })
+      expect(target).toEqual({ body: { head: true }, body2: { head: { eyes: true } } })
     })
 
     test('works with unlimited depth', () => {
@@ -358,12 +293,7 @@ describe('utils', () => {
       const starter = { name: 'Squirtle', types: { water: true } }
       const newValues = { name: 'Wartortle', types: { fighting: true }, level: 16 }
       const evolution = merge(starter, newValues, { is: 'cool' })
-      expect(evolution).toEqual({
-        name: 'Wartortle',
-        types: { water: true, fighting: true },
-        level: 16,
-        is: 'cool'
-      })
+      expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' }) // prettier-ignore
     })
     /* eslint-enable @typescript-eslint/no-explicit-any */
   })
