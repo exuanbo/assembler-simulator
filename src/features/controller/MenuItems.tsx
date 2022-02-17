@@ -9,14 +9,13 @@ const MenuItems = ({ children }: Props): JSX.Element => {
     if (node === null) {
       return
     }
-    const { left: parentLeft } = node.parentElement!.getBoundingClientRect()
+    const { bottom: parentBottom, left: parentLeft } = node.parentElement!.getBoundingClientRect()
+    node.style.top = `${parentBottom - /* border: */ 1}px`
     node.style.left = `${parentLeft}px`
   }
 
   return (
-    <div
-      ref={refCallback}
-      className="divide-y border-r border-b border-l bg-gray-50 shadow top-8 fixed">
+    <div ref={refCallback} className="divide-y border bg-gray-50 shadow fixed">
       {children}
     </div>
   )
