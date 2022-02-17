@@ -1,9 +1,8 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
-import { merge } from 'merge-anything'
 import { InputSignals, InputPort, initialInputSignals } from './core'
 import { MemoryData, initVduData, getVduDataFrom } from '@/features/memory/core'
 import type { RootState } from '@/app/store'
-import { decTo8bitBinDigits } from '@/common/utils'
+import { decTo8bitBinDigits, merge } from '@/common/utils'
 
 export enum IoDeviceName {
   VisualDisplayUnit = 'VisualDisplayUnit',

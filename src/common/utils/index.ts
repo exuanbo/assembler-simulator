@@ -1,3 +1,14 @@
+export { merge } from './merge'
+
+/**
+ * Modified from <https://stackoverflow.com/a/57683652/13346012>
+ */
+export type ExpandDeep<T> = T extends Record<string, unknown>
+  ? { [K in keyof T]: ExpandDeep<T[K]> }
+  : T extends Array<infer E>
+  ? Array<ExpandDeep<E>>
+  : T
+
 export type ExcludeTupleTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
   ? Excluded
   : []

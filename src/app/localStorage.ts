@@ -1,9 +1,9 @@
 import type { PreloadedState } from '@reduxjs/toolkit'
-import { merge } from 'merge-anything'
 import type { selectStateToPersist } from './selectors'
 import type { RootState } from './store'
 import { editorSlice } from '@/features/editor/editorSlice'
 import { controllerSlice } from '@/features/controller/controllerSlice'
+import { merge } from '@/common/utils'
 import { name } from '../../package.json'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
