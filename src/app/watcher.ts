@@ -1,4 +1,4 @@
-import type { Middleware, MiddlewareAPI } from 'redux'
+import type { Middleware, MiddlewareAPI } from '@reduxjs/toolkit'
 import type { RootState, Dispatch } from './store'
 
 interface WatchAPI<TSelected> extends MiddlewareAPI<Dispatch, RootState> {

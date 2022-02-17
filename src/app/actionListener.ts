@@ -1,5 +1,4 @@
-import { PayloadActionCreator, getType } from '@reduxjs/toolkit'
-import type { Middleware, MiddlewareAPI } from 'redux'
+import { Middleware, MiddlewareAPI, PayloadActionCreator, getType } from '@reduxjs/toolkit'
 import type { RootState, Dispatch } from './store'
 
 type ListenAPI = MiddlewareAPI<Dispatch, RootState>
