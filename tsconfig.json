@@ -20,6 +20,8 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
 
+    "noErrorTruncation": true,
+
     "skipLibCheck": true
   }
 }
