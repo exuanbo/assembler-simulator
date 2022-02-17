@@ -29,11 +29,11 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
     targetPropertySymbols.forEach(assignTargetProperty)
   }
   const assignSourceProperty = (key: string | symbol): void => {
-    let sourceVal = source[key]
-    if (isTargetPlainObject && isPlainObject(sourceVal)) {
-      sourceVal = mergeRecursively(target[key], sourceVal)
-    }
-    resultObject[key] = sourceVal
+    const sourcePropertyValue = source[key]
+    const shouldMerge = isTargetPlainObject && isPlainObject(sourcePropertyValue)
+    resultObject[key] = shouldMerge
+      ? mergeRecursively(target[key], sourcePropertyValue)
+      : sourcePropertyValue
   }
   sourcePropertyNames.forEach(assignSourceProperty)
   sourcePropertySymbols.forEach(assignSourceProperty)
