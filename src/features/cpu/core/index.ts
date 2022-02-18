@@ -154,14 +154,14 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
   const __outputSignals: OutputSignals = {}
 
+  const setHalted = (): void => {
+    __outputSignals.halted = true
+  }
   const setRequiredInputDataPort = (port: number): void => {
     __outputSignals.requiredInputDataPort = port
   }
   const setOutputData = (content: number, port: number): void => {
     __outputSignals.data = { content, port }
-  }
-  const setHalted = (): void => {
-    __outputSignals.halted = true
   }
   const setCloseWindows = (): void => {
     __outputSignals.closeWindows = true

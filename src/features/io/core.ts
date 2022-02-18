@@ -48,9 +48,9 @@ interface OutputData {
 }
 
 export type OutputSignals = Partial<{
+  halted: true
   requiredInputDataPort: InputPort
   data: OutputData
-  halted: true
   closeWindows: true
 }>
 

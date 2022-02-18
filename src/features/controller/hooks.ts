@@ -203,9 +203,9 @@ class Controller {
       }
       const { data: inputData, interrupt } = signals.input
       const {
+        halted: shouldHalt = false,
         requiredInputDataPort,
         data: outputData,
-        halted: shouldHalt = false,
         closeWindows: shouldCloseWindows = false
       } = signals.output
       if (interrupt) {
