@@ -1,7 +1,8 @@
 {
   "name": "assembler-simulator",
-  "description": "8-bit Assembler Simulator based on the Samphire Microprocessor Simulator instruction set.",
   "private": "true",
+  "version": "0.0.0",
+  "description": "8-bit Assembler Simulator based on the Samphire Microprocessor Simulator instruction set.",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,16 +12,6 @@
     "jest": "jest",
     "test": "npm run lint && npm run build && npm run jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/exuanbo/assembler-simulator.git"
-  },
-  "author": "exuanbo",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/exuanbo/assembler-simulator/issues"
-  },
-  "homepage": "https://github.com/exuanbo/assembler-simulator#readme",
   "dependencies": {
     "@codemirror/closebrackets": "0.19.0",
     "@codemirror/commands": "0.19.8",
