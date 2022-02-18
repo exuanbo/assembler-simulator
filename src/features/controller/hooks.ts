@@ -80,13 +80,6 @@ class Controller {
     await this.run()
   }
 
-  public stopAndRun = async (): Promise<void> => {
-    this.cancelMainLoop()
-    await this.lastStep
-    this.setMainLoop()
-    await this.step()
-  }
-
   /**
    * @returns true if was running
    */
@@ -105,13 +98,6 @@ class Controller {
       this.isInterruptIntervalSet = false
     }
     dispatch(setRunning(false))
-  }
-
-  private cancelMainLoop(): void {
-    this.clearStepInterval()
-    if (this.isInterruptIntervalSet) {
-      this.clearInterruptInterval()
-    }
   }
 
   private clearStepInterval(): void {
@@ -145,7 +131,21 @@ class Controller {
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
   }
 
-  private setMainLoop(): void {
+  public stopAndRun = async (): Promise<void> => {
+    this.cancelMainLoop()
+    await this.lastStep
+    this.resumeMainLoop()
+    await this.step()
+  }
+
+  private cancelMainLoop(): void {
+    this.clearStepInterval()
+    if (this.isInterruptIntervalSet) {
+      this.clearInterruptInterval()
+    }
+  }
+
+  private resumeMainLoop(): void {
     this.setStepInterval()
     if (this.isInterruptIntervalSet) {
       this.setInterruptInterval()
@@ -265,7 +265,7 @@ class Controller {
             setSuspended,
             async () => {
               if (isRunning) {
-                this.setMainLoop()
+                this.resumeMainLoop()
               }
               await this.step()
             },
