@@ -133,7 +133,6 @@ class Controller {
 
   public stopAndRun = async (): Promise<void> => {
     this.cancelMainLoop()
-    await this.lastStep
     this.resumeMainLoop()
     await this.step()
   }
@@ -345,8 +344,8 @@ class Controller {
     this.lastBreakpointLineNumber = undefined
   }
 
-  public reset = async (): Promise<void> => {
-    await this.fullyStop()
+  public reset = (): void => {
+    this.fullyStop()
     batch(() => {
       dispatch(resetMemoryData())
       dispatch(resetCpu())
@@ -356,18 +355,16 @@ class Controller {
     })
   }
 
-  // TODO: correct order of actions
-  public fullyStop = async (): Promise<void> => {
+  public fullyStop = (): void => {
     const state = getState()
     this.stopIfRunning(state)
-    this.resetBreakpointLineNumber()
-    this.restoreIfSuspended(state)
-    await this.resetLastStep()
     this.cancelDispatchChanges()
+    this.restoreIfSuspended(state)
+    this.resetBreakpointLineNumber()
+    this.resetLastStep()
   }
 
-  private async resetLastStep(): Promise<void> {
-    await this.lastStep
+  private resetLastStep(): void {
     this.lastStep = Promise.resolve(undefined)
   }
 
