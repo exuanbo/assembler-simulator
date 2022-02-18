@@ -1,12 +1,12 @@
 import type { O } from 'ts-toolbelt'
 import type { ExpandDeep } from './index'
 
-const getType = (val: unknown): string => Object.prototype.toString.call(val).slice(8, -1)
+const getType = (value: unknown): string => Object.prototype.toString.call(value).slice(8, -1)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PlainObject = Record<string | number | symbol, any>
 
-const isPlainObject = (val: unknown): val is PlainObject => getType(val) === 'Object'
+const isPlainObject = (value: unknown): value is PlainObject => getType(value) === 'Object'
 
 const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => {
   const resultObject: PlainObject = {}

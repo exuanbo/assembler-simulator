@@ -4,19 +4,19 @@ const SEPARATOR = ', '
 
 const isArrayOf =
   <T = unknown>(...types: string[]) =>
-  (val: unknown): val is T[] =>
-    Array.isArray(val) && val.every(el => types.includes(typeof el))
+  (value: unknown): value is T[] =>
+    Array.isArray(value) && value.every(el => types.includes(typeof el))
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
-  test: val => isArrayOf('number', 'boolean')(val) && val.length <= 4,
-  serialize: (val: Array<number | boolean>) =>
-    `Array [${val.join(SEPARATOR)}${val.length > 0 ? ',' : ''}]`
+  test: value => isArrayOf('number', 'boolean')(value) && value.length <= 4,
+  serialize: (arr: Array<number | boolean>) =>
+    `Array [${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
-  test: val => isArrayOf('number', 'string')(val) && val.length % 0x10 === 0,
-  serialize: (val: Array<number | string>, _config, indentation) => `Array [
-${chunk(0x10, val)
+  test: value => isArrayOf('number', 'string')(value) && value.length % 0x10 === 0,
+  serialize: (arr: Array<number | string>, _config, indentation) => `Array [
+${chunk(0x10, arr)
   .map(
     row =>
       `${indentation}${' '.repeat(2)}${row
