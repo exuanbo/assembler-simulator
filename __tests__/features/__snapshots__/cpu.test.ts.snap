@@ -521,7 +521,9 @@ Object {
       },
       "interrupt": false,
     },
-    "output": Object {},
+    "output": Object {
+      "interruptFlagSet": false,
+    },
   },
 }
 `;
@@ -3095,7 +3097,9 @@ Object {
       },
       "interrupt": false,
     },
-    "output": Object {},
+    "output": Object {
+      "interruptFlagSet": true,
+    },
   },
 }
 `;

@@ -163,6 +163,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
   const setOutputData = (content: number, port: number): void => {
     __outputSignals.data = { content, port }
   }
+  const setInterruptFlag = (value: boolean): void => {
+    __outputSignals.interruptFlagSet = value
+  }
   const setCloseWindows = (): void => {
     __outputSignals.closeWindows = true
   }
@@ -607,11 +610,13 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       // Miscellaneous
       case Opcode.STI: {
         setFlag(Flag.Interrupt, FlagStatus.On)
+        setInterruptFlag(true)
         incIp()
         break
       }
       case Opcode.CLI: {
         setFlag(Flag.Interrupt, FlagStatus.Off)
+        setInterruptFlag(false)
         incIp()
         break
       }

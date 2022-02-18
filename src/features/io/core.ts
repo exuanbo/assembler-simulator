@@ -51,6 +51,7 @@ export type OutputSignals = Partial<{
   halted: true
   requiredInputDataPort: InputPort
   data: OutputData
+  interruptFlagSet: boolean
   closeWindows: true
 }>
 

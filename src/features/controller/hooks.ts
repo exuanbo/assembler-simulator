@@ -52,9 +52,10 @@ import { useConstant } from '@/common/hooks'
 import { call, errorToPlainObject } from '@/common/utils'
 
 class Controller {
-  // they must have been assigned in `setMainLoop` when they are read in `cancelMainLoop`
   private stepIntervalId!: number
+
   private interruptIntervalId!: number
+  private isInterruptIntervalSet = false
 
   private lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
@@ -98,12 +99,26 @@ class Controller {
   }
 
   private stop(): void {
-    this.cancelMainLoop()
+    this.clearStepInterval()
+    if (this.isInterruptIntervalSet) {
+      this.clearInterruptInterval()
+      this.isInterruptIntervalSet = false
+    }
     dispatch(setRunning(false))
   }
 
   private cancelMainLoop(): void {
+    this.clearStepInterval()
+    if (this.isInterruptIntervalSet) {
+      this.clearInterruptInterval()
+    }
+  }
+
+  private clearStepInterval(): void {
     window.clearInterval(this.stepIntervalId)
+  }
+
+  private clearInterruptInterval(): void {
     window.clearInterval(this.interruptIntervalId)
   }
 
@@ -121,13 +136,24 @@ class Controller {
 
   private async run(): Promise<void> {
     dispatch(setRunning(true))
-    this.setMainLoop()
+    this.setStepInterval()
     await this.step()
   }
 
-  private setMainLoop(): void {
-    const { clockSpeed, timerInterval } = selectRuntimeConfiguration(getState())
+  private setStepInterval(): void {
+    const { clockSpeed } = selectRuntimeConfiguration(getState())
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
+  }
+
+  private setMainLoop(): void {
+    this.setStepInterval()
+    if (this.isInterruptIntervalSet) {
+      this.setInterruptInterval()
+    }
+  }
+
+  private setInterruptInterval(): void {
+    const { timerInterval } = selectRuntimeConfiguration(getState())
     this.interruptIntervalId = window.setInterval(() => {
       dispatch(setInterrupt(true))
     }, timerInterval)
@@ -206,6 +232,7 @@ class Controller {
         halted: shouldHalt = false,
         requiredInputDataPort,
         data: outputData,
+        interruptFlagSet,
         closeWindows: shouldCloseWindows = false
       } = signals.output
       if (interrupt) {
@@ -272,6 +299,15 @@ class Controller {
           )
         }
       }
+      if (interruptFlagSet !== undefined && isRunning) {
+        if (interruptFlagSet) {
+          this.setInterruptInterval()
+          this.isInterruptIntervalSet = true
+        } else {
+          this.clearInterruptInterval()
+          this.isInterruptIntervalSet = false
+        }
+      }
       if (shouldCloseWindows) {
         dispatch(setIoDevicesInvisible())
       }
@@ -320,6 +356,7 @@ class Controller {
     })
   }
 
+  // TODO: correct order of actions
   public fullyStop = async (): Promise<void> => {
     const state = getState()
     this.stopIfRunning(state)
