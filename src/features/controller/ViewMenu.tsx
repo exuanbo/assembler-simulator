@@ -14,14 +14,14 @@ const MemoryMenu = (): JSX.Element => {
 
   return (
     <MenuItem.Expandable>
-      {(isHovered, menuItemsRef) => (
+      {(isHovered, menuItemsRef, menuItem) => (
         <>
           <MenuButton>
             <span className="w-4" />
             <span>Memory</span>
           </MenuButton>
           {isHovered && (
-            <MenuItems.Expanded innerRef={menuItemsRef}>
+            <MenuItems.Expanded innerRef={menuItemsRef} menuItem={menuItem}>
               {memoryViewOptions.map((memoryViewOption, index) => (
                 <MenuItem
                   key={index}
@@ -47,14 +47,14 @@ const IoMenu = (): JSX.Element => {
 
   return (
     <MenuItem.Expandable>
-      {(isHovered, menuItemsRef) => (
+      {(isHovered, menuItemsRef, menuItem) => (
         <>
           <MenuButton>
             <span className="w-4" />
             <span>I/O Devices</span>
           </MenuButton>
           {isHovered && (
-            <MenuItems.Expanded innerRef={menuItemsRef}>
+            <MenuItems.Expanded innerRef={menuItemsRef} menuItem={menuItem}>
               {ioDeviceNames.map((name, index) => (
                 <MenuItem
                   key={index}

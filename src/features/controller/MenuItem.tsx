@@ -14,11 +14,24 @@ const MenuItem = ({ children, onClick }: Props): JSX.Element => (
 )
 
 interface ExpandableProps {
-  children: (isHovered: boolean, menuItemsRef: RefCallback<HTMLDivElement>) => ReactNode
+  children: (
+    isHovered: boolean,
+    menuItemsRef: RefCallback<HTMLDivElement>,
+    menuItem: HTMLDivElement
+  ) => ReactNode
 }
 
 MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
+  const [menuItem, menuItemRef] = useRefCallback<HTMLDivElement>()
+  const isReady = menuItem !== null
+
   const [isHovered, hoverRef] = useHover<HTMLDivElement>(100)
+
+  const refCallback: RefCallback<HTMLDivElement> = node => {
+    menuItemRef(node)
+    hoverRef(node)
+  }
+
   const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
@@ -33,13 +46,17 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
 
   return (
     <div
-      ref={hoverRef}
-      className="flex py-1 px-2 items-center justify-between hover:bg-gray-200"
+      ref={refCallback}
+      className="flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200"
       onClick={handleClick}>
-      {children(isHovered, menuItemsRef)}
-      <div className="ml-4 w-4">
-        <Play className="mx-auto w-2.5" />
-      </div>
+      {isReady && (
+        <>
+          <div>{children(isHovered, menuItemsRef, menuItem)}</div>
+          <div className="w-4">
+            <Play className="mx-auto w-2.5" />
+          </div>
+        </>
+      )}
     </div>
   )
 }
