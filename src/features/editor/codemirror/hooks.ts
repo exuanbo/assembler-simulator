@@ -41,6 +41,7 @@ export const useCodeMirror = <T extends Element = Element>(
     if (view !== undefined) {
       return () => {
         view.destroy()
+        setView(undefined)
       }
     }
   }, [view])
