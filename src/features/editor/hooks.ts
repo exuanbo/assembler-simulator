@@ -89,6 +89,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
             to: view.state.doc.sliceString(0).length,
             insert: value
           },
+          effects: highlightLineEffect.of({ filter: () => false }),
           annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
         })
       }
