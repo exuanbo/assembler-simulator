@@ -28,7 +28,9 @@ MenuItem.ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => 
   return (
     <div className={`${className} space-x-4 justify-between`} onClick={handleClick}>
       {children}
-      <Share className="fill-gray-400 w-4" />
+      <div className="w-4">
+        <Share className="mx-auto fill-gray-400 w-3.5" />
+      </div>
     </div>
   )
 }
