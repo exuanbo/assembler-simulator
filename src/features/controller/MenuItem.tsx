@@ -1,5 +1,5 @@
 import type { ReactNode, RefCallback } from 'react'
-import { Play } from '@/common/components/icons'
+import { Play, Share } from '@/common/components/icons'
 import { useRefCallback, useHover } from '@/common/hooks'
 
 interface Props {
@@ -12,6 +12,26 @@ const MenuItem = ({ children, onClick }: Props): JSX.Element => (
     {children}
   </div>
 )
+
+const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
+
+interface ExternalLinkProps {
+  href: string
+  children: ReactNode
+}
+
+MenuItem.ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
+  const handleClick = (): void => {
+    window.open(href, '_blank')
+  }
+
+  return (
+    <div className={className} onClick={handleClick}>
+      {children}
+      <Share className="fill-gray-400 w-4" />
+    </div>
+  )
+}
 
 interface ExpandableProps {
   children: (
@@ -45,10 +65,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   }
 
   return (
-    <div
-      ref={refCallback}
-      className="flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200"
-      onClick={handleClick}>
+    <div ref={refCallback} className={className} onClick={handleClick}>
       {isReady && (
         <>
           <div>{children(isHovered, menuItemsRef, menuItem)}</div>
