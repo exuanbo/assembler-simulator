@@ -23,18 +23,18 @@ const MenuItems = ({ children }: Props): JSX.Element => {
 
 interface ExpandedProps {
   innerRef: RefCallback<HTMLDivElement>
-  menuItem: HTMLDivElement
+  menuItemElement: HTMLDivElement
   children: ReactNode
 }
 
-MenuItems.Expanded = ({ innerRef, menuItem, children }: ExpandedProps): JSX.Element => {
+MenuItems.Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
   const refCallback: RefCallback<HTMLDivElement> = node => {
     innerRef(node)
     if (node === null) {
       return
     }
-    const { top: menuItemTop, right: menuItemRight } = menuItem.getBoundingClientRect()
-    const isParentFirstChild = menuItem.offsetTop === 0
+    const { top: menuItemTop, right: menuItemRight } = menuItemElement.getBoundingClientRect()
+    const isParentFirstChild = menuItemElement.offsetTop === 0
     node.style.top = `${menuItemTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
     node.style.left = `${menuItemRight}px`
   }

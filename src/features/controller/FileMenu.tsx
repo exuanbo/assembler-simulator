@@ -76,14 +76,14 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
 
 const OpenExampleMenu = (): JSX.Element => (
   <MenuItem.Expandable>
-    {(isHovered, menuItemsRef, menuItem) => (
+    {(isHovered, menuItemsRef, menuItemElement) => (
       <>
         <MenuButton>
           <span className="w-4" />
           <span>Open Example</span>
         </MenuButton>
         {isHovered && (
-          <MenuItems.Expanded innerRef={menuItemsRef} menuItem={menuItem}>
+          <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
             {examples.map(({ title, content }, index) => (
               <MenuItem
                 key={index}

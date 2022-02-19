@@ -37,13 +37,13 @@ interface ExpandableProps {
   children: (
     isHovered: boolean,
     menuItemsRef: RefCallback<HTMLDivElement>,
-    menuItem: HTMLDivElement
+    menuItemElement: HTMLDivElement
   ) => ReactNode
 }
 
 MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
-  const [menuItem, menuItemRef] = useRefCallback<HTMLDivElement>()
-  const isReady = menuItem !== null
+  const [menuItemElement, menuItemRef] = useRefCallback<HTMLDivElement>()
+  const isReady = menuItemElement !== null
 
   const [isHovered, hoverRef] = useHover<HTMLDivElement>(100)
 
@@ -68,7 +68,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
     <div ref={refCallback} className={className} onClick={handleClick}>
       {isReady && (
         <>
-          <div>{children(isHovered, menuItemsRef, menuItem)}</div>
+          <div>{children(isHovered, menuItemsRef, menuItemElement)}</div>
           <div className="w-4">
             <Play className="mx-auto w-2.5" />
           </div>

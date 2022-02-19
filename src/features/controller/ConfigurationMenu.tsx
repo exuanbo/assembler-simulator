@@ -40,14 +40,14 @@ const ClockSpeedMenu = (): JSX.Element => {
 
   return (
     <MenuItem.Expandable>
-      {(isHovered, menuItemsRef, menuItem) => (
+      {(isHovered, menuItemsRef, menuItemElement) => (
         <>
           <MenuButton>
             <span className="w-4" />
             <span>Clock Speed</span>
           </MenuButton>
           {isHovered && (
-            <MenuItems.Expanded innerRef={menuItemsRef} menuItem={menuItem}>
+            <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
               {clockSpeedOptionNames.map((clockSpeedOptionName, index) => (
                 <MenuItem
                   key={index}
@@ -77,14 +77,14 @@ const TimerIntervalMenu = (): JSX.Element => {
 
   return (
     <MenuItem.Expandable>
-      {(isHovered, menuItemsRef, menuItem) => (
+      {(isHovered, menuItemsRef, menuItemElement) => (
         <>
           <MenuButton>
             <span className="w-4" />
             <span>Timer Interval</span>
           </MenuButton>
           {isHovered && (
-            <MenuItems.Expanded innerRef={menuItemsRef} menuItem={menuItem}>
+            <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
               {timerIntervalOptionNames.map((timerIntervalOptionName, index) => (
                 <MenuItem
                   key={index}
