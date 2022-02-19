@@ -28,15 +28,12 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
 })
 
 export const highlightLineEffect = StateEffect.define<{
-  addByPos?: number | number[]
+  addByPos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
   map({ addByPos: add, filter }, mapping) {
     return {
-      addByPos:
-        add === undefined
-          ? undefined
-          : (typeof add === 'number' ? [add] : add).map(pos => mapping.mapPos(pos)),
+      addByPos: add === undefined ? undefined : mapping.mapPos(add),
       filter
     }
   }
@@ -58,10 +55,7 @@ const highlightLineField = StateField.define<DecorationSet>({
           }
           const { addByPos: add, filter = () => !clearAll } = effect.value
           return resultSet.update({
-            add:
-              add === undefined
-                ? undefined
-                : (typeof add === 'number' ? [add] : add).map(pos => lineDecoration.range(pos)),
+            add: add === undefined ? undefined : [lineDecoration.range(add)],
             filter
           })
         }, decorationSet.map(transaction.changes))

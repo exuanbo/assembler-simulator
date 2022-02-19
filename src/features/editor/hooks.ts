@@ -159,7 +159,7 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
 
   useEffect(() => {
     view?.dispatch({
-      effects: highlightLineEffect.of({ addByPos: activeLinePos }),
+      effects: activeLinePos?.map(pos => highlightLineEffect.of({ addByPos: pos })),
       ...(view.hasFocus || activeLinePos === undefined
         ? undefined
         : {
