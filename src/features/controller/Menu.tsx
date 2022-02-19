@@ -1,5 +1,15 @@
-import { ReactNode, RefCallback, useEffect } from 'react'
-import { useRefCallback, useToggle, useOutsideClick } from '@/common/hooks'
+import { ReactNode, RefCallback, createContext, useEffect, useContext } from 'react'
+import { useRefCallback, useHover } from '@/common/hooks'
+
+interface MenuContextValue {
+  currentOpen: HTMLDivElement | null
+  setCurrentOpen: (menuElement: HTMLDivElement | null) => void
+}
+
+export const MenuContext = createContext<MenuContextValue>({
+  currentOpen: null,
+  setCurrentOpen: () => undefined
+})
 
 interface Props {
   children: (isOpen: boolean, menuElement: HTMLDivElement) => ReactNode
@@ -9,18 +19,25 @@ const Menu = ({ children }: Props): JSX.Element => {
   const [menuElement, menuRef] = useRefCallback<HTMLDivElement>()
   const isReady = menuElement !== null
 
-  const [isOpen, toggleOpen] = useToggle(false)
-  const [isClickedOutside, outsideClickRef] = useOutsideClick()
+  const { currentOpen, setCurrentOpen } = useContext(MenuContext)
+
+  const isOpen = currentOpen !== null && currentOpen === menuElement
+  const toggleOpen = (): void => {
+    setCurrentOpen(isOpen ? null : menuElement)
+  }
+
+  const [isHovered, hoverRef] = useHover()
 
   useEffect(() => {
-    if (isOpen && isClickedOutside) {
-      toggleOpen()
+    const hasOtherOpen = currentOpen !== null && currentOpen !== menuElement
+    if (hasOtherOpen && isHovered) {
+      setCurrentOpen(menuElement)
     }
-  }, [isOpen, isClickedOutside])
+  }, [currentOpen, menuElement, isHovered])
 
   const refCallback: RefCallback<HTMLDivElement> = element => {
     menuRef(element)
-    outsideClickRef(element)
+    hoverRef(element)
   }
 
   return (
