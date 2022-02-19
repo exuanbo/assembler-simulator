@@ -9,20 +9,20 @@ const UnexpectedErrorModal = (): JSX.Element => {
   const unexpectedError = useSelector(selectUnexpectedError)
   const hasUnexpectedError = unexpectedError !== null
 
-  const [isClicked, clickRef] = useOutsideClick()
+  const [isClickedOutside, outsideClickRef] = useOutsideClick()
 
   useEffect(() => {
-    if (isClicked) {
+    if (isClickedOutside) {
       dispatch(resetUnexpectedError())
     }
-  }, [isClicked])
+  }, [isClickedOutside])
 
   return (
     <Modal
       className="bg-white flex bg-opacity-80 inset-0 z-50 fixed items-center justify-center"
       isOpen={hasUnexpectedError}>
       <div
-        ref={clickRef}
+        ref={outsideClickRef}
         className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 select-text all:select-text">
         {hasUnexpectedError
           ? unexpectedError.stack

@@ -10,17 +10,17 @@ const Menu = ({ children }: Props): JSX.Element => {
   const isReady = menuElement !== null
 
   const [isOpen, toggleOpen] = useToggle(false)
-  const [isClicked, clickRef] = useOutsideClick()
+  const [isClickedOutside, outsideClickRef] = useOutsideClick()
 
   useEffect(() => {
-    if (isOpen && isClicked) {
+    if (isOpen && isClickedOutside) {
       toggleOpen()
     }
-  }, [isOpen, isClicked])
+  }, [isOpen, isClickedOutside])
 
   const refCallback: RefCallback<HTMLDivElement> = element => {
     menuRef(element)
-    clickRef(element)
+    outsideClickRef(element)
   }
 
   return (
