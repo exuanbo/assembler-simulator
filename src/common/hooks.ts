@@ -15,7 +15,7 @@ export const useRefCallback = <T extends Element = Element>(): [T | null, RefCal
   return [current, refCallback]
 }
 
-export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
+export const useOutsideClick = <T extends Element = Element>(): [
   isClicked: boolean,
   clickRef: RefCallback<T>
 ] => {
@@ -41,7 +41,7 @@ export const useOutsideClick = <T extends HTMLElement = HTMLElement>(): [
   return [isClicked, refCallback]
 }
 
-export const useHover = <T extends HTMLElement = HTMLElement>(
+export const useHover = <T extends Element = Element>(
   delay?: number
 ): [isHovered: boolean, hoverRef: RefCallback<T>] => {
   const [current, refCallback] = useRefCallback<T>()
