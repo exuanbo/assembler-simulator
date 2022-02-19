@@ -77,14 +77,14 @@ const IoMenu = (): JSX.Element => {
 
 const ViewMenu = (): JSX.Element => (
   <Menu>
-    {isOpen => (
+    {(isOpen, menuElement) => (
       <>
         <MenuButton.Main>
           <ViewIcon />
           <span>View</span>
         </MenuButton.Main>
         {isOpen && (
-          <MenuItems>
+          <MenuItems menuElement={menuElement}>
             <MemoryMenu />
             <IoMenu />
           </MenuItems>

@@ -132,16 +132,16 @@ const SaveButton = (): JSX.Element => {
 
 const FileMenu = (): JSX.Element => (
   <Menu>
-    {(isOpen, toggleOpen) => (
+    {(isOpen, menuElement) => (
       <>
         <MenuButton.Main>
           <FileIcon />
           <span>File</span>
         </MenuButton.Main>
         {isOpen && (
-          <MenuItems>
+          <MenuItems menuElement={menuElement}>
             <NewFileButton />
-            <OpenButton onFileLoad={toggleOpen} />
+            <OpenButton onFileLoad={() => menuElement.click()} />
             <OpenExampleMenu />
             <SaveButton />
           </MenuItems>

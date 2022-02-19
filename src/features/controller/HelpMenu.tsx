@@ -24,13 +24,13 @@ const BugReportButton = (): JSX.Element => (
 
 const HelpMenu = (): JSX.Element => (
   <Menu>
-    {isOpen => (
+    {(isOpen, menuElement) => (
       <>
         <MenuButton.Main>
           <Help />
         </MenuButton.Main>
         {isOpen && (
-          <MenuItems>
+          <MenuItems menuElement={menuElement}>
             <InstructionSetButton />
             <BugReportButton />
           </MenuItems>

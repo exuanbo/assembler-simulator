@@ -1,16 +1,15 @@
 import type { ReactNode, RefCallback } from 'react'
 
 interface Props {
+  menuElement: HTMLDivElement
   children: ReactNode
 }
 
-// TODO: pass `menuElement` as prop
-const MenuItems = ({ children }: Props): JSX.Element => {
+const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
   const refCallback: RefCallback<HTMLDivElement> = element => {
     if (element === null) {
       return
     }
-    const menuElement = element.parentElement!
     const { bottom: menuBottom, left: menuLeft } = menuElement.getBoundingClientRect()
     element.style.top = `${menuBottom - /* border: */ 1}px`
     element.style.left = `${menuLeft}px`

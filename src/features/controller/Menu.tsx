@@ -1,11 +1,14 @@
-import { ReactNode, useEffect } from 'react'
-import { useToggle, useOutsideClick } from '@/common/hooks'
+import { ReactNode, RefCallback, useEffect } from 'react'
+import { useRefCallback, useToggle, useOutsideClick } from '@/common/hooks'
 
 interface Props {
-  children: (isOpen: boolean, toggleOpen: React.DispatchWithoutAction) => ReactNode
+  children: (isOpen: boolean, menuElement: HTMLDivElement) => ReactNode
 }
 
 const Menu = ({ children }: Props): JSX.Element => {
+  const [menuElement, menuRef] = useRefCallback<HTMLDivElement>()
+  const isReady = menuElement !== null
+
   const [isOpen, toggleOpen] = useToggle(false)
   const [isClicked, clickRef] = useOutsideClick()
 
@@ -15,12 +18,17 @@ const Menu = ({ children }: Props): JSX.Element => {
     }
   }, [isOpen, isClicked])
 
+  const refCallback: RefCallback<HTMLDivElement> = element => {
+    menuRef(element)
+    clickRef(element)
+  }
+
   return (
     <div
-      ref={clickRef}
+      ref={refCallback}
       className={`flex items-center hover:bg-gray-200 ${isOpen ? 'bg-gray-200' : ''}`}
       onClick={toggleOpen}>
-      {children(isOpen, toggleOpen)}
+      {isReady && children(isOpen, menuElement)}
     </div>
   )
 }

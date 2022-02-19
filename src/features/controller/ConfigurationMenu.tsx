@@ -111,14 +111,14 @@ const TimerIntervalMenu = (): JSX.Element => {
 
 const ConfigurationMenu = (): JSX.Element => (
   <Menu>
-    {isOpen => (
+    {(isOpen, menuElement) => (
       <>
         <MenuButton.Main>
           <Wrench />
           <span>Configuration</span>
         </MenuButton.Main>
         {isOpen && (
-          <MenuItems>
+          <MenuItems menuElement={menuElement}>
             <AutoAssembleSwitch />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
