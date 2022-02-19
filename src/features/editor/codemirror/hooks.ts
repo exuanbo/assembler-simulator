@@ -14,8 +14,8 @@ export const useCodeMirror = <T extends Element = Element>(
   const [current, setCurrent] = useState<T | null>(null)
   const [view, setView] = useState<EditorView | undefined>()
 
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
+  const refCallback = useCallback<RefCallback<T>>(element => {
+    setCurrent(element)
   }, [])
 
   useEffect(() => {

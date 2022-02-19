@@ -47,9 +47,9 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
 
   const [isHovered, hoverRef] = useHover<HTMLDivElement>(100)
 
-  const refCallback: RefCallback<HTMLDivElement> = node => {
-    menuItemRef(node)
-    hoverRef(node)
+  const refCallback: RefCallback<HTMLDivElement> = element => {
+    menuItemRef(element)
+    hoverRef(element)
   }
 
   const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()

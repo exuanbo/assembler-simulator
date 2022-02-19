@@ -7,13 +7,10 @@ export const useToggle = (
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
-export const useRefCallback = <T extends HTMLElement = HTMLElement>(): [
-  T | null,
-  RefCallback<T>
-] => {
+export const useRefCallback = <T extends Element = Element>(): [T | null, RefCallback<T>] => {
   const [current, setCurrent] = useState<T | null>(null)
-  const refCallback = useCallback<RefCallback<T>>(node => {
-    setCurrent(node)
+  const refCallback = useCallback<RefCallback<T>>(element => {
+    setCurrent(element)
   }, [])
   return [current, refCallback]
 }

@@ -4,14 +4,16 @@ interface Props {
   children: ReactNode
 }
 
+// TODO: pass `menuElement` as prop
 const MenuItems = ({ children }: Props): JSX.Element => {
-  const refCallback: RefCallback<HTMLDivElement> = node => {
-    if (node === null) {
+  const refCallback: RefCallback<HTMLDivElement> = element => {
+    if (element === null) {
       return
     }
-    const { bottom: parentBottom, left: parentLeft } = node.parentElement!.getBoundingClientRect()
-    node.style.top = `${parentBottom - /* border: */ 1}px`
-    node.style.left = `${parentLeft}px`
+    const menuElement = element.parentElement!
+    const { bottom: menuBottom, left: menuLeft } = menuElement.getBoundingClientRect()
+    element.style.top = `${menuBottom - /* border: */ 1}px`
+    element.style.left = `${menuLeft}px`
   }
 
   return (
@@ -28,15 +30,15 @@ interface ExpandedProps {
 }
 
 MenuItems.Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
-  const refCallback: RefCallback<HTMLDivElement> = node => {
-    innerRef(node)
-    if (node === null) {
+  const refCallback: RefCallback<HTMLDivElement> = element => {
+    innerRef(element)
+    if (element === null) {
       return
     }
     const { top: menuItemTop, right: menuItemRight } = menuItemElement.getBoundingClientRect()
     const isParentFirstChild = menuItemElement.offsetTop === 0
-    node.style.top = `${menuItemTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
-    node.style.left = `${menuItemRight}px`
+    element.style.top = `${menuItemTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
+    element.style.left = `${menuItemRight}px`
   }
 
   return (
