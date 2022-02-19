@@ -11,7 +11,9 @@ interface Props {
 
 const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null => {
   const wrapperElementRef = useRef<HTMLDivElement>()
+
   const [isWrapperElementReady, setWrapperElementReady] = useState(false)
+  const isReady = isOpen && isWrapperElementReady
 
   useEffect(() => {
     if (!isOpen) {
@@ -31,7 +33,7 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
     }
   }, [isOpen])
 
-  return isOpen && isWrapperElementReady ? createPortal(children, wrapperElementRef.current!) : null
+  return isReady ? createPortal(children, wrapperElementRef.current!) : null
 }
 
 export default Modal
