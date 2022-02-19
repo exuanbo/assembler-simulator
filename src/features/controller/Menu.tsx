@@ -7,7 +7,7 @@ interface Props {
 
 const Menu = ({ children }: Props): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(false)
-  const [isClicked, clickRef] = useOutsideClick<HTMLDivElement>()
+  const [isClicked, clickRef] = useOutsideClick()
 
   useEffect(() => {
     if (isOpen && isClicked) {
