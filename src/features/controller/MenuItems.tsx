@@ -1,5 +1,7 @@
 import type { ReactNode, RefCallback } from 'react'
 
+const className = 'divide-y border bg-gray-50 shadow fixed'
+
 interface Props {
   menuElement: HTMLDivElement
   children: ReactNode
@@ -16,7 +18,7 @@ const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
   }
 
   return (
-    <div ref={refCallback} className="divide-y border bg-gray-50 shadow fixed">
+    <div ref={refCallback} className={className}>
       {children}
     </div>
   )
@@ -41,7 +43,7 @@ MenuItems.Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): J
   }
 
   return (
-    <div ref={refCallback} className="divide-y border bg-gray-50 shadow fixed">
+    <div ref={refCallback} className={className}>
       {children}
     </div>
   )

@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
 
+const className = 'flex space-x-2 items-center'
+
 interface Props {
   children: ReactNode
 }
 
-const MenuButton = ({ children }: Props): JSX.Element => (
-  <div className="flex space-x-2 items-center">{children}</div>
-)
+const MenuButton = ({ children }: Props): JSX.Element => <div className={className}>{children}</div>
 
 MenuButton.Main = ({ children }: Props): JSX.Element => (
-  <div className="flex space-x-2 px-2 items-center">{children}</div>
+  <div className={`${className} px-2`}>{children}</div>
 )
 
 export default MenuButton
