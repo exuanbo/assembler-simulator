@@ -13,7 +13,11 @@ export const MenuContext = createContext<MenuContextValue>({
 })
 
 interface Props {
-  children: (isOpen: boolean, menuElement: HTMLDivElement) => ReactNode
+  children: (
+    isOpen: boolean,
+    hoverRef: RefCallback<HTMLDivElement>,
+    menuElement: HTMLDivElement
+  ) => ReactNode
 }
 
 const Menu = ({ children }: Props): JSX.Element => {
@@ -36,17 +40,12 @@ const Menu = ({ children }: Props): JSX.Element => {
     }
   }, [currentOpen, menuElement, isHovered])
 
-  const refCallback: RefCallback<HTMLDivElement> = element => {
-    menuRef(element)
-    hoverRef(element)
-  }
-
   return (
     <div
-      ref={refCallback}
+      ref={menuRef}
       className={`flex items-center hover:bg-gray-200 ${isOpen ? 'bg-gray-200' : ''}`}
       onClick={toggleOpen}>
-      {isReady && children(isOpen, menuElement)}
+      {isReady && children(isOpen, hoverRef, menuElement)}
     </div>
   )
 }

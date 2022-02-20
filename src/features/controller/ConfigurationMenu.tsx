@@ -111,9 +111,9 @@ const TimerIntervalMenu = (): JSX.Element => {
 
 const ConfigurationMenu = (): JSX.Element => (
   <Menu>
-    {(isOpen, menuElement) => (
+    {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main>
+        <MenuButton.Main innerRef={hoverRef}>
           <Wrench />
           <span>Configuration</span>
         </MenuButton.Main>

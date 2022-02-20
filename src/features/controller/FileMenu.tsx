@@ -132,9 +132,9 @@ const SaveButton = (): JSX.Element => {
 
 const FileMenu = (): JSX.Element => (
   <Menu>
-    {(isOpen, menuElement) => (
+    {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main>
+        <MenuButton.Main innerRef={hoverRef}>
           <FileIcon />
           <span>File</span>
         </MenuButton.Main>

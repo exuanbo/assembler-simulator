@@ -24,9 +24,9 @@ const BugReportButton = (): JSX.Element => (
 
 const HelpMenu = (): JSX.Element => (
   <Menu>
-    {(isOpen, menuElement) => (
+    {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main>
+        <MenuButton.Main innerRef={hoverRef}>
           <Help />
         </MenuButton.Main>
         {isOpen && (

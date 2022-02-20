@@ -77,9 +77,9 @@ const IoMenu = (): JSX.Element => {
 
 const ViewMenu = (): JSX.Element => (
   <Menu>
-    {(isOpen, menuElement) => (
+    {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main>
+        <MenuButton.Main innerRef={hoverRef}>
           <ViewIcon />
           <span>View</span>
         </MenuButton.Main>
