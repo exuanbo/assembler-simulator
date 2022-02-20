@@ -15,30 +15,28 @@ export const useRefCallback = <T extends Element = Element>(): [T | null, RefCal
   return [current, refCallback]
 }
 
-export const useOutsideClick = <T extends Element = Element>(): [
-  isClicked: boolean,
-  clickRef: RefCallback<T>
-] => {
+export const useOutsideClick = <T extends Element = Element>(
+  onClickOutside: (event: MouseEvent) => void
+): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
-  const [isClicked, setClicked] = useState(false)
 
   useEffect(() => {
     if (current === null) {
       return
     }
-    const handleOutsideClick = ({ target }: MouseEvent): void => {
-      if (target instanceof Element) {
-        setClicked(!current.contains(target))
+    const handleClick = (event: MouseEvent): void => {
+      const { target } = event
+      if (target instanceof Node && !current.contains(target)) {
+        onClickOutside(event)
       }
     }
-    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('mousedown', handleClick)
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-      setClicked(false)
+      document.removeEventListener('mousedown', handleClick)
     }
-  }, [current])
+  }, [current, onClickOutside])
 
-  return [isClicked, refCallback]
+  return refCallback
 }
 
 export const useHover = <T extends Element = Element>(

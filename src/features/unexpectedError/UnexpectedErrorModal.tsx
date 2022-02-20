@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback } from 'react'
 import Modal from '@/common/components/Modal'
 import { selectUnexpectedError, resetUnexpectedError } from './unexpectedErrorSlice'
 import { dispatch } from '@/app/store'
@@ -9,13 +9,11 @@ const UnexpectedErrorModal = (): JSX.Element => {
   const unexpectedError = useSelector(selectUnexpectedError)
   const hasUnexpectedError = unexpectedError !== null
 
-  const [isClickedOutside, outsideClickRef] = useOutsideClick()
+  const handleOutsideClick = useCallback(() => {
+    dispatch(resetUnexpectedError())
+  }, [])
 
-  useEffect(() => {
-    if (isClickedOutside) {
-      dispatch(resetUnexpectedError())
-    }
-  }, [isClickedOutside])
+  const outsideClickRef = useOutsideClick(handleOutsideClick)
 
   return (
     <Modal

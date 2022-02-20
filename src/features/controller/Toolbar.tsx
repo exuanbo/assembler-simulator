@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { MenuContext } from './Menu'
 import MenuButton from './MenuButton'
 import FileMenu from './FileMenu'
@@ -19,17 +19,17 @@ const ToolBar = (): JSX.Element => {
     }
   }, [openMenu])
 
-  const [isClickedOutside, outsideClickRef] = useOutsideClick()
+  const handleOutsideClick = useCallback(() => {
+    if (openMenu !== null) {
+      setOpenMenu(null)
+    }
+  }, [openMenu])
+
+  const outsideClickRef = useOutsideClick(handleOutsideClick)
 
   useEffect(() => {
     outsideClickRef(openMenu)
   }, [openMenu])
-
-  useEffect(() => {
-    if (openMenu !== null && isClickedOutside) {
-      setOpenMenu(null)
-    }
-  }, [openMenu, isClickedOutside])
 
   return (
     <div className="border-t border-b flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
