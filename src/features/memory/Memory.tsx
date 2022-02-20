@@ -21,6 +21,9 @@ const ColumIndicatorTableRow = memo(() => (
     ))}
   </tr>
 ))
+if (import.meta.env.DEV) {
+  ColumIndicatorTableRow.displayName = 'ColumIndicatorTableRow'
+}
 
 const Memory = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)

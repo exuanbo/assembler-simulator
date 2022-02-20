@@ -30,7 +30,7 @@ interface ExpandedProps {
   children: ReactNode
 }
 
-MenuItems.Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
+const Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
   const refCallback: RefCallback<HTMLDivElement> = element => {
     innerRef(element)
     if (element === null) {
@@ -48,5 +48,8 @@ MenuItems.Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): J
     </div>
   )
 }
+if (import.meta.env.DEV) {
+  Expanded.displayName = 'MenuItems.Expanded'
+}
 
-export default MenuItems
+export default Object.assign(MenuItems, { Expanded })

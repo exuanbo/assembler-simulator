@@ -13,10 +13,13 @@ interface MainProps {
   innerRef?: Ref<HTMLDivElement>
 }
 
-MenuButton.Main = ({ children, innerRef }: MainProps): JSX.Element => (
+const Main = ({ children, innerRef }: MainProps): JSX.Element => (
   <div ref={innerRef} className={`${className} h-full px-2`}>
     {children}
   </div>
 )
+if (import.meta.env.DEV) {
+  Main.displayName = 'MenuButton.Main'
+}
 
-export default MenuButton
+export default Object.assign(MenuButton, { Main })

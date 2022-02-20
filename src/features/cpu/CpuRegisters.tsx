@@ -28,6 +28,9 @@ const FlagIndicatorTableRow = memo(() => (
     <td />
   </tr>
 ))
+if (import.meta.env.DEV) {
+  FlagIndicatorTableRow.displayName = 'FlagIndicatorTableRow'
+}
 
 const CpuRegisters = (): JSX.Element => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)

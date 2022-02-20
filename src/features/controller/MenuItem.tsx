@@ -20,7 +20,7 @@ interface ExternalLinkProps {
   children: ReactNode
 }
 
-MenuItem.ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
+const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
   const handleClick = (): void => {
     window.open(href, '_blank')
   }
@@ -34,6 +34,9 @@ MenuItem.ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => 
     </div>
   )
 }
+if (import.meta.env.DEV) {
+  ExternalLink.displayName = 'MenuItem.ExternalLink'
+}
 
 interface ExpandableProps {
   children: (
@@ -43,7 +46,7 @@ interface ExpandableProps {
   ) => ReactNode
 }
 
-MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
+const Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [menuItemElement, menuItemRef] = useRefCallback<HTMLDivElement>()
   const isReady = menuItemElement !== null
 
@@ -78,5 +81,8 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
     </div>
   )
 }
+if (import.meta.env.DEV) {
+  Expandable.displayName = 'MenuItem.Expandable'
+}
 
-export default MenuItem
+export default Object.assign(MenuItem, { ExternalLink, Expandable })

@@ -31,5 +31,8 @@ const RegisterTableRow = memo(({ name, value, valueClassName }: Props) => {
     </tr>
   )
 })
+if (import.meta.env.DEV) {
+  RegisterTableRow.displayName = 'RegisterTableRow'
+}
 
 export default RegisterTableRow

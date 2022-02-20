@@ -11,6 +11,9 @@ export const MenuContext = createContext<MenuContextValue>({
   currentOpen: null,
   setCurrentOpen: noop
 })
+if (import.meta.env.DEV) {
+  MenuContext.displayName = 'MenuContext'
+}
 
 interface Props {
   children: (

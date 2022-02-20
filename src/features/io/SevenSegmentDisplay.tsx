@@ -102,6 +102,9 @@ const StaticParts = memo(() => (
     </g>
   </>
 ))
+if (import.meta.env.DEV) {
+  StaticParts.displayName = 'StaticParts'
+}
 
 const segments: readonly JSX.Element[] = [
   // 0
