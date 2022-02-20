@@ -1,5 +1,6 @@
 import { ReactNode, RefCallback, createContext, useEffect, useContext } from 'react'
 import { useRefCallback, useHover } from '@/common/hooks'
+import { noop } from '@/common/utils'
 
 interface MenuContextValue {
   currentOpen: HTMLDivElement | null
@@ -8,7 +9,7 @@ interface MenuContextValue {
 
 export const MenuContext = createContext<MenuContextValue>({
   currentOpen: null,
-  setCurrentOpen: () => undefined
+  setCurrentOpen: noop
 })
 
 interface Props {

@@ -99,6 +99,10 @@ export const chunk = <T>(size: number, arr: T[]): T[][] => {
   return chunks
 }
 
+// istanbul ignore next
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const noop = (): void => {}
+
 export const call = <T>(fn: () => T): T => fn()
 
 export const curry2rev =
