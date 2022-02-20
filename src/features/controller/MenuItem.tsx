@@ -57,11 +57,7 @@ MenuItem.Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
-    if (menuItems === null) {
-      return
-    }
-    const { target } = event
-    if (target instanceof Element && !menuItems.contains(target)) {
+    if (menuItems !== null && !menuItems.contains(event.target as Element)) {
       event.stopPropagation()
     }
   }
