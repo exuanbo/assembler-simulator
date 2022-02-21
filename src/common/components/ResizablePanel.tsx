@@ -79,26 +79,28 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   }, [isDragging, leftWidth])
 
   return (
-    <div ref={wrapperRef} className={`flex ${className}`}>
-      {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
-      <div
-        ref={dividerRef}
-        className={`border-r border-l cursor-col-resize flex-none flex flex-col space-y-2 px-1 items-center justify-center group hover:bg-gray-200 ${
-          isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
-        }`}
-        onMouseDown={handleMouseDown}>
-        {range(3).map(index => (
-          <span
-            key={index}
-            className={`rounded-full h-1 w-1 group-hover:bg-blue-gray-400 ${
-              isDragging ? 'bg-blue-gray-400' : 'bg-blue-gray-300'
-            }`}
-          />
-        ))}
+    <>
+      <div ref={wrapperRef} className={`flex ${className}`}>
+        {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
+        <div
+          ref={dividerRef}
+          className={`border-r border-l cursor-col-resize flex-none flex flex-col space-y-2 px-1 items-center justify-center group hover:bg-gray-200 ${
+            isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
+          }`}
+          onMouseDown={handleMouseDown}>
+          {range(3).map(index => (
+            <span
+              key={index}
+              className={`rounded-full h-1 w-1 group-hover:bg-blue-gray-400 ${
+                isDragging ? 'bg-blue-gray-400' : 'bg-blue-gray-300'
+              }`}
+            />
+          ))}
+        </div>
+        {isReady && <div className="flex-1">{children[1]}</div>}
       </div>
-      {isReady && <div className="flex-1">{children[1]}</div>}
       <div className={isDragging ? 'cursor-col-resize inset-0 z-10 fixed' : 'hidden'} />
-    </div>
+    </>
   )
 }
 
