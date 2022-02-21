@@ -4,7 +4,7 @@
 // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
 
 import type { O } from 'ts-toolbelt'
-import type { ExpandDeep } from './index'
+import type { ExpandDeep } from './types'
 
 const getType = (value: unknown): string => Object.prototype.toString.call(value).slice(8, -1)
 
