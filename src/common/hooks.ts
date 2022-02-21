@@ -51,6 +51,7 @@ export const useHover = <T extends Element = Element>(
     if (current === null) {
       return
     }
+
     const handleMouseEnter = (): void => {
       if (delay === undefined) {
         setHovered(true)
@@ -61,6 +62,7 @@ export const useHover = <T extends Element = Element>(
         }, delay)
       }
     }
+
     const handleMouseLeave = (): void => {
       setHovered(false)
       if (hoverTimeoutIdRef.current !== undefined) {
