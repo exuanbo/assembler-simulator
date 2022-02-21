@@ -12,29 +12,32 @@ export const useCodeMirror = <T extends Element = Element>(
   editorRef: RefCallback<T>
 } => {
   const [current, setCurrent] = useState<T | null>(null)
-  const [view, setView] = useState<EditorView | undefined>()
 
   const refCallback = useCallback<RefCallback<T>>(element => {
     setCurrent(element)
   }, [])
 
+  const [view, setView] = useState<EditorView | undefined>()
+
   useEffect(() => {
     if (current === null) {
-      setView(undefined)
       return
     }
-    const initialState = EditorState.create({
-      ...editorStateConfig,
-      extensions: [
-        editorStateConfig?.extensions ?? [],
-        viewUpdateListener === undefined ? [] : EditorView.updateListener.of(viewUpdateListener)
-      ]
-    })
-    const initialView = new EditorView({
-      state: initialState,
-      parent: current
-    })
-    setView(initialView)
+    setView(
+      new EditorView({
+        state: EditorState.create({
+          ...editorStateConfig,
+          extensions: [
+            editorStateConfig?.extensions ?? [],
+            viewUpdateListener === undefined ? [] : EditorView.updateListener.of(viewUpdateListener)
+          ]
+        }),
+        parent: current
+      })
+    )
+    return () => {
+      setView(undefined)
+    }
   }, [current, editorStateConfig, viewUpdateListener])
 
   useEffect(() => {
