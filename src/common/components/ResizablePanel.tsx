@@ -38,13 +38,13 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
     clickCountRef.current += 1
     if (clickCountRef.current === 2) {
       setLeftWidth(getInitialLeftWidth())
-      clickCountRef.current = 0
       window.clearTimeout(clickTimeoutIdRef.current)
-      return
-    }
-    clickTimeoutIdRef.current = window.setTimeout(() => {
       clickCountRef.current = 0
-    }, 500)
+    } else {
+      clickTimeoutIdRef.current = window.setTimeout(() => {
+        clickCountRef.current = 0
+      }, 500)
+    }
   }
 
   useEffect(() => {
