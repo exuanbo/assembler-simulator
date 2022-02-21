@@ -13,11 +13,11 @@ export type ExcludeTupleTail<T extends unknown[]> = T extends [...infer Excluded
   ? Excluded
   : []
 
-type UnionToFunctionWithUnionAsArg<Union> = (a: Union) => void
+type UnionToFunctionWithUnionAsArg<Union> = (arg: Union) => void
 
 type UnionToFunctionIntersectionWithUnionMemberAsArg<Union> = (
-  Union extends never ? never : (a: UnionToFunctionWithUnionAsArg<Union>) => void
-) extends (a: infer ArgAsFunctionIntersection) => void
+  Union extends never ? never : (arg: UnionToFunctionWithUnionAsArg<Union>) => void
+) extends (arg: infer ArgAsFunctionIntersection) => void
   ? ArgAsFunctionIntersection
   : never
 
@@ -106,13 +106,13 @@ export const noop = (): void => {}
 export const call = <T>(fn: () => T): T => fn()
 
 export const curryRight2 =
-  <T1, T2, R>(fn: (t1: T1, t2: T2) => R) =>
-  (t2: T2) =>
-  (t1: T1): R =>
-    fn(t1, t2)
+  <T1, T2, R>(fn: (arg1: T1, arg2: T2) => R) =>
+  (arg2: T2) =>
+  (arg1: T1): R =>
+    fn(arg1, arg2)
 
 export const throttle = <T extends unknown[]>(
-  fn: (...params: T) => unknown,
+  fn: (...args: T) => unknown,
   wait: number
 ): ((...args: T) => void) => {
   let lastTime: number | undefined
