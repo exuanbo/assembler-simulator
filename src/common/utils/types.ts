@@ -7,7 +7,7 @@ export type ExpandDeep<T> = T extends Record<string, unknown>
   ? Array<ExpandDeep<E>>
   : T
 
-export type ExcludeTupleTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
+export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
   ? Excluded
   : []
 
@@ -21,9 +21,9 @@ type UnionToFunctionIntersectionWithUnionMemberAsArg<Union> = (
 
 // Modified from a comment in the issue
 // "Type manipulations: union to tuple #13298"
-// https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381>
+// https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381
 export type UnionToTuple<Union> = UnionToFunctionIntersectionWithUnionMemberAsArg<Union> extends (
-  a: infer ArgAsLastUnionMember
+  arg: infer ArgAsLastUnionMember
 ) => void
   ? [...UnionToTuple<Exclude<Union, ArgAsLastUnionMember>>, ArgAsLastUnionMember]
   : []

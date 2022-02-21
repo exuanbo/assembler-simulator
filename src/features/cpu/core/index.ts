@@ -29,7 +29,7 @@ import {
 import type { MemoryData } from '@/features/memory/core'
 import { InputData, InputSignals, OutputSignals, Signals, MAX_PORT } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
-import { ExcludeTupleTail, sign8, unsign8 } from '@/common/utils'
+import { ExcludeTail, sign8, unsign8 } from '@/common/utils'
 
 export * from './constants'
 export type { RuntimeErrorObject } from './exceptions'
@@ -113,8 +113,8 @@ const getSrFrom = (value: number): StatusRegister => {
 const checkOperationResult = (
   result: number,
   previousValue: number
-): [finalResult: number, flags: ExcludeTupleTail<StatusRegister>] => {
-  const flags: ExcludeTupleTail<StatusRegister> = [
+): [finalResult: number, flags: ExcludeTail<StatusRegister>] => {
+  const flags: ExcludeTail<StatusRegister> = [
     /* zero: */ FlagStatus.Off,
     /* overflow: */ FlagStatus.Off,
     /* sign: */ FlagStatus.Off
