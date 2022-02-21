@@ -105,7 +105,7 @@ export const noop = (): void => {}
 
 export const call = <T>(fn: () => T): T => fn()
 
-export const curry2rev =
+export const curryRight2 =
   <T1, T2, R>(fn: (t1: T1, t2: T2) => R) =>
   (t2: T2) =>
   (t1: T1): R =>

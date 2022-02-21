@@ -4,7 +4,7 @@ import { LineLoc, lineRangesEqual } from './codemirror/line'
 import type { RootState } from '@/app/store'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'
-import { range, curry2rev } from '@/common/utils'
+import { range, curryRight2 } from '@/common/utils'
 
 interface EditorState {
   input: string
@@ -60,7 +60,7 @@ export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.ed
 
 const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
 
-export const selectEditorActiveLinePos = curry2rev(
+export const selectEditorActiveLinePos = curryRight2(
   createSelector([selectEditorActiveRange, (_, view?: EditorView) => view], (activeRange, view) =>
     activeRange === null || view === undefined
       ? undefined

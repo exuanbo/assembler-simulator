@@ -6,7 +6,7 @@ import {
   splitCamelCaseToString,
   asciiToChars,
   compareArrayWithSameLength,
-  curry2rev,
+  curryRight2,
   throttle,
   merge
 } from '@/common/utils'
@@ -66,15 +66,15 @@ describe('utils', () => {
     })
   })
 
-  describe('curry2rev', () => {
+  describe('curryRight2', () => {
     it('should curry a function with two arguments', () => {
       const add = (a: number, b: number): number => a + b
-      expect(curry2rev(add)(1)(2)).toBe(3)
+      expect(curryRight2(add)(1)(2)).toBe(3)
     })
 
     it('should curry a function with its arguments reversed', () => {
       const concatStrings = (a: string, b: string): string => a + b
-      expect(curry2rev(concatStrings)('a')('b')).toBe('ba')
+      expect(curryRight2(concatStrings)('a')('b')).toBe('ba')
     })
   })
 
