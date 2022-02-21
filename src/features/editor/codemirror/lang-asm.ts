@@ -5,6 +5,7 @@ import { HighlightStyle, tags } from '@codemirror/highlight'
 import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
 /* eslint-disable prettier/prettier */
+
 const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
 const LABEL_DEFINITION_REGEXP =   /^[a-zA-Z_]+(?=:)/
 const LABEL_USAGE_REGEXP =        /^[a-zA-Z_]+/
@@ -12,6 +13,7 @@ const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,"]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
 const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
 const NON_WHITESPACE_REGEXP =     /\S/
+
 /* eslint-enable prettier/prettier */
 
 interface State {
@@ -21,12 +23,13 @@ interface State {
 }
 
 const asmLanguage = StreamLanguage.define<State>({
-  /* eslint-disable @typescript-eslint/strict-boolean-expressions */
   token(stream, state) {
     if (state.ended) {
       stream.skipToEnd()
       return 'comment'
     }
+
+    /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 
     if (stream.eatSpace() || stream.eat(SKIPABLE_CHARACTER_REGEXP)) {
       return null
@@ -96,10 +99,11 @@ const asmLanguage = StreamLanguage.define<State>({
       state.operandsLeft = 0
     }
 
+    /* eslint-enable @typescript-eslint/strict-boolean-expressions */
+
     stream.eatWhile(NON_WHITESPACE_REGEXP)
     return null
   },
-  /* eslint-enable @typescript-eslint/strict-boolean-expressions */
 
   startState() {
     return {
@@ -120,8 +124,10 @@ const highlightStyle = HighlightStyle.define([
 ])
 
 /* eslint-disable prettier/prettier */
+
 const LEADING_SPACE_REGEXP =      /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
+
 /* eslint-enable prettier/prettier */
 
 export const asm = (): Extension => [

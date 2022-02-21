@@ -141,8 +141,12 @@ const validateNumber = (token: Token): Token => {
   return token
 }
 
-const NUMBER_REGEXP = /^[\dA-F]+$/
+/* eslint-disable prettier/prettier */
+
+const NUMBER_REGEXP =   /^[\dA-F]+$/
 const REGISTER_REGEXP = /^[A-D]L$/
+
+/* eslint-enable prettier/prettier */
 
 const parseSingleOperand =
   (tokens: Token[], index: number) =>

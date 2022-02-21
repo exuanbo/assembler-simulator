@@ -53,17 +53,21 @@ const matchRegExp =
     return match === null ? null : createToken(type, match[0], index)
   }
 
+/* eslint-disable prettier/prettier */
+
 const tokenMatchers: readonly TokenMatcher[] = [
-  matchRegExp(/^\s+/, TokenType.Whitespace),
-  matchRegExp(/^;.*/, TokenType.Comment),
-  matchRegExp(/^:/, TokenType.Colon),
-  matchRegExp(/^,/, TokenType.Comma),
-  matchRegExp(/^\d+\b/, TokenType.Digits),
-  matchRegExp(/^[a-dA-D][lL]\b/, TokenType.Register),
-  matchRegExp(/^\[.*?\]/, TokenType.Address),
+  matchRegExp(/^\s+/,                   TokenType.Whitespace),
+  matchRegExp(/^;.*/,                   TokenType.Comment),
+  matchRegExp(/^:/,                     TokenType.Colon),
+  matchRegExp(/^,/,                     TokenType.Comma),
+  matchRegExp(/^\d+\b/,                 TokenType.Digits),
+  matchRegExp(/^[a-dA-D][lL]\b/,        TokenType.Register),
+  matchRegExp(/^\[.*?\]/,               TokenType.Address),
   matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/, TokenType.String),
-  matchRegExp(/^(?:[^\s;:,"]+|".*)/, TokenType.Unknown)
+  matchRegExp(/^(?:[^\s;:,"]+|".*)/,    TokenType.Unknown)
 ]
+
+/* eslint-enable prettier/prettier */
 
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
