@@ -3,7 +3,8 @@ interface Props {
 }
 
 /**
- * {@link https://fontawesome.com/v5.15/icons/github-alt?style=brands}
+ * https://fontawesome.com/v5.15/icons/github-alt?style=brands
+ * @license https://fontawesome.com/license/free
  */
 const Github = (props: Props): JSX.Element => (
   <svg className="w-4" viewBox="0 0 480 512" xmlns="http://www.w3.org/2000/svg" {...props}>

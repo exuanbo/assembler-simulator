@@ -3,7 +3,8 @@ interface Props {
 }
 
 /**
- * {@link https://iconmonstr.com/undo-4-svg/}
+ * https://iconmonstr.com/undo-4-svg/
+ * @license https://iconmonstr.com/license/
  */
 const Undo = (props: Props): JSX.Element => (
   <svg className="w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>

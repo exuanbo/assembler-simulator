@@ -110,10 +110,12 @@ describe('utils', () => {
     })
   })
 
-  // modified from https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/test/index.test.ts
-  describe('merge', () => {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
 
+  // Copied from merge-anything with newlines removed.
+  // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/test/index.test.ts
+  // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
+  describe('merge', () => {
     test('1. origin & target stays the same | 2. works with dates', () => {
       const nd = new Date()
       const origin = { body: 'a' }
@@ -296,7 +298,7 @@ describe('utils', () => {
       const evolution = merge(starter, newValues, { is: 'cool' })
       expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' }) // prettier-ignore
     })
-
-    /* eslint-enable @typescript-eslint/no-explicit-any */
   })
+
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 })

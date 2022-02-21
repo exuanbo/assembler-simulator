@@ -3,7 +3,8 @@ interface Props {
 }
 
 /**
- * {@link https://iconmonstr.com/check-mark-1-svg/}
+ * https://iconmonstr.com/check-mark-1-svg/
+ * @license https://iconmonstr.com/license/
  */
 const CheckMark = (props: Props): JSX.Element => (
   <svg className="w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>

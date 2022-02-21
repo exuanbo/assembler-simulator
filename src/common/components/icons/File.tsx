@@ -3,7 +3,8 @@ interface Props {
 }
 
 /**
- * {@link https://iconmonstr.com/file-9-svg/}
+ * https://iconmonstr.com/file-9-svg/
+ * @license https://iconmonstr.com/license/
  */
 const File = (props: Props): JSX.Element => (
   <svg className="w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>

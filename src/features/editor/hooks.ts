@@ -43,7 +43,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
     if (!viewUpdate.docChanged) {
       return
     }
-    // doc changes must be caused by at least one transaction
+    // document changes must be caused by at least one transaction
     const firstTransaction = viewUpdate.transactions[0]
     const input = viewUpdate.state.doc.sliceString(0)
     window.clearTimeout(updateInputTimeoutId)

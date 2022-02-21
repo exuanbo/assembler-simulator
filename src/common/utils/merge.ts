@@ -1,3 +1,8 @@
+// Simplified fork of merge-anything
+// without enumerable & nonenumerable properties support.
+// https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts
+// MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
+
 import type { O } from 'ts-toolbelt'
 import type { ExpandDeep } from './index'
 
@@ -40,9 +45,6 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
   return resultObject
 }
 
-/**
- * Modified from <https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts>
- */
 export const merge = <TTarget extends PlainObject, TSources extends PlainObject[]>(
   target: TTarget,
   ...sources: TSources

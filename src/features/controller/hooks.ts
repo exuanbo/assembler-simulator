@@ -61,7 +61,7 @@ class Controller {
 
   private dispatchChangesTimeoutId: number | undefined
 
-  // it must have been assigned in `step` when it is called in `restoreIfSuspended`
+  // It must have been assigned in `step` when it is called in `restoreIfSuspended`.
   private unsubscribeSetSuspended!: () => void
 
   private lastBreakpointLineNumber: number | undefined
@@ -165,7 +165,7 @@ class Controller {
     if (fault !== null || halted) {
       this.stopIfRunning(state)
       if (fault === null && halted) {
-        // trigger EditorStatus re-render
+        // trigger `EditorStatus` re-render
         dispatch(setCpuHalted())
       }
       return
@@ -327,7 +327,7 @@ class Controller {
             if (!willDispatchChanges) {
               dispatchChanges()
             }
-            // isRunning is already checked
+            // `isRunning` is already checked
             this.stop()
             this.lastBreakpointLineNumber = breakpointLineLoc.number
           }
@@ -382,7 +382,8 @@ export const useController = (): Controller => {
   useEffect(() => {
     return watch(selectRuntimeConfiguration, async (_, { getState }) => {
       const state = getState()
-      // `setSuspended` action listener will reset the main loop
+      // `setSuspended` action listener will resume the main loop with the new configuration
+      // so we skip calling `stopAndRun` if cpu is suspended
       if (!selectIsSuspended(state) && selectIsRunning(state)) {
         await controller.stopAndRun()
       }

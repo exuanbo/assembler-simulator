@@ -3,7 +3,8 @@ interface Props {
 }
 
 /**
- * {@link https://fontawesome.com/v5.15/icons/wrench?style=solid}
+ * https://fontawesome.com/v5.15/icons/wrench?style=solid
+ * @license https://fontawesome.com/license/free
  */
 const Wrench = (props: Props): JSX.Element => (
   <svg className="w-4" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" {...props}>
