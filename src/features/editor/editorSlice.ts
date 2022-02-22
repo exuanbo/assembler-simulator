@@ -61,19 +61,21 @@ export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.ed
 const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
 
 export const selectEditorActiveLinePos = curryRight2(
-  createSelector([selectEditorActiveRange, (_, view?: EditorView) => view], (activeRange, view) =>
-    activeRange === null || view === undefined
-      ? undefined
-      : range(activeRange.from, activeRange.to).reduce<number[]>((linePos, pos) => {
-          if (pos <= view.state.doc.length) {
-            const line = view.state.doc.lineAt(pos)
-            if (!linePos.includes(line.from)) {
-              linePos.push(line.from)
-            }
-          }
-          return linePos
-        }, [])
-  )
+  createSelector([selectEditorActiveRange, (_, view?: EditorView) => view], (activeRange, view) => {
+    if (activeRange === null || view === undefined) {
+      return undefined
+    }
+    const linePos: number[] = []
+    range(activeRange.from, activeRange.to + 1).forEach(pos => {
+      if (pos <= view.state.doc.length) {
+        const line = view.state.doc.lineAt(pos)
+        if (!linePos.includes(line.from)) {
+          linePos.push(line.from)
+        }
+      }
+    })
+    return linePos.length > 0 ? linePos : undefined
+  })
 )
 
 export const selectEditorStateToPersist = createSelector(

@@ -158,7 +158,7 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   const activeLinePos = useSelector(selectEditorActiveLinePos(view))
 
   useEffect(() => {
-    if (view === undefined || activeLinePos === undefined || activeLinePos.length === 0) {
+    if (view === undefined || activeLinePos === undefined) {
       return
     }
     view.dispatch({
