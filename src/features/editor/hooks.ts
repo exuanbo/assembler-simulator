@@ -24,7 +24,8 @@ import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { assemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
-  selectAssemblerErrorRange
+  selectAssemblerErrorRange,
+  clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
 import { useConstant } from '@/common/hooks'
@@ -182,7 +183,7 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   }, [view, activeLinePos])
 }
 
-export const useUnderlineAssemblerError = (view: EditorView | undefined): void => {
+export const useAssemblerError = (view: EditorView | undefined): void => {
   useEffect(() => {
     view?.dispatch({
       effects: addViewUpdateListener(viewUpdate => {
@@ -190,6 +191,7 @@ export const useUnderlineAssemblerError = (view: EditorView | undefined): void =
           viewUpdate.view.dispatch({
             effects: wavyUnderlineEffect.of({ filter: () => false })
           })
+          dispatch(clearAssemblerError())
         }
       })
     })

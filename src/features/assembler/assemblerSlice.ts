@@ -24,6 +24,9 @@ export const assemblerSlice = createSlice({
       state.addressToStatementMap = {}
       state.error = action.payload
     },
+    clearError: state => {
+      state.error = null
+    },
     reset: () => initialState
   }
 })
@@ -40,6 +43,7 @@ export const selectAssemblerErrorRange = (state: RootState): SourceRange | undef
 export const {
   setState: setAssemblerState,
   setError: setAssemblerError,
+  clearError: clearAssemblerError,
   reset: resetAssembler
 } = assemblerSlice.actions
 
