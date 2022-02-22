@@ -2,18 +2,18 @@ import EditorStatus from './EditorStatus'
 import {
   useCodeMirror,
   useAutoAssemble,
-  useBreakpoints,
+  useAssemblerError,
   useHighlightActiveLine,
-  useAssemblerError
+  useBreakpoints
 } from './hooks'
 
 const Editor = (): JSX.Element => {
   const { view, editorRef } = useCodeMirror()
 
   useAutoAssemble()
-  useBreakpoints(view)
-  useHighlightActiveLine(view)
   useAssemblerError(view)
+  useHighlightActiveLine(view)
+  useBreakpoints(view)
 
   return (
     <div className="flex flex-col h-full">

@@ -14,9 +14,9 @@ import {
 } from './editorSlice'
 import { ViewUpdateListener, useCodeMirror as __useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
-import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
-import { highlightLineEffect } from './codemirror/highlightLine'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
+import { highlightLineEffect } from './codemirror/highlightLine'
+import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation } from './codemirror/annotations'
 import { lineLocAt, lineRangesEqual } from './codemirror/line'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
@@ -111,6 +111,55 @@ export const useAutoAssemble = (): void => {
   }, [autoAssemble, input])
 }
 
+export const useAssemblerError = (view: EditorView | undefined): void => {
+  useEffect(() => {
+    view?.dispatch({
+      effects: addViewUpdateListener(viewUpdate => {
+        if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
+          viewUpdate.view.dispatch({
+            effects: wavyUnderlineEffect.of({ filter: () => false })
+          })
+          dispatch(clearAssemblerError())
+        }
+      })
+    })
+  }, [view])
+
+  const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
+
+  useEffect(() => {
+    view?.dispatch({
+      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
+    })
+  }, [view, assemblerErrorRange])
+}
+
+export const useHighlightActiveLine = (view: EditorView | undefined): void => {
+  const activeLinePos = useSelector(selectEditorActiveLinePos(view))
+
+  useEffect(() => {
+    view?.dispatch({
+      effects:
+        activeLinePos === undefined
+          ? highlightLineEffect.of({ filter: () => false })
+          : activeLinePos.map((pos, index) =>
+              highlightLineEffect.of({
+                addByPos: pos,
+                // clear all decorations on first line
+                filter: () => index !== 0
+              })
+            ),
+      ...(view.hasFocus || activeLinePos === undefined
+        ? undefined
+        : {
+            // length of `activeLinePos` is already checked
+            selection: { anchor: activeLinePos[0] },
+            scrollIntoView: true
+          })
+    })
+  }, [view, activeLinePos])
+}
+
 const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
     const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
@@ -162,55 +211,6 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
       annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
     })
   }, [view])
-}
-
-export const useHighlightActiveLine = (view: EditorView | undefined): void => {
-  const activeLinePos = useSelector(selectEditorActiveLinePos(view))
-
-  useEffect(() => {
-    view?.dispatch({
-      effects:
-        activeLinePos === undefined
-          ? highlightLineEffect.of({ filter: () => false })
-          : activeLinePos.map((pos, index) =>
-              highlightLineEffect.of({
-                addByPos: pos,
-                // clear all decorations on first line
-                filter: () => index !== 0
-              })
-            ),
-      ...(view.hasFocus || activeLinePos === undefined
-        ? undefined
-        : {
-            // length of `activeLinePos` is already checked
-            selection: { anchor: activeLinePos[0] },
-            scrollIntoView: true
-          })
-    })
-  }, [view, activeLinePos])
-}
-
-export const useAssemblerError = (view: EditorView | undefined): void => {
-  useEffect(() => {
-    view?.dispatch({
-      effects: addViewUpdateListener(viewUpdate => {
-        if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
-          viewUpdate.view.dispatch({
-            effects: wavyUnderlineEffect.of({ filter: () => false })
-          })
-          dispatch(clearAssemblerError())
-        }
-      })
-    })
-  }, [view])
-
-  const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
-
-  useEffect(() => {
-    view?.dispatch({
-      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
-    })
-  }, [view, assemblerErrorRange])
 }
 
 export enum MessageType {
