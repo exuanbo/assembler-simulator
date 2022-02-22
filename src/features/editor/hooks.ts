@@ -160,20 +160,21 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   const activeLinePos = useSelector(selectEditorActiveLinePos(view))
 
   useEffect(() => {
-    if (view === undefined || activeLinePos === undefined) {
-      return
-    }
-    view.dispatch({
-      effects: activeLinePos.map((pos, index) =>
-        highlightLineEffect.of({
-          addByPos: pos,
-          // clear all decorations on first line
-          filter: () => index !== 0
-        })
-      ),
-      ...(view.hasFocus
+    view?.dispatch({
+      effects:
+        activeLinePos === undefined
+          ? highlightLineEffect.of({ filter: () => false })
+          : activeLinePos.map((pos, index) =>
+              highlightLineEffect.of({
+                addByPos: pos,
+                // clear all decorations on first line
+                filter: () => index !== 0
+              })
+            ),
+      ...(view.hasFocus || activeLinePos === undefined
         ? undefined
         : {
+            // length of `activeLinePos` is already checked
             selection: { anchor: activeLinePos[0] },
             scrollIntoView: true
           })
