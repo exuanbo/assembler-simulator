@@ -177,11 +177,9 @@ export const useUnderlineAssemblerError = (view: EditorView | undefined): void =
   const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
 
   useEffect(() => {
-    if (view !== undefined && assemblerErrorRange !== undefined) {
-      view.dispatch({
-        effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
-      })
-    }
+    view?.dispatch({
+      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
+    })
   }, [view, assemblerErrorRange])
 }
 
