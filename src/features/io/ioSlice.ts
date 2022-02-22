@@ -90,9 +90,9 @@ export const ioSlice = createSlice({
       state.devices[name].isVisible = !state.devices[name].isVisible
     },
     setDevicesInvisible: state => {
-      for (const name of ioDeviceNames) {
+      ioDeviceNames.forEach(name => {
         state.devices[name].isVisible = false
-      }
+      })
     },
     reset: state =>
       merge(initialState, {
