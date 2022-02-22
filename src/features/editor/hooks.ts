@@ -104,14 +104,13 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): StateEff
   StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
 
 export const useAutoAssemble = (): void => {
-  const autoAssemble = useSelector(selectAutoAssemble)
-  const input = useSelector(selectEditortInput)
-
   useEffect(() => {
-    if (autoAssemble) {
-      assemble(input)
-    }
-  }, [autoAssemble, input])
+    return listenAction(setEditorInput, ({ value }) => {
+      if (selectAutoAssemble(getState())) {
+        assemble(value)
+      }
+    })
+  }, [])
 }
 
 export const useAssemblerError = (view: EditorView | undefined): void => {
