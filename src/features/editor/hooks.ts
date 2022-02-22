@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Transaction, StateEffect } from '@codemirror/state'
+import { Transaction, StateEffect, Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
 import { useSelector } from '@/app/hooks'
@@ -100,6 +100,9 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   return { view, editorRef }
 }
 
+const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): StateEffect<Extension> =>
+  StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
+
 const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
     const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
@@ -130,9 +133,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
     if (view === undefined) {
       return
     }
-    view.dispatch({
-      effects: StateEffect.appendConfig.of(EditorView.updateListener.of(breakpointsUpdateListener))
-    })
+    view.dispatch({ effects: addViewUpdateListener(breakpointsUpdateListener) })
     const breakpoints = selectEditorBreakpoints(getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
@@ -183,15 +184,13 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
 export const useUnderlineAssemblerError = (view: EditorView | undefined): void => {
   useEffect(() => {
     view?.dispatch({
-      effects: StateEffect.appendConfig.of(
-        EditorView.updateListener.of(viewUpdate => {
-          if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
-            viewUpdate.view.dispatch({
-              effects: wavyUnderlineEffect.of({ filter: () => false })
-            })
-          }
-        })
-      )
+      effects: addViewUpdateListener(viewUpdate => {
+        if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
+          viewUpdate.view.dispatch({
+            effects: wavyUnderlineEffect.of({ filter: () => false })
+          })
+        }
+      })
     })
   }, [view])
 
