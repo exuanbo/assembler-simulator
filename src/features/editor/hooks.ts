@@ -162,7 +162,13 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
       return
     }
     view.dispatch({
-      effects: activeLinePos.map(pos => highlightLineEffect.of({ addByPos: pos })),
+      effects: activeLinePos.map((pos, index) =>
+        highlightLineEffect.of({
+          addByPos: pos,
+          // clear all decoration on first line
+          filter: () => index !== 0
+        })
+      ),
       ...(view.hasFocus
         ? undefined
         : {

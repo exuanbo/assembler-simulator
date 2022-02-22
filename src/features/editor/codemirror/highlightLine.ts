@@ -4,7 +4,6 @@ import type { RangeSetUpdateFilter } from './rangeSet'
 
 interface HighlightLineConfig {
   clearOnPointerSelect?: boolean
-  clearAll?: boolean
 }
 
 const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<HighlightLineConfig>>({
@@ -12,14 +11,10 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
     return combineConfig(
       values,
       {
-        clearOnPointerSelect: true,
-        clearAll: true
+        clearOnPointerSelect: true
       },
       {
         clearOnPointerSelect(_, option) {
-          return option
-        },
-        clearAll(_, option) {
           return option
         }
       }
@@ -46,14 +41,14 @@ const highlightLineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    const { clearOnPointerSelect, clearAll } = transaction.state.facet(HighlightLineConfigFacet)
+    const { clearOnPointerSelect } = transaction.state.facet(HighlightLineConfigFacet)
     return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
       ? Decoration.none
       : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
           if (!effect.is(highlightLineEffect)) {
             return resultSet
           }
-          const { addByPos: add, filter = () => !clearAll } = effect.value
+          const { addByPos: add, filter } = effect.value
           return resultSet.update({
             add: add === undefined ? undefined : [lineDecoration.range(add)],
             filter
