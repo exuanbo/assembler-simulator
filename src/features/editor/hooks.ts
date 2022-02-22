@@ -86,7 +86,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
         view.dispatch({
           changes: {
             from: 0,
-            to: view.state.doc.sliceString(0).length,
+            to: view.state.doc.length,
             insert: value
           },
           effects: highlightLineEffect.of({ filter: () => false }),
