@@ -53,10 +53,6 @@ const createInputUpdateListener = (): ViewUpdateListener => {
       if (!isChangedFromState(firstTransaction)) {
         dispatch(setEditorInput({ value: input }))
       }
-      // TODO: extract hook
-      if (selectAutoAssemble(getState())) {
-        assemble(input)
-      }
     }, 250)
   }
 }
@@ -103,6 +99,17 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
 
 const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): StateEffect<Extension> =>
   StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
+
+export const useAutoAssemble = (): void => {
+  const autoAssemble = useSelector(selectAutoAssemble)
+  const input = useSelector(selectEditortInput)
+
+  useEffect(() => {
+    if (autoAssemble) {
+      assemble(input)
+    }
+  }, [autoAssemble, input])
+}
 
 const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
