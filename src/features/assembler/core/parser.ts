@@ -98,14 +98,19 @@ const createStatement = (
   instruction: Instruction,
   operands: Operand[]
 ): Statement => {
-  const machineCode = [
-    ...(instruction.opcode === null ? [] : [instruction.opcode]),
-    ...operands.reduce<number[]>(
-      (operandValues, operand) =>
-        operand.value === undefined ? operandValues : operandValues.concat(operand.value),
-      []
-    )
-  ]
+  const machineCode: number[] = []
+  if (instruction.opcode !== null) {
+    machineCode.push(instruction.opcode)
+  }
+  operands.forEach(operand => {
+    if (operand.value !== undefined) {
+      if (typeof operand.value === 'number') {
+        machineCode.push(operand.value)
+      } else {
+        machineCode.push(...operand.value)
+      }
+    }
+  })
   const from = instruction.range.from
   const lastNode = operands.length > 0 ? operands[operands.length - 1] : instruction
   const to = lastNode.range.to
@@ -150,14 +155,14 @@ const REGISTER_REGEXP = /^[A-D]L$/
 
 const parseSingleOperand =
   (tokens: Token[], index: number) =>
-  <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
+  <T extends OperandType>(...expectedOperandTypes: T[]): Operand<T> => {
     if (index >= tokens.length) {
       throw new MissingEndError()
     }
     const token = tokens[index]
 
     const isExpected = (type: OperandType): boolean =>
-      (expectedTypes as OperandType[]).includes(type)
+      (expectedOperandTypes as OperandType[]).includes(type)
 
     const createOperand = (type: OperandType, token: Token): Operand<T> =>
       __createOperand(type as T, token)
@@ -207,7 +212,7 @@ const parseSingleOperand =
         }
         break
     }
-    throw new OperandTypeError(token, ...expectedTypes)
+    throw new OperandTypeError(token, ...expectedOperandTypes)
   }
 
 const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
@@ -224,24 +229,26 @@ const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
 const parseDoubleOperands =
   (tokens: Token[], index: number) =>
   <T1 extends OperandType, T2 extends OperandType>(
-    ...expectedTypes: Array<[firstOperandType: T1, secondOperandType: T2]>
+    ...expectedOperandTypes: Array<[firstOperandType: T1, secondOperandType: T2]>
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
-    const firstOperandTypes = expectedTypes.reduce<T1[]>(
-      (resultTypes, [firstOperandType]) =>
-        resultTypes.includes(firstOperandType) ? resultTypes : [...resultTypes, firstOperandType],
-      []
-    )
-    const firstOperand = parseSingleOperand(tokens, index)(...firstOperandTypes)
+    const possibleFirstOperandTypes: T1[] = []
+    expectedOperandTypes.forEach(([firstOperandType]) => {
+      if (!possibleFirstOperandTypes.includes(firstOperandType)) {
+        possibleFirstOperandTypes.push(firstOperandType)
+      }
+    })
+    const firstOperand = parseSingleOperand(tokens, index)(...possibleFirstOperandTypes)
     const error = checkComma(tokens, index + 1)
     if (error !== null) {
       throw error
     }
-    const secondOperandTypes = expectedTypes.reduce<T2[]>(
-      (resultTypes, [firstOperandType, secondOperandType]) =>
-        firstOperandType === firstOperand.type ? [...resultTypes, secondOperandType] : resultTypes,
-      []
-    )
-    const secondOperand = parseSingleOperand(tokens, index + 2)(...secondOperandTypes)
+    const possibleSecondOperandTypes: T2[] = []
+    expectedOperandTypes.forEach(([firstOperandType, secondOperandType]) => {
+      if (firstOperandType === firstOperand.type) {
+        possibleSecondOperandTypes.push(secondOperandType)
+      }
+    })
+    const secondOperand = parseSingleOperand(tokens, index + 2)(...possibleSecondOperandTypes)
     return [firstOperand, secondOperand]
   }
 
