@@ -214,8 +214,8 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
 }
 
 export enum MessageType {
-  Error = 'Error',
-  Info = 'Info'
+  Info,
+  Error
 }
 
 interface StatusMessage {
