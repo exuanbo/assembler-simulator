@@ -1,26 +1,6 @@
-import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
+import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import type { RangeSetUpdateFilter } from './rangeSet'
-
-interface WavyUnderlineConfig {
-  clearAll?: boolean
-}
-
-const wavyUnderlineConfigFacet = Facet.define<WavyUnderlineConfig, Required<WavyUnderlineConfig>>({
-  combine(values) {
-    return combineConfig(
-      values,
-      {
-        clearAll: true
-      },
-      {
-        clearAll(_, option) {
-          return option
-        }
-      }
-    )
-  }
-})
 
 export const wavyUnderlineEffect = StateEffect.define<{
   add?: { from: number; to: number }
@@ -47,12 +27,11 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    const { clearAll } = transaction.state.facet(wavyUnderlineConfigFacet)
     return transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
       if (!effect.is(wavyUnderlineEffect)) {
         return resultSet
       }
-      const { add, filter = () => !clearAll } = effect.value
+      const { add, filter } = effect.value
       return resultSet.update({
         add: add === undefined ? undefined : [markDecoration.range(add.from, add.to)],
         filter
@@ -68,8 +47,7 @@ const wavyUnderlineImage = `url('data:image/svg+xml;base64,${window.btoa(
 </svg>`
 )}')`
 
-export const wavyUnderline = (config: WavyUnderlineConfig = {}): Extension => [
-  wavyUnderlineConfigFacet.of(config),
+export const wavyUnderline = (): Extension => [
   wavyUnderlineField,
   EditorView.baseTheme({
     '.cm-wavyUnderline': {

@@ -52,6 +52,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
       if (!isChangedFromState(firstTransaction)) {
         dispatch(setEditorInput({ value: input }))
       }
+      // TODO: extract hook
       if (selectAutoAssemble(getState())) {
         assemble(input)
       }
@@ -165,7 +166,7 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
       effects: activeLinePos.map((pos, index) =>
         highlightLineEffect.of({
           addByPos: pos,
-          // clear all decoration on first line
+          // clear all decorations on first line
           filter: () => index !== 0
         })
       ),
@@ -180,6 +181,20 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
 }
 
 export const useUnderlineAssemblerError = (view: EditorView | undefined): void => {
+  useEffect(() => {
+    view?.dispatch({
+      effects: StateEffect.appendConfig.of(
+        EditorView.updateListener.of(viewUpdate => {
+          if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
+            viewUpdate.view.dispatch({
+              effects: wavyUnderlineEffect.of({ filter: () => false })
+            })
+          }
+        })
+      )
+    })
+  }, [view])
+
   const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
 
   useEffect(() => {
