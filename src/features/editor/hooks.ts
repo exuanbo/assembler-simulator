@@ -158,9 +158,12 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   const activeLinePos = useSelector(selectEditorActiveLinePos(view))
 
   useEffect(() => {
-    view?.dispatch({
-      effects: activeLinePos?.map(pos => highlightLineEffect.of({ addByPos: pos })),
-      ...(view.hasFocus || activeLinePos === undefined || activeLinePos.length === 0
+    if (view === undefined || activeLinePos === undefined || activeLinePos.length === 0) {
+      return
+    }
+    view.dispatch({
+      effects: activeLinePos.map(pos => highlightLineEffect.of({ addByPos: pos })),
+      ...(view.hasFocus
         ? undefined
         : {
             selection: { anchor: activeLinePos[0] },
@@ -174,9 +177,11 @@ export const useUnderlineAssemblerError = (view: EditorView | undefined): void =
   const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
 
   useEffect(() => {
-    view?.dispatch({
-      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
-    })
+    if (view !== undefined && assemblerErrorRange !== undefined) {
+      view.dispatch({
+        effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
+      })
+    }
   }, [view, assemblerErrorRange])
 }
 
