@@ -64,14 +64,15 @@ export const selectEditorActiveLinePos = curryRight2(
   createSelector([selectEditorActiveRange, (_, view?: EditorView) => view], (activeRange, view) =>
     activeRange === null || view === undefined
       ? undefined
-      : [
-          ...new Set(
-            range(activeRange.from, activeRange.to).map(pos => {
-              const line = view.state.doc.lineAt(pos)
-              return line.from
-            })
-          )
-        ]
+      : range(activeRange.from, activeRange.to).reduce<number[]>((linePos, pos) => {
+          if (pos <= view.state.doc.length) {
+            const line = view.state.doc.lineAt(pos)
+            if (!linePos.includes(line.from)) {
+              linePos.push(line.from)
+            }
+          }
+          return linePos
+        }, [])
   )
 )
 
