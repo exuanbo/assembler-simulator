@@ -103,6 +103,7 @@ export const throttle = <T extends unknown[]>(
     } else {
       queuedTimeoutId = window.setTimeout(() => {
         invokeFn(...args)
+        queuedTimeoutId = undefined
       }, wait - (now - lastTime))
     }
   }

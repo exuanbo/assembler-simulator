@@ -47,12 +47,15 @@ const createInputUpdateListener = (): ViewUpdateListener => {
     // document changes must be caused by at least one transaction
     const firstTransaction = viewUpdate.transactions[0]
     const input = viewUpdate.state.doc.sliceString(0)
-    window.clearTimeout(updateInputTimeoutId)
+    if (updateInputTimeoutId !== undefined) {
+      window.clearTimeout(updateInputTimeoutId)
+    }
     updateInputTimeoutId = window.setTimeout(() => {
       // only one transaction is dispatched if input is set from file
       if (!isChangedFromState(firstTransaction)) {
         dispatch(setEditorInput({ value: input }))
       }
+      updateInputTimeoutId = undefined
     }, 250)
   }
 }
