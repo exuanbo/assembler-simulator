@@ -1,9 +1,6 @@
-import { Middleware, MiddlewareAPI, PayloadActionCreator, getType } from '@reduxjs/toolkit'
-import type { RootState, Dispatch } from './store'
+import { Middleware, PayloadActionCreator, getType } from '@reduxjs/toolkit'
 
-type ListenAPI = MiddlewareAPI<Dispatch, RootState>
-
-type ListenCallback<TPayload> = (payload: TPayload, api: ListenAPI) => void | Promise<void>
+type ListenCallback<TPayload> = (payload: TPayload) => void | Promise<void>
 
 interface ListenOptions {
   once?: boolean
@@ -29,7 +26,7 @@ export const createActionListener = (): ActionListener => {
 
   const actionListener: ActionListener = api => next => action => {
     const result = next(action)
-    subscriptions.get(action.type)?.forEach(cb => cb(action.payload, api))
+    subscriptions.get(action.type)?.forEach(cb => cb(action.payload))
     return result
   }
 
@@ -40,9 +37,9 @@ export const createActionListener = (): ActionListener => {
     }
     const callbacks = subscriptions.get(actionType)!
     const callback: typeof __callback = once
-      ? (payload, api) => {
+      ? payload => {
           unsubscribe()
-          return __callback(payload, api)
+          return __callback(payload)
         }
       : __callback
     callbacks.add(callback)
