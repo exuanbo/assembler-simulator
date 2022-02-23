@@ -203,7 +203,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
 export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile = false }) => {
-      if (isFromFile && !selectAutoAssemble(getState())) {
+      if (isFromFile) {
         dispatch(clearEditorActiveRange())
       }
     })
