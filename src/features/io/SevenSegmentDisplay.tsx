@@ -133,7 +133,15 @@ const segments: readonly JSX.Element[] = [
 const initialData = new Array<number>(14).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
+  // an array of 14 numbers,
+  // elements with even index represent the left part
   const [data, setData] = useState(initialData)
+
+  useEffect(() => {
+    return listenAction(resetIo, () => {
+      setData(initialData)
+    })
+  }, [])
 
   const { data: outputData, isVisible } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
@@ -145,12 +153,6 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     })
     setData(newData)
   }, [outputData])
-
-  useEffect(() => {
-    return listenAction(resetIo, () => {
-      setData(initialData)
-    })
-  }, [])
 
   return isVisible ? (
     <DeviceCard name="Seven-Segment Display" port={2}>
