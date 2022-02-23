@@ -107,9 +107,15 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): StateEff
 
 export const useAutoAssemble = (): void => {
   useEffect(() => {
-    return listenAction(setEditorInput, ({ value }) => {
+    return listenAction(setEditorInput, ({ value, isFromFile = false }) => {
       if (selectAutoAssemble(getState())) {
-        assemble(value)
+        if (isFromFile) {
+          window.setTimeout(() => {
+            assemble(value)
+          }, TIMEOUT_MS)
+        } else {
+          assemble(value)
+        }
       }
     })
   }, [])
