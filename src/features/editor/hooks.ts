@@ -10,7 +10,8 @@ import {
   setEditorInput,
   setBreakpoints,
   addBreakpoint,
-  removeBreakpoint
+  removeBreakpoint,
+  clearEditorActiveRange
 } from './editorSlice'
 import { ViewUpdateListener, useCodeMirror as __useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
@@ -90,7 +91,6 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
             to: view.state.doc.length,
             insert: value
           },
-          effects: highlightLineEffect.of({ filter: () => false }),
           annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
         })
       }
@@ -137,6 +137,14 @@ export const useAssemblerError = (view: EditorView | undefined): void => {
 }
 
 export const useHighlightActiveLine = (view: EditorView | undefined): void => {
+  useEffect(() => {
+    return listenAction(setEditorInput, ({ isFromFile = false }) => {
+      if (isFromFile && !selectAutoAssemble(getState())) {
+        dispatch(clearEditorActiveRange())
+      }
+    })
+  }, [])
+
   const activeLinePos = useSelector(selectEditorActiveLinePos(view))
 
   useEffect(() => {
