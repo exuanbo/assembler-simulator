@@ -9,7 +9,7 @@ import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
 const LABEL_DEFINITION_REGEXP =   /^[a-zA-Z_]+(?=:)/
 const LABEL_USAGE_REGEXP =        /^[a-zA-Z_]+/
-const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,"]+/
+const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
 const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
 const NON_WHITESPACE_REGEXP =     /\S/
@@ -47,7 +47,7 @@ const asmLanguage = StreamLanguage.define<State>({
 
     if (state.operandsLeft === 0) {
       const token = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
-      if (token !== undefined) {
+      if (token) {
         const upperCaseToken = token.toUpperCase()
         if (upperCaseToken in Mnemonic) {
           const mnemonic = upperCaseToken as Mnemonic

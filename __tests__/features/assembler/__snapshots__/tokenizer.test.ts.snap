@@ -100,8 +100,8 @@ Array [
   },
   Object {
     "range": Object {
-      "from": 8,
-      "to": 12,
+      "from": 7,
+      "to": 11,
     },
     "raw": "[al]",
     "type": "Address",

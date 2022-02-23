@@ -29,7 +29,7 @@ describe('tokenizer', () => {
   })
 
   it('should tokenize address', () => {
-    expect(tokenize('[] [00] [al]')).toMatchSnapshot()
+    expect(tokenize('[] [00][al]')).toMatchSnapshot()
   })
 
   it('should tokenize string', () => {

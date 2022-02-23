@@ -56,15 +56,15 @@ const matchRegExp =
 /* eslint-disable prettier/prettier */
 
 const tokenMatchers: readonly TokenMatcher[] = [
-  matchRegExp(/^\s+/,                   TokenType.Whitespace),
-  matchRegExp(/^;.*/,                   TokenType.Comment),
-  matchRegExp(/^:/,                     TokenType.Colon),
-  matchRegExp(/^,/,                     TokenType.Comma),
-  matchRegExp(/^\d+\b/,                 TokenType.Digits),
-  matchRegExp(/^[a-dA-D][lL]\b/,        TokenType.Register),
-  matchRegExp(/^\[.*?\]/,               TokenType.Address),
-  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/, TokenType.String),
-  matchRegExp(/^(?:[^\s;:,"]+|".*)/,    TokenType.Unknown)
+  matchRegExp(/^\s+/,                                    TokenType.Whitespace),
+  matchRegExp(/^;.*/,                                    TokenType.Comment),
+  matchRegExp(/^:/,                                      TokenType.Colon),
+  matchRegExp(/^,/,                                      TokenType.Comma),
+  matchRegExp(/^\d+\b/,                                  TokenType.Digits),
+  matchRegExp(/^[a-dA-D][lL]\b/,                         TokenType.Register),
+  matchRegExp(/^\[.*?\]/,                                TokenType.Address),
+  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/,                  TokenType.String),
+  matchRegExp(/^(?:[^\s;:,["]+|\[.*?(?=[\s;:,]|$)|".*)/, TokenType.Unknown)
 ]
 
 /* eslint-enable prettier/prettier */
