@@ -34,7 +34,6 @@ const store = configureStore({
 export default store
 
 export const { getState, dispatch } = store
-export type Dispatch = typeof dispatch
 
 export const { listenAction } = actionListener
 export const { watch } = watcher
