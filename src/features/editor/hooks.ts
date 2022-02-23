@@ -31,6 +31,8 @@ import {
 import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
 import { useConstant } from '@/common/hooks'
 
+const TIMEOUT_MS = 250
+
 enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'
 }
@@ -57,7 +59,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
         dispatch(setEditorInput({ value: input }))
       }
       updateInputTimeoutId = undefined
-    }, 250)
+    }, TIMEOUT_MS)
   }
 }
 
