@@ -139,7 +139,10 @@ export const useAssemblerError = (view: EditorView | undefined): void => {
 
   useEffect(() => {
     view?.dispatch({
-      effects: wavyUnderlineEffect.of({ add: assemblerErrorRange })
+      effects: wavyUnderlineEffect.of({
+        add: assemblerErrorRange,
+        filter: () => assemblerErrorRange !== undefined
+      })
     })
   }, [view, assemblerErrorRange])
 }
