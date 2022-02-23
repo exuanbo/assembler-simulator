@@ -136,40 +136,6 @@ export const useAssemblerError = (view: EditorView | undefined): void => {
   }, [view, assemblerErrorRange])
 }
 
-export const useHighlightActiveLine = (view: EditorView | undefined): void => {
-  useEffect(() => {
-    return listenAction(setEditorInput, ({ isFromFile = false }) => {
-      if (isFromFile && !selectAutoAssemble(getState())) {
-        dispatch(clearEditorActiveRange())
-      }
-    })
-  }, [])
-
-  const activeLinePos = useSelector(selectEditorActiveLinePos(view))
-
-  useEffect(() => {
-    view?.dispatch({
-      effects:
-        activeLinePos === undefined
-          ? highlightLineEffect.of({ filter: () => false })
-          : activeLinePos.map((pos, index) =>
-              highlightLineEffect.of({
-                addByPos: pos,
-                // clear all decorations on first line
-                filter: () => index !== 0
-              })
-            ),
-      ...(view.hasFocus || activeLinePos === undefined
-        ? undefined
-        : {
-            // length of `activeLinePos` is already checked
-            selection: { anchor: activeLinePos[0] },
-            scrollIntoView: true
-          })
-    })
-  }, [view, activeLinePos])
-}
-
 const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   if (viewUpdate.docChanged) {
     const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
@@ -221,6 +187,40 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
       annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
     })
   }, [view])
+}
+
+export const useHighlightActiveLine = (view: EditorView | undefined): void => {
+  useEffect(() => {
+    return listenAction(setEditorInput, ({ isFromFile = false }) => {
+      if (isFromFile && !selectAutoAssemble(getState())) {
+        dispatch(clearEditorActiveRange())
+      }
+    })
+  }, [])
+
+  const activeLinePos = useSelector(selectEditorActiveLinePos(view))
+
+  useEffect(() => {
+    view?.dispatch({
+      effects:
+        activeLinePos === undefined
+          ? highlightLineEffect.of({ filter: () => false })
+          : activeLinePos.map((pos, index) =>
+              highlightLineEffect.of({
+                addByPos: pos,
+                // clear all decorations on first line
+                filter: () => index !== 0
+              })
+            ),
+      ...(view.hasFocus || activeLinePos === undefined
+        ? undefined
+        : {
+            // length of `activeLinePos` is already checked
+            selection: { anchor: activeLinePos[0] },
+            scrollIntoView: true
+          })
+    })
+  }, [view, activeLinePos])
 }
 
 export enum MessageType {

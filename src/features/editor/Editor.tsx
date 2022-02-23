@@ -3,8 +3,8 @@ import {
   useCodeMirror,
   useAutoAssemble,
   useAssemblerError,
-  useHighlightActiveLine,
-  useBreakpoints
+  useBreakpoints,
+  useHighlightActiveLine
 } from './hooks'
 
 const Editor = (): JSX.Element => {
@@ -12,8 +12,8 @@ const Editor = (): JSX.Element => {
 
   useAutoAssemble()
   useAssemblerError(view)
-  useHighlightActiveLine(view)
   useBreakpoints(view)
+  useHighlightActiveLine(view)
 
   return (
     <div className="flex flex-col h-full">
