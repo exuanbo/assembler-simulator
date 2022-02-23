@@ -22,8 +22,15 @@ export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    setInput: (state, action: PayloadAction<{ value: string; isFromFile?: boolean }>) => {
-      state.input = action.payload.value
+    setInput: {
+      reducer: (state, action: PayloadAction<{ value: string }>) => {
+        state.input = action.payload.value
+      },
+      prepare: ({ value, isFromFile = false }: { value: string; isFromFile?: boolean }) => {
+        return {
+          payload: { value, isFromFile }
+        }
+      }
     },
     setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
       state.breakpoints = action.payload

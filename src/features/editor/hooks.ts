@@ -85,7 +85,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     if (selectAutoAssemble(getState())) {
       assemble(defaultInput)
     }
-    return listenAction(setEditorInput, ({ value, isFromFile = false }) => {
+    return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
         view.dispatch({
           changes: {
@@ -110,7 +110,7 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): Transact
 
 export const useAutoAssemble = (): void => {
   useEffect(() => {
-    return listenAction(setEditorInput, ({ value, isFromFile = false }) => {
+    return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (selectAutoAssemble(getState())) {
         if (isFromFile) {
           window.setTimeout(() => {
@@ -205,7 +205,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
 
 export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   useEffect(() => {
-    return listenAction(setEditorInput, ({ isFromFile = false }) => {
+    return listenAction(setEditorInput, ({ isFromFile }) => {
       if (isFromFile) {
         dispatch(clearEditorActiveRange())
       }
