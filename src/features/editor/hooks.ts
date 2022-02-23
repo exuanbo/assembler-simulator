@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Transaction, StateEffect, Extension } from '@codemirror/state'
+import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
 import { useSelector } from '@/app/hooks'
@@ -102,8 +102,11 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   return { view, editorRef }
 }
 
-const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): StateEffect<Extension> =>
-  StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
+const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): TransactionSpec => {
+  return {
+    effects: StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
+  }
+}
 
 export const useAutoAssemble = (): void => {
   useEffect(() => {
@@ -123,8 +126,8 @@ export const useAutoAssemble = (): void => {
 
 export const useAssemblerError = (view: EditorView | undefined): void => {
   useEffect(() => {
-    view?.dispatch({
-      effects: addViewUpdateListener(viewUpdate => {
+    view?.dispatch(
+      addViewUpdateListener(viewUpdate => {
         if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
           viewUpdate.view.dispatch({
             effects: wavyUnderlineEffect.of({ filter: () => false })
@@ -132,7 +135,7 @@ export const useAssemblerError = (view: EditorView | undefined): void => {
           dispatch(clearAssemblerError())
         }
       })
-    })
+    )
   }, [view])
 
   const assemblerErrorRange = useSelector(selectAssemblerErrorRange)
@@ -177,7 +180,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
     if (view === undefined) {
       return
     }
-    view.dispatch({ effects: addViewUpdateListener(breakpointsUpdateListener) })
+    view.dispatch(addViewUpdateListener(breakpointsUpdateListener))
     const breakpoints = selectEditorBreakpoints(getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
