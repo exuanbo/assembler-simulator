@@ -1,7 +1,7 @@
 import type { SourceRange } from './types'
 import type { Token } from './tokenizer'
 import type { Label, OperandType, Operand, Statement } from './parser'
-import { trimBracketsAndQuotes, escapeBackslashes, escapeInnerSingleQuotes } from '@/common/utils'
+import { trimBrackets, escapeBackslashes, escapeInnerSingleQuotes } from '@/common/utils'
 
 export interface AssemblerErrorObject {
   name: string
@@ -57,14 +57,14 @@ export class MissingEndError extends ParserError {
 
 export class InvalidNumberError extends ParserError {
   constructor({ raw, range }: Token) {
-    const numberValue = trimBracketsAndQuotes(raw)
+    const numberValue = trimBrackets(raw).trim()
     super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'.`, range)
   }
 }
 
 export class AddressError extends ParserError {
   constructor({ raw, range }: Token) {
-    const addressValue = trimBracketsAndQuotes(raw)
+    const addressValue = trimBrackets(raw).trim()
     super(
       `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'.`,
       range
@@ -74,7 +74,7 @@ export class AddressError extends ParserError {
 
 export class UnterminatedAddressError extends ParserError {
   constructor({ raw, range }: Token) {
-    super(`Unterminated address '${raw}'.`, range)
+    super(`Unterminated address '${raw.trimEnd()}'.`, range)
   }
 }
 

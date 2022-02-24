@@ -29,7 +29,15 @@ describe('tokenizer', () => {
   })
 
   it('should tokenize address', () => {
-    expect(tokenize('[] [00][al]')).toMatchSnapshot()
+    expect(tokenize('[] [00][al] [ Bl  ]')).toMatchSnapshot()
+  })
+
+  it('should emit token with type `Unknown` when tokenizing address if closing bracket is missing', () => {
+    expect(tokenize('[00')).toMatchSnapshot()
+    expect(tokenize('[al\n')).toMatchSnapshot()
+    expect(tokenize('[Bl ')).toMatchSnapshot()
+    expect(tokenize('[cL \n')).toMatchSnapshot()
+    expect(tokenize('[ DL ;')).toMatchSnapshot()
   })
 
   it('should tokenize string', () => {
@@ -37,14 +45,7 @@ describe('tokenizer', () => {
   })
 
   it('should emit token with type `Unknown` when tokenizing string if closing quote is missing', () => {
-    expect(tokenize('"\\"')[0].type).toBe('Unknown')
-  })
-
-  it('should tokenize string with missing ending quote', () => {
-    expect(tokenize('"foo, bar done: ; this is a comment')).toHaveLength(1)
-  })
-
-  it('should not continue matching string if it ends with newline', () => {
-    expect(tokenize('"foo\nbar"')[0].type).toBe('Unknown')
+    expect(tokenize('"\\"')).toMatchSnapshot()
+    expect(tokenize('"foo\nbar"')).toMatchSnapshot()
   })
 })

@@ -26,9 +26,10 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
   const tokenValue = call((): string => {
     switch (type) {
       case TokenType.Register:
-      case TokenType.Address:
       case TokenType.Unknown:
         return normalizedValue.toUpperCase()
+      case TokenType.Address:
+        return normalizedValue.trim().toUpperCase()
       case TokenType.String:
         return JSON.parse(`"${normalizedValue}"`) // escape
       default:
@@ -56,15 +57,15 @@ const matchRegExp =
 /* eslint-disable prettier/prettier */
 
 const tokenMatchers: readonly TokenMatcher[] = [
-  matchRegExp(/^\s+/,                                    TokenType.Whitespace),
-  matchRegExp(/^;.*/,                                    TokenType.Comment),
-  matchRegExp(/^:/,                                      TokenType.Colon),
-  matchRegExp(/^,/,                                      TokenType.Comma),
-  matchRegExp(/^\d+\b/,                                  TokenType.Digits),
-  matchRegExp(/^[a-dA-D][lL]\b/,                         TokenType.Register),
-  matchRegExp(/^\[.*?\]/,                                TokenType.Address),
-  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/,                  TokenType.String),
-  matchRegExp(/^(?:[^\s;:,["]+|\[.*?(?=[\s;:,]|$)|".*)/, TokenType.Unknown)
+  matchRegExp(/^\s+/,                                              TokenType.Whitespace),
+  matchRegExp(/^;.*/,                                              TokenType.Comment),
+  matchRegExp(/^:/,                                                TokenType.Colon),
+  matchRegExp(/^,/,                                                TokenType.Comma),
+  matchRegExp(/^\d+\b/,                                            TokenType.Digits),
+  matchRegExp(/^[a-dA-D][lL]\b/,                                   TokenType.Register),
+  matchRegExp(/^\[.*?\]/,                                          TokenType.Address),
+  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/,                            TokenType.String),
+  matchRegExp(/^(?:[^\s;:,["]+|\[.*?(?=\s*?(?:[\r\n;:,]|$))|".*)/, TokenType.Unknown)
 ]
 
 /* eslint-enable prettier/prettier */
@@ -72,6 +73,7 @@ const tokenMatchers: readonly TokenMatcher[] = [
 export const tokenize = (input: string): Token[] => {
   const tokens: Token[] = []
   for (let index = 0; index < input.length; ) {
+    const startIndex = index
     for (const matchToken of tokenMatchers) {
       const token = matchToken(input, index)
       if (token !== null) {
@@ -81,6 +83,10 @@ export const tokenize = (input: string): Token[] => {
         index = token.value === Mnemonic.END ? input.length : token.range.to
         break
       }
+    }
+    // istanbul ignore if
+    if (index === startIndex) {
+      throw new Error(`Tokenization failed with charactor '${input[index]}' at index ${index}.`)
     }
   }
   return tokens
