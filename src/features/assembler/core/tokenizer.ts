@@ -84,7 +84,7 @@ export const tokenize = (input: string): Token[] => {
         break
       }
     }
-    // istanbul ignore if
+    // istanbul ignore next
     if (index === startIndex) {
       throw new Error(`Tokenization failed with charactor '${input[index]}' at index ${index}.`)
     }
