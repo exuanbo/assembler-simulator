@@ -1,17 +1,22 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
 import { useSelector } from '@/app/hooks'
 import {
+  MessageType,
+  EditorMessage,
   selectEditortInput,
   selectEditorBreakpoints,
   selectEditorActiveLinePos,
+  selectEditorMessage,
   setEditorInput,
   setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
-  clearEditorActiveRange
+  clearEditorActiveRange,
+  setEditorMessage,
+  clearEditorMessage
 } from './editorSlice'
 import { ViewUpdateListener, useCodeMirror as __useCodeMirror } from './codemirror/hooks'
 import { setup } from './codemirror/setup'
@@ -237,22 +242,14 @@ export const useHighlightActiveLine = (view: EditorView | undefined): void => {
   }, [view, activeLinePos])
 }
 
-export enum MessageType {
-  Info,
-  Error
-}
+const MESSAGE_DURATION_MS = 2000
 
-interface StatusMessage {
-  type: MessageType
-  content: string
-}
-
-const haltedMessage: StatusMessage = {
+const haltedMessage: EditorMessage = {
   type: MessageType.Info,
   content: 'Info: Program has halted.'
 }
 
-const getStatusMessageFrom = (err: Error | null): StatusMessage | null =>
+const getMessageFrom = (err: Error | null): EditorMessage | null =>
   err === null
     ? null
     : {
@@ -260,35 +257,42 @@ const getStatusMessageFrom = (err: Error | null): StatusMessage | null =>
         content: `${err.name}: ${err.message}`
       }
 
-export const useStatusMessage = (): StatusMessage | null => {
+export const useMessage = (): EditorMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
   const err = assemblerError ?? runtimeError
 
-  const [shouldShowHalted, setShouldShowHalted] = useState(false)
-  const showHaltedTimeoutIdRef = useRef<number | undefined>()
+  const message = useSelector(selectEditorMessage)
+  const messageTimeoutIdRef = useRef<number | undefined>()
+
+  useEffect(() => {
+    return listenAction(setEditorMessage, () => {
+      if (messageTimeoutIdRef.current !== undefined) {
+        window.clearTimeout(messageTimeoutIdRef.current)
+      }
+      messageTimeoutIdRef.current = window.setTimeout(() => {
+        dispatch(clearEditorMessage())
+        messageTimeoutIdRef.current = undefined
+      }, MESSAGE_DURATION_MS)
+    })
+  }, [])
 
   useEffect(() => {
     return listenAction(setCpuHalted, () => {
-      setShouldShowHalted(true)
-      window.clearTimeout(showHaltedTimeoutIdRef.current)
-      showHaltedTimeoutIdRef.current = window.setTimeout(() => {
-        setShouldShowHalted(false)
-        showHaltedTimeoutIdRef.current = undefined
-      }, 2000)
+      dispatch(setEditorMessage(haltedMessage))
     })
   }, [])
 
   useEffect(() => {
     return listenAction(resetCpu, () => {
-      setShouldShowHalted(false)
-      if (showHaltedTimeoutIdRef.current !== undefined) {
-        window.clearTimeout(showHaltedTimeoutIdRef.current)
-        showHaltedTimeoutIdRef.current = undefined
+      if (selectEditorMessage(getState()) === haltedMessage) {
+        window.clearTimeout(messageTimeoutIdRef.current)
+        messageTimeoutIdRef.current = undefined
+        dispatch(clearEditorMessage())
       }
     })
   }, [])
 
-  return getStatusMessageFrom(err) ?? (shouldShowHalted ? haltedMessage : null)
+  return getMessageFrom(err) ?? message
 }

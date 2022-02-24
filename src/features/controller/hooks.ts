@@ -10,14 +10,19 @@ import {
   setSuspended
 } from './controllerSlice'
 import {
+  MessageType,
+  EditorMessage,
+  selectEditortInput,
   selectEditorBreakpoints,
   setEditorInput,
   setEditorActiveRange,
-  clearEditorActiveRange
+  clearEditorActiveRange,
+  setEditorMessage
 } from '@/features/editor/editorSlice'
 import { lineRangesOverlap } from '@/features/editor/codemirror/line'
 import { assembleInputFromState } from '@/features/assembler/assemble'
 import {
+  selectAssembledSource,
   selectAddressToStatementMap,
   setAssemblerState,
   resetAssembler
@@ -50,6 +55,11 @@ import {
 import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
 import { useConstant } from '@/common/hooks'
 import { call, errorToPlainObject } from '@/common/utils'
+
+const sourceChangedMessage: EditorMessage = {
+  type: MessageType.Warning,
+  content: 'Warning: Source code has changed since last assemble.'
+}
 
 class Controller {
   private stepIntervalId!: number
@@ -161,6 +171,9 @@ class Controller {
   public step = async (): Promise<void> => {
     const lastStepResult = await this.lastStep
     const state = getState()
+    if (selectEditortInput(state) !== selectAssembledSource(state)) {
+      dispatch(setEditorMessage(sourceChangedMessage))
+    }
     const { fault, halted } = selectCpuStatus(state)
     if (fault !== null || halted) {
       this.stopIfRunning(state)

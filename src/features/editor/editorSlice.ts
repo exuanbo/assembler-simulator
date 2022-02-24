@@ -6,16 +6,29 @@ import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'
 import { range, curryRight2 } from '@/common/utils'
 
+export enum MessageType {
+  Info,
+  Warning,
+  Error
+}
+
+export interface EditorMessage {
+  type: MessageType
+  content: string
+}
+
 interface EditorState {
   input: string
   breakpoints: LineLoc[]
   activeRange: SourceRange | null
+  message: EditorMessage | null
 }
 
 const initialState: EditorState = {
   input: examples[0].content,
   breakpoints: [],
-  activeRange: null
+  activeRange: null,
+  message: null
 }
 
 export const editorSlice = createSlice({
@@ -57,6 +70,12 @@ export const editorSlice = createSlice({
     },
     clearActiveRange: state => {
       state.activeRange = null
+    },
+    setMessage: (state, action: PayloadAction<EditorMessage>) => {
+      state.message = action.payload
+    },
+    clearMessage: state => {
+      state.message = null
     }
   }
 })
@@ -85,6 +104,8 @@ export const selectEditorActiveLinePos = curryRight2(
   })
 )
 
+export const selectEditorMessage = (state: RootState): EditorMessage | null => state.editor.message
+
 export const selectEditorStateToPersist = createSelector(
   selectEditortInput,
   selectEditorBreakpoints,
@@ -97,7 +118,9 @@ export const {
   addBreakpoint,
   removeBreakpoint,
   setActiveRange: setEditorActiveRange,
-  clearActiveRange: clearEditorActiveRange
+  clearActiveRange: clearEditorActiveRange,
+  setMessage: setEditorMessage,
+  clearMessage: clearEditorMessage
 } = editorSlice.actions
 
 export default editorSlice.reducer

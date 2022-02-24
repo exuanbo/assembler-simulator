@@ -3,11 +3,13 @@ import type { AddressToStatementMap, AssemblerErrorObject, SourceRange } from '.
 import type { RootState } from '@/app/store'
 
 interface AssemblerState {
+  source: string
   addressToStatementMap: AddressToStatementMap
   error: AssemblerErrorObject | null
 }
 
 const initialState: AssemblerState = {
+  source: '',
   addressToStatementMap: {},
   error: null
 }
@@ -16,11 +18,16 @@ export const assemblerSlice = createSlice({
   name: 'assembler',
   initialState,
   reducers: {
-    setState: (state, action: PayloadAction<AddressToStatementMap>) => {
-      state.addressToStatementMap = action.payload
+    setState: (
+      state,
+      action: PayloadAction<{ source: string; addressToStatementMap: AddressToStatementMap }>
+    ) => {
+      state.source = action.payload.source
+      state.addressToStatementMap = action.payload.addressToStatementMap
       state.error = null
     },
     setError: (state, action: PayloadAction<AssemblerErrorObject>) => {
+      state.source = ''
       state.addressToStatementMap = {}
       state.error = action.payload
     },
@@ -30,6 +37,8 @@ export const assemblerSlice = createSlice({
     reset: () => initialState
   }
 })
+
+export const selectAssembledSource = (state: RootState): string => state.assembler.source
 
 export const selectAddressToStatementMap = (state: RootState): AddressToStatementMap =>
   state.assembler.addressToStatementMap

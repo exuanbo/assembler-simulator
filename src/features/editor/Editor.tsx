@@ -1,4 +1,4 @@
-import EditorStatus from './EditorStatus'
+import EditorMessage from './EditorMessage'
 import {
   useCodeMirror,
   useAutoAssemble,
@@ -18,7 +18,7 @@ const Editor = (): JSX.Element => {
   return (
     <div className="flex flex-col h-full">
       <div ref={editorRef} className="cursor-auto h-full overflow-y-auto" />
-      <EditorStatus />
+      <EditorMessage />
     </div>
   )
 }

@@ -35,7 +35,7 @@ export const assemble = (input: string): void => {
   batch(() => {
     dispatch(setMemoryDataFrom(addressToOpcodeMap))
     dispatch(resetCpu())
-    dispatch(setAssemblerState(addressToStatementMap))
+    dispatch(setAssemblerState({ source: input, addressToStatementMap }))
     dispatch(statement === undefined ? clearEditorActiveRange() : setEditorActiveRange(statement))
   })
 }
