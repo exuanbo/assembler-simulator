@@ -231,16 +231,16 @@ end
     }).toThrowError("Unterminated address '[al'")
   })
 
-  it('should throw SingleQuoteError if single quote is used', () => {
-    expect(() => {
-      parse("db 'foo'")
-    }).toThrowError('Single quote is not allowed')
-  })
-
   it('should throw UnterminatedStringError if ending quote is missing', () => {
     expect(() => {
       parse('db "foo')
     }).toThrowError("Unterminated string '\"foo'")
+  })
+
+  it('should throw SingleQuoteError if single quote is used', () => {
+    expect(() => {
+      parse("db 'foo'")
+    }).toThrowError('Single quote is not allowed')
   })
 
   it('should throw OperandTypeError if token does not match any operand types', () => {

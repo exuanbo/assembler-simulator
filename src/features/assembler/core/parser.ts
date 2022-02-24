@@ -8,8 +8,8 @@ import {
   InvalidNumberError,
   AddressError,
   UnterminatedAddressError,
-  SingleQuoteError,
   UnterminatedStringError,
+  SingleQuoteError,
   OperandTypeError,
   MissingCommaError
 } from './exceptions'
@@ -198,11 +198,11 @@ const parseSingleOperand =
         if (token.raw.startsWith('[')) {
           throw new UnterminatedAddressError(token)
         }
-        if (token.raw.startsWith("'")) {
-          throw new SingleQuoteError(token)
-        }
         if (token.raw.startsWith('"')) {
           throw new UnterminatedStringError(token)
+        }
+        if (token.raw.startsWith("'")) {
+          throw new SingleQuoteError(token)
         }
         if (isExpected(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
           return createOperand(OperandType.Number, validateNumber(token))

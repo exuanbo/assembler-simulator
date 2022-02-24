@@ -78,15 +78,15 @@ export class UnterminatedAddressError extends ParserError {
   }
 }
 
-export class SingleQuoteError extends ParserError {
-  constructor({ range }: Token) {
-    super('Single quote is not allowed.', range)
-  }
-}
-
 export class UnterminatedStringError extends ParserError {
   constructor({ raw, range }: Token) {
     super(`Unterminated string '${raw}'.`, range)
+  }
+}
+
+export class SingleQuoteError extends ParserError {
+  constructor({ range }: Token) {
+    super('Single quote is not allowed.', range)
   }
 }
 
