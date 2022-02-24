@@ -8,7 +8,7 @@ import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
 const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
 const LABEL_DEFINITION_REGEXP =   /^[a-zA-Z_]+(?=:)/
-const LABEL_USAGE_REGEXP =        /^[a-zA-Z_]+/
+const LABEL_REFERENCE_REGEXP =    /^[a-zA-Z_]+/
 const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
 const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
@@ -90,7 +90,7 @@ const asmLanguage = StreamLanguage.define<State>({
         return 'string'
       }
 
-      if (state.expectLabel && stream.match(LABEL_USAGE_REGEXP)) {
+      if (state.expectLabel && stream.match(LABEL_REFERENCE_REGEXP)) {
         state.operandsLeft -= 1
         state.expectLabel = false
         return 'labelName'
