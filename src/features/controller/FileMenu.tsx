@@ -113,10 +113,11 @@ const SaveButton = (): JSX.Element => {
     const editorInput = selectEditorInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
-    const el = document.createElement('a')
-    el.download = 'file.asm'
-    el.href = fileUrl
-    el.click()
+    const anchorElement = Object.assign(document.createElement('a'), {
+      download: 'file.asm',
+      href: fileUrl
+    })
+    anchorElement.click()
     URL.revokeObjectURL(fileUrl)
   }
 
