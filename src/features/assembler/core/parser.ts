@@ -256,8 +256,9 @@ const parseStatement = (
   tokens: Token[],
   __index: number
 ): [statement: Statement, consumed: number] => {
-  let consumedTokensCount = 0
   const getIndex = (): number => __index + consumedTokensCount
+
+  let consumedTokensCount = 0
   const consumeToken = (count: number): void => {
     consumedTokensCount += count
   }
@@ -297,103 +298,104 @@ const parseStatement = (
       break
     }
     case 1: {
+      let operand
       const parseOperand = parseSingleOperand(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithOneOperand) {
         case Mnemonic.INC:
           setOpcode(Opcode.INC_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.DEC:
           setOpcode(Opcode.DEC_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.NOT:
           setOpcode(Opcode.NOT_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.ROL:
           setOpcode(Opcode.ROL_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.ROR:
           setOpcode(Opcode.ROR_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.SHL:
           setOpcode(Opcode.SHL_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.SHR:
           setOpcode(Opcode.SHR_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.JMP:
           setOpcode(Opcode.JMP)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JZ:
           setOpcode(Opcode.JZ)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JNZ:
           setOpcode(Opcode.JNZ)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JS:
           setOpcode(Opcode.JS)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JNS:
           setOpcode(Opcode.JNS)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JO:
           setOpcode(Opcode.JO)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.JNO:
           setOpcode(Opcode.JNO)
-          addOperands(parseOperand(OperandType.Label))
+          operand = parseOperand(OperandType.Label)
           break
         case Mnemonic.PUSH:
           setOpcode(Opcode.PUSH_FROM_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.POP:
           setOpcode(Opcode.POP_TO_REG)
-          addOperands(parseOperand(OperandType.Register))
+          operand = parseOperand(OperandType.Register)
           break
         case Mnemonic.CALL:
           setOpcode(Opcode.CALL_ADDR)
-          addOperands(parseOperand(OperandType.Number))
+          operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.INT:
           setOpcode(Opcode.INT_ADDR)
-          addOperands(parseOperand(OperandType.Number))
+          operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.IN:
           setOpcode(Opcode.IN_FROM_PORT_TO_AL)
-          addOperands(parseOperand(OperandType.Number))
+          operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.OUT:
           setOpcode(Opcode.OUT_FROM_AL_TO_PORT)
-          addOperands(parseOperand(OperandType.Number))
+          operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.ORG:
-          addOperands(parseOperand(OperandType.Number))
+          operand = parseOperand(OperandType.Number)
           break
         case Mnemonic.DB:
-          addOperands(parseOperand(OperandType.Number, OperandType.String))
+          operand = parseOperand(OperandType.Number, OperandType.String)
           break
       }
 
+      addOperands(operand)
       consumeToken(1)
       break
     }
     case 2: {
       let firstOperand, secondOperand
-
       const parseOperands = parseDoubleOperands(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithTwoOperands) {
