@@ -6,7 +6,7 @@ import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '@/features/memory/memorySlice'
 import { resetCpu } from '@/features/cpu/cpuSlice'
 import {
-  selectEditortInput,
+  selectEditorInput,
   setEditorActiveRange,
   clearEditorActiveRange
 } from '@/features/editor/editorSlice'
@@ -41,5 +41,5 @@ export const assemble = (input: string): void => {
 }
 
 export const assembleInputFromState = (): void => {
-  assemble(selectEditortInput(getState()))
+  assemble(selectEditorInput(getState()))
 }

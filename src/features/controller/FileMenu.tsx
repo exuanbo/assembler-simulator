@@ -5,7 +5,7 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
 import { getState, dispatch } from '@/app/store'
-import { setEditorInput, selectEditortInput } from '@/features/editor/editorSlice'
+import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
 import { examples } from '@/features/editor/examples'
 
 const NewFileButton = (): JSX.Element => (
@@ -110,7 +110,7 @@ const OpenExampleMenu = (): JSX.Element => (
 
 const SaveButton = (): JSX.Element => {
   const handleClickSave = (): void => {
-    const editorInput = selectEditortInput(getState())
+    const editorInput = selectEditorInput(getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const el = document.createElement('a')

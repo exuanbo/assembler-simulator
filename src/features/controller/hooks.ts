@@ -12,7 +12,7 @@ import {
 import {
   MessageType,
   EditorMessage,
-  selectEditortInput,
+  selectEditorInput,
   selectEditorBreakpoints,
   setEditorInput,
   setEditorActiveRange,
@@ -171,7 +171,7 @@ class Controller {
   public step = async (): Promise<void> => {
     const lastStepResult = await this.lastStep
     const state = getState()
-    if (selectEditortInput(state) !== selectAssembledSource(state)) {
+    if (selectEditorInput(state) !== selectAssembledSource(state)) {
       dispatch(setEditorMessage(sourceChangedMessage))
     }
     const { fault, halted } = selectCpuStatus(state)

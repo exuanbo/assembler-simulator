@@ -80,7 +80,7 @@ export const editorSlice = createSlice({
   }
 })
 
-export const selectEditortInput = (state: RootState): string => state.editor.input
+export const selectEditorInput = (state: RootState): string => state.editor.input
 
 export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
 
@@ -107,7 +107,7 @@ export const selectEditorActiveLinePos = curryRight2(
 export const selectEditorMessage = (state: RootState): EditorMessage | null => state.editor.message
 
 export const selectEditorStateToPersist = createSelector(
-  selectEditortInput,
+  selectEditorInput,
   selectEditorBreakpoints,
   (input, breakpoints) => ({ input, breakpoints })
 )

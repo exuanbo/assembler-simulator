@@ -6,7 +6,7 @@ import { useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
-  selectEditortInput,
+  selectEditorInput,
   selectEditorBreakpoints,
   selectEditorActiveLinePos,
   selectEditorMessage,
@@ -69,7 +69,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
 }
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
-  const defaultInput = useConstant(() => selectEditortInput(getState()))
+  const defaultInput = useConstant(() => selectEditorInput(getState()))
 
   const editorStateConfig = useConstant(() => ({
     doc: defaultInput,
