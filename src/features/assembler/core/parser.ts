@@ -155,31 +155,31 @@ const REGISTER_REGEXP = /^[A-D]L$/
 
 const parseSingleOperand =
   (tokens: Token[], index: number) =>
-  <T extends OperandType>(...expectedOperandTypes: T[]): Operand<T> => {
+  <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
     if (index >= tokens.length) {
       throw new MissingEndError()
     }
     const token = tokens[index]
 
-    const isExpected = (type: OperandType): boolean =>
-      (expectedOperandTypes as OperandType[]).includes(type)
+    const isExpectedType = (type: OperandType): boolean =>
+      (expectedTypes as OperandType[]).includes(type)
 
     const createOperand = (type: OperandType, token: Token): Operand<T> =>
       __createOperand(type as T, token)
 
     switch (token.type) {
       case TokenType.Digits:
-        if (isExpected(OperandType.Number)) {
+        if (isExpectedType(OperandType.Number)) {
           return createOperand(OperandType.Number, validateNumber(token))
         }
         break
       case TokenType.Register:
-        if (isExpected(OperandType.Register)) {
+        if (isExpectedType(OperandType.Register)) {
           return createOperand(OperandType.Register, token)
         }
         break
       case TokenType.Address:
-        if (isExpected(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
+        if (isExpectedType(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
           if (NUMBER_REGEXP.test(token.value)) {
             return createOperand(OperandType.Address, validateNumber(token))
           }
@@ -190,7 +190,7 @@ const parseSingleOperand =
         }
         break
       case TokenType.String:
-        if (isExpected(OperandType.String)) {
+        if (isExpectedType(OperandType.String)) {
           return createOperand(OperandType.String, token)
         }
         break
@@ -204,15 +204,15 @@ const parseSingleOperand =
         if (token.raw.startsWith("'")) {
           throw new SingleQuoteError(token)
         }
-        if (isExpected(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
+        if (isExpectedType(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
           return createOperand(OperandType.Number, validateNumber(token))
         }
-        if (isExpected(OperandType.Label)) {
+        if (isExpectedType(OperandType.Label)) {
           return createOperand(OperandType.Label, validateLabel(token))
         }
         break
     }
-    throw new OperandTypeError(token, ...expectedOperandTypes)
+    throw new OperandTypeError(token, ...expectedTypes)
   }
 
 const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
@@ -229,10 +229,10 @@ const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
 const parseDoubleOperands =
   (tokens: Token[], index: number) =>
   <T1 extends OperandType, T2 extends OperandType>(
-    ...expectedOperandTypes: Array<[firstOperandType: T1, secondOperandType: T2]>
+    ...expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
     const possibleFirstOperandTypes: T1[] = []
-    expectedOperandTypes.forEach(([firstOperandType]) => {
+    expectedTypePairs.forEach(([firstOperandType]) => {
       if (!possibleFirstOperandTypes.includes(firstOperandType)) {
         possibleFirstOperandTypes.push(firstOperandType)
       }
@@ -243,7 +243,7 @@ const parseDoubleOperands =
       throw error
     }
     const possibleSecondOperandTypes: T2[] = []
-    expectedOperandTypes.forEach(([firstOperandType, secondOperandType]) => {
+    expectedTypePairs.forEach(([firstOperandType, secondOperandType]) => {
       if (firstOperandType === firstOperand.type) {
         possibleSecondOperandTypes.push(secondOperandType)
       }
