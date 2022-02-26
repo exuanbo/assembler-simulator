@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
@@ -34,7 +34,6 @@ import {
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
-import { useConstant } from '@/common/hooks'
 
 const TIMEOUT_MS = 250
 
@@ -45,38 +44,39 @@ enum AnnotationValue {
 const isChangedFromState = (transation: Transaction): boolean =>
   transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
-const createInputUpdateListener = (): ViewUpdateListener => {
-  let updateInputTimeoutId: number | undefined
-
-  return viewUpdate => {
+const createInputUpdateListener =
+  (timeoutIdRef: MutableRefObject<number | undefined>): ViewUpdateListener =>
+  viewUpdate => {
     if (!viewUpdate.docChanged) {
       return
     }
     // document changes must be caused by at least one transaction
     const firstTransaction = viewUpdate.transactions[0]
     const input = viewUpdate.state.doc.sliceString(0)
-    if (updateInputTimeoutId !== undefined) {
-      window.clearTimeout(updateInputTimeoutId)
+    if (timeoutIdRef.current !== undefined) {
+      window.clearTimeout(timeoutIdRef.current)
     }
-    updateInputTimeoutId = window.setTimeout(() => {
+    timeoutIdRef.current = window.setTimeout(() => {
       // only one transaction is dispatched if input is set from file
       if (!isChangedFromState(firstTransaction)) {
         dispatch(setEditorInput({ value: input }))
       }
-      updateInputTimeoutId = undefined
+      timeoutIdRef.current = undefined
     }, TIMEOUT_MS)
   }
-}
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
-  const defaultInput = useConstant(() => selectEditorInput(getState()))
+  const defaultInput = useMemo(() => selectEditorInput(getState()), [])
 
-  const editorStateConfig = useConstant(() => ({
-    doc: defaultInput,
-    extensions: setup
-  }))
+  const editorStateConfig = useMemo(() => {
+    return {
+      doc: defaultInput,
+      extensions: setup
+    }
+  }, [defaultInput])
 
-  const inputUpdateListener = useConstant(createInputUpdateListener)
+  const timeoutIdRef = useRef<number | undefined>()
+  const inputUpdateListener = useMemo(() => createInputUpdateListener(timeoutIdRef), [])
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     editorStateConfig,
