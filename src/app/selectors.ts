@@ -10,3 +10,5 @@ export const selectStateToPersist = createSelector(
     controller: controllerState
   })
 )
+
+export type StateToPersist = ReturnType<typeof selectStateToPersist>
