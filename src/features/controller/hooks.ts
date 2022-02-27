@@ -6,6 +6,7 @@ import {
   selectRuntimeConfiguration,
   selectIsRunning,
   selectIsSuspended,
+  setAutoAssemble,
   setRunning,
   setSuspended
 } from './controllerSlice'
@@ -55,6 +56,7 @@ import {
 import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
 import { useConstant } from '@/common/hooks'
 import { call, errorToPlainObject } from '@/common/utils'
+import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 const sourceChangedMessage: EditorMessage = {
   type: MessageType.Warning,
@@ -405,6 +407,16 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     return listenAction(setEditorInput, controller.fullyStop)
+  }, [])
+
+  useEffect(() => {
+    return listenAction(setAutoAssemble, isOn => {
+      if (isOn) {
+        window.setTimeout(() => {
+          assembleInputFromState()
+        }, UPDATE_TIMEOUT_MS)
+      }
+    })
   }, [])
 
   useEffect(() => {

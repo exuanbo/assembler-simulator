@@ -34,8 +34,7 @@ import {
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
-
-const TIMEOUT_MS = 250
+import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'
@@ -62,7 +61,7 @@ const createInputUpdateListener =
         dispatch(setEditorInput({ value: input }))
       }
       timeoutIdRef.current = undefined
-    }, TIMEOUT_MS)
+    }, UPDATE_TIMEOUT_MS)
   }
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
@@ -120,7 +119,7 @@ export const useAutoAssemble = (): void => {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
-          }, TIMEOUT_MS)
+          }, UPDATE_TIMEOUT_MS)
         } else {
           assemble(value)
         }
