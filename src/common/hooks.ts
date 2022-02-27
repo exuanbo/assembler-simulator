@@ -1,11 +1,21 @@
 import { RefCallback, useState, useEffect, useReducer, useCallback, useRef } from 'react'
 
-export const useConstant = <T>(initialValue: T | (() => T)): T => useState(initialValue)[0]
-
 export const useToggle = (
   initialState: boolean
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
+
+const nil = Symbol('nil')
+
+export const useConstant = <T>(initialValue: T | (() => T)): T => {
+  const ref = useRef<T | typeof nil>(nil)
+  if (ref.current === nil) {
+    // HACK: `typeof initialValue === 'function'` doesn't work
+    // https://github.com/microsoft/TypeScript/issues/37663#issue-589577681
+    ref.current = initialValue instanceof Function ? initialValue() : initialValue
+  }
+  return ref.current
+}
 
 export const useRefCallback = <T extends Element = Element>(): [T | null, RefCallback<T>] => {
   const [current, setCurrent] = useState<T | null>(null)
