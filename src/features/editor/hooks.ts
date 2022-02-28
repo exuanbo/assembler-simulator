@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
@@ -34,6 +34,7 @@ import {
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
+import { useConstant } from '@/common/hooks'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 enum AnnotationValue {
@@ -43,26 +44,28 @@ enum AnnotationValue {
 const isChangedFromState = (transation: Transaction): boolean =>
   transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
-const createInputUpdateListener =
-  (timeoutIdRef: MutableRefObject<number | undefined>): ViewUpdateListener =>
-  viewUpdate => {
+const createInputUpdateListener = (): ViewUpdateListener => {
+  let timeoutId: number | undefined
+
+  return viewUpdate => {
     if (!viewUpdate.docChanged) {
       return
     }
     // document changes must be caused by at least one transaction
     const firstTransaction = viewUpdate.transactions[0]
     const input = viewUpdate.state.doc.sliceString(0)
-    if (timeoutIdRef.current !== undefined) {
-      window.clearTimeout(timeoutIdRef.current)
+    if (timeoutId !== undefined) {
+      window.clearTimeout(timeoutId)
     }
-    timeoutIdRef.current = window.setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       // only one transaction is dispatched if input is set from file
       if (!isChangedFromState(firstTransaction)) {
         dispatch(setEditorInput({ value: input }))
       }
-      timeoutIdRef.current = undefined
+      timeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
   }
+}
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const defaultInput = useMemo(() => selectEditorInput(getState()), [])
@@ -74,8 +77,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     }
   }, [defaultInput])
 
-  const timeoutIdRef = useRef<number | undefined>()
-  const inputUpdateListener = useMemo(() => createInputUpdateListener(timeoutIdRef), [])
+  const inputUpdateListener = useConstant(() => createInputUpdateListener())
 
   const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
     editorStateConfig,
