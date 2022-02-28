@@ -40,7 +40,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     <Modal
       className="bg-black flex bg-opacity-80 inset-0 fixed items-center justify-center"
       isOpen={isSuspended && isWaitingForKeyboardInput}>
-      <div className="rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
+      <div className="border rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
       <input
         ref={inputRef}
         autoFocus
