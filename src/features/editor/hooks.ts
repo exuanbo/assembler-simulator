@@ -24,7 +24,7 @@ import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation } from './codemirror/annotations'
-import { lineLocAt, lineRangesEqual } from './codemirror/line'
+import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { assemble } from '@/features/assembler/assemble'
@@ -53,7 +53,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
     }
     // document changes must be caused by at least one transaction
     const firstTransaction = viewUpdate.transactions[0]
-    const input = viewUpdate.state.doc.sliceString(0)
+    const input = textToString(viewUpdate.state.doc)
     if (timeoutId !== undefined) {
       window.clearTimeout(timeoutId)
     }
@@ -88,9 +88,6 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     if (view === undefined) {
       return
     }
-    if (selectAutoAssemble(getState())) {
-      assemble(defaultInput)
-    }
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
         view.dispatch({
@@ -114,7 +111,13 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): Transact
   }
 }
 
-export const useAutoAssemble = (): void => {
+export const useAutoAssemble = (view: EditorView | undefined): void => {
+  useEffect(() => {
+    if (view !== undefined && selectAutoAssemble(getState())) {
+      assemble(textToString(view.state.doc))
+    }
+  }, [view])
+
   useEffect(() => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (selectAutoAssemble(getState())) {

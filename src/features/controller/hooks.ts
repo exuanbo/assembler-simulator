@@ -20,7 +20,7 @@ import {
   clearEditorActiveRange,
   setEditorMessage
 } from '@/features/editor/editorSlice'
-import { lineRangesOverlap } from '@/features/editor/codemirror/line'
+import { lineRangesOverlap } from '@/features/editor/codemirror/text'
 import { assembleInputFromState } from '@/features/assembler/assemble'
 import {
   selectAssembledSource,

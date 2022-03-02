@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { EditorView } from '@codemirror/view'
-import { LineLoc, lineRangesEqual } from './codemirror/line'
+import { LineLoc, lineRangesEqual } from './codemirror/text'
 import type { RootState } from '@/app/store'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'

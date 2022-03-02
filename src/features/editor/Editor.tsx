@@ -10,7 +10,7 @@ import {
 const Editor = (): JSX.Element => {
   const { view, editorRef } = useCodeMirror()
 
-  useAutoAssemble()
+  useAutoAssemble(view)
   useAssemblerError(view)
   useBreakpoints(view)
   useHighlightActiveLine(view)
