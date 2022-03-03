@@ -1,9 +1,4 @@
-import { RefCallback, useState, useEffect, useReducer, useCallback, useRef } from 'react'
-
-export const useToggle = (
-  initialState: boolean
-): [state: boolean, toggleState: React.DispatchWithoutAction] =>
-  useReducer((state: boolean) => !state, initialState)
+import { RefCallback, useState, useEffect, useCallback, useRef } from 'react'
 
 const nil = Symbol('nil')
 
