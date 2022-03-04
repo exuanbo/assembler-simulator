@@ -8,7 +8,7 @@ import {
 } from './hooks'
 
 const Editor = (): JSX.Element => {
-  const { view, editorRef } = useCodeMirror()
+  const [view, editorRef] = useCodeMirror()
 
   useAutoAssemble(view)
   useAssemblerError(view)

@@ -69,7 +69,6 @@ const createInputUpdateListener = (): ViewUpdateListener => {
 
 export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
   const defaultInput = useMemo(() => selectEditorInput(getState()), [])
-
   const editorStateConfig = useMemo(() => {
     return {
       doc: defaultInput,
@@ -79,10 +78,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
 
   const inputUpdateListener = useConstant(() => createInputUpdateListener())
 
-  const { view, editorRef } = __useCodeMirror<HTMLDivElement>(
-    editorStateConfig,
-    inputUpdateListener
-  )
+  const [view, editorRef] = __useCodeMirror<HTMLDivElement>(editorStateConfig, inputUpdateListener)
 
   useEffect(() => {
     if (view === undefined) {
@@ -102,7 +98,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     })
   }, [view])
 
-  return { view, editorRef }
+  return [view, editorRef]
 }
 
 const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): TransactionSpec => {
