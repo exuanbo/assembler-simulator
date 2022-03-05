@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { RefCallback, useEffect, useMemo, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { getState, dispatch, listenAction } from '@/app/store'
@@ -67,7 +67,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
   }
 }
 
-export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
+export const useCodeMirror = <T extends Element = Element>(): RefCallback<T> => {
   const defaultInput = useMemo(() => selectEditorInput(getState()), [])
   const editorStateConfig = useMemo(() => {
     return {
@@ -78,7 +78,7 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
 
   const inputUpdateListener = useConstant(() => createInputUpdateListener())
 
-  const [view, editorRef] = __useCodeMirror<HTMLDivElement>(editorStateConfig, inputUpdateListener)
+  const [view, editorRef] = __useCodeMirror<T>(editorStateConfig, inputUpdateListener)
 
   useEffect(() => {
     if (view === undefined) {
@@ -98,7 +98,12 @@ export const useCodeMirror = (): ReturnType<typeof __useCodeMirror> => {
     })
   }, [view])
 
-  return [view, editorRef]
+  useAutoAssemble(view)
+  useAssemblerError(view)
+  useBreakpoints(view)
+  useHighlightActiveLine(view)
+
+  return editorRef
 }
 
 const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): TransactionSpec => {
@@ -107,7 +112,7 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): Transact
   }
 }
 
-export const useAutoAssemble = (view: EditorView | undefined): void => {
+const useAutoAssemble = (view: EditorView | undefined): void => {
   useEffect(() => {
     if (view !== undefined && selectAutoAssemble(getState())) {
       assemble(textToString(view.state.doc))
@@ -129,7 +134,7 @@ export const useAutoAssemble = (view: EditorView | undefined): void => {
   }, [])
 }
 
-export const useAssemblerError = (view: EditorView | undefined): void => {
+const useAssemblerError = (view: EditorView | undefined): void => {
   useEffect(() => {
     view?.dispatch(
       addViewUpdateListener(viewUpdate => {
@@ -180,7 +185,7 @@ const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
   }
 }
 
-export const useBreakpoints = (view: EditorView | undefined): void => {
+const useBreakpoints = (view: EditorView | undefined): void => {
   useEffect(() => {
     if (view === undefined) {
       return
@@ -208,7 +213,7 @@ export const useBreakpoints = (view: EditorView | undefined): void => {
   }, [view])
 }
 
-export const useHighlightActiveLine = (view: EditorView | undefined): void => {
+const useHighlightActiveLine = (view: EditorView | undefined): void => {
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile }) => {
       if (isFromFile) {

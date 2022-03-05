@@ -1,19 +1,8 @@
 import EditorMessage from './EditorMessage'
-import {
-  useCodeMirror,
-  useAutoAssemble,
-  useAssemblerError,
-  useBreakpoints,
-  useHighlightActiveLine
-} from './hooks'
+import { useCodeMirror } from './hooks'
 
 const Editor = (): JSX.Element => {
-  const [view, editorRef] = useCodeMirror()
-
-  useAutoAssemble(view)
-  useAssemblerError(view)
-  useBreakpoints(view)
-  useHighlightActiveLine(view)
+  const editorRef = useCodeMirror()
 
   return (
     <div className="flex flex-col h-full">
