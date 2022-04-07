@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
-const modalRoot = document.getElementById('modal-root')!
+const containerWrapper = document.getElementById('modal-root')!
 
 interface Props {
   children: ReactNode
@@ -10,30 +10,30 @@ interface Props {
 }
 
 const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null => {
-  const wrapperElementRef = useRef<HTMLDivElement>()
+  const containerRef = useRef<HTMLDivElement>()
 
-  const [isWrapperElementReady, setWrapperElementReady] = useState(false)
-  const isReady = isOpen && isWrapperElementReady
+  const [isContainerReady, setContainerReady] = useState(false)
+  const isReady = isOpen && isContainerReady
 
   useEffect(() => {
     if (!isOpen) {
       return
     }
-    if (wrapperElementRef.current === undefined) {
-      const wrapperElement = document.createElement('div')
-      wrapperElement.className = className
-      wrapperElementRef.current = wrapperElement
+    if (containerRef.current === undefined) {
+      const containerElement = document.createElement('div')
+      containerElement.className = className
+      containerRef.current = containerElement
     }
-    const { current: wrapperElement } = wrapperElementRef
-    modalRoot.appendChild(wrapperElement)
-    setWrapperElementReady(true)
+    const { current: container } = containerRef
+    containerWrapper.appendChild(container)
+    setContainerReady(true)
     return () => {
-      modalRoot.removeChild(wrapperElement)
-      setWrapperElementReady(false)
+      containerWrapper.removeChild(container)
+      setContainerReady(false)
     }
   }, [isOpen])
 
-  return isReady ? createPortal(children, wrapperElementRef.current!) : null
+  return isReady ? createPortal(children, containerRef.current!) : null
 }
 
 export default Modal
