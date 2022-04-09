@@ -32,7 +32,7 @@ const ToolBar = (): JSX.Element => {
   }, [openMenu])
 
   return (
-    <div className="border-t border-b flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
+    <div className="border-y flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
       <MenuButton.Main>
         <h1>Assembler Simulator</h1>
         <a
