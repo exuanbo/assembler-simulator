@@ -18,18 +18,20 @@ const App = (): JSX.Element => {
   }, [])
 
   return (
-    <div className="flex flex-col">
-      <ToolBar />
-      <ResizablePanel className="h-[calc(100vh-2rem)] w-full top-8 fixed">
-        <Editor />
-        <div className="divide-y flex flex-col h-full overflow-y-auto">
-          <CpuRegisters />
-          <Memory />
-          <IoDevices />
-        </div>
-      </ResizablePanel>
+    <>
+      <div className="flex flex-col">
+        <ToolBar />
+        <ResizablePanel className="h-[calc(100vh-2rem)] w-full top-8 fixed">
+          <Editor />
+          <div className="divide-y flex flex-col h-full overflow-y-auto">
+            <CpuRegisters />
+            <Memory />
+            <IoDevices />
+          </div>
+        </ResizablePanel>
+      </div>
       <UnexpectedErrorModal />
-    </div>
+    </>
   )
 }
 
