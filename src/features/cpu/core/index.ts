@@ -255,9 +255,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       return finalResult
     }
 
-    /* -------------------------------------------------------------------------- */
-    /*                                     Run                                    */
-    /* -------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------ */
 
     const shouldTrapHardwareInterrupt = getInterrupt() && isFlagOn(Flag.Interrupt)
 
