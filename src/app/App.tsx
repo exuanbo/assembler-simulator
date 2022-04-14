@@ -6,6 +6,7 @@ import CpuRegisters from '@/features/cpu/CpuRegisters'
 import Memory from '@/features/memory/Memory'
 import IoDevices from '@/features/io/IoDevices'
 import UnexpectedErrorModal from '@/features/unexpectedError/UnexpectedErrorModal'
+import ReloadPrompt from './ReloadPrompt'
 import { watch } from './store'
 import { selectStateToPersist } from './selectors'
 import { saveState } from './localStorage'
@@ -30,6 +31,7 @@ const App = (): JSX.Element => {
           </div>
         </ResizablePanel>
       </div>
+      <ReloadPrompt />
       <UnexpectedErrorModal />
     </>
   )

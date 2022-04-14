@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     windicss(),
     pwa({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: 'Assembler Simulator',
