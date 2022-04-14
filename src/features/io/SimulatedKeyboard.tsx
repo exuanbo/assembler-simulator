@@ -19,7 +19,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const focusInput: React.FocusEventHandler<HTMLInputElement> = () => {
-    inputRef.current!.focus()
+    inputRef.current?.focus()
   }
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
