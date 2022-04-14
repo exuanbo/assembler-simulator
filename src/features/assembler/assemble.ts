@@ -1,5 +1,3 @@
-// TODO: remove batch from React 18
-import { batch } from 'react-redux'
 import { getState, dispatch } from '@/app/store'
 import { Statement, AssembleResult, AssemblerError, assemble as __assemble } from './core'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
@@ -20,10 +18,8 @@ export const assemble = (input: string): void => {
   } catch (err) {
     if (err instanceof AssemblerError) {
       const assemblerError = err.toPlainObject()
-      batch(() => {
-        dispatch(clearEditorActiveRange())
-        dispatch(setAssemblerError(assemblerError))
-      })
+      dispatch(clearEditorActiveRange())
+      dispatch(setAssemblerError(assemblerError))
     } else {
       const unexpectedError = errorToPlainObject(err as Error)
       dispatch(setUnexpectedError(unexpectedError))
@@ -32,12 +28,10 @@ export const assemble = (input: string): void => {
   }
   const [addressToOpcodeMap, addressToStatementMap] = assembleResult
   const statement = addressToStatementMap[0] as Statement | undefined
-  batch(() => {
-    dispatch(setMemoryDataFrom(addressToOpcodeMap))
-    dispatch(resetCpu())
-    dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-    dispatch(statement === undefined ? clearEditorActiveRange() : setEditorActiveRange(statement))
-  })
+  dispatch(setMemoryDataFrom(addressToOpcodeMap))
+  dispatch(resetCpu())
+  dispatch(setAssemblerState({ source: input, addressToStatementMap }))
+  dispatch(statement === undefined ? clearEditorActiveRange() : setEditorActiveRange(statement))
 }
 
 export const assembleInputFromState = (): void => {

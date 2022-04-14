@@ -1,6 +1,4 @@
 import { useEffect } from 'react'
-// TODO: remove batch from React 18
-import { batch } from 'react-redux'
 import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import { getState, dispatch, listenAction } from '@/app/store'
 import {
@@ -44,12 +42,10 @@ export const useVisualDisplayUnit = (): IoDevice => {
       const memoryData = selectMemoryData(getState())
       const vduData = getVduDataFrom(memoryData)
       const shouldToggleVisible = !isVisible && vduDataChanged(vduData)
-      batch(() => {
-        dispatch(setVduData(vduData))
-        if (shouldToggleVisible) {
-          dispatch(toggleVisible())
-        }
-      })
+      dispatch(setVduData(vduData))
+      if (shouldToggleVisible) {
+        dispatch(toggleVisible())
+      }
     })
   }, [isVisible])
 

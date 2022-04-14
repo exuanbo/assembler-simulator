@@ -1,6 +1,4 @@
 import { useEffect } from 'react'
-// TODO: remove batch from React 18
-import { batch } from 'react-redux'
 import { RootState, getState, dispatch, listenAction, watch } from '@/app/store'
 import {
   selectRuntimeConfiguration,
@@ -225,14 +223,12 @@ class Controller {
       }
       const dispatchChanges = (): void => {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
-          batch(() => {
-            dispatch(setMemoryData(memoryData))
-            if (isVduBufferChanged) {
-              dispatch(setVduDataFrom(memoryData))
-            }
-            dispatch(setCpuRegisters(cpuRegisters))
-            dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
-          })
+          dispatch(setMemoryData(memoryData))
+          if (isVduBufferChanged) {
+            dispatch(setVduDataFrom(memoryData))
+          }
+          dispatch(setCpuRegisters(cpuRegisters))
+          dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
           this.dispatchChangesTimeoutId = undefined
         })
       }
@@ -267,14 +263,12 @@ class Controller {
           if (isRunning) {
             this.cancelMainLoop()
           }
-          batch(() => {
-            dispatch(setSuspended(true))
-            switch (requiredInputDataPort) {
-              case InputPort.SimulatedKeyboard:
-                dispatch(setWaitingForKeyboardInput(true))
-                break
-            }
-          })
+          dispatch(setSuspended(true))
+          switch (requiredInputDataPort) {
+            case InputPort.SimulatedKeyboard:
+              dispatch(setWaitingForKeyboardInput(true))
+              break
+          }
           this.unsubscribeSetSuspended = listenAction(
             setSuspended,
             async () => {
@@ -361,13 +355,11 @@ class Controller {
 
   public reset = (): void => {
     this.fullyStop()
-    batch(() => {
-      dispatch(resetMemoryData())
-      dispatch(resetCpu())
-      dispatch(resetAssembler())
-      dispatch(clearEditorActiveRange())
-      dispatch(resetIo())
-    })
+    dispatch(resetMemoryData())
+    dispatch(resetCpu())
+    dispatch(resetAssembler())
+    dispatch(clearEditorActiveRange())
+    dispatch(resetIo())
   }
 
   public fullyStop = (): void => {

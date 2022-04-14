@@ -1,6 +1,4 @@
 import { useRef } from 'react'
-// TODO: remove batch from React 18
-import { batch } from 'react-redux'
 import Modal from '@/common/components/Modal'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
@@ -30,10 +28,8 @@ const SimulatedKeyboard = (): JSX.Element | null => {
         port: InputPort.SimulatedKeyboard
       })
     )
-    batch(() => {
-      dispatch(setSuspended(false))
-      dispatch(setWaitingForKeyboardInput(false))
-    })
+    dispatch(setSuspended(false))
+    dispatch(setWaitingForKeyboardInput(false))
   }
 
   return (
