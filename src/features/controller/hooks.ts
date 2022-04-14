@@ -395,6 +395,24 @@ export const useController = (): Controller => {
   const controller = useConstant(() => new Controller())
 
   useEffect(() => {
+    return listenAction(setEditorInput, controller.fullyStop)
+  }, [])
+
+  useEffect(() => {
+    return listenAction(setAutoAssemble, isOn => {
+      if (isOn) {
+        window.setTimeout(() => {
+          controller.assemble()
+        }, UPDATE_TIMEOUT_MS)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    return listenAction(setAssemblerState, controller.fullyStop)
+  }, [])
+
+  useEffect(() => {
     return watch(selectRuntimeConfiguration, async () => {
       const state = getState()
       // `setSuspended` action listener will resume the main loop with the new configuration
@@ -403,24 +421,6 @@ export const useController = (): Controller => {
         await controller.stopAndRun()
       }
     })
-  }, [])
-
-  useEffect(() => {
-    return listenAction(setEditorInput, controller.fullyStop)
-  }, [])
-
-  useEffect(() => {
-    return listenAction(setAutoAssemble, isOn => {
-      if (isOn) {
-        window.setTimeout(() => {
-          assembleInputFromState()
-        }, UPDATE_TIMEOUT_MS)
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    return listenAction(setAssemblerState, controller.fullyStop)
   }, [])
 
   return controller
