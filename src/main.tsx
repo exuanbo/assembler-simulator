@@ -1,6 +1,6 @@
 import { registerSW } from 'virtual:pwa-register'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import 'virtual:windi.css'
 import './styles.css'
@@ -9,11 +9,13 @@ import App from './app/App'
 
 registerSW({ immediate: true })
 
-ReactDOM.render(
+const container = document.getElementById('app-root')!
+const root = ReactDOM.createRoot(container)
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('app-root')
+  </React.StrictMode>
 )
