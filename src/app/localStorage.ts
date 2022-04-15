@@ -35,8 +35,7 @@ export const saveState = (state: StateToPersist): void => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(LOCAL_STORAGE_KEY, serializedState)
-  } catch (err) {
-    // is there a better way to handle this?
-    console.error(err)
+  } catch {
+    // ignore write errors
   }
 }
