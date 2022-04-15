@@ -33,7 +33,7 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
     inputRef.current!.click()
   }
 
-  const handleInputClick: React.MouseEventHandler<HTMLInputElement> = event => {
+  const handleClickInput: React.MouseEventHandler<HTMLInputElement> = event => {
     event.stopPropagation()
   }
 
@@ -51,7 +51,7 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
     reader.readAsText(file)
   }
 
-  const handleFileSelect: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+  const handleSelectFile: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const file = target.files![0]
     loadFile(file)
     onFileLoad()
@@ -67,8 +67,8 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
         ref={inputRef}
         className="hidden"
         type="file"
-        onChange={handleFileSelect}
-        onClick={handleInputClick}
+        onChange={handleSelectFile}
+        onClick={handleClickInput}
       />
     </MenuItem>
   )
