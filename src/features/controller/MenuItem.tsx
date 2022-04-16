@@ -1,7 +1,6 @@
 import type { ReactNode, RefCallback } from 'react'
 import { Play, Share } from '@/common/components/icons'
 import { useRefCallback, useHover } from '@/common/hooks'
-import { NO_BREAK_SPACE } from '@/common/constants'
 
 const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
 
@@ -13,7 +12,7 @@ interface Props {
 const MenuItem = ({ onClick, children }: Props): JSX.Element => (
   <div className={className} onClick={onClick}>
     {children}
-    <div className="w-4">{NO_BREAK_SPACE}</div>
+    <span className="w-4" />
   </div>
 )
 
