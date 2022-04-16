@@ -24,7 +24,7 @@ interface ExternalLinkProps {
 
 const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
   const handleClick = (): void => {
-    window.open(href, '_blank')
+    window.open(href, '_blank', 'noreferrer')
   }
 
   return (
