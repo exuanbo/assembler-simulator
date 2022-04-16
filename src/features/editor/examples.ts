@@ -6,7 +6,11 @@ interface Example {
 export const examples: readonly Example[] = [
   {
     title: 'Visual Display Unit',
-    content: `jmp start
+    content: `; --------------------------------------------
+;  File > Open Example > Visual Display Unit
+; --------------------------------------------
+
+jmp start
 
 db "Hello World!"
 db 00
@@ -29,7 +33,11 @@ end
   },
   {
     title: 'Traffic Lights',
-    content: `start:
+    content: `; ---------------------------------------
+;  File > Open Example > Traffic Lights
+; ---------------------------------------
+
+start:
 	mov al, 80	; 1000 0000
 
 loop:
@@ -44,7 +52,11 @@ end
   },
   {
     title: 'Seven-Segment Display',
-    content: `jmp start
+    content: `; ----------------------------------------------
+;  File > Open Example > Seven-Segment Display
+; ----------------------------------------------
+
+jmp start
 
 db fa	; 1111 1010
 db 60	; 0110 0000
