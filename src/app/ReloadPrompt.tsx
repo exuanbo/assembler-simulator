@@ -1,8 +1,19 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { Spinner } from '@/common/components/icons'
 
-const buttonClassName = 'border rounded bg-gray-100 py-1 px-2 inline-block hover:bg-gray-200'
+interface Props {
+  onClick: React.MouseEventHandler<HTMLDivElement>
+  children: ReactNode
+}
+
+const PromptButton = ({ onClick, children }: Props): JSX.Element => (
+  <div
+    className="border rounded bg-gray-100 py-1 px-2 inline-block hover:bg-gray-200"
+    onClick={onClick}>
+    {children}
+  </div>
+)
 
 const ReloadPrompt = (): JSX.Element | null => {
   const {
@@ -29,12 +40,8 @@ const ReloadPrompt = (): JSX.Element | null => {
     <div className="border rounded space-y-2 bg-light-100 shadow m-4 py-2 px-4 right-0 bottom-0 fixed">
       <div>New version is available</div>
       <div className="space-x-2">
-        <div className={buttonClassName} onClick={handleClickReload}>
-          Reload
-        </div>
-        <div className={buttonClassName} onClick={handleClickClose}>
-          Close
-        </div>
+        <PromptButton onClick={handleClickReload}>Reload</PromptButton>
+        <PromptButton onClick={handleClickClose}>Close</PromptButton>
       </div>
     </div>
   ) : null
