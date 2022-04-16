@@ -14,7 +14,7 @@ interface MainProps {
 }
 
 const Main = ({ children, innerRef }: MainProps): JSX.Element => (
-  <div ref={innerRef} className={`${className} h-full px-2`}>
+  <div ref={innerRef} className={`${className} py-1 px-2`}>
     {children}
   </div>
 )
