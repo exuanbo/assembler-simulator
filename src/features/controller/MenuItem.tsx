@@ -1,17 +1,19 @@
 import type { ReactNode, RefCallback } from 'react'
 import { Play, Share } from '@/common/components/icons'
 import { useRefCallback, useHover } from '@/common/hooks'
+import { NO_BREAK_SPACE } from '@/common/constants'
 
-const className = 'flex py-1 px-2 items-center hover:bg-gray-200'
+const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
 
 interface Props {
+  onClick: React.MouseEventHandler<HTMLDivElement>
   children: ReactNode
-  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
-const MenuItem = ({ children, onClick }: Props): JSX.Element => (
-  <div className={`${className} !pr-10`} onClick={onClick}>
+const MenuItem = ({ onClick, children }: Props): JSX.Element => (
+  <div className={className} onClick={onClick}>
     {children}
+    <div className="w-4">{NO_BREAK_SPACE}</div>
   </div>
 )
 
@@ -26,7 +28,7 @@ const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
   }
 
   return (
-    <div className={`${className} space-x-4 justify-between`} onClick={handleClick}>
+    <div className={className} onClick={handleClick}>
       {children}
       <div className="w-4">
         <Share className="mx-auto fill-gray-400 w-3.5" />
@@ -66,10 +68,7 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
   }
 
   return (
-    <div
-      ref={refCallback}
-      className={`${className} space-x-4 justify-between`}
-      onClick={handleClick}>
+    <div ref={refCallback} className={className} onClick={handleClick}>
       {isReady && (
         <>
           <div>{children(isHovered, menuItemsRef, menuItemElement)}</div>
