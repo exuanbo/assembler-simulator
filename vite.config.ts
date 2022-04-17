@@ -1,12 +1,19 @@
+import { execSync } from 'child_process'
 import { join } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import windicss from 'vite-plugin-windicss'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
-import { name, description } from './package.json'
+import { name, version, description } from './package.json'
+
+const getCommitHash = (): string => execSync('git rev-parse --short HEAD').toString().trimEnd()
 
 export default defineConfig({
   base: './',
+  define: {
+    __VERSION__: JSON.stringify(version),
+    __COMMIT_HASH__: JSON.stringify(getCommitHash())
+  },
   plugins: [
     react(),
     windicss(),
