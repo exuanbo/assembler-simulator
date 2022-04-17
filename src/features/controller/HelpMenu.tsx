@@ -58,7 +58,7 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
         ref={outsideClickRef}
         className="rounded space-y-2 bg-light-100 shadow text-center py-4 px-8 select-text all:select-text"
         onClick={handleClick}>
-        <img alt="icon" className="mx-auto" src="/pwa-192x192.png" width="72" />
+        <img alt="icon" className="mx-auto" src="./pwa-192x192.png" width="72" />
         <div className="font-bold">Assembler Simulator</div>
         <div className="space-y-4 text-sm">
           <div>
