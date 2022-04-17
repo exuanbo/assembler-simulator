@@ -31,7 +31,7 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
       containerWrapper.removeChild(container)
       setContainerReady(false)
     }
-  }, [isOpen])
+  }, [isOpen, className])
 
   return isReady ? createPortal(children, containerRef.current!) : null
 }
