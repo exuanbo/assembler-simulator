@@ -5,13 +5,13 @@ import { selectIsRunning } from './controllerSlice'
 import { useSelector } from '@/app/hooks'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
-interface Props {
+interface ButtonProps {
   children: ReactNode
   onClick?: React.MouseEventHandler<HTMLDivElement>
   disabled?: boolean
 }
 
-const ControlButton = ({ children, onClick, disabled = false }: Props): JSX.Element => (
+const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JSX.Element => (
   <div
     className={`flex space-x-2 py-1 px-2 items-center ${
       disabled ? 'text-gray-400 fill-gray-400' : 'hover:bg-gray-200'

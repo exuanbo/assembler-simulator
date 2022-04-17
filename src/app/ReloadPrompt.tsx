@@ -2,12 +2,12 @@ import { ReactNode, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { Spinner } from '@/common/components/icons'
 
-interface Props {
+interface ButtonProps {
   onClick: React.MouseEventHandler<HTMLDivElement>
   children: ReactNode
 }
 
-const PromptButton = ({ onClick, children }: Props): JSX.Element => (
+const PromptButton = ({ onClick, children }: ButtonProps): JSX.Element => (
   <div
     className="border rounded bg-gray-100 py-1 px-2 inline-block hover:bg-gray-200"
     onClick={onClick}>
