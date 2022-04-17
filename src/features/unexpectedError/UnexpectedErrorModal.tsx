@@ -26,7 +26,7 @@ const UnexpectedErrorModal = (): JSX.Element => {
         {hasUnexpectedError
           ? unexpectedError.stack
               ?.split(/\n(.*)/s)
-              .filter(line => line.length > 0)
+              .slice(0, -1)
               .map((line, lineIndex) => {
                 const isErrorMessage = lineIndex === 0
                 return (
@@ -39,14 +39,12 @@ const UnexpectedErrorModal = (): JSX.Element => {
                     }>
                     {isErrorMessage
                       ? line.split(': ').map((messagePart, messagePartIndex) => {
-                          const isErrorType = messagePartIndex === 0
+                          const isErrorName = messagePartIndex === 0
                           return (
                             <div
                               key={messagePartIndex}
                               className={
-                                isErrorType
-                                  ? 'font-medium text-xl text-red-500'
-                                  : 'border-b text-lg py-1'
+                                isErrorName ? 'text-xl text-red-500' : 'border-b text-lg py-1'
                               }>
                               {messagePart}
                             </div>
@@ -58,7 +56,7 @@ const UnexpectedErrorModal = (): JSX.Element => {
               })
           : null}
         <div>
-          <span>Please report this bug at </span>
+          Please report this bug at{' '}
           <Link external href="https://github.com/exuanbo/assembler-simulator/issues">
             https://github.com/exuanbo/assembler-simulator/issues
           </Link>
