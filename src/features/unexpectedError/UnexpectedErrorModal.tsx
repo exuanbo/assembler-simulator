@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import Modal from '@/common/components/Modal'
+import Link from '@/common/components/Link'
 import { selectUnexpectedError, resetUnexpectedError } from './unexpectedErrorSlice'
 import { dispatch } from '@/app/store'
 import { useSelector } from '@/app/hooks'
@@ -58,13 +59,9 @@ const UnexpectedErrorModal = (): JSX.Element => {
           : null}
         <div>
           <span>Please report this bug at </span>
-          <a
-            className="text-blue-500 underline"
-            href="https://github.com/exuanbo/assembler-simulator/issues"
-            rel="noopener noreferrer"
-            target="_blank">
+          <Link external href="https://github.com/exuanbo/assembler-simulator/issues">
             https://github.com/exuanbo/assembler-simulator/issues
-          </a>
+          </Link>
           .
         </div>
       </div>
