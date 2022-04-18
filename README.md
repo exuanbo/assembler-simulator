@@ -20,7 +20,6 @@ You can try it online [here](https://exuanbo.xyz/assembler-simulator/).
 
 ## Todo
 
-- [ ] `Help` menu
 - [ ] Activity log
 
 ## Inspired by
