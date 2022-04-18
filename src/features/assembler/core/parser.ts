@@ -266,7 +266,7 @@ const parseStatement = (
   const label = parseLabel(tokens, getIndex())
   const hasLabel = label !== null
   if (hasLabel) {
-    consumeToken(2) // label + colon
+    consumeToken(2) // Label + Colon
   }
 
   const token = tokens[getIndex()]
@@ -561,7 +561,7 @@ const parseStatement = (
       }
 
       addOperands(firstOperand, secondOperand)
-      consumeToken(3) // operand + comma + operand
+      consumeToken(3) // Operand + Comma + Operand
       break
     }
   }
