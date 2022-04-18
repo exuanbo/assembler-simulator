@@ -7,7 +7,7 @@ import Memory from '@/features/memory/Memory'
 import IoDevices from '@/features/io/IoDevices'
 import UnexpectedErrorModal from '@/features/unexpectedError/UnexpectedErrorModal'
 import ReloadPrompt from './ReloadPrompt'
-import { watch } from './store'
+import { watch } from './watcher'
 import { selectStateToPersist } from './selectors'
 import { saveState } from './localStorage'
 

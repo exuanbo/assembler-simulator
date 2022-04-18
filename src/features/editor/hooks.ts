@@ -1,7 +1,8 @@
 import { RefCallback, useEffect, useMemo, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { Store, listenAction } from '@/app/store'
+import type { Store } from '@/app/store'
+import { listenAction } from '@/app/actionListener'
 import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,

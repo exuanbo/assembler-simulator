@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
-import { RootState, Store, listenAction, watch } from '@/app/store'
+import type { RootState, Store } from '@/app/store'
+import { listenAction } from '@/app/actionListener'
+import { watch } from '@/app/watcher'
 import { useStore } from '@/app/hooks'
 import {
   selectRuntimeConfiguration,

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { listenAction } from '@/app/store'
+import { listenAction } from '@/app/actionListener'
 import { useStore, useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import {
   IoDeviceName,

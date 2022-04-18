@@ -25,7 +25,7 @@ interface Watcher extends Middleware {
   watch: Watch
 }
 
-export const createWatcher = (): Watcher => {
+const createWatcher = (): Watcher => {
   const subscriptions: Subscriptions = new Map()
 
   const watcher: Watcher = api => next => action => {
@@ -64,3 +64,6 @@ export const createWatcher = (): Watcher => {
 
   return watcher
 }
+
+export const watcher = createWatcher()
+export const { watch } = watcher

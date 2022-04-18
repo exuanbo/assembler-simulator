@@ -21,7 +21,7 @@ interface ActionListener extends Middleware {
   listenAction: ListenAction
 }
 
-export const createActionListener = (): ActionListener => {
+const createActionListener = (): ActionListener => {
   const subscriptions: Subscriptions = new Map()
 
   const actionListener: ActionListener = () => next => action => {
@@ -53,3 +53,6 @@ export const createActionListener = (): ActionListener => {
 
   return actionListener
 }
+
+export const actionListener = createActionListener()
+export const { listenAction } = actionListener

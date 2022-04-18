@@ -6,8 +6,8 @@ import memoryReducer from '@/features/memory/memorySlice'
 import cpuReducer from '@/features/cpu/cpuSlice'
 import ioReducer from '@/features/io/ioSlice'
 import unexpectedErrorReducer from '@/features/unexpectedError/unexpectedErrorSlice'
-import { createActionListener } from './actionListener'
-import { createWatcher } from './watcher'
+import { actionListener } from './actionListener'
+import { watcher } from './watcher'
 import { loadState } from './localStorage'
 
 const rootReducer = combineReducers({
@@ -22,18 +22,12 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>
 
-const actionListener = createActionListener()
-const watcher = createWatcher()
-
 const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(watcher, actionListener),
   preloadedState: loadState()
 })
 
-export default store
-
 export type Store = typeof store
 
-export const { listenAction } = actionListener
-export const { watch } = watcher
+export default store
