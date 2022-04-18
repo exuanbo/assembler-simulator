@@ -128,8 +128,8 @@ const useAutoAssemble = (view: EditorView | undefined): void => {
   }, [view])
 
   useEffect(() => {
-    return listenAction(setEditorInput, ({ value, isFromFile }) => {
-      if (selectAutoAssemble(store.getState())) {
+    return listenAction(setEditorInput, ({ value, isFromFile }, api) => {
+      if (selectAutoAssemble(api.getState())) {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
@@ -171,12 +171,10 @@ const useAssemblerError = (view: EditorView | undefined): void => {
 }
 
 const useHighlightActiveLine = (view: EditorView | undefined): void => {
-  const store = useStore()
-
   useEffect(() => {
-    return listenAction(setEditorInput, ({ isFromFile }) => {
+    return listenAction(setEditorInput, ({ isFromFile }, api) => {
       if (isFromFile) {
-        store.dispatch(clearEditorActiveRange())
+        api.dispatch(clearEditorActiveRange())
       }
     })
   }, [])
@@ -279,8 +277,6 @@ const getMessageFrom = (err: Error | null): EditorMessage | null =>
       }
 
 export const useMessage = (): EditorMessage | null => {
-  const store = useStore()
-
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
@@ -290,29 +286,29 @@ export const useMessage = (): EditorMessage | null => {
   const messageTimeoutIdRef = useRef<number | undefined>()
 
   useEffect(() => {
-    return listenAction(setEditorMessage, () => {
+    return listenAction(setEditorMessage, (_, api) => {
       if (messageTimeoutIdRef.current !== undefined) {
         window.clearTimeout(messageTimeoutIdRef.current)
       }
       messageTimeoutIdRef.current = window.setTimeout(() => {
-        store.dispatch(clearEditorMessage())
+        api.dispatch(clearEditorMessage())
         messageTimeoutIdRef.current = undefined
       }, MESSAGE_DURATION_MS)
     })
   }, [])
 
   useEffect(() => {
-    return listenAction(setCpuHalted, () => {
-      store.dispatch(setEditorMessage(haltedMessage))
+    return listenAction(setCpuHalted, (_, api) => {
+      api.dispatch(setEditorMessage(haltedMessage))
     })
   }, [])
 
   useEffect(() => {
-    return listenAction(resetCpu, () => {
-      if (selectEditorMessage(store.getState()) === haltedMessage) {
+    return listenAction(resetCpu, (_, api) => {
+      if (selectEditorMessage(api.getState()) === haltedMessage) {
         window.clearTimeout(messageTimeoutIdRef.current)
         messageTimeoutIdRef.current = undefined
-        store.dispatch(clearEditorMessage())
+        api.dispatch(clearEditorMessage())
       }
     })
   }, [])

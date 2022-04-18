@@ -401,7 +401,6 @@ class Controller {
 
 export const useController = (): Controller => {
   const store = useStore()
-
   const controller = useConstant(() => new Controller(store))
 
   useEffect(() => {
@@ -423,8 +422,8 @@ export const useController = (): Controller => {
   }, [])
 
   useEffect(() => {
-    return watch(selectRuntimeConfiguration, async () => {
-      const state = store.getState()
+    return watch(selectRuntimeConfiguration, async (_, api) => {
+      const state = api.getState()
       // `setSuspended` action listener will resume the main loop with the new configuration
       // so we skip calling `stopAndRun` if cpu is suspended
       if (!selectIsSuspended(state) && selectIsRunning(state)) {
