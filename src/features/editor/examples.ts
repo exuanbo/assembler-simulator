@@ -6,9 +6,9 @@ interface Example {
 export const examples: readonly Example[] = [
   {
     title: 'Visual Display Unit',
-    content: `; --------------------------------------------
-;  File > Open Example > Visual Display Unit
-; --------------------------------------------
+    content: `; --------------------------------
+;  Example / Visual Display Unit
+; --------------------------------
 
 jmp start
 
@@ -33,9 +33,9 @@ end
   },
   {
     title: 'Traffic Lights',
-    content: `; ---------------------------------------
-;  File > Open Example > Traffic Lights
-; ---------------------------------------
+    content: `; ---------------------------
+;  Example / Traffic Lights
+; ---------------------------
 
 start:
 	mov al, 80	; 1000 0000
@@ -52,9 +52,9 @@ end
   },
   {
     title: 'Seven-Segment Display',
-    content: `; ----------------------------------------------
-;  File > Open Example > Seven-Segment Display
-; ----------------------------------------------
+    content: `; ----------------------------------
+;  Example / Seven-Segment Display
+; ----------------------------------
 
 jmp start
 
