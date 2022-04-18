@@ -22,6 +22,7 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
 )
 
 const ControlButtons = (): JSX.Element => {
+  // TODO: rm destructuring
   const { assemble, runOrStop, step, reset } = useController()
 
   const AssembleButton = (): JSX.Element => (

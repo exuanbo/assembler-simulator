@@ -3,8 +3,7 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, Wrench } from '@/common/components/icons'
-import { dispatch } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useStore, useSelector } from '@/app/hooks'
 import {
   ClockSpeed,
   clockSpeedOptionNames,
@@ -19,10 +18,11 @@ import {
 } from './controllerSlice'
 
 const AutoAssembleSwitch = (): JSX.Element => {
+  const store = useStore()
   const autoAssemble = useSelector(selectAutoAssemble)
 
   const toggleAutoAssemble = (): void => {
-    dispatch(setAutoAssemble(!autoAssemble))
+    store.dispatch(setAutoAssemble(!autoAssemble))
   }
 
   return (
@@ -36,6 +36,7 @@ const AutoAssembleSwitch = (): JSX.Element => {
 }
 
 const ClockSpeedMenu = (): JSX.Element => {
+  const store = useStore()
   const clockSpeed = useSelector(selectClockSpeed)
 
   return (
@@ -52,7 +53,7 @@ const ClockSpeedMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(setClockSpeed(ClockSpeed[clockSpeedOptionName]))
+                    store.dispatch(setClockSpeed(ClockSpeed[clockSpeedOptionName]))
                   }}>
                   <MenuButton>
                     {clockSpeed === ClockSpeed[clockSpeedOptionName] ? (
@@ -73,6 +74,7 @@ const ClockSpeedMenu = (): JSX.Element => {
 }
 
 const TimerIntervalMenu = (): JSX.Element => {
+  const store = useStore()
   const timerInterval = useSelector(selectTimerInterval)
 
   return (
@@ -89,7 +91,7 @@ const TimerIntervalMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(setTimerInterval(TimerInterval[timerIntervalOptionName]))
+                    store.dispatch(setTimerInterval(TimerInterval[timerIntervalOptionName]))
                   }}>
                   <MenuButton>
                     {timerInterval === TimerInterval[timerIntervalOptionName] ? (

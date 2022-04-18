@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
-import { getState, dispatch, listenAction } from '@/app/store'
+import { listenAction } from '@/app/store'
+import { useStore, useSelector, useLazilyInitializedSelector } from '@/app/hooks'
 import {
   IoDeviceName,
   IoDevice,
@@ -15,6 +15,7 @@ import { getVduDataFrom, vduDataChanged } from '@/features/memory/core'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibility => {
+  const store = useStore()
   const data = useSelector(selectIoDeviceData(deviceName))
 
   const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
@@ -25,7 +26,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibi
     if (!isVisible) {
       return listenAction(setIoDeviceData, ({ name: targetDeviceName }) => {
         if (targetDeviceName === deviceName) {
-          dispatch(toggleVisible())
+          store.dispatch(toggleVisible())
         }
       })
     }
@@ -35,16 +36,18 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibi
 }
 
 export const useVisualDisplayUnit = (): IoDevice => {
+  const store = useStore()
+
   const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.VisualDisplayUnit)
 
   useEffect(() => {
     return listenAction(setMemoryDataFrom, () => {
-      const memoryData = selectMemoryData(getState())
+      const memoryData = selectMemoryData(store.getState())
       const vduData = getVduDataFrom(memoryData)
       const shouldToggleVisible = !isVisible && vduDataChanged(vduData)
-      dispatch(setVduData(vduData))
+      store.dispatch(setVduData(vduData))
       if (shouldToggleVisible) {
-        dispatch(toggleVisible())
+        store.dispatch(toggleVisible())
       }
     })
   }, [isVisible])
@@ -53,7 +56,7 @@ export const useVisualDisplayUnit = (): IoDevice => {
     if (!isVisible) {
       return listenAction(setVduDataFrom, () => {
         // vdu buffer must have been changed
-        dispatch(toggleVisible())
+        store.dispatch(toggleVisible())
       })
     }
   }, [isVisible])

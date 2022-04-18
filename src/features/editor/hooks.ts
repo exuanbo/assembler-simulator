@@ -1,8 +1,8 @@
 import { RefCallback, useEffect, useMemo, useRef } from 'react'
 import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { getState, dispatch, listenAction } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { Store, listenAction } from '@/app/store'
+import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
@@ -27,7 +27,7 @@ import { StringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
-import { assemble } from '@/features/assembler/assemble'
+import { createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
   selectAssemblerErrorRange,
@@ -44,7 +44,7 @@ enum AnnotationValue {
 const isChangedFromState = (transation: Transaction): boolean =>
   transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
 
-const createInputUpdateListener = (): ViewUpdateListener => {
+const createInputUpdateListener = (store: Store): ViewUpdateListener => {
   let timeoutId: number | undefined
 
   return viewUpdate => {
@@ -60,7 +60,7 @@ const createInputUpdateListener = (): ViewUpdateListener => {
     timeoutId = window.setTimeout(() => {
       // only one transaction is dispatched if input is set from file
       if (!isChangedFromState(firstTransaction)) {
-        dispatch(setEditorInput({ value: input }))
+        store.dispatch(setEditorInput({ value: input }))
       }
       timeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
@@ -68,7 +68,10 @@ const createInputUpdateListener = (): ViewUpdateListener => {
 }
 
 export const useCodeMirror = <T extends Element = Element>(): RefCallback<T> => {
-  const defaultInput = useMemo(() => selectEditorInput(getState()), [])
+  const store = useStore()
+
+  // TODO: is this extracting necessary?
+  const defaultInput = useMemo(() => selectEditorInput(store.getState()), [])
   const editorStateConfig = useMemo(() => {
     return {
       doc: defaultInput,
@@ -76,7 +79,7 @@ export const useCodeMirror = <T extends Element = Element>(): RefCallback<T> => 
     }
   }, [defaultInput])
 
-  const inputUpdateListener = useConstant(() => createInputUpdateListener())
+  const inputUpdateListener = useConstant(() => createInputUpdateListener(store))
 
   const [view, editorRef] = __useCodeMirror<T>(editorStateConfig, inputUpdateListener)
 
@@ -113,15 +116,19 @@ const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): Transact
 }
 
 const useAutoAssemble = (view: EditorView | undefined): void => {
+  const store = useStore()
+
+  const assemble = useConstant(() => createAssemble(store))
+
   useEffect(() => {
-    if (view !== undefined && selectAutoAssemble(getState())) {
+    if (view !== undefined && selectAutoAssemble(store.getState())) {
       assemble(textToString(view.state.doc))
     }
   }, [view])
 
   useEffect(() => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
-      if (selectAutoAssemble(getState())) {
+      if (selectAutoAssemble(store.getState())) {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
@@ -135,14 +142,16 @@ const useAutoAssemble = (view: EditorView | undefined): void => {
 }
 
 const useAssemblerError = (view: EditorView | undefined): void => {
+  const store = useStore()
+
   useEffect(() => {
     view?.dispatch(
       addViewUpdateListener(viewUpdate => {
-        if (selectAssemblerError(getState()) !== null && viewUpdate.docChanged) {
+        if (selectAssemblerError(store.getState()) !== null && viewUpdate.docChanged) {
           viewUpdate.view.dispatch({
             effects: wavyUnderlineEffect.of({ filter: () => false })
           })
-          dispatch(clearAssemblerError())
+          store.dispatch(clearAssemblerError())
         }
       })
     )
@@ -161,10 +170,12 @@ const useAssemblerError = (view: EditorView | undefined): void => {
 }
 
 const useHighlightActiveLine = (view: EditorView | undefined): void => {
+  const store = useStore()
+
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile }) => {
       if (isFromFile) {
-        dispatch(clearEditorActiveRange())
+        store.dispatch(clearEditorActiveRange())
       }
     })
   }, [])
@@ -179,7 +190,7 @@ const useHighlightActiveLine = (view: EditorView | undefined): void => {
           : activeLinePos.map((pos, index) =>
               highlightLineEffect.of({
                 addByPos: pos,
-                // clear all decorations on first line
+                // clear previous decorations on first line
                 filter: () => index !== 0
               })
             ),
@@ -194,38 +205,42 @@ const useHighlightActiveLine = (view: EditorView | undefined): void => {
   }, [view, activeLinePos])
 }
 
-const breakpointsUpdateListener: ViewUpdateListener = viewUpdate => {
-  if (viewUpdate.docChanged) {
-    const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
-    if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
-      const breakpoints = mapRangeSetToArray(breakpointRangeSet, from =>
-        lineLocAt(viewUpdate.state.doc, from)
-      )
-      dispatch(setBreakpoints(breakpoints))
-    }
-  } else {
-    // we only consider the first transaction
-    const transaction = viewUpdate.transactions[0] as Transaction | undefined
-    if (transaction === undefined || isChangedFromState(transaction)) {
-      return
-    }
-    transaction.effects.forEach(effect => {
-      if (effect.is(breakpointEffect)) {
-        const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-        const lineLoc = lineLocAt(viewUpdate.state.doc, effect.value.pos)
-        dispatch(actionCreator(lineLoc))
+const createBreakpointsUpdateListener =
+  (store: Store): ViewUpdateListener =>
+  viewUpdate => {
+    if (viewUpdate.docChanged) {
+      const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
+      if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
+        const breakpoints = mapRangeSetToArray(breakpointRangeSet, from =>
+          lineLocAt(viewUpdate.state.doc, from)
+        )
+        store.dispatch(setBreakpoints(breakpoints))
       }
-    })
+    } else {
+      // we only consider the first transaction
+      const transaction = viewUpdate.transactions[0] as Transaction | undefined
+      if (transaction === undefined || isChangedFromState(transaction)) {
+        return
+      }
+      transaction.effects.forEach(effect => {
+        if (effect.is(breakpointEffect)) {
+          const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+          const lineLoc = lineLocAt(viewUpdate.state.doc, effect.value.pos)
+          store.dispatch(actionCreator(lineLoc))
+        }
+      })
+    }
   }
-}
 
 const useBreakpoints = (view: EditorView | undefined): void => {
+  const store = useStore()
+
   useEffect(() => {
     if (view === undefined) {
       return
     }
-    view.dispatch(addViewUpdateListener(breakpointsUpdateListener))
-    const breakpoints = selectEditorBreakpoints(getState())
+    view.dispatch(addViewUpdateListener(createBreakpointsUpdateListener(store)))
+    const breakpoints = selectEditorBreakpoints(store.getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
       lineLoc =>
@@ -233,7 +248,7 @@ const useBreakpoints = (view: EditorView | undefined): void => {
         lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from))
     )
     if (validBreakpoints.length < breakpoints.length) {
-      dispatch(setBreakpoints(validBreakpoints))
+      store.dispatch(setBreakpoints(validBreakpoints))
     }
     view.dispatch({
       effects: validBreakpoints.map(lineLoc =>
@@ -263,6 +278,8 @@ const getMessageFrom = (err: Error | null): EditorMessage | null =>
       }
 
 export const useMessage = (): EditorMessage | null => {
+  const store = useStore()
+
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
@@ -277,7 +294,7 @@ export const useMessage = (): EditorMessage | null => {
         window.clearTimeout(messageTimeoutIdRef.current)
       }
       messageTimeoutIdRef.current = window.setTimeout(() => {
-        dispatch(clearEditorMessage())
+        store.dispatch(clearEditorMessage())
         messageTimeoutIdRef.current = undefined
       }, MESSAGE_DURATION_MS)
     })
@@ -285,16 +302,16 @@ export const useMessage = (): EditorMessage | null => {
 
   useEffect(() => {
     return listenAction(setCpuHalted, () => {
-      dispatch(setEditorMessage(haltedMessage))
+      store.dispatch(setEditorMessage(haltedMessage))
     })
   }, [])
 
   useEffect(() => {
     return listenAction(resetCpu, () => {
-      if (selectEditorMessage(getState()) === haltedMessage) {
+      if (selectEditorMessage(store.getState()) === haltedMessage) {
         window.clearTimeout(messageTimeoutIdRef.current)
         messageTimeoutIdRef.current = undefined
-        dispatch(clearEditorMessage())
+        store.dispatch(clearEditorMessage())
       }
     })
   }, [])

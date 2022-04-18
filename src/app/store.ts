@@ -33,7 +33,7 @@ const store = configureStore({
 
 export default store
 
-export const { getState, dispatch } = store
+export type Store = typeof store
 
 export const { listenAction } = actionListener
 export const { watch } = watcher

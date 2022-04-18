@@ -4,28 +4,36 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
-import { getState, dispatch } from '@/app/store'
+import { useStore } from '@/app/hooks'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
 import { examples } from '@/features/editor/examples'
 
-const NewFileButton = (): JSX.Element => (
-  <MenuItem
-    onClick={() => {
-      dispatch(
-        setEditorInput({
-          value: '',
-          isFromFile: true
-        })
-      )
-    }}>
-    <MenuButton>
-      <span className="w-4" />
-      <span>New File</span>
-    </MenuButton>
-  </MenuItem>
-)
+const NewFileButton = (): JSX.Element => {
+  const store = useStore()
 
-const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => {
+  return (
+    <MenuItem
+      onClick={() => {
+        store.dispatch(
+          setEditorInput({
+            value: '',
+            isFromFile: true
+          })
+        )
+      }}>
+      <MenuButton>
+        <span className="w-4" />
+        <span>New File</span>
+      </MenuButton>
+    </MenuItem>
+  )
+}
+
+interface OpenButtonProps {
+  onFileLoad: () => void
+}
+
+const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
@@ -37,11 +45,13 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
     event.stopPropagation()
   }
 
+  const store = useStore()
+
   const loadFile = (file: File): void => {
     const reader = new FileReader()
     reader.onload = function () {
       const fileContent = this.result as string
-      dispatch(
+      store.dispatch(
         setEditorInput({
           value: fileContent,
           isFromFile: true
@@ -74,43 +84,49 @@ const OpenButton = ({ onFileLoad }: { onFileLoad: () => void }): JSX.Element => 
   )
 }
 
-const OpenExampleMenu = (): JSX.Element => (
-  <MenuItem.Expandable>
-    {(isHovered, menuItemsRef, menuItemElement) => (
-      <>
-        <MenuButton>
-          <span className="w-4" />
-          <span>Open Example</span>
-        </MenuButton>
-        {isHovered && (
-          <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
-            {examples.map(({ title, content }, index) => (
-              <MenuItem
-                key={index}
-                onClick={() => {
-                  dispatch(
-                    setEditorInput({
-                      value: content,
-                      isFromFile: true
-                    })
-                  )
-                }}>
-                <MenuButton>
-                  <span className="w-4" />
-                  <span>{title}</span>
-                </MenuButton>
-              </MenuItem>
-            ))}
-          </MenuItems.Expanded>
-        )}
-      </>
-    )}
-  </MenuItem.Expandable>
-)
+const OpenExampleMenu = (): JSX.Element => {
+  const store = useStore()
+
+  return (
+    <MenuItem.Expandable>
+      {(isHovered, menuItemsRef, menuItemElement) => (
+        <>
+          <MenuButton>
+            <span className="w-4" />
+            <span>Open Example</span>
+          </MenuButton>
+          {isHovered && (
+            <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
+              {examples.map(({ title, content }, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    store.dispatch(
+                      setEditorInput({
+                        value: content,
+                        isFromFile: true
+                      })
+                    )
+                  }}>
+                  <MenuButton>
+                    <span className="w-4" />
+                    <span>{title}</span>
+                  </MenuButton>
+                </MenuItem>
+              ))}
+            </MenuItems.Expanded>
+          )}
+        </>
+      )}
+    </MenuItem.Expandable>
+  )
+}
 
 const SaveButton = (): JSX.Element => {
+  const store = useStore()
+
   const handleClickSave = (): void => {
-    const editorInput = selectEditorInput(getState())
+    const editorInput = selectEditorInput(store.getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const anchorElement = Object.assign(document.createElement('a'), {

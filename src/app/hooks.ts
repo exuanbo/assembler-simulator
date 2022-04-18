@@ -1,6 +1,14 @@
-import { TypedUseSelectorHook, useSelector as __useSelector } from 'react-redux'
-import type { RootState } from './store'
+import {
+  TypedUseSelectorHook,
+  useStore as __useStore,
+  useSelector as __useSelector
+} from 'react-redux'
+import type { RootState, Store } from './store'
 import { useConstant } from '@/common/hooks'
+
+type TypedUseStoreHook = () => Store
+
+export const useStore: TypedUseStoreHook = __useStore
 
 export const useSelector: TypedUseSelectorHook<RootState> = __useSelector
 

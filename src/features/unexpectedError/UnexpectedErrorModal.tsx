@@ -2,16 +2,16 @@ import { useCallback } from 'react'
 import Modal from '@/common/components/Modal'
 import Link from '@/common/components/Link'
 import { selectUnexpectedError, resetUnexpectedError } from './unexpectedErrorSlice'
-import { dispatch } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useStore, useSelector } from '@/app/hooks'
 import { useOutsideClick } from '@/common/hooks'
 
 const UnexpectedErrorModal = (): JSX.Element => {
+  const store = useStore()
   const unexpectedError = useSelector(selectUnexpectedError)
   const hasUnexpectedError = unexpectedError !== null
 
   const handleOutsideClick = useCallback(() => {
-    dispatch(resetUnexpectedError())
+    store.dispatch(resetUnexpectedError())
   }, [])
 
   const outsideClickRef = useOutsideClick(handleOutsideClick)

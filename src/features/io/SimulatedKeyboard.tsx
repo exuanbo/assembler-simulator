@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import Modal from '@/common/components/Modal'
-import { dispatch } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useStore, useSelector } from '@/app/hooks'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
 import {
   selectIsWaitingForKeyboardInput,
@@ -11,6 +10,7 @@ import {
 import { InputPort } from './core'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
+  const store = useStore()
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
 
@@ -22,14 +22,14 @@ const SimulatedKeyboard = (): JSX.Element | null => {
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const key = target.value
-    dispatch(
+    store.dispatch(
       setInputData({
         content: key.charCodeAt(0),
         port: InputPort.SimulatedKeyboard
       })
     )
-    dispatch(setSuspended(false))
-    dispatch(setWaitingForKeyboardInput(false))
+    store.dispatch(setSuspended(false))
+    store.dispatch(setWaitingForKeyboardInput(false))
   }
 
   return (

@@ -1,4 +1,4 @@
-import { getState, dispatch } from '@/app/store'
+import type { Store } from '@/app/store'
 import { Statement, AssembleResult, AssemblerError, assemble as __assemble } from './core'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '@/features/memory/memorySlice'
@@ -11,29 +11,28 @@ import {
 import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
 import { errorToPlainObject } from '@/common/utils'
 
-export const assemble = (input: string): void => {
-  let assembleResult: AssembleResult
-  try {
-    assembleResult = __assemble(input)
-  } catch (err) {
-    if (err instanceof AssemblerError) {
-      const assemblerError = err.toPlainObject()
-      dispatch(clearEditorActiveRange())
-      dispatch(setAssemblerError(assemblerError))
-    } else {
-      const unexpectedError = errorToPlainObject(err as Error)
-      dispatch(setUnexpectedError(unexpectedError))
+export const createAssemble =
+  (store: Store) =>
+  (input = selectEditorInput(store.getState())): void => {
+    let assembleResult: AssembleResult
+    try {
+      assembleResult = __assemble(input)
+    } catch (err) {
+      if (err instanceof AssemblerError) {
+        const assemblerError = err.toPlainObject()
+        store.dispatch(clearEditorActiveRange())
+        store.dispatch(setAssemblerError(assemblerError))
+      } else {
+        const unexpectedError = errorToPlainObject(err as Error)
+        store.dispatch(setUnexpectedError(unexpectedError))
+      }
+      return
     }
-    return
+    const [addressToOpcodeMap, addressToStatementMap] = assembleResult
+    const statement = addressToStatementMap[0] as Statement | undefined
+    const hasStatement = statement !== undefined
+    store.dispatch(setMemoryDataFrom(addressToOpcodeMap))
+    store.dispatch(resetCpu())
+    store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
+    store.dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
   }
-  const [addressToOpcodeMap, addressToStatementMap] = assembleResult
-  const statement = addressToStatementMap[0] as Statement | undefined
-  dispatch(setMemoryDataFrom(addressToOpcodeMap))
-  dispatch(resetCpu())
-  dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-  dispatch(statement === undefined ? clearEditorActiveRange() : setEditorActiveRange(statement))
-}
-
-export const assembleInputFromState = (): void => {
-  assemble(selectEditorInput(getState()))
-}

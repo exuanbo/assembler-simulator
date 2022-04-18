@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { RootState, getState, dispatch, listenAction, watch } from '@/app/store'
+import { RootState, Store, listenAction, watch } from '@/app/store'
+import { useStore } from '@/app/hooks'
 import {
   selectRuntimeConfiguration,
   selectIsRunning,
@@ -19,7 +20,7 @@ import {
   setEditorMessage
 } from '@/features/editor/editorSlice'
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
-import { assembleInputFromState } from '@/features/assembler/assemble'
+import { createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssembledSource,
   selectAddressToStatementMap,
@@ -62,6 +63,8 @@ const sourceChangedMessage: EditorMessage = {
 }
 
 class Controller {
+  private readonly store: Store
+
   private stepIntervalId!: number
 
   private interruptIntervalId!: number
@@ -76,10 +79,18 @@ class Controller {
 
   private lastBreakpointLineNumber: number | undefined
 
-  public assemble = assembleInputFromState
+  constructor(store: Store) {
+    this.store = store
+    const __assemble = createAssemble(store)
+    this.assemble = () => {
+      __assemble()
+    }
+  }
+
+  public assemble: () => void
 
   public runOrStop = async (): Promise<void> => {
-    const state = getState()
+    const state = this.store.getState()
     if (this.stopIfRunning(state)) {
       this.restoreIfSuspended(state)
       return
@@ -107,7 +118,7 @@ class Controller {
       this.clearInterruptInterval()
       this.isInterruptIntervalSet = false
     }
-    dispatch(setRunning(false))
+    this.store.dispatch(setRunning(false))
   }
 
   private clearStepInterval(): void {
@@ -125,19 +136,19 @@ class Controller {
     const isSuspended = selectIsSuspended(state)
     if (isSuspended) {
       this.unsubscribeSetSuspended()
-      dispatch(setSuspended(false))
+      this.store.dispatch(setSuspended(false))
     }
     return isSuspended
   }
 
   private async run(): Promise<void> {
-    dispatch(setRunning(true))
+    this.store.dispatch(setRunning(true))
     this.setStepInterval()
     await this.step()
   }
 
   private setStepInterval(): void {
-    const { clockSpeed } = selectRuntimeConfiguration(getState())
+    const { clockSpeed } = selectRuntimeConfiguration(this.store.getState())
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
   }
 
@@ -162,24 +173,24 @@ class Controller {
   }
 
   private setInterruptInterval(): void {
-    const { timerInterval } = selectRuntimeConfiguration(getState())
+    const { timerInterval } = selectRuntimeConfiguration(this.store.getState())
     this.interruptIntervalId = window.setInterval(() => {
-      dispatch(setInterrupt(true))
+      this.store.dispatch(setInterrupt(true))
     }, timerInterval)
   }
 
   public step = async (): Promise<void> => {
     const lastStepResult = await this.lastStep
-    const state = getState()
+    const state = this.store.getState()
     if (selectEditorInput(state) !== selectAssembledSource(state)) {
-      dispatch(setEditorMessage(sourceChangedMessage))
+      this.store.dispatch(setEditorMessage(sourceChangedMessage))
     }
     const { fault, halted } = selectCpuStatus(state)
     if (fault !== null || halted) {
       this.stopIfRunning(state)
       if (fault === null && halted) {
         // trigger `EditorStatus` re-render
-        dispatch(setCpuHalted())
+        this.store.dispatch(setCpuHalted())
       }
       return
     }
@@ -200,17 +211,18 @@ class Controller {
         this.stopIfRunning(state)
         if (err instanceof RuntimeError) {
           const runtimeError = err.toPlainObject()
-          dispatch(setCpuFault(runtimeError))
+          this.store.dispatch(setCpuFault(runtimeError))
         } else {
           const unexpectedError = errorToPlainObject(err as Error)
-          dispatch(setUnexpectedError(unexpectedError))
+          this.store.dispatch(setUnexpectedError(unexpectedError))
         }
         resolve(undefined)
         return
       }
       const { memoryData, cpuRegisters, signals, changes } = stepResultWithSignals
       const instructionAdress = cpuRegisters.ip
-      const statement = selectAddressToStatementMap(state)[instructionAdress]
+      const addressToStatementMap = selectAddressToStatementMap(state)
+      const statement = addressToStatementMap[instructionAdress]
       const hasStatement = statement?.machineCode.every(
         (machineCode, index) => machineCode === memoryData[instructionAdress + index]
       )
@@ -223,12 +235,14 @@ class Controller {
       }
       const dispatchChanges = (): void => {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
-          dispatch(setMemoryData(memoryData))
+          this.store.dispatch(setMemoryData(memoryData))
           if (isVduBufferChanged) {
-            dispatch(setVduDataFrom(memoryData))
+            this.store.dispatch(setVduDataFrom(memoryData))
           }
-          dispatch(setCpuRegisters(cpuRegisters))
-          dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
+          this.store.dispatch(setCpuRegisters(cpuRegisters))
+          this.store.dispatch(
+            hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange()
+          )
           this.dispatchChangesTimeoutId = undefined
         })
       }
@@ -246,27 +260,27 @@ class Controller {
         closeWindows: shouldCloseWindows = false
       } = signals.output
       if (interrupt) {
-        dispatch(setInterrupt(false))
+        this.store.dispatch(setInterrupt(false))
       }
       if (shouldHalt) {
         this.stopIfRunning(state)
-        dispatch(setCpuHalted())
+        this.store.dispatch(setCpuHalted())
         resolve(undefined)
         return
       }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
       if (requiredInputDataPort !== undefined) {
-        dispatch(setWaitingForInput(true))
+        this.store.dispatch(setWaitingForInput(true))
         if (inputData.content === null) {
           willSuspend = true
           if (isRunning) {
             this.cancelMainLoop()
           }
-          dispatch(setSuspended(true))
+          this.store.dispatch(setSuspended(true))
           switch (requiredInputDataPort) {
             case InputPort.SimulatedKeyboard:
-              dispatch(setWaitingForKeyboardInput(true))
+              this.store.dispatch(setWaitingForKeyboardInput(true))
               break
           }
           this.unsubscribeSetSuspended = listenAction(
@@ -281,12 +295,12 @@ class Controller {
           )
         } else {
           // wrong port
-          dispatch(clearInputData())
+          this.store.dispatch(clearInputData())
         }
       } else if (selectIsWaitingForInput(state)) {
         // `step` called from actionListener
-        dispatch(setWaitingForInput(false))
-        dispatch(clearInputData())
+        this.store.dispatch(setWaitingForInput(false))
+        this.store.dispatch(clearInputData())
       }
       if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputDataPort } = outputData
@@ -299,7 +313,7 @@ class Controller {
           }
         })
         if (ioDeviceName !== undefined) {
-          dispatch(
+          this.store.dispatch(
             setIoDeviceData({
               name: ioDeviceName,
               data: outputDataContent
@@ -317,7 +331,7 @@ class Controller {
         }
       }
       if (shouldCloseWindows) {
-        dispatch(setIoDevicesInvisible())
+        this.store.dispatch(setIoDevicesInvisible())
       }
       const breakpoints = selectEditorBreakpoints(state)
       let hasBreakpoint = false
@@ -355,24 +369,20 @@ class Controller {
 
   public reset = (): void => {
     this.fullyStop()
-    dispatch(resetMemoryData())
-    dispatch(resetCpu())
-    dispatch(resetAssembler())
-    dispatch(clearEditorActiveRange())
-    dispatch(resetIo())
+    this.store.dispatch(resetMemoryData())
+    this.store.dispatch(resetCpu())
+    this.store.dispatch(resetAssembler())
+    this.store.dispatch(clearEditorActiveRange())
+    this.store.dispatch(resetIo())
   }
 
   public fullyStop = (): void => {
-    const state = getState()
+    const state = this.store.getState()
     this.stopIfRunning(state)
     this.cancelDispatchChanges()
     this.restoreIfSuspended(state)
     this.resetBreakpointLineNumber()
     this.resetLastStep()
-  }
-
-  private resetLastStep(): void {
-    this.lastStep = Promise.resolve(undefined)
   }
 
   private cancelDispatchChanges(): void {
@@ -381,10 +391,16 @@ class Controller {
       this.dispatchChangesTimeoutId = undefined
     }
   }
+
+  private resetLastStep(): void {
+    this.lastStep = Promise.resolve(undefined)
+  }
 }
 
 export const useController = (): Controller => {
-  const controller = useConstant(() => new Controller())
+  const store = useStore()
+
+  const controller = useConstant(() => new Controller(store))
 
   useEffect(() => {
     return listenAction(setEditorInput, controller.fullyStop)
@@ -406,7 +422,7 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     return watch(selectRuntimeConfiguration, async () => {
-      const state = getState()
+      const state = store.getState()
       // `setSuspended` action listener will resume the main loop with the new configuration
       // so we skip calling `stopAndRun` if cpu is suspended
       if (!selectIsSuspended(state) && selectIsRunning(state)) {

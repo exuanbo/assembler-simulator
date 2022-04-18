@@ -3,13 +3,13 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, View as ViewIcon } from '@/common/components/icons'
-import { dispatch } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useStore, useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
 import { ioDeviceNames, selectIoDevices, toggleIoDeviceVisible } from '@/features/io/ioSlice'
 import { splitCamelCaseToString } from '@/common/utils'
 
 const MemoryMenu = (): JSX.Element => {
+  const store = useStore()
   const memoryView = useSelector(selectMemoryView)
 
   return (
@@ -26,7 +26,7 @@ const MemoryMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(setMemoryView(memoryViewOption))
+                    store.dispatch(setMemoryView(memoryViewOption))
                   }}>
                   <MenuButton>
                     {memoryView === memoryViewOption ? <CheckMark /> : <span className="w-4" />}
@@ -43,6 +43,7 @@ const MemoryMenu = (): JSX.Element => {
 }
 
 const IoMenu = (): JSX.Element => {
+  const store = useStore()
   const ioDevices = useSelector(selectIoDevices)
 
   return (
@@ -59,7 +60,7 @@ const IoMenu = (): JSX.Element => {
                 <MenuItem
                   key={index}
                   onClick={() => {
-                    dispatch(toggleIoDeviceVisible(name))
+                    store.dispatch(toggleIoDeviceVisible(name))
                   }}>
                   <MenuButton>
                     {ioDevices[name].isVisible ? <CheckMark /> : <span className="w-4" />}
