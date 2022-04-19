@@ -1,5 +1,4 @@
 import { useEffect, useContext, useRef } from 'react'
-import type { Transaction } from '@codemirror/state'
 import CodeMirrorContext from './CodeMirrorContext'
 import type { Store } from '@/app/store'
 import { listenAction } from '@/app/actionListener'
@@ -22,7 +21,7 @@ import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpda
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
-import { StringAnnotation } from './codemirror/annotations'
+import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
@@ -40,8 +39,7 @@ enum AnnotationValue {
   ChangedFromState = 'ChangedFromState'
 }
 
-const isChangedFromState = (transation: Transaction): boolean =>
-  transation.annotation(StringAnnotation) === AnnotationValue.ChangedFromState
+const isChangedFromState = hasStringAnnotation(AnnotationValue.ChangedFromState)
 
 const createInputUpdateListener = (store: Store): ViewUpdateListener => {
   let timeoutId: number | undefined
@@ -196,7 +194,7 @@ const createBreakpointsUpdateListener =
       }
     } else {
       // we only consider the first transaction
-      const transaction = viewUpdate.transactions[0] as Transaction | undefined
+      const transaction = viewUpdate.transactions[0]
       if (transaction === undefined || isChangedFromState(transaction)) {
         return
       }
