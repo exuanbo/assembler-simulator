@@ -224,7 +224,7 @@ class Controller {
       const { memoryData, cpuRegisters, signals, changes } = stepResultWithSignals
       const instructionAdress = cpuRegisters.ip
       const addressToStatementMap = selectAddressToStatementMap(state)
-      const statement = addressToStatementMap[instructionAdress]
+      const statement = addressToStatementMap[instructionAdress] // as Statement | undefined
       const hasStatement = statement?.machineCode.every(
         (machineCode, index) => machineCode === memoryData[instructionAdress + index]
       )
