@@ -18,6 +18,7 @@ const Main = ({ children, innerRef }: MainProps): JSX.Element => (
     {children}
   </div>
 )
+
 if (import.meta.env.DEV) {
   Main.displayName = 'MenuButton.Main'
 }

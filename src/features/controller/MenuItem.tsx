@@ -35,6 +35,7 @@ const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
     </div>
   )
 }
+
 if (import.meta.env.DEV) {
   ExternalLink.displayName = 'MenuItem.ExternalLink'
 }
@@ -79,6 +80,7 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
     </div>
   )
 }
+
 if (import.meta.env.DEV) {
   Expandable.displayName = 'MenuItem.Expandable'
 }

@@ -28,6 +28,7 @@ const FlagIndicatorTableRow = memo(() => (
     <td />
   </tr>
 ))
+
 if (import.meta.env.DEV) {
   FlagIndicatorTableRow.displayName = 'FlagIndicatorTableRow'
 }

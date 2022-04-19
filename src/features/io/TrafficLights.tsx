@@ -51,6 +51,7 @@ const StaticParts = memo(() => (
     </g>
   </>
 ))
+
 if (import.meta.env.DEV) {
   StaticParts.displayName = 'StaticParts'
 }

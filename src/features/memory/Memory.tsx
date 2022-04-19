@@ -21,6 +21,7 @@ const ColumIndicatorTableRow = memo(() => (
     ))}
   </tr>
 ))
+
 if (import.meta.env.DEV) {
   ColumIndicatorTableRow.displayName = 'ColumIndicatorTableRow'
 }

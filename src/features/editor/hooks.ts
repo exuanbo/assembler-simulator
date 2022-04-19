@@ -90,7 +90,6 @@ export const useSyncInput = (): void => {
 
 export const useAutoAssemble = (): void => {
   const view = useContext(CodeMirrorContext)
-
   const store = useStore()
   const assemble = useConstant(() => createAssemble(store))
 
@@ -117,7 +116,6 @@ export const useAutoAssemble = (): void => {
 
 export const useAssemblerError = (): void => {
   const view = useContext(CodeMirrorContext)
-
   const store = useStore()
 
   useEffect(() => {
@@ -210,7 +208,6 @@ const createBreakpointsUpdateListener =
 
 export const useBreakpoints = (): void => {
   const view = useContext(CodeMirrorContext)
-
   const store = useStore()
 
   useEffect(() => {

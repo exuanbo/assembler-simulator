@@ -48,6 +48,7 @@ const Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.E
     </div>
   )
 }
+
 if (import.meta.env.DEV) {
   Expanded.displayName = 'MenuItems.Expanded'
 }
