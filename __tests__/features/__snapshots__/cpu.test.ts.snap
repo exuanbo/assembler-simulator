@@ -964,7 +964,7 @@ Object {
       "interrupt": false,
     },
     "output": Object {
-      "requiredInputDataPort": 0,
+      "requiredInputPort": 0,
     },
   },
 }
@@ -1008,7 +1008,7 @@ Object {
       "interrupt": false,
     },
     "output": Object {
-      "requiredInputDataPort": 0,
+      "requiredInputPort": 0,
     },
   },
 }

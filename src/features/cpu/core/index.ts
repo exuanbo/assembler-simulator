@@ -159,8 +159,8 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
   const setHalted = (): void => {
     __outputSignals.halted = true
   }
-  const setRequiredInputDataPort = (port: number): void => {
-    __outputSignals.requiredInputDataPort = port
+  const setRequiredInputPort = (port: number): void => {
+    __outputSignals.requiredInputPort = port
   }
   const setOutputData = (content: number, port: number): void => {
     __outputSignals.data = { content, port }
@@ -590,9 +590,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
         const inputData = getInputData()
-        const requiredInputDataPort = checkPort(loadFromMemory(getNextIp()))
-        if (inputData.content === null || inputData.port !== requiredInputDataPort) {
-          setRequiredInputDataPort(requiredInputDataPort)
+        const requiredInputPort = checkPort(loadFromMemory(getNextIp()))
+        if (inputData.content === null || inputData.port !== requiredInputPort) {
+          setRequiredInputPort(requiredInputPort)
           break
         }
         setGpr(GeneralPurposeRegister.AL, inputData.content)
@@ -600,9 +600,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
         break
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
-        const dataContent = getGpr(GeneralPurposeRegister.AL)
-        const dataPort = checkPort(loadFromMemory(incIp()))
-        setOutputData(dataContent, dataPort)
+        const content = getGpr(GeneralPurposeRegister.AL)
+        const port = checkPort(loadFromMemory(incIp()))
+        setOutputData(content, port)
         incIp()
         break
       }

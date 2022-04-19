@@ -256,7 +256,7 @@ class Controller {
       const { data: inputData, interrupt } = signals.input
       const {
         halted: shouldHalt = false,
-        requiredInputDataPort,
+        requiredInputPort,
         data: outputData,
         interruptFlagSet,
         closeWindows: shouldCloseWindows = false
@@ -272,7 +272,7 @@ class Controller {
       }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
-      if (requiredInputDataPort !== undefined) {
+      if (requiredInputPort !== undefined) {
         this.store.dispatch(setWaitingForInput(true))
         if (inputData.content === null) {
           willSuspend = true
@@ -280,7 +280,7 @@ class Controller {
             this.cancelMainLoop()
           }
           this.store.dispatch(setSuspended(true))
-          switch (requiredInputDataPort) {
+          switch (requiredInputPort) {
             case InputPort.SimulatedKeyboard:
               this.store.dispatch(setWaitingForKeyboardInput(true))
               break
@@ -305,9 +305,9 @@ class Controller {
         this.store.dispatch(clearInputData())
       }
       if (outputData?.content !== undefined) {
-        const { content: outputDataContent, port: outputDataPort } = outputData
+        const { content: outputDataContent, port: outputPort } = outputData
         const ioDeviceName = call(() => {
-          switch (outputDataPort) {
+          switch (outputPort) {
             case OutputPort.TrafficLights:
               return IoDeviceName.TrafficLights
             case OutputPort.SevenSegmentDisplay:
