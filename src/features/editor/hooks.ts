@@ -1,13 +1,12 @@
-import { RefCallback, useEffect, useMemo, useRef } from 'react'
-import { StateEffect, Transaction, TransactionSpec } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import { useEffect, useContext, useRef } from 'react'
+import type { Transaction } from '@codemirror/state'
+import CodeMirrorContext from './CodeMirrorContext'
 import type { Store } from '@/app/store'
 import { listenAction } from '@/app/actionListener'
 import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
-  selectEditorInput,
   selectEditorBreakpoints,
   selectEditorActiveLinePos,
   selectEditorMessage,
@@ -19,8 +18,7 @@ import {
   setEditorMessage,
   clearEditorMessage
 } from './editorSlice'
-import { ViewUpdateListener, useCodeMirror as __useCodeMirror } from './codemirror/hooks'
-import { setup } from './codemirror/setup'
+import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
@@ -68,26 +66,15 @@ const createInputUpdateListener = (store: Store): ViewUpdateListener => {
   }
 }
 
-export const useCodeMirror = <T extends Element = Element>(): RefCallback<T> => {
+export const useSyncInput = (): void => {
+  const view = useContext(CodeMirrorContext)
   const store = useStore()
-
-  // TODO: is this extracting necessary?
-  const defaultInput = useMemo(() => selectEditorInput(store.getState()), [])
-  const editorStateConfig = useMemo(() => {
-    return {
-      doc: defaultInput,
-      extensions: setup
-    }
-  }, [defaultInput])
-
-  const inputUpdateListener = useConstant(() => createInputUpdateListener(store))
-
-  const [view, editorRef] = __useCodeMirror<T>(editorStateConfig, inputUpdateListener)
 
   useEffect(() => {
     if (view === undefined) {
       return
     }
+    view.dispatch(addViewUpdateListener(createInputUpdateListener(store)))
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
         view.dispatch({
@@ -101,24 +88,12 @@ export const useCodeMirror = <T extends Element = Element>(): RefCallback<T> => 
       }
     })
   }, [view])
-
-  useAutoAssemble(view)
-  useAssemblerError(view)
-  useHighlightActiveLine(view)
-  useBreakpoints(view)
-
-  return editorRef
 }
 
-const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): TransactionSpec => {
-  return {
-    effects: StateEffect.appendConfig.of(EditorView.updateListener.of(viewUpdateListener))
-  }
-}
+export const useAutoAssemble = (): void => {
+  const view = useContext(CodeMirrorContext)
 
-const useAutoAssemble = (view: EditorView | undefined): void => {
   const store = useStore()
-
   const assemble = useConstant(() => createAssemble(store))
 
   useEffect(() => {
@@ -142,7 +117,9 @@ const useAutoAssemble = (view: EditorView | undefined): void => {
   }, [])
 }
 
-const useAssemblerError = (view: EditorView | undefined): void => {
+export const useAssemblerError = (): void => {
+  const view = useContext(CodeMirrorContext)
+
   const store = useStore()
 
   useEffect(() => {
@@ -170,7 +147,9 @@ const useAssemblerError = (view: EditorView | undefined): void => {
   }, [view, assemblerErrorRange])
 }
 
-const useHighlightActiveLine = (view: EditorView | undefined): void => {
+export const useHighlightActiveLine = (): void => {
+  const view = useContext(CodeMirrorContext)
+
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile }, api) => {
       if (isFromFile) {
@@ -231,7 +210,9 @@ const createBreakpointsUpdateListener =
     }
   }
 
-const useBreakpoints = (view: EditorView | undefined): void => {
+export const useBreakpoints = (): void => {
+  const view = useContext(CodeMirrorContext)
+
   const store = useStore()
 
   useEffect(() => {
