@@ -43,7 +43,7 @@ export type InstructionPointer = number
 
 export type StackPointer = number
 
-enum Flag {
+export enum Flag {
   Zero,
   Overflow,
   Sign,
@@ -104,6 +104,8 @@ const checkSp = (address: number): number => {
 
 export const getSrValue = (sr: StatusRegister): number =>
   sr.reduce((value, flagStatus, index) => value + flagStatus * 0b10 ** (index + 1), 0)
+
+export const getFlagFrom = (sr: StatusRegister, flag: Flag): boolean => sr[flag] === FlagStatus.On
 
 const getSrFrom = (value: number): StatusRegister => {
   const valueStr = value.toString(2).padStart(5, '0') // I S O Z *
@@ -234,7 +236,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       Object.assign(cpuRegisters.sr, flags)
       setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
     }
-    const isFlagOn = (flag: Flag): boolean => cpuRegisters.sr[flag] === FlagStatus.On
+    const getFlag = (flag: Flag): boolean => getFlagFrom(cpuRegisters.sr, flag)
     const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
       cpuRegisters.sr[flag] = flagStatus
       setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
@@ -257,7 +259,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
     /* ------------------------------------------------------------------------------------------ */
 
-    const shouldTrapHardwareInterrupt = getInterrupt() && isFlagOn(Flag.Interrupt)
+    const shouldTrapHardwareInterrupt = getInterrupt() && getFlag(Flag.Interrupt)
 
     const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIp())
 
@@ -433,32 +435,32 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       }
       case Opcode.JZ: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(isFlagOn(Flag.Zero) ? distance : 2)
+        incIp(getFlag(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JNZ: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!isFlagOn(Flag.Zero) ? distance : 2)
+        incIp(!getFlag(Flag.Zero) ? distance : 2)
         break
       }
       case Opcode.JS: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(isFlagOn(Flag.Sign) ? distance : 2)
+        incIp(getFlag(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JNS: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!isFlagOn(Flag.Sign) ? distance : 2)
+        incIp(!getFlag(Flag.Sign) ? distance : 2)
         break
       }
       case Opcode.JO: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(isFlagOn(Flag.Overflow) ? distance : 2)
+        incIp(getFlag(Flag.Overflow) ? distance : 2)
         break
       }
       case Opcode.JNO: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!isFlagOn(Flag.Overflow) ? distance : 2)
+        incIp(!getFlag(Flag.Overflow) ? distance : 2)
         break
       }
 

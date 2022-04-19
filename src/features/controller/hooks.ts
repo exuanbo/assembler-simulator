@@ -31,7 +31,7 @@ import {
 } from '@/features/assembler/assemblerSlice'
 import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
-import { StepResult, RuntimeError, step as __step } from '@/features/cpu/core'
+import { StepResult, RuntimeError, Flag, getFlagFrom, step as __step } from '@/features/cpu/core'
 import {
   selectCpuStatus,
   selectCpuRegisters,
@@ -330,6 +330,22 @@ class Controller {
         } else {
           this.clearInterruptInterval()
           this.isInterruptIntervalSet = false
+        }
+      }
+      if (isRunning) {
+        if (interruptFlagSet !== undefined) {
+          if (interruptFlagSet) {
+            if (!this.isInterruptIntervalSet) {
+              this.setInterruptInterval()
+              this.isInterruptIntervalSet = true
+            }
+          } else if (this.isInterruptIntervalSet) {
+            this.clearInterruptInterval()
+            this.isInterruptIntervalSet = false
+          }
+        } else if (getFlagFrom(cpuRegisters.sr, Flag.Interrupt) && !this.isInterruptIntervalSet) {
+          this.setInterruptInterval()
+          this.isInterruptIntervalSet = true
         }
       }
       if (shouldCloseWindows) {
