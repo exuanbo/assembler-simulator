@@ -1,5 +1,5 @@
 import type { Store } from '@/app/store'
-import { Statement, AssembleResult, AssemblerError, assemble as __assemble } from './core'
+import { AssembleResult, AssemblerError, assemble as __assemble } from './core'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '@/features/memory/memorySlice'
 import { resetCpu } from '@/features/cpu/cpuSlice'
@@ -29,10 +29,10 @@ export const createAssemble =
       return
     }
     const [addressToOpcodeMap, addressToStatementMap] = assembleResult
-    const statement = addressToStatementMap[0] as Statement | undefined
-    const hasStatement = statement !== undefined
+    const firstStatement = addressToStatementMap[0]
+    const hasStatement = firstStatement !== undefined
     store.dispatch(setMemoryDataFrom(addressToOpcodeMap))
     store.dispatch(resetCpu())
     store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-    store.dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
+    store.dispatch(hasStatement ? setEditorActiveRange(firstStatement) : clearEditorActiveRange())
   }
