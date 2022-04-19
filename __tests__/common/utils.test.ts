@@ -110,7 +110,7 @@ describe('utils', () => {
     })
   })
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /* eslint-disable */
 
   // Copied from merge-anything with newlines removed.
   // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/test/index.test.ts
@@ -190,7 +190,7 @@ describe('utils', () => {
       const target = { body: {}, head: {}, toes: {}, fingers: null }
       const res = merge(origin, target)
       expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
-      expect(origin).toEqual({ body: '', head: null, toes: { big: true }, fingers: { '12': false } }) // prettier-ignore
+      expect(origin).toEqual({ body: '', head: null, toes: { big: true }, fingers: { '12': false } })
       expect(target).toEqual({ body: {}, head: {}, toes: {}, fingers: null })
       origin.body = 'a'
       const originAsAny: any = origin
@@ -203,7 +203,7 @@ describe('utils', () => {
       targetAsAny.toes = 'b'
       targetAsAny.fingers = 'b'
       expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
-      expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { '12': 'a' } }) // prettier-ignore
+      expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { '12': 'a' } })
       expect(targetAsAny).toEqual({ body: 'b', head: 'b', toes: 'b', fingers: 'b' })
     })
     test('Overwrite arrays', () => {
@@ -237,7 +237,7 @@ describe('utils', () => {
       const origin = { info: { time: 'now', newDate, very: { deep: { prop: false } } } }
       const target = { info: { date: 'tomorrow', very: { deep: { prop: true } } } }
       const res = merge(origin, target)
-      expect(res).toEqual({ info: { time: 'now', newDate, date: 'tomorrow', very: { deep: { prop: true } } } }) // prettier-ignore
+      expect(res).toEqual({ info: { time: 'now', newDate, date: 'tomorrow', very: { deep: { prop: true } } } })
       expect(origin).toEqual({ info: { time: 'now', newDate, very: { deep: { prop: false } } } })
       expect(target).toEqual({ info: { date: 'tomorrow', very: { deep: { prop: true } } } })
       expect(res.info.newDate instanceof Date).toEqual(true)
@@ -246,7 +246,7 @@ describe('utils', () => {
       const origin = { info: { time: { when: 'now' }, very: { deep: { prop: false } } } }
       const target = { info: { time: {}, very: { whole: 1 } } }
       const res = merge(origin, target)
-      expect(res).toEqual({ info: { time: { when: 'now' }, very: { deep: { prop: false }, whole: 1 } } }) // prettier-ignore
+      expect(res).toEqual({ info: { time: { when: 'now' }, very: { deep: { prop: false }, whole: 1 } } })
     })
     test('overwrites any origin prop when target prop is an object with props', () => {
       const origin = { body: 'a', body2: { head: false }, tail: {} }
@@ -296,9 +296,9 @@ describe('utils', () => {
       const starter = { name: 'Squirtle', types: { water: true } }
       const newValues = { name: 'Wartortle', types: { fighting: true }, level: 16 }
       const evolution = merge(starter, newValues, { is: 'cool' })
-      expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' }) // prettier-ignore
+      expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' })
     })
   })
 
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  /* eslint-enable */
 })
