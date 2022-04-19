@@ -1,5 +1,4 @@
-import { useEffect, useContext, useRef } from 'react'
-import CodeMirrorContext from './CodeMirrorContext'
+import { useEffect, useRef } from 'react'
 import type { Store } from '@/app/store'
 import { listenAction } from '@/app/actionListener'
 import { useStore, useSelector } from '@/app/hooks'
@@ -17,6 +16,7 @@ import {
   setEditorMessage,
   clearEditorMessage
 } from './editorSlice'
+import { useCodeMirrorView } from './codemirror/hooks'
 import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightLine'
@@ -65,7 +65,7 @@ const createInputUpdateListener = (store: Store): ViewUpdateListener => {
 }
 
 export const useSyncInput = (): void => {
-  const view = useContext(CodeMirrorContext)
+  const view = useCodeMirrorView()
   const store = useStore()
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export const useSyncInput = (): void => {
 }
 
 export const useAutoAssemble = (): void => {
-  const view = useContext(CodeMirrorContext)
+  const view = useCodeMirrorView()
   const store = useStore()
   const assemble = useConstant(() => createAssemble(store))
 
@@ -115,7 +115,7 @@ export const useAutoAssemble = (): void => {
 }
 
 export const useAssemblerError = (): void => {
-  const view = useContext(CodeMirrorContext)
+  const view = useCodeMirrorView()
   const store = useStore()
 
   useEffect(() => {
@@ -144,7 +144,7 @@ export const useAssemblerError = (): void => {
 }
 
 export const useHighlightActiveLine = (): void => {
-  const view = useContext(CodeMirrorContext)
+  const view = useCodeMirrorView()
 
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile }, api) => {
@@ -207,7 +207,7 @@ const createBreakpointsUpdateListener =
   }
 
 export const useBreakpoints = (): void => {
-  const view = useContext(CodeMirrorContext)
+  const view = useCodeMirrorView()
   const store = useStore()
 
   useEffect(() => {

@@ -1,10 +1,11 @@
-import { RefCallback, useState, useEffect, useCallback } from 'react'
+import { RefCallback, useState, useEffect, useContext, useCallback } from 'react'
 import { EditorState, EditorStateConfig } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
+import CodeMirrorContext, { CodeMirror } from './Context'
 
 export const useCodeMirror = <T extends Element = Element>(
   editorStateConfig?: EditorStateConfig
-): [view: EditorView | undefined, ref: RefCallback<T>] => {
+): CodeMirror<T> => {
   const [current, setCurrent] = useState<T | null>(null)
 
   const refCallback = useCallback<RefCallback<T>>(element => {
@@ -36,5 +37,18 @@ export const useCodeMirror = <T extends Element = Element>(
     }
   }, [view])
 
-  return [view, refCallback]
+  return {
+    view,
+    ref: refCallback
+  }
+}
+
+export const useCodeMirrorView = (): EditorView | undefined => {
+  const { view } = useContext(CodeMirrorContext)
+  return view
+}
+
+export const useCodeMirrorRef = <T extends Element = Element>(): RefCallback<T> => {
+  const { ref } = useContext(CodeMirrorContext)
+  return ref
 }
