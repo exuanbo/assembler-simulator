@@ -276,8 +276,7 @@ const parseStatement = (
   if (token.type !== TokenType.Unknown || !(token.value in Mnemonic)) {
     throw new StatementError(token, hasLabel)
   }
-
-  consumeToken(1)
+  consumeToken(1) // instruction
 
   const instruction = createInstruction(token)
   const setOpcode = (opcode: Opcode): void => {
@@ -391,7 +390,7 @@ const parseStatement = (
       }
 
       addOperands(operand)
-      consumeToken(1)
+      consumeToken(1) // Operand
       break
     }
     case 2: {

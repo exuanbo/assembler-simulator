@@ -31,7 +31,8 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
       case TokenType.Address:
         return normalizedValue.toUpperCase().trim()
       case TokenType.String:
-        return JSON.parse(`"${normalizedValue}"`) // escape
+        // escape quotes and backslashes
+        return JSON.parse(`"${normalizedValue}"`)
       default:
         return normalizedValue
     }
