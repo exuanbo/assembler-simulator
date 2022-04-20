@@ -25,17 +25,10 @@ export const useCodeMirror = <T extends Element = Element>(
     })
     setView(initialView)
     return () => {
+      initialView.destroy()
       setView(undefined)
     }
   }, [current, editorStateConfig])
-
-  useEffect(() => {
-    if (view !== undefined) {
-      return () => {
-        view.destroy()
-      }
-    }
-  }, [view])
 
   return {
     view,
