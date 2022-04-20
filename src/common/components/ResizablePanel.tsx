@@ -13,12 +13,12 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
   const [leftWidth, setLeftWidth] = useState<number>()
   const [isReady, setReady] = useState(false)
 
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
 
   const getDividerWidth = (): number => dividerRef.current!.offsetWidth
 
-  const getTotalWidthAdjusted = (): number => wrapperRef.current!.offsetWidth - getDividerWidth()
+  const getTotalWidthAdjusted = (): number => containerRef.current!.offsetWidth - getDividerWidth()
 
   const getInitialLeftWidth = (): number => 0.5 * getTotalWidthAdjusted()
 
@@ -80,7 +80,7 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
 
   return (
     <>
-      <div ref={wrapperRef} className={`flex ${className}`}>
+      <div ref={containerRef} className={`flex ${className}`}>
         {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
         <div
           ref={dividerRef}
