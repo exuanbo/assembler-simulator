@@ -1,3 +1,7 @@
+const COMMENT_DIVIDER = '; --------------------------------------'
+
+const FOOTER_MESSAGE = 'For more examples, select File > Open Example.'
+
 interface Example {
   title: string
   content: string
@@ -6,86 +10,92 @@ interface Example {
 export const examples: readonly Example[] = [
   {
     title: 'Visual Display Unit',
-    content: `; --------------------------------
-;  Example / Visual Display Unit
-; --------------------------------
+    content: `${COMMENT_DIVIDER}
+;\tVisual Display Unit
+${COMMENT_DIVIDER}
+\tJMP Start
 
-jmp start
+\tDB "Hello World!"
+\tDB 00
 
-db "Hello World!"
-db 00
+Start:
+\tMOV AL, C0
+\tMOV BL, 02
+\tMOV CL, [BL]
 
-start:
-	mov al, c0
-	mov bl, 02
-	mov cl, [bl]
+Loop:
+\tMOV [AL], CL
+\tINC AL
+\tINC BL
+\tMOV CL, [BL]
+\tCMP CL, 00
+\tJNZ Loop
+${COMMENT_DIVIDER}
+\tEND
+${COMMENT_DIVIDER}
 
-loop:
-	mov [al], cl
-	inc al
-	inc bl
-	mov cl, [bl]
-	cmp cl, 00
-	jnz loop
-
-end
+${FOOTER_MESSAGE}
 `
   },
   {
     title: 'Traffic Lights',
-    content: `; ---------------------------
-;  Example / Traffic Lights
-; ---------------------------
+    content: `${COMMENT_DIVIDER}
+;\tTraffic Lights
+${COMMENT_DIVIDER}
+Start:
+\tMOV AL, 80\t; 1000 0000
 
-start:
-	mov al, 80	; 1000 0000
+Loop:
+\tOUT 01
+\tDIV AL, 02
+\tCMP AL, 00
+\tJNZ Loop
+\tJMP Start
+${COMMENT_DIVIDER}
+\tEND
+${COMMENT_DIVIDER}
 
-loop:
-	out 01
-	div al, 02
-	cmp al, 00
-	jnz loop
-	jmp start
-
-end
+${FOOTER_MESSAGE}
 `
   },
   {
     title: 'Seven-Segment Display',
-    content: `; ----------------------------------
-;  Example / Seven-Segment Display
-; ----------------------------------
+    content: `${COMMENT_DIVIDER}
+;\tSeven-Segment Display
+${COMMENT_DIVIDER}
+\tJMP Start
 
-jmp start
+\tDB FA\t; 1111 1010
+\tDB 60\t; 0110 0000
+\tDB B6\t; 1011 0110
+\tDB 9E\t; 1001 1110
+\tDB 4E\t; 0100 1110
+\tDB DC\t; 1101 1100
+\tDB FC\t; 1111 1100
+\tDB 8A\t; 1000 1010
+\tDB FE\t; 1111 1110
+\tDB DE\t; 1101 1110
+\tDB 00
 
-db fa	; 1111 1010
-db 60	; 0110 0000
-db b6	; 1011 0110
-db 9e	; 1001 1110
-db 4e	; 0100 1110
-db dc	; 1101 1100
-db fc	; 1111 1100
-db 8a	; 1000 1010
-db fe	; 1111 1110
-db de	; 1101 1110
-db 00
+Start:
+\tMOV BL, 02
+\tMOV AL, [BL]
 
-start:
-	mov bl, 02
-	mov al, [bl]
+Loop:
+\tOUT 02
+\tINC AL
+\tNOP NOP NOP
+\tOUT 02
+\tINC BL
+\tMOV AL, [BL]
+\tCMP AL, 00
+\tJNZ Loop
+\tJMP Start
+${COMMENT_DIVIDER}
+\tEND
+${COMMENT_DIVIDER}
 
-loop:
-	out 02
-	inc al
-	nop nop nop
-	out 02
-	inc bl
-	mov al, [bl]
-	cmp al, 00
-	jnz loop
-	jmp start
-
-end
+${FOOTER_MESSAGE}
 `
   }
 ]
