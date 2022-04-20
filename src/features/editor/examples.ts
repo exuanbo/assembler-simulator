@@ -2,6 +2,15 @@ const COMMENT_DIVIDER = '; --------------------------------------'
 
 const FOOTER_MESSAGE = 'For more examples, select File > Open Example.'
 
+export const NEW_FILE_TEMPLATE = `${COMMENT_DIVIDER}
+;\tNew File
+${COMMENT_DIVIDER}
+\t
+${COMMENT_DIVIDER}
+\tEND
+${COMMENT_DIVIDER}
+`
+
 interface Example {
   title: string
   content: string

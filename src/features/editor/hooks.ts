@@ -16,6 +16,7 @@ import {
   setEditorMessage,
   clearEditorMessage
 } from './editorSlice'
+import { NEW_FILE_TEMPLATE } from './examples'
 import { useCodeMirrorView } from './codemirror/hooks'
 import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
@@ -82,6 +83,30 @@ export const useSyncInput = (): void => {
             insert: value
           },
           annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
+        })
+      }
+    })
+  }, [view])
+}
+
+const TEXT_TO_SELECT = 'New File'
+const TEXT_INDEX = NEW_FILE_TEMPLATE.indexOf(TEXT_TO_SELECT)
+
+export const useAutoFocus = (): void => {
+  const view = useCodeMirrorView()
+
+  useEffect(() => {
+    if (view === undefined) {
+      return
+    }
+    return listenAction(setEditorInput, ({ value, isFromFile }) => {
+      if (isFromFile && value === NEW_FILE_TEMPLATE) {
+        view.focus()
+        view.dispatch({
+          selection: {
+            anchor: TEXT_INDEX,
+            head: TEXT_INDEX + TEXT_TO_SELECT.length
+          }
         })
       }
     })

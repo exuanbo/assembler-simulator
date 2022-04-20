@@ -1,6 +1,7 @@
 import { useCodeMirrorRef } from './codemirror/hooks'
 import {
   useSyncInput,
+  useAutoFocus,
   useAutoAssemble,
   useAssemblerError,
   useHighlightActiveLine,
@@ -15,6 +16,7 @@ const CodeMirrorContainer = ({ className = '' }: Props): JSX.Element => {
   const ref = useCodeMirrorRef()
 
   useSyncInput()
+  useAutoFocus()
   useAutoAssemble()
   useAssemblerError()
   useHighlightActiveLine()

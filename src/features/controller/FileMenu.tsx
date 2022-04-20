@@ -6,7 +6,7 @@ import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
 import { useStore } from '@/app/hooks'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
-import { examples } from '@/features/editor/examples'
+import { NEW_FILE_TEMPLATE, examples } from '@/features/editor/examples'
 
 const NewFileButton = (): JSX.Element => {
   const store = useStore()
@@ -16,7 +16,7 @@ const NewFileButton = (): JSX.Element => {
       onClick={() => {
         store.dispatch(
           setEditorInput({
-            value: '',
+            value: NEW_FILE_TEMPLATE,
             isFromFile: true
           })
         )
