@@ -11,7 +11,7 @@ interface Props {
   className?: string
 }
 
-const CodeMirrorWrapper = ({ className = '' }: Props): JSX.Element => {
+const CodeMirrorContainer = ({ className = '' }: Props): JSX.Element => {
   const ref = useCodeMirrorRef()
 
   useSyncInput()
@@ -23,4 +23,4 @@ const CodeMirrorWrapper = ({ className = '' }: Props): JSX.Element => {
   return <div ref={ref} className={`cursor-auto overflow-y-auto ${className}`} />
 }
 
-export default CodeMirrorWrapper
+export default CodeMirrorContainer
