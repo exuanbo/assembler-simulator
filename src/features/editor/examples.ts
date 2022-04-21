@@ -1,28 +1,34 @@
 const COMMENT_DIVIDER = '; --------------------------------------'
 
-const FOOTER_MESSAGE = 'For more examples, select File > Open Example.'
-
-export const NEW_FILE_TEMPLATE = `${COMMENT_DIVIDER}
-;\tNew File
+const applyTemplate = (title: string, body: string, footer = ''): string => `${COMMENT_DIVIDER}
+;\t${title}
 ${COMMENT_DIVIDER}
-\t
+${body}
 ${COMMENT_DIVIDER}
 \tEND
 ${COMMENT_DIVIDER}
-`
+${footer}`
+
+export const NEW_FILE_TEMPLATE = applyTemplate('New File', '\t')
+
+const FOOTER_MESSAGE = 'For more examples, select File > Open Example.'
 
 interface Example {
   title: string
   content: string
 }
 
+const createExample = (title: string, body: string): Example => {
+  return {
+    title,
+    content: applyTemplate(title, body, `\n${FOOTER_MESSAGE}\n`)
+  }
+}
+
 export const examples: readonly Example[] = [
-  {
-    title: 'Visual Display Unit',
-    content: `${COMMENT_DIVIDER}
-;\tVisual Display Unit
-${COMMENT_DIVIDER}
-\tJMP Start
+  createExample(
+    'Visual Display Unit',
+    `\tJMP Start
 
 \tDB "Hello World!"
 \tDB 00
@@ -38,20 +44,11 @@ Loop:
 \tINC BL
 \tMOV CL, [BL]
 \tCMP CL, 00
-\tJNZ Loop
-${COMMENT_DIVIDER}
-\tEND
-${COMMENT_DIVIDER}
-
-${FOOTER_MESSAGE}
-`
-  },
-  {
-    title: 'Traffic Lights',
-    content: `${COMMENT_DIVIDER}
-;\tTraffic Lights
-${COMMENT_DIVIDER}
-Start:
+\tJNZ Loop`
+  ),
+  createExample(
+    'Traffic Lights',
+    `Start:
 \tMOV AL, 80\t; 1000 0000
 
 Loop:
@@ -59,20 +56,11 @@ Loop:
 \tDIV AL, 02
 \tCMP AL, 00
 \tJNZ Loop
-\tJMP Start
-${COMMENT_DIVIDER}
-\tEND
-${COMMENT_DIVIDER}
-
-${FOOTER_MESSAGE}
-`
-  },
-  {
-    title: 'Seven-Segment Display',
-    content: `${COMMENT_DIVIDER}
-;\tSeven-Segment Display
-${COMMENT_DIVIDER}
-\tJMP Start
+\tJMP Start`
+  ),
+  createExample(
+    'Seven-Segment Display',
+    `\tJMP Start
 
 \tDB FA\t; 1111 1010
 \tDB 60\t; 0110 0000
@@ -99,12 +87,6 @@ Loop:
 \tMOV AL, [BL]
 \tCMP AL, 00
 \tJNZ Loop
-\tJMP Start
-${COMMENT_DIVIDER}
-\tEND
-${COMMENT_DIVIDER}
-
-${FOOTER_MESSAGE}
-`
-  }
+\tJMP Start`
+  )
 ]
