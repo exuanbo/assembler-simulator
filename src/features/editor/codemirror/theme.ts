@@ -12,6 +12,11 @@ export const theme = (): Extension =>
     '.cm-scroller': {
       fontFamily: "'Jetbrains Mono', monospace"
     },
+    '.cm-gutters': {
+      borderRight: '1px solid #e5e7eb',
+      backgroundColor: '#f3f4f6',
+      color: '#9ca3af'
+    },
     '.cm-breakpoints': {
       fontSize: '0.875em'
     },
