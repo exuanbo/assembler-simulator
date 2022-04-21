@@ -2,12 +2,11 @@ import type { Extension } from '@codemirror/state'
 import {
   StreamLanguage,
   LanguageSupport,
-  HighlightStyle,
   syntaxHighlighting,
+  defaultHighlightStyle,
   indentUnit,
   indentService
 } from '@codemirror/language'
-import { tags } from '@lezer/highlight'
 import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
 /* eslint-disable prettier/prettier */
@@ -75,7 +74,7 @@ const asmLanguage = StreamLanguage.define<State>({
 
       if (stream.match(REGISTER_REGEXP)) {
         state.operandsLeft -= 1
-        return 'variableName'
+        return 'variableName.special'
       }
 
       if (stream.eat('"')) {
@@ -120,21 +119,12 @@ const asmLanguage = StreamLanguage.define<State>({
   }
 })
 
-const highlightStyle = HighlightStyle.define([
-  { tag: tags.comment, color: '#940' },
-  { tag: tags.number, color: '#164' },
-  { tag: tags.variableName, color: '#256' },
-  { tag: tags.string, color: '#a11' },
-  { tag: tags.labelName, color: '#219' },
-  { tag: tags.keyword, color: '#708' }
-])
-
 const LEADING_SPACE_REGEXP = /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
-  syntaxHighlighting(highlightStyle),
+  syntaxHighlighting(defaultHighlightStyle),
   indentUnit.of('\t'),
   indentService.of(({ state }, pos) => {
     const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
