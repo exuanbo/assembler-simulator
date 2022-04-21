@@ -22,5 +22,8 @@ export const theme = (): Extension =>
     },
     '.cm-lineNumbers': {
       paddingRight: '6px'
+    },
+    '.cm-cursor': {
+      borderLeft: '2px solid black'
     }
   })
