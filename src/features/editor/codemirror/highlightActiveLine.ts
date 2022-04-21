@@ -4,8 +4,10 @@ import { EditorView, highlightActiveLine as __highlightActiveLine } from '@codem
 export const highlightActiveLine = (): Extension => [
   __highlightActiveLine(),
   EditorView.baseTheme({
-    '.cm-activeLine:not(.cm-highlightLine)': {
-      boxShadow: 'inset 0 0 0 2px #e5e7eb',
+    '&.cm-focused .cm-activeLine': {
+      boxShadow: 'inset 0 0 0 2px #e5e7eb'
+    },
+    '.cm-activeLine': {
       backgroundColor: 'inherit'
     }
   })

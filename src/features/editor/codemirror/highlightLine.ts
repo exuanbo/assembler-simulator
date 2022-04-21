@@ -63,7 +63,7 @@ export const highlightLine = (config: HighlightLineConfig = {}): Extension => [
   highlightLineField,
   EditorView.baseTheme({
     '.cm-highlightLine': {
-      backgroundColor: '#dcfce7'
+      backgroundColor: '#dcfce7 !important'
     }
   })
 ]
