@@ -4,6 +4,7 @@ import { history, defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
 import { theme } from './theme'
 import { asm } from './lang-asm'
+import { highlightActiveLine } from './highlightActiveLine'
 import { breakpoints } from './breakpoints'
 import { lineNumbers } from './lineNumbers'
 import { wavyUnderline } from './wavyUnderline'
@@ -16,6 +17,7 @@ export const setup: Extension = [
   closeBrackets(),
   theme(),
   asm(),
+  highlightActiveLine(),
   breakpoints(),
   lineNumbers(),
   wavyUnderline(),
