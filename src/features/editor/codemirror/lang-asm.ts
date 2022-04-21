@@ -129,12 +129,8 @@ const highlightStyle = HighlightStyle.define([
   { tag: tags.keyword, color: '#708' }
 ])
 
-/* eslint-disable prettier/prettier */
-
-const LEADING_SPACE_REGEXP =      /^ */
+const LEADING_SPACE_REGEXP = /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
-
-/* eslint-enable prettier/prettier */
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
