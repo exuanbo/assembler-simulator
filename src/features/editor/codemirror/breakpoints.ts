@@ -1,5 +1,5 @@
 import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@codemirror/state'
-import { EditorView, GutterMarker, gutter } from '@codemirror/view'
+import { EditorView, GutterMarker, BlockInfo, gutter } from '@codemirror/view'
 
 export const breakpointEffect = StateEffect.define<{
   pos: number
@@ -43,7 +43,7 @@ const breakpointField = StateField.define<RangeSet<BreakpointMarker>>({
 export const getBreakpointRangeSet = (state: EditorState): RangeSet<BreakpointMarker> =>
   state.field(breakpointField)
 
-export const toggleBreakpoint = (view: EditorView, pos: number): void => {
+const toggleBreakpoint = (view: EditorView, pos: number): void => {
   const breakpoints = getBreakpointRangeSet(view.state)
   let hasBreakpoint = false
   breakpoints.between(pos, pos, () => {
@@ -57,6 +57,19 @@ export const toggleBreakpoint = (view: EditorView, pos: number): void => {
   })
 }
 
+export const toggleBreakpointOnMouseEvent = (
+  view: EditorView,
+  line: BlockInfo,
+  event: Event
+): boolean => {
+  if ((event as MouseEvent).offsetY > line.bottom) {
+    return false
+  } else {
+    toggleBreakpoint(view, line.from)
+    return true
+  }
+}
+
 export const breakpoints = (): Extension => [
   breakpointField,
   gutter({
@@ -64,19 +77,12 @@ export const breakpoints = (): Extension => [
     markers: view => getBreakpointRangeSet(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
-      // TODO: extract
-      mousedown(view, line, event) {
-        if ((event as MouseEvent).offsetY > line.bottom) {
-          return false
-        }
-        toggleBreakpoint(view, line.from)
-        return true
-      }
+      mousedown: toggleBreakpointOnMouseEvent
     }
   }),
   EditorView.baseTheme({
     '.cm-breakpoints .cm-gutterElement': {
-      minWidth: '20px',
+      width: '20px',
       padding: '0 3px 0 5px',
       color: 'red'
     }
