@@ -1,4 +1,4 @@
-import type { Text, Line } from '@codemirror/text'
+import type { Text, Line } from '@codemirror/state'
 
 export const textToString = (text: Text): string => text.sliceString(0)
 

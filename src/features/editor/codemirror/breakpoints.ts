@@ -1,7 +1,5 @@
-import { EditorState, StateField, StateEffect, Extension } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
-import { RangeSet } from '@codemirror/rangeset'
-import { GutterMarker, gutter } from '@codemirror/gutter'
+import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@codemirror/state'
+import { EditorView, GutterMarker, gutter } from '@codemirror/view'
 
 export const breakpointEffect = StateEffect.define<{
   pos: number
@@ -66,6 +64,7 @@ export const breakpoints = (): Extension => [
     markers: view => getBreakpointRangeSet(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
+      // TODO: extract
       mousedown(view, line, event) {
         if ((event as MouseEvent).offsetY > line.bottom) {
           return false

@@ -1,4 +1,4 @@
-import type { RangeValue, RangeSet } from '@codemirror/rangeset'
+import type { RangeValue, RangeSet } from '@codemirror/state'
 
 export type RangeSetUpdateFilter<T extends RangeValue> = (
   from: number,

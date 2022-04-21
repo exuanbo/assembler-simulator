@@ -1,7 +1,13 @@
 import type { Extension } from '@codemirror/state'
-import { StreamLanguage } from '@codemirror/stream-parser'
-import { LanguageSupport, indentUnit, indentService } from '@codemirror/language'
-import { HighlightStyle, tags } from '@codemirror/highlight'
+import {
+  StreamLanguage,
+  LanguageSupport,
+  HighlightStyle,
+  syntaxHighlighting,
+  indentUnit,
+  indentService
+} from '@codemirror/language'
+import { tags } from '@lezer/highlight'
 import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
 
 /* eslint-disable prettier/prettier */
@@ -132,7 +138,7 @@ const LEADING_WHITESPACE_REGEXP = /^\s*/
 
 export const asm = (): Extension => [
   new LanguageSupport(asmLanguage),
-  highlightStyle,
+  syntaxHighlighting(highlightStyle),
   indentUnit.of('\t'),
   indentService.of(({ state }, pos) => {
     const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
