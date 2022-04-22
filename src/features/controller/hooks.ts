@@ -84,9 +84,7 @@ class Controller {
   constructor(store: Store) {
     this.store = store
     const __assemble = createAssemble(store)
-    this.assemble = () => {
-      __assemble()
-    }
+    this.assemble = () => __assemble()
   }
 
   public assemble: () => void
