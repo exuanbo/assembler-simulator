@@ -92,19 +92,13 @@ class Controller {
   public assemble: () => void
 
   public runOrStop = async (): Promise<void> => {
-    const state = this.store.getState()
-    if (this.stopIfRunning(state)) {
-      this.restoreIfSuspended(state)
-      return
+    if (!this.stopIfRunning(this.store.getState())) {
+      await this.run()
     }
-    if (selectIsSuspended(state)) {
-      return
-    }
-    await this.run()
   }
 
   /**
-   * @returns true if was running
+   * @returns true if stopped from running
    */
   private stopIfRunning(state: RootState): boolean {
     const isRunning = selectIsRunning(state)
@@ -131,16 +125,11 @@ class Controller {
     window.clearInterval(this.interruptIntervalId)
   }
 
-  /**
-   * @returns true if was suspended
-   */
-  private restoreIfSuspended(state: RootState): boolean {
-    const isSuspended = selectIsSuspended(state)
-    if (isSuspended) {
+  private restoreIfSuspended(state: RootState): void {
+    if (selectIsSuspended(state)) {
       this.unsubscribeSetSuspended()
       this.store.dispatch(setSuspended(false))
     }
-    return isSuspended
   }
 
   private async run(): Promise<void> {
@@ -191,7 +180,7 @@ class Controller {
     if (fault !== null || halted) {
       this.stopIfRunning(state)
       if (fault === null && halted) {
-        // trigger `EditorStatus` re-render
+        // trigger `EditorMessage` re-render
         this.store.dispatch(setCpuHalted())
       }
       return
@@ -287,7 +276,9 @@ class Controller {
           }
           this.unsubscribeSetSuspended = listenAction(
             setSuspended,
+            // payload must be false
             async () => {
+              // state cannot be changed when suspended
               if (isRunning) {
                 this.resumeMainLoop()
               }

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Arrow, Play, Stop, Forward, Undo } from '@/common/components/icons'
 import { useController } from './hooks'
-import { selectIsRunning } from './controllerSlice'
+import { selectIsRunning, selectIsSuspended } from './controllerSlice'
 import { useSelector } from '@/app/hooks'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
@@ -16,7 +16,7 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
     className={`flex space-x-2 py-1 px-2 items-center ${
       disabled ? 'text-gray-400 fill-gray-400' : 'hover:bg-gray-200'
     }`}
-    onClick={onClick}>
+    onClick={disabled ? undefined : onClick}>
     {children}
   </div>
 )
@@ -34,8 +34,9 @@ const ControlButtons = (): JSX.Element => {
 
   const RunButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
+    const isSuspended = useSelector(selectIsSuspended)
     return (
-      <ControlButton onClick={runOrStop}>
+      <ControlButton disabled={isSuspended} onClick={runOrStop}>
         {isRunning ? (
           <>
             <Stop />
@@ -53,8 +54,9 @@ const ControlButtons = (): JSX.Element => {
 
   const StepButton = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
+    const isSuspended = useSelector(selectIsSuspended)
     return (
-      <ControlButton disabled={isRunning} onClick={isRunning ? undefined : step}>
+      <ControlButton disabled={isRunning || isSuspended} onClick={step}>
         <Forward />
         <span>Step</span>
       </ControlButton>
