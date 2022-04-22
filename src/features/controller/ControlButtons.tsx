@@ -22,11 +22,10 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
 )
 
 const ControlButtons = (): JSX.Element => {
-  // TODO: rm destructuring
-  const { assemble, runOrStop, step, reset } = useController()
+  const controller = useController()
 
   const AssembleButton = (): JSX.Element => (
-    <ControlButton onClick={assemble}>
+    <ControlButton onClick={controller.assemble}>
       <Arrow />
       <span>Assemble</span>
     </ControlButton>
@@ -36,7 +35,7 @@ const ControlButtons = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
     const isSuspended = useSelector(selectIsSuspended)
     return (
-      <ControlButton disabled={isSuspended} onClick={runOrStop}>
+      <ControlButton disabled={isSuspended} onClick={controller.runOrStop}>
         {isRunning ? (
           <>
             <Stop />
@@ -56,7 +55,7 @@ const ControlButtons = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
     const isSuspended = useSelector(selectIsSuspended)
     return (
-      <ControlButton disabled={isRunning || isSuspended} onClick={step}>
+      <ControlButton disabled={isRunning || isSuspended} onClick={controller.step}>
         <Forward />
         <span>Step</span>
       </ControlButton>
@@ -64,7 +63,7 @@ const ControlButtons = (): JSX.Element => {
   }
 
   const ResetButton = (): JSX.Element => (
-    <ControlButton onClick={reset}>
+    <ControlButton onClick={controller.reset}>
       <Undo />
       <span>Reset</span>
     </ControlButton>
