@@ -27,7 +27,7 @@ import {
   selectAssembledSource,
   selectAddressToStatementMap,
   setAssemblerState,
-  resetAssembler
+  resetAssemblerState
 } from '@/features/assembler/assemblerSlice'
 import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
@@ -38,7 +38,7 @@ import {
   setCpuFault,
   setCpuHalted,
   setCpuRegisters,
-  resetCpu
+  resetCpuState
 } from '@/features/cpu/cpuSlice'
 import { InputPort, OutputPort } from '@/features/io/core'
 import {
@@ -52,7 +52,7 @@ import {
   setVduDataFrom,
   setIoDeviceData,
   setIoDevicesInvisible,
-  resetIo
+  resetIoState
 } from '@/features/io/ioSlice'
 import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
 import { useConstant } from '@/common/hooks'
@@ -377,10 +377,10 @@ class Controller {
   public reset = (): void => {
     this.fullyStop()
     this.store.dispatch(resetMemoryData())
-    this.store.dispatch(resetCpu())
-    this.store.dispatch(resetAssembler())
+    this.store.dispatch(resetCpuState())
+    this.store.dispatch(resetAssemblerState())
     this.store.dispatch(clearEditorActiveRange())
-    this.store.dispatch(resetIo())
+    this.store.dispatch(resetIoState())
   }
 
   public fullyStop = (): void => {

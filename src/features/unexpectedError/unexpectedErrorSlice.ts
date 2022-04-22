@@ -10,13 +10,13 @@ export const unexpectedErrorSlice = createSlice({
   initialState,
   reducers: {
     set: (_, action: PayloadAction<Error>) => action.payload,
-    reset: () => null
+    clear: () => null
   }
 })
 
 export const selectUnexpectedError = (state: RootState): UnexpectedErrorState =>
   state.unexpectedError
 
-export const { set: setUnexpectedError, reset: resetUnexpectedError } = unexpectedErrorSlice.actions
+export const { set: setUnexpectedError, clear: clearUnexpectedError } = unexpectedErrorSlice.actions
 
 export default unexpectedErrorSlice.reducer

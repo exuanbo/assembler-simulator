@@ -34,7 +34,7 @@ export const assemblerSlice = createSlice({
     clearError: state => {
       state.error = null
     },
-    reset: () => initialState
+    resetState: () => initialState
   }
 })
 
@@ -53,7 +53,7 @@ export const {
   setState: setAssemblerState,
   setError: setAssemblerError,
   clearError: clearAssemblerError,
-  reset: resetAssembler
+  resetState: resetAssemblerState
 } = assemblerSlice.actions
 
 export default assemblerSlice.reducer

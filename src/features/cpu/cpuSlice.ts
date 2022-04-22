@@ -42,7 +42,7 @@ export const cpuSlice = createSlice({
     setRegisters: (state, action: PayloadAction<Registers>) => {
       state.registers = action.payload
     },
-    reset: () => initialState
+    resetState: () => initialState
   }
 })
 
@@ -74,7 +74,7 @@ export const {
   setFault: setCpuFault,
   setHalted: setCpuHalted,
   setRegisters: setCpuRegisters,
-  reset: resetCpu
+  resetState: resetCpuState
 } = cpuSlice.actions
 
 export default cpuSlice.reducer

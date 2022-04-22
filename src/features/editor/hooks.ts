@@ -32,7 +32,7 @@ import {
   selectAssemblerErrorRange,
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
-import { selectCpuFault, setCpuHalted, resetCpu } from '@/features/cpu/cpuSlice'
+import { selectCpuFault, setCpuHalted, resetCpuState } from '@/features/cpu/cpuSlice'
 import { useConstant } from '@/common/hooks'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
@@ -305,7 +305,7 @@ export const useMessage = (): EditorMessage | null => {
   }, [])
 
   useEffect(() => {
-    return listenAction(resetCpu, (_, api) => {
+    return listenAction(resetCpuState, (_, api) => {
       if (selectEditorMessage(api.getState()) === haltedMessage) {
         window.clearTimeout(messageTimeoutIdRef.current)
         messageTimeoutIdRef.current = undefined

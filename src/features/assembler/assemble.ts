@@ -2,7 +2,7 @@ import type { Store } from '@/app/store'
 import { AssembleResult, AssemblerError, assemble as __assemble } from './core'
 import { setAssemblerState, setAssemblerError } from './assemblerSlice'
 import { setMemoryDataFrom } from '@/features/memory/memorySlice'
-import { resetCpu } from '@/features/cpu/cpuSlice'
+import { resetCpuState } from '@/features/cpu/cpuSlice'
 import {
   selectEditorInput,
   setEditorActiveRange,
@@ -32,7 +32,7 @@ export const createAssemble =
     const firstStatement = addressToStatementMap[0]
     const hasStatement = firstStatement !== undefined
     store.dispatch(setMemoryDataFrom(addressToOpcodeMap))
-    store.dispatch(resetCpu())
+    store.dispatch(resetCpuState())
     store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
     store.dispatch(hasStatement ? setEditorActiveRange(firstStatement) : clearEditorActiveRange())
   }

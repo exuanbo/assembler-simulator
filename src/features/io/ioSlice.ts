@@ -94,7 +94,7 @@ export const ioSlice = createSlice({
         state.devices[name].isVisible = false
       })
     },
-    reset: state =>
+    resetState: state =>
       merge(initialState, {
         devices: Object.entries(state.devices).reduce<Record<string, Pick<IoDevice, 'isVisible'>>>(
           (result, [name, { isVisible }]) =>
@@ -152,7 +152,7 @@ export const {
   setDeviceData: setIoDeviceData,
   toggleDeviceVisible: toggleIoDeviceVisible,
   setDevicesInvisible: setIoDevicesInvisible,
-  reset: resetIo
+  resetState: resetIoState
 } = ioSlice.actions
 
 export default ioSlice.reducer

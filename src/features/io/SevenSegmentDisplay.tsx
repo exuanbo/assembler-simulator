@@ -2,7 +2,7 @@ import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
 import { listenAction } from '@/app/actionListener'
-import { IoDeviceName, resetIo } from './ioSlice'
+import { IoDeviceName, resetIoState } from './ioSlice'
 import { useIoDevice } from './hooks'
 import { range } from '@/common/utils'
 
@@ -139,7 +139,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
   const [data, setData] = useState(initialData)
 
   useEffect(() => {
-    return listenAction(resetIo, () => {
+    return listenAction(resetIoState, () => {
       setData(initialData)
     })
   }, [])
