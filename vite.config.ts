@@ -1,6 +1,6 @@
 import { execSync } from 'child_process'
 import { join } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import windicss from 'vite-plugin-windicss'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
@@ -18,6 +18,7 @@ export default defineConfig({
     react(),
     windicss(),
     pwa({
+      manifestFilename: 'app.webmanifest',
       registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
@@ -64,7 +65,8 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    splitVendorChunkPlugin()
   ],
   resolve: {
     alias: {
