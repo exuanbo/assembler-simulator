@@ -54,5 +54,3 @@ export const getSourceFrom = (map: AddressToStatementMap): string[] => {
   }
   return source
 }
-
-export const vduDataChanged = (data: number[]): boolean => data.some(value => value !== SPACE_ASCII)

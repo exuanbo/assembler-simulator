@@ -7,11 +7,9 @@ import {
   selectIoDeviceData,
   IoDeviceVisibility,
   createIoDeviceVisibilitySelector,
-  setVduData,
   setVduDataFrom,
   setIoDeviceData
 } from './ioSlice'
-import { getVduDataFrom, vduDataChanged } from '@/features/memory/core'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibility => {
@@ -34,29 +32,19 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibi
   return { data, isVisible, toggleVisible }
 }
 
-export const useVisualDisplayUnit = (): IoDevice => {
-  const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.VisualDisplayUnit)
+export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
+  const data = useSelector(selectIoDeviceData(IoDeviceName.VisualDisplayUnit))
+
+  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
+    createIoDeviceVisibilitySelector(IoDeviceName.VisualDisplayUnit)
+  )
 
   useEffect(() => {
     return listenAction(setMemoryDataFrom, (_, api) => {
       const memoryData = selectMemoryData(api.getState())
-      const vduData = getVduDataFrom(memoryData)
-      const shouldToggleVisible = !isVisible && vduDataChanged(vduData)
-      api.dispatch(setVduData(vduData))
-      if (shouldToggleVisible) {
-        api.dispatch(toggleVisible())
-      }
+      api.dispatch(setVduDataFrom(memoryData))
     })
-  }, [isVisible])
+  }, [])
 
-  useEffect(() => {
-    if (!isVisible) {
-      return listenAction(setVduDataFrom, (_, api) => {
-        // vdu buffer must have been changed
-        api.dispatch(toggleVisible())
-      })
-    }
-  }, [isVisible])
-
-  return { data, isVisible }
+  return { data, isVisible, toggleVisible }
 }

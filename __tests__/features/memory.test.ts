@@ -1,11 +1,5 @@
 import { assemble } from '@/features/assembler/core'
-import {
-  initVduData,
-  initData,
-  getVduDataFrom,
-  getSourceFrom,
-  vduDataChanged
-} from '@/features/memory/core'
+import { initData, getVduDataFrom, getSourceFrom } from '@/features/memory/core'
 import { memorySerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(memorySerializer)
@@ -38,19 +32,6 @@ describe('memory', () => {
         const source = getSourceFrom(addressToStatementMap)
         expect(source).toMatchSnapshot()
       })
-    })
-  })
-
-  describe('vduDataChanged', () => {
-    it('should return true if VDU data is changed', () => {
-      const vduData = initVduData()
-      vduData[0] = 'foo'.charCodeAt(0)
-      expect(vduDataChanged(vduData)).toBe(true)
-    })
-
-    it('should return false if VDU data is not changed', () => {
-      const vduData = initVduData()
-      expect(vduDataChanged(vduData)).toBe(false)
     })
   })
 })

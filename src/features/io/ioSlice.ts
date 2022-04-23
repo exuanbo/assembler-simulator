@@ -74,9 +74,6 @@ export const ioSlice = createSlice({
     setWaitingForKeyboardInput: (state, action: PayloadAction<boolean>) => {
       state.isWaitingForKeyboardInput = action.payload
     },
-    setVduData: (state, action: PayloadAction<number[]>) => {
-      state.devices[IoDeviceName.VisualDisplayUnit].data = action.payload
-    },
     setVduDataFrom: (state, action: PayloadAction<MemoryData>) => {
       const memoryData = action.payload
       state.devices[IoDeviceName.VisualDisplayUnit].data = getVduDataFrom(memoryData)
@@ -147,7 +144,6 @@ export const {
   setInterrupt,
   setWaitingForInput,
   setWaitingForKeyboardInput,
-  setVduData,
   setVduDataFrom,
   setDeviceData: setIoDeviceData,
   toggleDeviceVisible: toggleIoDeviceVisible,
