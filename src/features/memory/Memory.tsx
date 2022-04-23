@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import Card from '@/common/components/Card'
+import CardHeader from '@/common/components/CardHeader'
 import { useSelector } from '@/app/hooks'
 import {
   MemoryView,
@@ -38,7 +38,8 @@ const Memory = (): JSX.Element => {
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
-    <Card title="Memory">
+    <div>
+      <CardHeader title="Memory" />
       <table className="text-sm w-full">
         <tbody className="divide-y">
           <ColumIndicatorTableRow />
@@ -68,7 +69,7 @@ const Memory = (): JSX.Element => {
           ))}
         </tbody>
       </table>
-    </Card>
+    </div>
   )
 }
 

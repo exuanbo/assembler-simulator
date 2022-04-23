@@ -1,4 +1,4 @@
-import Card from '@/common/components/Card'
+import CardHeader from '@/common/components/CardHeader'
 import RegisterTableRow from './RegisterTableRow'
 import { useSelector } from '@/app/hooks'
 import {
@@ -19,7 +19,8 @@ const CpuRegisters = (): JSX.Element => {
   const srValue = useSelector(selectStatusRegisterValue)
 
   return (
-    <Card title="CPU Registers">
+    <div>
+      <CardHeader title="General Purpose Registers" />
       <div className="divide-x flex">
         <table className="flex-1">
           <tbody className="divide-y">
@@ -46,7 +47,7 @@ const CpuRegisters = (): JSX.Element => {
           </tbody>
         </table>
       </div>
-    </Card>
+    </div>
   )
 }
 

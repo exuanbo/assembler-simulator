@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import Card from '@/common/components/Card'
+import CardHeader from '@/common/components/CardHeader'
 import { decToHex } from '@/common/utils'
 
 interface Props {
@@ -10,11 +10,10 @@ interface Props {
 }
 
 const DeviceCard = ({ name, port, className = '', children }: Props): JSX.Element => (
-  <Card
-    className="border shadow m-1"
-    title={`${name}${port === undefined ? '' : ` (Port ${decToHex(port)})`}`}>
+  <div className="border shadow m-1">
+    <CardHeader title={`${name}${port === undefined ? '' : ` (Port ${decToHex(port)})`}`} />
     <div className={`p-1 ${className}`}>{children}</div>
-  </Card>
+  </div>
 )
 
 export default DeviceCard
