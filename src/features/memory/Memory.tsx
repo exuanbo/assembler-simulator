@@ -16,7 +16,7 @@ const ColumIndicatorTableRow = memo(() => (
     <td />
     {range(0x10).map(colIndex => (
       <td key={colIndex} className="text-center">
-        {decToHex(colIndex)[1]}
+        {decToHex(colIndex)[1] /* ignore padded 0 */}
       </td>
     ))}
   </tr>
@@ -45,7 +45,7 @@ const Memory = (): JSX.Element => {
           {rows.map((row, rowIndex) => (
             <tr key={rowIndex} className="divide-x">
               <td className="bg-gray-50 text-center text-gray-400">
-                <span className="px-1">{decToHex(rowIndex)[1]}</span>
+                <span className="px-1">{decToHex(rowIndex)[1] /* ignore padded 0 */}</span>
               </td>
               {row.map((value, colIndex) => {
                 const tdClassName = sp < address && address <= MAX_SP ? 'bg-blue-50' : ''
