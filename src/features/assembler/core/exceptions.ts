@@ -62,6 +62,12 @@ export class InvalidNumberError extends ParserError {
   }
 }
 
+export class InvalidStringError extends ParserError {
+  constructor({ value, range }: Token, charIndex: number) {
+    super(`UTF-16 code of character '${value[charIndex]}' is greater than FF.`, range)
+  }
+}
+
 export class AddressError extends ParserError {
   constructor({ raw, range }: Token) {
     const addressValue = trimBrackets(raw).trim()

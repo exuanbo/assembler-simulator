@@ -6,6 +6,7 @@ import {
   StatementError,
   MissingEndError,
   InvalidNumberError,
+  InvalidStringError,
   AddressError,
   UnterminatedAddressError,
   UnterminatedStringError,
@@ -146,6 +147,16 @@ const validateNumber = (token: Token): Token => {
   return token
 }
 
+const validateString = (token: Token): Token => {
+  for (let i = 0; i < token.value.length; i++) {
+    const charCode = token.value.charCodeAt(i)
+    if (charCode > 0xff) {
+      throw new InvalidStringError(token, i)
+    }
+  }
+  return token
+}
+
 const NUMBER_REGEXP = /^[\dA-F]+$/
 const REGISTER_REGEXP = /^[A-D]L$/
 
@@ -187,7 +198,7 @@ const parseSingleOperand =
         break
       case TokenType.String:
         if (isExpectedType(OperandType.String)) {
-          return createOperand(OperandType.String, token)
+          return createOperand(OperandType.String, validateString(token))
         }
         break
       case TokenType.Unknown:

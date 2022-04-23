@@ -211,6 +211,12 @@ end
     }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'fff'")
   })
 
+  it('should throw InvalidStringError when parsing string with unsupported character', () => {
+    expect(() => {
+      parse('db "þÿĀ"')
+    }).toThrowError("UTF-16 code of character 'Ā' is greater than FF")
+  })
+
   const ADDRESS_ERROR_MSG_PREFIX = 'Expected number or register, got '
 
   it('should throw AddressError if address is invalid', () => {
