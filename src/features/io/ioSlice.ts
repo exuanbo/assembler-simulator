@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { InputSignals, InputPort, initialInputSignals } from './core'
 import { MemoryData, initVduData, getVduDataFrom } from '@/features/memory/core'
 import type { RootState } from '@/app/store'
@@ -118,25 +118,10 @@ export const selectIoDeviceData =
   (state: RootState): number[] =>
     state.io.devices[name].data
 
-type ToggleVisible = () => ReturnType<typeof toggleIoDeviceVisible>
-
-export interface IoDeviceVisibility {
-  isVisible: boolean
-  toggleVisible: ToggleVisible
-}
-
-type IoDeviceVisibilitySelector = (state: RootState) => IoDeviceVisibility
-
-export const createIoDeviceVisibilitySelector = (
-  name: IoDeviceName
-): IoDeviceVisibilitySelector => {
-  const toggleVisible: ToggleVisible = () => toggleIoDeviceVisible(name)
-
-  return createSelector(
-    (state: RootState) => state.io.devices[name].isVisible,
-    isVisible => ({ isVisible, toggleVisible })
-  )
-}
+export const selectIoDeviceVisible =
+  (name: IoDeviceName) =>
+  (state: RootState): boolean =>
+    state.io.devices[name].isVisible
 
 export const {
   setInputData,

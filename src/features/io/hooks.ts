@@ -1,29 +1,31 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { listenAction } from '@/app/actionListener'
-import { useSelector, useLazilyInitializedSelector } from '@/app/hooks'
+import { useStore, useSelector } from '@/app/hooks'
 import {
   IoDeviceName,
   IoDevice,
   selectIoDeviceData,
-  IoDeviceVisibility,
-  createIoDeviceVisibilitySelector,
+  selectIoDeviceVisible,
   setVduDataFrom,
-  setIoDeviceData
+  setIoDeviceData,
+  toggleIoDeviceVisible
 } from './ioSlice'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
-export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibility => {
+export const useIoDevice = (deviceName: IoDeviceName): IoDevice & { toggleVisible: () => void } => {
+  const store = useStore()
   const data = useSelector(selectIoDeviceData(deviceName))
+  const isVisible = useSelector(selectIoDeviceVisible(deviceName))
 
-  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
-    createIoDeviceVisibilitySelector(deviceName)
-  )
+  const toggleVisible = useCallback(() => {
+    store.dispatch(toggleIoDeviceVisible(deviceName))
+  }, [])
 
   useEffect(() => {
     if (!isVisible) {
-      return listenAction(setIoDeviceData, ({ name: targetDeviceName }, api) => {
+      return listenAction(setIoDeviceData, ({ name: targetDeviceName }) => {
         if (targetDeviceName === deviceName) {
-          api.dispatch(toggleVisible())
+          toggleVisible()
         }
       })
     }
@@ -33,11 +35,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceVisibi
 }
 
 export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
-  const data = useSelector(selectIoDeviceData(IoDeviceName.VisualDisplayUnit))
-
-  const { isVisible, toggleVisible } = useLazilyInitializedSelector(() =>
-    createIoDeviceVisibilitySelector(IoDeviceName.VisualDisplayUnit)
-  )
+  const device = useIoDevice(IoDeviceName.VisualDisplayUnit)
 
   useEffect(() => {
     return listenAction(setMemoryDataFrom, (_, api) => {
@@ -46,5 +44,5 @@ export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
     })
   }, [])
 
-  return { data, isVisible, toggleVisible }
+  return device
 }

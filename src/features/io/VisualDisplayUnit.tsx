@@ -4,12 +4,13 @@ import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
-  const { data, isVisible } = useVisualDisplayUnit()
+  const { data, isVisible, toggleVisible } = useVisualDisplayUnit()
 
   return isVisible ? (
     <DeviceCard
       className="flex flex-col space-y-1 items-center justify-center"
-      name="Visual Display Unit">
+      name="Visual Display Unit"
+      onClickClose={toggleVisible}>
       {chunk(0x10, asciiToChars(data)).map((row, rowIndex) => (
         <div key={rowIndex} className="flex space-x-1">
           {row.map((char, charIndex) => (

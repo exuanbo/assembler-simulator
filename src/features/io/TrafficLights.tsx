@@ -59,10 +59,10 @@ if (import.meta.env.DEV) {
 const lightColors = ['red', 'yellow', 'lime'] as const
 
 const TrafficLights = (): JSX.Element | null => {
-  const { data, isVisible } = useIoDevice(IoDeviceName.TrafficLights)
+  const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.TrafficLights)
 
   return isVisible ? (
-    <DeviceCard name="Traffic Lights" port={1}>
+    <DeviceCard name="Traffic Lights" onClickClose={toggleVisible}>
       <svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
