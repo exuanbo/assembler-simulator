@@ -1,73 +1,16 @@
 import { AssemblerError, assemble } from '@/features/assembler/core'
+import { examples } from '@/features/editor/examples'
 import { initDataFrom } from '@/features/memory/core'
 import { memorySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(memorySerializer)
 
-const INPUT = `
-; --------------------------------------------------------------
-; An example of using hardware interrupts.
-; This program spins the stepper motor continuously and
-; steps the traffic lights on each hardware interrupt.
-
-; Uncheck the "Show only one peripheral at a time" box
-; to enable both displays to appear simultaneously.
-
-; --------------------------------------------------------------
-	JMP	Start	; Jump past table of interrupt vectors
-	DB	50	; Vector at 02 pointing to address 50
-
-Start:
-	STI		; Set I flag. Enable hardware interrupts
-	MOV	AL, 11	;
-Rep:
-	OUT	05	; Stepper motor
-	ROR	AL	; Rotate bits in AL right
-	JMP	Rep
-	JMP	Start
-; --------------------------------------------------------------
-	ORG	50
-
-	PUSH	al	; Save AL onto the stack.
-	PUSH	bl	; Save BL onto the stack.
-	PUSHF		; Save flags onto the stack.
-
-	JMP	PastData
-
-	DB	84	; Red		Green
-	DB	c8	; Red+Amber	Amber
-	DB	30	; Green		Red
-	DB	58	; Amber		Red+Amber
-	DB	57	; Used to track progress through table
-PastData:
-	MOV	BL,[5B]	; BL now points to the data table
-	MOV	AL,[BL]	; Data from table goes into AL
-	OUT	01	; Send AL data to traffic lights
-	CMP	AL,58	; Last entry in the table
-	JZ	Reset	; If last entry then reset pointer
-
-	INC	BL	; BL points to next table entry
-	MOV	[5B],BL	; Save pointer in RAM
-	JMP	Stop
-Reset:
-	MOV	BL,57	; Pointer to data table start address
-	MOV	[5B],BL	; Save pointer into RAM location 54
-Stop:
-	POPF		; Restore flags to their previous value
-	POP	bl	; Restore BL to its previous value
-	POP	al	; Restore AL to its previous value
-
-	IRET
-; --------------------------------------------------------------
-
-END
-; --------------------------------------------------------------
-`
-
 describe('assembler', () => {
-  it('should assemble correctly', () => {
-    const [addressToMachineCodeMap] = assemble(INPUT)
-    expect(initDataFrom(addressToMachineCodeMap)).toMatchSnapshot()
+  examples.forEach(({ title, content }) => {
+    it(`should assemble example ${title}`, () => {
+      const [addressToMachineCodeMap] = assemble(content)
+      expect(initDataFrom(addressToMachineCodeMap)).toMatchSnapshot()
+    })
   })
 
   it('should throw instance of AssemblerError', () => {
