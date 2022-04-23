@@ -31,7 +31,14 @@ import {
 } from '@/features/assembler/assemblerSlice'
 import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
-import { StepResult, RuntimeError, Flag, getFlagFrom, step as __step } from '@/features/cpu/core'
+import {
+  RuntimeError,
+  Flag,
+  StepResult,
+  StepOutput,
+  getFlagFrom,
+  step as __step
+} from '@/features/cpu/core'
 import {
   selectCpuStatus,
   selectCpuRegisters,
@@ -187,9 +194,9 @@ class Controller {
       return
     }
     this.lastStep = new Promise(resolve => {
-      let stepResultWithSignals: ReturnType<typeof __step>
+      let stepOutput: StepOutput
       try {
-        stepResultWithSignals = __step(
+        stepOutput = __step(
           lastStepResult ?? {
             memoryData: selectMemoryData(state),
             cpuRegisters: selectCpuRegisters(state)
@@ -208,7 +215,7 @@ class Controller {
         resolve(undefined)
         return
       }
-      const { memoryData, cpuRegisters, signals, changes } = stepResultWithSignals
+      const { memoryData, cpuRegisters, signals, changes } = stepOutput
       const instructionAdress = cpuRegisters.ip
       const addressToStatementMap = selectAddressToStatementMap(state)
       const statement = addressToStatementMap[instructionAdress] // as Statement | undefined

@@ -5,6 +5,7 @@ import {
   RuntimeError,
   GeneralPurposeRegister,
   Registers,
+  StepOutput,
   initRegisters,
   step as __step
 } from '@/features/cpu/core'
@@ -28,7 +29,7 @@ const step = (
   memoryData: MemoryData,
   cpuRegisters: Registers,
   inputSignals: InputSignals = initialInputSignals
-): ReturnType<typeof __step> => __step({ memoryData, cpuRegisters }, inputSignals)
+): StepOutput => __step({ memoryData, cpuRegisters }, inputSignals)
 
 describe('cpu', () => {
   describe('step', () => {

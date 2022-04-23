@@ -145,12 +145,12 @@ export interface StepResult {
   cpuRegisters: Registers
 }
 
-interface StepOutput extends StepResult {
+export interface StepOutput extends StepResult {
   signals: Signals
   changes: StepChanges
 }
 
-export const step = (__stepResult: StepResult, __inputSignals: InputSignals): StepOutput => {
+export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals): StepOutput => {
   const getInputData = (): InputData => __inputSignals.data
   const getInterrupt = (): boolean => __inputSignals.interrupt
 
@@ -185,7 +185,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
     changes.cpuRegisters[name] = change
   }
 
-  const stepResult: StepResult = createNextState(__stepResult, ({ memoryData, cpuRegisters }) => {
+  const stepResult = createNextState(__lastStepResult, ({ memoryData, cpuRegisters }) => {
     const loadFromMemory = (address: number): number => {
       return memoryData[address]
     }
