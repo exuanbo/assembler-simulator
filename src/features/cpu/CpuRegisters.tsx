@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import Card from '@/common/components/Card'
 import RegisterTableRow from './RegisterTableRow'
 import { useSelector } from '@/app/hooks'
@@ -13,25 +12,6 @@ import {
   SpecialPurposeRegisterName
 } from './core'
 import { compareArrayWithSameLength } from '@/common/utils'
-import { NO_BREAK_SPACE } from '@/common/constants'
-
-const FlagIndicatorTableRow = memo(() => (
-  <tr>
-    <td>{NO_BREAK_SPACE}</td>
-    <td />
-    <td>
-      <div className="flex space-x-1 justify-center">
-        <span className="text-xs px-1">{NO_BREAK_SPACE.repeat(3)}</span>
-        <span className="text-sm px-1">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
-      </div>
-    </td>
-    <td />
-  </tr>
-))
-
-if (import.meta.env.DEV) {
-  FlagIndicatorTableRow.displayName = 'FlagIndicatorTableRow'
-}
 
 const CpuRegisters = (): JSX.Element => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)
@@ -62,7 +42,7 @@ const CpuRegisters = (): JSX.Element => {
               valueClassName="bg-blue-100"
             />
             <RegisterTableRow name={SpecialPurposeRegisterName.SR} value={srValue} />
-            <FlagIndicatorTableRow />
+            <RegisterTableRow.FlagIndicator />
           </tbody>
         </table>
       </div>

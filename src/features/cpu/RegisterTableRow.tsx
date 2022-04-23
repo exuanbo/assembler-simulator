@@ -2,6 +2,7 @@ import { memo } from 'react'
 import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 import type { RegisterName } from './core'
 import { sign8, decToBin, decToHex } from '@/common/utils'
+import { NO_BREAK_SPACE } from '@/common/constants'
 
 interface Props {
   name: RegisterName
@@ -36,4 +37,19 @@ if (import.meta.env.DEV) {
   RegisterTableRow.displayName = 'RegisterTableRow'
 }
 
-export default RegisterTableRow
+const FlagIndicator = memo(() => (
+  <tr>
+    <td>{NO_BREAK_SPACE}</td>
+    <td />
+    <RegisterValueTableCell>
+      <span className="text-sm px-1">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
+    </RegisterValueTableCell>
+    <td />
+  </tr>
+))
+
+if (import.meta.env.DEV) {
+  FlagIndicator.displayName = 'RegisterTableRow.FlagIndicator'
+}
+
+export default Object.assign(RegisterTableRow, { FlagIndicator })
