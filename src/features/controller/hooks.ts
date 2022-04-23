@@ -350,10 +350,10 @@ class Controller {
       const breakpoints = selectEditorBreakpoints(state)
       let hasBreakpoint = false
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
-        const { label, range: rangeWithoutLabel } = statement
+        const { label, range: rangeWithLabelOmitted } = statement
         const statementRange = {
-          from: label === null ? rangeWithoutLabel.from : label.range.from,
-          to: rangeWithoutLabel.to
+          from: label === null ? rangeWithLabelOmitted.from : label.range.from,
+          to: rangeWithLabelOmitted.to
         }
         const breakpointLineLoc = breakpoints.find(lineLoc =>
           lineRangesOverlap(lineLoc, statementRange)
