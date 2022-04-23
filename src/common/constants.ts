@@ -69,7 +69,7 @@ export enum Mnemonic {
   DB = 'DB'
 }
 
-export const MnemonicToOperandsCountMap = {
+export const MnemonicToOperandCountMap = {
   [Mnemonic.END]: 0,
 
   // Arithmetic

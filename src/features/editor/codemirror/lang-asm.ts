@@ -7,7 +7,7 @@ import {
   indentUnit,
   indentService
 } from '@codemirror/language'
-import { Mnemonic, MnemonicToOperandsCountMap } from '@/common/constants'
+import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 
 /* eslint-disable prettier/prettier */
 
@@ -59,7 +59,7 @@ const asmLanguage = StreamLanguage.define<State>({
           if (mnemonic === Mnemonic.END) {
             state.ended = true
           }
-          state.operandsLeft = MnemonicToOperandsCountMap[mnemonic]
+          state.operandsLeft = MnemonicToOperandCountMap[mnemonic]
           state.expectLabel = mnemonic.startsWith('J')
           return 'keyword'
         } else {
@@ -129,8 +129,8 @@ export const asm = (): Extension => [
   indentService.of(({ state }, pos) => {
     const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
     const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
-    const tabsCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
-    const spacesCount = whitespaces.length - tabsCount
-    return tabsCount * state.tabSize + spacesCount
+    const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
+    const spaceCount = whitespaces.length - tabCount
+    return tabCount * state.tabSize + spaceCount
   })
 ]

@@ -14,7 +14,7 @@ import {
   MissingCommaError
 } from './exceptions'
 import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '@/features/cpu/core'
-import { Mnemonic, MnemonicToOperandsCountMap, Opcode } from '@/common/constants'
+import { Mnemonic, MnemonicToOperandCountMap, Opcode } from '@/common/constants'
 import { hexToDec, stringToAscii, call } from '@/common/utils'
 
 interface BaseNode {
@@ -252,11 +252,11 @@ const parseStatement = (
   tokens: Token[],
   __index: number
 ): [statement: Statement, consumed: number] => {
-  const getIndex = (): number => __index + consumedTokensCount
+  const getIndex = (): number => __index + consumedTokenCount
 
-  let consumedTokensCount = 0
+  let consumedTokenCount = 0
   const consumeToken = (count: number): void => {
-    consumedTokensCount += count
+    consumedTokenCount += count
   }
 
   const label = parseLabel(tokens, getIndex())
@@ -285,9 +285,9 @@ const parseStatement = (
   }
 
   const mnemonic = token.value as Mnemonic
-  const operandsCount = MnemonicToOperandsCountMap[mnemonic]
+  const operandCount = MnemonicToOperandCountMap[mnemonic]
 
-  switch (operandsCount) {
+  switch (operandCount) {
     case 0: {
       setOpcode(Opcode[mnemonic as keyof typeof Opcode])
       break
@@ -561,15 +561,15 @@ const parseStatement = (
     }
   }
 
-  return [createStatement(label, instruction, operands), consumedTokensCount]
+  return [createStatement(label, instruction, operands), consumedTokenCount]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
   for (let index = 0; index < tokens.length; ) {
-    const [statement, consumedTokensCount] = parseStatement(tokens, index)
+    const [statement, consumedTokenCount] = parseStatement(tokens, index)
     statements.push(statement)
-    index += consumedTokensCount
+    index += consumedTokenCount
   }
   if (
     statements.length > 0 &&
