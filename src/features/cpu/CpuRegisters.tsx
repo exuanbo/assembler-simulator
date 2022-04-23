@@ -19,7 +19,7 @@ const CpuRegisters = (): JSX.Element => {
   const srValue = useSelector(selectStatusRegisterValue)
 
   return (
-    <div>
+    <div className="border-b">
       <CardHeader title="General Purpose Registers" />
       <div className="divide-x flex">
         <table className="flex-1">

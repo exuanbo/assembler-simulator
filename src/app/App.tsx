@@ -24,7 +24,7 @@ const App = (): JSX.Element => {
         <ToolBar />
         <ResizablePanel className="h-[calc(100vh-2rem)] w-full top-8 fixed">
           <Editor />
-          <div className="divide-y flex flex-col h-full overflow-y-auto">
+          <div className="flex flex-col h-full overflow-y-auto">
             <CpuRegisters />
             <Memory />
             <IoDevices />
