@@ -78,21 +78,21 @@ export const initRegisters = (): Registers => {
   }
 }
 
-const checkGpr = (register: number): GeneralPurposeRegister => {
+const validateGpr = (register: number): GeneralPurposeRegister => {
   if (register < GeneralPurposeRegister.AL || register > GeneralPurposeRegister.DL) {
     throw new InvalidRegisterError(register)
   }
   return register
 }
 
-const checkIp = (address: number): number => {
+const validateIp = (address: number): number => {
   if (address > 0xff) {
     throw new RunBeyondEndOfMemoryError()
   }
   return address
 }
 
-const checkSp = (address: number): number => {
+const validateSp = (address: number): number => {
   if (address < 0) {
     throw new StackOverflowError()
   }
@@ -112,7 +112,7 @@ const getSrFrom = (value: number): StatusRegister => {
   return valueStr.slice(-5, -1).split('').map(Number).reverse() as StatusRegister
 }
 
-const checkOperationResult = (
+const processOperationResult = (
   result: number,
   previousValue: number
 ): [finalResult: number, flags: ExcludeTail<StatusRegister>] => {
@@ -133,7 +133,7 @@ const checkOperationResult = (
   return [finalResult, flags]
 }
 
-const checkPort = (port: number): number => {
+const validatePort = (port: number): number => {
   if (port < 0 || port > MAX_PORT) {
     throw new InvalidPortError(port)
   }
@@ -214,18 +214,18 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
      * @modifies {@link cpuRegisters.ip}
      */
     const incIp = (by = 1): number => {
-      setIp(checkIp(cpuRegisters.ip + by))
+      setIp(validateIp(cpuRegisters.ip + by))
       return cpuRegisters.ip
     }
 
     const push = (value: number): void => {
       storeToMemory(cpuRegisters.sp, value)
-      const address = checkSp(cpuRegisters.sp - 1)
+      const address = validateSp(cpuRegisters.sp - 1)
       cpuRegisters.sp = address
       setRegisterChange('sp', { value: address })
     }
     const pop = (): number => {
-      const address = checkSp(cpuRegisters.sp + 1)
+      const address = validateSp(cpuRegisters.sp + 1)
       cpuRegisters.sp = address
       setRegisterChange('sp', { value: address })
       return loadFromMemory(cpuRegisters.sp)
@@ -249,7 +249,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       operation: (...operands: T) => number,
       ...operands: T
     ): number => {
-      const [finalResult, flags] = checkOperationResult(
+      const [finalResult, flags] = processOperationResult(
         operation(...operands),
         operands[operands.length - 1]
       )
@@ -271,99 +271,99 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Direct Arithmetic
       case Opcode.ADD_REG_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(add, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.SUB_REG_FROM_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(substract, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.MUL_REG_BY_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(multiply, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.DIV_REG_BY_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(divide, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.INC_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(increase, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.DEC_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(decrease, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.MOD_REG_BY_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(modulo, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.AND_REG_WITH_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(and, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.OR_REG_WITH_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(or, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.XOR_REG_WITH_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(xor, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.NOT_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(not, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.ROL_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(rol, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.ROR_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(ror, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.SHL_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(shl, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.SHR_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, operate(shr, getGpr(destReg)))
         incIp()
         break
@@ -371,56 +371,56 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Immediate Arithmetic
       case Opcode.ADD_NUM_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(add, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.SUB_NUM_FROM_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(substract, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.MUL_REG_BY_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(multiply, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.DIV_REG_BY_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(divide, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.MOD_REG_BY_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(modulo, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.AND_REG_WITH_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(and, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.OR_REG_WITH_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(or, value, getGpr(destReg)))
         incIp()
         break
       }
       case Opcode.XOR_REG_WITH_NUM: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, operate(xor, value, getGpr(destReg)))
         incIp()
@@ -466,7 +466,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Immediate Move
       case Opcode.MOV_NUM_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
         setGpr(destReg, value)
         incIp()
@@ -475,7 +475,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Direct Move
       case Opcode.MOV_ADDR_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         const address = loadFromMemory(incIp())
         setGpr(destReg, loadFromMemory(address))
         incIp()
@@ -483,7 +483,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       }
       case Opcode.MOV_REG_TO_ADDR: {
         const address = loadFromMemory(incIp())
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         storeToMemory(address, getGpr(srcReg))
         incIp()
         break
@@ -491,15 +491,15 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Indirect Move
       case Opcode.MOV_REG_ADDR_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, loadFromMemory(getGpr(srcReg)))
         incIp()
         break
       }
       case Opcode.MOV_REG_TO_REG_ADDR: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         storeToMemory(getGpr(destReg), getGpr(srcReg))
         incIp()
         break
@@ -507,9 +507,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Direct Register Comparison
       case Opcode.CMP_REG_WITH_REG: {
-        const reg1 = checkGpr(loadFromMemory(incIp()))
-        const reg2 = checkGpr(loadFromMemory(incIp()))
-        const [, flags] = checkOperationResult(getGpr(reg1) - getGpr(reg2), getGpr(reg1))
+        const reg1 = validateGpr(loadFromMemory(incIp()))
+        const reg2 = validateGpr(loadFromMemory(incIp()))
+        const [, flags] = processOperationResult(getGpr(reg1) - getGpr(reg2), getGpr(reg1))
         setSr(flags)
         incIp()
         break
@@ -517,9 +517,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Immediate Comparison
       case Opcode.CMP_REG_WITH_NUM: {
-        const reg = checkGpr(loadFromMemory(incIp()))
+        const reg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
-        const [, flags] = checkOperationResult(getGpr(reg) - value, getGpr(reg))
+        const [, flags] = processOperationResult(getGpr(reg) - value, getGpr(reg))
         setSr(flags)
         incIp()
         break
@@ -527,9 +527,9 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Direct Memory Comparison
       case Opcode.CMP_REG_WITH_ADDR: {
-        const reg = checkGpr(loadFromMemory(incIp()))
+        const reg = validateGpr(loadFromMemory(incIp()))
         const address = loadFromMemory(incIp())
-        const [, flags] = checkOperationResult(getGpr(reg) - loadFromMemory(address), getGpr(reg))
+        const [, flags] = processOperationResult(getGpr(reg) - loadFromMemory(address), getGpr(reg))
         setSr(flags)
         incIp()
         break
@@ -537,13 +537,13 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
 
       // Stack
       case Opcode.PUSH_FROM_REG: {
-        const srcReg = checkGpr(loadFromMemory(incIp()))
+        const srcReg = validateGpr(loadFromMemory(incIp()))
         push(getGpr(srcReg))
         incIp()
         break
       }
       case Opcode.POP_TO_REG: {
-        const destReg = checkGpr(loadFromMemory(incIp()))
+        const destReg = validateGpr(loadFromMemory(incIp()))
         setGpr(destReg, pop())
         incIp()
         break
@@ -590,7 +590,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
         const inputData = getInputData()
-        const requiredInputPort = checkPort(loadFromMemory(getNextIp()))
+        const requiredInputPort = validatePort(loadFromMemory(getNextIp()))
         if (inputData.content === null || inputData.port !== requiredInputPort) {
           setRequiredInputPort(requiredInputPort)
           break
@@ -601,7 +601,7 @@ export const step = (__stepResult: StepResult, __inputSignals: InputSignals): St
       }
       case Opcode.OUT_FROM_AL_TO_PORT: {
         const content = getGpr(GeneralPurposeRegister.AL)
-        const port = checkPort(loadFromMemory(incIp()))
+        const port = validatePort(loadFromMemory(incIp()))
         setOutputData(content, port)
         incIp()
         break
