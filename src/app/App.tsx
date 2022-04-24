@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import ToolBar from '@/features/controller/Toolbar'
 import ResizablePanel from '@/common/components/ResizablePanel'
+import ErrorBoundary from '@/features/unexpectedError/ErrorBoundary'
 import Editor from '@/features/editor/Editor'
 import CpuRegisters from '@/features/cpu/CpuRegisters'
 import Memory from '@/features/memory/Memory'
@@ -23,7 +24,9 @@ const App = (): JSX.Element => {
       <div className="flex flex-col">
         <ToolBar />
         <ResizablePanel className="h-[calc(100vh-2rem)] w-full top-8 fixed">
-          <Editor />
+          <ErrorBoundary>
+            <Editor />
+          </ErrorBoundary>
           <div className="flex flex-col h-full overflow-y-auto">
             <CpuRegisters />
             <Memory />
