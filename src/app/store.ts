@@ -24,7 +24,7 @@ export type RootState = ReturnType<typeof rootReducer>
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(watcher, actionListener),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(actionListener, watcher),
   preloadedState: loadState()
 })
 
