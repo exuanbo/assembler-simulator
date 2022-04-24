@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import Modal from '@/common/components/Modal'
-import Link from '@/common/components/Link'
+import Anchor from '@/common/components/Anchor'
 import { selectUnexpectedError, clearUnexpectedError } from './unexpectedErrorSlice'
 import { useStore, useSelector } from '@/app/hooks'
 import { useOutsideClick } from '@/common/hooks'
@@ -57,9 +57,9 @@ const UnexpectedErrorModal = (): JSX.Element => {
           : null}
         <div>
           Please report this bug at{' '}
-          <Link external href="https://github.com/exuanbo/assembler-simulator/issues">
+          <Anchor href="https://github.com/exuanbo/assembler-simulator/issues">
             https://github.com/exuanbo/assembler-simulator/issues
-          </Link>
+          </Anchor>
           .
         </div>
       </div>

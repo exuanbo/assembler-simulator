@@ -3,7 +3,7 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import Modal from '@/common/components/Modal'
-import Link from '@/common/components/Link'
+import Anchor from '@/common/components/Anchor'
 import { Help } from '@/common/components/icons'
 import { useToggle, useOutsideClick } from '@/common/hooks'
 
@@ -65,21 +65,18 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
             <div>Version {__VERSION__}</div>
             <div>
               Build{' '}
-              <Link
-                external
+              <Anchor
                 href={`https://github.com/exuanbo/assembler-simulator/commits/${__COMMIT_HASH__}`}>
                 {__COMMIT_HASH__}
-              </Link>
+              </Anchor>
             </div>
           </div>
           <div>
-            <Link external href="https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE">
+            <Anchor href="https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE">
               GPL-3.0 License
-            </Link>{' '}
+            </Anchor>{' '}
             <span className="font-sans">©</span> 2022{' '}
-            <Link external href="https://github.com/exuanbo">
-              Exuanbo
-            </Link>
+            <Anchor href="https://github.com/exuanbo">Exuanbo</Anchor>
           </div>
         </div>
       </div>

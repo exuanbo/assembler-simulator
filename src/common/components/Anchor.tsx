@@ -1,16 +1,17 @@
 import type { ReactNode } from 'react'
 
+const isExternal = (href: string): boolean => href.startsWith('http')
+
 interface Props {
   href: string
   children: ReactNode
-  external?: boolean
 }
 
-const Link = ({ href, children, external = false }: Props): JSX.Element => (
+const Anchor = ({ href, children }: Props): JSX.Element => (
   <a
     className="text-blue-700 hover:underline"
     href={href}
-    {...(external
+    {...(isExternal(href)
       ? {
           rel: 'noopener noreferrer',
           target: '_blank'
@@ -20,4 +21,4 @@ const Link = ({ href, children, external = false }: Props): JSX.Element => (
   </a>
 )
 
-export default Link
+export default Anchor

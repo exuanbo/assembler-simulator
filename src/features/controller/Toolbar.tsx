@@ -6,7 +6,7 @@ import ViewMenu from './ViewMenu'
 import ConfigurationMenu from './ConfigurationMenu'
 import ControlButtons from './ControlButtons'
 import HelpMenu from './HelpMenu'
-import Link from '@/common/components/Link'
+import Anchor from '@/common/components/Anchor'
 import { Github } from '@/common/components/icons'
 import { useOutsideClick } from '@/common/hooks'
 
@@ -36,9 +36,9 @@ const ToolBar = (): JSX.Element => {
     <div className="border-y flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
       <MenuButton.Main>
         <h1>Assembler Simulator</h1>
-        <Link external href="https://github.com/exuanbo/assembler-simulator">
+        <Anchor href="https://github.com/exuanbo/assembler-simulator">
           <Github className="w-4.5" />
-        </Link>
+        </Anchor>
       </MenuButton.Main>
       <div className="divide-x border-r flex">
         <MenuContext.Provider value={menuContextValue}>
