@@ -4,7 +4,7 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import Modal from '@/common/components/Modal'
 import Anchor from '@/common/components/Anchor'
-import { Help } from '@/common/components/icons'
+import { Help, Close } from '@/common/components/icons'
 import { useToggle, useOutsideClick } from '@/common/hooks'
 
 const InstructionSetButton = (): JSX.Element => (
@@ -56,27 +56,34 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
       isOpen={isOpen}>
       <div
         ref={outsideClickRef}
-        className="rounded space-y-2 bg-light-100 shadow text-center py-4 px-8 select-text all:select-text"
+        className="rounded bg-light-100 shadow text-center select-text all:select-text"
         onClick={handleClick}>
-        <img alt="icon" className="mx-auto" height="72" src="./pwa-192x192.png" width="72" />
-        <div className="font-bold">Assembler Simulator</div>
-        <div className="space-y-4 text-sm">
-          <div>
-            <div>Version {__VERSION__}</div>
+        <span
+          className="rounded-full flex ml-auto bg-gray-200 h-4 top-4 right-4 w-4 relative justify-center group"
+          onClick={toggleOpen}>
+          <Close className="fill-none w-2 group-hover:fill-gray-400" />
+        </span>
+        <div className="space-y-2 px-8 pb-4">
+          <img alt="icon" className="mx-auto" height="72" src="./pwa-192x192.png" width="72" />
+          <div className="font-bold">Assembler Simulator</div>
+          <div className="space-y-4 text-sm">
             <div>
-              Build{' '}
-              <Anchor
-                href={`https://github.com/exuanbo/assembler-simulator/commits/${__COMMIT_HASH__}`}>
-                {__COMMIT_HASH__}
-              </Anchor>
+              <div>Version {__VERSION__}</div>
+              <div>
+                Build{' '}
+                <Anchor
+                  href={`https://github.com/exuanbo/assembler-simulator/commits/${__COMMIT_HASH__}`}>
+                  {__COMMIT_HASH__}
+                </Anchor>
+              </div>
             </div>
-          </div>
-          <div>
-            <Anchor href="https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE">
-              GPL-3.0 License
-            </Anchor>{' '}
-            <span className="font-sans">©</span> 2022{' '}
-            <Anchor href="https://github.com/exuanbo">Exuanbo</Anchor>
+            <div>
+              <Anchor href="https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE">
+                GPL-3.0 License
+              </Anchor>{' '}
+              <span className="font-sans">©</span> 2022{' '}
+              <Anchor href="https://github.com/exuanbo">Exuanbo</Anchor>
+            </div>
           </div>
         </div>
       </div>
