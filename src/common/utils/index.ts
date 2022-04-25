@@ -1,5 +1,6 @@
 export * from './types'
 export { merge } from './merge'
+export { classNames } from './classNames'
 
 export const sign8 = (unsigned: number): number =>
   unsigned >= 0x80 ? unsigned - 0xff - 1 : unsigned
