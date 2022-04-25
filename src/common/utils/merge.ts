@@ -1,10 +1,9 @@
 // Simplified fork of merge-anything
-// without enumerable & nonenumerable properties support.
+// without support of enumerable & nonenumerable properties.
 // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts
 // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
 
 import type { O } from 'ts-toolbelt'
-import type { ExpandDeep } from './types'
 
 const getType = (value: unknown): string => Object.prototype.toString.call(value).slice(8, -1)
 
@@ -45,9 +44,18 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
   return resultObject
 }
 
+// Modified from an answer to the question
+// "How can I see the full expanded contract of a Typescript type?"
+// https://stackoverflow.com/a/57683652/13346012
+type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
+  ? { [K in keyof T]: ExpandDeep<T[K]> }
+  : T extends Array<infer E>
+  ? Array<ExpandDeep<E>>
+  : T
+
 export const merge = <TTarget extends PlainObject, TSources extends PlainObject[]>(
   target: TTarget,
   ...sources: TSources
 ): ExpandDeep<O.Assign<TTarget, TSources, 'deep'>> =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sources.reduce((resultObject, source) => mergeRecursively(resultObject, source), target) as any
+  // @ts-expect-error: safe to ignore
+  sources.reduce((resultObject, source) => mergeRecursively(resultObject, source), target)
