@@ -23,7 +23,9 @@ const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
   useHighlightActiveLine()
   useBreakpoints()
 
-  return <div ref={ref} className={classNames('cursor-auto overflow-y-auto', className)} />
+  return (
+    <div ref={ref} className={classNames('cursor-auto select-auto overflow-y-auto', className)} />
+  )
 }
 
 export default CodeMirrorContainer
