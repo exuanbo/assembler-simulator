@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`assembler should assemble example Seven-Segment Display 1`] = `
-Array [
+[
   C0, 0D, FA, 60, B6, 9E, 4E, DC, FC, 8A, FE, DE, 00, D0, 01, 02,
   D3, 00, 01, F1, 02, A4, 00, FF, FF, FF, F1, 02, A4, 01, D3, 00,
   01, DB, 00, 00, C2, EF, C0, E7, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -22,7 +22,7 @@ Array [
 `;
 
 exports[`assembler should assemble example Traffic Lights 1`] = `
-Array [
+[
   D0, 00, 80, F1, 01, B3, 00, 02, DB, 00, 00, C2, F8, C0, F3, 00,
   00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
   00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
@@ -43,7 +43,7 @@ Array [
 `;
 
 exports[`assembler should assemble example Visual Display Unit 1`] = `
-Array [
+[
   C0, 0F, 48, 65, 6C, 6C, 6F, 20, 57, 6F, 72, 6C, 64, 21, 00, D0,
   00, C0, D0, 01, 02, D3, 02, 01, D4, 00, 02, A4, 00, A4, 01, D3,
   02, 01, DB, 02, 00, C2, F3, 00, 00, 00, 00, 00, 00, 00, 00, 00,

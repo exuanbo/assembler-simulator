@@ -10,12 +10,12 @@ const isArrayOf =
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: value => isArrayOf('number', 'boolean')(value) && value.length <= 4,
   serialize: (arr: Array<number | boolean>) =>
-    `Array [${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`
+    `[${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`
 }
 
 export const memorySerializer: jest.SnapshotSerializerPlugin = {
   test: value => isArrayOf('number', 'string')(value) && value.length % 0x10 === 0,
-  serialize: (arr: Array<number | string>, _config, indentation) => `Array [
+  serialize: (arr: Array<number | string>, _config, indentation) => `[
 ${chunk(0x10, arr)
   .map(
     row =>
