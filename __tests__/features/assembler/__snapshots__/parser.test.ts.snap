@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parser should parse compare instruction 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "CMP",
       "opcode": 218,
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 4,
       },
     },
     "label": null,
     "machineCode": Array [218, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 5,
           "to": 7,
         },
@@ -24,8 +24,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 9,
           "to": 11,
         },
@@ -35,25 +35,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 1,
       "to": 11,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "CMP",
       "opcode": 219,
-      "range": Object {
+      "range": {
         "from": 12,
         "to": 15,
       },
     },
     "label": null,
     "machineCode": Array [219, 2, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 16,
           "to": 18,
         },
@@ -62,8 +62,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 20,
           "to": 22,
         },
@@ -73,25 +73,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 12,
       "to": 22,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "CMP",
       "opcode": 220,
-      "range": Object {
+      "range": {
         "from": 23,
         "to": 26,
       },
     },
     "label": null,
     "machineCode": Array [220, 3, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 27,
           "to": 29,
         },
@@ -100,8 +100,8 @@ Array [
         "type": "Register",
         "value": 3,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 31,
           "to": 35,
         },
@@ -111,16 +111,16 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 23,
       "to": 35,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 36,
         "to": 39,
       },
@@ -128,7 +128,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 36,
       "to": 39,
     },
@@ -137,21 +137,21 @@ Array [
 `;
 
 exports[`parser should parse direct arithmetic instruction 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "ADD",
       "opcode": 160,
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 4,
       },
     },
     "label": null,
     "machineCode": Array [160, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 5,
           "to": 7,
         },
@@ -160,8 +160,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 9,
           "to": 11,
         },
@@ -171,25 +171,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 1,
       "to": 11,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "SUB",
       "opcode": 161,
-      "range": Object {
+      "range": {
         "from": 12,
         "to": 15,
       },
     },
     "label": null,
     "machineCode": Array [161, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 16,
           "to": 18,
         },
@@ -198,8 +198,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 20,
           "to": 22,
         },
@@ -209,25 +209,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 12,
       "to": 22,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MUL",
       "opcode": 162,
-      "range": Object {
+      "range": {
         "from": 23,
         "to": 26,
       },
     },
     "label": null,
     "machineCode": Array [162, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 27,
           "to": 29,
         },
@@ -236,8 +236,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 31,
           "to": 33,
         },
@@ -247,25 +247,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 23,
       "to": 33,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "DIV",
       "opcode": 163,
-      "range": Object {
+      "range": {
         "from": 34,
         "to": 37,
       },
     },
     "label": null,
     "machineCode": Array [163, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 38,
           "to": 40,
         },
@@ -274,8 +274,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 42,
           "to": 44,
         },
@@ -285,25 +285,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 34,
       "to": 44,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOD",
       "opcode": 166,
-      "range": Object {
+      "range": {
         "from": 45,
         "to": 48,
       },
     },
     "label": null,
     "machineCode": Array [166, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 49,
           "to": 51,
         },
@@ -312,8 +312,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 53,
           "to": 55,
         },
@@ -323,25 +323,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 45,
       "to": 55,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "AND",
       "opcode": 170,
-      "range": Object {
+      "range": {
         "from": 56,
         "to": 59,
       },
     },
     "label": null,
     "machineCode": Array [170, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 60,
           "to": 62,
         },
@@ -350,8 +350,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 64,
           "to": 66,
         },
@@ -361,25 +361,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 56,
       "to": 66,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "OR",
       "opcode": 171,
-      "range": Object {
+      "range": {
         "from": 67,
         "to": 69,
       },
     },
     "label": null,
     "machineCode": Array [171, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 70,
           "to": 72,
         },
@@ -388,8 +388,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 74,
           "to": 76,
         },
@@ -399,25 +399,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 67,
       "to": 76,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "XOR",
       "opcode": 172,
-      "range": Object {
+      "range": {
         "from": 77,
         "to": 80,
       },
     },
     "label": null,
     "machineCode": Array [172, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 81,
           "to": 83,
         },
@@ -426,8 +426,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 85,
           "to": 87,
         },
@@ -437,16 +437,16 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 77,
       "to": 87,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 88,
         "to": 91,
       },
@@ -454,7 +454,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 88,
       "to": 91,
     },
@@ -463,21 +463,21 @@ Array [
 `;
 
 exports[`parser should parse immediate arithmetic instruction 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "ADD",
       "opcode": 176,
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 4,
       },
     },
     "label": null,
     "machineCode": Array [176, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 5,
           "to": 7,
         },
@@ -486,8 +486,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 9,
           "to": 11,
         },
@@ -497,25 +497,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 1,
       "to": 11,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "SUB",
       "opcode": 177,
-      "range": Object {
+      "range": {
         "from": 12,
         "to": 15,
       },
     },
     "label": null,
     "machineCode": Array [177, 1, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 16,
           "to": 18,
         },
@@ -524,8 +524,8 @@ Array [
         "type": "Register",
         "value": 1,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 20,
           "to": 22,
         },
@@ -535,25 +535,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 12,
       "to": 22,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MUL",
       "opcode": 178,
-      "range": Object {
+      "range": {
         "from": 23,
         "to": 26,
       },
     },
     "label": null,
     "machineCode": Array [178, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 27,
           "to": 29,
         },
@@ -562,8 +562,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 31,
           "to": 33,
         },
@@ -573,25 +573,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 23,
       "to": 33,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "DIV",
       "opcode": 179,
-      "range": Object {
+      "range": {
         "from": 34,
         "to": 37,
       },
     },
     "label": null,
     "machineCode": Array [179, 3, 4,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 38,
           "to": 40,
         },
@@ -600,8 +600,8 @@ Array [
         "type": "Register",
         "value": 3,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 42,
           "to": 44,
         },
@@ -611,25 +611,25 @@ Array [
         "value": 4,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 34,
       "to": 44,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOD",
       "opcode": 182,
-      "range": Object {
+      "range": {
         "from": 45,
         "to": 48,
       },
     },
     "label": null,
     "machineCode": Array [182, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 49,
           "to": 51,
         },
@@ -638,8 +638,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 53,
           "to": 55,
         },
@@ -649,25 +649,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 45,
       "to": 55,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "AND",
       "opcode": 186,
-      "range": Object {
+      "range": {
         "from": 56,
         "to": 59,
       },
     },
     "label": null,
     "machineCode": Array [186, 1, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 60,
           "to": 62,
         },
@@ -676,8 +676,8 @@ Array [
         "type": "Register",
         "value": 1,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 64,
           "to": 66,
         },
@@ -687,25 +687,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 56,
       "to": 66,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "OR",
       "opcode": 187,
-      "range": Object {
+      "range": {
         "from": 67,
         "to": 69,
       },
     },
     "label": null,
     "machineCode": Array [187, 2, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 70,
           "to": 72,
         },
@@ -714,8 +714,8 @@ Array [
         "type": "Register",
         "value": 2,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 74,
           "to": 76,
         },
@@ -725,25 +725,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 67,
       "to": 76,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "XOR",
       "opcode": 188,
-      "range": Object {
+      "range": {
         "from": 77,
         "to": 80,
       },
     },
     "label": null,
     "machineCode": Array [188, 3, 4,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 81,
           "to": 83,
         },
@@ -752,8 +752,8 @@ Array [
         "type": "Register",
         "value": 3,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 85,
           "to": 87,
         },
@@ -763,16 +763,16 @@ Array [
         "value": 4,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 77,
       "to": 87,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 88,
         "to": 91,
       },
@@ -780,7 +780,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 88,
       "to": 91,
     },
@@ -789,27 +789,27 @@ Array [
 `;
 
 exports[`parser should parse instruction with 1 operand 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "INC",
       "opcode": 164,
-      "range": Object {
+      "range": {
         "from": 8,
         "to": 11,
       },
     },
-    "label": Object {
+    "label": {
       "identifier": "START",
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 6,
       },
     },
     "machineCode": Array [164, 0,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 12,
           "to": 14,
         },
@@ -819,25 +819,25 @@ Array [
         "value": 0,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 8,
       "to": 14,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "DEC",
       "opcode": 165,
-      "range": Object {
+      "range": {
         "from": 15,
         "to": 18,
       },
     },
     "label": null,
     "machineCode": Array [165, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 19,
           "to": 21,
         },
@@ -847,25 +847,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 15,
       "to": 21,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "NOT",
       "opcode": 173,
-      "range": Object {
+      "range": {
         "from": 22,
         "to": 25,
       },
     },
     "label": null,
     "machineCode": Array [173, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 26,
           "to": 28,
         },
@@ -875,25 +875,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 22,
       "to": 28,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "ROL",
       "opcode": 154,
-      "range": Object {
+      "range": {
         "from": 29,
         "to": 32,
       },
     },
     "label": null,
     "machineCode": Array [154, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 33,
           "to": 35,
         },
@@ -903,25 +903,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 29,
       "to": 35,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "ROR",
       "opcode": 155,
-      "range": Object {
+      "range": {
         "from": 36,
         "to": 39,
       },
     },
     "label": null,
     "machineCode": Array [155, 0,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 40,
           "to": 42,
         },
@@ -931,25 +931,25 @@ Array [
         "value": 0,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 36,
       "to": 42,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "SHL",
       "opcode": 156,
-      "range": Object {
+      "range": {
         "from": 43,
         "to": 46,
       },
     },
     "label": null,
     "machineCode": Array [156, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 47,
           "to": 49,
         },
@@ -959,25 +959,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 43,
       "to": 49,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "SHR",
       "opcode": 157,
-      "range": Object {
+      "range": {
         "from": 50,
         "to": 53,
       },
     },
     "label": null,
     "machineCode": Array [157, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 54,
           "to": 56,
         },
@@ -987,25 +987,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 50,
       "to": 56,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JMP",
       "opcode": 192,
-      "range": Object {
+      "range": {
         "from": 57,
         "to": 60,
       },
     },
     "label": null,
     "machineCode": Array [192,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 61,
           "to": 66,
         },
@@ -1015,25 +1015,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 57,
       "to": 66,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JZ",
       "opcode": 193,
-      "range": Object {
+      "range": {
         "from": 67,
         "to": 69,
       },
     },
     "label": null,
     "machineCode": Array [193,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 70,
           "to": 75,
         },
@@ -1043,25 +1043,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 67,
       "to": 75,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JNZ",
       "opcode": 194,
-      "range": Object {
+      "range": {
         "from": 76,
         "to": 79,
       },
     },
     "label": null,
     "machineCode": Array [194,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 80,
           "to": 85,
         },
@@ -1071,25 +1071,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 76,
       "to": 85,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JS",
       "opcode": 195,
-      "range": Object {
+      "range": {
         "from": 86,
         "to": 88,
       },
     },
     "label": null,
     "machineCode": Array [195,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 89,
           "to": 94,
         },
@@ -1099,25 +1099,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 86,
       "to": 94,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JNS",
       "opcode": 196,
-      "range": Object {
+      "range": {
         "from": 95,
         "to": 98,
       },
     },
     "label": null,
     "machineCode": Array [196,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 99,
           "to": 104,
         },
@@ -1127,25 +1127,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 95,
       "to": 104,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JO",
       "opcode": 197,
-      "range": Object {
+      "range": {
         "from": 105,
         "to": 107,
       },
     },
     "label": null,
     "machineCode": Array [197,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 108,
           "to": 113,
         },
@@ -1155,25 +1155,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 105,
       "to": 113,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "JNO",
       "opcode": 198,
-      "range": Object {
+      "range": {
         "from": 114,
         "to": 117,
       },
     },
     "label": null,
     "machineCode": Array [198,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 118,
           "to": 123,
         },
@@ -1183,25 +1183,25 @@ Array [
         "value": undefined,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 114,
       "to": 123,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "PUSH",
       "opcode": 224,
-      "range": Object {
+      "range": {
         "from": 124,
         "to": 128,
       },
     },
     "label": null,
     "machineCode": Array [224, 0,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 129,
           "to": 131,
         },
@@ -1211,25 +1211,25 @@ Array [
         "value": 0,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 124,
       "to": 131,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "POP",
       "opcode": 225,
-      "range": Object {
+      "range": {
         "from": 132,
         "to": 135,
       },
     },
     "label": null,
     "machineCode": Array [225, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 136,
           "to": 138,
         },
@@ -1239,25 +1239,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 132,
       "to": 138,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "CALL",
       "opcode": 202,
-      "range": Object {
+      "range": {
         "from": 139,
         "to": 143,
       },
     },
     "label": null,
     "machineCode": Array [202, 0,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 144,
           "to": 145,
         },
@@ -1267,25 +1267,25 @@ Array [
         "value": 0,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 139,
       "to": 145,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "INT",
       "opcode": 204,
-      "range": Object {
+      "range": {
         "from": 146,
         "to": 149,
       },
     },
     "label": null,
     "machineCode": Array [204, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 150,
           "to": 151,
         },
@@ -1295,25 +1295,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 146,
       "to": 151,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "IN",
       "opcode": 240,
-      "range": Object {
+      "range": {
         "from": 152,
         "to": 154,
       },
     },
     "label": null,
     "machineCode": Array [240, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 155,
           "to": 156,
         },
@@ -1323,25 +1323,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 152,
       "to": 156,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "OUT",
       "opcode": 241,
-      "range": Object {
+      "range": {
         "from": 157,
         "to": 160,
       },
     },
     "label": null,
     "machineCode": Array [241, 3,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 161,
           "to": 162,
         },
@@ -1351,25 +1351,25 @@ Array [
         "value": 3,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 157,
       "to": 162,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "ORG",
       "opcode": null,
-      "range": Object {
+      "range": {
         "from": 163,
         "to": 166,
       },
     },
     "label": null,
     "machineCode": Array [4,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 167,
           "to": 168,
         },
@@ -1379,25 +1379,25 @@ Array [
         "value": 4,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 163,
       "to": 168,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "DB",
       "opcode": null,
-      "range": Object {
+      "range": {
         "from": 169,
         "to": 171,
       },
     },
     "label": null,
     "machineCode": Array [5,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 172,
           "to": 173,
         },
@@ -1407,25 +1407,25 @@ Array [
         "value": 5,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 169,
       "to": 173,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "DB",
       "opcode": null,
-      "range": Object {
+      "range": {
         "from": 174,
         "to": 176,
       },
     },
     "label": null,
     "machineCode": Array [54, 55,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 177,
           "to": 181,
         },
@@ -1435,16 +1435,16 @@ Array [
         "value": Array [54, 55,],
       },
     ],
-    "range": Object {
+    "range": {
       "from": 174,
       "to": 181,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 182,
         "to": 185,
       },
@@ -1452,7 +1452,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 182,
       "to": 185,
     },
@@ -1461,12 +1461,12 @@ Array [
 `;
 
 exports[`parser should parse instruction with no operand 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "PUSHF",
       "opcode": 234,
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 6,
       },
@@ -1474,16 +1474,16 @@ Array [
     "label": null,
     "machineCode": Array [234,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 1,
       "to": 6,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "POPF",
       "opcode": 235,
-      "range": Object {
+      "range": {
         "from": 7,
         "to": 11,
       },
@@ -1491,16 +1491,16 @@ Array [
     "label": null,
     "machineCode": Array [235,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 7,
       "to": 11,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "RET",
       "opcode": 203,
-      "range": Object {
+      "range": {
         "from": 12,
         "to": 15,
       },
@@ -1508,16 +1508,16 @@ Array [
     "label": null,
     "machineCode": Array [203,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 12,
       "to": 15,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "IRET",
       "opcode": 205,
-      "range": Object {
+      "range": {
         "from": 16,
         "to": 20,
       },
@@ -1525,16 +1525,16 @@ Array [
     "label": null,
     "machineCode": Array [205,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 16,
       "to": 20,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "HALT",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 21,
         "to": 25,
       },
@@ -1542,16 +1542,16 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 21,
       "to": 25,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "NOP",
       "opcode": 255,
-      "range": Object {
+      "range": {
         "from": 26,
         "to": 29,
       },
@@ -1559,16 +1559,16 @@ Array [
     "label": null,
     "machineCode": Array [255,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 26,
       "to": 29,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "CLO",
       "opcode": 254,
-      "range": Object {
+      "range": {
         "from": 30,
         "to": 33,
       },
@@ -1576,16 +1576,16 @@ Array [
     "label": null,
     "machineCode": Array [254,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 30,
       "to": 33,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "CLI",
       "opcode": 253,
-      "range": Object {
+      "range": {
         "from": 34,
         "to": 37,
       },
@@ -1593,16 +1593,16 @@ Array [
     "label": null,
     "machineCode": Array [253,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 34,
       "to": 37,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "STI",
       "opcode": 252,
-      "range": Object {
+      "range": {
         "from": 38,
         "to": 41,
       },
@@ -1610,16 +1610,16 @@ Array [
     "label": null,
     "machineCode": Array [252,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 38,
       "to": 41,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 42,
         "to": 45,
       },
@@ -1627,7 +1627,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 42,
       "to": 45,
     },
@@ -1636,21 +1636,21 @@ Array [
 `;
 
 exports[`parser should parse move instruction 1`] = `
-Array [
-  Object {
-    "instruction": Object {
+[
+  {
+    "instruction": {
       "mnemonic": "MOV",
       "opcode": 208,
-      "range": Object {
+      "range": {
         "from": 1,
         "to": 4,
       },
     },
     "label": null,
     "machineCode": Array [208, 0, 1,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 5,
           "to": 7,
         },
@@ -1659,8 +1659,8 @@ Array [
         "type": "Register",
         "value": 0,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 9,
           "to": 11,
         },
@@ -1670,25 +1670,25 @@ Array [
         "value": 1,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 1,
       "to": 11,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOV",
       "opcode": 209,
-      "range": Object {
+      "range": {
         "from": 12,
         "to": 15,
       },
     },
     "label": null,
     "machineCode": Array [209, 1, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 16,
           "to": 18,
         },
@@ -1697,8 +1697,8 @@ Array [
         "type": "Register",
         "value": 1,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 20,
           "to": 24,
         },
@@ -1708,25 +1708,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 12,
       "to": 24,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOV",
       "opcode": 210,
-      "range": Object {
+      "range": {
         "from": 25,
         "to": 28,
       },
     },
     "label": null,
     "machineCode": Array [210, 3, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 29,
           "to": 33,
         },
@@ -1735,8 +1735,8 @@ Array [
         "type": "Address",
         "value": 3,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 35,
           "to": 37,
         },
@@ -1746,25 +1746,25 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 25,
       "to": 37,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOV",
       "opcode": 211,
-      "range": Object {
+      "range": {
         "from": 38,
         "to": 41,
       },
     },
     "label": null,
     "machineCode": Array [211, 3, 0,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 42,
           "to": 44,
         },
@@ -1773,8 +1773,8 @@ Array [
         "type": "Register",
         "value": 3,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 46,
           "to": 50,
         },
@@ -1784,25 +1784,25 @@ Array [
         "value": 0,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 38,
       "to": 50,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "MOV",
       "opcode": 212,
-      "range": Object {
+      "range": {
         "from": 51,
         "to": 54,
       },
     },
     "label": null,
     "machineCode": Array [212, 1, 2,],
-    "operands": Array [
-      Object {
-        "range": Object {
+    "operands": [
+      {
+        "range": {
           "from": 55,
           "to": 59,
         },
@@ -1811,8 +1811,8 @@ Array [
         "type": "RegisterAddress",
         "value": 1,
       },
-      Object {
-        "range": Object {
+      {
+        "range": {
           "from": 61,
           "to": 63,
         },
@@ -1822,16 +1822,16 @@ Array [
         "value": 2,
       },
     ],
-    "range": Object {
+    "range": {
       "from": 51,
       "to": 63,
     },
   },
-  Object {
-    "instruction": Object {
+  {
+    "instruction": {
       "mnemonic": "END",
       "opcode": 0,
-      "range": Object {
+      "range": {
         "from": 64,
         "to": 67,
       },
@@ -1839,7 +1839,7 @@ Array [
     "label": null,
     "machineCode": Array [0,],
     "operands": Array [],
-    "range": Object {
+    "range": {
       "from": 64,
       "to": 67,
     },

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing address if closing bracket is missing 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 3,
     },
@@ -15,9 +15,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing address if closing bracket is missing 2`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 3,
     },
@@ -29,9 +29,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing address if closing bracket is missing 3`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 3,
     },
@@ -43,9 +43,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing address if closing bracket is missing 4`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 3,
     },
@@ -57,9 +57,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing address if closing bracket is missing 5`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 4,
     },
@@ -71,9 +71,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing string if closing quote is missing 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 3,
     },
@@ -85,9 +85,9 @@ Array [
 `;
 
 exports[`tokenizer should emit token with type \`Unknown\` when tokenizing string if closing quote is missing 2`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 4,
     },
@@ -95,8 +95,8 @@ Array [
     "type": "Unknown",
     "value": "\\"FOO",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 5,
       "to": 8,
     },
@@ -104,8 +104,8 @@ Array [
     "type": "Unknown",
     "value": "BAR",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 8,
       "to": 9,
     },
@@ -117,9 +117,9 @@ Array [
 `;
 
 exports[`tokenizer should skip comment at the end of the line 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 4,
     },
@@ -127,8 +127,8 @@ Array [
     "type": "Unknown",
     "value": "DONE",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 4,
       "to": 5,
     },
@@ -136,8 +136,8 @@ Array [
     "type": "Colon",
     "value": ":",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 25,
       "to": 28,
     },
@@ -149,9 +149,9 @@ Array [
 `;
 
 exports[`tokenizer should skip line with comment 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 20,
       "to": 23,
     },
@@ -163,9 +163,9 @@ Array [
 `;
 
 exports[`tokenizer should skip whitespace 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 3,
       "to": 7,
     },
@@ -173,8 +173,8 @@ Array [
     "type": "Unknown",
     "value": "DONE",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 7,
       "to": 8,
     },
@@ -182,8 +182,8 @@ Array [
     "type": "Colon",
     "value": ":",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 11,
       "to": 14,
     },
@@ -195,9 +195,9 @@ Array [
 `;
 
 exports[`tokenizer should tokenize address 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 2,
     },
@@ -205,8 +205,8 @@ Array [
     "type": "Address",
     "value": "",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 3,
       "to": 7,
     },
@@ -214,8 +214,8 @@ Array [
     "type": "Address",
     "value": "00",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 7,
       "to": 11,
     },
@@ -223,8 +223,8 @@ Array [
     "type": "Address",
     "value": "AL",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 12,
       "to": 19,
     },
@@ -236,9 +236,9 @@ Array [
 `;
 
 exports[`tokenizer should tokenize comma 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 1,
     },
@@ -246,8 +246,8 @@ Array [
     "type": "Comma",
     "value": ",",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 2,
       "to": 3,
     },
@@ -255,8 +255,8 @@ Array [
     "type": "Comma",
     "value": ",",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 3,
       "to": 4,
     },
@@ -268,9 +268,9 @@ Array [
 `;
 
 exports[`tokenizer should tokenize digits 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 1,
     },
@@ -278,8 +278,8 @@ Array [
     "type": "Digits",
     "value": "0",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 2,
       "to": 4,
     },
@@ -287,8 +287,8 @@ Array [
     "type": "Digits",
     "value": "01",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 5,
       "to": 8,
     },
@@ -300,9 +300,9 @@ Array [
 `;
 
 exports[`tokenizer should tokenize register 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 2,
     },
@@ -310,8 +310,8 @@ Array [
     "type": "Register",
     "value": "AL",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 3,
       "to": 5,
     },
@@ -319,8 +319,8 @@ Array [
     "type": "Register",
     "value": "BL",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 6,
       "to": 8,
     },
@@ -328,8 +328,8 @@ Array [
     "type": "Register",
     "value": "CL",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 9,
       "to": 11,
     },
@@ -341,9 +341,9 @@ Array [
 `;
 
 exports[`tokenizer should tokenize string 1`] = `
-Array [
-  Object {
-    "range": Object {
+[
+  {
+    "range": {
       "from": 0,
       "to": 2,
     },
@@ -351,8 +351,8 @@ Array [
     "type": "String",
     "value": "",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 3,
       "to": 21,
     },
@@ -360,8 +360,8 @@ Array [
     "type": "String",
     "value": "this is a string",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 22,
       "to": 26,
     },
@@ -369,8 +369,8 @@ Array [
     "type": "String",
     "value": "\\"",
   },
-  Object {
-    "range": Object {
+  {
+    "range": {
       "from": 27,
       "to": 31,
     },

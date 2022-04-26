@@ -1,19 +1,20 @@
-const { join } = require('path')
-
-const FEATURES_DIR = 'src/features'
-
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/common/utils/*.ts',
-    ...['assembler/core/*.ts', 'cpu/core/*.ts', 'memory/core.ts'].map(pattern =>
-      join(FEATURES_DIR, pattern)
-    )
+    'src/features/assembler/core/*.ts',
+    'src/features/memory/core.ts',
+    'src/features/cpu/core/*.ts'
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   preset: 'ts-jest',
+  snapshotFormat: {
+    escapeString: true,
+    // TODO: remove in future realeases of jest
+    printBasicPrototype: false
+  },
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)']
 }
