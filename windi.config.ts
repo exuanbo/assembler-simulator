@@ -7,7 +7,7 @@ export default defineConfig({
   preflight: {
     blocklist: ['input']
   },
-  blocklist: ['container'],
+  blocklist: ['container', 'static'],
   theme: {
     extend: {
       cursor: {
