@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowUp, ArrowDown } from '@/common/components/icons'
 import { useSelector } from '@/app/hooks'
@@ -13,21 +12,6 @@ import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 import { useToggle } from '@/common/hooks'
 import { decToHex, range, classNames } from '@/common/utils'
 
-const ColumIndicatorTableRow = memo(() => (
-  <tr className="divide-x bg-gray-50 text-gray-400">
-    <td />
-    {range(0x10).map(colIndex => (
-      <td key={colIndex} className="text-center">
-        <span className="px-1">{decToHex(colIndex)[1] /* ignore padded 0 */}</span>
-      </td>
-    ))}
-  </tr>
-))
-
-if (import.meta.env.DEV) {
-  ColumIndicatorTableRow.displayName = 'ColumIndicatorTableRow'
-}
-
 const Memory = (): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(true)
   const Icon = isOpen ? ArrowUp : ArrowDown
@@ -39,7 +23,6 @@ const Memory = (): JSX.Element => {
 
   const rows = memoryView === MemoryView.Source ? getSourceRows() : getDataRows()
 
-  let address = 0
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
@@ -52,24 +35,32 @@ const Memory = (): JSX.Element => {
       {isOpen && (
         <table className="text-sm w-full">
           <tbody className="divide-y">
-            <ColumIndicatorTableRow />
+            <tr className="divide-x bg-gray-50 text-gray-400">
+              <td />
+              {range(0x10).map(colIndex => (
+                <td key={colIndex} className="text-center">
+                  <span className="px-1">{decToHex(colIndex)[1] /* ignore padded 0 */}</span>
+                </td>
+              ))}
+            </tr>
             {rows.map((row, rowIndex) => (
               <tr key={rowIndex} className="divide-x">
                 <td className="bg-gray-50 text-center text-gray-400">
                   <span className="px-1">{decToHex(rowIndex)[1] /* ignore padded 0 */}</span>
                 </td>
                 {row.map((value, colIndex) => {
-                  const tdClassName = classNames('text-center', {
-                    'bg-blue-50': sp < address && address <= MAX_SP
-                  })
-                  const spanClassName = classNames('px-1', {
-                    'rounded bg-green-100': address === ip,
-                    'rounded bg-blue-100': address === sp
-                  })
-                  address += 1
+                  const address = rowIndex * 0x10 + colIndex
                   return (
-                    <td key={colIndex} className={tdClassName}>
-                      <span className={spanClassName}>
+                    <td
+                      key={colIndex}
+                      className={classNames('text-center', {
+                        'bg-blue-50': sp < address && address <= MAX_SP
+                      })}>
+                      <span
+                        className={classNames('px-1', {
+                          'rounded bg-green-100': address === ip,
+                          'rounded bg-blue-100': address === sp
+                        })}>
                         {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
                       </span>
                     </td>
