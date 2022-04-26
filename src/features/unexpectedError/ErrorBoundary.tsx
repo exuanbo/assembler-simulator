@@ -1,4 +1,4 @@
-import { ReactNode, Component, memo } from 'react'
+import { ReactNode, Component } from 'react'
 import { useStore } from '@/app/hooks'
 import { setUnexpectedError } from './unexpectedErrorSlice'
 import { errorToPlainObject } from '@/common/utils'
@@ -30,7 +30,7 @@ interface Props {
   children: ReactNode
 }
 
-const ErrorBoundary = memo(({ children }: Props) => {
+const ErrorBoundary = ({ children }: Props): JSX.Element => {
   const store = useStore()
 
   const handleError: ErrorHandler = err => {
@@ -38,7 +38,7 @@ const ErrorBoundary = memo(({ children }: Props) => {
   }
 
   return <ErrorBoundaryComponent onError={handleError}>{children}</ErrorBoundaryComponent>
-})
+}
 
 if (import.meta.env.DEV) {
   ErrorBoundary.displayName = 'ErrorBoundaryWrapper'
