@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect, useRef } from 'react'
-import { clamp, range, throttle } from '../utils'
+import { clamp, range, throttle, classNames } from '../utils'
 
 const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
@@ -9,7 +9,7 @@ interface Props {
   className?: string
 }
 
-const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
+const ResizablePanel = ({ children, className }: Props): JSX.Element => {
   const [leftWidth, setLeftWidth] = useState<number>()
   const [isReady, setReady] = useState(false)
 
@@ -80,20 +80,22 @@ const ResizablePanel = ({ children, className = '' }: Props): JSX.Element => {
 
   return (
     <>
-      <div ref={containerRef} className={`flex ${className}`}>
+      <div ref={containerRef} className={classNames('flex', className)}>
         {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
         <div
           ref={dividerRef}
-          className={`border-x cursor-col-resize flex-none flex flex-col space-y-2 px-1 items-center justify-center group hover:bg-gray-200 ${
+          className={classNames(
+            'border-x cursor-col-resize flex-none flex flex-col space-y-2 px-1 items-center justify-center group hover:bg-gray-200',
             isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
-          }`}
+          )}
           onMouseDown={handleMouseDown}>
           {range(3).map(index => (
             <span
               key={index}
-              className={`rounded-full h-1 w-1 group-hover:bg-slate-400 ${
+              className={classNames(
+                'rounded-full h-1 w-1 group-hover:bg-slate-400',
                 isDragging ? 'bg-slate-400' : 'bg-slate-300'
-              }`}
+              )}
             />
           ))}
         </div>

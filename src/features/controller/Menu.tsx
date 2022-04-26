@@ -1,6 +1,6 @@
 import { ReactNode, RefCallback, createContext, useEffect, useContext } from 'react'
 import { useRefCallback, useHover } from '@/common/hooks'
-import { noop } from '@/common/utils'
+import { noop, classNames } from '@/common/utils'
 
 interface MenuContextValue {
   currentOpen: HTMLDivElement | null
@@ -47,7 +47,7 @@ const Menu = ({ children }: Props): JSX.Element => {
   return (
     <div
       ref={menuRef}
-      className={`flex items-center hover:bg-gray-200 ${isOpen ? 'bg-gray-200' : ''}`}
+      className={classNames('flex items-center hover:bg-gray-200', { 'bg-gray-200': isOpen })}
       onClick={toggleOpen}>
       {isReady && children(isOpen, hoverRef, menuElement)}
     </div>

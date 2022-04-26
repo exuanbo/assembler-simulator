@@ -11,7 +11,7 @@ import {
 import { MAX_SP } from '@/features/cpu/core'
 import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 import { useToggle } from '@/common/hooks'
-import { decToHex, range } from '@/common/utils'
+import { decToHex, range, classNames } from '@/common/utils'
 
 const ColumIndicatorTableRow = memo(() => (
   <tr className="divide-x bg-gray-50 text-gray-400">
@@ -43,7 +43,7 @@ const Memory = (): JSX.Element => {
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
   return (
-    <div className={isOpen ? 'border-b' : undefined}>
+    <div className={classNames({ 'border-b': isOpen })}>
       <CardHeader title="Memory" onClick={toggleOpen}>
         <span className="w-4">
           <Icon className="mx-auto fill-gray-400 w-2.5" />
@@ -59,17 +59,17 @@ const Memory = (): JSX.Element => {
                   <span className="px-1">{decToHex(rowIndex)[1] /* ignore padded 0 */}</span>
                 </td>
                 {row.map((value, colIndex) => {
-                  const tdClassName = sp < address && address <= MAX_SP ? 'bg-blue-50' : ''
-                  const spanClassName =
-                    address === ip
-                      ? 'rounded bg-green-100'
-                      : address === sp
-                      ? 'rounded bg-blue-100'
-                      : ''
+                  const tdClassName = classNames('text-center', {
+                    'bg-blue-50': sp < address && address <= MAX_SP
+                  })
+                  const spanClassName = classNames('px-1', {
+                    'rounded bg-green-100': address === ip,
+                    'rounded bg-blue-100': address === sp
+                  })
                   address += 1
                   return (
-                    <td key={colIndex} className={`text-center ${tdClassName}`}>
-                      <span className={`px-1 ${spanClassName}`}>
+                    <td key={colIndex} className={tdClassName}>
+                      <span className={spanClassName}>
                         {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
                       </span>
                     </td>

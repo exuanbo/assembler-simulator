@@ -1,5 +1,6 @@
 import { MessageType } from './editorSlice'
 import { useMessage } from './hooks'
+import { classNames } from '@/common/utils'
 
 const getClassNameFrom = (type: MessageType): string => {
   switch (type) {
@@ -16,7 +17,7 @@ const EditorMessage = (): JSX.Element | null => {
   const message = useMessage()
 
   return message === null ? null : (
-    <div className={`py-1 px-2 text-light-100 ${getClassNameFrom(message.type)}`}>
+    <div className={classNames('py-1 px-2 text-light-100', getClassNameFrom(message.type))}>
       {message.content}
     </div>
   )

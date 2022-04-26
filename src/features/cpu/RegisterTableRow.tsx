@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 import type { RegisterName } from './core'
-import { sign8, decToBin, decToHex } from '@/common/utils'
+import { sign8, decToBin, decToHex, classNames } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
 interface Props {
@@ -21,7 +21,7 @@ const RegisterTableRow = memo(({ name, value, valueClassName }: Props) => {
     <tr className="divide-x">
       <td className="bg-gray-50 text-center px-2">{name}</td>
       <RegisterValueTableCell radixLabel={RadixLabel.Hex}>
-        <span className={`rounded text-sm px-1 ${valueClassName}`}>{hexValue}</span>
+        <span className={classNames('rounded text-sm px-1', valueClassName)}>{hexValue}</span>
       </RegisterValueTableCell>
       <RegisterValueTableCell radixLabel={RadixLabel.Bin}>
         <span className="rounded text-sm px-1">{binValue}</span>

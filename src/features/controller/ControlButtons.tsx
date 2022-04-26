@@ -3,6 +3,7 @@ import { Arrow, Play, Stop, Forward, Undo } from '@/common/components/icons'
 import { useController } from './hooks'
 import { selectIsRunning, selectIsSuspended } from './controllerSlice'
 import { useSelector } from '@/app/hooks'
+import { classNames } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
 interface ButtonProps {
@@ -13,9 +14,10 @@ interface ButtonProps {
 
 const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JSX.Element => (
   <div
-    className={`flex space-x-2 py-1 px-2 items-center ${
+    className={classNames(
+      'flex space-x-2 py-1 px-2 items-center',
       disabled ? 'text-gray-400 fill-gray-400' : 'hover:bg-gray-200'
-    }`}
+    )}
     onClick={disabled ? undefined : onClick}>
     {children}
   </div>

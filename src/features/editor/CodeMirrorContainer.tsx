@@ -7,12 +7,13 @@ import {
   useHighlightActiveLine,
   useBreakpoints
 } from './hooks'
+import { classNames } from '@/common/utils'
 
 interface Props {
   className?: string
 }
 
-const CodeMirrorContainer = ({ className = '' }: Props): JSX.Element => {
+const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
   const ref = useCodeMirrorRef()
 
   useSyncInput()
@@ -22,7 +23,7 @@ const CodeMirrorContainer = ({ className = '' }: Props): JSX.Element => {
   useHighlightActiveLine()
   useBreakpoints()
 
-  return <div ref={ref} className={`cursor-auto overflow-y-auto ${className}`} />
+  return <div ref={ref} className={classNames('cursor-auto overflow-y-auto', className)} />
 }
 
 export default CodeMirrorContainer

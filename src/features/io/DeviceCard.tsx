@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import CardHeader from '@/common/components/CardHeader'
 import { Close } from '@/common/components/icons'
+import { classNames } from '@/common/utils'
 
 interface Props {
   name: string
@@ -9,7 +10,7 @@ interface Props {
   className?: string
 }
 
-const DeviceCard = ({ name, onClickClose, children, className = '' }: Props): JSX.Element => (
+const DeviceCard = ({ name, onClickClose, children, className }: Props): JSX.Element => (
   <div className="border shadow m-1">
     <CardHeader title={name}>
       <span
@@ -18,7 +19,7 @@ const DeviceCard = ({ name, onClickClose, children, className = '' }: Props): JS
         <Close className="fill-none w-2 group-hover:fill-gray-400" />
       </span>
     </CardHeader>
-    <div className={`p-1 ${className}`}>{children}</div>
+    <div className={classNames('p-1', className)}>{children}</div>
   </div>
 )
 
