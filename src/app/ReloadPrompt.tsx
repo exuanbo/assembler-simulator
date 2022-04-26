@@ -37,7 +37,7 @@ const ReloadPrompt = (): JSX.Element | null => {
       <Spinner className="animate-spin w-6" />
     </div>
   ) : needReload ? (
-    <div className="border rounded space-y-2 bg-light-100 shadow m-4 py-2 px-4 right-0 bottom-0 fixed">
+    <div className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 right-4 bottom-4 fixed">
       <div>New version is available</div>
       <div className="space-x-2">
         <PromptButton onClick={handleClickReload}>Reload</PromptButton>
