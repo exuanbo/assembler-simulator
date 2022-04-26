@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 import type { RegisterName } from './core'
-import { sign8, decToBin, decToHex, classNames } from '@/common/utils'
+import { sign8, decToBin, decToHex } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
 
 interface Props {
@@ -20,15 +20,13 @@ const RegisterTableRow = memo(({ name, value, valueClassName }: Props) => {
   return (
     <tr className="divide-x">
       <td className="bg-gray-50 text-center px-2">{name}</td>
-      <RegisterValueTableCell radixLabel={RadixLabel.Hex}>
-        <span className={classNames('rounded text-sm px-1', valueClassName)}>{hexValue}</span>
-      </RegisterValueTableCell>
-      <RegisterValueTableCell radixLabel={RadixLabel.Bin}>
-        <span className="rounded text-sm px-1">{binValue}</span>
-      </RegisterValueTableCell>
-      <RegisterValueTableCell radixLabel={RadixLabel.Dec}>
-        <span className="rounded text-sm px-1">{decValue}</span>
-      </RegisterValueTableCell>
+      <RegisterValueTableCell
+        label={RadixLabel.Hex}
+        value={hexValue}
+        valueClassName={valueClassName}
+      />
+      <RegisterValueTableCell label={RadixLabel.Bin} value={binValue} />
+      <RegisterValueTableCell label={RadixLabel.Dec} value={decValue} />
     </tr>
   )
 })
@@ -41,9 +39,7 @@ const FlagIndicator = memo(() => (
   <tr>
     <td>{NO_BREAK_SPACE}</td>
     <td />
-    <RegisterValueTableCell>
-      <span className="text-sm px-1">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
-    </RegisterValueTableCell>
+    <RegisterValueTableCell.FlagIndicator />
     <td />
   </tr>
 ))
