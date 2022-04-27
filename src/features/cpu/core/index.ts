@@ -24,6 +24,7 @@ import {
   StackOverflowError,
   StackUnderflowError,
   InvalidPortError,
+  InvalidInputDataError,
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '@/features/memory/core'
@@ -145,6 +146,13 @@ const validatePort = (port: number): number => {
     throw new InvalidPortError(port)
   }
   return port
+}
+
+const validateInputData = (content: number): number => {
+  if (content > 0xff) {
+    throw new InvalidInputDataError(content)
+  }
+  return content
 }
 
 export interface StepResult {
@@ -603,7 +611,7 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
           break
         }
         if (inputData.content !== NULL_INPUT_DATA) {
-          setGpr(GeneralPurposeRegister.AL, inputData.content)
+          setGpr(GeneralPurposeRegister.AL, validateInputData(inputData.content))
         }
         incIp(2)
         break

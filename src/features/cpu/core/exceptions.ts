@@ -53,6 +53,12 @@ export class InvalidPortError extends RuntimeError {
   }
 }
 
+export class InvalidInputDataError extends RuntimeError {
+  constructor(content: number) {
+    super(`Input data '${decToHex(content)}' is greater than FF.`)
+  }
+}
+
 export class InvalidOpcodeError extends RuntimeError {
   constructor(opcode: number) {
     super(`Invalid opcode '${decToHex(opcode)}'.`)

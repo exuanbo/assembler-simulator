@@ -667,6 +667,19 @@ describe('cpu', () => {
           step(memoryData, initialRegisters)
         }).toThrowError("I/O ports between 0 and F are available, got '10'")
       })
+
+      it('should throw InvalidInputDataError', () => {
+        expect(() => {
+          step(
+            memoryData,
+            initialRegisters,
+            createNextState(initialInputSignals, draft => {
+              draft.data.content = 0x100
+              draft.data.port = 0x00
+            })
+          )
+        }).toThrowError("Input data '100' is greater than FF")
+      })
     })
 
     it('with OUT should create signal with output port', () => {
