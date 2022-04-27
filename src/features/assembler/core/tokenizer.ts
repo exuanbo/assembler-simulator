@@ -1,6 +1,6 @@
 import type { SourceRange } from './types'
 import { Mnemonic } from '@/common/constants'
-import { trimBracketsAndQuotes, call } from '@/common/utils'
+import { trimBrackets, call } from '@/common/utils'
 
 export enum TokenType {
   Whitespace = 'Whitespace',
@@ -22,19 +22,18 @@ export interface Token {
 }
 
 const createToken = (type: TokenType, value: string, from: number): Token => {
-  const normalizedValue = trimBracketsAndQuotes(value)
   const tokenValue = call((): string => {
     switch (type) {
       case TokenType.Register:
       case TokenType.Unknown:
-        return normalizedValue.toUpperCase()
+        return value.toUpperCase()
       case TokenType.Address:
-        return normalizedValue.toUpperCase().trim()
+        return trimBrackets(value).trim().toUpperCase()
       case TokenType.String:
         // escape quotes and backslashes
-        return JSON.parse(`"${normalizedValue}"`)
+        return JSON.parse(value)
       default:
-        return normalizedValue
+        return value
     }
   })
   const to = from + value.length

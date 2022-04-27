@@ -79,7 +79,7 @@ exports[`tokenizer should emit token with type \`Unknown\` when tokenizing strin
     },
     "raw": "\\"\\\\\\"",
     "type": "Unknown",
-    "value": "\\\\",
+    "value": "\\"\\\\\\"",
   },
 ]
 `;

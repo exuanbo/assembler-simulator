@@ -33,14 +33,9 @@ export const range: RangeFn = (start: number, stop?: number): number[] => {
 
 export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')
 
-const PART_INSIDE_BRACKETS_REGEXP = /^\[(.*)\]$/
+const BRACKETS_REGEXP = /^\[(.*)\]$/
 
-export const trimBrackets = (str: string): string => str.replace(PART_INSIDE_BRACKETS_REGEXP, '$1')
-
-const PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP = /^[["](.*)["\]]$/
-
-export const trimBracketsAndQuotes = (str: string): string =>
-  str.replace(PART_INSIDE_BRACKETS_OR_QUOTES_REGEXP, '$1')
+export const trimBrackets = (str: string): string => str.replace(BRACKETS_REGEXP, '$1')
 
 const BACKSLASHES_REGEXP = /\\/g
 
