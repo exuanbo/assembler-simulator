@@ -27,6 +27,38 @@ const createExample = (title: string, body: string): Example => {
 
 export const examples: readonly Example[] = [
   createExample(
+    'Procedures',
+    `\tMOV  AL, 10\t; Initialize AL
+
+Loop:
+\tDIV  AL, 02\t; 08 - Yellow
+\tOUT  01\t\t; Output to Traffic Light
+\tDIV  AL, 02\t; 04 - Short delay
+\tCALL 30\t\t; Call the procedure at address [30]
+
+\tMUL  AL, 04\t; 10 - Red
+\tOUT  01\t\t; Output to Traffic Light
+\tDIV  AL, 02\t; 08 - Middle sized delay
+\tCALL 30\t\t; Call the procedure at address [30]
+
+\tDIV  AL, 02\t; 04 - Green
+\tOUT  01\t\t; Output to Traffic Light
+\tMUL  AL, 04\t; 10 - Longer delay
+\tCALL 30\t\t; Call the procedure at address [30]
+
+\tJMP  Loop
+${COMMENT_DIVIDER}
+\tORG  30\t\t; Generate machine code from address [30]
+\tPUSH AL\t\t; Save AL to the stack
+
+Rep:
+\tDEC  AL\t\t; Subtract one from AL
+\tJNZ  Rep\t; Jump back to Rep if AL is not zero
+
+\tPOP  AL\t\t; Restore AL from the stack
+\tRET\t\t\t; Return from the procedure`
+  ),
+  createExample(
     'Keyboard Input',
     `\tMOV BL, C0\t\t; Start address of VDU
 
