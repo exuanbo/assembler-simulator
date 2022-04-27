@@ -27,6 +27,21 @@ const createExample = (title: string, body: string): Example => {
 
 export const examples: readonly Example[] = [
   createExample(
+    'Keyboard Input',
+    `\tMOV BL, C0\t\t; Start address of VDU
+
+Loop:
+\tIN  00\t\t\t; Wait for keyboard input
+\tCMP AL, 0D\t\t; Check if the key was Enter (Carriage Return)
+\tJZ  Done\t\t; Yes - Jump to END
+
+\tMOV [BL], AL\t; Output to VDU
+\tINC BL\t\t\t; Increase the address of VDU by 1
+\tJNZ Loop\t\t; Jump back if there is still available address
+
+Done:`
+  ),
+  createExample(
     'Visual Display Unit',
     `\tJMP Start
 
