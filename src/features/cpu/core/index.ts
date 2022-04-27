@@ -27,7 +27,14 @@ import {
   InvalidOpcodeError
 } from './exceptions'
 import type { MemoryData } from '@/features/memory/core'
-import { InputData, InputSignals, OutputSignals, Signals, MAX_PORT } from '@/features/io/core'
+import {
+  InputData,
+  InputSignals,
+  OutputSignals,
+  Signals,
+  NULL_INPUT_DATA,
+  MAX_PORT
+} from '@/features/io/core'
 import { Opcode } from '@/common/constants'
 import { ExcludeTail, sign8, unsign8 } from '@/common/utils'
 
@@ -595,7 +602,9 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
           setRequiredInputPort(requiredInputPort)
           break
         }
-        setGpr(GeneralPurposeRegister.AL, inputData.content)
+        if (inputData.content !== NULL_INPUT_DATA) {
+          setGpr(GeneralPurposeRegister.AL, inputData.content)
+        }
         incIp(2)
         break
       }

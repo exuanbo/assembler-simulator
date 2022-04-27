@@ -7,7 +7,7 @@ import {
   setWaitingForKeyboardInput,
   setInputData
 } from './ioSlice'
-import { InputPort } from './core'
+import { InputPort, NULL_INPUT_DATA } from './core'
 import { Ascii } from '@/common/constants'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
@@ -43,6 +43,9 @@ const SimulatedKeyboard = (): JSX.Element | null => {
         break
       case 'Enter':
         dispatchInputData(Ascii.CR)
+        break
+      case 'Escape':
+        dispatchInputData(NULL_INPUT_DATA)
         break
     }
   }

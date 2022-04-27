@@ -9,7 +9,7 @@ import {
   initRegisters,
   step as __step
 } from '@/features/cpu/core'
-import { InputSignals, initialInputSignals } from '@/features/io/core'
+import { InputSignals, NULL_INPUT_DATA, initialInputSignals } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
 import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
 
@@ -628,6 +628,21 @@ describe('cpu', () => {
             createNextState(initialInputSignals, draft => {
               draft.data.content = 0x61
               draft.data.port = 0x01
+            })
+          )
+        ).toMatchSnapshot()
+      })
+
+      it('should skip if input data is NULL_INPUT_DATA', () => {
+        expect(
+          step(
+            memoryData,
+            createNextState(initialRegisters, draft => {
+              draft.gpr = [1, 0, 0, 0]
+            }),
+            createNextState(initialInputSignals, draft => {
+              draft.data.content = NULL_INPUT_DATA
+              draft.data.port = 0x00
             })
           )
         ).toMatchSnapshot()

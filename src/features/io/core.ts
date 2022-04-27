@@ -1,3 +1,5 @@
+export const NULL_INPUT_DATA = -1
+
 export const MAX_PORT = 0x0f
 
 export enum InputPort {
