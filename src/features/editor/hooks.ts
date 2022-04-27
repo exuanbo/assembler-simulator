@@ -269,13 +269,12 @@ const haltedMessage: EditorMessage = {
   content: 'Info: Program has halted.'
 }
 
-const getMessageFrom = (err: Error | null): EditorMessage | null =>
-  err === null
-    ? null
-    : {
-        type: MessageType.Error,
-        content: `${err.name}: ${err.message}`
-      }
+const errorToMessage = (err: Error): EditorMessage => {
+  return {
+    type: MessageType.Error,
+    content: `${err.name}: ${err.message}`
+  }
+}
 
 export const useMessage = (): EditorMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
@@ -314,5 +313,8 @@ export const useMessage = (): EditorMessage | null => {
     })
   }, [])
 
-  return getMessageFrom(err) ?? message
+  if (err !== null) {
+    return errorToMessage(err)
+  }
+  return message
 }
