@@ -8,6 +8,7 @@ import {
   setInputData
 } from './ioSlice'
 import { InputPort } from './core'
+import { Ascii } from '@/common/constants'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
   const store = useStore()
@@ -20,16 +21,35 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     inputRef.current?.focus()
   }
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const key = target.value
+  const dispatchInputData = (content: number): void => {
     store.dispatch(
       setInputData({
-        content: key.charCodeAt(0),
+        content,
         port: InputPort.SimulatedKeyboard
       })
     )
     store.dispatch(setSuspended(false))
     store.dispatch(setWaitingForKeyboardInput(false))
+  }
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+    switch (event.key) {
+      case 'Backspace':
+        dispatchInputData(Ascii.BS)
+        break
+      case 'Tab':
+        event.preventDefault()
+        dispatchInputData(Ascii.TAB)
+        break
+      case 'Enter':
+        dispatchInputData(Ascii.CR)
+        break
+    }
+  }
+
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    const key = target.value
+    dispatchInputData(key.charCodeAt(0))
   }
 
   return (
@@ -43,6 +63,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
         className="-z-1 absolute"
         onBlur={focusInput}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
     </Modal>
   )

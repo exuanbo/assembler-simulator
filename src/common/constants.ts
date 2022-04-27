@@ -1,8 +1,13 @@
-export const SPACE_ASCII = 0x20
-
 export const NO_BREAK_SPACE = '\u00A0'
 
 export const UPDATE_TIMEOUT_MS = 250
+
+export enum Ascii {
+  BS = 0x08,
+  TAB = 0x09,
+  CR = 0x0d,
+  Space = 0x20
+}
 
 export enum Mnemonic {
   END = 'END',

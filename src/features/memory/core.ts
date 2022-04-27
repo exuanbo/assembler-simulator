@@ -1,5 +1,5 @@
 import type { AddressToMachineCodeMap, AddressToStatementMap } from '@/features/assembler/core'
-import { Mnemonic, SPACE_ASCII } from '@/common/constants'
+import { Ascii, Mnemonic } from '@/common/constants'
 
 export type MemoryData = number[]
 
@@ -8,7 +8,7 @@ const MEMORY_SIZE = 0x100
 export const VDU_START_ADDRESS = 0xc0
 
 export const initVduData = (): number[] =>
-  new Array<number>(MEMORY_SIZE - VDU_START_ADDRESS).fill(SPACE_ASCII)
+  new Array<number>(MEMORY_SIZE - VDU_START_ADDRESS).fill(Ascii.Space)
 
 export const initData = (): MemoryData =>
   new Array<number>(VDU_START_ADDRESS).fill(0).concat(initVduData())
