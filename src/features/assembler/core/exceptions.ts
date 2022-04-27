@@ -28,47 +28,47 @@ export abstract class AssemblerError extends Error {
   }
 }
 
-class ParserError extends AssemblerError {
-  public name = 'ParserError'
+class ParseError extends AssemblerError {
+  public name = 'ParseError'
 
   constructor(message: string, range?: SourceRange) {
     super(escapeInnerSingleQuotes(escapeBackslashes(message)), range)
   }
 }
 
-export class StatementError extends ParserError {
+export class StatementError extends ParseError {
   constructor({ raw, range }: Token, hasLabel: boolean) {
     super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'.`, range)
   }
 }
 
-export class InvalidLabelError extends ParserError {
+export class InvalidLabelError extends ParseError {
   constructor({ raw, range }: Token) {
     const identifier = raw.replace(/:$/, '')
     super(`Label should contain only letter or underscore, got '${identifier}'.`, range)
   }
 }
 
-export class MissingEndError extends ParserError {
+export class MissingEndError extends ParseError {
   constructor() {
     super('Expected END at the end of the source code.')
   }
 }
 
-export class InvalidNumberError extends ParserError {
+export class InvalidNumberError extends ParseError {
   constructor({ raw, range }: Token) {
     const numberValue = trimBrackets(raw).trim()
     super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'.`, range)
   }
 }
 
-export class InvalidStringError extends ParserError {
+export class InvalidStringError extends ParseError {
   constructor({ value, range }: Token, charIndex: number) {
     super(`UTF-16 code of character '${value[charIndex]}' is greater than FF.`, range)
   }
 }
 
-export class AddressError extends ParserError {
+export class AddressError extends ParseError {
   constructor({ raw, range }: Token) {
     const addressValue = trimBrackets(raw).trim()
     super(
@@ -78,25 +78,25 @@ export class AddressError extends ParserError {
   }
 }
 
-export class UnterminatedAddressError extends ParserError {
+export class UnterminatedAddressError extends ParseError {
   constructor({ raw, range }: Token) {
     super(`Unterminated address '${raw.trimEnd()}'.`, range)
   }
 }
 
-export class UnterminatedStringError extends ParserError {
+export class UnterminatedStringError extends ParseError {
   constructor({ raw, range }: Token) {
     super(`Unterminated string '${raw}'.`, range)
   }
 }
 
-export class SingleQuoteError extends ParserError {
+export class SingleQuoteError extends ParseError {
   constructor({ range }: Token) {
     super('Single quote is not allowed.', range)
   }
 }
 
-export class OperandTypeError extends ParserError {
+export class OperandTypeError extends ParseError {
   constructor({ raw, range }: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map(type => type.replace(/[A-Z]/g, char => ` ${char.toLowerCase()}`).trimStart())
@@ -114,7 +114,7 @@ export class OperandTypeError extends ParserError {
   }
 }
 
-export class MissingCommaError extends ParserError {
+export class MissingCommaError extends ParseError {
   constructor({ raw, range }: Token) {
     super(`Expected comma, got '${raw}'.`, range)
   }
