@@ -190,25 +190,22 @@ end
     }).toThrowError(MISSING_END_ERROR_MSG)
   })
 
-  const INVALID_NUMBER_ERROR_MSG_PREFIX =
-    'Number should be hexadecimal and less than or equal to FF, got '
-
   it('should throw InvalidNumberError', () => {
     expect(() => {
       parse('mov al, 100')
-    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'100'")
+    }).toThrowError("Number '100' is greater than FF.")
   })
 
   it('should throw InvalidNumberError when parsing address with number', () => {
     expect(() => {
       parse('mov [100], al')
-    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'100'")
+    }).toThrowError("Number '100' is greater than FF.")
   })
 
   it('should throw InvalidNumberError when parsing non-digit number', () => {
     expect(() => {
       parse('mov al, fff')
-    }).toThrowError(INVALID_NUMBER_ERROR_MSG_PREFIX + "'fff'")
+    }).toThrowError("Number 'fff' is greater than FF.")
   })
 
   it('should throw InvalidStringError when parsing string with unsupported character', () => {

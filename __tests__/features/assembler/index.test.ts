@@ -57,6 +57,6 @@ org fd
 jmp start
 end
 `)
-    }).toThrowError("Jump distance should be between -128 and 127, to label 'start'")
+    }).toThrowError('Jump distance should be between -128 and 127')
   })
 })

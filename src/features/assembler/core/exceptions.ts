@@ -58,7 +58,7 @@ export class MissingEndError extends ParseError {
 export class InvalidNumberError extends ParseError {
   constructor({ raw, range }: Token) {
     const numberValue = trimBrackets(raw).trim()
-    super(`Number should be hexadecimal and less than or equal to FF, got '${numberValue}'.`, range)
+    super(`Number '${numberValue}' is greater than FF.`, range)
   }
 }
 
@@ -143,7 +143,7 @@ export class LabelNotExistError extends AssembleError {
 }
 
 export class JumpDistanceError extends AssembleError {
-  constructor({ raw, range }: Operand) {
-    super(`Jump distance should be between -128 and 127, to label '${raw}'.`, range)
+  constructor({ range }: Operand) {
+    super('Jump distance should be between -128 and 127.', range)
   }
 }
