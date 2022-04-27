@@ -60,7 +60,7 @@ Rep:
   ),
   createExample(
     'Keyboard Input',
-    `\tMOV BL, C0\t\t; Start address of VDU
+    `\tMOV BL, C0\t\t; Starting address of VDU
 
 Loop:
 \tIN  00\t\t\t; Wait for keyboard input
@@ -81,7 +81,7 @@ Done:`
 \tDB 00
 
 Start:
-\tMOV AL, C0\t\t; Start address of VDU
+\tMOV AL, C0\t\t; Starting address of VDU
 \tMOV BL, 02\t\t; Address of the first character in the string
 \tMOV CL, [BL]\t; Store the first character in CL
 
@@ -90,8 +90,8 @@ Loop:
 \tINC AL\t\t\t; Increase the address of VDU by one
 \tINC BL\t\t\t; Increase the address of character by one
 \tMOV CL, [BL]\t; Store the next character in CL
-\tCMP CL, 00\t\t; Check if the next character is zero (NULL)
-\tJNZ Loop\t\t; NO => Jump back to Loop`
+\tCMP CL, 00\t\t; Check if the next character is zero
+\tJNZ Loop\t\t; Jump back to Loop if there is remaining character`
   ),
   createExample(
     'Traffic Lights',
@@ -122,7 +122,7 @@ Loop:
 \tDB 00
 
 Start:
-\tMOV BL, 02\t\t; Start address of the data table
+\tMOV BL, 02\t\t; Starting address of the data table
 \tMOV AL, [BL]\t; Store the first number in AL
 
 Loop:
@@ -132,7 +132,7 @@ Loop:
 \tOUT 02\t\t\t; Output to Seven-segment Display
 \tINC BL\t\t\t; Increase the address of the data table by one
 \tMOV AL, [BL]\t; Store the next number in AL
-\tCMP AL, 00\t\t; Check if the next number is zero (NULL)
+\tCMP AL, 00\t\t; Check if the next number is zero
 \tJNZ Loop\t\t; No => Jump back to Loop
 \tJMP Start`
   )
