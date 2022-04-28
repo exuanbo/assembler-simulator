@@ -8,13 +8,13 @@ const VisualDisplayUnit = (): JSX.Element | null => {
 
   return isVisible ? (
     <DeviceCard
-      className="flex flex-col space-y-1 items-center justify-center"
+      className="flex flex-col space-y-1"
       name="Visual Display Unit"
       onClickClose={toggleVisible}>
       {chunk(0x10, asciiToChars(data)).map((row, rowIndex) => (
         <div key={rowIndex} className="flex space-x-1">
           {row.map((char, charIndex) => (
-            <div key={charIndex} className="bg-gray-200 px-1">
+            <div key={charIndex} className="bg-gray-200 text-center w-4.5">
               {char === ' ' ? NO_BREAK_SPACE : char}
             </div>
           ))}
