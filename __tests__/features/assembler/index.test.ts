@@ -6,8 +6,8 @@ import { memorySerializer } from '../../snapshotSerializers'
 expect.addSnapshotSerializer(memorySerializer)
 
 describe('assembler', () => {
-  examples.forEach(({ title, content }) => {
-    it(`should assemble example ${title}`, () => {
+  examples.forEach(({ name, content }) => {
+    it(`should assemble example ${name}`, () => {
       const [addressToMachineCodeMap] = assemble(content)
       expect(initDataFrom(addressToMachineCodeMap)).toMatchSnapshot()
     })

@@ -7,7 +7,8 @@ module.exports = {
     'src/features/cpu/core/*.ts'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^(.*)\\?raw$': '$1'
   },
   preset: 'ts-jest',
   snapshotFormat: {
@@ -16,5 +17,8 @@ module.exports = {
     printBasicPrototype: false
   },
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)']
+  testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
+  transform: {
+    '\\.asm$': '<rootDir>/__tests__/rawTransformer.js'
+  }
 }
