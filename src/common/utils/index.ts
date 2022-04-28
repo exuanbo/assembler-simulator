@@ -57,8 +57,6 @@ export const escapeInnerSingleQuotes = (str: string): string => {
 export const stringToAscii = (str: string): number[] =>
   str.split('').map(char => char.charCodeAt(0))
 
-export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
-
 export const compareArrayWithSameLength = <T>(a: T[], b: T[]): boolean =>
   a.every((value, index) => value === b[index])
 
@@ -69,6 +67,8 @@ export const chunk = <T>(size: number, arr: T[]): T[][] => {
   }
   return chunks
 }
+
+export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
 
 // istanbul ignore next
 // eslint-disable-next-line @typescript-eslint/no-empty-function
