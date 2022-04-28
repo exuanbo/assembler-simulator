@@ -1,6 +1,7 @@
 import newFileTemplate from './examples/new_file_template.asm?raw'
 import procedures from './examples/procedures.asm?raw'
 import softwareInterrupts from './examples/software_interrupts.asm?raw'
+import hardwareInterrupts from './examples/hardware_interrupts.asm?raw'
 import keyboardInput from './examples/keyboard_input.asm?raw'
 import visualDisplayUnit from './examples/visual_display_unit.asm?raw'
 import trafficLights from './examples/traffic_lights.asm?raw'
@@ -21,6 +22,10 @@ export const examples: readonly Example[] = [
   {
     name: 'Software Interrupts',
     content: softwareInterrupts
+  },
+  {
+    name: 'Hardware Interrupts',
+    content: hardwareInterrupts
   },
   {
     name: 'Keyboard Input',
