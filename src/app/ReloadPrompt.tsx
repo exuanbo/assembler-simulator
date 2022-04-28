@@ -19,7 +19,7 @@ const ReloadPrompt = (): JSX.Element | null => {
   const {
     needRefresh: [needReload, setNeedReload],
     updateServiceWorker
-  } = useRegisterSW({ immediate: true })
+  } = useRegisterSW()
 
   const [isReloading, setReloading] = useState(false)
 
