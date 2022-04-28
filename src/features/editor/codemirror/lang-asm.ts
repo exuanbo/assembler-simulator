@@ -12,7 +12,7 @@ import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 /* eslint-disable prettier/prettier */
 
 const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
-const LABEL_DEFINITION_REGEXP =   /^[a-zA-Z_]+(?=:)/
+const LABEL_DECLARATION_REGEXP =  /^[a-zA-Z_]+(?=:)/
 const LABEL_REFERENCE_REGEXP =    /^[a-zA-Z_]+/
 const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
@@ -45,17 +45,17 @@ const asmLanguage = StreamLanguage.define<State>({
       return 'comment'
     }
 
-    if (stream.match(LABEL_DEFINITION_REGEXP)) {
+    if (stream.match(LABEL_DECLARATION_REGEXP)) {
       state.operandsLeft = 0
       return 'labelName'
     }
 
     if (state.operandsLeft === 0) {
-      const token = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
-      if (token) {
-        const upperCaseToken = token.toUpperCase()
-        if (upperCaseToken in Mnemonic) {
-          const mnemonic = upperCaseToken as Mnemonic
+      const matched = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
+      if (matched) {
+        const upperCased = matched.toUpperCase()
+        if (upperCased in Mnemonic) {
+          const mnemonic = upperCased as Mnemonic
           if (mnemonic === Mnemonic.END) {
             state.ended = true
           }
@@ -79,15 +79,15 @@ const asmLanguage = StreamLanguage.define<State>({
 
       if (stream.eat('"')) {
         stream.skipToEnd()
-        const tokens = stream.current()
+        const chars = stream.current()
         let lastQuoteIndex = 0
-        for (let i = 1; i < tokens.length; i++) {
-          if (tokens[i] === '"' && tokens[i - 1] !== '\\') {
+        for (let i = 1; i < chars.length; i++) {
+          if (chars[i] === '"' && chars[i - 1] !== '\\') {
             lastQuoteIndex = i
             break
           }
         }
-        const lastCharIndex = tokens.length - 1
+        const lastCharIndex = chars.length - 1
         if (lastQuoteIndex !== 0 && lastQuoteIndex !== lastCharIndex) {
           stream.backUp(lastCharIndex - lastQuoteIndex)
         }
