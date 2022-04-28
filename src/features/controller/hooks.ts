@@ -72,7 +72,8 @@ const sourceChangedMessage: EditorMessage = {
 }
 
 class Controller {
-  private readonly store: Store
+  private readonly getState: Store['getState']
+  private readonly dispatch: Store['dispatch']
 
   private stepIntervalId!: number
 
@@ -89,7 +90,8 @@ class Controller {
   private lastBreakpointLineNumber: number | undefined
 
   constructor(store: Store) {
-    this.store = store
+    this.getState = store.getState
+    this.dispatch = store.dispatch
     const __assemble = createAssemble(store)
     this.assemble = () => __assemble()
   }
@@ -97,7 +99,7 @@ class Controller {
   public assemble: () => void
 
   public runOrStop = async (): Promise<void> => {
-    if (!this.stopIfRunning(this.store.getState())) {
+    if (!this.stopIfRunning(this.getState())) {
       await this.run()
     }
   }
@@ -119,7 +121,7 @@ class Controller {
       this.clearInterruptInterval()
       this.isInterruptIntervalSet = false
     }
-    this.store.dispatch(setRunning(false))
+    this.dispatch(setRunning(false))
   }
 
   private clearStepInterval(): void {
@@ -133,18 +135,18 @@ class Controller {
   private restoreIfSuspended(state: RootState): void {
     if (selectIsSuspended(state)) {
       this.unsubscribeSetSuspended()
-      this.store.dispatch(setSuspended(false))
+      this.dispatch(setSuspended(false))
     }
   }
 
   private async run(): Promise<void> {
-    this.store.dispatch(setRunning(true))
+    this.dispatch(setRunning(true))
     this.setStepInterval()
     await this.step()
   }
 
   private setStepInterval(): void {
-    const { clockSpeed } = selectRuntimeConfiguration(this.store.getState())
+    const { clockSpeed } = selectRuntimeConfiguration(this.getState())
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
   }
 
@@ -169,24 +171,24 @@ class Controller {
   }
 
   private setInterruptInterval(): void {
-    const { timerInterval } = selectRuntimeConfiguration(this.store.getState())
+    const { timerInterval } = selectRuntimeConfiguration(this.getState())
     this.interruptIntervalId = window.setInterval(() => {
-      this.store.dispatch(setInterrupt(true))
+      this.dispatch(setInterrupt(true))
     }, timerInterval)
   }
 
   public step = async (): Promise<void> => {
     const lastStepResult = await this.lastStep
-    const state = this.store.getState()
+    const state = this.getState()
     if (selectEditorInput(state) !== selectAssembledSource(state)) {
-      this.store.dispatch(setEditorMessage(sourceChangedMessage))
+      this.dispatch(setEditorMessage(sourceChangedMessage))
     }
     const { fault, halted } = selectCpuStatus(state)
     if (fault !== null || halted) {
       this.stopIfRunning(state)
       if (fault === null && halted) {
         // trigger `EditorMessage` re-render
-        this.store.dispatch(setCpuHalted())
+        this.dispatch(setCpuHalted())
       }
       return
     }
@@ -207,10 +209,10 @@ class Controller {
         this.stopIfRunning(state)
         if (err instanceof RuntimeError) {
           const runtimeError = err.toPlainObject()
-          this.store.dispatch(setCpuFault(runtimeError))
+          this.dispatch(setCpuFault(runtimeError))
         } else {
           const unexpectedError = errorToPlainObject(err as Error)
-          this.store.dispatch(setUnexpectedError(unexpectedError))
+          this.dispatch(setUnexpectedError(unexpectedError))
         }
         resolve(undefined)
         return
@@ -231,14 +233,12 @@ class Controller {
       }
       const dispatchChanges = (): void => {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
-          this.store.dispatch(setMemoryData(memoryData))
+          this.dispatch(setMemoryData(memoryData))
           if (isVduBufferChanged) {
-            this.store.dispatch(setVduDataFrom(memoryData))
+            this.dispatch(setVduDataFrom(memoryData))
           }
-          this.store.dispatch(setCpuRegisters(cpuRegisters))
-          this.store.dispatch(
-            hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange()
-          )
+          this.dispatch(setCpuRegisters(cpuRegisters))
+          this.dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
           this.dispatchChangesTimeoutId = undefined
         })
       }
@@ -256,27 +256,27 @@ class Controller {
         closeWindows: shouldCloseWindows = false
       } = signals.output
       if (interrupt) {
-        this.store.dispatch(setInterrupt(false))
+        this.dispatch(setInterrupt(false))
       }
       if (shouldHalt) {
         this.stopIfRunning(state)
-        this.store.dispatch(setCpuHalted())
+        this.dispatch(setCpuHalted())
         resolve(undefined)
         return
       }
       const isRunning = selectIsRunning(state)
       let willSuspend = false
       if (requiredInputPort !== undefined) {
-        this.store.dispatch(setWaitingForInput(true))
+        this.dispatch(setWaitingForInput(true))
         if (inputData.content === null) {
           willSuspend = true
           if (isRunning) {
             this.cancelMainLoop()
           }
-          this.store.dispatch(setSuspended(true))
+          this.dispatch(setSuspended(true))
           switch (requiredInputPort) {
             case InputPort.SimulatedKeyboard:
-              this.store.dispatch(setWaitingForKeyboardInput(true))
+              this.dispatch(setWaitingForKeyboardInput(true))
               break
           }
           this.unsubscribeSetSuspended = listenAction(
@@ -293,12 +293,12 @@ class Controller {
           )
         } else {
           // wrong port
-          this.store.dispatch(clearInputData())
+          this.dispatch(clearInputData())
         }
       } else if (selectIsWaitingForInput(state)) {
         // `step` called from actionListener
-        this.store.dispatch(setWaitingForInput(false))
-        this.store.dispatch(clearInputData())
+        this.dispatch(setWaitingForInput(false))
+        this.dispatch(clearInputData())
       }
       if (outputData?.content !== undefined) {
         const { content: outputDataContent, port: outputPort } = outputData
@@ -311,7 +311,7 @@ class Controller {
           }
         })
         if (ioDeviceName !== undefined) {
-          this.store.dispatch(
+          this.dispatch(
             setIoDeviceData({
               name: ioDeviceName,
               data: outputDataContent
@@ -345,7 +345,7 @@ class Controller {
         }
       }
       if (shouldCloseWindows) {
-        this.store.dispatch(setIoDevicesInvisible())
+        this.dispatch(setIoDevicesInvisible())
       }
       const breakpoints = selectEditorBreakpoints(state)
       let hasBreakpoint = false
@@ -383,15 +383,15 @@ class Controller {
 
   public reset = (): void => {
     this.fullyStop()
-    this.store.dispatch(resetMemoryData())
-    this.store.dispatch(resetCpuState())
-    this.store.dispatch(resetAssemblerState())
-    this.store.dispatch(clearEditorActiveRange())
-    this.store.dispatch(resetIoState())
+    this.dispatch(resetMemoryData())
+    this.dispatch(resetCpuState())
+    this.dispatch(resetAssemblerState())
+    this.dispatch(clearEditorActiveRange())
+    this.dispatch(resetIoState())
   }
 
   public fullyStop = (): void => {
-    const state = this.store.getState()
+    const state = this.getState()
     this.stopIfRunning(state)
     this.cancelDispatchChanges()
     this.restoreIfSuspended(state)
