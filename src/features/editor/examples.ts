@@ -28,45 +28,41 @@ const createExample = (title: string, body: string): Example => {
 export const examples: readonly Example[] = [
   createExample(
     'Procedures',
-    `\tMOV  AL, 10\t; Initialize AL
-
+    `\tMOV  AL, 08\t\t; Initialize AL to 08
 Loop:
-\tDIV  AL, 02\t; 08 - Yellow
-\tOUT  01\t\t; Output to Traffic Light
-\tDIV  AL, 02\t; 04 - Short delay
-\tCALL 30\t\t; Call the procedure at address [30]
+\tDIV  AL, 02\t\t; 04 - Green
+\tOUT  01\t\t\t; Send data to traffic lights
+\tMUL  AL, 04\t\t; 10 - Longer delay
+\tCALL 30\t\t\t; Call procedure 30
 
-\tMUL  AL, 04\t; 10 - Red
-\tOUT  01\t\t; Output to Traffic Light
-\tDIV  AL, 02\t; 08 - Middle sized delay
-\tCALL 30\t\t; Call the procedure at address [30]
+\tDIV  AL, 02\t\t; 08 - Yellow
+\tOUT  01\t\t\t; Send data to traffic lights
+\tDIV  AL, 02\t\t; 04 - Short delay
+\tCALL 30\t\t\t; Call procedure 30
 
-\tDIV  AL, 02\t; 04 - Green
-\tOUT  01\t\t; Output to Traffic Light
-\tMUL  AL, 04\t; 10 - Longer delay
-\tCALL 30\t\t; Call the procedure at address [30]
-
+\tMUL  AL, 04\t\t; 10 - Red
+\tOUT  01\t\t\t; Send data to traffic lights
+\tDIV  AL, 02\t\t; 08 - Middle sized delay
+\tCALL 30\t\t\t; Call procedure 30
 \tJMP  Loop
 ${COMMENT_DIVIDER}
-\tORG  30\t\t; Generate machine code from address [30]
-\tPUSH AL\t\t; Save AL to the stack
-
+\tORG  30
+\tPUSH AL\t\t\t; Save AL to the stack
 Rep:
-\tDEC  AL\t\t; Subtract one from AL
-\tJNZ  Rep\t; Jump back to Rep if AL is not zero
-
-\tPOP  AL\t\t; Restore AL from the stack
-\tRET\t\t\t; Return from the procedure`
+\tDEC  AL\t\t\t; Subtract one from AL
+\tJNZ  Rep
+\tPOP  AL\t\t\t; Restore AL from the stack
+\tRET\t\t\t\t; Return from the procedure`
   ),
   createExample(
     'Software Interrupts',
-    `\tJMP  Start\t\t; Jump past table of interrupt vectors
+    `\tJMP Start\t\t; Jump past table of interrupt vectors
 \tDB   51\t\t\t; Vector at 02 pointing to address 51
 \tDB   71\t\t\t; Vector at 03 pointing to address 71
 Start:
 \tINT  02\t\t\t; Do interrupt 02
 \tINT  03\t\t\t; Do interrupt 03
-\tJMP  Start
+\tJMP Start
 ${COMMENT_DIVIDER}
 \tORG  50
 \tDB   E0
@@ -82,7 +78,7 @@ ${COMMENT_DIVIDER}
 \t\t\t\t\t; Interrupt code starts here
 \tMOV  AL, [70]\t; Copy bits from RAM into AL
 \tNOT  AL\t\t\t; Invert the bits in AL
-\tAND  AL,  FE\t; Force right most bit to zero
+\tAND  AL,  FE\t; Set the right most bit to zero
 \tMOV [70], AL\t; Copy inverted bits back to RAM
 \tOUT  02\t\t\t; Send data to seven-segment display
 \tIRET`
@@ -90,80 +86,67 @@ ${COMMENT_DIVIDER}
   createExample('Hardware Interrupts', '\t'),
   createExample(
     'Keyboard Input',
-    `\tMOV BL, C0\t\t; Starting address of VDU
-
+    `\tMOV  BL, C0\t\t; Make BL point to video RAM
 Loop:
-\tIN  00\t\t\t; Wait for keyboard input
-\tCMP AL, 0D\t\t; Check if the key was Enter (Carriage Return)
-\tJZ  Done\t\t; Yes => Jump to Done
-
-\tMOV [BL], AL\t; Output to VDU
-\tINC BL\t\t\t; Increase the address of VDU by one
-\tJNZ Loop\t\t; Jump back if there is still an available address
-
+\tIN   00\t\t\t; Wait for keyboard input
+\tCMP  AL, 0D\t\t; Check if the key was Enter (Carriage Return)
+\tJZ  Done
+\tMOV [BL], AL\t; Copy the code in AL to the video RAM that BL points to
+\tINC  BL\t\t\t; Make BL point to the next video RAM location
+\tJNZ Loop
 Done:`
   ),
   createExample(
     'Visual Display Unit',
-    `\tJMP Start
-
-\tDB "Hello World!"
-\tDB 00
-
+    `\tJMP Start\t\t; Jump past the data table
+\tDB  "Hello World!"
+\tDB   00
 Start:
-\tMOV AL, C0\t\t; Starting address of VDU
-\tMOV BL, 02\t\t; Address of the first character in the string
-\tMOV CL, [BL]\t; Store the first character in CL
-
+\tMOV  AL,  C0\t; Make AL point to video RAM
+\tMOV  BL,  02\t; Make BL point to the start address of the string
+\tMOV  CL, [BL]\t; Copy the first character from RAM to CL
 Loop:
-\tMOV [AL], CL\t; Output to VDU
-\tINC AL\t\t\t; Increase the address of VDU by one
-\tINC BL\t\t\t; Increase the address of character by one
-\tMOV CL, [BL]\t; Store the next character in CL
-\tCMP CL, 00\t\t; Check if the next character is zero
-\tJNZ Loop\t\t; Jump back to Loop if there is remaining character`
+\tMOV [AL], CL\t; Copy the code in CL to the video RAM that AL points to
+\tINC  AL\t\t\t; Make AL point to the next video RAM location
+\tINC  BL\t\t\t; Make BL point to the next character
+\tMOV  CL, [BL]\t; Copy the next character from RAM to CL
+\tCMP  CL,  00\t; Check if the next character is zero
+\tJNZ Loop`
   ),
   createExample(
     'Traffic Lights',
-    `Start:
-\tMOV AL, 80\t; 1000 0000
-
+    `\tMOV AL, 80\t\t; 1000 0000
 Loop:
-\tOUT 01\t\t; Output to Traffic Lights
-\tDIV AL, 02\t; Move the bit to right by one
-\tCMP AL, 00\t; Check if AL is zero
-\tJNZ Loop\t; No => Jump back to Loop
-\tJMP Start`
+\tOUT 01\t\t\t; Send data to traffic lights
+\tROR AL\t\t\t; Rotate the bits in AL to the right
+\tJMP Loop`
   ),
   createExample(
     'Seven-Segment Display',
-    `\tJMP Start
-
-\tDB FA\t\t\t; 0 - 1111 1010
-\tDB 60\t\t\t; 1 - 0110 0000
-\tDB B6\t\t\t; 2 - 1011 0110
-\tDB 9E\t\t\t; 3 - 1001 1110
-\tDB 4E\t\t\t; 4 - 0100 1110
-\tDB DC\t\t\t; 5 - 1101 1100
-\tDB FC\t\t\t; 6 - 1111 1100
-\tDB 8A\t\t\t; 7 - 1000 1010
-\tDB FE\t\t\t; 8 - 1111 1110
-\tDB DE\t\t\t; 9 - 1101 1110
-\tDB 00
-
+    `\tJMP Start\t\t; Jump past the data table
+\tDB  FA\t\t\t; 0 - 1111 1010
+\tDB  60\t\t\t; 1 - 0110 0000
+\tDB  B6\t\t\t; 2 - 1011 0110
+\tDB  9E\t\t\t; 3 - 1001 1110
+\tDB  4E\t\t\t; 4 - 0100 1110
+\tDB  DC\t\t\t; 5 - 1101 1100
+\tDB  FC\t\t\t; 6 - 1111 1100
+\tDB  8A\t\t\t; 7 - 1000 1010
+\tDB  FE\t\t\t; 8 - 1111 1110
+\tDB  DE\t\t\t; 9 - 1101 1110
+\tDB  00
 Start:
-\tMOV BL, 02\t\t; Starting address of the data table
-\tMOV AL, [BL]\t; Store the first number in AL
-
+\tMOV BL,  02\t\t; Make BL point to the start address of the data table
+\tMOV AL, [BL]\t; Copy the first number from RAM to AL
 Loop:
-\tOUT 02\t\t\t; Output to Seven-segment Display
-\tINC AL\t\t\t; Set LSB of the number to one
+\tOUT 02\t\t\t; Send data to seven-segment display
+\tINC AL\t\t\t; Set the right most bit to one
 \tNOP NOP NOP\t\t; Wait for three cycles
-\tOUT 02\t\t\t; Output to Seven-segment Display
-\tINC BL\t\t\t; Increase the address of the data table by one
-\tMOV AL, [BL]\t; Store the next number in AL
-\tCMP AL, 00\t\t; Check if the next number is zero
-\tJNZ Loop\t\t; No => Jump back to Loop
+\tOUT 02\t\t\t; Send data to seven-segment display
+\tINC BL\t\t\t; Make BL point to the next number in the data table
+\tMOV AL, [BL]\t; Copy the next number from RAM to AL
+\tCMP AL,  00\t\t; Check if the next number is zero
+\tJNZ Loop\t\t
 \tJMP Start`
   )
 ]
