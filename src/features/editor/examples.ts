@@ -59,6 +59,36 @@ Rep:
 \tRET\t\t\t; Return from the procedure`
   ),
   createExample(
+    'Software Interrupts',
+    `\tJMP  Start\t\t; Jump past table of interrupt vectors
+\tDB   51\t\t\t; Vector at 02 pointing to address 51
+\tDB   71\t\t\t; Vector at 03 pointing to address 71
+Start:
+\tINT  02\t\t\t; Do interrupt 02
+\tINT  03\t\t\t; Do interrupt 03
+\tJMP  Start
+${COMMENT_DIVIDER}
+\tORG  50
+\tDB   E0
+\t\t\t\t\t; Interrupt code starts here
+\tMOV  AL, [50]\t; Copy bits from RAM into AL
+\tNOT  AL\t\t\t; Invert the bits in AL
+\tMOV [50], AL\t; Copy inverted bits back to RAM
+\tOUT  01\t\t\t; Send data to traffic lights
+\tIRET
+${COMMENT_DIVIDER}
+\tORG  70
+\tDB   FE
+\t\t\t\t\t; Interrupt code starts here
+\tMOV  AL, [70]\t; Copy bits from RAM into AL
+\tNOT  AL\t\t\t; Invert the bits in AL
+\tAND  AL,  FE\t; Force right most bit to zero
+\tMOV [70], AL\t; Copy inverted bits back to RAM
+\tOUT  02\t\t\t; Send data to seven-segment display
+\tIRET`
+  ),
+  createExample('Hardware Interrupts', '\t'),
+  createExample(
     'Keyboard Input',
     `\tMOV BL, C0\t\t; Starting address of VDU
 
