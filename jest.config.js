@@ -6,8 +6,17 @@ module.exports = {
     'src/features/memory/core.ts',
     'src/features/cpu/core/*.ts'
   ],
+  globals: {
+    'ts-jest': {
+      isolatedModules: true
+    }
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    // jest does not support loading a module with query parameters
+    // https://github.com/facebook/jest/issues/4181
+    // solution is found here:
+    // https://github.com/vitejs/vite/issues/4067#issuecomment-892631379
     '^(.*)\\?raw$': '$1'
   },
   preset: 'ts-jest',
