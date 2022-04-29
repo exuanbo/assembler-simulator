@@ -1,11 +1,11 @@
-import newFileTemplate from './examples/new_file_template.asm?raw'
-import procedures from './examples/procedures.asm?raw'
-import softwareInterrupts from './examples/software_interrupts.asm?raw'
-import hardwareInterrupts from './examples/hardware_interrupts.asm?raw'
-import keyboardInput from './examples/keyboard_input.asm?raw'
-import visualDisplayUnit from './examples/visual_display_unit.asm?raw'
-import trafficLights from './examples/traffic_lights.asm?raw'
-import sevenSegmentDisplay from './examples/seven_segment_display.asm?raw'
+import newFileTemplate from './new_file_template.asm?raw'
+import procedures from './procedures.asm?raw'
+import softwareInterrupts from './software_interrupts.asm?raw'
+import hardwareInterrupts from './hardware_interrupts.asm?raw'
+import keyboardInput from './keyboard_input.asm?raw'
+import visualDisplayUnit from './visual_display_unit.asm?raw'
+import trafficLights from './traffic_lights.asm?raw'
+import sevenSegmentDisplay from './seven_segment_display.asm?raw'
 
 export const NEW_FILE_TEMPLATE = newFileTemplate
 
