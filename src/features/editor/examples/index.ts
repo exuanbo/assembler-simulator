@@ -1,4 +1,4 @@
-import newFileTemplate from './new_file_template.asm?raw'
+import __template from './template.asm?raw'
 import procedures from './procedures.asm?raw'
 import softwareInterrupts from './software_interrupts.asm?raw'
 import hardwareInterrupts from './hardware_interrupts.asm?raw'
@@ -7,40 +7,31 @@ import visualDisplayUnit from './visual_display_unit.asm?raw'
 import trafficLights from './traffic_lights.asm?raw'
 import sevenSegmentDisplay from './seven_segment_display.asm?raw'
 
-export const NEW_FILE_TEMPLATE = newFileTemplate
+const TITLE_REGEXP = /;\t(.*)/
+
+const getTitleFrom = (content: string): string => TITLE_REGEXP.exec(content)![1]
 
 interface Example {
-  name: string
+  title: string
   content: string
 }
 
+export const template: Example = {
+  title: getTitleFrom(__template),
+  content: __template
+}
+
 export const examples: readonly Example[] = [
-  {
-    name: 'Procedures',
-    content: procedures
-  },
-  {
-    name: 'Software Interrupts',
-    content: softwareInterrupts
-  },
-  {
-    name: 'Hardware Interrupts',
-    content: hardwareInterrupts
-  },
-  {
-    name: 'Keyboard Input',
-    content: keyboardInput
-  },
-  {
-    name: 'Visual Display Unit',
-    content: visualDisplayUnit
-  },
-  {
-    name: 'Traffic Lights',
-    content: trafficLights
-  },
-  {
-    name: 'Seven-segment Display',
-    content: sevenSegmentDisplay
+  procedures,
+  softwareInterrupts,
+  hardwareInterrupts,
+  keyboardInput,
+  visualDisplayUnit,
+  trafficLights,
+  sevenSegmentDisplay
+].map(content => {
+  return {
+    title: getTitleFrom(content),
+    content
   }
-]
+})

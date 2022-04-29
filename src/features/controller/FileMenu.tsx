@@ -6,7 +6,7 @@ import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
 import { useStore } from '@/app/hooks'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
-import { NEW_FILE_TEMPLATE, examples } from '@/features/editor/examples'
+import { template, examples } from '@/features/editor/examples'
 
 const NewFileButton = (): JSX.Element => {
   const store = useStore()
@@ -16,7 +16,7 @@ const NewFileButton = (): JSX.Element => {
       onClick={() => {
         store.dispatch(
           setEditorInput({
-            value: NEW_FILE_TEMPLATE,
+            value: template.content,
             isFromFile: true
           })
         )
@@ -97,7 +97,7 @@ const OpenExampleMenu = (): JSX.Element => {
           </MenuButton>
           {isHovered && (
             <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
-              {examples.map(({ name, content }, index) => (
+              {examples.map(({ title, content }, index) => (
                 <MenuItem
                   key={index}
                   onClick={() => {
@@ -110,7 +110,7 @@ const OpenExampleMenu = (): JSX.Element => {
                   }}>
                   <MenuButton>
                     <span className="w-4" />
-                    <span>{name}</span>
+                    <span>{title}</span>
                   </MenuButton>
                 </MenuItem>
               ))}

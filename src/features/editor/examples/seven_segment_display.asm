@@ -1,5 +1,5 @@
 ; --------------------------------------
-;	Seven-Segment Display
+;	Seven-segment Display
 ; --------------------------------------
 	JMP Start		; Jump past the data table
 	DB  FA			; 0 - 1111 1010
