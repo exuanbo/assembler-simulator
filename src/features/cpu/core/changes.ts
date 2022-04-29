@@ -1,5 +1,4 @@
 import type { Registers } from './index'
-import type { RegisterName } from './constants'
 
 interface Change {
   // TODO: { from: number, to: number }
@@ -7,7 +6,7 @@ interface Change {
 }
 
 export interface RegisterChange extends Change {
-  name?: RegisterName
+  name?: string
 }
 
 type RegisterChanges = {

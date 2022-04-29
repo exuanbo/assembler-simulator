@@ -252,7 +252,6 @@ class Controller {
         halted: shouldHalt = false,
         requiredInputPort,
         data: outputData,
-        interruptFlagSet,
         closeWindows: shouldCloseWindows = false
       } = signals.output
       if (interrupt) {
@@ -319,18 +318,11 @@ class Controller {
           )
         }
       }
-      if (interruptFlagSet !== undefined && isRunning) {
-        if (interruptFlagSet) {
-          this.setInterruptInterval()
-          this.isInterruptIntervalSet = true
-        } else {
-          this.clearInterruptInterval()
-          this.isInterruptIntervalSet = false
-        }
-      }
       if (isRunning) {
-        if (interruptFlagSet !== undefined) {
-          if (interruptFlagSet) {
+        const isInterruptFlagSet = getFlagFrom(cpuRegisters.sr, Flag.Interrupt)
+        const isInterruptFlagChanged = changes.cpuRegisters.sr?.name === Flag[Flag.Interrupt]
+        if (isInterruptFlagChanged) {
+          if (isInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()
               this.isInterruptIntervalSet = true
@@ -339,7 +331,7 @@ class Controller {
             this.clearInterruptInterval()
             this.isInterruptIntervalSet = false
           }
-        } else if (getFlagFrom(cpuRegisters.sr, Flag.Interrupt) && !this.isInterruptIntervalSet) {
+        } else if (isInterruptFlagSet && !this.isInterruptIntervalSet) {
           this.setInterruptInterval()
           this.isInterruptIntervalSet = true
         }
@@ -436,7 +428,7 @@ export const useController = (): Controller => {
   useEffect(() => {
     return watch(selectRuntimeConfiguration, async (_, api) => {
       const state = api.getState()
-      // `setSuspended` action listener will resume the main loop with the new configuration
+      // `setSuspended` action listener will resume the main loop with new configuration
       // so we skip calling `stopAndRun` if cpu is suspended
       if (!selectIsSuspended(state) && selectIsRunning(state)) {
         await controller.stopAndRun()

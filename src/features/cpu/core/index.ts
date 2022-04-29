@@ -1,5 +1,5 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { MAX_SP, GeneralPurposeRegister, GeneralPurposeRegisterName } from './constants'
+import { MAX_SP, GeneralPurposeRegister } from './constants'
 import type { RegisterChange, MemoryDataChange, StepChanges } from './changes'
 import {
   add,
@@ -180,9 +180,6 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
   const setOutputData = (content: number, port: number): void => {
     __outputSignals.data = { content, port }
   }
-  const setInterruptFlag = (value: boolean): void => {
-    __outputSignals.interruptFlagSet = value
-  }
   const setCloseWindows = (): void => {
     __outputSignals.closeWindows = true
   }
@@ -213,7 +210,7 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
     const setGpr = (register: GeneralPurposeRegister, value: number): void => {
       cpuRegisters.gpr[register] = value
       setRegisterChange('gpr', {
-        name: GeneralPurposeRegister[register] as GeneralPurposeRegisterName,
+        name: GeneralPurposeRegister[register],
         value
       })
     }
@@ -254,7 +251,10 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
     const getFlag = (flag: Flag): boolean => getFlagFrom(cpuRegisters.sr, flag)
     const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
       cpuRegisters.sr[flag] = flagStatus
-      setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
+      setRegisterChange('sr', {
+        name: Flag[flag],
+        value: getSrValue(cpuRegisters.sr)
+      })
     }
 
     /**
@@ -627,13 +627,11 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       // Miscellaneous
       case Opcode.STI: {
         setFlag(Flag.Interrupt, FlagStatus.On)
-        setInterruptFlag(true)
         incIp()
         break
       }
       case Opcode.CLI: {
         setFlag(Flag.Interrupt, FlagStatus.Off)
-        setInterruptFlag(false)
         incIp()
         break
       }
