@@ -16,28 +16,28 @@ const StaticParts = memo(() => (
       <rect height="80" width="16" x="48" y="136" />
       <rect height="12" width="32" x="40" y="216" />
       {/* Right */}
-      <rect height="112" width="48" x="240" y="24" />
-      <rect height="80" width="16" x="256" y="136" />
-      <rect height="12" width="32" x="248" y="216" />
+      <rect height="112" width="48" x="232" y="24" />
+      <rect height="80" width="16" x="248" y="136" />
+      <rect height="12" width="32" x="240" y="216" />
     </g>
     <g fill="none" stroke="#fff" strokeWidth="2">
       <title>Circut</title>
       {/* Left */}
-      <polyline points="44,44 36,44 36,132 52,132 52,180 104,180 104,200" />
-      <polyline points="44,76 40,76 40,128 56,128 56,176 120,176 120,200" />
-      <polyline points="68,108 72,108 72,132 60,132 60,172 136,172 136,200" />
+      <polyline points="44,44 36,44 36,132 52,132 52,180 100,180 100,200" />
+      <polyline points="44,76 40,76 40,128 56,128 56,176 116,176 116,200" />
+      <polyline points="68,108 72,108 72,132 60,132 60,172 132,172 132,200" />
       {/* Right */}
-      <polyline points="252,44 244,44 244,132 260,132 260,172 152,172 152,200" />
-      <polyline points="252,76 248,76 248,128 264,128 264,176 168,176 168,200" />
-      <polyline points="276,108 280,108 280,132 268,132 268,180 184,180 184,200" />
+      <polyline points="244,44 236,44 236,132 252,132 252,172 148,172 148,200" />
+      <polyline points="244,76 240,76 240,128 256,128 256,176 164,176 164,200" />
+      <polyline points="268,108 272,108 272,132 260,132 260,180 180,180 180,200" />
       {/* Redundant */}
-      <polyline points="200,200 200,184 284,184 284,160" />
-      <polyline points="216,200 216,188 288,188 288,164" />
+      <polyline points="196,200 196,184 276,184 276,160" />
+      <polyline points="212,200 212,188 280,188 280,164" />
     </g>
     <g fill="#fff">
       <title>Circut Node</title>
       {range(8).map(index => (
-        <rect key={index} height="8" width="8" x={100 + index * 16} y="200" />
+        <rect key={index} height="8" width="8" x={96 + index * 16} y="200" />
       ))}
     </g>
     <g fill="#fff" textAnchor="middle">
@@ -45,7 +45,7 @@ const StaticParts = memo(() => (
       <text x="24" y="210">
         MSB
       </text>
-      <text x="296" y="210">
+      <text x="288" y="210">
         LSB
       </text>
     </g>
@@ -63,7 +63,7 @@ const TrafficLights = (): JSX.Element | null => {
 
   return isVisible ? (
     <DeviceCard name="Traffic Lights" onClickClose={toggleVisible}>
-      <svg viewBox="0 0 320 240" width="320" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 312 240" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
           <StaticParts />
@@ -75,7 +75,7 @@ const TrafficLights = (): JSX.Element | null => {
             return (
               <circle
                 key={index}
-                cx={index < 3 ? 56 : 264}
+                cx={index < 3 ? 56 : 256}
                 cy={44 + (index % 3) * 32}
                 fill={isOn ? lightColors[index % 3] : 'none'}
                 r="12"
@@ -86,7 +86,7 @@ const TrafficLights = (): JSX.Element | null => {
         <g fill="#fff" textAnchor="middle">
           <title>Data Layer</title>
           {data.map((digit, index) => (
-            <text key={index} x={104 + index * 16} y="224">
+            <text key={index} x={100 + index * 16} y="224">
               {digit}
             </text>
           ))}
