@@ -13,7 +13,7 @@ export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
     `[${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`
 }
 
-export const memorySerializer: jest.SnapshotSerializerPlugin = {
+export const memoryDataSerializer: jest.SnapshotSerializerPlugin = {
   test: value => isArrayOf('number', 'string')(value) && value.length % 0x10 === 0,
   serialize: (arr: Array<number | string>, _config, indentation) => `[
 ${chunk(0x10, arr)

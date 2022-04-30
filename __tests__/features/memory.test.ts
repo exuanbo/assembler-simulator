@@ -1,8 +1,8 @@
 import { assemble } from '@/features/assembler/core'
 import { initData, getVduDataFrom, getSourceFrom } from '@/features/memory/core'
-import { memorySerializer } from '../snapshotSerializers'
+import { memoryDataSerializer } from '../snapshotSerializers'
 
-expect.addSnapshotSerializer(memorySerializer)
+expect.addSnapshotSerializer(memoryDataSerializer)
 
 describe('memory', () => {
   describe('getVduDataFrom', () => {

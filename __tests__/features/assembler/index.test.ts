@@ -1,9 +1,9 @@
 import { AssemblerError, assemble } from '@/features/assembler/core'
 import { examples } from '@/features/editor/examples'
 import { initDataFrom } from '@/features/memory/core'
-import { memorySerializer } from '../../snapshotSerializers'
+import { memoryDataSerializer } from '../../snapshotSerializers'
 
-expect.addSnapshotSerializer(memorySerializer)
+expect.addSnapshotSerializer(memoryDataSerializer)
 
 describe('assembler', () => {
   examples.forEach(({ title, content }) => {

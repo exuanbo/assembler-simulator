@@ -11,10 +11,10 @@ import {
 } from '@/features/cpu/core'
 import { InputSignals, NULL_INPUT_DATA, initialInputSignals } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
-import { shortArraySerializer, memorySerializer } from '../snapshotSerializers'
+import { shortArraySerializer, memoryDataSerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)
-expect.addSnapshotSerializer(memorySerializer)
+expect.addSnapshotSerializer(memoryDataSerializer)
 
 const initialMemoryData = initData()
 
