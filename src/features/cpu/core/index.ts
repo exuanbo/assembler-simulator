@@ -193,8 +193,8 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
   const setMemoryChange = (change: MemoryDataChange): void => {
     changes.memoryData = change
   }
-  const setRegisterChange = (name: keyof Registers, change: RegisterChange): void => {
-    changes.cpuRegisters[name] = change
+  const setRegisterChange = (registerKey: keyof Registers, change: RegisterChange): void => {
+    changes.cpuRegisters[registerKey] = change
   }
 
   const stepResult = createNextState(__lastStepResult, ({ memoryData, cpuRegisters }) => {
@@ -249,10 +249,10 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
     }
     const getFlag = (flag: Flag): boolean => getFlagFrom(cpuRegisters.sr, flag)
-    const setFlag = (flag: Flag, flagStatus: FlagStatus): void => {
-      cpuRegisters.sr[flag] = flagStatus
+    const setInterruptFlag = (flagStatus: FlagStatus): void => {
+      cpuRegisters.sr[Flag.Interrupt] = flagStatus
       setRegisterChange('sr', {
-        name: Flag[flag],
+        interrupt: true,
         value: getSrValue(cpuRegisters.sr)
       })
     }
@@ -626,12 +626,12 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
 
       // Miscellaneous
       case Opcode.STI: {
-        setFlag(Flag.Interrupt, FlagStatus.On)
+        setInterruptFlag(FlagStatus.On)
         incIp()
         break
       }
       case Opcode.CLI: {
-        setFlag(Flag.Interrupt, FlagStatus.Off)
+        setInterruptFlag(FlagStatus.Off)
         incIp()
         break
       }

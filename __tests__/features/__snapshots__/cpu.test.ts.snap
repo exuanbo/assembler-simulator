@@ -485,7 +485,7 @@ exports[`cpu step with CLI should unset interrupt flag 1`] = `
         "value": 1,
       },
       "sr": {
-        "name": "Interrupt",
+        "interrupt": true,
         "value": 0,
       },
     },
@@ -3106,7 +3106,7 @@ exports[`cpu step with STI should set interrupt flag 1`] = `
         "value": 1,
       },
       "sr": {
-        "name": "Interrupt",
+        "interrupt": true,
         "value": 16,
       },
     },
