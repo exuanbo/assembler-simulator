@@ -25,7 +25,7 @@ interface EditorState {
 }
 
 const initialState: EditorState = {
-  input: examples[0].content,
+  input: examples[/* Visual Display Unit */ 4].content,
   breakpoints: [],
   activeRange: null,
   message: null
