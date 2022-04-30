@@ -18,7 +18,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const focusInput = (): void => {
-    // focus immediately on blur does not work in Firefox
+    // focus immediately `onBlur` does not work in Firefox
     // we have to let the element lose focus first
     // https://stackoverflow.com/a/15670691/13346012
     window.setTimeout(() => {
