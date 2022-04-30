@@ -2,8 +2,8 @@ name: Github Pages
 
 on:
   push:
-    paths-ignore:
-      - "**.md"
+    tags:
+      - "v*"
 
 jobs:
   deploy:
