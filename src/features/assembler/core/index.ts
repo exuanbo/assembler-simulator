@@ -6,6 +6,7 @@ import {
   LabelNotExistError,
   JumpDistanceError
 } from './exceptions'
+import { unsign8 } from '@/common/utils'
 import { Mnemonic } from '@/common/constants'
 
 export type { SourceRange } from './types'
@@ -72,7 +73,7 @@ export const assemble = (input: string): AssembleResult => {
       if (distance < -128 || distance > 127) {
         throw new JumpDistanceError(firstOperand)
       }
-      const unsignedDistance = distance < 0 ? 0x100 + distance : distance
+      const unsignedDistance = unsign8(distance)
       firstOperand.value = unsignedDistance
       machineCode.push(unsignedDistance)
     }
