@@ -45,48 +45,67 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
   }
 }
 
-type TokenMatcher = (input: string, index: number) => Token | null
+interface Tokenizer {
+  reset: (source: string) => void
+  next: () => Token | null
+}
 
-const matchRegExp =
-  (regex: RegExp, type: TokenType): TokenMatcher =>
-  (input, index) => {
-    const match = regex.exec(input.slice(index))
-    return match === null ? null : createToken(type, match[0], index)
+const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
+  const ruleEntries = Object.entries(rules)
+  const regexp = new RegExp(ruleEntries.map(([, pattern]) => `(${pattern.source})`).join('|'), 'y')
+  let buffer = ''
+  return {
+    reset: source => {
+      buffer = source
+      regexp.lastIndex = 0
+    },
+    next: () => {
+      const startIndex = regexp.lastIndex
+      const match = regexp.exec(buffer)
+      if (match !== null && match.index === startIndex) {
+        for (let ruleIndex = 0; ; ruleIndex++) {
+          if (match[ruleIndex + 1] !== undefined) {
+            const [type] = ruleEntries[ruleIndex]
+            return createToken(type as TokenType, match[0], startIndex)
+          }
+        }
+      }
+      regexp.lastIndex = startIndex
+      // istanbul ignore next
+      if (startIndex < buffer.length) {
+        throw new Error(`Unexpected token '${buffer[startIndex]}' at index ${startIndex}.`)
+      }
+      return null
+    }
   }
+}
 
 /* eslint-disable prettier/prettier */
 
-const tokenMatchers: readonly TokenMatcher[] = [
-  matchRegExp(/^\s+/,                                              TokenType.Whitespace),
-  matchRegExp(/^;.*/,                                              TokenType.Comment),
-  matchRegExp(/^:/,                                                TokenType.Colon),
-  matchRegExp(/^,/,                                                TokenType.Comma),
-  matchRegExp(/^\d+\b/,                                            TokenType.Digits),
-  matchRegExp(/^[a-dA-D][lL]\b/,                                   TokenType.Register),
-  matchRegExp(/^\[.*?\]/,                                          TokenType.Address),
-  matchRegExp(/^"(?:[^\\\r\n]|\\.)*?"/,                            TokenType.String),
-  matchRegExp(/^(?:[^\s;:,["]+|\[.*?(?=\s*?(?:[\r\n;:,]|$))|".*)/, TokenType.Unknown)
-]
+const tokenizer = createTokenizer({
+  [TokenType.Whitespace]: /\s+/,
+  [TokenType.Comment]:    /;.*/,
+  [TokenType.Colon]:      /:/,
+  [TokenType.Comma]:      /,/,
+  [TokenType.Digits]:     /\d+\b/,
+  [TokenType.Register]:   /[a-dA-D][lL]\b/,
+  [TokenType.Address]:    /\[.*?\]/,
+  [TokenType.String]:     /"(?:[^\\\r\n]|\\.)*?"/,
+  [TokenType.Unknown]:    /[^\s;:,["]+|\[.*?(?=\s*?(?:[\r\n;:,]|$))|".*/
+})
 
 /* eslint-enable prettier/prettier */
 
 export const tokenize = (input: string): Token[] => {
+  tokenizer.reset(input)
   const tokens: Token[] = []
-  for (let index = 0; index < input.length; ) {
-    const startIndex = index
-    for (const matchToken of tokenMatchers) {
-      const token = matchToken(input, index)
-      if (token !== null) {
-        if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
-          tokens.push(token)
-        }
-        index = token.value === Mnemonic.END ? input.length : token.range.to
+  let token: Token | null
+  while ((token = tokenizer.next()) !== null) {
+    if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
+      tokens.push(token)
+      if (token.value === Mnemonic.END) {
         break
       }
-    }
-    // istanbul ignore next
-    if (index === startIndex) {
-      throw new Error(`Tokenization failed with character '${input[index]}' at index ${index}.`)
     }
   }
   return tokens
