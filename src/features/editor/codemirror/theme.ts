@@ -12,9 +12,6 @@ export const theme = (): Extension =>
     '.cm-scroller': {
       fontFamily: "'Jetbrains Mono', monospace"
     },
-    '.cm-content': {
-      overflowX: 'auto'
-    },
     '.cm-gutters': {
       borderRight: '1px solid #e5e7eb',
       backgroundColor: '#f3f4f6',
