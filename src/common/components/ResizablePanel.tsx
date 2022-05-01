@@ -5,27 +5,41 @@ const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
 
 interface Props {
-  children: [left: ReactNode, right: ReactNode]
+  children: [leftChild: ReactNode, rightChild: ReactNode]
   className?: string
 }
 
 const ResizablePanel = ({ children, className }: Props): JSX.Element => {
-  const [leftWidth, setLeftWidth] = useState<number>()
-  const [isReady, setReady] = useState(false)
+  const [leftChild, rightChild] = children
+
+  const [leftChildWidth, setLeftChildWidth] = useState<number>()
+  const isReady = leftChildWidth !== undefined
 
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
+  const rightChildRef = useRef<HTMLDivElement>(null)
 
   const getDividerWidth = (): number => dividerRef.current!.offsetWidth
 
-  const getTotalWidthAdjusted = (): number => containerRef.current!.offsetWidth - getDividerWidth()
+  const getTotalWidth = (): number => containerRef.current!.offsetWidth - getDividerWidth()
 
-  const getInitialLeftWidth = (): number => 0.5 * getTotalWidthAdjusted()
+  const getInitialLeftChildWidth = (): number => 0.5 * getTotalWidth()
+
+  const getAvailableWidth = (): number => getTotalWidth() - rightChildRef.current!.offsetWidth
 
   useEffect(() => {
-    setLeftWidth(getInitialLeftWidth())
-    setReady(true)
+    setLeftChildWidth(getInitialLeftChildWidth())
   }, [])
+
+  useEffect(() => {
+    if (!isReady) {
+      return
+    }
+    const availableWidth = getAvailableWidth()
+    if (leftChildWidth > availableWidth) {
+      setLeftChildWidth(availableWidth)
+    }
+  }, [isReady, leftChildWidth])
 
   const [isDragging, setIsDragging] = useState(false)
 
@@ -37,7 +51,7 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
 
     clickCountRef.current += 1
     if (clickCountRef.current === 2) {
-      setLeftWidth(getInitialLeftWidth())
+      setLeftChildWidth(getInitialLeftChildWidth())
       window.clearTimeout(clickTimeoutIdRef.current)
       clickCountRef.current = 0
     } else {
@@ -54,15 +68,23 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
 
     const handleMouseMove = throttle((event: MouseEvent) => {
       const dividerWidth = getDividerWidth()
-      const clientXAdjusted = event.clientX - dividerWidth / 2
+      const clientX = event.clientX - dividerWidth / 2
 
-      const totalWidthAdjusted = getTotalWidthAdjusted()
+      const totalWidth = getTotalWidth()
 
-      const percentage = clientXAdjusted / totalWidthAdjusted
+      const percentage = clientX / totalWidth
       const percentageAdjusted = clamp(percentage, MIN_WIDTH_PERCENTAGE, MAX_WIDTH_PERCENTAGE)
 
-      const widthAdjusted = percentageAdjusted * totalWidthAdjusted
-      setLeftWidth(widthAdjusted)
+      const widthAdjusted = percentageAdjusted * totalWidth
+
+      if (percentageAdjusted === MAX_WIDTH_PERCENTAGE) {
+        const availableWidth = getAvailableWidth()
+        if (widthAdjusted > availableWidth) {
+          setLeftChildWidth(availableWidth)
+          return
+        }
+      }
+      setLeftChildWidth(widthAdjusted)
     }, 10)
 
     const handleMouseUp = (): void => {
@@ -76,12 +98,14 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, leftWidth])
+  }, [isDragging])
 
   return (
     <>
       <div ref={containerRef} className={classNames('flex', className)}>
-        {isReady && <div style={{ width: leftWidth }}>{children[0]}</div>}
+        <div className={classNames({ hidden: !isReady })} style={{ width: leftChildWidth }}>
+          {leftChild}
+        </div>
         <div
           ref={dividerRef}
           className={classNames(
@@ -99,9 +123,11 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
             />
           ))}
         </div>
-        {isReady && <div className="flex-1">{children[1]}</div>}
+        <div ref={rightChildRef} className={classNames('flex-1', { hidden: !isReady })}>
+          {rightChild}
+        </div>
       </div>
-      <div className={isDragging ? 'cursor-col-resize inset-0 z-10 fixed' : 'hidden'} />
+      {isDragging && <div className="cursor-col-resize inset-0 z-10 fixed" />}
     </>
   )
 }
