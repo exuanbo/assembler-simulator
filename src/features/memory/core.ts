@@ -28,7 +28,7 @@ export const getSourceFrom = (map: AddressToStatementMap): string[] => {
     address < VDU_START_ADDRESS ? Mnemonic.END : ''
   )
   for (const address in map) {
-    const addressNumber = Number.parseInt(address)
+    const addressNumber = Number(address)
     const statement = map[address]
     const { instruction, operands } = statement
     if (instruction.mnemonic === Mnemonic.DB) {
