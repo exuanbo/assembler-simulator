@@ -7,7 +7,7 @@ import { decTo8bitBinDigits, merge } from '@/common/utils'
 export enum IoDeviceName {
   VisualDisplayUnit = 'VisualDisplayUnit',
   TrafficLights = 'TrafficLights',
-  SevenSegmentDisplay = 'SevenSegmentDisplay'
+  SevenSegmentDisplay = 'Seven-segmentDisplay'
 }
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
