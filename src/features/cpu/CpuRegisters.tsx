@@ -20,7 +20,7 @@ const CpuRegisters = (): JSX.Element => {
 
   return (
     <div className="border-b">
-      <CardHeader title="General Purpose Registers" />
+      <CardHeader title="Registers" />
       <div className="divide-x flex">
         <table className="flex-1">
           <tbody className="divide-y">

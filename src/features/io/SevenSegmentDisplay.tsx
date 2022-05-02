@@ -160,7 +160,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
   }, [outputData])
 
   return isVisible ? (
-    <DeviceCard name="Seven-Segment Display" onClickClose={toggleVisible}>
+    <DeviceCard name="Seven-segment Display" onClickClose={toggleVisible}>
       <svg viewBox="0 0 320 300" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
