@@ -2,7 +2,7 @@
   "name": "assembler-simulator",
   "private": "true",
   "version": "1.0.0-alpha.1",
-  "description": "8-bit Assembler Simulator based on the Samphire Microprocessor Simulator instruction set.",
+  "description": "A simulator of 8-bit CPU using the Samphire Microprocessor Simulator instruction set.",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
