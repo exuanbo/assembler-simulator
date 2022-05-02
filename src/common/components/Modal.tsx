@@ -28,6 +28,7 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
     containerWrapper.appendChild(container)
     setContainerReady(true)
     return () => {
+      containerRef.current = undefined
       containerWrapper.removeChild(container)
       setContainerReady(false)
     }
