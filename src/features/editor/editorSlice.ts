@@ -4,7 +4,7 @@ import { LineLoc, lineRangesEqual } from './codemirror/text'
 import type { RootState } from '@/app/store'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 import { examples } from './examples'
-import { range, curryRight2 } from '@/common/utils'
+import { curryRight2 } from '@/common/utils'
 
 export enum MessageType {
   Info,
@@ -92,14 +92,14 @@ export const selectEditorActiveLinePos = curryRight2(
       return undefined
     }
     const linePos: number[] = []
-    range(activeRange.from, activeRange.to + 1).forEach(pos => {
-      if (pos <= view.state.doc.length) {
+    for (let pos = activeRange.from; pos < activeRange.to; pos++) {
+      if (pos < view.state.doc.length) {
         const line = view.state.doc.lineAt(pos)
         if (!linePos.includes(line.from)) {
           linePos.push(line.from)
         }
       }
-    })
+    }
     return linePos.length > 0 ? linePos : undefined
   })
 )
