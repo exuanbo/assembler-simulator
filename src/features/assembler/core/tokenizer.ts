@@ -66,7 +66,7 @@ const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
         for (let ruleIndex = 0; ; ruleIndex++) {
           if (match[ruleIndex + 1] !== undefined) {
             const [type] = ruleEntries[ruleIndex]
-            return createToken(type as TokenType, match[0], startIndex)
+            return createToken(type as TokenType, match[0], match.index)
           }
         }
       }
