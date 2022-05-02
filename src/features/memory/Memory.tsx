@@ -17,11 +17,12 @@ const Memory = (): JSX.Element => {
   const Icon = isOpen ? ArrowUp : ArrowDown
 
   const memoryView = useSelector(selectMemoryView)
+  const isDataView = memoryView !== MemoryView.Source
 
   const getDataRows = useSelector(selectMemoryDataRowsLazily)
   const getSourceRows = useSelector(selectMemorySourceRowsLazily)
 
-  const rows = memoryView === MemoryView.Source ? getSourceRows() : getDataRows()
+  const rows = isDataView ? getDataRows() : getSourceRows()
 
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
 
@@ -54,12 +55,12 @@ const Memory = (): JSX.Element => {
                     <td
                       key={colIndex}
                       className={classNames('text-center', {
-                        'bg-blue-50': sp < address && address <= MAX_SP
+                        'bg-blue-50': sp < address && address <= MAX_SP && isDataView
                       })}>
                       <span
                         className={classNames('px-1', {
                           'rounded bg-green-100': address === ip,
-                          'rounded bg-blue-100': address === sp
+                          'rounded bg-blue-100': address === sp && isDataView
                         })}>
                         {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
                       </span>
