@@ -17,13 +17,8 @@ type Watch = <TSelected>(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscriptions<TSelected = any> = Map<
   (state: RootState) => TSelected,
-  {
-    prevSelected: TSelected
-    callbacks: Set<WatchCallback<TSelected>>
-  }
+  Set<WatchCallback<TSelected>>
 >
-
-const nil = Symbol('nil')
 
 interface Watcher extends Middleware {
   watch: Watch
@@ -36,15 +31,11 @@ const createWatcher = (): Watcher => {
     const startState = api.getState()
     const result = next(action)
     const state = api.getState()
-    subscriptions.forEach((subscription, selector) => {
-      if (subscription.prevSelected === nil) {
-        subscription.prevSelected = selector(startState)
-      }
-      const { prevSelected, callbacks } = subscription
+    subscriptions.forEach((callbacks, selector) => {
+      const startSelected = selector(startState)
       const selectedState = selector(state)
-      if (selectedState !== prevSelected) {
+      if (selectedState !== startSelected) {
         callbacks.forEach(cb => cb(selectedState, api))
-        subscription.prevSelected = selectedState
       }
     })
     return result
@@ -52,12 +43,9 @@ const createWatcher = (): Watcher => {
 
   watcher.watch = (selector, callback) => {
     if (!subscriptions.has(selector)) {
-      subscriptions.set(selector, {
-        prevSelected: nil,
-        callbacks: new Set()
-      })
+      subscriptions.set(selector, new Set())
     }
-    const { callbacks } = subscriptions.get(selector)!
+    const callbacks = subscriptions.get(selector)!
     callbacks.add(callback)
     return () => {
       if (callbacks.delete(callback) && callbacks.size === 0) {
