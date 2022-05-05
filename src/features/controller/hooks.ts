@@ -61,7 +61,7 @@ import {
   setIoDevicesInvisible,
   resetIoState
 } from '@/features/io/ioSlice'
-import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
+import { setException } from '@/features/exception/exceptionSlice'
 import { useConstant } from '@/common/hooks'
 import { call, errorToPlainObject } from '@/common/utils'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
@@ -211,8 +211,8 @@ class Controller {
           const runtimeError = err.toPlainObject()
           this.dispatch(setCpuFault(runtimeError))
         } else {
-          const unexpectedError = errorToPlainObject(err as Error)
-          this.dispatch(setUnexpectedError(unexpectedError))
+          const errorObject = errorToPlainObject(err as Error)
+          this.dispatch(setException(errorObject))
         }
         resolve(undefined)
         return

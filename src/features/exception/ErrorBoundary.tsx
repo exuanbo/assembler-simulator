@@ -1,6 +1,6 @@
 import { ReactNode, Component } from 'react'
 import { useStore } from '@/app/hooks'
-import { setUnexpectedError } from './unexpectedErrorSlice'
+import { setException } from './exceptionSlice'
 import { errorToPlainObject } from '@/common/utils'
 
 type ErrorHandler = (err: Error) => void
@@ -11,7 +11,7 @@ interface ErrorBoundaryComponentProps {
 }
 
 class ErrorBoundaryComponent extends Component<ErrorBoundaryComponentProps> {
-  public declare static displayName: string | undefined
+  public declare static displayName?: string
 
   public componentDidCatch(err: Error): void {
     this.props.onError(errorToPlainObject(err))
@@ -34,7 +34,8 @@ const ErrorBoundary = ({ children }: Props): JSX.Element => {
   const store = useStore()
 
   const handleError: ErrorHandler = err => {
-    store.dispatch(setUnexpectedError(errorToPlainObject(err)))
+    const errorObject = errorToPlainObject(err)
+    store.dispatch(setException(errorObject))
   }
 
   return <ErrorBoundaryComponent onError={handleError}>{children}</ErrorBoundaryComponent>

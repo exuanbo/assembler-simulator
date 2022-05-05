@@ -1,17 +1,17 @@
 import { useCallback } from 'react'
 import Modal from '@/common/components/Modal'
 import Anchor from '@/common/components/Anchor'
-import { selectUnexpectedError, clearUnexpectedError } from './unexpectedErrorSlice'
+import { selectException, clearException } from './exceptionSlice'
 import { useStore, useSelector } from '@/app/hooks'
 import { useOutsideClick } from '@/common/hooks'
 
-const UnexpectedErrorModal = (): JSX.Element => {
+const ExceptionModal = (): JSX.Element => {
   const store = useStore()
-  const unexpectedError = useSelector(selectUnexpectedError)
-  const hasUnexpectedError = unexpectedError !== null
+  const error = useSelector(selectException)
+  const hasError = error !== null
 
   const handleOutsideClick = useCallback(() => {
-    store.dispatch(clearUnexpectedError())
+    store.dispatch(clearException())
   }, [])
 
   const outsideClickRef = useOutsideClick(handleOutsideClick)
@@ -19,12 +19,12 @@ const UnexpectedErrorModal = (): JSX.Element => {
   return (
     <Modal
       className="bg-white flex bg-opacity-80 inset-0 z-50 fixed items-center justify-center"
-      isOpen={hasUnexpectedError}>
+      isOpen={hasError}>
       <div
         ref={outsideClickRef}
         className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 select-text all:select-text">
-        {hasUnexpectedError
-          ? unexpectedError.stack
+        {hasError
+          ? error.stack
               ?.split(/\n(.*)/s)
               .slice(0, -1) // remove empty string
               .map((line, lineIndex) => {
@@ -65,4 +65,4 @@ const UnexpectedErrorModal = (): JSX.Element => {
   )
 }
 
-export default UnexpectedErrorModal
+export default ExceptionModal

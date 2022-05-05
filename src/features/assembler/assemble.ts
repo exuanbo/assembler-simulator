@@ -8,7 +8,7 @@ import {
   setEditorActiveRange,
   clearEditorActiveRange
 } from '@/features/editor/editorSlice'
-import { setUnexpectedError } from '@/features/unexpectedError/unexpectedErrorSlice'
+import { setException } from '@/features/exception/exceptionSlice'
 import { errorToPlainObject } from '@/common/utils'
 
 export const createAssemble =
@@ -23,8 +23,8 @@ export const createAssemble =
         store.dispatch(clearEditorActiveRange())
         store.dispatch(setAssemblerError(assemblerError))
       } else {
-        const unexpectedError = errorToPlainObject(err as Error)
-        store.dispatch(setUnexpectedError(unexpectedError))
+        const errorObject = errorToPlainObject(err as Error)
+        store.dispatch(setException(errorObject))
       }
       return
     }

@@ -5,7 +5,7 @@ import controllerReducer from '@/features/controller/controllerSlice'
 import memoryReducer from '@/features/memory/memorySlice'
 import cpuReducer from '@/features/cpu/cpuSlice'
 import ioReducer from '@/features/io/ioSlice'
-import unexpectedErrorReducer from '@/features/unexpectedError/unexpectedErrorSlice'
+import exceptionReducer from '@/features/exception/exceptionSlice'
 import { actionListener } from './actionListener'
 import { watcher } from './watcher'
 import { loadState } from './localStorage'
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   memory: memoryReducer,
   cpu: cpuReducer,
   io: ioReducer,
-  unexpectedError: unexpectedErrorReducer
+  exception: exceptionReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>
