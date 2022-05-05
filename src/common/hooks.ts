@@ -40,9 +40,9 @@ export const useOutsideClick = <T extends Element = Element>(
         onClickOutside(event)
       }
     }
-    document.addEventListener('mousedown', handleClick)
+    document.addEventListener('click', handleClick)
     return () => {
-      document.removeEventListener('mousedown', handleClick)
+      document.removeEventListener('click', handleClick)
     }
   }, [current, onClickOutside])
 
