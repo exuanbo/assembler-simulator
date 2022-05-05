@@ -119,7 +119,9 @@ export const useAutoAssemble = (): void => {
 
   useEffect(() => {
     if (view !== undefined && selectAutoAssemble(store.getState())) {
-      assemble(textToString(view.state.doc))
+      window.setTimeout(() => {
+        assemble(textToString(view.state.doc))
+      }, UPDATE_TIMEOUT_MS)
     }
   }, [view])
 
