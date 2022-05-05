@@ -1,6 +1,6 @@
 # Assembler Simulator
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/exuanbo/assembler-simulator.svg?sort=semver)](https://github.com/exuanbo/assembler-simulator/tags)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/exuanbo/assembler-simulator.svg?label=release&sort=semver)](https://github.com/exuanbo/assembler-simulator/tags)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/exuanbo/assembler-simulator/Node.js%20CI/main.svg)](https://github.com/exuanbo/assembler-simulator/actions/workflows/nodejs.yml)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
