@@ -62,7 +62,7 @@ export interface Operand<T extends OperandType = OperandType> extends BaseNode {
   raw: string
 }
 
-const __createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
+const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
   const value = call((): Operand['value'] => {
     switch (type) {
       case OperandType.Number:
@@ -168,37 +168,38 @@ const parseSingleOperand =
     }
     const token = tokens[index]
 
-    const isExpectedType = (type: OperandType): boolean =>
-      (expectedTypes as OperandType[]).includes(type)
+    let t: OperandType
 
-    const createOperand = (type: OperandType, token: Token): Operand<T> =>
-      __createOperand(type as T, token)
+    const isExpectedType = (type: OperandType): type is T =>
+      (expectedTypes as OperandType[]).includes(type)
 
     switch (token.type) {
       case TokenType.Digits:
-        if (isExpectedType(OperandType.Number)) {
-          return createOperand(OperandType.Number, validateNumber(token))
+        if (isExpectedType((t = OperandType.Number))) {
+          return createOperand(t, validateNumber(token))
         }
         break
       case TokenType.Register:
-        if (isExpectedType(OperandType.Register)) {
-          return createOperand(OperandType.Register, token)
+        if (isExpectedType((t = OperandType.Register))) {
+          return createOperand(t, token)
         }
         break
       case TokenType.Address:
-        if (isExpectedType(OperandType.Address) /* || isExpected(OperandType.RegisterAddress) */) {
+        if (isExpectedType((t = OperandType.Address))) {
           if (NUMBER_REGEXP.test(token.value)) {
-            return createOperand(OperandType.Address, validateNumber(token))
+            return createOperand(t, validateNumber(token))
           }
+        }
+        if (isExpectedType((t = OperandType.RegisterAddress))) {
           if (REGISTER_REGEXP.test(token.value)) {
-            return createOperand(OperandType.RegisterAddress, token)
+            return createOperand(t, token)
           }
           throw new AddressError(token)
         }
         break
       case TokenType.String:
-        if (isExpectedType(OperandType.String)) {
-          return createOperand(OperandType.String, validateString(token))
+        if (isExpectedType((t = OperandType.String))) {
+          return createOperand(t, validateString(token))
         }
         break
       case TokenType.Unknown:
@@ -211,11 +212,13 @@ const parseSingleOperand =
         if (token.raw.startsWith("'")) {
           throw new SingleQuoteError(token)
         }
-        if (isExpectedType(OperandType.Number) && NUMBER_REGEXP.test(token.value)) {
-          return createOperand(OperandType.Number, validateNumber(token))
+        if (isExpectedType((t = OperandType.Number))) {
+          if (NUMBER_REGEXP.test(token.value)) {
+            return createOperand(t, validateNumber(token))
+          }
         }
-        if (isExpectedType(OperandType.Label)) {
-          return createOperand(OperandType.Label, validateLabel(token))
+        if (isExpectedType((t = OperandType.Label))) {
+          return createOperand(t, validateLabel(token))
         }
         break
     }
