@@ -7,6 +7,11 @@ interface ListenerAPI extends MiddlewareAPI {
 
 type ListenCallback<TPayload> = (payload: TPayload, api: ListenerAPI) => void | Promise<void>
 
+type Subscription<TPayload> = Set<ListenCallback<TPayload>>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Subscriptions<TPayload = any> = Map<string, Subscription<TPayload>>
+
 interface ListenOptions {
   once?: boolean
 }
@@ -18,9 +23,6 @@ type ListenAction = <TPayload>(
   callback: ListenCallback<TPayload>,
   options?: ListenOptions
 ) => Unsubscribe
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscriptions<TPayload = any> = Map<string, Set<ListenCallback<TPayload>>>
 
 interface ActionListener extends Middleware {
   listenAction: ListenAction
