@@ -21,10 +21,8 @@ const ToolBar = (): JSX.Element => {
   }, [openMenu])
 
   const handleOutsideClick = useCallback(() => {
-    if (openMenu !== null) {
-      setOpenMenu(null)
-    }
-  }, [openMenu])
+    setOpenMenu(null)
+  }, [])
 
   const outsideClickRef = useOutsideClick(handleOutsideClick)
 
