@@ -148,7 +148,7 @@ export const useAssemblerError = (): void => {
   useEffect(() => {
     view?.dispatch(
       addViewUpdateListener(viewUpdate => {
-        if (selectAssemblerError(store.getState()) !== null && viewUpdate.docChanged) {
+        if (viewUpdate.docChanged && selectAssemblerError(store.getState()) !== null) {
           viewUpdate.view.dispatch({
             effects: wavyUnderlineEffect.of({ filter: () => false })
           })
