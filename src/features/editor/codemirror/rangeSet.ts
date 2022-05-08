@@ -11,9 +11,11 @@ export const mapRangeSetToArray = <T extends RangeValue, U>(
   callbackfn: (from: number, to: number, value: T) => U
 ): U[] => {
   const result = new Array<U>(rangeSet.size)
-  const rangeCursor = rangeSet.iter()
-  for (let i = 0; i < rangeSet.size; i++, rangeCursor.next()) {
-    result[i] = callbackfn(rangeCursor.from, rangeCursor.to, rangeCursor.value!)
+  if (rangeSet.size > 0) {
+    const rangeCursor = rangeSet.iter()
+    for (let i = 0; i < rangeSet.size; i++, rangeCursor.next()) {
+      result[i] = callbackfn(rangeCursor.from, rangeCursor.to, rangeCursor.value!)
+    }
   }
   return result
 }
