@@ -5,21 +5,21 @@
 
 type Nullable<T> = T | null | undefined
 
-type Argument = Nullable<string | Record<string, Nullable<boolean>>>
+type Item = Nullable<string | Record<string, Nullable<boolean>>>
 
-export const classNames = (...args: Argument[]): string => {
+export const classNames = (...items: Item[]): string => {
   let result = ''
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i]
-    if (arg != null) {
-      if (typeof arg === 'string') {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    if (item != null) {
+      if (typeof item === 'string') {
         if (result.length > 0) {
           result += ' '
         }
-        result += arg
+        result += item
       } else {
-        for (const key in arg) {
-          if (arg[key] === true) {
+        for (const key in item) {
+          if (item[key] === true) {
             if (result.length > 0) {
               result += ' '
             }
