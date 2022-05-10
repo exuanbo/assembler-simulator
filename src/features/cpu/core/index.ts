@@ -1,4 +1,4 @@
-import { createNextState } from '@reduxjs/toolkit'
+import { produce } from 'immer'
 import { MAX_SP, GeneralPurposeRegister } from './constants'
 import type { RegisterChange, MemoryDataChange, StepChanges } from './changes'
 import {
@@ -197,7 +197,7 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
     changes.cpuRegisters[registerKey] = change
   }
 
-  const stepResult = createNextState(__lastStepResult, ({ memoryData, cpuRegisters }) => {
+  const stepResult = produce(__lastStepResult, ({ memoryData, cpuRegisters }) => {
     const loadFromMemory = (address: number): number => {
       return memoryData[address]
     }
