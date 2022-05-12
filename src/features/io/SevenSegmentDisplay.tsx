@@ -151,12 +151,14 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
   } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
   useEffect(() => {
-    const newData = createNextState(data, draft => {
-      for (let i = outputData[7]; i < 14; i += 2) {
-        draft[i] = outputData[Math.floor(i / 2)]
-      }
-    })
-    setData(newData)
+    setData(
+      createNextState(data, draft => {
+        for (let i = outputData[7]; i < 14; i += 2) {
+          draft[i] = outputData[Math.floor(i / 2)]
+        }
+      })
+    )
+    // it's safe to omit `data` as dependency
   }, [outputData])
 
   return isVisible ? (
