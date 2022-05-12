@@ -39,7 +39,8 @@ export const editorSlice = createSlice({
       reducer: (state, action: PayloadAction<{ value: string }>) => {
         state.input = action.payload.value
       },
-      prepare: ({ value, isFromFile = false }: { value: string; isFromFile?: boolean }) => {
+      prepare: (payload: { value: string; isFromFile?: boolean }) => {
+        const { value, isFromFile = false } = payload
         return {
           payload: { value, isFromFile }
         }
@@ -64,6 +65,7 @@ export const editorSlice = createSlice({
       )
       state.breakpoints.splice(targetIndex, 1)
     },
+    // TODO: payload should be SourceRange
     setActiveRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
       state.activeRange = statement.range
