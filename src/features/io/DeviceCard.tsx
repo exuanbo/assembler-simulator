@@ -14,7 +14,7 @@ const DeviceCard = ({ name, onClickClose, children, className }: Props): JSX.Ele
   <div className="border shadow m-1">
     <CardHeader title={name}>
       <span
-        className="rounded-full flex bg-gray-200 h-4 w-4 justify-center group"
+        className="rounded-full flex bg-gray-200 h-4 w-4 justify-center group hover:active:bg-gray-300"
         onClick={onClickClose}>
         <Close className="fill-none w-2 group-hover:fill-gray-400" />
       </span>

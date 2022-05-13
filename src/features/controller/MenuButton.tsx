@@ -1,7 +1,7 @@
 import type { ReactNode, Ref } from 'react'
 import { classNames } from '@/common/utils'
 
-const className = 'flex space-x-2 items-center'
+const className = 'flex h-full space-x-2 items-center'
 
 interface Props {
   children: ReactNode
@@ -15,7 +15,7 @@ interface MainProps {
 }
 
 const Main = ({ children, innerRef }: MainProps): JSX.Element => (
-  <div ref={innerRef} className={classNames(className, 'py-1 px-2')}>
+  <div ref={innerRef} className={classNames(className, 'py-1 px-2 hover:active:bg-gray-300')}>
     {children}
   </div>
 )

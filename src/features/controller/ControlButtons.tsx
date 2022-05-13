@@ -16,7 +16,7 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
   <div
     className={classNames(
       'flex space-x-2 py-1 px-2 items-center',
-      disabled ? 'text-gray-400 fill-gray-400' : 'hover:bg-gray-200'
+      disabled ? 'text-gray-400 fill-gray-400' : 'hover:(bg-gray-200 active:bg-gray-300)'
     )}
     onClick={disabled ? undefined : onClick}>
     {children}
