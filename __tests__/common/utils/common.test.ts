@@ -6,8 +6,10 @@ import {
   splitCamelCaseToString,
   compareArrayWithSameLength,
   asciiToChars,
+  noop,
   curryRight2,
-  throttle
+  throttle,
+  errorToPlainObject
 } from '@/common/utils'
 
 describe('decToBin', () => {
@@ -64,6 +66,12 @@ describe('asciiToChars', () => {
   })
 })
 
+describe('noop', () => {
+  it('should do nothing', () => {
+    expect(noop()).toBeUndefined()
+  })
+})
+
 describe('curryRight2', () => {
   it('should curry a function with two arguments', () => {
     const add = (a: number, b: number): number => a + b
@@ -105,5 +113,19 @@ describe('throttle', () => {
     throttledFn()
     await new Promise(resolve => setTimeout(resolve, 2000))
     expect(fn).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('errorToPlainObject', () => {
+  it('should convert error to plain object', () => {
+    const error = new Error('test')
+    const errorObject = errorToPlainObject(error)
+    expect(Object.keys(errorObject).length).toBe(3)
+    expect(errorObject).toEqual({
+      name: 'Error',
+      message: 'test',
+      stack: expect.any(String)
+    })
+    expect(Object.prototype.toString.call(errorObject)).toBe('[object Object]')
   })
 })
