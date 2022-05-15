@@ -84,22 +84,21 @@ export const throttle = <T extends unknown[]>(
   let lastTime: number | undefined
   let queuedTimeoutId: number | undefined
 
-  return function invokeFn(...args: T) {
-    const now = Date.now()
+  return function invokeFn(...args) {
+    const currentTime = Date.now()
 
     if (queuedTimeoutId !== undefined) {
       window.clearTimeout(queuedTimeoutId)
       queuedTimeoutId = undefined
     }
 
-    if (lastTime === undefined || now - lastTime >= wait) {
+    if (lastTime === undefined || currentTime - lastTime >= wait) {
       fn(...args)
-      lastTime = now
+      lastTime = currentTime
     } else {
       queuedTimeoutId = window.setTimeout(() => {
         invokeFn(...args)
-        queuedTimeoutId = undefined
-      }, wait - (now - lastTime))
+      }, wait - (currentTime - lastTime))
     }
   }
 }
