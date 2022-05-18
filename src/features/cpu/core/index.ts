@@ -111,13 +111,13 @@ const validateSp = (address: number): number => {
 }
 
 export const getSrValue = (sr: StatusRegister): number =>
-  sr.reduce((value, flagStatus, index) => value + flagStatus * 0b10 ** (index + 1), 0)
+  sr.reduce((value, flagStatus, i) => value + flagStatus * 0b10 ** (i + 1), 0)
 
 export const getFlagFrom = (sr: StatusRegister, flag: Flag): boolean => sr[flag] === FlagStatus.On
 
 const getSrFrom = (value: number): StatusRegister => {
-  const valueStr = value.toString(2).padStart(5, '0') // I S O Z *
-  return valueStr.slice(-5, -1).split('').map(Number).reverse() as StatusRegister
+  const valueStr = value.toString(2).padStart(5, '0').slice(-5, -1) // I S O Z
+  return valueStr.split('').map(Number).reverse() as StatusRegister
 }
 
 const processOperationResult = (
