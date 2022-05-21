@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { MenuContext } from './Menu'
-import MenuButton from './MenuButton'
 import FileMenu from './FileMenu'
 import ViewMenu from './ViewMenu'
 import ConfigurationMenu from './ConfigurationMenu'
@@ -32,12 +31,12 @@ const ToolBar = (): JSX.Element => {
 
   return (
     <header className="border-y flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
-      <MenuButton.Main>
+      <div className="flex space-x-2 py-1 px-2 items-center">
         <h1>Assembler Simulator</h1>
         <Anchor href="https://github.com/exuanbo/assembler-simulator">
           <Github className="w-4.5" />
         </Anchor>
-      </MenuButton.Main>
+      </div>
       <div className="divide-x border-r flex">
         <MenuContext.Provider value={menuContextValue}>
           <FileMenu />
