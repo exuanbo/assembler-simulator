@@ -30,7 +30,7 @@ const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
     <div className={className} onClick={handleClick}>
       {children}
       <div className="w-4">
-        <Share className="mx-auto fill-gray-400 w-3.5" />
+        <Share className="mx-auto fill-gray-400" width="0.875rem" />
       </div>
     </div>
   )
@@ -73,7 +73,7 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
         <>
           <div>{children(isHovered, menuItemsRef, menuItemElement)}</div>
           <div className="w-4">
-            <Play className="mx-auto w-2.5" />
+            <Play className="mx-auto" width="0.625rem" />
           </div>
         </>
       )}

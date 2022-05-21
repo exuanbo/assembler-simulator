@@ -34,7 +34,7 @@ const ReloadPrompt = (): JSX.Element | null => {
 
   return isReloading ? (
     <div className="bg-white flex bg-opacity-80 inset-0 z-10 fixed justify-center items-center">
-      <Spinner className="animate-spin w-6" />
+      <Spinner className="animate-spin" width="1.5rem" />
     </div>
   ) : needReload ? (
     <div className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 right-4 bottom-4 fixed">

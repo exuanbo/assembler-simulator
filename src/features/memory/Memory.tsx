@@ -30,7 +30,7 @@ const Memory = (): JSX.Element => {
     <div className={classNames({ 'border-b': isOpen })}>
       <CardHeader title="Memory" onClick={toggleOpen}>
         <span className="w-4">
-          <Icon className="mx-auto fill-gray-400 w-2.5" />
+          <Icon className="mx-auto fill-gray-400" width="0.625rem" />
         </span>
       </CardHeader>
       {isOpen && (

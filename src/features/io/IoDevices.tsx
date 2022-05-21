@@ -14,7 +14,7 @@ const IoDevices = (): JSX.Element => {
     <div>
       <CardHeader title="I/O Devices" onClick={toggleOpen}>
         <span className="w-4">
-          <Icon className="mx-auto fill-gray-400 w-2.5" />
+          <Icon className="mx-auto fill-gray-400" width="0.625rem" />
         </span>
       </CardHeader>
       <SimulatedKeyboard />

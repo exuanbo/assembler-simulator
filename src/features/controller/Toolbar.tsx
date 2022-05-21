@@ -34,7 +34,7 @@ const ToolBar = (): JSX.Element => {
       <div className="flex space-x-2 py-1 px-2 items-center">
         <h1>Assembler Simulator</h1>
         <Anchor href="https://github.com/exuanbo/assembler-simulator">
-          <Github className="w-4.5" />
+          <Github width="1.125rem" />
         </Anchor>
       </div>
       <div className="divide-x border-r flex">

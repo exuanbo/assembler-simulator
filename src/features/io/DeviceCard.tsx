@@ -16,7 +16,7 @@ const DeviceCard = ({ name, onClickClose, children, className }: Props): JSX.Ele
       <span
         className="rounded-full flex bg-gray-200 h-4 w-4 justify-center group hover:active:bg-gray-300"
         onClick={onClickClose}>
-        <Close className="fill-none w-2 group-hover:fill-gray-400" />
+        <Close className="fill-none group-hover:fill-gray-400" width="0.5rem" />
       </span>
     </CardHeader>
     <div className={classNames('p-1', className)}>{children}</div>
