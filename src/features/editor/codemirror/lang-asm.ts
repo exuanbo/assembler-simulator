@@ -52,11 +52,10 @@ const asmLanguage = StreamLanguage.define<State>({
     }
 
     if (state.operandsLeft === 0) {
-      const matched = (stream.match(MAYBE_INSTRUCTION_REGEXP) as RegExpMatchArray | null)?.[0]
-      if (matched) {
-        const upperCased = matched.toUpperCase()
-        if (upperCased in Mnemonic) {
-          const mnemonic = upperCased as Mnemonic
+      if (stream.match(MAYBE_INSTRUCTION_REGEXP)) {
+        const upperCaseToken = stream.current().toUpperCase()
+        if (upperCaseToken in Mnemonic) {
+          const mnemonic = upperCaseToken as Mnemonic
           if (mnemonic === Mnemonic.END) {
             state.ended = true
           }
