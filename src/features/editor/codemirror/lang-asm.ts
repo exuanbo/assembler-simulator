@@ -17,6 +17,7 @@ const LABEL_REFERENCE_REGEXP =    /^[a-zA-Z_]+/
 const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
 const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
+const STRING_REGEXP =             /^"(?:(?:[^\\]|\\.)*?"|.*)/
 const NON_WHITESPACE_REGEXP =     /\S/
 
 /* eslint-enable prettier/prettier */
@@ -77,20 +78,7 @@ const asmLanguage = StreamLanguage.define<State>({
         return 'variableName.special'
       }
 
-      if (stream.eat('"')) {
-        stream.skipToEnd()
-        const chars = stream.current()
-        let lastQuoteIndex = 0
-        for (let i = 1; i < chars.length; i++) {
-          if (chars[i] === '"' && chars[i - 1] !== '\\') {
-            lastQuoteIndex = i
-            break
-          }
-        }
-        const lastCharIndex = chars.length - 1
-        if (lastQuoteIndex !== 0 && lastQuoteIndex !== lastCharIndex) {
-          stream.backUp(lastCharIndex - lastQuoteIndex)
-        }
+      if (stream.match(STRING_REGEXP)) {
         state.operandsLeft -= 1
         return 'string'
       }
