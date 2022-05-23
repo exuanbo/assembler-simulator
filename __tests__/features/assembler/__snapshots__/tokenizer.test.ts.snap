@@ -116,6 +116,20 @@ exports[`tokenizer should emit token with type \`Unknown\` when tokenizing strin
 ]
 `;
 
+exports[`tokenizer should remove invalid escape character 1`] = `
+[
+  {
+    "range": {
+      "from": 0,
+      "to": 7,
+    },
+    "raw": "\\"f\\\\o\\\\o\\"",
+    "type": "String",
+    "value": "foo",
+  },
+]
+`;
+
 exports[`tokenizer should skip comment at the end of the line 1`] = `
 [
   {

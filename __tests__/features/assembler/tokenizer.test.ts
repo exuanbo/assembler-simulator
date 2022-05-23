@@ -48,4 +48,8 @@ describe('tokenizer', () => {
     expect(tokenize('"\\"')).toMatchSnapshot()
     expect(tokenize('"foo\nbar"')).toMatchSnapshot()
   })
+
+  it('should remove invalid escape character', () => {
+    expect(tokenize('"f\\o\\o"')).toMatchSnapshot()
+  })
 })
