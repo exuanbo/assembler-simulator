@@ -72,7 +72,7 @@ const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
       regexp.lastIndex = startIndex
       // istanbul ignore next
       if (startIndex < buffer.length) {
-        throw new Error(`Unexpected token '${buffer[startIndex]}' at index ${startIndex}.`)
+        throw new Error(`Unexpected token ${buffer[startIndex]} at position ${startIndex}`)
       }
       return null
     }
