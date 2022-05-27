@@ -119,7 +119,6 @@ class Controller {
     this.clearStepInterval()
     if (this.isInterruptIntervalSet) {
       this.clearInterruptInterval()
-      this.isInterruptIntervalSet = false
     }
     this.dispatch(setRunning(false))
   }
@@ -128,8 +127,11 @@ class Controller {
     window.clearInterval(this.stepIntervalId)
   }
 
-  private clearInterruptInterval(): void {
+  private clearInterruptInterval(withFlag = true): void {
     window.clearInterval(this.interruptIntervalId)
+    if (withFlag) {
+      this.isInterruptIntervalSet = false
+    }
   }
 
   private restoreIfSuspended(state: RootState): void {
@@ -159,22 +161,25 @@ class Controller {
   private cancelMainLoop(): void {
     this.clearStepInterval()
     if (this.isInterruptIntervalSet) {
-      this.clearInterruptInterval()
+      this.clearInterruptInterval(/* withFlag: */ false)
     }
   }
 
   private resumeMainLoop(): void {
     this.setStepInterval()
     if (this.isInterruptIntervalSet) {
-      this.setInterruptInterval()
+      this.setInterruptInterval(/* withFlag: */ false)
     }
   }
 
-  private setInterruptInterval(): void {
+  private setInterruptInterval(withFlag = true): void {
     const { timerInterval } = selectRuntimeConfiguration(this.getState())
     this.interruptIntervalId = window.setInterval(() => {
       this.dispatch(setInterrupt(true))
     }, timerInterval)
+    if (withFlag) {
+      this.isInterruptIntervalSet = true
+    }
   }
 
   public step = async (): Promise<void> => {
@@ -325,15 +330,12 @@ class Controller {
           if (isInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()
-              this.isInterruptIntervalSet = true
             }
           } else if (this.isInterruptIntervalSet) {
             this.clearInterruptInterval()
-            this.isInterruptIntervalSet = false
           }
         } else if (isInterruptFlagSet && !this.isInterruptIntervalSet) {
           this.setInterruptInterval()
-          this.isInterruptIntervalSet = true
         }
       }
       if (shouldCloseWindows) {
