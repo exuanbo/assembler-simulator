@@ -136,6 +136,7 @@ class Controller {
   private restoreIfSuspended(state: RootState): void {
     if (selectIsSuspended(state)) {
       this.unsubscribeSetSuspended!()
+      this.unsubscribeSetSuspended = undefined
       this.dispatch(setSuspended(false))
     }
   }
