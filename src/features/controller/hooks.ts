@@ -72,6 +72,8 @@ const sourceChangedMessage: EditorMessage = {
 }
 
 class Controller {
+  public assemble: () => void
+
   private readonly getState: StoreGetState
   private readonly dispatch: StoreDispatch
 
@@ -89,13 +91,11 @@ class Controller {
   private lastBreakpointLineNumber: number | undefined
 
   constructor(store: Store) {
-    this.getState = store.getState
-    this.dispatch = store.dispatch
     const __assemble = createAssemble(store)
     this.assemble = () => __assemble()
+    this.getState = store.getState
+    this.dispatch = store.dispatch
   }
-
-  public assemble: () => void
 
   public runOrStop = async (): Promise<void> => {
     if (!this.stopIfRunning(this.getState())) {
