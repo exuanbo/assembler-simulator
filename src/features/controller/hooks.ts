@@ -75,17 +75,16 @@ class Controller {
   private readonly getState: StoreGetState
   private readonly dispatch: StoreDispatch
 
-  private stepIntervalId!: number
+  private stepIntervalId?: number
 
-  private interruptIntervalId!: number
+  private interruptIntervalId?: number
   private isInterruptIntervalSet = false
 
   private lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
   private dispatchChangesTimeoutId: number | undefined
 
-  // It must have been assigned in `step` when it is called in `restoreIfSuspended`.
-  private unsubscribeSetSuspended!: () => void
+  private unsubscribeSetSuspended: (() => void) | undefined
 
   private lastBreakpointLineNumber: number | undefined
 
@@ -136,7 +135,7 @@ class Controller {
 
   private restoreIfSuspended(state: RootState): void {
     if (selectIsSuspended(state)) {
-      this.unsubscribeSetSuspended()
+      this.unsubscribeSetSuspended!()
       this.dispatch(setSuspended(false))
     }
   }
