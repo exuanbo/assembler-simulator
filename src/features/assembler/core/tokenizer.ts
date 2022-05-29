@@ -55,8 +55,8 @@ const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
   let buffer = ''
   return {
     reset: source => {
-      buffer = source
       regexp.lastIndex = 0
+      buffer = source
     },
     next: () => {
       const startIndex = regexp.lastIndex
