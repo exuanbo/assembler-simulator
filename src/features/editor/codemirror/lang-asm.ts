@@ -18,7 +18,7 @@ const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
 const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
 const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
 const STRING_REGEXP =             /^"(?:(?:[^\\]|\\.)*?"|.*)/
-const NON_WHITESPACE_REGEXP =     /\S/
+const NON_WHITESPACE_REGEXP =     /^\S+/
 
 /* eslint-enable prettier/prettier */
 
@@ -93,7 +93,7 @@ const asmLanguage = StreamLanguage.define<State>({
 
     /* eslint-enable @typescript-eslint/strict-boolean-expressions */
 
-    stream.eatWhile(NON_WHITESPACE_REGEXP)
+    stream.match(NON_WHITESPACE_REGEXP)
     return null
   },
 
