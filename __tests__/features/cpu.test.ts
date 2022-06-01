@@ -9,7 +9,7 @@ import {
   initRegisters,
   step as __step
 } from '@/features/cpu/core'
-import { InputSignals, NULL_INPUT_DATA, initialInputSignals } from '@/features/io/core'
+import { InputSignals, SKIP, initialInputSignals } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
 import { shortArraySerializer, memoryDataSerializer } from '../snapshotSerializers'
 
@@ -641,7 +641,7 @@ describe('cpu', () => {
               draft.gpr = [1, 0, 0, 0]
             }),
             produce(initialInputSignals, draft => {
-              draft.data.content = NULL_INPUT_DATA
+              draft.data.content = SKIP
               draft.data.port = 0x00
             })
           )
