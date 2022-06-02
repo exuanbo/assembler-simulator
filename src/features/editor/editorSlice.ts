@@ -65,7 +65,6 @@ export const editorSlice = createSlice({
       )
       state.breakpoints.splice(targetIndex, 1)
     },
-    // TODO: payload should be SourceRange
     setActiveRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
       state.activeRange = statement.range
