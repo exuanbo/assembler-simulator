@@ -44,7 +44,7 @@ export type InstructionPointer = number
 
 export type StackPointer = number
 
-export enum Flag {
+export enum StatusRegisterFlag {
   Zero,
   Overflow,
   Sign,
@@ -106,7 +106,8 @@ const validateSp = (address: number): number => {
 export const getSrValue = (sr: StatusRegister): number =>
   sr.reduce((value, flagStatus, i) => value + flagStatus * 0b10 ** (i + 1), 0)
 
-export const getFlagFrom = (sr: StatusRegister, flag: Flag): boolean => sr[flag] === FlagStatus.On
+export const getSrFlagFrom = (sr: StatusRegister, flag: StatusRegisterFlag): boolean =>
+  sr[flag] === FlagStatus.On
 
 const getSrFrom = (value: number): StatusRegister => {
   const valueStr = value.toString(2).padStart(5, '0').slice(-5, -1) // I S O Z
@@ -123,13 +124,13 @@ const processOperationResult = (
     /* sign: */ FlagStatus.Off
   ]
   if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
-    flags[Flag.Overflow] = FlagStatus.On
+    flags[StatusRegisterFlag.Overflow] = FlagStatus.On
   }
   const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
   if (finalResult === 0) {
-    flags[Flag.Zero] = FlagStatus.On
+    flags[StatusRegisterFlag.Zero] = FlagStatus.On
   } else if (finalResult >= 0x80) {
-    flags[Flag.Sign] = FlagStatus.On
+    flags[StatusRegisterFlag.Sign] = FlagStatus.On
   }
   return [finalResult, flags]
 }
@@ -160,7 +161,7 @@ export interface StepOutput extends StepResult {
 
 export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals): StepOutput => {
   const getInputData = (): InputData => __inputSignals.data
-  const getInterrupt = (): boolean => __inputSignals.interrupt
+  const getInterruptSignal = (): boolean => __inputSignals.interrupt
 
   const __outputSignals: OutputSignals = {}
 
@@ -241,9 +242,9 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       Object.assign(cpuRegisters.sr, flags)
       setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
     }
-    const getFlag = (flag: Flag): boolean => getFlagFrom(cpuRegisters.sr, flag)
-    const setInterruptFlag = (flagStatus: FlagStatus): void => {
-      cpuRegisters.sr[Flag.Interrupt] = flagStatus
+    const getSrFlag = (flag: StatusRegisterFlag): boolean => getSrFlagFrom(cpuRegisters.sr, flag)
+    const setSrInterruptFlag = (flagStatus: FlagStatus): void => {
+      cpuRegisters.sr[StatusRegisterFlag.Interrupt] = flagStatus
       setRegisterChange('sr', {
         interrupt: true,
         value: getSrValue(cpuRegisters.sr)
@@ -267,7 +268,8 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
 
     /* ------------------------------------------------------------------------------------------ */
 
-    const shouldTrapHardwareInterrupt = getInterrupt() && getFlag(Flag.Interrupt)
+    const shouldTrapHardwareInterrupt =
+      getInterruptSignal() && getSrFlag(StatusRegisterFlag.Interrupt)
 
     const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIp())
 
@@ -443,32 +445,32 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       }
       case Opcode.JZ: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(getFlag(Flag.Zero) ? distance : 2)
+        incIp(getSrFlag(StatusRegisterFlag.Zero) ? distance : 2)
         break
       }
       case Opcode.JNZ: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!getFlag(Flag.Zero) ? distance : 2)
+        incIp(!getSrFlag(StatusRegisterFlag.Zero) ? distance : 2)
         break
       }
       case Opcode.JS: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(getFlag(Flag.Sign) ? distance : 2)
+        incIp(getSrFlag(StatusRegisterFlag.Sign) ? distance : 2)
         break
       }
       case Opcode.JNS: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!getFlag(Flag.Sign) ? distance : 2)
+        incIp(!getSrFlag(StatusRegisterFlag.Sign) ? distance : 2)
         break
       }
       case Opcode.JO: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(getFlag(Flag.Overflow) ? distance : 2)
+        incIp(getSrFlag(StatusRegisterFlag.Overflow) ? distance : 2)
         break
       }
       case Opcode.JNO: {
         const distance = sign8(loadFromMemory(getNextIp()))
-        incIp(!getFlag(Flag.Overflow) ? distance : 2)
+        incIp(!getSrFlag(StatusRegisterFlag.Overflow) ? distance : 2)
         break
       }
 
@@ -619,12 +621,12 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
 
       // Miscellaneous
       case Opcode.STI: {
-        setInterruptFlag(FlagStatus.On)
+        setSrInterruptFlag(FlagStatus.On)
         incIp()
         break
       }
       case Opcode.CLI: {
-        setInterruptFlag(FlagStatus.Off)
+        setSrInterruptFlag(FlagStatus.Off)
         incIp()
         break
       }

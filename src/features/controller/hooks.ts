@@ -33,10 +33,10 @@ import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
 import {
   RuntimeError,
-  Flag,
+  StatusRegisterFlag,
   StepResult,
   StepOutput,
-  getFlagFrom,
+  getSrFlagFrom,
   step as __step
 } from '@/features/cpu/core'
 import {
@@ -324,17 +324,17 @@ class Controller {
         }
       }
       if (isRunning) {
-        const isInterruptFlagSet = getFlagFrom(cpuRegisters.sr, Flag.Interrupt)
-        const isInterruptFlagChanged = changes.cpuRegisters.sr?.interrupt ?? false
-        if (isInterruptFlagChanged) {
-          if (isInterruptFlagSet) {
+        const isSrInterruptFlagSet = getSrFlagFrom(cpuRegisters.sr, StatusRegisterFlag.Interrupt)
+        const isSrInterruptFlagChanged = changes.cpuRegisters.sr?.interrupt ?? false
+        if (isSrInterruptFlagChanged) {
+          if (isSrInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()
             }
           } else if (this.isInterruptIntervalSet) {
             this.clearInterruptInterval()
           }
-        } else if (isInterruptFlagSet && !this.isInterruptIntervalSet) {
+        } else if (isSrInterruptFlagSet && !this.isInterruptIntervalSet) {
           this.setInterruptInterval()
         }
       }
