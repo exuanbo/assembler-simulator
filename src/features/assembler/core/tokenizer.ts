@@ -21,7 +21,7 @@ export interface Token {
   range: SourceRange
 }
 
-const createToken = (type: TokenType, value: string, from: number): Token => {
+const createToken = (type: TokenType, value: string, index: number): Token => {
   const tokenValue = call((): string => {
     switch (type) {
       case TokenType.Register:
@@ -35,6 +35,7 @@ const createToken = (type: TokenType, value: string, from: number): Token => {
         return value
     }
   })
+  const from = index
   const to = from + value.length
   return {
     type,
