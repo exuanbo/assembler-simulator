@@ -5,7 +5,13 @@ import { toggleBreakpointOnMouseEvent } from './breakpoints'
 export const lineNumbers = (): Extension => [
   __lineNumbers({
     domEventHandlers: {
-      mousedown: toggleBreakpointOnMouseEvent
+      mousedown: (view, line, event) => {
+        const { target } = event
+        if (target instanceof Element && target.classList.contains('cm-gutterElement')) {
+          return toggleBreakpointOnMouseEvent(view, line, event)
+        }
+        return false
+      }
     }
   }),
   EditorView.baseTheme({
