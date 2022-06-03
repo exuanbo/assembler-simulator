@@ -62,12 +62,11 @@ export const toggleBreakpointOnMouseEvent = (
   line: BlockInfo,
   event: Event
 ): boolean => {
-  if ((event as MouseEvent).offsetY > line.bottom) {
-    return false
-  } else {
+  if ((event as MouseEvent).offsetY <= line.bottom) {
     toggleBreakpoint(view, line.from)
     return true
   }
+  return false
 }
 
 export const breakpoints = (): Extension => [
