@@ -14,19 +14,21 @@ export const breakpointEffect = StateEffect.define<{
 })
 
 class BreakpointMarker extends GutterMarker {
-  toDOM(): Text {
+  public toDOM(): Text {
     return document.createTextNode('●')
   }
 }
 
 const breakpointMarker = new BreakpointMarker()
 
-const breakpointField = StateField.define<RangeSet<BreakpointMarker>>({
+type BreakpointSet = RangeSet<BreakpointMarker>
+
+const breakpointField = StateField.define<BreakpointSet>({
   create() {
     return RangeSet.empty
   },
   update(markerSet, transaction) {
-    return transaction.effects.reduce<RangeSet<BreakpointMarker>>(
+    return transaction.effects.reduce<BreakpointSet>(
       (resultSet, effect) =>
         effect.is(breakpointEffect)
           ? resultSet.update(
@@ -40,13 +42,12 @@ const breakpointField = StateField.define<RangeSet<BreakpointMarker>>({
   }
 })
 
-export const getBreakpointRangeSet = (state: EditorState): RangeSet<BreakpointMarker> =>
-  state.field(breakpointField)
+export const getBreakpointSet = (state: EditorState): BreakpointSet => state.field(breakpointField)
 
 const toggleBreakpoint = (view: EditorView, pos: number): void => {
-  const breakpoints = getBreakpointRangeSet(view.state)
+  const breakpointSet = getBreakpointSet(view.state)
   let hasBreakpoint = false
-  breakpoints.between(pos, pos, () => {
+  breakpointSet.between(pos, pos, () => {
     hasBreakpoint = true
   })
   view.dispatch({
@@ -73,7 +74,7 @@ export const breakpoints = (): Extension => [
   breakpointField,
   gutter({
     class: 'cm-breakpoints',
-    markers: view => getBreakpointRangeSet(view.state),
+    markers: view => getBreakpointSet(view.state),
     initialSpacer: () => breakpointMarker,
     domEventHandlers: {
       mousedown: toggleBreakpointOnMouseEvent
@@ -89,10 +90,7 @@ export const breakpoints = (): Extension => [
   })
 ]
 
-export const breakpointsEqual = (
-  a: RangeSet<BreakpointMarker>,
-  b: RangeSet<BreakpointMarker>
-): boolean => {
+export const breakpointsEqual = (a: BreakpointSet, b: BreakpointSet): boolean => {
   if (b.size !== a.size) {
     return false
   }

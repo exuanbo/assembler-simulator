@@ -22,7 +22,7 @@ import { useCodeMirrorView } from './codemirror/hooks'
 import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { highlightLineEffect } from './codemirror/highlightLine'
-import { breakpointEffect, getBreakpointRangeSet, breakpointsEqual } from './codemirror/breakpoints'
+import { breakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
@@ -215,9 +215,9 @@ const createBreakpointsUpdateListener =
   (store: Store): ViewUpdateListener =>
   viewUpdate => {
     if (viewUpdate.docChanged) {
-      const breakpointRangeSet = getBreakpointRangeSet(viewUpdate.state)
-      if (!breakpointsEqual(getBreakpointRangeSet(viewUpdate.startState), breakpointRangeSet)) {
-        const breakpoints = mapRangeSetToArray(breakpointRangeSet, from =>
+      const breakpointSet = getBreakpointSet(viewUpdate.state)
+      if (!breakpointsEqual(getBreakpointSet(viewUpdate.startState), breakpointSet)) {
+        const breakpoints = mapRangeSetToArray(breakpointSet, from =>
           lineLocAt(viewUpdate.state.doc, from)
         )
         store.dispatch(setBreakpoints(breakpoints))
