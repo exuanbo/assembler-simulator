@@ -116,7 +116,7 @@ exports[`tokenizer should emit token with type \`Unknown\` when tokenizing strin
 ]
 `;
 
-exports[`tokenizer should remove invalid escape character 1`] = `
+exports[`tokenizer should remove invalid escape 1`] = `
 [
   {
     "range": {
@@ -126,6 +126,20 @@ exports[`tokenizer should remove invalid escape character 1`] = `
     "raw": "\\"f\\\\o\\\\o\\"",
     "type": "String",
     "value": "foo",
+  },
+]
+`;
+
+exports[`tokenizer should remove invalid escape 2`] = `
+[
+  {
+    "range": {
+      "from": 0,
+      "to": 7,
+    },
+    "raw": "\\"\\\\0\\\\u1\\"",
+    "type": "String",
+    "value": "0u1",
   },
 ]
 `;

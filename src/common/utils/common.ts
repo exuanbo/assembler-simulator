@@ -50,15 +50,17 @@ export const escapeInnerSingleQuotes = (str: string): string => {
     : str.replace(quotedPart, `'${escapeSingleQuote(quotedPart.slice(1, -1))}'`)
 }
 
-export const restoreStringified = (str: string): string => {
+export const parseString = (str: string): string => parseStringRecursively(str.replace(/\\u/g, 'u'))
+
+const parseStringRecursively = (str: string): string => {
   try {
     return JSON.parse(str)
   } catch (err) {
-    if (err instanceof SyntaxError && err.message.startsWith('Unexpected token')) {
-      const position = Number(err.message.split(' ').slice(-1)[0])
-      // invalid escape character
-      if (str[position - 1] === '\\') {
-        return restoreStringified(str.slice(0, position - 1) + str.slice(position))
+    if (err instanceof SyntaxError) {
+      const charIndex = Number(err.message.split(' ').slice(-1)[0])
+      // invalid escape character or number
+      if (str[charIndex - 1] === '\\') {
+        return parseStringRecursively(str.slice(0, charIndex - 1) + str.slice(charIndex))
       }
     }
     // istanbul ignore next

@@ -44,12 +44,13 @@ describe('tokenizer', () => {
     expect(tokenize('"" "this is a string" "\\"" "\\n"')).toMatchSnapshot()
   })
 
+  it('should remove invalid escape', () => {
+    expect(tokenize('"f\\o\\o"')).toMatchSnapshot()
+    expect(tokenize('"\\0\\u1"')).toMatchSnapshot()
+  })
+
   it('should emit token with type `Unknown` when tokenizing string if closing quote is missing', () => {
     expect(tokenize('"\\"')).toMatchSnapshot()
     expect(tokenize('"foo\nbar"')).toMatchSnapshot()
-  })
-
-  it('should remove invalid escape character', () => {
-    expect(tokenize('"f\\o\\o"')).toMatchSnapshot()
   })
 })

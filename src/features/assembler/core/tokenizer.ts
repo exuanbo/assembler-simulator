@@ -1,6 +1,6 @@
 import type { SourceRange } from './types'
 import { Mnemonic } from '@/common/constants'
-import { trimBrackets, restoreStringified, call } from '@/common/utils'
+import { trimBrackets, parseString, call } from '@/common/utils'
 
 export enum TokenType {
   Whitespace = 'Whitespace',
@@ -30,7 +30,7 @@ const createToken = (type: TokenType, value: string, index: number): Token => {
       case TokenType.Address:
         return trimBrackets(value).trim().toUpperCase()
       case TokenType.String:
-        return restoreStringified(value)
+        return parseString(value)
       default:
         return value
     }
