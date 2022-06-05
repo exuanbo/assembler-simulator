@@ -119,9 +119,9 @@ const processOperationResult = (
   previousValue: number
 ): [finalResult: number, flags: ExcludeTail<StatusRegister>] => {
   const flags: ExcludeTail<StatusRegister> = [
-    /* zero: */ FlagStatus.Off,
+    /* zero:     */ FlagStatus.Off,
     /* overflow: */ FlagStatus.Off,
-    /* sign: */ FlagStatus.Off
+    /* sign:     */ FlagStatus.Off
   ]
   if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
     flags[StatusRegisterFlag.Overflow] = FlagStatus.On
