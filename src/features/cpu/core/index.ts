@@ -503,14 +503,16 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       case Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG: {
         const destReg = validateGpr(loadFromMemory(incIp()))
         const srcReg = validateGpr(loadFromMemory(incIp()))
-        setGpr(destReg, loadFromMemory(getGpr(srcReg)))
+        const address = getGpr(srcReg)
+        setGpr(destReg, loadFromMemory(address))
         incIp()
         break
       }
       case Opcode.MOV_REG_TO_REG_ADDR: {
         const destReg = validateGpr(loadFromMemory(incIp()))
+        const address = getGpr(destReg)
         const srcReg = validateGpr(loadFromMemory(incIp()))
-        storeToMemory(getGpr(destReg), getGpr(srcReg))
+        storeToMemory(address, getGpr(srcReg))
         incIp()
         break
       }
