@@ -159,28 +159,28 @@ export interface StepOutput extends StepResult {
   changes: StepChanges
 }
 
-export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals): StepOutput => {
-  const getInputData = (): InputData => __inputSignals.data
-  const getInterruptSignal = (): boolean => __inputSignals.interrupt
+export const step = (lastStepResult: StepResult, inputSignals: InputSignals): StepOutput => {
+  const getInputData = (): InputData => inputSignals.data
+  const getInterruptSignal = (): boolean => inputSignals.interrupt
 
-  const __outputSignals: OutputSignals = {}
+  const outputSignals: OutputSignals = {}
 
   const setHalted = (): void => {
-    __outputSignals.halted = true
+    outputSignals.halted = true
   }
   const setRequiredInputPort = (port: number): void => {
-    __outputSignals.requiredInputPort = port
+    outputSignals.requiredInputPort = port
   }
   const setOutputData = (content: number, port: number): void => {
-    __outputSignals.data = { content, port }
+    outputSignals.data = { content, port }
   }
   const setCloseWindows = (): void => {
-    __outputSignals.closeWindows = true
+    outputSignals.closeWindows = true
   }
 
   const signals = {
-    input: __inputSignals,
-    output: __outputSignals
+    input: inputSignals,
+    output: outputSignals
   }
 
   const changes: StepChanges = { cpuRegisters: {} }
@@ -191,68 +191,72 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
     changes.cpuRegisters[registerKey] = change
   }
 
-  const stepResult = produce(__lastStepResult, ({ memoryData, cpuRegisters }) => {
+  /* -------------------------------------------------------------------------------------------- */
+
+  const stepResult = produce(lastStepResult, draft => {
+    const { memoryData: __memoryData, cpuRegisters: __cpuRegisters } = draft
+
     const loadFromMemory = (address: number): number => {
-      return memoryData[address]
+      return __memoryData[address]
     }
     const storeToMemory = (address: number, value: number): void => {
-      memoryData[address] = value
+      __memoryData[address] = value
       setMemoryChange({ address, value })
     }
 
-    const getGpr = (register: GeneralPurposeRegister): number => cpuRegisters.gpr[register]
+    const getGpr = (register: GeneralPurposeRegister): number => __cpuRegisters.gpr[register]
     const setGpr = (register: GeneralPurposeRegister, value: number): void => {
-      cpuRegisters.gpr[register] = value
+      __cpuRegisters.gpr[register] = value
       setRegisterChange('gpr', {
         name: GeneralPurposeRegister[register],
         value
       })
     }
 
-    const getIp = (): number => cpuRegisters.ip
-    const getNextIp = (by = 1): number => cpuRegisters.ip + by
+    const getIp = (): number => __cpuRegisters.ip
+    const getNextIp = (by = 1): number => __cpuRegisters.ip + by
     const setIp = (address: number): void => {
-      cpuRegisters.ip = address
+      __cpuRegisters.ip = address
       setRegisterChange('ip', { value: address })
     }
 
     /**
-     * @modifies {@link cpuRegisters.ip}
+     * @modifies {@link __cpuRegisters.ip}
      */
     const incIp = (by = 1): number => {
-      setIp(validateIp(cpuRegisters.ip + by))
-      return cpuRegisters.ip
+      setIp(validateIp(__cpuRegisters.ip + by))
+      return __cpuRegisters.ip
     }
 
     const push = (value: number): void => {
-      storeToMemory(cpuRegisters.sp, value)
-      const address = validateSp(cpuRegisters.sp - 1)
-      cpuRegisters.sp = address
+      storeToMemory(__cpuRegisters.sp, value)
+      const address = validateSp(__cpuRegisters.sp - 1)
+      __cpuRegisters.sp = address
       setRegisterChange('sp', { value: address })
     }
     const pop = (): number => {
-      const address = validateSp(cpuRegisters.sp + 1)
-      cpuRegisters.sp = address
+      const address = validateSp(__cpuRegisters.sp + 1)
+      __cpuRegisters.sp = address
       setRegisterChange('sp', { value: address })
-      return loadFromMemory(cpuRegisters.sp)
+      return loadFromMemory(__cpuRegisters.sp)
     }
 
-    const getSr = (): number => getSrValue(cpuRegisters.sr)
+    const getSr = (): number => getSrValue(__cpuRegisters.sr)
     const setSr = (flags: Partial<StatusRegister>): void => {
-      Object.assign(cpuRegisters.sr, flags)
-      setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
+      Object.assign(__cpuRegisters.sr, flags)
+      setRegisterChange('sr', { value: getSrValue(__cpuRegisters.sr) })
     }
-    const getSrFlag = (flag: StatusRegisterFlag): boolean => getSrFlagFrom(cpuRegisters.sr, flag)
+    const getSrFlag = (flag: StatusRegisterFlag): boolean => getSrFlagFrom(__cpuRegisters.sr, flag)
     const setSrInterruptFlag = (flagStatus: FlagStatus): void => {
-      cpuRegisters.sr[StatusRegisterFlag.Interrupt] = flagStatus
+      __cpuRegisters.sr[StatusRegisterFlag.Interrupt] = flagStatus
       setRegisterChange('sr', {
         interrupt: true,
-        value: getSrValue(cpuRegisters.sr)
+        value: getSrValue(__cpuRegisters.sr)
       })
     }
 
     /**
-     * @modifies {@link cpuRegisters.sr}
+     * @modifies {@link __cpuRegisters.sr}
      */
     const operate = <T extends [number] | [number, number]>(
       operation: (...operands: T) => number,
