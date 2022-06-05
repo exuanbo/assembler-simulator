@@ -237,7 +237,7 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
       return loadFromMemory(cpuRegisters.sp)
     }
 
-    const getSr = (): StatusRegister => cpuRegisters.sr
+    const getSr = (): number => getSrValue(cpuRegisters.sr)
     const setSr = (flags: Partial<StatusRegister>): void => {
       Object.assign(cpuRegisters.sr, flags)
       setRegisterChange('sr', { value: getSrValue(cpuRegisters.sr) })
@@ -559,7 +559,7 @@ export const step = (__lastStepResult: StepResult, __inputSignals: InputSignals)
         break
       }
       case Opcode.PUSHF: {
-        push(getSrValue(getSr()))
+        push(getSr())
         incIp()
         break
       }
