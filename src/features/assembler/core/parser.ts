@@ -418,7 +418,7 @@ const parseStatement = (
               setOpcode(Opcode.ADD_REG_TO_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.ADD_NUM_TO_REG)
+              setOpcode(Opcode.ADD_IMM_TO_REG)
               break
           }
           break
@@ -432,7 +432,7 @@ const parseStatement = (
               setOpcode(Opcode.SUB_REG_FROM_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.SUB_NUM_FROM_REG)
+              setOpcode(Opcode.SUB_IMM_FROM_REG)
               break
           }
           break
@@ -446,7 +446,7 @@ const parseStatement = (
               setOpcode(Opcode.MUL_REG_BY_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.MUL_REG_BY_NUM)
+              setOpcode(Opcode.MUL_REG_BY_IMM)
               break
           }
           break
@@ -460,7 +460,7 @@ const parseStatement = (
               setOpcode(Opcode.DIV_REG_BY_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.DIV_REG_BY_NUM)
+              setOpcode(Opcode.DIV_REG_BY_IMM)
               break
           }
           break
@@ -474,7 +474,7 @@ const parseStatement = (
               setOpcode(Opcode.MOD_REG_BY_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.MOD_REG_BY_NUM)
+              setOpcode(Opcode.MOD_REG_BY_IMM)
               break
           }
           break
@@ -488,7 +488,7 @@ const parseStatement = (
               setOpcode(Opcode.AND_REG_WITH_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.AND_REG_WITH_NUM)
+              setOpcode(Opcode.AND_REG_WITH_IMM)
               break
           }
           break
@@ -502,7 +502,7 @@ const parseStatement = (
               setOpcode(Opcode.OR_REG_WITH_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.OR_REG_WITH_NUM)
+              setOpcode(Opcode.OR_REG_WITH_IMM)
               break
           }
           break
@@ -516,7 +516,7 @@ const parseStatement = (
               setOpcode(Opcode.XOR_REG_WITH_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.XOR_REG_WITH_NUM)
+              setOpcode(Opcode.XOR_REG_WITH_IMM)
               break
           }
           break
@@ -532,13 +532,13 @@ const parseStatement = (
             case OperandType.Register:
               switch (secondOperand.type) {
                 case OperandType.Number:
-                  setOpcode(Opcode.MOV_NUM_TO_REG)
+                  setOpcode(Opcode.MOV_IMM_TO_REG)
                   break
                 case OperandType.Address:
-                  setOpcode(Opcode.MOV_ADDR_TO_REG)
+                  setOpcode(Opcode.MOV_VAL_FROM_ADDR_TO_REG)
                   break
                 case OperandType.RegisterAddress:
-                  setOpcode(Opcode.MOV_REG_ADDR_TO_REG)
+                  setOpcode(Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG)
                   break
               }
               break
@@ -560,10 +560,10 @@ const parseStatement = (
               setOpcode(Opcode.CMP_REG_WITH_REG)
               break
             case OperandType.Number:
-              setOpcode(Opcode.CMP_REG_WITH_NUM)
+              setOpcode(Opcode.CMP_REG_WITH_IMM)
               break
             case OperandType.Address:
-              setOpcode(Opcode.CMP_REG_WITH_ADDR)
+              setOpcode(Opcode.CMP_REG_WITH_VAL_FROM_ADDR)
               break
           }
           break

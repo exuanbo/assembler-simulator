@@ -160,14 +160,14 @@ export enum Opcode {
   SHR_REG = 0x9d,
 
   // Immediate Arithmetic
-  ADD_NUM_TO_REG = 0xb0,
-  SUB_NUM_FROM_REG = 0xb1,
-  MUL_REG_BY_NUM = 0xb2,
-  DIV_REG_BY_NUM = 0xb3,
-  MOD_REG_BY_NUM = 0xb6,
-  AND_REG_WITH_NUM = 0xba,
-  OR_REG_WITH_NUM = 0xbb,
-  XOR_REG_WITH_NUM = 0xbc,
+  ADD_IMM_TO_REG = 0xb0,
+  SUB_IMM_FROM_REG = 0xb1,
+  MUL_REG_BY_IMM = 0xb2,
+  DIV_REG_BY_IMM = 0xb3,
+  MOD_REG_BY_IMM = 0xb6,
+  AND_REG_WITH_IMM = 0xba,
+  OR_REG_WITH_IMM = 0xbb,
+  XOR_REG_WITH_IMM = 0xbc,
 
   // Jump
   JMP = 0xc0,
@@ -179,24 +179,24 @@ export enum Opcode {
   JNO = 0xc6,
 
   // Immediate Move
-  MOV_NUM_TO_REG = 0xd0,
+  MOV_IMM_TO_REG = 0xd0,
 
   // Direct Move
-  MOV_ADDR_TO_REG = 0xd1,
+  MOV_VAL_FROM_ADDR_TO_REG = 0xd1,
   MOV_REG_TO_ADDR = 0xd2,
 
   // Indirect Move
-  MOV_REG_ADDR_TO_REG = 0xd3,
+  MOV_VAL_FROM_REG_ADDR_TO_REG = 0xd3,
   MOV_REG_TO_REG_ADDR = 0xd4,
 
   // Direct Register Comparison
   CMP_REG_WITH_REG = 0xda,
 
   // Immediate Comparison
-  CMP_REG_WITH_NUM = 0xdb,
+  CMP_REG_WITH_IMM = 0xdb,
 
   // Direct Memory Comparison
-  CMP_REG_WITH_ADDR = 0xdc,
+  CMP_REG_WITH_VAL_FROM_ADDR = 0xdc,
 
   // Stack
   PUSH_FROM_REG = 0xe0,
