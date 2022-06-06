@@ -6,8 +6,7 @@ import {
   StackPointer,
   StatusRegister,
   Registers,
-  initRegisters,
-  getSrValue
+  initRegisters
 } from './core'
 import type { RootState } from '@/app/store'
 
@@ -66,9 +65,7 @@ export const selectCpuPointerRegisters = createSelector(
   (ip, sp) => ({ ip, sp })
 )
 
-const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
-
-export const selectStatusRegisterValue = createSelector(selectStatusRegister, getSrValue)
+export const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
 
 export const {
   setFault: setCpuFault,

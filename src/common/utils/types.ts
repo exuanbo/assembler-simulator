@@ -1,7 +1,3 @@
-export type ExcludeTail<T extends unknown[]> = T extends [...infer Excluded, unknown]
-  ? Excluded
-  : []
-
 type UnionToFunctionWithUnionAsArg<Union> = (arg: Union) => void
 
 type UnionToFunctionIntersectionWithUnionMemberAsArg<Union> = (

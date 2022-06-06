@@ -4,7 +4,7 @@ import { useSelector } from '@/app/hooks'
 import {
   selectCpuGeneralPurposeRegisters,
   selectCpuPointerRegisters,
-  selectStatusRegisterValue
+  selectStatusRegister
 } from './cpuSlice'
 import {
   GeneralPurposeRegister,
@@ -16,7 +16,7 @@ import { compareArrayWithSameLength } from '@/common/utils'
 const CpuRegisters = (): JSX.Element => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
-  const srValue = useSelector(selectStatusRegisterValue)
+  const sr = useSelector(selectStatusRegister)
 
   return (
     <div className="border-b">
@@ -42,7 +42,7 @@ const CpuRegisters = (): JSX.Element => {
               value={sp}
               valueClassName="bg-blue-100"
             />
-            <RegisterTableRow name={SpecialPurposeRegisterName.SR} value={srValue} />
+            <RegisterTableRow name={SpecialPurposeRegisterName.SR} value={sr} />
             <RegisterTableRow.FlagIndicator />
           </tbody>
         </table>

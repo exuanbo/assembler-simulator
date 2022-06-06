@@ -4,6 +4,7 @@ import { MemoryData, initData, initDataFrom } from '@/features/memory/core'
 import {
   RuntimeError,
   GeneralPurposeRegister,
+  StatusRegisterFlag,
   Registers,
   StepOutput,
   initRegisters,
@@ -376,7 +377,7 @@ describe('cpu', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('jz done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[0] = 1
+          draft.sr = StatusRegisterFlag.Zero
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -396,7 +397,7 @@ describe('cpu', () => {
       it('should not jump', () => {
         const memoryData = getMemoryData('jnz done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[0] = 1
+          draft.sr = StatusRegisterFlag.Zero
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -406,7 +407,7 @@ describe('cpu', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('js done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[2] = 1
+          draft.sr = StatusRegisterFlag.Sign
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -426,7 +427,7 @@ describe('cpu', () => {
       it('should not jump', () => {
         const memoryData = getMemoryData('jns done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[2] = 1
+          draft.sr = StatusRegisterFlag.Sign
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -436,7 +437,7 @@ describe('cpu', () => {
       it('should jump', () => {
         const memoryData = getMemoryData('jo done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[1] = 1
+          draft.sr = StatusRegisterFlag.Overflow
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -456,7 +457,7 @@ describe('cpu', () => {
       it('should not jump', () => {
         const memoryData = getMemoryData('jno done add al, bl done: end')
         const cpuRegisters = produce(initialRegisters, draft => {
-          draft.sr[1] = 1
+          draft.sr = StatusRegisterFlag.Overflow
         })
         expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
       })
@@ -566,7 +567,7 @@ describe('cpu', () => {
     it('with PUSHF should push SR to stack', () => {
       const memoryData = getMemoryData('pushf end')
       const cpuRegisters = produce(initialRegisters, draft => {
-        draft.sr = [0, 1, 0, 1]
+        draft.sr = StatusRegisterFlag.Overflow | StatusRegisterFlag.Interrupt
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })
@@ -698,7 +699,7 @@ done:
 end
 `)
       const cpuRegisters = produce(initialRegisters, draft => {
-        draft.sr = [0, 0, 0, 1]
+        draft.sr = StatusRegisterFlag.Interrupt
       })
       expect(
         step(
@@ -719,7 +720,7 @@ end
     it('with CLI should unset interrupt flag', () => {
       const memoryData = getMemoryData('cli end')
       const cpuRegisters = produce(initialRegisters, draft => {
-        draft.sr = [0, 0, 0, 1]
+        draft.sr = StatusRegisterFlag.Interrupt
       })
       expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
     })

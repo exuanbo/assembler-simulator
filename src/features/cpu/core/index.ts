@@ -30,7 +30,7 @@ import {
 import type { MemoryData } from '@/features/memory/core'
 import { InputData, InputSignals, OutputSignals, Signals, SKIP, MAX_PORT } from '@/features/io/core'
 import { Opcode } from '@/common/constants'
-import { ExcludeTail, sign8, unsign8 } from '@/common/utils'
+import { sign8, unsign8 } from '@/common/utils'
 
 export * from './constants'
 export type { RuntimeErrorObject } from './exceptions'
@@ -45,23 +45,13 @@ export type InstructionPointer = number
 export type StackPointer = number
 
 export enum StatusRegisterFlag {
-  Zero,
-  Overflow,
-  Sign,
-  Interrupt
+  Zero = 0b10 << 0,
+  Overflow = 0b10 << 1,
+  Sign = 0b10 << 2,
+  Interrupt = 0b10 << 3
 }
 
-enum FlagStatus {
-  Off,
-  On
-}
-
-export type StatusRegister = [
-  zero: FlagStatus,
-  overflow: FlagStatus,
-  sign: FlagStatus,
-  interrupt: FlagStatus
-]
+export type StatusRegister = number
 
 export interface Registers {
   gpr: GeneralPurposeRegisters
@@ -75,7 +65,7 @@ export const initRegisters = (): Registers => {
     gpr: [0, 0, 0, 0],
     ip: 0,
     sp: MAX_SP,
-    sr: [FlagStatus.Off, FlagStatus.Off, FlagStatus.Off, FlagStatus.Off]
+    sr: 0
   }
 }
 
@@ -103,34 +93,22 @@ const validateSp = (address: number): number => {
   return address
 }
 
-export const getSrValue = (sr: StatusRegister): number =>
-  sr.reduce((value, flagStatus, i) => value + flagStatus * 0b10 ** (i + 1), 0)
-
 export const getSrFlagFrom = (sr: StatusRegister, flag: StatusRegisterFlag): boolean =>
-  sr[flag] === FlagStatus.On
-
-const getSrFrom = (value: number): StatusRegister => {
-  const valueStr = value.toString(2).padStart(5, '0').slice(-5, -1) // I S O Z
-  return valueStr.split('').map(Number).reverse() as StatusRegister
-}
+  (sr & flag) === flag
 
 const processOperationResult = (
   result: number,
   previousValue: number
-): [finalResult: number, flags: ExcludeTail<StatusRegister>] => {
-  const flags: ExcludeTail<StatusRegister> = [
-    /* zero:     */ FlagStatus.Off,
-    /* overflow: */ FlagStatus.Off,
-    /* sign:     */ FlagStatus.Off
-  ]
+): [finalResult: number, flags: number] => {
+  let flags = 0
   if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
-    flags[StatusRegisterFlag.Overflow] = FlagStatus.On
+    flags |= StatusRegisterFlag.Overflow
   }
   const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
   if (finalResult === 0) {
-    flags[StatusRegisterFlag.Zero] = FlagStatus.On
+    flags |= StatusRegisterFlag.Zero
   } else if (finalResult >= 0x80) {
-    flags[StatusRegisterFlag.Sign] = FlagStatus.On
+    flags |= StatusRegisterFlag.Sign
   }
   return [finalResult, flags]
 }
@@ -244,17 +222,20 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       return loadFromMemory(__cpuRegisters.sp)
     }
 
-    const getSr = (): number => getSrValue(__cpuRegisters.sr)
-    const setSr = (flags: Partial<StatusRegister>): void => {
-      Object.assign(__cpuRegisters.sr, flags)
-      setRegisterChange('sr', { value: getSrValue(__cpuRegisters.sr) })
+    const getSr = (): number => __cpuRegisters.sr
+    const setSr = (flags: number): void => {
+      __cpuRegisters.sr = flags
+      setRegisterChange('sr', { value: __cpuRegisters.sr })
     }
     const getSrFlag = (flag: StatusRegisterFlag): boolean => getSrFlagFrom(__cpuRegisters.sr, flag)
-    const setSrInterruptFlag = (flagStatus: FlagStatus): void => {
-      __cpuRegisters.sr[StatusRegisterFlag.Interrupt] = flagStatus
+    const setSrInterruptFlag = (on: boolean): void => {
+      const flags = __cpuRegisters.sr
+      __cpuRegisters.sr = on
+        ? flags | StatusRegisterFlag.Interrupt
+        : flags & ~StatusRegisterFlag.Interrupt
       setRegisterChange('sr', {
         interrupt: true,
-        value: getSrValue(__cpuRegisters.sr)
+        value: __cpuRegisters.sr
       })
     }
 
@@ -269,7 +250,8 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
         operation(...operands),
         operands[operands.length - 1]
       )
-      setSr(flags)
+      const interruptFlag = __cpuRegisters.sr & StatusRegisterFlag.Interrupt
+      setSr(flags | interruptFlag)
       return finalResult
     }
 
@@ -528,8 +510,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_REG: {
         const reg1 = validateGpr(loadFromMemory(incIp()))
         const reg2 = validateGpr(loadFromMemory(incIp()))
-        const [, flags] = processOperationResult(getGpr(reg1) - getGpr(reg2), getGpr(reg1))
-        setSr(flags)
+        operate(substract, getGpr(reg2), getGpr(reg1))
         incIp()
         break
       }
@@ -538,8 +519,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_IMM: {
         const reg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
-        const [, flags] = processOperationResult(getGpr(reg) - value, getGpr(reg))
-        setSr(flags)
+        operate(substract, value, getGpr(reg))
         incIp()
         break
       }
@@ -548,8 +528,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_VAL_FROM_ADDR: {
         const reg = validateGpr(loadFromMemory(incIp()))
         const address = loadFromMemory(incIp())
-        const [, flags] = processOperationResult(getGpr(reg) - loadFromMemory(address), getGpr(reg))
-        setSr(flags)
+        operate(substract, loadFromMemory(address), getGpr(reg))
         incIp()
         break
       }
@@ -573,8 +552,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
         break
       }
       case Opcode.POPF: {
-        const flags = getSrFrom(pop())
-        setSr(flags)
+        setSr(pop())
         incIp()
         break
       }
@@ -630,12 +608,12 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
 
       // Miscellaneous
       case Opcode.STI: {
-        setSrInterruptFlag(FlagStatus.On)
+        setSrInterruptFlag(true)
         incIp()
         break
       }
       case Opcode.CLI: {
-        setSrInterruptFlag(FlagStatus.Off)
+        setSrInterruptFlag(false)
         incIp()
         break
       }
