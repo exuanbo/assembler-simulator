@@ -80,7 +80,7 @@ export const initRegisters = (): Registers => {
 }
 
 const validateGpr = (register: number): GeneralPurposeRegister => {
-  if (register < GeneralPurposeRegister.AL || register > GeneralPurposeRegister.DL) {
+  if (register > GeneralPurposeRegister.DL) {
     throw new InvalidRegisterError(register)
   }
   return register
@@ -136,7 +136,7 @@ const processOperationResult = (
 }
 
 const validatePort = (port: number): number => {
-  if (port < 0 || port > MAX_PORT) {
+  if (port > MAX_PORT) {
     throw new InvalidPortError(port)
   }
   return port
