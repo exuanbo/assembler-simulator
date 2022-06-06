@@ -20,6 +20,6 @@ export interface MemoryDataChange extends Change {
 }
 
 export interface StepChanges {
-  cpuRegisters: RegisterChanges
+  cpuRegisters?: RegisterChanges
   memoryData?: MemoryDataChange
 }

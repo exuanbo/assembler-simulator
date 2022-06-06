@@ -325,7 +325,7 @@ class Controller {
       }
       if (isRunning) {
         const isSrInterruptFlagSet = getSrFlagFrom(cpuRegisters.sr, StatusRegisterFlag.Interrupt)
-        const isSrInterruptFlagChanged = changes.cpuRegisters.sr?.interrupt ?? false
+        const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
         if (isSrInterruptFlagChanged) {
           if (isSrInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {

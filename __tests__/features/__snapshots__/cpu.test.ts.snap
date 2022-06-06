@@ -883,9 +883,7 @@ exports[`cpu step with DIV should operate on two registers 1`] = `
 
 exports[`cpu step with END should set halted 1`] = `
 {
-  "changes": {
-    "cpuRegisters": {},
-  },
+  "changes": {},
   "cpuRegisters": {
     "gpr": [0, 0, 0, 0,],
     "ip": 3,
@@ -927,9 +925,7 @@ exports[`cpu step with END should set halted 1`] = `
 
 exports[`cpu step with IN should create signal with input port 1`] = `
 {
-  "changes": {
-    "cpuRegisters": {},
-  },
+  "changes": {},
   "cpuRegisters": {
     "gpr": [0, 0, 0, 0,],
     "ip": 0,
@@ -971,9 +967,7 @@ exports[`cpu step with IN should create signal with input port 1`] = `
 
 exports[`cpu step with IN should create signal with required input port if provided is wrong 1`] = `
 {
-  "changes": {
-    "cpuRegisters": {},
-  },
+  "changes": {},
   "cpuRegisters": {
     "gpr": [0, 0, 0, 0,],
     "ip": 0,
