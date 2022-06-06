@@ -53,6 +53,8 @@ export enum StatusRegisterFlag {
 
 export type StatusRegister = number
 
+export const getSrFlagFrom = (sr: StatusRegister, flag: number): boolean => (sr & flag) === flag
+
 export interface Registers {
   gpr: GeneralPurposeRegisters
   ip: InstructionPointer
@@ -91,26 +93,6 @@ const validateSp = (address: number): number => {
     throw new StackUnderflowError()
   }
   return address
-}
-
-export const getSrFlagFrom = (sr: StatusRegister, flag: StatusRegisterFlag): boolean =>
-  (sr & flag) === flag
-
-const processOperationResult = (
-  result: number,
-  previousValue: number
-): [finalResult: number, flags: number] => {
-  let flags = 0
-  if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
-    flags |= StatusRegisterFlag.Overflow
-  }
-  const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
-  if (finalResult === 0) {
-    flags |= StatusRegisterFlag.Zero
-  } else if (finalResult >= 0x80) {
-    flags |= StatusRegisterFlag.Sign
-  }
-  return [finalResult, flags]
 }
 
 const validatePort = (port: number): number => {
@@ -246,10 +228,18 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       operation: (...operands: T) => number,
       ...operands: T
     ): number => {
-      const [finalResult, flags] = processOperationResult(
-        operation(...operands),
-        operands[operands.length - 1]
-      )
+      const previousValue = operands[operands.length - 1]
+      const result = operation(...operands)
+      let flags = 0
+      if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
+        flags |= StatusRegisterFlag.Overflow
+      }
+      const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
+      if (finalResult === 0) {
+        flags |= StatusRegisterFlag.Zero
+      } else if (finalResult >= 0x80) {
+        flags |= StatusRegisterFlag.Sign
+      }
       const interruptFlag = __cpuRegisters.sr & StatusRegisterFlag.Interrupt
       setSr(flags | interruptFlag)
       return finalResult
