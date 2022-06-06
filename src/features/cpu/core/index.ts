@@ -3,7 +3,7 @@ import { MAX_SP, GeneralPurposeRegister } from './constants'
 import type { RegisterChange, MemoryDataChange, StepChanges } from './changes'
 import {
   add,
-  substract,
+  subtract,
   increase,
   decrease,
   multiply,
@@ -279,7 +279,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.SUB_REG_FROM_REG: {
         const destReg = validateGpr(loadFromMemory(incIp()))
         const srcReg = validateGpr(loadFromMemory(incIp()))
-        setGpr(destReg, operate(substract, getGpr(srcReg), getGpr(destReg)))
+        setGpr(destReg, operate(subtract, getGpr(srcReg), getGpr(destReg)))
         incIp()
         break
       }
@@ -379,7 +379,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.SUB_IMM_FROM_REG: {
         const destReg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
-        setGpr(destReg, operate(substract, value, getGpr(destReg)))
+        setGpr(destReg, operate(subtract, value, getGpr(destReg)))
         incIp()
         break
       }
@@ -510,7 +510,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_REG: {
         const reg1 = validateGpr(loadFromMemory(incIp()))
         const reg2 = validateGpr(loadFromMemory(incIp()))
-        operate(substract, getGpr(reg2), getGpr(reg1))
+        operate(subtract, getGpr(reg2), getGpr(reg1))
         incIp()
         break
       }
@@ -519,7 +519,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_IMM: {
         const reg = validateGpr(loadFromMemory(incIp()))
         const value = loadFromMemory(incIp())
-        operate(substract, value, getGpr(reg))
+        operate(subtract, value, getGpr(reg))
         incIp()
         break
       }
@@ -528,7 +528,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       case Opcode.CMP_REG_WITH_VAL_FROM_ADDR: {
         const reg = validateGpr(loadFromMemory(incIp()))
         const address = loadFromMemory(incIp())
-        operate(substract, loadFromMemory(address), getGpr(reg))
+        operate(subtract, loadFromMemory(address), getGpr(reg))
         incIp()
         break
       }

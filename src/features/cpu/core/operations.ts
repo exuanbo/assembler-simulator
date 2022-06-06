@@ -2,7 +2,7 @@ import { DivideByZeroError } from './exceptions'
 
 export const add = (addend: number, augend: number): number => augend + addend
 
-export const substract = (subtrahend: number, minuend: number): number => minuend - subtrahend
+export const subtract = (subtrahend: number, minuend: number): number => minuend - subtrahend
 
 export const multiply = (multiplier: number, multiplicand: number): number =>
   multiplicand * multiplier
@@ -19,7 +19,7 @@ export const divide = (divisor: number, dividend: number): number =>
 
 export const increase = (n: number): number => add(1, n)
 
-export const decrease = (n: number): number => substract(1, n)
+export const decrease = (n: number): number => subtract(1, n)
 
 export const modulo = (divisor: number, dividend: number): number =>
   dividend % checkDivisor(divisor)
