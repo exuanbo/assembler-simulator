@@ -41,15 +41,9 @@ export const xor = (a: number, b: number): number => b ^ a
 
 export const not = (n: number): number => ~n
 
-export const rol = (n: number): number => {
-  const MSB = divide(0x80, n)
-  return (n << 1) + MSB
-}
+export const rol = (n: number): number => (n << 1) | (n >> 7)
 
-export const ror = (n: number): number => {
-  const LSB = modulo(2, n)
-  return LSB * 0x80 + (n >> 1)
-}
+export const ror = (n: number): number => (n >> 1) | (n << 7)
 
 export const shl = (n: number): number => n << 1
 
