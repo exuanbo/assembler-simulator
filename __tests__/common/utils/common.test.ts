@@ -4,7 +4,7 @@ import {
   clamp,
   range,
   splitCamelCaseToString,
-  compareArrayWithSameLength,
+  arrayShallowEqual,
   asciiToChars,
   noop,
   curryRight2,
@@ -50,13 +50,17 @@ describe('splitCamelCaseToString', () => {
   })
 })
 
-describe('compareArrayWithSameLength', () => {
+describe('arrayShallowEqual', () => {
+  it('should return false it the lengths are not equal', () => {
+    expect(arrayShallowEqual([1, 2, 3], [1, 2])).toBe(false)
+  })
+
   it('should return true if arrays are equal', () => {
-    expect(compareArrayWithSameLength([1, 2, 3], [1, 2, 3])).toBe(true)
+    expect(arrayShallowEqual([1, 2, 3], [1, 2, 3])).toBe(true)
   })
 
   it('should return false if arrays are not equal', () => {
-    expect(compareArrayWithSameLength([1, 2, 3], [1, 2, 4])).toBe(false)
+    expect(arrayShallowEqual([1, 2, 3], [1, 2, 4])).toBe(false)
   })
 })
 

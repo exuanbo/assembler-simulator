@@ -11,10 +11,10 @@ import {
   GeneralPurposeRegisterName,
   SpecialPurposeRegisterName
 } from './core'
-import { compareArrayWithSameLength } from '@/common/utils'
+import { arrayShallowEqual } from '@/common/utils'
 
 const CpuRegisters = (): JSX.Element => {
-  const gpr = useSelector(selectCpuGeneralPurposeRegisters, compareArrayWithSameLength)
+  const gpr = useSelector(selectCpuGeneralPurposeRegisters, arrayShallowEqual)
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
   const sr = useSelector(selectStatusRegister)
 

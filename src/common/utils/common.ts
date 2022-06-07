@@ -71,8 +71,17 @@ const parseStringRecursively = (str: string): string => {
 export const stringToAscii = (str: string): number[] =>
   str.split('').map(char => char.charCodeAt(0))
 
-export const compareArrayWithSameLength = <T>(a: T[], b: T[]): boolean =>
-  a.every((value, index) => value === b[index])
+export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
+  if (b.length !== a.length) {
+    return false
+  }
+  for (let i = 0; i < b.length; i++) {
+    if (b[i] !== a[i]) {
+      return false
+    }
+  }
+  return true
+}
 
 export const chunk = <T>(size: number, arr: T[]): T[][] => {
   const chunks: T[][] = []
