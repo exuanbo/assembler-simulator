@@ -148,9 +148,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
     changes.memoryData = change
   }
   const setRegisterChange = (registerKey: keyof Registers, change: RegisterChange): void => {
-    if (changes.cpuRegisters === undefined) {
-      changes.cpuRegisters = {}
-    }
+    changes.cpuRegisters ??= {}
     changes.cpuRegisters[registerKey] = change
   }
 
