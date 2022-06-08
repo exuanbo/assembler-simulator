@@ -133,14 +133,6 @@ class Controller {
     }
   }
 
-  private restoreIfSuspended(state: RootState): void {
-    if (selectIsSuspended(state)) {
-      this.unsubscribeSetSuspended!()
-      this.unsubscribeSetSuspended = undefined
-      this.dispatch(setSuspended(false))
-    }
-  }
-
   private async run(): Promise<void> {
     this.dispatch(setRunning(true))
     this.setStepInterval()
@@ -392,6 +384,14 @@ class Controller {
     if (this.dispatchChangesTimeoutId !== undefined) {
       window.clearTimeout(this.dispatchChangesTimeoutId)
       this.dispatchChangesTimeoutId = undefined
+    }
+  }
+
+  private restoreIfSuspended(state: RootState): void {
+    if (selectIsSuspended(state)) {
+      this.unsubscribeSetSuspended!()
+      this.unsubscribeSetSuspended = undefined
+      this.dispatch(setSuspended(false))
     }
   }
 
