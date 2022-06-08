@@ -33,6 +33,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     if (instruction.mnemonic === Mnemonic.ORG) {
       address = firstOperand!.value as number
     } else {
+      // label value has not been calculated yet
       address += machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
       if (address > 0xff && index !== statements.length - 1) {
         throw new AssembleEndOfMemoryError(statement)
