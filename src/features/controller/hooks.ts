@@ -135,6 +135,13 @@ class Controller {
   private async run(): Promise<void> {
     this.dispatch(setRunning(true))
     this.setStepInterval()
+    const lastStepResult = await this.lastStep
+    if (lastStepResult !== undefined) {
+      const isSrInterruptFlagSet = __getSrInterruptFlag(lastStepResult.cpuRegisters)
+      if (isSrInterruptFlagSet) {
+        this.setInterruptInterval()
+      }
+    }
     await this.step()
   }
 
@@ -315,18 +322,18 @@ class Controller {
         }
       }
       if (isRunning) {
-        const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
         const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
         if (isSrInterruptFlagChanged) {
+          const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
           if (isSrInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()
             }
-          } else if (this.isInterruptIntervalSet) {
-            this.clearInterruptInterval()
+          } else {
+            if (this.isInterruptIntervalSet) {
+              this.clearInterruptInterval()
+            }
           }
-        } else if (isSrInterruptFlagSet && !this.isInterruptIntervalSet) {
-          this.setInterruptInterval()
         }
       }
       if (shouldCloseWindows) {
