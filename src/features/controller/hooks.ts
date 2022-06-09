@@ -300,6 +300,7 @@ class Controller {
             setSuspended,
             // payload must be false
             async () => {
+              this.unsubscribeSetSuspended = undefined
               // state cannot be changed when suspended
               if (isRunning) {
                 this.resumeMainLoop()
