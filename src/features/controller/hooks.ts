@@ -250,6 +250,22 @@ class Controller {
         willDispatchChanges = true
         dispatchChanges()
       }
+      const isRunning = selectIsRunning(state)
+      if (isRunning) {
+        const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
+        if (isSrInterruptFlagChanged) {
+          const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
+          if (isSrInterruptFlagSet) {
+            if (!this.isInterruptIntervalSet) {
+              this.setInterruptInterval()
+            }
+          } else {
+            if (this.isInterruptIntervalSet) {
+              this.clearInterruptInterval()
+            }
+          }
+        }
+      }
       const { data: inputData, interrupt } = signals.input
       const {
         halted: shouldHalt = false,
@@ -266,7 +282,6 @@ class Controller {
         resolve(undefined)
         return
       }
-      const isRunning = selectIsRunning(state)
       let willSuspend = false
       if (requiredInputPort !== undefined) {
         this.dispatch(setWaitingForInput(true))
@@ -319,21 +334,6 @@ class Controller {
               data: outputDataContent
             })
           )
-        }
-      }
-      if (isRunning) {
-        const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
-        if (isSrInterruptFlagChanged) {
-          const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
-          if (isSrInterruptFlagSet) {
-            if (!this.isInterruptIntervalSet) {
-              this.setInterruptInterval()
-            }
-          } else {
-            if (this.isInterruptIntervalSet) {
-              this.clearInterruptInterval()
-            }
-          }
         }
       }
       if (shouldCloseWindows) {
