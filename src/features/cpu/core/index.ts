@@ -53,7 +53,7 @@ export enum StatusRegisterFlag {
 
 export type StatusRegister = number
 
-export const getSrFlagFrom = (sr: StatusRegister, flag: number): boolean => (sr & flag) === flag
+const __getSrFlag = (sr: StatusRegister, flag: number): boolean => (sr & flag) === flag
 
 export interface Registers {
   gpr: GeneralPurposeRegisters
@@ -70,6 +70,10 @@ export const initRegisters = (): Registers => {
     sr: 0
   }
 }
+
+// istanbul ignore next
+export const __getSrInterruptFlag = (registers: Registers): boolean =>
+  __getSrFlag(registers.sr, StatusRegisterFlag.Interrupt)
 
 const validateGpr = (register: number): GeneralPurposeRegister => {
   if (register > GeneralPurposeRegister.DL) {
@@ -207,7 +211,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       __cpuRegisters.sr = flags
       setRegisterChange('sr', { value: __cpuRegisters.sr })
     }
-    const getSrFlag = (flag: StatusRegisterFlag): boolean => getSrFlagFrom(__cpuRegisters.sr, flag)
+    const getSrFlag = (flag: StatusRegisterFlag): boolean => __getSrFlag(__cpuRegisters.sr, flag)
     const setSrInterruptFlag = (on: boolean): void => {
       const flags = __cpuRegisters.sr
       __cpuRegisters.sr = on

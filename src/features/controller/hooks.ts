@@ -33,10 +33,9 @@ import { VDU_START_ADDRESS } from '@/features/memory/core'
 import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
 import {
   RuntimeError,
-  StatusRegisterFlag,
   StepResult,
   StepOutput,
-  getSrFlagFrom,
+  __getSrInterruptFlag,
   step as __step
 } from '@/features/cpu/core'
 import {
@@ -316,7 +315,7 @@ class Controller {
         }
       }
       if (isRunning) {
-        const isSrInterruptFlagSet = getSrFlagFrom(cpuRegisters.sr, StatusRegisterFlag.Interrupt)
+        const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
         const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
         if (isSrInterruptFlagChanged) {
           if (isSrInterruptFlagSet) {
