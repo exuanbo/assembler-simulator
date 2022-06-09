@@ -369,7 +369,7 @@ class Controller {
   }
 
   public reset = (): void => {
-    this.fullyStop()
+    this.resetSelf()
     this.dispatch(resetMemoryData())
     this.dispatch(resetCpuState())
     this.dispatch(resetAssemblerState())
@@ -377,7 +377,7 @@ class Controller {
     this.dispatch(resetIoState())
   }
 
-  public fullyStop = (): void => {
+  public resetSelf = (): void => {
     const state = this.getState()
     this.stopIfRunning(state)
     this.cancelDispatchChanges()
@@ -411,7 +411,7 @@ export const useController = (): Controller => {
   const controller = useConstant(() => new Controller(store))
 
   useEffect(() => {
-    return listenAction(setEditorInput, controller.fullyStop)
+    return listenAction(setEditorInput, controller.resetSelf)
   }, [])
 
   useEffect(() => {
@@ -425,7 +425,7 @@ export const useController = (): Controller => {
   }, [])
 
   useEffect(() => {
-    return listenAction(setAssemblerState, controller.fullyStop)
+    return listenAction(setAssemblerState, controller.resetSelf)
   }, [])
 
   useEffect(() => {
