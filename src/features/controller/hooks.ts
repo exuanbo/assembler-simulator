@@ -150,6 +150,16 @@ class Controller {
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
   }
 
+  private setInterruptInterval(withFlag = true): void {
+    const { timerInterval } = selectRuntimeConfiguration(this.getState())
+    this.interruptIntervalId = window.setInterval(() => {
+      this.dispatch(setInterrupt(true))
+    }, timerInterval)
+    if (withFlag) {
+      this.isInterruptIntervalSet = true
+    }
+  }
+
   public stopAndRun = async (): Promise<void> => {
     this.cancelMainLoop()
     this.resumeMainLoop()
@@ -167,16 +177,6 @@ class Controller {
     this.setStepInterval()
     if (this.isInterruptIntervalSet) {
       this.setInterruptInterval(/* withFlag: */ false)
-    }
-  }
-
-  private setInterruptInterval(withFlag = true): void {
-    const { timerInterval } = selectRuntimeConfiguration(this.getState())
-    this.interruptIntervalId = window.setInterval(() => {
-      this.dispatch(setInterrupt(true))
-    }, timerInterval)
-    if (withFlag) {
-      this.isInterruptIntervalSet = true
     }
   }
 
