@@ -161,12 +161,12 @@ class Controller {
   }
 
   public stopAndRun = async (): Promise<void> => {
-    this.cancelMainLoop()
+    this.pauseMainLoop()
     this.resumeMainLoop()
     await this.step()
   }
 
-  private cancelMainLoop(): void {
+  private pauseMainLoop(): void {
     this.clearStepInterval()
     if (this.isInterruptIntervalSet) {
       this.clearInterruptInterval(/* withFlag: */ false)
@@ -291,7 +291,7 @@ class Controller {
         if (inputData.content === null) {
           willSuspend = true
           if (isRunning) {
-            this.cancelMainLoop()
+            this.pauseMainLoop()
           }
           this.dispatch(setSuspended(true))
           switch (requiredInputPort) {
