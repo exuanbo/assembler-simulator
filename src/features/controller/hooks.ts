@@ -22,7 +22,7 @@ import {
   setEditorMessage
 } from '@/features/editor/editorSlice'
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
-import { createAssemble } from '@/features/assembler/assemble'
+import { Assemble, createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssembledSource,
   selectAddressToStatementMap,
@@ -71,7 +71,7 @@ const sourceChangedMessage: EditorMessage = {
 }
 
 class Controller {
-  public assemble: () => void
+  private readonly _assemble: Assemble
 
   private readonly getState: StoreGetState
   private readonly dispatch: StoreDispatch
@@ -90,10 +90,13 @@ class Controller {
   private lastBreakpointLineNumber: number | undefined
 
   constructor(store: Store) {
-    const __assemble = createAssemble(store)
-    this.assemble = () => __assemble()
+    this._assemble = createAssemble(store)
     this.getState = store.getState
     this.dispatch = store.dispatch
+  }
+
+  public assemble = (): void => {
+    this._assemble()
   }
 
   public runOrStop = async (): Promise<void> => {

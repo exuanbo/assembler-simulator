@@ -11,9 +11,11 @@ import {
 import { setException } from '@/features/exception/exceptionSlice'
 import { errorToPlainObject } from '@/common/utils'
 
+export type Assemble = (input?: string) => void
+
 export const createAssemble =
-  (store: Store) =>
-  (input = selectEditorInput(store.getState())): void => {
+  (store: Store): Assemble =>
+  (input = selectEditorInput(store.getState())) => {
     let assembleResult: AssembleResult
     try {
       assembleResult = __assemble(input)
