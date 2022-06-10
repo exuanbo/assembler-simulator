@@ -57,7 +57,11 @@ const ControlButtons = (): JSX.Element => {
     const isRunning = useSelector(selectIsRunning)
     const isSuspended = useSelector(selectIsSuspended)
     return (
-      <ControlButton disabled={isRunning || isSuspended} onClick={controller.step}>
+      <ControlButton
+        disabled={isRunning || isSuspended}
+        onClick={async () => {
+          await controller.step(/* isUserAction: */ true)
+        }}>
         <Forward />
         <span>Step</span>
       </ControlButton>

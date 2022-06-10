@@ -142,7 +142,7 @@ class Controller {
         this.setInterruptInterval()
       }
     }
-    await this.step()
+    await this.step(/* isUserAction: */ true)
   }
 
   private setStepInterval(): void {
@@ -180,8 +180,11 @@ class Controller {
     }
   }
 
-  public step = async (): Promise<void> => {
+  public step = async (isUserAction = false): Promise<void> => {
     const lastStepResult = await this.lastStep
+    if (isUserAction) {
+      this.dispatch(setInterrupt(false))
+    }
     const state = this.getState()
     if (selectEditorInput(state) !== selectAssembledSource(state)) {
       this.dispatch(setEditorMessage(sourceChangedMessage))
