@@ -146,7 +146,10 @@ export const useAssemblerError = (): void => {
   const store = useStore()
 
   useEffect(() => {
-    view?.dispatch(
+    if (view === undefined) {
+      return
+    }
+    view.dispatch(
       addViewUpdateListener(viewUpdate => {
         if (viewUpdate.docChanged && selectAssemblerError(store.getState()) !== null) {
           viewUpdate.view.dispatch({
@@ -156,19 +159,14 @@ export const useAssemblerError = (): void => {
         }
       })
     )
-  }, [view])
-
-  useEffect(() => {
-    if (view !== undefined) {
-      return watch(selectAssemblerErrorRange, errorRange => {
-        view.dispatch({
-          effects: wavyUnderlineEffect.of({
-            add: errorRange,
-            filter: () => errorRange !== undefined
-          })
+    return watch(selectAssemblerErrorRange, errorRange => {
+      view.dispatch({
+        effects: wavyUnderlineEffect.of({
+          add: errorRange,
+          filter: () => errorRange !== undefined
         })
       })
-    }
+    })
   }, [view])
 }
 
