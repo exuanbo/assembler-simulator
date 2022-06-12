@@ -19,15 +19,15 @@ export interface EditorMessage {
 
 interface EditorState {
   input: string
-  breakpoints: LineLoc[]
   activeRange: SourceRange | null
+  breakpoints: LineLoc[]
   message: EditorMessage | null
 }
 
 const initialState: EditorState = {
   input: examples[/* Visual Display Unit */ 4].content,
-  breakpoints: [],
   activeRange: null,
+  breakpoints: [],
   message: null
 }
 
@@ -45,6 +45,13 @@ export const editorSlice = createSlice({
           payload: { value, isFromFile }
         }
       }
+    },
+    setActiveRange: (state, action: PayloadAction<Statement>) => {
+      const statement = action.payload
+      state.activeRange = statement.range
+    },
+    clearActiveRange: state => {
+      state.activeRange = null
     },
     setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
       state.breakpoints = action.payload
@@ -65,13 +72,6 @@ export const editorSlice = createSlice({
       )
       state.breakpoints.splice(targetIndex, 1)
     },
-    setActiveRange: (state, action: PayloadAction<Statement>) => {
-      const statement = action.payload
-      state.activeRange = statement.range
-    },
-    clearActiveRange: state => {
-      state.activeRange = null
-    },
     setMessage: (state, action: PayloadAction<EditorMessage>) => {
       state.message = action.payload
     },
@@ -82,8 +82,6 @@ export const editorSlice = createSlice({
 })
 
 export const selectEditorInput = (state: RootState): string => state.editor.input
-
-export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
 
 const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
 
@@ -104,6 +102,8 @@ export const selectEditorActiveLinePos = curryRight2(
     return linePos.length > 0 ? linePos : undefined
   })
 )
+
+export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
 
 export const selectEditorMessage = (state: RootState): EditorMessage | null => state.editor.message
 

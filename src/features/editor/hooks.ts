@@ -6,14 +6,14 @@ import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
-  selectEditorBreakpoints,
   selectEditorActiveLinePos,
+  selectEditorBreakpoints,
   selectEditorMessage,
   setEditorInput,
+  clearEditorActiveRange,
   setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
-  clearEditorActiveRange,
   setEditorMessage,
   clearEditorMessage
 } from './editorSlice'
