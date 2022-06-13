@@ -21,7 +21,8 @@ jobs:
         with:
           node-version: "16"
           check-latest: true
-          cache: "npm"
+          # TODO: enable cache after https://github.com/actions/cache/issues/820 is fixed
+          # cache: "npm"
       - run: npm install -g npm
       - run: npm ci
       - run: npm test
