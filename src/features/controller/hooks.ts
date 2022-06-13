@@ -444,7 +444,7 @@ export const useController = (): Controller => {
       const state = api.getState()
       // `setSuspended` action listener will resume the main loop with new configuration
       // so we skip calling `stopAndRun` if cpu is suspended
-      if (!selectIsSuspended(state) && selectIsRunning(state)) {
+      if (selectIsRunning(state) && !selectIsSuspended(state)) {
         await controller.stopAndRun()
       }
     })
