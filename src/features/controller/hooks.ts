@@ -247,9 +247,11 @@ class Controller {
             this.dispatch(setVduDataFrom(memoryData))
           }
           this.dispatch(setCpuRegisters(cpuRegisters))
-          this.dispatch(
-            hasStatement ? setEditorHighlightRange(statement) : clearEditorHighlightRange()
-          )
+          if (hasStatement) {
+            this.dispatch(setEditorHighlightRange(statement))
+          } else {
+            this.dispatch(clearEditorHighlightRange())
+          }
           this.dispatchChangesTimeoutId = undefined
         })
       }

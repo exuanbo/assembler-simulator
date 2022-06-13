@@ -36,7 +36,9 @@ export const createAssemble =
     store.dispatch(setMemoryDataFrom(addressToOpcodeMap))
     store.dispatch(resetCpuState())
     store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-    store.dispatch(
-      hasStatement ? setEditorHighlightRange(firstStatement) : clearEditorHighlightRange()
-    )
+    if (hasStatement) {
+      store.dispatch(setEditorHighlightRange(firstStatement))
+    } else {
+      store.dispatch(clearEditorHighlightRange())
+    }
   }
