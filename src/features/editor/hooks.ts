@@ -6,11 +6,11 @@ import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
-  selectEditorActiveLinePos,
+  selectEditorHighlightLinePos,
   selectEditorBreakpoints,
   selectEditorMessage,
   setEditorInput,
-  clearEditorActiveRange,
+  clearEditorHighlightRange,
   setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
@@ -167,13 +167,13 @@ export const useAssemblerError = (): void => {
   }, [view])
 }
 
-export const useHighlightActiveLine = (): void => {
+export const useHighlightLine = (): void => {
   const view = useCodeMirrorView()
 
   useEffect(() => {
     return listenAction(setEditorInput, ({ isFromFile }, api) => {
       if (isFromFile) {
-        api.dispatch(clearEditorActiveRange())
+        api.dispatch(clearEditorHighlightRange())
       }
     })
   }, [])
@@ -182,23 +182,23 @@ export const useHighlightActiveLine = (): void => {
     if (view === undefined) {
       return
     }
-    return watch(selectEditorActiveLinePos(view), activeLinePos => {
+    return watch(selectEditorHighlightLinePos(view), linePos => {
       view.dispatch({
         effects:
-          activeLinePos === undefined
+          linePos === undefined
             ? highlightLineEffect.of({ filter: () => false })
-            : activeLinePos.map((pos, index) =>
+            : linePos.map((pos, index) =>
                 highlightLineEffect.of({
                   addByPos: pos,
                   // clear previous decorations on first line
                   filter: () => index !== 0
                 })
               ),
-        ...(view.hasFocus || activeLinePos === undefined
+        ...(view.hasFocus || linePos === undefined
           ? undefined
           : {
-              // length of `activeLinePos` is already checked
-              selection: { anchor: activeLinePos[0] },
+              // length of `linePos` is already checked
+              selection: { anchor: linePos[0] },
               scrollIntoView: true
             })
       })

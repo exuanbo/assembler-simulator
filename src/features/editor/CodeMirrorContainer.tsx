@@ -4,7 +4,7 @@ import {
   useAutoFocus,
   useAutoAssemble,
   useAssemblerError,
-  useHighlightActiveLine,
+  useHighlightLine,
   useBreakpoints
 } from './hooks'
 import { classNames } from '@/common/utils'
@@ -20,7 +20,7 @@ const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
   useAutoFocus()
   useAutoAssemble()
   useAssemblerError()
-  useHighlightActiveLine()
+  useHighlightLine()
   useBreakpoints()
 
   return (

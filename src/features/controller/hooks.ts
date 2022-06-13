@@ -17,8 +17,8 @@ import {
   selectEditorInput,
   selectEditorBreakpoints,
   setEditorInput,
-  setEditorActiveRange,
-  clearEditorActiveRange,
+  setEditorHighlightRange,
+  clearEditorHighlightRange,
   setEditorMessage
 } from '@/features/editor/editorSlice'
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
@@ -247,7 +247,9 @@ class Controller {
             this.dispatch(setVduDataFrom(memoryData))
           }
           this.dispatch(setCpuRegisters(cpuRegisters))
-          this.dispatch(hasStatement ? setEditorActiveRange(statement) : clearEditorActiveRange())
+          this.dispatch(
+            hasStatement ? setEditorHighlightRange(statement) : clearEditorHighlightRange()
+          )
           this.dispatchChangesTimeoutId = undefined
         })
       }
@@ -380,7 +382,7 @@ class Controller {
     this.dispatch(resetMemoryData())
     this.dispatch(resetCpuState())
     this.dispatch(resetAssemblerState())
-    this.dispatch(clearEditorActiveRange())
+    this.dispatch(clearEditorHighlightRange())
     this.dispatch(resetIoState())
   }
 

@@ -19,14 +19,14 @@ export interface EditorMessage {
 
 interface EditorState {
   input: string
-  activeRange: SourceRange | null
+  highlightRange: SourceRange | null
   breakpoints: LineLoc[]
   message: EditorMessage | null
 }
 
 const initialState: EditorState = {
   input: examples[/* Visual Display Unit */ 4].content,
-  activeRange: null,
+  highlightRange: null,
   breakpoints: [],
   message: null
 }
@@ -46,12 +46,12 @@ export const editorSlice = createSlice({
         }
       }
     },
-    setActiveRange: (state, action: PayloadAction<Statement>) => {
+    setHighlightRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
-      state.activeRange = statement.range
+      state.highlightRange = statement.range
     },
-    clearActiveRange: state => {
-      state.activeRange = null
+    clearHighlightRange: state => {
+      state.highlightRange = null
     },
     setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
       state.breakpoints = action.payload
@@ -83,15 +83,15 @@ export const editorSlice = createSlice({
 
 export const selectEditorInput = (state: RootState): string => state.editor.input
 
-const selectEditorActiveRange = (state: RootState): SourceRange | null => state.editor.activeRange
+const selectHighlightRange = (state: RootState): SourceRange | null => state.editor.highlightRange
 
-export const selectEditorActiveLinePos = curryRight2(
-  createSelector([selectEditorActiveRange, (_, view: EditorView) => view], (activeRange, view) => {
-    if (activeRange === null) {
+export const selectEditorHighlightLinePos = curryRight2(
+  createSelector([selectHighlightRange, (_, view: EditorView) => view], (highlightRange, view) => {
+    if (highlightRange === null) {
       return undefined
     }
     const linePos: number[] = []
-    for (let pos = activeRange.from; pos < activeRange.to; pos++) {
+    for (let pos = highlightRange.from; pos < highlightRange.to; pos++) {
       if (pos < view.state.doc.length) {
         const line = view.state.doc.lineAt(pos)
         if (!linePos.includes(line.from)) {
@@ -118,8 +118,8 @@ export const {
   setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
-  setActiveRange: setEditorActiveRange,
-  clearActiveRange: clearEditorActiveRange,
+  setHighlightRange: setEditorHighlightRange,
+  clearHighlightRange: clearEditorHighlightRange,
   setMessage: setEditorMessage,
   clearMessage: clearEditorMessage
 } = editorSlice.actions
