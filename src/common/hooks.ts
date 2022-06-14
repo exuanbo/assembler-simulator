@@ -10,10 +10,10 @@ const nil = Symbol('nil')
 export const useConstant = <T>(initialValue: T | (() => T)): T => {
   const ref = useRef<T | typeof nil>(nil)
   if (ref.current === nil) {
-    // HACK: `typeof initialValue === 'function'` doesn't work
-    // https://github.com/microsoft/TypeScript/issues/37663#issue-589577681
-    ref.current = initialValue instanceof Function ? initialValue() : initialValue
+    // @ts-expect-error https://github.com/microsoft/TypeScript/issues/37663#issue-589577681
+    ref.current = typeof initialValue === 'function' ? initialValue() : initialValue
   }
+  // @ts-expect-error same as above
   return ref.current
 }
 
