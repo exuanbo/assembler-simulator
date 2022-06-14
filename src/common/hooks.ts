@@ -1,4 +1,4 @@
-import { RefCallback, useState, useEffect, useReducer, useCallback, useRef } from 'react'
+import { RefCallback, useState, useEffect, useReducer, useRef } from 'react'
 
 export const useToggle = (
   initialState: boolean
@@ -17,13 +17,7 @@ export const useConstant = <T>(initialValue: T | (() => T)): T => {
   return ref.current
 }
 
-export const useRefCallback = <T extends Element = Element>(): [T | null, RefCallback<T>] => {
-  const [current, setCurrent] = useState<T | null>(null)
-  const refCallback = useCallback<RefCallback<T>>(element => {
-    setCurrent(element)
-  }, [])
-  return [current, refCallback]
-}
+export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
 
 export const useOutsideClick = <T extends Element = Element>(
   onClickOutside: (event: MouseEvent) => void
