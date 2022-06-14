@@ -20,7 +20,7 @@ export const useConstant = <T>(initialValue: T | (() => T)): T => {
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
 
 export const useOutsideClick = <T extends Element = Element>(
-  onClickOutside: (event: MouseEvent) => void
+  callback: (event: MouseEvent) => void
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
@@ -31,14 +31,14 @@ export const useOutsideClick = <T extends Element = Element>(
     const handleClick = (event: MouseEvent): void => {
       const { target } = event
       if (target instanceof Node && !current.contains(target)) {
-        onClickOutside(event)
+        callback(event)
       }
     }
     document.addEventListener('click', handleClick)
     return () => {
       document.removeEventListener('click', handleClick)
     }
-  }, [current, onClickOutside])
+  }, [current, callback])
 
   return refCallback
 }
