@@ -1,4 +1,4 @@
-import { ReactNode, RefCallback, createContext, useEffect, useContext } from 'react'
+import { ReactNode, RefCallback, createContext, useContext, useCallback } from 'react'
 import { useRefCallback, useHover } from '@/common/hooks'
 import { noop, classNames } from '@/common/utils'
 
@@ -29,20 +29,23 @@ const Menu = ({ children }: Props): JSX.Element => {
   const isReady = menuElement !== null
 
   const { currentOpen, setCurrentOpen } = useContext(MenuContext)
-
   const isOpen = currentOpen !== null && currentOpen === menuElement
+
   const toggleOpen = (): void => {
     setCurrentOpen(isOpen ? null : menuElement)
   }
 
-  const [isHovered, hoverRef] = useHover()
+  const hoverCallback = useCallback(
+    (isHovered: boolean) => {
+      const hasOtherOpen = currentOpen !== null && currentOpen !== menuElement
+      if (hasOtherOpen && isHovered) {
+        setCurrentOpen(menuElement)
+      }
+    },
+    [currentOpen, menuElement]
+  )
 
-  useEffect(() => {
-    const hasOtherOpen = currentOpen !== null && currentOpen !== menuElement
-    if (hasOtherOpen && isHovered) {
-      setCurrentOpen(menuElement)
-    }
-  }, [currentOpen, menuElement, isHovered])
+  const hoverRef = useHover(hoverCallback)
 
   return (
     <div

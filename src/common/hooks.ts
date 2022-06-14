@@ -44,12 +44,20 @@ export const useOutsideClick = <T extends Element = Element>(
 }
 
 export const useHover = <T extends Element = Element>(
+  callback: (isHovered: boolean) => void,
   delay?: number
-): [isHovered: boolean, hoverRef: RefCallback<T>] => {
+): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
-  const [isHovered, setHovered] = useState(false)
 
+  const isHoveredRef = useRef(false)
   const hoverTimeoutIdRef = useRef<number | undefined>()
+
+  const clearHoverTimeout = (): void => {
+    if (hoverTimeoutIdRef.current !== undefined) {
+      window.clearTimeout(hoverTimeoutIdRef.current)
+      hoverTimeoutIdRef.current = undefined
+    }
+  }
 
   useEffect(() => {
     if (current === null) {
@@ -57,29 +65,33 @@ export const useHover = <T extends Element = Element>(
     }
     const handleMouseEnter = (): void => {
       if (delay === undefined) {
-        setHovered(true)
+        callback(/* isHovered: */ true)
+        isHoveredRef.current = true
       } else {
         hoverTimeoutIdRef.current = window.setTimeout(() => {
-          setHovered(true)
+          callback(/* isHovered: */ true)
+          isHoveredRef.current = true
           hoverTimeoutIdRef.current = undefined
         }, delay)
       }
     }
     const handleMouseLeave = (): void => {
-      setHovered(false)
-      if (hoverTimeoutIdRef.current !== undefined) {
-        window.clearTimeout(hoverTimeoutIdRef.current)
-        hoverTimeoutIdRef.current = undefined
-      }
+      clearHoverTimeout()
+      callback(/* isHovered: */ false)
+      isHoveredRef.current = false
     }
     current.addEventListener('mouseenter', handleMouseEnter)
     current.addEventListener('mouseleave', handleMouseLeave)
     return () => {
-      setHovered(false)
+      clearHoverTimeout()
+      if (isHoveredRef.current) {
+        callback(/* isHovered: */ false)
+        isHoveredRef.current = false
+      }
       current.removeEventListener('mouseenter', handleMouseEnter)
       current.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [current, delay])
+  }, [current, callback, delay])
 
-  return [isHovered, refCallback]
+  return refCallback
 }
