@@ -9,9 +9,7 @@ interface Props {
   className?: string
 }
 
-const ResizablePanel = ({ children, className }: Props): JSX.Element => {
-  const [leftChild, rightChild] = children
-
+const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props): JSX.Element => {
   const [leftChildWidth, setLeftChildWidth] = useState<number>()
   const isReady = leftChildWidth !== undefined
 
@@ -32,22 +30,21 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (!isReady) {
-      return
-    }
-    const availableWidth = getAvailableWidth()
-    if (leftChildWidth > availableWidth) {
-      setLeftChildWidth(availableWidth)
+    if (isReady) {
+      const availableWidth = getAvailableWidth()
+      if (leftChildWidth > availableWidth) {
+        setLeftChildWidth(availableWidth)
+      }
     }
   }, [isReady, leftChildWidth])
 
-  const [isDragging, setIsDragging] = useState(false)
+  const [isDragging, setDragging] = useState(false)
 
   const clickCountRef = useRef(0)
   const clickTimeoutIdRef = useRef<number>()
 
   const handleMouseDown = (): void => {
-    setIsDragging(true)
+    setDragging(true)
 
     clickCountRef.current += 1
     if (clickCountRef.current === 2) {
@@ -88,7 +85,7 @@ const ResizablePanel = ({ children, className }: Props): JSX.Element => {
     }, 10)
 
     const handleMouseUp = (): void => {
-      setIsDragging(false)
+      setDragging(false)
     }
 
     document.addEventListener('mousemove', handleMouseMove)
