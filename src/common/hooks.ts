@@ -20,7 +20,7 @@ export const useConstant = <T>(initialValue: T | (() => T)): T => {
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
 
 export const useOutsideClick = <T extends Element = Element>(
-  callback: (event: MouseEvent) => void
+  handler: (event: MouseEvent) => void
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
@@ -31,20 +31,20 @@ export const useOutsideClick = <T extends Element = Element>(
     const handleClick = (event: MouseEvent): void => {
       const { target } = event
       if (target instanceof Node && !current.contains(target)) {
-        callback(event)
+        handler(event)
       }
     }
     document.addEventListener('click', handleClick)
     return () => {
       document.removeEventListener('click', handleClick)
     }
-  }, [current, callback])
+  }, [current, handler])
 
   return refCallback
 }
 
 export const useHover = <T extends Element = Element>(
-  callback: (isHovered: boolean) => void,
+  handler: (isHovered: boolean) => void,
   delay?: number
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
@@ -65,11 +65,11 @@ export const useHover = <T extends Element = Element>(
     }
     const handleMouseEnter = (): void => {
       if (delay === undefined) {
-        callback(/* isHovered: */ true)
+        handler(/* isHovered: */ true)
         isHoveredRef.current = true
       } else {
         hoverTimeoutIdRef.current = window.setTimeout(() => {
-          callback(/* isHovered: */ true)
+          handler(/* isHovered: */ true)
           isHoveredRef.current = true
           hoverTimeoutIdRef.current = undefined
         }, delay)
@@ -77,7 +77,7 @@ export const useHover = <T extends Element = Element>(
     }
     const handleMouseLeave = (): void => {
       clearHoverTimeout()
-      callback(/* isHovered: */ false)
+      handler(/* isHovered: */ false)
       isHoveredRef.current = false
     }
     current.addEventListener('mouseenter', handleMouseEnter)
@@ -85,13 +85,13 @@ export const useHover = <T extends Element = Element>(
     return () => {
       clearHoverTimeout()
       if (isHoveredRef.current) {
-        callback(/* isHovered: */ false)
+        handler(/* isHovered: */ false)
         isHoveredRef.current = false
       }
       current.removeEventListener('mouseenter', handleMouseEnter)
       current.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [current, callback, delay])
+  }, [current, handler, delay])
 
   return refCallback
 }

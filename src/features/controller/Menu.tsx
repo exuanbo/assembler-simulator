@@ -35,7 +35,7 @@ const Menu = ({ children }: Props): JSX.Element => {
     setCurrentOpen(isOpen ? null : menuElement)
   }
 
-  const hoverCallback = useCallback(
+  const handleHover = useCallback(
     (isHovered: boolean) => {
       const hasOtherOpen = currentOpen !== null && currentOpen !== menuElement
       if (hasOtherOpen && isHovered) {
@@ -45,7 +45,7 @@ const Menu = ({ children }: Props): JSX.Element => {
     [currentOpen, menuElement]
   )
 
-  const hoverRef = useHover(hoverCallback)
+  const hoverRef = useHover(handleHover)
 
   return (
     <div
