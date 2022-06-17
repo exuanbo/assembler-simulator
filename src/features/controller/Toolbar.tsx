@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { MenuContext } from './Menu'
 import FileMenu from './FileMenu'
 import ViewMenu from './ViewMenu'
@@ -10,7 +10,12 @@ import { Github } from '@/common/components/icons'
 import { useOutsideClick } from '@/common/hooks'
 
 const ToolBar = (): JSX.Element => {
-  const [openMenu, setOpenMenu] = useState<HTMLDivElement | null>(null)
+  const [openMenu, __setOpenMenu] = useState<HTMLDivElement | null>(null)
+
+  const setOpenMenu = (element: HTMLDivElement | null): void => {
+    __setOpenMenu(element)
+    outsideClickRef(element)
+  }
 
   const menuContextValue = useMemo(() => {
     return {
@@ -24,10 +29,6 @@ const ToolBar = (): JSX.Element => {
   }, [])
 
   const outsideClickRef = useOutsideClick(handleOutsideClick)
-
-  useEffect(() => {
-    outsideClickRef(openMenu)
-  }, [openMenu])
 
   return (
     <header className="border-y flex flex-row-reverse min-w-max bg-gray-100 h-8 w-full z-10 fixed items-center justify-between">
