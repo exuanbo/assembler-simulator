@@ -61,8 +61,8 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
     reader.readAsText(file)
   }
 
-  const handleSelectFile: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const file = target.files![0]
+  const handleSelectFile: React.ChangeEventHandler<HTMLInputElement> = event => {
+    const file = event.target.files![0]
     loadFile(file)
     onFileLoad()
   }
