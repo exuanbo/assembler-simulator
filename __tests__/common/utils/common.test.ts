@@ -6,6 +6,7 @@ import {
   splitCamelCaseToString,
   arrayShallowEqual,
   asciiToChars,
+  isFunction,
   noop,
   curryRight2,
   throttle,
@@ -67,6 +68,16 @@ describe('arrayShallowEqual', () => {
 describe('asciiToChars', () => {
   it('should convert an array of numbers to characters', () => {
     expect(asciiToChars([97, 98, 99])).toEqual(['a', 'b', 'c'])
+  })
+})
+
+describe('isFunction', () => {
+  it('should return true if function', () => {
+    expect(isFunction(() => undefined)).toBe(true)
+  })
+
+  it('should return false if not function', () => {
+    expect(isFunction({})).toBe(false)
   })
 })
 
