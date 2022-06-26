@@ -146,20 +146,22 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
 
   const {
     data: outputData,
+    subscribeData: subscribeOutputData,
     isVisible,
     toggleVisible
   } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
   useEffect(() => {
-    setData(
-      createNextState(data, draft => {
-        for (let i = outputData[7]; i < 14; i += 2) {
-          draft[i] = outputData[Math.floor(i / 2)]
-        }
-      })
-    )
-    // it's safe to omit `data` as dependency
-  }, [outputData])
+    return subscribeOutputData(outputData => {
+      setData(prevData =>
+        createNextState(prevData, draft => {
+          for (let i = outputData[7]; i < 14; i += 2) {
+            draft[i] = outputData[Math.floor(i / 2)]
+          }
+        })
+      )
+    })
+  }, [])
 
   return isVisible ? (
     <DeviceCard name="Seven-segment Display" onClickClose={toggleVisible}>
@@ -170,7 +172,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
         </g>
         <g fill="lime" stroke="lime" strokeWidth="2">
           <title>Segments Layer</title>
-          {segments.filter((_, index) => data[index] === 1)}
+          {segments.filter((_, index) => Boolean(data[index]))}
         </g>
         <g fill="#fff" textAnchor="middle">
           <title>Data Layer</title>

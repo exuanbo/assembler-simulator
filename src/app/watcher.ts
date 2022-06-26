@@ -17,7 +17,7 @@ interface Subscription<TSelected> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscriptions<TSelected = any> = Map<Selector<TSelected>, Subscription<TSelected>>
 
-type Unsubscribe = () => void
+export type Unsubscribe = () => void
 
 type Watch = <TSelected>(
   selector: Selector<TSelected>,
