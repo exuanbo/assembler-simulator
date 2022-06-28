@@ -93,7 +93,8 @@ export const chunk = <T>(size: number, arr: T[]): T[][] => {
 
 export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
 
-type FunctionType = (...args: unknown[]) => unknown
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FunctionType = (...args: any[]) => any
 
 export const isFunction = (value: unknown): value is FunctionType => typeof value === 'function'
 
