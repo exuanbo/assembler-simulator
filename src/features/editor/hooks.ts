@@ -157,10 +157,11 @@ export const useAssemblerError = (): void => {
       })
     )
     return watch(selectAssemblerErrorRange, errorRange => {
+      const hasError = errorRange !== undefined
       view.dispatch({
         effects: wavyUnderlineEffect.of({
           add: errorRange,
-          filter: () => errorRange !== undefined
+          filter: () => hasError
         })
       })
     })
