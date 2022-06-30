@@ -184,25 +184,26 @@ export const useHighlightLine = (): void => {
       return
     }
     return watch(selectEditorHighlightLinePos(view), linePos => {
+      const shouldAddHighlight = linePos !== undefined
       view.dispatch({
-        effects:
-          linePos === undefined
-            ? highlightLineEffect.of({ filter: () => false })
-            : linePos.map((pos, index) =>
-                highlightLineEffect.of({
-                  addByPos: pos,
-                  // clear previous decorations on first line
-                  filter: () => index !== 0
-                })
-              ),
-        ...(view.hasFocus || linePos === undefined
-          ? undefined
-          : {
-              // length of `linePos` is already checked
-              selection: { anchor: linePos[0] },
-              scrollIntoView: true
-            })
+        effects: shouldAddHighlight
+          ? linePos.map((pos, index) =>
+              highlightLineEffect.of({
+                addByPos: pos,
+                // clear previous decorations on first line
+                filter: () => index !== 0
+              })
+            )
+          : highlightLineEffect.of({ filter: () => false })
       })
+      if (!view.hasFocus && shouldAddHighlight) {
+        view.dispatch({
+          // length of `linePos` is already checked
+          selection: { anchor: linePos[0] },
+          scrollIntoView: true
+        })
+        view.contentDOM.blur()
+      }
     })
   }, [view])
 }
