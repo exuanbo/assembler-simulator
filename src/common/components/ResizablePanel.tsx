@@ -10,9 +10,6 @@ interface Props {
 }
 
 const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props): JSX.Element => {
-  const [leftChildWidth, setLeftChildWidth] = useState<number>()
-  const isReady = leftChildWidth !== undefined
-
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
   const rightChildRef = useRef<HTMLDivElement>(null)
@@ -24,6 +21,9 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
   const getInitialLeftChildWidth = (): number => 0.5 * getTotalWidth()
 
   const getAvailableWidth = (): number => getTotalWidth() - rightChildRef.current!.offsetWidth
+
+  const [leftChildWidth, setLeftChildWidth] = useState<number>()
+  const isReady = leftChildWidth !== undefined
 
   useEffect(() => {
     setLeftChildWidth(getInitialLeftChildWidth())

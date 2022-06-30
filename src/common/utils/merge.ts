@@ -3,7 +3,7 @@
 // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts
 // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
 
-import type { O } from 'ts-toolbelt'
+import type { Object as ObjectType } from 'ts-toolbelt'
 
 const getType = (value: unknown): string => Object.prototype.toString.call(value).slice(8, -1)
 
@@ -56,6 +56,6 @@ type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
 export const merge = <TTarget extends PlainObject, TSources extends PlainObject[]>(
   target: TTarget,
   ...sources: TSources
-): ExpandDeep<O.Assign<TTarget, TSources, 'deep'>> =>
+): ExpandDeep<ObjectType.Assign<TTarget, TSources, 'deep'>> =>
   // @ts-expect-error: safe to ignore
   sources.reduce((resultObject, source) => mergeRecursively(resultObject, source), target)
