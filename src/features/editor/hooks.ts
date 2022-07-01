@@ -50,17 +50,19 @@ const createInputUpdateListener = (store: Store): ViewUpdateListener => {
     if (!viewUpdate.docChanged) {
       return
     }
-    // document changes must be caused by at least one transaction
-    const firstTransaction = viewUpdate.transactions[0]
-    const input = textToString(viewUpdate.state.doc)
     if (timeoutId !== undefined) {
       window.clearTimeout(timeoutId)
+      timeoutId = undefined
     }
+    // document changes must be caused by at least one transaction
+    const firstTransaction = viewUpdate.transactions[0]
+    // only one transaction is dispatched if input is set from file
+    if (isChangedFromState(firstTransaction)) {
+      return
+    }
+    const input = textToString(viewUpdate.state.doc)
     timeoutId = window.setTimeout(() => {
-      // only one transaction is dispatched if input is set from file
-      if (!isChangedFromState(firstTransaction)) {
-        store.dispatch(setEditorInput({ value: input }))
-      }
+      store.dispatch(setEditorInput({ value: input }))
       timeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
   }
