@@ -87,6 +87,7 @@ export const useSyncInput = (): void => {
           },
           annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
         })
+        view.contentDOM.blur()
       }
     })
   }, [view])
