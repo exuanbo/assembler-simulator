@@ -47,7 +47,8 @@ const createWatcher = (): Watcher => {
     }
     stackCount += 1
     const result = next(action)
-    if (stackCount === 1) {
+    stackCount -= 1
+    if (stackCount === 0) {
       const state = api.getState()
       subscriptions.forEach((subscription, selector) => {
         const { prevSelected, callbacks } = subscription
@@ -58,7 +59,6 @@ const createWatcher = (): Watcher => {
         }
       })
     }
-    stackCount -= 1
     return result
   }
 
