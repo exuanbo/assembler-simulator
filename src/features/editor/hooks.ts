@@ -21,12 +21,12 @@ import { template } from './examples'
 import { useCodeMirrorView } from './codemirror/hooks'
 import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { highlightLineEffect } from './codemirror/highlightLine'
+import { reconfigureHighlightLine, highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
-import { selectAutoAssemble } from '@/features/controller/controllerSlice'
+import { selectAutoAssemble, selectIsRunning } from '@/features/controller/controllerSlice'
 import { createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
@@ -181,6 +181,14 @@ export const useHighlightLine = (): void => {
       }
     })
   }, [])
+
+  useEffect(() => {
+    if (view !== undefined) {
+      return watch(selectIsRunning, isRunning => {
+        view.dispatch(reconfigureHighlightLine({ clearOnPointerSelect: !isRunning }))
+      })
+    }
+  }, [view])
 
   useEffect(() => {
     if (view === undefined) {

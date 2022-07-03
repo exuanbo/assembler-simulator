@@ -1,4 +1,12 @@
-import { Facet, StateEffect, StateField, Extension, combineConfig } from '@codemirror/state'
+import {
+  Facet,
+  Compartment,
+  TransactionSpec,
+  StateEffect,
+  StateField,
+  Extension,
+  combineConfig
+} from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import type { RangeSetUpdateFilter } from './rangeSet'
 
@@ -21,6 +29,14 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
     )
   }
 })
+
+const highlightLineConfig = new Compartment()
+
+export const reconfigureHighlightLine = (config: HighlightLineConfig): TransactionSpec => {
+  return {
+    effects: highlightLineConfig.reconfigure(HighlightLineConfigFacet.of(config))
+  }
+}
 
 export const highlightLineEffect = StateEffect.define<{
   addByPos?: number
@@ -59,7 +75,7 @@ const highlightLineField = StateField.define<DecorationSet>({
 })
 
 export const highlightLine = (config: HighlightLineConfig = {}): Extension => [
-  HighlightLineConfigFacet.of(config),
+  highlightLineConfig.of(HighlightLineConfigFacet.of(config)),
   highlightLineField,
   EditorView.baseTheme({
     '.cm-highlightLine': {
