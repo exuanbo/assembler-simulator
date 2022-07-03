@@ -1,10 +1,11 @@
 import { RefCallback, useState, useEffect, useContext, useCallback } from 'react'
-import { EditorState, EditorStateConfig } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import { EditorViewConfig, EditorView } from '@codemirror/view'
 import CodeMirrorContext, { CodeMirror } from './Context'
 
+type CodeMirrorConfig = Omit<EditorViewConfig, 'parent' | 'root'>
+
 export const useCodeMirror = <T extends Element = Element>(
-  editorStateConfig?: EditorStateConfig
+  config?: CodeMirrorConfig
 ): CodeMirror<T> => {
   const [current, setCurrent] = useState<T | null>(null)
 
@@ -18,17 +19,17 @@ export const useCodeMirror = <T extends Element = Element>(
     if (current === null) {
       return
     }
-    const initialState = EditorState.create(editorStateConfig)
     const initialView = new EditorView({
-      state: initialState,
-      parent: current
+      ...config,
+      parent: current,
+      root: document
     })
     setView(initialView)
     return () => {
       initialView.destroy()
       setView(undefined)
     }
-  }, [current, editorStateConfig])
+  }, [current, config])
 
   return {
     view,

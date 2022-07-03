@@ -10,7 +10,7 @@ import { setup } from './codemirror/setup'
 const Editor = (): JSX.Element => {
   const store = useStore()
 
-  const editorStateConfig = useMemo(() => {
+  const codeMirrorConfig = useMemo(() => {
     const defaultInput = selectEditorInput(store.getState())
     return {
       doc: defaultInput,
@@ -18,7 +18,7 @@ const Editor = (): JSX.Element => {
     }
   }, [])
 
-  const codeMirror = useCodeMirror(editorStateConfig)
+  const codeMirror = useCodeMirror(codeMirrorConfig)
 
   return (
     <div className="flex flex-col h-full">
