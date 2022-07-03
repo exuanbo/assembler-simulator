@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import CodeMirrorContext from './codemirror/Context'
+import { CodeMirrorProvider } from './codemirror/Context'
 import CodeMirrorContainer from './CodeMirrorContainer'
 import EditorMessage from './EditorMessage'
 import { useStore } from '@/app/hooks'
@@ -22,9 +22,9 @@ const Editor = (): JSX.Element => {
 
   return (
     <div className="flex flex-col h-full">
-      <CodeMirrorContext.Provider value={codeMirror}>
+      <CodeMirrorProvider value={codeMirror}>
         <CodeMirrorContainer className="flex-1" />
-      </CodeMirrorContext.Provider>
+      </CodeMirrorProvider>
       <EditorMessage />
     </div>
   )

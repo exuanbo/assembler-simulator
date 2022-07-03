@@ -17,3 +17,5 @@ if (import.meta.env.DEV) {
 }
 
 export default CodeMirrorContext
+
+export const { Provider: CodeMirrorProvider } = CodeMirrorContext
