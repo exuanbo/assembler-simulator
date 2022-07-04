@@ -20,11 +20,15 @@ interface RangeFn {
 }
 
 export const range: RangeFn = (start: number, stop?: number): number[] => {
+  const result: number[] = []
   if (stop === undefined) {
     stop = start
     start = 0
   }
-  return Array.from({ length: stop - start }, (_, index) => start + index)
+  for (let i = start; i < stop; i++) {
+    result.push(i)
+  }
+  return result
 }
 
 export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')

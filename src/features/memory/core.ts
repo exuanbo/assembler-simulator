@@ -24,9 +24,10 @@ export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
 export const getVduDataFrom = (data: MemoryData): number[] => data.slice(VDU_START_ADDRESS)
 
 export const getSourceFrom = (map: AddressToStatementMap): string[] => {
-  const source: string[] = Array.from({ length: MEMORY_SIZE }, (_, address) =>
-    address < VDU_START_ADDRESS ? Mnemonic.END : ''
-  )
+  const source: string[] = []
+  for (let address = 0; address < MEMORY_SIZE; address++) {
+    source.push(address < VDU_START_ADDRESS ? Mnemonic.END : '')
+  }
   for (const address in map) {
     const statement = map[address]
     const { instruction, operands } = statement
