@@ -256,9 +256,10 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
 
     switch (opcode) {
       case Opcode.END:
-      case Opcode.HALT:
+      case Opcode.HALT: {
         setHalted()
         break
+      }
 
       // Direct Arithmetic
       case Opcode.ADD_REG_TO_REG: {
