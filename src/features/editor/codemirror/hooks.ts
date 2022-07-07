@@ -9,9 +9,14 @@ import {
   useCallback
 } from 'react'
 import { EditorViewConfig, EditorView } from '@codemirror/view'
-import CodeMirrorContext, { CodeMirror } from './Context'
+import CodeMirrorContext from './Context'
 
-type CodeMirrorConfig = Omit<EditorViewConfig, 'parent' | 'root'>
+type CodeMirrorConfig = Omit<EditorViewConfig, 'state' | 'parent' | 'root'>
+
+export interface CodeMirror<T extends Element = Element> {
+  view: EditorView | undefined
+  ref: RefCallback<T>
+}
 
 export const useCodeMirror = <T extends Element = Element>(
   config?: CodeMirrorConfig
