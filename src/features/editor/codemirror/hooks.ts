@@ -5,8 +5,9 @@ import {
   useState,
   useEffect,
   useContext,
-  useRef,
-  useCallback
+  useCallback,
+  useMemo,
+  useRef
 } from 'react'
 import { EditorViewConfig, EditorView } from '@codemirror/view'
 import CodeMirrorContext from './Context'
@@ -45,10 +46,13 @@ export const useCodeMirror = <T extends Element = Element>(
     }
   }, [current, config])
 
-  return {
-    view,
-    ref: refCallback
-  }
+  const codeMirror = useMemo<CodeMirror<T>>(() => {
+    return {
+      view,
+      ref: refCallback
+    }
+  }, [view])
+  return codeMirror
 }
 
 export const useCodeMirrorView = (): EditorView | undefined => {
