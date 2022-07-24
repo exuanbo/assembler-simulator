@@ -184,6 +184,45 @@ describe('merge', () => {
     expect(res[mySymbol]).toEqual('hello')
   })
 
+  test('nonenumerable keys', () => {
+    const mySymbol = Symbol('mySymbol')
+    const x = { value: 42 }
+    const y = { other: 33 }
+    Object.defineProperty(x, 'xid', {
+      value: 1,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    })
+    Object.defineProperty(x, mySymbol, {
+      value: 'original',
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    })
+    Object.defineProperty(y, 'yid', {
+      value: 2,
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    })
+    Object.defineProperty(y, mySymbol, {
+      value: 'new',
+      writable: true,
+      enumerable: false,
+      configurable: true,
+    })
+    const res = merge(x, y)
+    expect(res.value).toEqual(42)
+    expect(res.other).toEqual(33)
+    expect((res as any).xid).toEqual(1)
+    expect((res as any).yid).toEqual(2)
+    expect((res as any)[mySymbol]).toEqual('new')
+    expect(Object.keys(res).length).toEqual(2)
+    expect(Object.keys(res).includes('value')).toEqual(true)
+    expect(Object.keys(res).includes('other')).toEqual(true)
+  })
+
   test('readme', () => {
     const starter = { name: 'Squirtle', types: { water: true } }
     const newValues = { name: 'Wartortle', types: { fighting: true }, level: 16 }

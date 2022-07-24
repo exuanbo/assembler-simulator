@@ -1,5 +1,4 @@
 // Simplified fork of merge-anything
-// without support of enumerable & nonenumerable properties.
 // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts
 // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
 
@@ -26,7 +25,9 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
         (!isKeySymbol && !sourcePropertyNames.includes(key)) ||
         (isKeySymbol && !sourcePropertySymbols.includes(key))
       ) {
-        resultObject[key] = target[key]
+        Object.defineProperty(resultObject, key, {
+          ...Object.getOwnPropertyDescriptor(target, key)
+        })
       }
     }
     targetPropertyNames.forEach(assignTargetProperty)
@@ -35,9 +36,17 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
   const assignSourceProperty = (key: string | symbol): void => {
     const sourcePropertyValue = source[key]
     const shouldMerge = isTargetPlainObject && isPlainObject(sourcePropertyValue)
-    resultObject[key] = shouldMerge
-      ? mergeRecursively(target[key], sourcePropertyValue)
-      : sourcePropertyValue
+    if (shouldMerge) {
+      const targetPropertyValue = target[key]
+      Object.defineProperty(resultObject, key, {
+        ...Object.getOwnPropertyDescriptor(source, key),
+        value: mergeRecursively(targetPropertyValue, sourcePropertyValue)
+      })
+    } else {
+      Object.defineProperty(resultObject, key, {
+        ...Object.getOwnPropertyDescriptor(source, key)
+      })
+    }
   }
   sourcePropertyNames.forEach(assignSourceProperty)
   sourcePropertySymbols.forEach(assignSourceProperty)
