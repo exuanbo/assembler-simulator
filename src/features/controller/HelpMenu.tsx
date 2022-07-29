@@ -8,7 +8,7 @@ import { Help } from '@/common/components/icons'
 import { useToggle, useOutsideClick } from '@/common/hooks'
 
 const InstructionSetButton = (): JSX.Element => (
-  <MenuItem.ExternalLink href="http://www.softwareforeducation.com/sms32v50/sms32v50_manual/250-FullIset.htm">
+  <MenuItem.ExternalLink href="https://web.archive.org/web/20200701132011/http://www.softwareforeducation.com/sms32v50/sms32v50_manual/250-FullIset.htm">
     <MenuButton>
       <span className="w-4" />
       <span>Instruction Set</span>
