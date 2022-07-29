@@ -49,13 +49,17 @@ export const useHover = <T extends Element = Element>(
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
-  const isHoveredRef = useRef(false)
-  const hoverTimeoutIdRef = useRef<number | undefined>()
+  const hoverContext = useConstant<{
+    isHovered: boolean
+    timeoutId?: number | undefined
+  }>({
+    isHovered: false
+  })
 
   const clearHoverTimeout = (): void => {
-    if (hoverTimeoutIdRef.current !== undefined) {
-      window.clearTimeout(hoverTimeoutIdRef.current)
-      hoverTimeoutIdRef.current = undefined
+    if (hoverContext.timeoutId !== undefined) {
+      window.clearTimeout(hoverContext.timeoutId)
+      hoverContext.timeoutId = undefined
     }
   }
 
@@ -66,30 +70,30 @@ export const useHover = <T extends Element = Element>(
     const handleMouseEnter = (): void => {
       if (delay === undefined) {
         handler(/* isHovered: */ true)
-        isHoveredRef.current = true
+        hoverContext.isHovered = true
       } else {
-        hoverTimeoutIdRef.current = window.setTimeout(() => {
+        hoverContext.timeoutId = window.setTimeout(() => {
           handler(/* isHovered: */ true)
-          isHoveredRef.current = true
-          hoverTimeoutIdRef.current = undefined
+          hoverContext.isHovered = true
+          hoverContext.timeoutId = undefined
         }, delay)
       }
     }
     const handleMouseLeave = (): void => {
       clearHoverTimeout()
       handler(/* isHovered: */ false)
-      isHoveredRef.current = false
+      hoverContext.isHovered = false
     }
     current.addEventListener('mouseenter', handleMouseEnter)
     current.addEventListener('mouseleave', handleMouseLeave)
     return () => {
-      clearHoverTimeout()
-      if (isHoveredRef.current) {
-        handler(/* isHovered: */ false)
-        isHoveredRef.current = false
-      }
       current.removeEventListener('mouseenter', handleMouseEnter)
       current.removeEventListener('mouseleave', handleMouseLeave)
+      clearHoverTimeout()
+      if (hoverContext.isHovered) {
+        handler(/* isHovered: */ false)
+        hoverContext.isHovered = false
+      }
     }
   }, [current, handler, delay])
 
