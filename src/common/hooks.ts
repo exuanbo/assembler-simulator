@@ -30,7 +30,7 @@ export const useOutsideClick = <T extends Element = Element>(
     }
     const handleClick = (event: MouseEvent): void => {
       const { target } = event
-      if (target instanceof Node && !current.contains(target)) {
+      if (target instanceof Element && target !== current && !current.contains(target)) {
         handler(event)
       }
     }
