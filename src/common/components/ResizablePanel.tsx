@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect, useRef } from 'react'
+import { ReactNode, useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { clamp, range, throttle, classNames } from '../utils'
 
 const MIN_WIDTH_PERCENTAGE = 0.25
@@ -25,18 +25,20 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
   const [leftChildWidth, setLeftChildWidth] = useState<number>()
   const isReady = leftChildWidth !== undefined
 
-  useEffect(() => {
-    setLeftChildWidth(getInitialLeftChildWidth())
-  }, [])
+  useLayoutEffect(() => {
+    if (!isReady) {
+      setLeftChildWidth(getInitialLeftChildWidth())
+    }
+  }, [isReady])
 
-  useEffect(() => {
-    if (isReady) {
+  useLayoutEffect(() => {
+    if (leftChildWidth !== undefined) {
       const availableWidth = getAvailableWidth()
       if (leftChildWidth > availableWidth) {
         setLeftChildWidth(availableWidth)
       }
     }
-  }, [isReady, leftChildWidth])
+  }, [leftChildWidth])
 
   const [isDragging, setDragging] = useState(false)
 
