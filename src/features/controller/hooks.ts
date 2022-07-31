@@ -201,9 +201,6 @@ class Controller {
       }
       return
     }
-    if (selectIsSuspended(state)) {
-      return
-    }
     this.lastStep = new Promise(resolve => {
       let stepOutput: StepOutput
       try {
