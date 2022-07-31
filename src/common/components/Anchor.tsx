@@ -16,7 +16,7 @@ const Anchor = ({ href, children }: Props): JSX.Element => {
             rel: 'noopener noreferrer',
             target: '_blank'
           }
-        : undefined)}>
+        : {})}>
       {children}
     </a>
   )
