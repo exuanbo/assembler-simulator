@@ -40,8 +40,8 @@ describe('cpu', () => {
       })
       try {
         step(memoryData, initialRegisters)
-      } catch (err) {
-        expect(err).toBeInstanceOf(RuntimeError)
+      } catch (error) {
+        expect(error).toBeInstanceOf(RuntimeError)
       }
       expect.assertions(1)
     })

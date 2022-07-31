@@ -16,8 +16,8 @@ describe('assembler', () => {
   it('should throw instance of AssemblerError', () => {
     try {
       assemble('foo')
-    } catch (err) {
-      expect(err).toBeInstanceOf(AssemblerError)
+    } catch (error) {
+      expect(error).toBeInstanceOf(AssemblerError)
     }
     expect.assertions(1)
   })

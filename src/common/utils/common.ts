@@ -59,16 +59,16 @@ export const parseString = (str: string): string => parseStringRecursively(str.r
 const parseStringRecursively = (str: string): string => {
   try {
     return JSON.parse(str)
-  } catch (err) {
-    if (err instanceof SyntaxError) {
-      const charIndex = Number(err.message.split(' ').slice(-1)[0])
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      const charIndex = Number(error.message.split(' ').slice(-1)[0])
       // invalid escape character or number
       if (str[charIndex - 1] === '\\') {
         return parseStringRecursively(str.slice(0, charIndex - 1) + str.slice(charIndex))
       }
     }
     // istanbul ignore next
-    throw err
+    throw error
   }
 }
 

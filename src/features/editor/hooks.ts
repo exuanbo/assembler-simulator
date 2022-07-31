@@ -259,10 +259,10 @@ const haltedMessage: EditorMessage = {
   content: 'Info: Program has halted.'
 }
 
-const errorToMessage = (err: Error): EditorMessage => {
+const errorToMessage = (error: Error): EditorMessage => {
   return {
     type: MessageType.Error,
-    content: `${err.name}: ${err.message}`
+    content: `${error.name}: ${error.message}`
   }
 }
 
@@ -270,7 +270,7 @@ export const useMessage = (): EditorMessage | null => {
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
-  const err = assemblerError ?? runtimeError
+  const error = assemblerError ?? runtimeError
 
   const message = useSelector(selectEditorMessage)
   const messageTimeoutIdRef = useRef<number | undefined>()
@@ -303,8 +303,8 @@ export const useMessage = (): EditorMessage | null => {
     })
   }, [])
 
-  if (err !== null) {
-    return errorToMessage(err)
+  if (error !== null) {
+    return errorToMessage(error)
   }
   return message
 }
