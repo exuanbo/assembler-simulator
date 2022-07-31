@@ -19,13 +19,16 @@ export const createAssemble =
     let assembleResult: AssembleResult
     try {
       assembleResult = __assemble(input)
-    } catch (err) {
-      if (err instanceof AssemblerError) {
-        const assemblerError = err.toPlainObject()
+    } catch (error) {
+      if (error instanceof AssemblerError) {
+        const assemblerErrorObject = error.toPlainObject()
         store.dispatch(clearEditorHighlightRange())
-        store.dispatch(setAssemblerError(assemblerError))
+        store.dispatch(setAssemblerError(assemblerErrorObject))
+      } else if (error instanceof Error) {
+        const errorObject = errorToPlainObject(error)
+        store.dispatch(setException(errorObject))
       } else {
-        const errorObject = errorToPlainObject(err as Error)
+        const errorObject = errorToPlainObject(new Error(String(error)))
         store.dispatch(setException(errorObject))
       }
       return

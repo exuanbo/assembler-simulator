@@ -1,9 +1,9 @@
-import { ReactNode, Component } from 'react'
+import { ReactNode, Component, useCallback } from 'react'
 import { useStore } from '@/app/hooks'
 import { setException } from './exceptionSlice'
 import { errorToPlainObject } from '@/common/utils'
 
-type ErrorHandler = (err: Error) => void
+type ErrorHandler = (error: Error) => void
 
 interface ErrorBoundaryComponentProps {
   onError: ErrorHandler
@@ -13,8 +13,8 @@ interface ErrorBoundaryComponentProps {
 class ErrorBoundaryComponent extends Component<ErrorBoundaryComponentProps> {
   public declare static displayName?: string
 
-  public componentDidCatch(err: Error): void {
-    this.props.onError(errorToPlainObject(err))
+  public componentDidCatch(error: Error): void {
+    this.props.onError(errorToPlainObject(error))
   }
 
   public render(): ReactNode {
@@ -33,10 +33,10 @@ interface Props {
 const ErrorBoundary = ({ children }: Props): JSX.Element => {
   const store = useStore()
 
-  const handleError: ErrorHandler = err => {
-    const errorObject = errorToPlainObject(err)
+  const handleError = useCallback<ErrorHandler>(error => {
+    const errorObject = errorToPlainObject(error)
     store.dispatch(setException(errorObject))
-  }
+  }, [])
 
   return <ErrorBoundaryComponent onError={handleError}>{children}</ErrorBoundaryComponent>
 }

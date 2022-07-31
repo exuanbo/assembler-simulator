@@ -211,13 +211,16 @@ class Controller {
           },
           selectInputSignals(state)
         )
-      } catch (err) {
+      } catch (error) {
         this.stopIfRunning(state)
-        if (err instanceof RuntimeError) {
-          const runtimeError = err.toPlainObject()
-          this.dispatch(setCpuFault(runtimeError))
+        if (error instanceof RuntimeError) {
+          const runtimeErrorObject = error.toPlainObject()
+          this.dispatch(setCpuFault(runtimeErrorObject))
+        } else if (error instanceof Error) {
+          const errorObject = errorToPlainObject(error)
+          this.dispatch(setException(errorObject))
         } else {
-          const errorObject = errorToPlainObject(err as Error)
+          const errorObject = errorToPlainObject(new Error(String(error)))
           this.dispatch(setException(errorObject))
         }
         resolve(undefined)
