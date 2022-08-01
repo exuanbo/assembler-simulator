@@ -2,10 +2,37 @@ import { decToHex, chunk } from '@/common/utils'
 
 const SEPARATOR = ', '
 
+type TypeofResult =
+  | 'string'
+  | 'number'
+  | 'bigint'
+  | 'boolean'
+  | 'symbol'
+  | 'undefined'
+  | 'object'
+  | 'function'
+
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/ban-types */
+
+type TypeofResultToType<T extends TypeofResult> =
+  T extends 'string' ? string :
+  T extends 'number' ? number :
+  T extends 'bigint' ? bigint :
+  T extends 'boolean' ? boolean :
+  T extends 'symbol' ? symbol :
+  T extends 'undefined' ? undefined :
+  T extends 'object' ? object :
+  T extends 'function' ? Function :
+  never
+
+/* eslint-enable prettier/prettier */
+/* eslint-enable @typescript-eslint/ban-types */
+
 const isArrayOf =
-  <T = unknown>(...types: string[]) =>
-  (value: unknown): value is T[] =>
-    Array.isArray(value) && value.every(el => types.includes(typeof el))
+  <T extends TypeofResult>(...types: T[]) =>
+  (value: unknown): value is Array<TypeofResultToType<T>> =>
+    Array.isArray(value) && value.every(item => (types as TypeofResult[]).includes(typeof item))
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: value => isArrayOf('number', 'boolean')(value) && value.length <= 4,
