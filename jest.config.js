@@ -1,3 +1,4 @@
+/** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
