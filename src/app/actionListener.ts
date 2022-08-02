@@ -10,7 +10,7 @@ type ListenCallback<TPayload> = (payload: TPayload, api: ListenerAPI) => void | 
 type Subscription<TPayload> = Set<ListenCallback<TPayload>>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscriptions<TPayload = any> = Map<string, Subscription<TPayload>>
+type Subscriptions = Map<string, Subscription<any>>
 
 interface ListenOptions {
   once?: boolean
