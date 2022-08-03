@@ -1,4 +1,8 @@
 import { useEffect } from 'react'
+import { watch } from './watcher'
+import { selectStateToPersist } from './selectors'
+import { saveState as saveStateToLocalStorage } from './localStorage'
+import ReloadPrompt from './ReloadPrompt'
 import ToolBar from '@/features/controller/Toolbar'
 import ResizablePanel from '@/common/components/ResizablePanel'
 import ErrorBoundary from '@/features/exception/ErrorBoundary'
@@ -7,15 +11,11 @@ import CpuRegisters from '@/features/cpu/CpuRegisters'
 import Memory from '@/features/memory/Memory'
 import IoDevices from '@/features/io/IoDevices'
 import ExceptionModal from '@/features/exception/ExceptionModal'
-import ReloadPrompt from './ReloadPrompt'
-import { watch } from './watcher'
-import { selectStateToPersist } from './selectors'
-import { saveState } from './localStorage'
 
 const App = (): JSX.Element => {
   useEffect(() => {
     return watch(selectStateToPersist, stateToPersist => {
-      saveState(stateToPersist)
+      saveStateToLocalStorage(stateToPersist)
     })
   }, [])
 

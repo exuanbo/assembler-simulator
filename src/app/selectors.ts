@@ -12,3 +12,5 @@ export const selectStateToPersist = createSelector(
 )
 
 export type StateToPersist = ReturnType<typeof selectStateToPersist>
+
+export type PersistedState = StateToPersist | Record<string, never>

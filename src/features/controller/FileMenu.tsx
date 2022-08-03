@@ -5,6 +5,8 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
 import { useStore } from '@/app/hooks'
+import { selectStateToPersist } from '@/app/selectors'
+import { getShareUrl } from '@/app/url'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
 import { template, examples } from '@/features/editor/examples'
 
@@ -125,7 +127,7 @@ const OpenExampleMenu = (): JSX.Element => {
 const SaveButton = (): JSX.Element => {
   const store = useStore()
 
-  const handleClickSave = (): void => {
+  const handleClick = (): void => {
     const editorInput = selectEditorInput(store.getState())
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
@@ -138,10 +140,34 @@ const SaveButton = (): JSX.Element => {
   }
 
   return (
-    <MenuItem onClick={handleClickSave}>
+    <MenuItem onClick={handleClick}>
       <MenuButton>
         <span className="w-4" />
         <span>Save As...</span>
+      </MenuButton>
+    </MenuItem>
+  )
+}
+
+const CopyLinkButton = (): JSX.Element => {
+  const store = useStore()
+
+  const handleClick = async (): Promise<void> => {
+    const stateToPersist = selectStateToPersist(store.getState())
+    const shareUrl = getShareUrl(stateToPersist)
+    window.history.pushState({}, '', shareUrl)
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+    } catch {
+      // TODO: display message
+    }
+  }
+
+  return (
+    <MenuItem onClick={handleClick}>
+      <MenuButton>
+        <span className="w-4" />
+        <span>Copy Link</span>
       </MenuButton>
     </MenuItem>
   )
@@ -161,6 +187,7 @@ const FileMenu = (): JSX.Element => (
             <OpenButton onFileLoad={() => menuElement.click()} />
             <OpenExampleMenu />
             <SaveButton />
+            <CopyLinkButton />
           </MenuItems>
         )}
       </>

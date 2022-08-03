@@ -20,12 +20,15 @@
     "@codemirror/view": "6.1.2",
     "@reduxjs/toolkit": "1.8.3",
     "immer": "9.0.15",
+    "js-base64": "3.7.2",
+    "pako": "2.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.2"
   },
   "devDependencies": {
     "@types/jest": "28.1.6",
+    "@types/pako": "2.0.0",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "@vitejs/plugin-react": "2.0.0",
