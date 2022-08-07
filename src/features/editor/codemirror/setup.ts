@@ -11,7 +11,7 @@ import { wavyUnderline } from './wavyUnderline'
 import { highlightLine } from './highlightLine'
 import { indentWithTab } from './indentWithTab'
 
-export const setup: Extension = [
+export const getSetup = (): Extension => [
   drawSelection(),
   history(),
   closeBrackets(),

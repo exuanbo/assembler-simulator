@@ -5,7 +5,7 @@ import EditorMessage from './EditorMessage'
 import { useStore } from '@/app/hooks'
 import { selectEditorInput } from './editorSlice'
 import { useCodeMirror } from './codemirror/hooks'
-import { setup } from './codemirror/setup'
+import { getSetup } from './codemirror/setup'
 
 const Editor = (): JSX.Element => {
   const store = useStore()
@@ -14,7 +14,7 @@ const Editor = (): JSX.Element => {
     const defaultInput = selectEditorInput(store.getState())
     return {
       doc: defaultInput,
-      extensions: setup
+      extensions: getSetup()
     }
   }, [])
 
