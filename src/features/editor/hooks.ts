@@ -112,10 +112,13 @@ export const useAutoAssemble = (): void => {
   const assemble = useConstant(() => createAssemble(store))
 
   useCodeMirrorEffect(view => {
-    if (selectAutoAssemble(store.getState())) {
-      window.setTimeout(() => {
+    const initialAssembleTimeoutId = window.setTimeout(() => {
+      if (selectAutoAssemble(store.getState())) {
         assemble(textToString(view.state.doc))
-      }, UPDATE_TIMEOUT_MS)
+      }
+    }, UPDATE_TIMEOUT_MS)
+    return () => {
+      window.clearTimeout(initialAssembleTimeoutId)
     }
   }, [])
 
@@ -240,15 +243,20 @@ export const useBreakpoints = (): void => {
     if (validBreakpoints.length < breakpoints.length) {
       store.dispatch(setBreakpoints(validBreakpoints))
     }
-    view.dispatch({
-      effects: validBreakpoints.map(lineLoc =>
-        breakpointEffect.of({
-          pos: lineLoc.from,
-          on: true
+    if (validBreakpoints.length > 0) {
+      const breakpointSet = getBreakpointSet(view.state)
+      if (breakpointSet.size === 0) {
+        view.dispatch({
+          effects: validBreakpoints.map(lineLoc =>
+            breakpointEffect.of({
+              pos: lineLoc.from,
+              on: true
+            })
+          ),
+          annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
         })
-      ),
-      annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
-    })
+      }
+    }
   }, [])
 }
 
