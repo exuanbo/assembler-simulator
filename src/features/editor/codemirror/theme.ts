@@ -1,8 +1,8 @@
 import type { Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 
-export const theme = (): Extension =>
-  EditorView.theme({
+export const theme = (): Extension => {
+  return EditorView.theme({
     '&': {
       height: '100%'
     },
@@ -27,3 +27,4 @@ export const theme = (): Extension =>
       borderLeft: '2px solid black'
     }
   })
+}

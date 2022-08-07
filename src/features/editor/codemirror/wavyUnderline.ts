@@ -47,12 +47,14 @@ const WAVY_UNDERLINE_IMAGE = `url('data:image/svg+xml;base64,${window.btoa(
 </svg>`
 )}')`
 
-export const wavyUnderline = (): Extension => [
-  wavyUnderlineField,
-  EditorView.baseTheme({
-    '.cm-wavyUnderline': {
-      background: `${WAVY_UNDERLINE_IMAGE} left bottom repeat-x`,
-      paddingBottom: '2px'
-    }
-  })
-]
+export const wavyUnderline = (): Extension => {
+  return [
+    wavyUnderlineField,
+    EditorView.baseTheme({
+      '.cm-wavyUnderline': {
+        background: `${WAVY_UNDERLINE_IMAGE} left bottom repeat-x`,
+        paddingBottom: '2px'
+      }
+    })
+  ]
+}

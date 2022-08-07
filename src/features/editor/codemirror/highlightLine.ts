@@ -22,7 +22,7 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
         clearOnPointerSelect: true
       },
       {
-        clearOnPointerSelect(_, option) {
+        clearOnPointerSelect(_prevOption, option) {
           return option
         }
       }
@@ -50,7 +50,7 @@ export const highlightLineEffect = StateEffect.define<{
   }
 })
 
-const lineDecoration = Decoration.line({ attributes: { class: 'cm-highlightLine' } })
+const lineDecoration = Decoration.line({ class: 'cm-highlightLine' })
 
 const highlightLineField = StateField.define<DecorationSet>({
   create() {
@@ -74,12 +74,14 @@ const highlightLineField = StateField.define<DecorationSet>({
   provide: field => EditorView.decorations.from(field)
 })
 
-export const highlightLine = (config: HighlightLineConfig = {}): Extension => [
-  highlightLineConfig.of(HighlightLineConfigFacet.of(config)),
-  highlightLineField,
-  EditorView.baseTheme({
-    '.cm-highlightLine': {
-      backgroundColor: '#dcfce7 !important'
-    }
-  })
-]
+export const highlightLine = (config: HighlightLineConfig = {}): Extension => {
+  return [
+    highlightLineConfig.of(HighlightLineConfigFacet.of(config)),
+    highlightLineField,
+    EditorView.baseTheme({
+      '.cm-highlightLine': {
+        backgroundColor: '#dcfce7 !important'
+      }
+    })
+  ]
+}

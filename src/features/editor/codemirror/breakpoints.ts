@@ -67,25 +67,27 @@ export const toggleBreakpointOnMouseEvent: GutterDOMEventHandler = (view, line, 
   return false
 }
 
-export const breakpoints = (): Extension => [
-  breakpointField,
-  gutter({
-    class: 'cm-breakpoints',
-    markers: view => getBreakpointSet(view.state),
-    initialSpacer: () => breakpointMarker,
-    domEventHandlers: {
-      mousedown: toggleBreakpointOnMouseEvent
-    }
-  }),
-  EditorView.baseTheme({
-    '.cm-breakpoints .cm-gutterElement': {
-      width: '20px',
-      padding: '0 3px 0 5px',
-      color: 'red',
-      cursor: 'pointer'
-    }
-  })
-]
+export const breakpoints = (): Extension => {
+  return [
+    breakpointField,
+    gutter({
+      class: 'cm-breakpoints',
+      markers: view => getBreakpointSet(view.state),
+      initialSpacer: () => breakpointMarker,
+      domEventHandlers: {
+        mousedown: toggleBreakpointOnMouseEvent
+      }
+    }),
+    EditorView.baseTheme({
+      '.cm-breakpoints .cm-gutterElement': {
+        width: '20px',
+        padding: '0 3px 0 5px',
+        color: 'red',
+        cursor: 'pointer'
+      }
+    })
+  ]
+}
 
 export const breakpointsEqual = (a: BreakpointSet, b: BreakpointSet): boolean => {
   if (b.size !== a.size) {
