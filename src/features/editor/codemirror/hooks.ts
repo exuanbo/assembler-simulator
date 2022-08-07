@@ -60,10 +60,10 @@ export const useCodeMirrorView = (): EditorView | undefined => {
   return view
 }
 
-type ViewEffectCallback = (view: EditorView) => ReturnType<EffectCallback>
+type CodeMirrorEffectCallback = (view: EditorView) => ReturnType<EffectCallback>
 
-export const useCodeMirrorViewEffect = (
-  effect: ViewEffectCallback,
+export const useCodeMirrorEffect = (
+  effect: CodeMirrorEffectCallback,
   deps?: DependencyList
 ): void => {
   const view = useCodeMirrorView()

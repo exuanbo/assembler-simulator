@@ -18,7 +18,7 @@ import {
   clearEditorMessage
 } from './editorSlice'
 import { template } from './examples'
-import { useCodeMirrorViewEffect } from './codemirror/hooks'
+import { useCodeMirrorEffect } from './codemirror/hooks'
 import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { reconfigureHighlightLine, highlightLineEffect } from './codemirror/highlightLine'
@@ -71,7 +71,7 @@ const createInputUpdateListener = (store: Store): ViewUpdateListener => {
 export const useSyncInput = (): void => {
   const store = useStore()
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     view.dispatch(addViewUpdateListener(createInputUpdateListener(store)))
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
@@ -90,7 +90,7 @@ export const useSyncInput = (): void => {
 }
 
 export const useAutoFocus = (): void => {
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile && value === template.content) {
         view.focus()
@@ -111,7 +111,7 @@ export const useAutoAssemble = (): void => {
   const store = useStore()
   const assemble = useConstant(() => createAssemble(store))
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     if (selectAutoAssemble(store.getState())) {
       window.setTimeout(() => {
         assemble(textToString(view.state.doc))
@@ -137,7 +137,7 @@ export const useAutoAssemble = (): void => {
 export const useAssemblerError = (): void => {
   const store = useStore()
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     view.dispatch(
       addViewUpdateListener(viewUpdate => {
         if (viewUpdate.docChanged && selectAssemblerError(store.getState()) !== null) {
@@ -166,13 +166,13 @@ export const useHighlightLine = (): void => {
     })
   }, [])
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     return watch(selectIsRunning, isRunning => {
       view.dispatch(reconfigureHighlightLine({ clearOnPointerSelect: !isRunning }))
     })
   }, [])
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     return watch(selectEditorHighlightLinePos(view), linePos => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
@@ -228,7 +228,7 @@ const createBreakpointsUpdateListener =
 export const useBreakpoints = (): void => {
   const store = useStore()
 
-  useCodeMirrorViewEffect(view => {
+  useCodeMirrorEffect(view => {
     view.dispatch(addViewUpdateListener(createBreakpointsUpdateListener(store)))
     const breakpoints = selectEditorBreakpoints(store.getState())
     // persisted state might not be in sync with codemirror
