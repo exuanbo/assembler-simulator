@@ -230,21 +230,21 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       operation: (...operands: T) => number,
       ...operands: T
     ): number => {
-      const previousValue = operands[operands.length - 1]
-      const result = operation(...operands)
+      const currentValue = operands[operands.length - 1]
+      const __result = operation(...operands)
       let flags = 0
-      if ((previousValue < 0x80 && result >= 0x80) || (previousValue >= 0x80 && result < 0x80)) {
+      if ((currentValue < 0x80 && __result >= 0x80) || (currentValue >= 0x80 && __result < 0x80)) {
         flags |= StatusRegisterFlag.Overflow
       }
-      const finalResult = result > 0xff ? result % 0x100 : unsign8(result)
-      if (finalResult === 0) {
+      const result = __result > 0xff ? __result % 0x100 : unsign8(__result)
+      if (result === 0) {
         flags |= StatusRegisterFlag.Zero
-      } else if (finalResult >= 0x80) {
+      } else if (result >= 0x80) {
         flags |= StatusRegisterFlag.Sign
       }
       const interruptFlag = __cpuRegisters.sr & StatusRegisterFlag.Interrupt
       setSr(flags | interruptFlag)
-      return finalResult
+      return result
     }
 
     /* ------------------------------------------------------------------------------------------ */
