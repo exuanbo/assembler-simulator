@@ -2,6 +2,7 @@ import type { Extension } from '@codemirror/state'
 import {
   StreamLanguage,
   LanguageSupport,
+  IndentContext,
   syntaxHighlighting,
   defaultHighlightStyle,
   indentUnit,
@@ -106,21 +107,24 @@ const asmLanguage = StreamLanguage.define<State>({
   }
 })
 
+const INDENT_UNIT = '\t'
+
 const LEADING_SPACE_REGEXP = /^ */
 const LEADING_WHITESPACE_REGEXP = /^\s*/
+
+const computeIndentation = ({ state }: IndentContext, pos: number): number => {
+  const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
+  const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
+  const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
+  const spaceCount = whitespaces.length - tabCount
+  return tabCount * state.tabSize + spaceCount
+}
 
 export const asm = (): Extension => {
   return [
     new LanguageSupport(asmLanguage),
     syntaxHighlighting(defaultHighlightStyle),
-    indentUnit.of('\t'),
-    // TODO: extract
-    indentService.of(({ state }, pos) => {
-      const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
-      const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
-      const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
-      const spaceCount = whitespaces.length - tabCount
-      return tabCount * state.tabSize + spaceCount
-    })
+    indentUnit.of(INDENT_UNIT),
+    indentService.of(computeIndentation)
   ]
 }
