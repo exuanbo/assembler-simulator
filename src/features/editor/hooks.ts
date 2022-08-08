@@ -112,13 +112,16 @@ export const useAutoAssemble = (): void => {
   const assemble = useConstant(() => createAssemble(store))
 
   useCodeMirrorEffect(view => {
-    const initialAssembleTimeoutId = window.setTimeout(() => {
+    let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {
       if (selectAutoAssemble(store.getState())) {
         assemble(textToString(view.state.doc))
       }
+      initialAssembleTimeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
     return () => {
-      window.clearTimeout(initialAssembleTimeoutId)
+      if (initialAssembleTimeoutId !== undefined) {
+        window.clearTimeout(initialAssembleTimeoutId)
+      }
     }
   }, [])
 
