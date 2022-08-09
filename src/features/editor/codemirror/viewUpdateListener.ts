@@ -1,7 +1,7 @@
 import { StateEffect, TransactionSpec } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 
-export type ViewUpdateListener = (viewUpdate: ViewUpdate) => void
+export type ViewUpdateListener = (update: ViewUpdate) => void
 
 export const addViewUpdateListener = (viewUpdateListener: ViewUpdateListener): TransactionSpec => {
   return {

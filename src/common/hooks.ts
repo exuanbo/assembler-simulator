@@ -52,7 +52,7 @@ export const useHover = <T extends Element = Element>(
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
-  const hoverContext = useConstant<{
+  const mutableState = useConstant<{
     isHovered: boolean
     timeoutId?: number | undefined
   }>({
@@ -60,9 +60,9 @@ export const useHover = <T extends Element = Element>(
   })
 
   const clearHoverTimeout = (): void => {
-    if (hoverContext.timeoutId !== undefined) {
-      window.clearTimeout(hoverContext.timeoutId)
-      hoverContext.timeoutId = undefined
+    if (mutableState.timeoutId !== undefined) {
+      window.clearTimeout(mutableState.timeoutId)
+      mutableState.timeoutId = undefined
     }
   }
 
@@ -73,19 +73,19 @@ export const useHover = <T extends Element = Element>(
     const handleMouseEnter = (): void => {
       if (delay === undefined) {
         handler(/* isHovered: */ true)
-        hoverContext.isHovered = true
+        mutableState.isHovered = true
       } else {
-        hoverContext.timeoutId = window.setTimeout(() => {
+        mutableState.timeoutId = window.setTimeout(() => {
           handler(/* isHovered: */ true)
-          hoverContext.isHovered = true
-          hoverContext.timeoutId = undefined
+          mutableState.isHovered = true
+          mutableState.timeoutId = undefined
         }, delay)
       }
     }
     const handleMouseLeave = (): void => {
       clearHoverTimeout()
       handler(/* isHovered: */ false)
-      hoverContext.isHovered = false
+      mutableState.isHovered = false
     }
     current.addEventListener('mouseenter', handleMouseEnter)
     current.addEventListener('mouseleave', handleMouseLeave)
@@ -93,9 +93,9 @@ export const useHover = <T extends Element = Element>(
       current.removeEventListener('mouseenter', handleMouseEnter)
       current.removeEventListener('mouseleave', handleMouseLeave)
       clearHoverTimeout()
-      if (hoverContext.isHovered) {
+      if (mutableState.isHovered) {
         handler(/* isHovered: */ false)
-        hoverContext.isHovered = false
+        mutableState.isHovered = false
       }
     }
   }, [current, handler, delay])

@@ -44,26 +44,26 @@ enum AnnotationValue {
 const isChangedFromState = hasStringAnnotation(AnnotationValue.ChangedFromState)
 
 const createInputUpdateListener = (store: Store): ViewUpdateListener => {
-  let timeoutId: number | undefined
+  let syncInputTimeoutId: number | undefined
 
-  return viewUpdate => {
-    if (!viewUpdate.docChanged) {
+  return update => {
+    if (!update.docChanged) {
       return
     }
-    if (timeoutId !== undefined) {
-      window.clearTimeout(timeoutId)
-      timeoutId = undefined
+    if (syncInputTimeoutId !== undefined) {
+      window.clearTimeout(syncInputTimeoutId)
+      syncInputTimeoutId = undefined
     }
     // document changes must be caused by at least one transaction
-    const firstTransaction = viewUpdate.transactions[0]
+    const firstTransaction = update.transactions[0]
     // only one transaction is dispatched if input is set from file
     if (isChangedFromState(firstTransaction)) {
       return
     }
-    const input = textToString(viewUpdate.state.doc)
-    timeoutId = window.setTimeout(() => {
+    const input = textToString(update.state.doc)
+    syncInputTimeoutId = window.setTimeout(() => {
       store.dispatch(setEditorInput({ value: input }))
-      timeoutId = undefined
+      syncInputTimeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
   }
 }
@@ -145,8 +145,8 @@ export const useAssemblerError = (): void => {
 
   useCodeMirrorEffect(view => {
     view.dispatch(
-      addViewUpdateListener(viewUpdate => {
-        if (viewUpdate.docChanged && selectAssemblerError(store.getState()) !== null) {
+      addViewUpdateListener(update => {
+        if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
           store.dispatch(clearAssemblerError())
         }
       })
@@ -206,25 +206,25 @@ export const useHighlightLine = (): void => {
 
 const createBreakpointsUpdateListener =
   (store: Store): ViewUpdateListener =>
-  viewUpdate => {
-    if (viewUpdate.docChanged) {
-      const breakpointSet = getBreakpointSet(viewUpdate.state)
-      if (!breakpointsEqual(getBreakpointSet(viewUpdate.startState), breakpointSet)) {
+  update => {
+    if (update.docChanged) {
+      const breakpointSet = getBreakpointSet(update.state)
+      if (!breakpointsEqual(getBreakpointSet(update.startState), breakpointSet)) {
         const breakpoints = mapRangeSetToArray(breakpointSet, from =>
-          lineLocAt(viewUpdate.state.doc, from)
+          lineLocAt(update.state.doc, from)
         )
         store.dispatch(setBreakpoints(breakpoints))
       }
     } else {
       // we only consider the first transaction
-      const transaction = viewUpdate.transactions[0]
+      const transaction = update.transactions[0]
       if (transaction === undefined || isChangedFromState(transaction)) {
         return
       }
       transaction.effects.forEach(effect => {
         if (effect.is(breakpointEffect)) {
           const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-          const lineLoc = lineLocAt(viewUpdate.state.doc, effect.value.pos)
+          const lineLoc = lineLocAt(update.state.doc, effect.value.pos)
           store.dispatch(actionCreator(lineLoc))
         }
       })
