@@ -4,9 +4,8 @@ import { toggleBreakpointOnMouseEvent } from './breakpoints'
 import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 
 const toggleBreakpointOnStrictMouseEvent: GutterDOMEventHandler = (view, line, event) => {
-  const { target } = event
   // only when clicking on a gutter element
-  if (target instanceof Element && target.classList.contains('cm-gutterElement')) {
+  if (event.target instanceof Element && event.target.classList.contains('cm-gutterElement')) {
     return toggleBreakpointOnMouseEvent(view, line, event)
   }
   return false

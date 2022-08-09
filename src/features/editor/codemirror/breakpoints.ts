@@ -60,7 +60,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
 }
 
 export const toggleBreakpointOnMouseEvent: GutterDOMEventHandler = (view, line, event) => {
-  if ((event as MouseEvent).offsetY <= line.bottom) {
+  if (event instanceof MouseEvent && event.offsetY <= line.bottom) {
     toggleBreakpoint(view, line.from)
     return true
   }
