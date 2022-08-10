@@ -51,7 +51,7 @@ export interface AddressToStatementMap {
   [address: number]: Statement
 }
 
-export type AssembleResult = [AddressToMachineCodeMap, AddressToStatementMap]
+export type AssembleResult = [AddressToMachineCodeMap, Partial<AddressToStatementMap>]
 
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))

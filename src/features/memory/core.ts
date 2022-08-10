@@ -23,13 +23,17 @@ export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
 
 export const getVduDataFrom = (data: MemoryData): number[] => data.slice(VDU_START_ADDRESS)
 
-export const getSourceFrom = (map: AddressToStatementMap): string[] => {
+export const getSourceFrom = (map: Partial<AddressToStatementMap>): string[] => {
   const source: string[] = []
   for (let address = 0; address < MEMORY_SIZE; address++) {
     source.push(address < VDU_START_ADDRESS ? Mnemonic.END : '')
   }
   for (const address in map) {
     const statement = map[address]
+    // istanbul ignore next
+    if (statement === undefined) {
+      continue
+    }
     const { instruction, operands } = statement
     if (instruction.mnemonic === Mnemonic.DB) {
       const operand = operands[0]

@@ -229,10 +229,13 @@ class Controller {
       const { memoryData, cpuRegisters, signals, changes } = stepOutput
       const instructionAdress = cpuRegisters.ip
       const addressToStatementMap = selectAddressToStatementMap(state)
-      const statement = addressToStatementMap[instructionAdress] // as Statement | undefined
-      const hasStatement = statement?.machineCode.every(
-        (machineCode, index) => machineCode === memoryData[instructionAdress + index]
-      )
+      const statement = addressToStatementMap[instructionAdress]
+      const hasStatement =
+        // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+        statement !== undefined &&
+        statement.machineCode.every(
+          (machineCode, index) => machineCode === memoryData[instructionAdress + index]
+        )
       let isVduBufferChanged = false
       if (changes.memoryData !== undefined) {
         const { address: addressChanged } = changes.memoryData
