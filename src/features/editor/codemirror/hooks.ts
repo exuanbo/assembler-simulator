@@ -67,10 +67,10 @@ export const useCodeMirrorEffect = (
   deps?: DependencyList
 ): void => {
   const view = useCodeMirrorView()
-  const flag = useRef(0)
+  const flag = useRef(1)
 
   useEffect(() => {
-    flag.current ^= 1
+    flag.current <<= 1
     if (view !== undefined) {
       return effect(view)
     }
