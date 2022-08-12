@@ -27,7 +27,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    return transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
+    return transaction.effects.reduce((resultSet, effect) => {
       if (!effect.is(wavyUnderlineEffect)) {
         return resultSet
       }
@@ -38,7 +38,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
       })
     }, decorationSet.map(transaction.changes))
   },
-  provide: field => EditorView.decorations.from(field)
+  provide: currentField => EditorView.decorations.from(currentField)
 })
 
 const WAVY_UNDERLINE_IMAGE = `url('data:image/svg+xml;base64,${window.btoa(

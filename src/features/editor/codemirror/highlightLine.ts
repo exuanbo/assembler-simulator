@@ -60,7 +60,7 @@ const highlightLineField = StateField.define<DecorationSet>({
     const { clearOnPointerSelect } = transaction.state.facet(HighlightLineConfigFacet)
     return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
       ? Decoration.none
-      : transaction.effects.reduce<DecorationSet>((resultSet, effect) => {
+      : transaction.effects.reduce((resultSet, effect) => {
           if (!effect.is(highlightLineEffect)) {
             return resultSet
           }
@@ -71,7 +71,7 @@ const highlightLineField = StateField.define<DecorationSet>({
           })
         }, decorationSet.map(transaction.changes))
   },
-  provide: field => EditorView.decorations.from(field)
+  provide: currentField => EditorView.decorations.from(currentField)
 })
 
 export const highlightLine = (config: HighlightLineConfig = {}): Extension => {

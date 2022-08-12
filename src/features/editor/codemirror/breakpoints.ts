@@ -29,7 +29,7 @@ const breakpointField = StateField.define<BreakpointSet>({
     return RangeSet.empty
   },
   update(markerSet, transaction) {
-    return transaction.effects.reduce<BreakpointSet>(
+    return transaction.effects.reduce(
       (resultSet, effect) =>
         effect.is(breakpointEffect)
           ? resultSet.update(
