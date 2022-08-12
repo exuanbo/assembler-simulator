@@ -1,7 +1,7 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 
-export type ViewUpdateListener = (update: ViewUpdate) => void
+type ViewUpdateListener = (update: ViewUpdate) => void
 
 const viewUpdateListenerEffect = StateEffect.define<{
   add?: ViewUpdateListener

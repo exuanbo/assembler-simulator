@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import type { Store } from '@/app/store'
 import { listenAction } from '@/app/actionListener'
 import { watch } from '@/app/watcher'
 import { useStore, useSelector } from '@/app/hooks'
@@ -19,7 +18,7 @@ import {
 } from './editorSlice'
 import { template } from './examples'
 import { useCodeMirrorEffect } from './codemirror/hooks'
-import { ViewUpdateListener, listenViewUpdate } from './codemirror/viewUpdateListener'
+import { listenViewUpdate } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { reconfigureHighlightLine, highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
@@ -43,36 +42,31 @@ enum AnnotationValue {
 
 const isChangedFromState = hasStringAnnotation(AnnotationValue.ChangedFromState)
 
-const createInputUpdateListener = (store: Store): ViewUpdateListener => {
-  let syncInputTimeoutId: number | undefined
-
-  return update => {
-    if (!update.docChanged) {
-      return
-    }
-    if (syncInputTimeoutId !== undefined) {
-      window.clearTimeout(syncInputTimeoutId)
-      syncInputTimeoutId = undefined
-    }
-    // document changes must be caused by at least one transaction
-    const firstTransaction = update.transactions[0]
-    // only one transaction is dispatched if input is set from file
-    if (isChangedFromState(firstTransaction)) {
-      return
-    }
-    const input = textToString(update.state.doc)
-    syncInputTimeoutId = window.setTimeout(() => {
-      store.dispatch(setEditorInput({ value: input }))
-      syncInputTimeoutId = undefined
-    }, UPDATE_TIMEOUT_MS)
-  }
-}
-
 export const useSyncInput = (): void => {
   const store = useStore()
 
   useCodeMirrorEffect(view => {
-    return listenViewUpdate(view, createInputUpdateListener(store))
+    let syncInputTimeoutId: number | undefined
+    return listenViewUpdate(view, update => {
+      if (!update.docChanged) {
+        return
+      }
+      if (syncInputTimeoutId !== undefined) {
+        window.clearTimeout(syncInputTimeoutId)
+        syncInputTimeoutId = undefined
+      }
+      // document changes must be caused by at least one transaction
+      const firstTransaction = update.transactions[0]
+      // only one transaction is dispatched if input is set from file
+      if (isChangedFromState(firstTransaction)) {
+        return
+      }
+      const input = textToString(update.state.doc)
+      syncInputTimeoutId = window.setTimeout(() => {
+        store.dispatch(setEditorInput({ value: input }))
+        syncInputTimeoutId = undefined
+      }, UPDATE_TIMEOUT_MS)
+    })
   }, [])
 
   useCodeMirrorEffect(view => {
@@ -208,38 +202,34 @@ export const useHighlightLine = (): void => {
   }, [])
 }
 
-const createBreakpointsUpdateListener =
-  (store: Store): ViewUpdateListener =>
-  update => {
-    if (update.docChanged) {
-      const breakpointSet = getBreakpointSet(update.state)
-      if (!breakpointsEqual(getBreakpointSet(update.startState), breakpointSet)) {
-        const breakpoints = mapRangeSetToArray(breakpointSet, from =>
-          lineLocAt(update.state.doc, from)
-        )
-        store.dispatch(setBreakpoints(breakpoints))
-      }
-    } else {
-      // we only consider the first transaction
-      const transaction = update.transactions[0]
-      if (transaction === undefined || isChangedFromState(transaction)) {
-        return
-      }
-      transaction.effects.forEach(effect => {
-        if (effect.is(breakpointEffect)) {
-          const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
-          const lineLoc = lineLocAt(update.state.doc, effect.value.pos)
-          store.dispatch(actionCreator(lineLoc))
-        }
-      })
-    }
-  }
-
 export const useBreakpoints = (): void => {
   const store = useStore()
 
   useCodeMirrorEffect(view => {
-    return listenViewUpdate(view, createBreakpointsUpdateListener(store))
+    return listenViewUpdate(view, update => {
+      if (update.docChanged) {
+        const breakpointSet = getBreakpointSet(update.state)
+        if (!breakpointsEqual(getBreakpointSet(update.startState), breakpointSet)) {
+          const breakpoints = mapRangeSetToArray(breakpointSet, from =>
+            lineLocAt(update.state.doc, from)
+          )
+          store.dispatch(setBreakpoints(breakpoints))
+        }
+      } else {
+        // we only consider the first transaction
+        const transaction = update.transactions[0]
+        if (transaction === undefined || isChangedFromState(transaction)) {
+          return
+        }
+        transaction.effects.forEach(effect => {
+          if (effect.is(breakpointEffect)) {
+            const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
+            const lineLoc = lineLocAt(update.state.doc, effect.value.pos)
+            store.dispatch(actionCreator(lineLoc))
+          }
+        })
+      }
+    })
   }, [])
 
   useCodeMirrorEffect(view => {
