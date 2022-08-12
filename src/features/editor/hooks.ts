@@ -19,7 +19,7 @@ import {
 } from './editorSlice'
 import { template } from './examples'
 import { useCodeMirrorEffect } from './codemirror/hooks'
-import { ViewUpdateListener, addViewUpdateListener } from './codemirror/viewUpdateListener'
+import { ViewUpdateListener, listenViewUpdate } from './codemirror/viewUpdateListener'
 import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { reconfigureHighlightLine, highlightLineEffect } from './codemirror/highlightLine'
 import { breakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
@@ -72,7 +72,10 @@ export const useSyncInput = (): void => {
   const store = useStore()
 
   useCodeMirrorEffect(view => {
-    view.dispatch(addViewUpdateListener(createInputUpdateListener(store)))
+    return listenViewUpdate(view, createInputUpdateListener(store))
+  }, [])
+
+  useCodeMirrorEffect(view => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
         view.dispatch({
@@ -144,13 +147,14 @@ export const useAssemblerError = (): void => {
   const store = useStore()
 
   useCodeMirrorEffect(view => {
-    view.dispatch(
-      addViewUpdateListener(update => {
-        if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
-          store.dispatch(clearAssemblerError())
-        }
-      })
-    )
+    return listenViewUpdate(view, update => {
+      if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
+        store.dispatch(clearAssemblerError())
+      }
+    })
+  }, [])
+
+  useCodeMirrorEffect(view => {
     return watch(selectAssemblerErrorRange, errorRange => {
       const hasError = errorRange !== undefined
       view.dispatch({
@@ -235,7 +239,10 @@ export const useBreakpoints = (): void => {
   const store = useStore()
 
   useCodeMirrorEffect(view => {
-    view.dispatch(addViewUpdateListener(createBreakpointsUpdateListener(store)))
+    return listenViewUpdate(view, createBreakpointsUpdateListener(store))
+  }, [])
+
+  useCodeMirrorEffect(view => {
     const breakpoints = selectEditorBreakpoints(store.getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
