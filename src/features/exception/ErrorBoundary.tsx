@@ -13,11 +13,11 @@ interface ErrorBoundaryComponentProps {
 class ErrorBoundaryComponent extends Component<ErrorBoundaryComponentProps> {
   public declare static displayName?: string
 
-  public componentDidCatch(error: Error): void {
+  public override componentDidCatch(error: Error): void {
     this.props.onError(errorToPlainObject(error))
   }
 
-  public render(): ReactNode {
+  public override render(): ReactNode {
     return this.props.children
   }
 }

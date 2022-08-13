@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noImplicitOverride": true,
     "strict": true,
 
     "module": "ESNext",

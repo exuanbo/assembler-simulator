@@ -10,7 +10,7 @@ export interface AssemblerErrorObject {
 }
 
 export abstract class AssemblerError extends Error {
-  public abstract name: string
+  public abstract override name: string
   public range: SourceRange | undefined
 
   constructor(message: string, range?: SourceRange) {

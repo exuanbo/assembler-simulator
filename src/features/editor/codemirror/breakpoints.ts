@@ -15,7 +15,7 @@ export const breakpointEffect = StateEffect.define<{
 })
 
 class BreakpointMarker extends GutterMarker {
-  public toDOM(): Text {
+  public override toDOM(): Text {
     return document.createTextNode('●')
   }
 }

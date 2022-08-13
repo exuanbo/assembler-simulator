@@ -6,7 +6,7 @@ export interface RuntimeErrorObject {
 }
 
 export abstract class RuntimeError extends Error {
-  public name = 'RuntimeError'
+  public override name = 'RuntimeError'
 
   // istanbul ignore next
   public toPlainObject(): RuntimeErrorObject {
