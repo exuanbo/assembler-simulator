@@ -33,7 +33,8 @@ const viewUpdateListenerField = StateField.define<Set<ViewUpdateListener>>({
       let updatedSet = resultSet
       const { add: listenerToAdd, remove: listenerToRemove } = effect.value
       if (listenerToAdd !== undefined && !updatedSet.has(listenerToAdd)) {
-        updatedSet = new Set(updatedSet.add(listenerToAdd))
+        updatedSet = new Set(updatedSet)
+        updatedSet.add(listenerToAdd)
       }
       if (listenerToRemove !== undefined && updatedSet.has(listenerToRemove)) {
         updatedSet = new Set(updatedSet)
