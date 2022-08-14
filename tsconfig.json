@@ -3,10 +3,11 @@
     "noImplicitOverride": true,
     "strict": true,
 
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "resolveJsonModule": true,
 
