@@ -19,10 +19,15 @@ export const loadState = (): PersistedState => {
   return {}
 }
 
-export const getShareUrl = (state: StateToPersist): string => {
+const getShareUrl = (state: StateToPersist): string => {
   const url = new URL(window.location.href)
   const data = gzip(JSON.stringify(state))
   const encodedState = Base64.fromUint8Array(data, /* urlsafe: */ true)
   url.searchParams.set(QUERY_PARAMETER_NAME, encodedState)
   return url.toString()
+}
+
+export const saveState = (state: StateToPersist): void => {
+  const shareUrl = getShareUrl(state)
+  window.history.pushState({}, '', shareUrl)
 }

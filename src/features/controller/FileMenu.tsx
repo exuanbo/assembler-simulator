@@ -5,8 +5,6 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { File as FileIcon } from '@/common/components/icons'
 import { useStore } from '@/app/hooks'
-import { selectStateToPersist } from '@/app/selectors'
-import { getShareUrl } from '@/app/url'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
 import { template, examples } from '@/features/editor/examples'
 
@@ -150,14 +148,9 @@ const SaveButton = (): JSX.Element => {
 }
 
 const CopyLinkButton = (): JSX.Element => {
-  const store = useStore()
-
   const handleClick = async (): Promise<void> => {
-    const stateToPersist = selectStateToPersist(store.getState())
-    const shareUrl = getShareUrl(stateToPersist)
-    window.history.pushState({}, '', shareUrl)
     try {
-      await navigator.clipboard.writeText(shareUrl)
+      await navigator.clipboard.writeText(window.location.href)
     } catch {
       // TODO: display message
     }

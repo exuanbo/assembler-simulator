@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
+import { useStore } from './hooks'
 import { watch } from './watcher'
 import { selectStateToPersist } from './selectors'
+import { saveState as saveStateToUrl } from './url'
 import { saveState as saveStateToLocalStorage } from './localStorage'
 import ReloadPrompt from './ReloadPrompt'
 import ToolBar from '@/features/controller/Toolbar'
@@ -13,8 +15,16 @@ import IoDevices from '@/features/io/IoDevices'
 import ExceptionModal from '@/features/exception/ExceptionModal'
 
 const App = (): JSX.Element => {
+  const store = useStore()
+
+  useEffect(() => {
+    const stateToPersist = selectStateToPersist(store.getState())
+    saveStateToUrl(stateToPersist)
+  }, [])
+
   useEffect(() => {
     return watch(selectStateToPersist, stateToPersist => {
+      saveStateToUrl(stateToPersist)
       saveStateToLocalStorage(stateToPersist)
     })
   }, [])
