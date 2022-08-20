@@ -5,7 +5,7 @@ import MenuItem from './MenuItem'
 import { CheckMark, View as ViewIcon } from '@/common/components/icons'
 import { useStore, useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
-import { ioDeviceNames, selectIoDevices, toggleIoDeviceVisible } from '@/features/io/ioSlice'
+import { ioDeviceNames, selectIoDeviceStates, toggleIoDeviceVisible } from '@/features/io/ioSlice'
 import { splitCamelCaseToString } from '@/common/utils'
 
 const MemoryMenu = (): JSX.Element => {
@@ -44,7 +44,7 @@ const MemoryMenu = (): JSX.Element => {
 
 const IoMenu = (): JSX.Element => {
   const store = useStore()
-  const ioDevices = useSelector(selectIoDevices)
+  const ioDeviceStates = useSelector(selectIoDeviceStates)
 
   return (
     <MenuItem.Expandable>
@@ -63,7 +63,7 @@ const IoMenu = (): JSX.Element => {
                     store.dispatch(toggleIoDeviceVisible(name))
                   }}>
                   <MenuButton>
-                    {ioDevices[name].isVisible ? <CheckMark /> : <span className="w-4" />}
+                    {ioDeviceStates[name].isVisible ? <CheckMark /> : <span className="w-4" />}
                     <span>{splitCamelCaseToString(name)}</span>
                   </MenuButton>
                 </MenuItem>

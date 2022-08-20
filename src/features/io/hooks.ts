@@ -4,7 +4,7 @@ import { Unsubscribe, watch } from '@/app/watcher'
 import { useStore, useSelector } from '@/app/hooks'
 import {
   IoDeviceName,
-  IoDevice,
+  IoDeviceState,
   selectIoDeviceData,
   selectIoDeviceVisible,
   setVduDataFrom,
@@ -18,13 +18,15 @@ interface IoDeviceActions {
   toggleVisible: () => void
 }
 
-export const useIoDevice = (deviceName: IoDeviceName): IoDevice & IoDeviceActions => {
+interface IoDevice extends IoDeviceState, IoDeviceActions {}
+
+export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
   const store = useStore()
 
   const data = useSelector(selectIoDeviceData(deviceName))
 
   const subscribeData = useCallback(
-    (callback: (data: number[]) => void) => watch(selectIoDeviceData(deviceName), callback),
+    (listener: (data: number[]) => void) => watch(selectIoDeviceData(deviceName), listener),
     [deviceName]
   )
 

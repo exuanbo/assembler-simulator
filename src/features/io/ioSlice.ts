@@ -12,20 +12,22 @@ export enum IoDeviceName {
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
-export interface IoDevice {
+export interface IoDeviceState {
   data: number[]
   isVisible: boolean
 }
 
-type IoDevices = {
-  [name in IoDeviceName]: IoDevice
+type IoDeviceVisibility = Pick<IoDeviceState, 'isVisible'>
+
+type IoDeviceStates = {
+  [name in IoDeviceName]: IoDeviceState
 }
 
 interface IoState {
   inputSignals: InputSignals
   isWaitingForInput: boolean
   isWaitingForKeyboardInput: boolean
-  devices: IoDevices
+  devices: IoDeviceStates
 }
 
 const initialVduData = initVduData()
@@ -93,7 +95,7 @@ export const ioSlice = createSlice({
     },
     resetState: state =>
       merge(initialState, {
-        devices: Object.entries(state.devices).reduce<Record<string, Pick<IoDevice, 'isVisible'>>>(
+        devices: Object.entries(state.devices).reduce<Record<string, IoDeviceVisibility>>(
           (result, [name, { isVisible }]) =>
             Object.assign(result, {
               [name]: { isVisible }
@@ -111,7 +113,7 @@ export const selectIsWaitingForInput = (state: RootState): boolean => state.io.i
 export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
   state.io.isWaitingForKeyboardInput
 
-export const selectIoDevices = (state: RootState): IoDevices => state.io.devices
+export const selectIoDeviceStates = (state: RootState): IoDeviceStates => state.io.devices
 
 export const selectIoDeviceData =
   (name: IoDeviceName) =>
