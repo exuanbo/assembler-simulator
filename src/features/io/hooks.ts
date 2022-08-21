@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useMemo } from 'react'
 import { listenAction } from '@/app/actionListener'
 import { Unsubscribe, watch } from '@/app/watcher'
 import { useStore, useSelector } from '@/app/hooks'
@@ -6,7 +6,7 @@ import {
   IoDeviceName,
   IoDeviceState,
   selectIoDeviceData,
-  selectIoDeviceVisible,
+  selectIoDeviceVisibility,
   setVduDataFrom,
   setIoDeviceData,
   toggleIoDeviceVisible
@@ -23,14 +23,19 @@ interface IoDevice extends IoDeviceState, IoDeviceActions {}
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
   const store = useStore()
 
-  const data = useSelector(selectIoDeviceData(deviceName))
+  const selectData = useMemo(() => selectIoDeviceData(deviceName), [deviceName])
+  const data = useSelector(selectData)
 
+  type DataListener = (data: number[]) => void
   const subscribeData = useCallback(
-    (listener: (data: number[]) => void) => watch(selectIoDeviceData(deviceName), listener),
+    (listener: DataListener) => {
+      return watch(selectData, listener)
+    },
     [deviceName]
   )
 
-  const isVisible = useSelector(selectIoDeviceVisible(deviceName))
+  const selectVisibility = useMemo(() => selectIoDeviceVisibility(deviceName), [deviceName])
+  const isVisible = useSelector(selectVisibility)
 
   const toggleVisible = useCallback(() => {
     store.dispatch(toggleIoDeviceVisible(deviceName))

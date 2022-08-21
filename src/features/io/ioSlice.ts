@@ -120,7 +120,7 @@ export const selectIoDeviceData =
   (state: RootState): number[] =>
     state.io.devices[name].data
 
-export const selectIoDeviceVisible =
+export const selectIoDeviceVisibility =
   (name: IoDeviceName) =>
   (state: RootState): boolean =>
     state.io.devices[name].isVisible
