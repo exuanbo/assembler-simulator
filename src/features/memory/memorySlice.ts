@@ -46,12 +46,12 @@ export const memorySlice = createSlice({
 
 export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
 
-export const selectMemoryDataRowsLazily = createSelector(
+export const selectMemoryDataRowsGetter = createSelector(
   selectMemoryData,
   memoryData => () => chunk(0x10, memoryData)
 )
 
-export const selectMemorySourceRowsLazily = createSelector(
+export const selectMemorySourceRowsGetter = createSelector(
   selectAddressToStatementMap,
   addressToStatementMap => () => {
     const memorySource = getSourceFrom(addressToStatementMap)

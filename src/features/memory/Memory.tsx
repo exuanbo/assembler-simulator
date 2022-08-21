@@ -3,8 +3,8 @@ import { ArrowUp, ArrowDown } from '@/common/components/icons'
 import { useSelector } from '@/app/hooks'
 import {
   MemoryView,
-  selectMemoryDataRowsLazily,
-  selectMemorySourceRowsLazily,
+  selectMemoryDataRowsGetter,
+  selectMemorySourceRowsGetter,
   selectMemoryView
 } from './memorySlice'
 import { MAX_SP } from '@/features/cpu/core'
@@ -19,8 +19,8 @@ const Memory = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
   const isDataView = memoryView !== MemoryView.Source
 
-  const getDataRows = useSelector(selectMemoryDataRowsLazily)
-  const getSourceRows = useSelector(selectMemorySourceRowsLazily)
+  const getDataRows = useSelector(selectMemoryDataRowsGetter)
+  const getSourceRows = useSelector(selectMemorySourceRowsGetter)
 
   const rows = isDataView ? getDataRows() : getSourceRows()
 
