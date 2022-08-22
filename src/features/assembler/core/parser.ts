@@ -312,84 +312,84 @@ const parseStatement = (
 
       switch (mnemonic as MnemonicWithOneOperand) {
         case Mnemonic.INC:
-          setOpcode(Opcode.INC_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.INC_REG)
           break
         case Mnemonic.DEC:
-          setOpcode(Opcode.DEC_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.DEC_REG)
           break
         case Mnemonic.NOT:
-          setOpcode(Opcode.NOT_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.NOT_REG)
           break
         case Mnemonic.ROL:
-          setOpcode(Opcode.ROL_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.ROL_REG)
           break
         case Mnemonic.ROR:
-          setOpcode(Opcode.ROR_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.ROR_REG)
           break
         case Mnemonic.SHL:
-          setOpcode(Opcode.SHL_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.SHL_REG)
           break
         case Mnemonic.SHR:
-          setOpcode(Opcode.SHR_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.SHR_REG)
           break
         case Mnemonic.JMP:
-          setOpcode(Opcode.JMP)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JMP)
           break
         case Mnemonic.JZ:
-          setOpcode(Opcode.JZ)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JZ)
           break
         case Mnemonic.JNZ:
-          setOpcode(Opcode.JNZ)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JNZ)
           break
         case Mnemonic.JS:
-          setOpcode(Opcode.JS)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JS)
           break
         case Mnemonic.JNS:
-          setOpcode(Opcode.JNS)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JNS)
           break
         case Mnemonic.JO:
-          setOpcode(Opcode.JO)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JO)
           break
         case Mnemonic.JNO:
-          setOpcode(Opcode.JNO)
           operand = parseOperand(OperandType.Label)
+          setOpcode(Opcode.JNO)
           break
         case Mnemonic.PUSH:
-          setOpcode(Opcode.PUSH_FROM_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.PUSH_FROM_REG)
           break
         case Mnemonic.POP:
-          setOpcode(Opcode.POP_TO_REG)
           operand = parseOperand(OperandType.Register)
+          setOpcode(Opcode.POP_TO_REG)
           break
         case Mnemonic.CALL:
-          setOpcode(Opcode.CALL_ADDR)
           operand = parseOperand(OperandType.Number)
+          setOpcode(Opcode.CALL_ADDR)
           break
         case Mnemonic.INT:
-          setOpcode(Opcode.INT_ADDR)
           operand = parseOperand(OperandType.Number)
+          setOpcode(Opcode.INT_ADDR)
           break
         case Mnemonic.IN:
-          setOpcode(Opcode.IN_FROM_PORT_TO_AL)
           operand = parseOperand(OperandType.Number)
+          setOpcode(Opcode.IN_FROM_PORT_TO_AL)
           break
         case Mnemonic.OUT:
-          setOpcode(Opcode.OUT_FROM_AL_TO_PORT)
           operand = parseOperand(OperandType.Number)
+          setOpcode(Opcode.OUT_FROM_AL_TO_PORT)
           break
         case Mnemonic.ORG:
           operand = parseOperand(OperandType.Number)
