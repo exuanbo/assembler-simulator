@@ -575,15 +575,16 @@ const parseStatement = (
     }
   }
 
-  return [createStatement(label, instruction, operands), consumedTokenCount]
+  const statement = createStatement(label, instruction, operands)
+  return [statement, consumedTokenCount]
 }
 
 export const parse = (tokens: Token[]): Statement[] => {
   const statements: Statement[] = []
   for (let index = 0; index < tokens.length; ) {
-    const [statement, consumedTokenCount] = parseStatement(tokens, index)
+    const [statement, consumed] = parseStatement(tokens, index)
     statements.push(statement)
-    index += consumedTokenCount
+    index += consumed
   }
   if (
     statements.length > 0 &&
