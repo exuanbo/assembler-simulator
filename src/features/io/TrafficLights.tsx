@@ -62,7 +62,7 @@ const TrafficLights = (): JSX.Element | null => {
   const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.TrafficLights)
 
   return isVisible ? (
-    <DeviceCard name="Traffic Lights" onClickClose={toggleVisible}>
+    <DeviceCard name="Traffic Lights" onClose={toggleVisible}>
       <svg viewBox="0 0 312 240" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>

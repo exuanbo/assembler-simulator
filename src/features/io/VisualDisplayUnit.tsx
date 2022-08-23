@@ -10,7 +10,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
     <DeviceCard
       className="flex flex-col space-y-1"
       name="Visual Display Unit"
-      onClickClose={toggleVisible}>
+      onClose={toggleVisible}>
       {chunk(0x10, asciiToChars(data)).map((row, rowIndex) => (
         <div key={rowIndex} className="flex space-x-1">
           {row.map((char, charIndex) => (
