@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null => {
-  const containerRef = useRef<HTMLDivElement>()
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   const [isContainerReady, setContainerReady] = useState(false)
   const isReady = isOpen && isContainerReady
@@ -19,7 +19,7 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
     if (!isOpen) {
       return
     }
-    if (containerRef.current === undefined) {
+    if (containerRef.current === null) {
       const containerElement = document.createElement('div')
       containerElement.className = className
       containerRef.current = containerElement
@@ -28,7 +28,7 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
     containerWrapper.appendChild(container)
     setContainerReady(true)
     return () => {
-      containerRef.current = undefined
+      containerRef.current = null
       containerWrapper.removeChild(container)
       setContainerReady(false)
     }
