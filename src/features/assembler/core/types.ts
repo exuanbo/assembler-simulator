@@ -1,42 +1,17 @@
-import type { Mnemonic } from '@/common/constants'
+import type { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 
 export interface SourceRange {
   from: number
   to: number
 }
 
-export type MnemonicWithOneOperand =
-  | Mnemonic.INC
-  | Mnemonic.DEC
-  | Mnemonic.NOT
-  | Mnemonic.ROL
-  | Mnemonic.ROR
-  | Mnemonic.SHL
-  | Mnemonic.SHR
-  | Mnemonic.JMP
-  | Mnemonic.JZ
-  | Mnemonic.JNZ
-  | Mnemonic.JS
-  | Mnemonic.JNS
-  | Mnemonic.JO
-  | Mnemonic.JNO
-  | Mnemonic.PUSH
-  | Mnemonic.POP
-  | Mnemonic.CALL
-  | Mnemonic.INT
-  | Mnemonic.IN
-  | Mnemonic.OUT
-  | Mnemonic.ORG
-  | Mnemonic.DB
+type MnemonicWithOperandCount<
+  C extends typeof MnemonicToOperandCountMap[Mnemonic],
+  M extends Mnemonic = Mnemonic
+> = M extends never ? never : typeof MnemonicToOperandCountMap[M] extends C ? M : never
 
-export type MnemonicWithTwoOperands =
-  | Mnemonic.ADD
-  | Mnemonic.SUB
-  | Mnemonic.MUL
-  | Mnemonic.DIV
-  | Mnemonic.MOD
-  | Mnemonic.AND
-  | Mnemonic.OR
-  | Mnemonic.XOR
-  | Mnemonic.MOV
-  | Mnemonic.CMP
+export type MnemonicWithNoOperand = MnemonicWithOperandCount<0>
+
+export type MnemonicWithOneOperand = MnemonicWithOperandCount<1>
+
+export type MnemonicWithTwoOperands = MnemonicWithOperandCount<2>

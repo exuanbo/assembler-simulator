@@ -1,4 +1,9 @@
-import type { SourceRange, MnemonicWithOneOperand, MnemonicWithTwoOperands } from './types'
+import type {
+  SourceRange,
+  MnemonicWithNoOperand,
+  MnemonicWithOneOperand,
+  MnemonicWithTwoOperands
+} from './types'
 import { TokenType, Token } from './tokenizer'
 import {
   AssemblerError,
@@ -304,7 +309,7 @@ const parseStatement = (
 
   switch (operandCount) {
     case 0: {
-      setOpcode(Opcode[mnemonic as keyof typeof Opcode])
+      setOpcode(Opcode[mnemonic as MnemonicWithNoOperand])
       break
     }
     case 1: {
