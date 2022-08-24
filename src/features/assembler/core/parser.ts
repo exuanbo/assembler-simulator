@@ -185,14 +185,16 @@ const parseSingleOperand =
         }
         break
       case TokenType.Address:
-        if (isExpectedType((t = OperandType.Address))) {
-          if (NUMBER_REGEXP.test(token.value)) {
-            return createOperand(t, validateNumber(token))
+        if (isExpectedType(OperandType.Address) || isExpectedType(OperandType.RegisterAddress)) {
+          if (isExpectedType((t = OperandType.Address))) {
+            if (NUMBER_REGEXP.test(token.value)) {
+              return createOperand(t, validateNumber(token))
+            }
           }
-        }
-        if (isExpectedType((t = OperandType.RegisterAddress))) {
-          if (REGISTER_REGEXP.test(token.value)) {
-            return createOperand(t, token)
+          if (isExpectedType((t = OperandType.RegisterAddress))) {
+            if (REGISTER_REGEXP.test(token.value)) {
+              return createOperand(t, token)
+            }
           }
           throw new AddressError(token)
         }
@@ -216,8 +218,7 @@ const parseSingleOperand =
           if (NUMBER_REGEXP.test(token.value)) {
             return createOperand(t, validateNumber(token))
           }
-        }
-        if (isExpectedType((t = OperandType.Label))) {
+        } else if (isExpectedType((t = OperandType.Label))) {
           return createOperand(t, validateLabel(token))
         }
         break
