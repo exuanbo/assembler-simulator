@@ -53,7 +53,7 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const isReady = menuItemElement !== null
 
   const [isHovered, setHovered] = useState(false)
-  const hoverRef = useHover<HTMLDivElement>(setHovered, /* delay: */ 100)
+  const hoverRef = useHover(setHovered, /* delay: */ 100)
 
   const refCallback: RefCallback<HTMLDivElement> = element => {
     menuItemRef(element)

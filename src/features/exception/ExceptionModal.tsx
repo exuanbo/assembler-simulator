@@ -7,13 +7,13 @@ import { useOutsideClick } from '@/common/hooks'
 
 const ExceptionModal = (): JSX.Element => {
   const store = useStore()
+
   const error = useSelector(selectException)
   const hasError = error !== null
 
   const handleOutsideClick = useCallback(() => {
     store.dispatch(clearException())
   }, [])
-
   const outsideClickRef = useOutsideClick(handleOutsideClick)
 
   return (
