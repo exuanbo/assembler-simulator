@@ -12,8 +12,10 @@ import { Ascii } from '@/common/constants'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
   const store = useStore()
+
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
+  const shouldOpen = isSuspended && isWaitingForKeyboardInput
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -63,7 +65,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   return (
     <Modal
       className="bg-black flex bg-opacity-80 inset-0 fixed items-center justify-center"
-      isOpen={isSuspended && isWaitingForKeyboardInput}>
+      isOpen={shouldOpen}>
       <div className="border rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
       <input
         ref={inputRef}
