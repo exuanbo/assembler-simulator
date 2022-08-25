@@ -1,8 +1,9 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import Menu from './Menu'
 import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
+import Modal from '@/common/components/Modal'
 import { File as FileIcon } from '@/common/components/icons'
 import { useStore } from '@/app/hooks'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
@@ -147,22 +148,37 @@ const SaveButton = (): JSX.Element => {
   )
 }
 
+const ERROR_DURATION_MS = 2000
+
 const CopyLinkButton = (): JSX.Element => {
-  const handleClick = async (): Promise<void> => {
+  const [shouldShowError, setShouldShowError] = useState(false)
+
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = async event => {
     try {
       await navigator.clipboard.writeText(window.location.href)
     } catch {
-      // TODO: display message
+      event.stopPropagation()
+      setShouldShowError(true)
+      window.setTimeout(() => {
+        setShouldShowError(false)
+      }, ERROR_DURATION_MS)
     }
   }
 
   return (
-    <MenuItem onClick={handleClick}>
-      <MenuButton>
-        <span className="w-4" />
-        <span>Copy Link</span>
-      </MenuButton>
-    </MenuItem>
+    <>
+      <MenuItem onClick={handleClick}>
+        <MenuButton>
+          <span className="w-4" />
+          <span>Copy Link</span>
+        </MenuButton>
+      </MenuItem>
+      <Modal
+        className="bg-white flex bg-opacity-80 inset-0 fixed items-center justify-center"
+        isOpen={shouldShowError}>
+        <div className="border rounded bg-light-100 shadow py-2 px-4">Copy Failed</div>
+      </Modal>
+    </>
   )
 }
 
