@@ -40,13 +40,13 @@ const createLabel = ({ value, range }: Token): Label => {
 
 interface Instruction extends BaseNode {
   mnemonic: string
-  opcode: Opcode | null
+  opcode: Opcode | null | undefined
 }
 
 const createInstruction = ({ value, range }: Token): Instruction => {
   return {
     mnemonic: value,
-    opcode: null,
+    opcode: undefined,
     range
   }
 }
@@ -104,6 +104,10 @@ const createStatement = (
   instruction: Instruction,
   operands: Operand[]
 ): Statement => {
+  // istanbul ignore next
+  if (instruction.opcode === undefined) {
+    throw new Error(`Opcode for instruction ${instruction.mnemonic} is undefined`)
+  }
   const machineCode: number[] = []
   if (instruction.opcode !== null) {
     machineCode.push(instruction.opcode)
@@ -295,13 +299,13 @@ const parseStatement = (
   consumeToken(1) // instruction
 
   const instruction = createInstruction(token)
-  const setOpcode = (opcode: Opcode): void => {
+  const setOpcode = (opcode: Opcode | null): void => {
     instruction.opcode = opcode
   }
 
   const operands: Operand[] = []
-  const addOperands = (...__operands: Operand[]): void => {
-    operands.push(...__operands)
+  const setOperands = (...parsedOperands: Operand[]): void => {
+    operands.push(...parsedOperands)
   }
 
   const mnemonic = token.value as Mnemonic
@@ -313,104 +317,107 @@ const parseStatement = (
       break
     }
     case 1: {
-      let operand
+      let opcode, operand
       const parseOperand = parseSingleOperand(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithOneOperand) {
         case Mnemonic.INC:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.INC_REG)
+          opcode = Opcode.INC_REG
           break
         case Mnemonic.DEC:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.DEC_REG)
+          opcode = Opcode.DEC_REG
           break
         case Mnemonic.NOT:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.NOT_REG)
+          opcode = Opcode.NOT_REG
           break
         case Mnemonic.ROL:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.ROL_REG)
+          opcode = Opcode.ROL_REG
           break
         case Mnemonic.ROR:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.ROR_REG)
+          opcode = Opcode.ROR_REG
           break
         case Mnemonic.SHL:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.SHL_REG)
+          opcode = Opcode.SHL_REG
           break
         case Mnemonic.SHR:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.SHR_REG)
+          opcode = Opcode.SHR_REG
           break
         case Mnemonic.JMP:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JMP)
+          opcode = Opcode.JMP
           break
         case Mnemonic.JZ:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JZ)
+          opcode = Opcode.JZ
           break
         case Mnemonic.JNZ:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JNZ)
+          opcode = Opcode.JNZ
           break
         case Mnemonic.JS:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JS)
+          opcode = Opcode.JS
           break
         case Mnemonic.JNS:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JNS)
+          opcode = Opcode.JNS
           break
         case Mnemonic.JO:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JO)
+          opcode = Opcode.JO
           break
         case Mnemonic.JNO:
           operand = parseOperand(OperandType.Label)
-          setOpcode(Opcode.JNO)
+          opcode = Opcode.JNO
           break
         case Mnemonic.PUSH:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.PUSH_FROM_REG)
+          opcode = Opcode.PUSH_FROM_REG
           break
         case Mnemonic.POP:
           operand = parseOperand(OperandType.Register)
-          setOpcode(Opcode.POP_TO_REG)
+          opcode = Opcode.POP_TO_REG
           break
         case Mnemonic.CALL:
           operand = parseOperand(OperandType.Number)
-          setOpcode(Opcode.CALL_ADDR)
+          opcode = Opcode.CALL_ADDR
           break
         case Mnemonic.INT:
           operand = parseOperand(OperandType.Number)
-          setOpcode(Opcode.INT_ADDR)
+          opcode = Opcode.INT_ADDR
           break
         case Mnemonic.IN:
           operand = parseOperand(OperandType.Number)
-          setOpcode(Opcode.IN_FROM_PORT_TO_AL)
+          opcode = Opcode.IN_FROM_PORT_TO_AL
           break
         case Mnemonic.OUT:
           operand = parseOperand(OperandType.Number)
-          setOpcode(Opcode.OUT_FROM_AL_TO_PORT)
+          opcode = Opcode.OUT_FROM_AL_TO_PORT
           break
         case Mnemonic.ORG:
           operand = parseOperand(OperandType.Number)
+          opcode = null
           break
         case Mnemonic.DB:
           operand = parseOperand(OperandType.Number, OperandType.String)
+          opcode = null
           break
       }
 
-      addOperands(operand)
+      setOpcode(opcode)
+      setOperands(operand)
       consumeToken(1) // Operand
       break
     }
     case 2: {
-      let firstOperand, secondOperand
+      let opcode, firstOperand, secondOperand
       const parseOperands = parseDoubleOperands(tokens, getIndex())
 
       switch (mnemonic as MnemonicWithTwoOperands) {
@@ -421,10 +428,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.ADD_REG_TO_REG)
+              opcode = Opcode.ADD_REG_TO_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.ADD_IMM_TO_REG)
+              opcode = Opcode.ADD_IMM_TO_REG
               break
           }
           break
@@ -435,10 +442,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.SUB_REG_FROM_REG)
+              opcode = Opcode.SUB_REG_FROM_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.SUB_IMM_FROM_REG)
+              opcode = Opcode.SUB_IMM_FROM_REG
               break
           }
           break
@@ -449,10 +456,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.MUL_REG_BY_REG)
+              opcode = Opcode.MUL_REG_BY_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.MUL_REG_BY_IMM)
+              opcode = Opcode.MUL_REG_BY_IMM
               break
           }
           break
@@ -463,10 +470,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.DIV_REG_BY_REG)
+              opcode = Opcode.DIV_REG_BY_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.DIV_REG_BY_IMM)
+              opcode = Opcode.DIV_REG_BY_IMM
               break
           }
           break
@@ -477,10 +484,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.MOD_REG_BY_REG)
+              opcode = Opcode.MOD_REG_BY_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.MOD_REG_BY_IMM)
+              opcode = Opcode.MOD_REG_BY_IMM
               break
           }
           break
@@ -491,10 +498,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.AND_REG_WITH_REG)
+              opcode = Opcode.AND_REG_WITH_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.AND_REG_WITH_IMM)
+              opcode = Opcode.AND_REG_WITH_IMM
               break
           }
           break
@@ -505,10 +512,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.OR_REG_WITH_REG)
+              opcode = Opcode.OR_REG_WITH_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.OR_REG_WITH_IMM)
+              opcode = Opcode.OR_REG_WITH_IMM
               break
           }
           break
@@ -519,10 +526,10 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.XOR_REG_WITH_REG)
+              opcode = Opcode.XOR_REG_WITH_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.XOR_REG_WITH_IMM)
+              opcode = Opcode.XOR_REG_WITH_IMM
               break
           }
           break
@@ -538,21 +545,24 @@ const parseStatement = (
             case OperandType.Register:
               switch (secondOperand.type) {
                 case OperandType.Number:
-                  setOpcode(Opcode.MOV_IMM_TO_REG)
+                  opcode = Opcode.MOV_IMM_TO_REG
                   break
                 case OperandType.Address:
-                  setOpcode(Opcode.MOV_VAL_FROM_ADDR_TO_REG)
+                  opcode = Opcode.MOV_VAL_FROM_ADDR_TO_REG
                   break
                 case OperandType.RegisterAddress:
-                  setOpcode(Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG)
+                  opcode = Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG
                   break
+                // istanbul ignore next
+                default:
+                  throw new Error('unreachable')
               }
               break
             case OperandType.Address:
-              setOpcode(Opcode.MOV_REG_TO_ADDR)
+              opcode = Opcode.MOV_REG_TO_ADDR
               break
             case OperandType.RegisterAddress:
-              setOpcode(Opcode.MOV_REG_TO_REG_ADDR)
+              opcode = Opcode.MOV_REG_TO_REG_ADDR
           }
           break
         case Mnemonic.CMP:
@@ -563,19 +573,20 @@ const parseStatement = (
           )
           switch (secondOperand.type) {
             case OperandType.Register:
-              setOpcode(Opcode.CMP_REG_WITH_REG)
+              opcode = Opcode.CMP_REG_WITH_REG
               break
             case OperandType.Number:
-              setOpcode(Opcode.CMP_REG_WITH_IMM)
+              opcode = Opcode.CMP_REG_WITH_IMM
               break
             case OperandType.Address:
-              setOpcode(Opcode.CMP_REG_WITH_VAL_FROM_ADDR)
+              opcode = Opcode.CMP_REG_WITH_VAL_FROM_ADDR
               break
           }
           break
       }
 
-      addOperands(firstOperand, secondOperand)
+      setOpcode(opcode)
+      setOperands(firstOperand, secondOperand)
       consumeToken(3) // Operand + Comma + Operand
       break
     }
