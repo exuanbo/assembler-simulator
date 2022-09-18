@@ -29,5 +29,5 @@ const getShareUrl = (state: StateToPersist): string => {
 
 export const saveState = (state: StateToPersist): void => {
   const shareUrl = getShareUrl(state)
-  window.history.pushState({}, '', shareUrl)
+  window.history.replaceState({}, '', shareUrl)
 }
