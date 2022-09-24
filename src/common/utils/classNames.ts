@@ -9,7 +9,8 @@ type Item = Nullable<string | Record<string, Nullable<boolean>>>
 
 export const classNames = (...items: Item[]): string => {
   let result = ''
-  for (let i = 0; i < items.length; i++) {
+  const itemCount = items.length
+  for (let i = 0; i < itemCount; i++) {
     const item = items[i]
     if (item != null) {
       if (typeof item === 'string') {
