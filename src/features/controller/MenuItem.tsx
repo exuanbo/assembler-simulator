@@ -1,4 +1,5 @@
 import { ReactNode, RefCallback, useState } from 'react'
+import Anchor from '@/common/components/Anchor'
 import { Play, Share } from '@/common/components/icons'
 import { useRefCallback, useHover } from '@/common/hooks'
 
@@ -21,20 +22,14 @@ interface ExternalLinkProps {
   children: ReactNode
 }
 
-const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => {
-  const handleClick = (): void => {
-    window.open(href, '_blank', 'noreferrer')
-  }
-
-  return (
-    <div className={className} onClick={handleClick}>
-      {children}
-      <div className="w-4">
-        <Share className="mx-auto fill-gray-400" width="0.875rem" />
-      </div>
+const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => (
+  <Anchor className={className} href={href}>
+    {children}
+    <div className="w-4">
+      <Share className="mx-auto fill-gray-400" width="0.875rem" />
     </div>
-  )
-}
+  </Anchor>
+)
 
 if (import.meta.env.DEV) {
   ExternalLink.displayName = 'MenuItem.ExternalLink'
