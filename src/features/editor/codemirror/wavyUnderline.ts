@@ -38,7 +38,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
       })
     }, decorationSet.map(transaction.changes))
   },
-  provide: currentField => EditorView.decorations.from(currentField)
+  provide: thisField => EditorView.decorations.from(thisField)
 })
 
 const WAVY_UNDERLINE_IMAGE = `url('data:image/svg+xml;base64,${window.btoa(

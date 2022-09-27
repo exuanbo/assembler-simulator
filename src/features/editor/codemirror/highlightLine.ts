@@ -71,7 +71,7 @@ const highlightLineField = StateField.define<DecorationSet>({
           })
         }, decorationSet.map(transaction.changes))
   },
-  provide: currentField => EditorView.decorations.from(currentField)
+  provide: thisField => EditorView.decorations.from(thisField)
 })
 
 export const highlightLine = (config: HighlightLineConfig = {}): Extension => {

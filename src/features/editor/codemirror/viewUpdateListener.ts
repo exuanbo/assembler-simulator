@@ -43,8 +43,8 @@ const viewUpdateListenerField = StateField.define<Set<ViewUpdateListener>>({
       return updatedSet
     }, listenerSet)
   },
-  provide: currentField =>
-    EditorView.updateListener.computeN([currentField], state => [...state.field(currentField)])
+  provide: thisField =>
+    EditorView.updateListener.computeN([thisField], state => [...state.field(thisField)])
 })
 
 export const viewUpdateListener = (): Extension => viewUpdateListenerField
