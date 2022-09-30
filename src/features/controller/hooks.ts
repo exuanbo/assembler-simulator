@@ -429,10 +429,16 @@ export const useController = (): Controller => {
   }, [])
 
   useEffect(() => {
-    return listenAction(setAutoAssemble, isOn => {
-      if (isOn) {
-        window.setTimeout(() => {
+    let assembleTimeoutId: number | undefined
+    return listenAction(setAutoAssemble, (shouldAutoAssemble, api) => {
+      if (assembleTimeoutId !== undefined) {
+        window.clearTimeout(assembleTimeoutId)
+        assembleTimeoutId = undefined
+      }
+      if (shouldAutoAssemble && selectAssembledSource(api.getState()) === '') {
+        assembleTimeoutId = window.setTimeout(() => {
           controller.assemble()
+          assembleTimeoutId = undefined
         }, UPDATE_TIMEOUT_MS)
       }
     })
