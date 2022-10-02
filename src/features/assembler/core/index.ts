@@ -19,9 +19,10 @@ interface LabelToAddressMap {
 }
 
 const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
-  let address = 0
   const labelToAddressMap: LabelToAddressMap = {}
-  statements.forEach((statement, index) => {
+  const statementCount = statements.length
+  for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
+    const statement = statements[statementIndex]
     const { label, instruction, operands, machineCode } = statement
     if (label !== null) {
       if (label.identifier in labelToAddressMap) {
@@ -35,11 +36,11 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     } else {
       // label value has not been calculated yet
       address += machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
-      if (address > 0xff && index !== statements.length - 1) {
+      if (address > 0xff && statementIndex !== statementCount - 1) {
         throw new AssembleEndOfMemoryError(statement)
       }
     }
-  })
+  }
   return labelToAddressMap
 }
 
@@ -56,15 +57,16 @@ export type AssembleResult = [AddressToMachineCodeMap, Partial<AddressToStatemen
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(tokenize(input))
   const labelToAddressMap = getLabelToAddressMap(statements)
-  let address = 0
   const addressToMachineCodeMap: AddressToMachineCodeMap = {}
   const addressToStatementMap: AddressToStatementMap = {}
-  statements.forEach(statement => {
+  const statementCount = statements.length
+  for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
+    const statement = statements[statementIndex]
     const { instruction, operands, machineCode } = statement
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
       address = firstOperand!.value as number
-      return
+      continue
     }
     if (firstOperand?.type === OperandType.Label) {
       if (!(firstOperand.rawValue in labelToAddressMap)) {
@@ -79,11 +81,11 @@ export const assemble = (input: string): AssembleResult => {
       machineCode.push(unsignedDistance)
     }
     const nextAddress = address + machineCode.length
-    machineCode.forEach((machineCode, index) => {
-      addressToMachineCodeMap[address + index] = machineCode
+    machineCode.forEach((machineCode, machineCodeIndex) => {
+      addressToMachineCodeMap[address + machineCodeIndex] = machineCode
     })
     addressToStatementMap[address] = statement
     address = nextAddress
-  })
+  }
   return [addressToMachineCodeMap, addressToStatementMap]
 }
