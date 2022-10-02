@@ -234,7 +234,8 @@ class Controller {
         // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
         statement !== undefined &&
         statement.machineCode.every(
-          (machineCode, index) => machineCode === memoryData[instructionAdress + index]
+          (machineCode, machineCodeIndex) =>
+            machineCode === memoryData[instructionAdress + machineCodeIndex]
         )
       let isVduBufferChanged = false
       if (changes.memoryData !== undefined) {

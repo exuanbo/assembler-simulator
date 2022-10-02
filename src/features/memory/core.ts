@@ -42,17 +42,18 @@ export const getSourceFrom = (map: Partial<AddressToStatementMap>): string[] => 
         source[address] = operand.rawValue
       } else {
         // OperandType.String
-        operand.rawValue.split('').forEach((char, index) => {
-          source[Number(address) + index] = char
+        operand.rawValue.split('').forEach((char, charIndex) => {
+          source[Number(address) + charIndex] = char
         })
       }
     } else {
       source[address] = instruction.mnemonic
       const nextAddress = Number(address) + 1
-      operands.forEach((operand, index) => {
+      operands.forEach((operand, operandIndex) => {
         const { rawValue } = operand
         // Address or RegisterAddress
-        source[nextAddress + index] = operand.type.endsWith('Address') ? `[${rawValue}]` : rawValue
+        const isAddressOperand = operand.type.endsWith('Address')
+        source[nextAddress + operandIndex] = isAddressOperand ? `[${rawValue}]` : rawValue
       })
     }
   }

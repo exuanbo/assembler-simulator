@@ -157,10 +157,11 @@ const validateNumber = (token: Token): Token => {
 }
 
 const validateString = (token: Token): Token => {
-  for (let i = 0; i < token.value.length; i++) {
-    const charCode = token.value.charCodeAt(i)
+  const charCount = token.value.length
+  for (let charIndex = 0; charIndex < charCount; charIndex++) {
+    const charCode = token.value.charCodeAt(charIndex)
     if (charCode > 0xff) {
-      throw new InvalidStringError(token, i)
+      throw new InvalidStringError(token, charIndex)
     }
   }
   return token

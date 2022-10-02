@@ -131,10 +131,11 @@ const segments: readonly JSX.Element[] = [
   <polygon key={13} points="260,68 260,116 252,108 252,76" />
 ]
 
-const initialData = new Array<number>(14).fill(0)
+const DATA_DIGIT_COUNT = 14
+const initialData = new Array<number>(DATA_DIGIT_COUNT).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
-  // an array of 14 numbers,
+  // an array of 14 digits,
   // elements with even index represent the left part
   const [data, setData] = useState(initialData)
 
@@ -155,8 +156,10 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     return subscribeOutputData(outputData => {
       setData(prevData =>
         createNextState(prevData, draft => {
-          for (let i = outputData[7]; i < 14; i += 2) {
-            draft[i] = outputData[Math.floor(i / 2)]
+          // controls which of the two groups of segments is active
+          const LSB = outputData[outputData.length - 1]
+          for (let digitIndex = LSB; digitIndex < DATA_DIGIT_COUNT; digitIndex += 2) {
+            draft[digitIndex] = outputData[Math.floor(digitIndex / 2)]
           }
         })
       )

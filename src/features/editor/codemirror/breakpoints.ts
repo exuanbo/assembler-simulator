@@ -96,9 +96,10 @@ export const breakpointsEqual = (a: BreakpointSet, b: BreakpointSet): boolean =>
   if (b.size === 0) {
     return true
   }
-  const bCursor = b.iter()
   const aCursor = a.iter()
-  for (let i = 0; i < b.size; i++, bCursor.next(), aCursor.next()) {
+  const bCursor = b.iter()
+  const valueCount = b.size
+  for (let valueIndex = 0; valueIndex < valueCount; valueIndex++, aCursor.next(), bCursor.next()) {
     if (bCursor.from !== aCursor.from || bCursor.to !== aCursor.to) {
       return false
     }

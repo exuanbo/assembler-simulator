@@ -112,9 +112,9 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
             isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
           )}
           onMouseDown={handleMouseDown}>
-          {range(3).map(index => (
+          {range(3).map(dotIndex => (
             <span
-              key={index}
+              key={dotIndex}
               className={classNames(
                 'rounded-full h-1 w-1 group-hover:bg-slate-400',
                 isDragging ? 'bg-slate-400' : 'bg-slate-300'

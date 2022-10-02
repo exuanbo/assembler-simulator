@@ -96,8 +96,8 @@ export const ioSlice = createSlice({
     resetState: state =>
       merge(initialState, {
         devices: Object.entries(state.devices).reduce<Record<string, IoDeviceVisibility>>(
-          (result, [name, { isVisible }]) =>
-            Object.assign(result, {
+          (visibilityStates, [name, { isVisible }]) =>
+            Object.assign(visibilityStates, {
               [name]: { isVisible }
             }),
           {}

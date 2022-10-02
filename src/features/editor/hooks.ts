@@ -181,11 +181,11 @@ export const useHighlightLine = (): void => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
         effects: shouldAddHighlight
-          ? linePos.map((pos, index) =>
+          ? linePos.map((pos, posIndex) =>
               highlightLineEffect.of({
                 addByPos: pos,
                 // clear previous decorations on first line
-                filter: () => index !== 0
+                filter: () => posIndex !== 0
               })
             )
           : highlightLineEffect.of({ filter: () => false })

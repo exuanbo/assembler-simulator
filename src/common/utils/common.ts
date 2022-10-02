@@ -20,15 +20,15 @@ interface RangeFn {
 }
 
 export const range: RangeFn = (start: number, stop?: number): number[] => {
-  const result: number[] = []
+  const values: number[] = []
   if (stop === undefined) {
     stop = start
     start = 0
   }
-  for (let i = start; i < stop; i++) {
-    result.push(i)
+  for (let value = start; value < stop; value++) {
+    values.push(value)
   }
-  return result
+  return values
 }
 
 export const splitCamelCaseToString = (str: string): string => str.split(/(?=[A-Z])/).join(' ')
@@ -79,8 +79,9 @@ export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
   if (b.length !== a.length) {
     return false
   }
-  for (let i = 0; i < b.length; i++) {
-    if (b[i] !== a[i]) {
+  const elementCount = b.length
+  for (let elementIndex = 0; elementIndex < elementCount; elementIndex++) {
+    if (b[elementIndex] !== a[elementIndex]) {
       return false
     }
   }
@@ -89,8 +90,9 @@ export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
 
 export const chunk = <T>(size: number, arr: T[]): T[][] => {
   const chunks: T[][] = []
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size))
+  const elementCount = arr.length
+  for (let elementIndex = 0; elementIndex < elementCount; elementIndex += size) {
+    chunks.push(arr.slice(elementIndex, elementIndex + size))
   }
   return chunks
 }

@@ -8,27 +8,27 @@ type Nullable<T> = T | null | undefined
 type Item = Nullable<string | Record<string, Nullable<boolean>>>
 
 export const classNames = (...items: Item[]): string => {
-  let result = ''
+  let className = ''
   const itemCount = items.length
-  for (let i = 0; i < itemCount; i++) {
-    const item = items[i]
+  for (let itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+    const item = items[itemIndex]
     if (item != null) {
       if (typeof item === 'string') {
-        if (result.length > 0) {
-          result += ' '
+        if (className.length > 0) {
+          className += ' '
         }
-        result += item
+        className += item
       } else {
         for (const key in item) {
           if (item[key] === true) {
-            if (result.length > 0) {
-              result += ' '
+            if (className.length > 0) {
+              className += ' '
             }
-            result += key
+            className += key
           }
         }
       }
     }
   }
-  return result
+  return className
 }
