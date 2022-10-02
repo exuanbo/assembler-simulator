@@ -233,7 +233,7 @@ class Controller {
       const hasStatement =
         // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
         statement !== undefined &&
-        statement.machineCode.every(
+        statement.machineCodes.every(
           (machineCode, machineCodeIndex) =>
             machineCode === memoryData[instructionAdress + machineCodeIndex]
         )

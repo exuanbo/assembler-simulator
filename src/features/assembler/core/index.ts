@@ -23,7 +23,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   const statementCount = statements.length
   for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
     const statement = statements[statementIndex]
-    const { label, instruction, operands, machineCode } = statement
+    const { label, instruction, operands, machineCodes } = statement
     if (label !== null) {
       if (label.identifier in labelToAddressMap) {
         throw new DuplicateLabelError(label)
@@ -35,7 +35,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
       address = firstOperand!.value as number
     } else {
       // label value has not been calculated yet
-      address += machineCode.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
+      address += machineCodes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
       if (address > 0xff && statementIndex !== statementCount - 1) {
         throw new AssembleEndOfMemoryError(statement)
       }
@@ -62,7 +62,7 @@ export const assemble = (input: string): AssembleResult => {
   const statementCount = statements.length
   for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
     const statement = statements[statementIndex]
-    const { instruction, operands, machineCode } = statement
+    const { instruction, operands, machineCodes } = statement
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
       address = firstOperand!.value as number
@@ -78,10 +78,10 @@ export const assemble = (input: string): AssembleResult => {
       }
       const unsignedDistance = unsign8(distance)
       firstOperand.value = unsignedDistance
-      machineCode.push(unsignedDistance)
+      machineCodes.push(unsignedDistance)
     }
-    const nextAddress = address + machineCode.length
-    machineCode.forEach((machineCode, machineCodeIndex) => {
+    const nextAddress = address + machineCodes.length
+    machineCodes.forEach((machineCode, machineCodeIndex) => {
       addressToMachineCodeMap[address + machineCodeIndex] = machineCode
     })
     addressToStatementMap[address] = statement

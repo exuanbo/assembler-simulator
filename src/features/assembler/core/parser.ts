@@ -96,7 +96,7 @@ export interface Statement extends BaseNode {
   label: Label | null
   instruction: Instruction
   operands: Operand[]
-  machineCode: number[]
+  machineCodes: number[]
 }
 
 const createStatement = (
@@ -108,16 +108,16 @@ const createStatement = (
   if (instruction.opcode === undefined) {
     throw new Error(`Opcode for instruction ${instruction.mnemonic} is undefined`)
   }
-  const machineCode: number[] = []
+  const machineCodes: number[] = []
   if (instruction.opcode !== null) {
-    machineCode.push(instruction.opcode)
+    machineCodes.push(instruction.opcode)
   }
   operands.forEach(operand => {
     if (operand.value !== undefined) {
       if (typeof operand.value === 'number') {
-        machineCode.push(operand.value)
+        machineCodes.push(operand.value)
       } else {
-        machineCode.push(...operand.value)
+        machineCodes.push(...operand.value)
       }
     }
   })
@@ -128,7 +128,7 @@ const createStatement = (
     label,
     instruction,
     operands,
-    machineCode,
+    machineCodes,
     range: { from, to }
   }
 }

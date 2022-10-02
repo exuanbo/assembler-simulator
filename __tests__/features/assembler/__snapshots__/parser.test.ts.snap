@@ -12,7 +12,7 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [218, 0, 1,],
+    "machineCodes": [218, 0, 1,],
     "operands": [
       {
         "range": {
@@ -50,7 +50,7 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [219, 2, 1,],
+    "machineCodes": [219, 2, 1,],
     "operands": [
       {
         "range": {
@@ -88,7 +88,7 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [220, 3, 2,],
+    "machineCodes": [220, 3, 2,],
     "operands": [
       {
         "range": {
@@ -126,7 +126,7 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 36,
@@ -148,7 +148,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [160, 0, 1,],
+    "machineCodes": [160, 0, 1,],
     "operands": [
       {
         "range": {
@@ -186,7 +186,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [161, 2, 3,],
+    "machineCodes": [161, 2, 3,],
     "operands": [
       {
         "range": {
@@ -224,7 +224,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [162, 0, 1,],
+    "machineCodes": [162, 0, 1,],
     "operands": [
       {
         "range": {
@@ -262,7 +262,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [163, 2, 3,],
+    "machineCodes": [163, 2, 3,],
     "operands": [
       {
         "range": {
@@ -300,7 +300,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [166, 0, 1,],
+    "machineCodes": [166, 0, 1,],
     "operands": [
       {
         "range": {
@@ -338,7 +338,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [170, 2, 3,],
+    "machineCodes": [170, 2, 3,],
     "operands": [
       {
         "range": {
@@ -376,7 +376,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [171, 0, 1,],
+    "machineCodes": [171, 0, 1,],
     "operands": [
       {
         "range": {
@@ -414,7 +414,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [172, 2, 3,],
+    "machineCodes": [172, 2, 3,],
     "operands": [
       {
         "range": {
@@ -452,7 +452,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 88,
@@ -474,7 +474,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [176, 0, 1,],
+    "machineCodes": [176, 0, 1,],
     "operands": [
       {
         "range": {
@@ -512,7 +512,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [177, 1, 2,],
+    "machineCodes": [177, 1, 2,],
     "operands": [
       {
         "range": {
@@ -550,7 +550,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [178, 2, 3,],
+    "machineCodes": [178, 2, 3,],
     "operands": [
       {
         "range": {
@@ -588,7 +588,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [179, 3, 4,],
+    "machineCodes": [179, 3, 4,],
     "operands": [
       {
         "range": {
@@ -626,7 +626,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [182, 0, 1,],
+    "machineCodes": [182, 0, 1,],
     "operands": [
       {
         "range": {
@@ -664,7 +664,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [186, 1, 2,],
+    "machineCodes": [186, 1, 2,],
     "operands": [
       {
         "range": {
@@ -702,7 +702,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [187, 2, 3,],
+    "machineCodes": [187, 2, 3,],
     "operands": [
       {
         "range": {
@@ -740,7 +740,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [188, 3, 4,],
+    "machineCodes": [188, 3, 4,],
     "operands": [
       {
         "range": {
@@ -778,7 +778,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 88,
@@ -806,7 +806,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
         "to": 6,
       },
     },
-    "machineCode": [164, 0,],
+    "machineCodes": [164, 0,],
     "operands": [
       {
         "range": {
@@ -834,7 +834,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [165, 1,],
+    "machineCodes": [165, 1,],
     "operands": [
       {
         "range": {
@@ -862,7 +862,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [173, 2,],
+    "machineCodes": [173, 2,],
     "operands": [
       {
         "range": {
@@ -890,7 +890,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [154, 3,],
+    "machineCodes": [154, 3,],
     "operands": [
       {
         "range": {
@@ -918,7 +918,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [155, 0,],
+    "machineCodes": [155, 0,],
     "operands": [
       {
         "range": {
@@ -946,7 +946,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [156, 1,],
+    "machineCodes": [156, 1,],
     "operands": [
       {
         "range": {
@@ -974,7 +974,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [157, 2,],
+    "machineCodes": [157, 2,],
     "operands": [
       {
         "range": {
@@ -1002,7 +1002,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [192,],
+    "machineCodes": [192,],
     "operands": [
       {
         "range": {
@@ -1030,7 +1030,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [193,],
+    "machineCodes": [193,],
     "operands": [
       {
         "range": {
@@ -1058,7 +1058,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [194,],
+    "machineCodes": [194,],
     "operands": [
       {
         "range": {
@@ -1086,7 +1086,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [195,],
+    "machineCodes": [195,],
     "operands": [
       {
         "range": {
@@ -1114,7 +1114,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [196,],
+    "machineCodes": [196,],
     "operands": [
       {
         "range": {
@@ -1142,7 +1142,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [197,],
+    "machineCodes": [197,],
     "operands": [
       {
         "range": {
@@ -1170,7 +1170,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [198,],
+    "machineCodes": [198,],
     "operands": [
       {
         "range": {
@@ -1198,7 +1198,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [224, 0,],
+    "machineCodes": [224, 0,],
     "operands": [
       {
         "range": {
@@ -1226,7 +1226,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [225, 1,],
+    "machineCodes": [225, 1,],
     "operands": [
       {
         "range": {
@@ -1254,7 +1254,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [202, 0,],
+    "machineCodes": [202, 0,],
     "operands": [
       {
         "range": {
@@ -1282,7 +1282,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [204, 1,],
+    "machineCodes": [204, 1,],
     "operands": [
       {
         "range": {
@@ -1310,7 +1310,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [240, 2,],
+    "machineCodes": [240, 2,],
     "operands": [
       {
         "range": {
@@ -1338,7 +1338,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [241, 3,],
+    "machineCodes": [241, 3,],
     "operands": [
       {
         "range": {
@@ -1366,7 +1366,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [4,],
+    "machineCodes": [4,],
     "operands": [
       {
         "range": {
@@ -1394,7 +1394,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [5,],
+    "machineCodes": [5,],
     "operands": [
       {
         "range": {
@@ -1422,7 +1422,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [54, 55,],
+    "machineCodes": [54, 55,],
     "operands": [
       {
         "range": {
@@ -1450,7 +1450,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 182,
@@ -1472,7 +1472,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [234,],
+    "machineCodes": [234,],
     "operands": [],
     "range": {
       "from": 1,
@@ -1489,7 +1489,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [235,],
+    "machineCodes": [235,],
     "operands": [],
     "range": {
       "from": 7,
@@ -1506,7 +1506,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [203,],
+    "machineCodes": [203,],
     "operands": [],
     "range": {
       "from": 12,
@@ -1523,7 +1523,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [205,],
+    "machineCodes": [205,],
     "operands": [],
     "range": {
       "from": 16,
@@ -1540,7 +1540,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 21,
@@ -1557,7 +1557,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [255,],
+    "machineCodes": [255,],
     "operands": [],
     "range": {
       "from": 26,
@@ -1574,7 +1574,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [254,],
+    "machineCodes": [254,],
     "operands": [],
     "range": {
       "from": 30,
@@ -1591,7 +1591,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [253,],
+    "machineCodes": [253,],
     "operands": [],
     "range": {
       "from": 34,
@@ -1608,7 +1608,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [252,],
+    "machineCodes": [252,],
     "operands": [],
     "range": {
       "from": 38,
@@ -1625,7 +1625,7 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 42,
@@ -1647,7 +1647,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [208, 0, 1,],
+    "machineCodes": [208, 0, 1,],
     "operands": [
       {
         "range": {
@@ -1685,7 +1685,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [209, 1, 2,],
+    "machineCodes": [209, 1, 2,],
     "operands": [
       {
         "range": {
@@ -1723,7 +1723,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [210, 3, 2,],
+    "machineCodes": [210, 3, 2,],
     "operands": [
       {
         "range": {
@@ -1761,7 +1761,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [211, 3, 0,],
+    "machineCodes": [211, 3, 0,],
     "operands": [
       {
         "range": {
@@ -1799,7 +1799,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [212, 1, 2,],
+    "machineCodes": [212, 1, 2,],
     "operands": [
       {
         "range": {
@@ -1837,7 +1837,7 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCode": [0,],
+    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 64,
