@@ -30,15 +30,16 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
   }
 })
 
-const highlightLineConfig = new Compartment()
+const HighlightLineConfigCompartment = new Compartment()
 
 export const reconfigureHighlightLine = (config: HighlightLineConfig): TransactionSpec => {
+  const configExtension = HighlightLineConfigFacet.of(config)
   return {
-    effects: highlightLineConfig.reconfigure(HighlightLineConfigFacet.of(config))
+    effects: HighlightLineConfigCompartment.reconfigure(configExtension)
   }
 }
 
-export const highlightLineEffect = StateEffect.define<{
+export const HighlightLineEffect = StateEffect.define<{
   addByPos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
@@ -61,7 +62,7 @@ const highlightLineField = StateField.define<DecorationSet>({
     return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
       ? Decoration.none
       : transaction.effects.reduce((resultSet, effect) => {
-          if (!effect.is(highlightLineEffect)) {
+          if (!effect.is(HighlightLineEffect)) {
             return resultSet
           }
           const { addByPos: add, filter } = effect.value
@@ -75,8 +76,9 @@ const highlightLineField = StateField.define<DecorationSet>({
 })
 
 export const highlightLine = (config: HighlightLineConfig = {}): Extension => {
+  const configExtension = HighlightLineConfigFacet.of(config)
   return [
-    highlightLineConfig.of(HighlightLineConfigFacet.of(config)),
+    HighlightLineConfigCompartment.of(configExtension),
     highlightLineField,
     EditorView.baseTheme({
       '.cm-highlightLine': {

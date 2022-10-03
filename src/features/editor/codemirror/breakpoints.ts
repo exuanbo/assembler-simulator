@@ -2,7 +2,7 @@ import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@code
 import { EditorView, GutterMarker, gutter } from '@codemirror/view'
 import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 
-export const breakpointEffect = StateEffect.define<{
+export const BreakpointEffect = StateEffect.define<{
   pos: number
   on: boolean
 }>({
@@ -31,7 +31,7 @@ const breakpointField = StateField.define<BreakpointSet>({
   update(markerSet, transaction) {
     return transaction.effects.reduce(
       (resultSet, effect) =>
-        effect.is(breakpointEffect)
+        effect.is(BreakpointEffect)
           ? resultSet.update(
               effect.value.on
                 ? { add: [breakpointMarker.range(effect.value.pos)] }
@@ -52,7 +52,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
     hasBreakpoint = true
   })
   view.dispatch({
-    effects: breakpointEffect.of({
+    effects: BreakpointEffect.of({
       pos,
       on: !hasBreakpoint
     })

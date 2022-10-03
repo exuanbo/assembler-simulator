@@ -2,7 +2,7 @@ import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import type { RangeSetUpdateFilter } from './rangeSet'
 
-export const wavyUnderlineEffect = StateEffect.define<{
+export const WavyUnderlineEffect = StateEffect.define<{
   add?: { from: number; to: number }
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
@@ -28,7 +28,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
   },
   update(decorationSet, transaction) {
     return transaction.effects.reduce((resultSet, effect) => {
-      if (!effect.is(wavyUnderlineEffect)) {
+      if (!effect.is(WavyUnderlineEffect)) {
         return resultSet
       }
       const { add, filter } = effect.value

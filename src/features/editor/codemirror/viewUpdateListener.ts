@@ -3,7 +3,7 @@ import { EditorView, ViewUpdate } from '@codemirror/view'
 
 type ViewUpdateListener = (update: ViewUpdate) => void
 
-const viewUpdateListenerEffect = StateEffect.define<{
+const ViewUpdateListenerEffect = StateEffect.define<{
   add?: ViewUpdateListener
   remove?: ViewUpdateListener
 }>()
@@ -12,11 +12,11 @@ type Unsubscribe = () => void
 
 export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener): Unsubscribe => {
   view.dispatch({
-    effects: viewUpdateListenerEffect.of({ add: listener })
+    effects: ViewUpdateListenerEffect.of({ add: listener })
   })
   return () => {
     view.dispatch({
-      effects: viewUpdateListenerEffect.of({ remove: listener })
+      effects: ViewUpdateListenerEffect.of({ remove: listener })
     })
   }
 }
@@ -27,7 +27,7 @@ const viewUpdateListenerField = StateField.define<Set<ViewUpdateListener>>({
   },
   update(listenerSet, transaction) {
     return transaction.effects.reduce((resultSet, effect) => {
-      if (!effect.is(viewUpdateListenerEffect)) {
+      if (!effect.is(ViewUpdateListenerEffect)) {
         return resultSet
       }
       let updatedSet = resultSet

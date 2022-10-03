@@ -19,9 +19,9 @@ import {
 import { template } from './examples'
 import { useCodeMirrorEffect } from './codemirror/hooks'
 import { listenViewUpdate } from './codemirror/viewUpdateListener'
-import { wavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { reconfigureHighlightLine, highlightLineEffect } from './codemirror/highlightLine'
-import { breakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
+import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
+import { reconfigureHighlightLine, HighlightLineEffect } from './codemirror/highlightLine'
+import { BreakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
@@ -152,7 +152,7 @@ export const useAssemblerError = (): void => {
     return watch(selectAssemblerErrorRange, errorRange => {
       const hasError = errorRange !== undefined
       view.dispatch({
-        effects: wavyUnderlineEffect.of({
+        effects: WavyUnderlineEffect.of({
           add: errorRange,
           filter: () => hasError
         })
@@ -182,13 +182,13 @@ export const useHighlightLine = (): void => {
       view.dispatch({
         effects: shouldAddHighlight
           ? linePos.map((pos, posIndex) =>
-              highlightLineEffect.of({
+              HighlightLineEffect.of({
                 addByPos: pos,
                 // clear previous decorations on first line
                 filter: () => posIndex !== 0
               })
             )
-          : highlightLineEffect.of({ filter: () => false })
+          : HighlightLineEffect.of({ filter: () => false })
       })
       if (!view.hasFocus && shouldAddHighlight) {
         view.dispatch({
@@ -222,7 +222,7 @@ export const useBreakpoints = (): void => {
           return
         }
         transaction.effects.forEach(effect => {
-          if (effect.is(breakpointEffect)) {
+          if (effect.is(BreakpointEffect)) {
             const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
             const lineLoc = lineLocAt(update.state.doc, effect.value.pos)
             store.dispatch(actionCreator(lineLoc))
@@ -248,7 +248,7 @@ export const useBreakpoints = (): void => {
       if (breakpointSet.size === 0) {
         view.dispatch({
           effects: validBreakpoints.map(lineLoc =>
-            breakpointEffect.of({
+            BreakpointEffect.of({
               pos: lineLoc.from,
               on: true
             })
