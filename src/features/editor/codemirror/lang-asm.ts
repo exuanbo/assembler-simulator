@@ -26,33 +26,35 @@ const NON_WHITESPACE_REGEXP =     /^\S+/
 interface State {
   ended: boolean
   operandsLeft: number
-  expectLabel: boolean
+  expectingLabel: boolean
 }
 
 const asmLanguage = StreamLanguage.define<State>({
+  startState() {
+    return {
+      ended: false,
+      operandsLeft: 0,
+      expectingLabel: false
+    }
+  },
   token(stream, state) {
     if (state.ended) {
       stream.skipToEnd()
       return 'comment'
     }
-
     /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-
     if (stream.eatSpace() || stream.eat(SKIPABLE_CHARACTER_REGEXP)) {
       return null
     }
-
     if (stream.eat(';')) {
       stream.skipToEnd()
       return 'comment'
     }
-
     if (stream.match(LABEL_DECLARATION_REGEXP)) {
       state.operandsLeft = 0
       return 'labelName'
     }
-
-    if (state.operandsLeft === 0) {
+    if (!state.operandsLeft) {
       if (stream.match(MAYBE_INSTRUCTION_REGEXP)) {
         const upperCaseToken = stream.current().toUpperCase()
         if (upperCaseToken in Mnemonic) {
@@ -61,49 +63,35 @@ const asmLanguage = StreamLanguage.define<State>({
             state.ended = true
           }
           state.operandsLeft = MnemonicToOperandCountMap[mnemonic]
-          state.expectLabel = mnemonic.startsWith('J')
+          state.expectingLabel = mnemonic.startsWith('J')
           return 'keyword'
         } else {
           return null
         }
       }
-    } /* if (state.operandsLeft > 0) */ else {
+    } else {
       if (stream.match(NUMBER_REGEXP)) {
         state.operandsLeft -= 1
         return 'number'
       }
-
       if (stream.match(REGISTER_REGEXP)) {
         state.operandsLeft -= 1
         return 'variableName.special'
       }
-
       if (stream.match(STRING_REGEXP)) {
         state.operandsLeft -= 1
         return 'string'
       }
-
-      if (state.expectLabel && stream.match(LABEL_REFERENCE_REGEXP)) {
+      if (state.expectingLabel && stream.match(LABEL_REFERENCE_REGEXP)) {
         state.operandsLeft -= 1
-        state.expectLabel = false
+        state.expectingLabel = false
         return 'labelName'
       }
-
       state.operandsLeft = 0
     }
-
     /* eslint-enable @typescript-eslint/strict-boolean-expressions */
-
     stream.match(NON_WHITESPACE_REGEXP)
     return null
-  },
-
-  startState() {
-    return {
-      ended: false,
-      operandsLeft: 0,
-      expectLabel: false
-    }
   }
 })
 
