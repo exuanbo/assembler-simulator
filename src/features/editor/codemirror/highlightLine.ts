@@ -11,7 +11,7 @@ import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import type { RangeSetUpdateFilter } from './rangeSet'
 
 interface HighlightLineConfig {
-  clearOnPointerSelect?: boolean
+  clearOnNonEmptySelect?: boolean
 }
 
 const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<HighlightLineConfig>>({
@@ -19,10 +19,10 @@ const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<High
     return combineConfig(
       values,
       {
-        clearOnPointerSelect: true
+        clearOnNonEmptySelect: true
       },
       {
-        clearOnPointerSelect(_prevOption, option) {
+        clearOnNonEmptySelect(_prevOption, option) {
           return option
         }
       }
@@ -58,19 +58,22 @@ const highlightLineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    const { clearOnPointerSelect } = transaction.state.facet(HighlightLineConfigFacet)
-    return clearOnPointerSelect && transaction.isUserEvent('select.pointer')
-      ? Decoration.none
-      : transaction.effects.reduce((resultSet, effect) => {
-          if (!effect.is(HighlightLineEffect)) {
-            return resultSet
-          }
-          const { addByPos: add, filter } = effect.value
-          return resultSet.update({
-            add: add === undefined ? undefined : [lineDecoration.range(add)],
-            filter
-          })
-        }, decorationSet.map(transaction.changes))
+    const { clearOnNonEmptySelect } = transaction.state.facet(HighlightLineConfigFacet)
+    if (clearOnNonEmptySelect && transaction.selection !== undefined) {
+      if (transaction.selection.ranges.some(selectionRange => !selectionRange.empty)) {
+        return Decoration.none
+      }
+    }
+    return transaction.effects.reduce((resultSet, effect) => {
+      if (!effect.is(HighlightLineEffect)) {
+        return resultSet
+      }
+      const { addByPos: add, filter } = effect.value
+      return resultSet.update({
+        add: add === undefined ? undefined : [lineDecoration.range(add)],
+        filter
+      })
+    }, decorationSet.map(transaction.changes))
   },
   provide: thisField => EditorView.decorations.from(thisField)
 })

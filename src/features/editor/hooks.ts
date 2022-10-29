@@ -172,7 +172,7 @@ export const useHighlightLine = (): void => {
 
   useCodeMirrorEffect(view => {
     return watch(selectIsRunning, isRunning => {
-      view.dispatch(reconfigureHighlightLine({ clearOnPointerSelect: !isRunning }))
+      view.dispatch(reconfigureHighlightLine({ clearOnNonEmptySelect: !isRunning }))
     })
   }, [])
 
