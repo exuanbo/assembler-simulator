@@ -29,14 +29,17 @@ interface State {
   expectingLabel: boolean
 }
 
+const startState = (): State => {
+  return {
+    ended: false,
+    operandsLeft: 0,
+    expectingLabel: false
+  }
+}
+
 const asmLanguage = StreamLanguage.define<State>({
-  startState() {
-    return {
-      ended: false,
-      operandsLeft: 0,
-      expectingLabel: false
-    }
-  },
+  name: 'asm',
+  startState,
   token(stream, state) {
     if (state.ended) {
       stream.skipToEnd()
