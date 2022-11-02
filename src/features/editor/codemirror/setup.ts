@@ -4,6 +4,7 @@ import { history, defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
 import { theme } from './theme'
 import { asm } from './lang-asm'
+import { highlightSelectionMatches } from './highlightSelectionMatches'
 import { highlightActiveLine } from './highlightActiveLine'
 import { viewUpdateListener } from './viewUpdateListener'
 import { breakpoints } from './breakpoints'
@@ -19,6 +20,7 @@ export const getSetup = (): Extension => [
   theme(),
   asm(),
   highlightActiveLine(),
+  highlightSelectionMatches(),
   viewUpdateListener(),
   breakpoints(),
   lineNumbers(),
