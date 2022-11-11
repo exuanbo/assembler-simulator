@@ -132,8 +132,8 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
   const setHalted = (): void => {
     outputSignals.halted = true
   }
-  const setRequiredInputPort = (port: number): void => {
-    outputSignals.requiredInputPort = port
+  const setExpectedInputPort = (port: number): void => {
+    outputSignals.expectedInputPort = port
   }
   const setOutputData = (content: number, port: number): void => {
     outputSignals.data = { content, port }
@@ -580,9 +580,9 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       // Input and Output
       case Opcode.IN_FROM_PORT_TO_AL: {
         const inputData = getInputData()
-        const requiredInputPort = validatePort(loadFromMemory(getNextIp()))
-        if (inputData.content === null || inputData.port !== requiredInputPort) {
-          setRequiredInputPort(requiredInputPort)
+        const expectedInputPort = validatePort(loadFromMemory(getNextIp()))
+        if (inputData.content === null || inputData.port !== expectedInputPort) {
+          setExpectedInputPort(expectedInputPort)
           break
         }
         if (inputData.content !== SKIP) {

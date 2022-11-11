@@ -959,7 +959,7 @@ exports[`cpu step with IN should create signal with input port 1`] = `
       "interrupt": false,
     },
     "output": {
-      "requiredInputPort": 0,
+      "expectedInputPort": 0,
     },
   },
 }
@@ -1001,7 +1001,7 @@ exports[`cpu step with IN should create signal with required input port if provi
       "interrupt": false,
     },
     "output": {
-      "requiredInputPort": 0,
+      "expectedInputPort": 0,
     },
   },
 }

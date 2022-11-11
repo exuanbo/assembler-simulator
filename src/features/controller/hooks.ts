@@ -283,7 +283,7 @@ class Controller {
       const { data: inputData, interrupt } = signals.input
       const {
         halted: shouldHalt = false,
-        requiredInputPort,
+        expectedInputPort,
         data: outputData,
         closeWindows: shouldCloseWindows = false
       } = signals.output
@@ -297,7 +297,7 @@ class Controller {
         return
       }
       let willSuspend = false
-      if (requiredInputPort !== undefined) {
+      if (expectedInputPort !== undefined) {
         this.dispatch(setWaitingForInput(true))
         if (inputData.content === null) {
           willSuspend = true
@@ -305,7 +305,7 @@ class Controller {
             this.pauseMainLoop()
           }
           this.dispatch(setSuspended(true))
-          switch (requiredInputPort) {
+          switch (expectedInputPort) {
             case InputPort.SimulatedKeyboard:
               this.dispatch(setWaitingForKeyboardInput(true))
               break

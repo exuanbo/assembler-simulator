@@ -44,17 +44,21 @@ export enum OutputPort {
   NumericKeypad = 8
 }
 
+type OutputFlagSignalName = 'halted' | 'closeWindows'
+
+type OutputFlagSignals = {
+  [signalName in OutputFlagSignalName]?: true
+}
+
 interface OutputData {
   content: number
   port: OutputPort
 }
 
-export type OutputSignals = Partial<{
-  halted: true
-  requiredInputPort: InputPort
-  data: OutputData
-  closeWindows: true
-}>
+export interface OutputSignals extends OutputFlagSignals {
+  expectedInputPort?: InputPort
+  data?: OutputData
+}
 
 export interface Signals {
   input: InputSignals
