@@ -1,15 +1,24 @@
 import { ReactNode, useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { clamp, range, throttle, classNames } from '../utils'
 
+export const DEFAULT_RESIZE_THROTTLE_MS = 25
+
+const DOUBLE_CLICK_DELAY_MS = 300
+
 const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
 
 interface Props {
   children: [leftChild: ReactNode, rightChild: ReactNode]
+  resizeThrottleMs?: number
   className?: string
 }
 
-const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props): JSX.Element => {
+const ResizablePanel = ({
+  children: [leftChild, rightChild],
+  resizeThrottleMs = DEFAULT_RESIZE_THROTTLE_MS,
+  className
+}: Props): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
   const rightChildRef = useRef<HTMLDivElement>(null)
@@ -56,7 +65,7 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
     } else {
       clickTimeoutIdRef.current = window.setTimeout(() => {
         clickCountRef.current = 0
-      }, 500)
+      }, DOUBLE_CLICK_DELAY_MS)
     }
   }
 
@@ -84,7 +93,7 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
         }
       }
       setLeftChildWidth(widthAdjusted)
-    }, 10)
+    }, resizeThrottleMs)
 
     const handleMouseUp = (): void => {
       setDragging(false)
@@ -97,7 +106,7 @@ const ResizablePanel = ({ children: [leftChild, rightChild], className }: Props)
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging])
+  }, [isDragging, resizeThrottleMs])
 
   return (
     <>
