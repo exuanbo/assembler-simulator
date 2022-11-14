@@ -10,7 +10,7 @@ interface WatcherAPI extends MiddlewareAPI {
 type WatchCallback<TSelected> = (selectedState: TSelected, api: WatcherAPI) => void | Promise<void>
 
 interface Subscription<TSelected> {
-  prevSelected: TSelected
+  selectedState: TSelected
   callbacks: Set<WatchCallback<TSelected>>
 }
 
@@ -39,8 +39,8 @@ const createWatcher = (): Watcher => {
     if (hasUninitializedSubscription) {
       const startState = api.getState()
       subscriptions.forEach((subscription, selector) => {
-        if (subscription.prevSelected === nil) {
-          subscription.prevSelected = selector(startState)
+        if (subscription.selectedState === nil) {
+          subscription.selectedState = selector(startState)
         }
       })
       hasUninitializedSubscription = false
@@ -51,11 +51,10 @@ const createWatcher = (): Watcher => {
     if (stackCount === 0) {
       const state = api.getState()
       subscriptions.forEach((subscription, selector) => {
-        const { prevSelected, callbacks } = subscription
-        const selectedState = selector(state)
-        if (selectedState !== prevSelected) {
-          callbacks.forEach(cb => cb(selectedState, api))
-          subscription.prevSelected = selectedState
+        const currentSelectedState = selector(state)
+        if (currentSelectedState !== subscription.selectedState) {
+          subscription.callbacks.forEach(cb => cb(currentSelectedState, api))
+          subscription.selectedState = currentSelectedState
         }
       })
     }
@@ -65,7 +64,7 @@ const createWatcher = (): Watcher => {
   watcher.watch = (selector, callback) => {
     if (!subscriptions.has(selector)) {
       subscriptions.set(selector, {
-        prevSelected: nil,
+        selectedState: nil,
         callbacks: new Set()
       })
       hasUninitializedSubscription = true
