@@ -13,25 +13,25 @@
     "test": "npm run lint && npm run build && npm run jest"
   },
   "dependencies": {
-    "@codemirror/autocomplete": "6.3.0",
+    "@codemirror/autocomplete": "6.3.1",
     "@codemirror/commands": "6.1.2",
-    "@codemirror/language": "6.3.0",
-    "@codemirror/search": "6.2.2",
-    "@codemirror/state": "6.1.2",
-    "@codemirror/view": "6.4.0",
-    "@reduxjs/toolkit": "1.8.6",
+    "@codemirror/language": "6.3.1",
+    "@codemirror/search": "6.2.3",
+    "@codemirror/state": "6.1.3",
+    "@codemirror/view": "6.5.0",
+    "@reduxjs/toolkit": "1.9.0",
     "immer": "9.0.16",
     "js-base64": "3.7.2",
-    "pako": "2.0.4",
+    "pako": "2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-redux": "8.0.4"
+    "react-redux": "8.0.5"
   },
   "devDependencies": {
     "@types/jest": "28.1.8",
     "@types/pako": "2.0.0",
-    "@types/react": "18.0.24",
-    "@types/react-dom": "18.0.8",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
     "@vitejs/plugin-react": "2.2.0",
     "jest": "28.1.3",
     "jest-environment-jsdom": "28.1.3",
@@ -39,8 +39,8 @@
     "ts-standardx": "0.8.4",
     "ts-toolbelt": "9.6.0",
     "typescript": "4.4.4",
-    "vite": "3.2.2",
-    "vite-plugin-pwa": "0.13.1",
+    "vite": "3.2.3",
+    "vite-plugin-pwa": "0.13.3",
     "vite-plugin-windicss": "1.8.8",
     "windicss": "3.5.6"
   }
