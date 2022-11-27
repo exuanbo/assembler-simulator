@@ -10,23 +10,21 @@ import IoDevices from '@/features/io/IoDevices'
 import ExceptionModal from '@/features/exception/ExceptionModal'
 import { useStore } from './hooks'
 import { watch } from './watcher'
-import { selectStateToPersist } from './selectors'
+import { StateToPersist, selectStateToPersist } from './persist'
 import { saveState as saveStateToUrl } from './url'
 import { saveState as saveStateToLocalStorage } from './localStorage'
+
+const saveState = (state: StateToPersist): void => {
+  saveStateToUrl(state)
+  saveStateToLocalStorage(state)
+}
 
 const App = (): JSX.Element => {
   const store = useStore()
 
   useEffect(() => {
-    const stateToPersist = selectStateToPersist(store.getState())
-    saveStateToUrl(stateToPersist)
-  }, [])
-
-  useEffect(() => {
-    return watch(selectStateToPersist, stateToPersist => {
-      saveStateToUrl(stateToPersist)
-      saveStateToLocalStorage(stateToPersist)
-    })
+    saveState(selectStateToPersist(store.getState()))
+    return watch(selectStateToPersist, saveState)
   }, [])
 
   return (

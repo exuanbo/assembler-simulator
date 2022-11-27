@@ -1,6 +1,6 @@
 import * as Base64 from 'js-base64'
 import { gzip, ungzip } from 'pako'
-import type { StateToPersist, PersistedState } from './selectors'
+import type { StateToPersist, PersistedState } from './persist'
 
 const QUERY_PARAMETER_NAME = 'shareable'
 

@@ -1,4 +1,4 @@
-import type { StateToPersist, PersistedState } from './selectors'
+import type { StateToPersist, PersistedState } from './persist'
 import { name } from '../../package.json'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
