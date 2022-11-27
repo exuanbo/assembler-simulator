@@ -8,7 +8,7 @@ const DOUBLE_CLICK_DELAY_MS = 300
 const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
 
-interface Props {
+export interface ResizablePanelProps {
   children: [leftChild: ReactNode, rightChild: ReactNode]
   resizeThrottleMs?: number
   className?: string
@@ -18,7 +18,7 @@ const ResizablePanel = ({
   children: [leftChild, rightChild],
   resizeThrottleMs = DEFAULT_RESIZE_THROTTLE_MS,
   className
-}: Props): JSX.Element => {
+}: ResizablePanelProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
   const rightChildRef = useRef<HTMLDivElement>(null)
