@@ -32,7 +32,9 @@ type TypeofResultToType<T extends TypeofResult> =
 const isArrayOf =
   <T extends TypeofResult>(...types: T[]) =>
   (value: unknown): value is Array<TypeofResultToType<T>> =>
-    Array.isArray(value) && value.every(item => (types as TypeofResult[]).includes(typeof item))
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every(item => (types as TypeofResult[]).includes(typeof item))
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: value => isArrayOf('number', 'boolean')(value) && value.length <= 4,
