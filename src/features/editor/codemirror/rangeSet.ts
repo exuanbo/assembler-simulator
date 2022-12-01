@@ -1,14 +1,12 @@
 import type { RangeValue, RangeSet } from '@codemirror/state'
 
-export type RangeSetUpdateFilter<T extends RangeValue> = (
-  from: number,
-  to: number,
-  value: T
-) => boolean
+type RangeValueCallback<T extends RangeValue, U> = (from: number, to: number, value: T) => U
+
+export type RangeSetUpdateFilter<T extends RangeValue> = RangeValueCallback<T, boolean>
 
 export const mapRangeSetToArray = <T extends RangeValue, U>(
   rangeSet: RangeSet<T>,
-  callbackfn: (from: number, to: number, value: T) => U
+  callbackfn: RangeValueCallback<T, U>
 ): U[] => {
   const valueCount = rangeSet.size
   const values = new Array<U>(valueCount)
