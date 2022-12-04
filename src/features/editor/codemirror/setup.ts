@@ -13,18 +13,20 @@ import { wavyUnderline } from './wavyUnderline'
 import { highlightLine } from './highlightLine'
 import { indentWithTab } from './indentWithTab'
 
-export const getSetup = (): Extension => [
-  drawSelection(),
-  history(),
-  closeBrackets(),
-  theme(),
-  asm(),
-  highlightActiveLine(),
-  highlightSelectionMatches(),
-  viewUpdateListener(),
-  breakpoints(),
-  lineNumbers(),
-  wavyUnderline(),
-  highlightLine(),
-  keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
-]
+export const getSetup = (): Extension => {
+  return [
+    drawSelection(),
+    history(),
+    closeBrackets(),
+    theme(),
+    asm(),
+    highlightActiveLine(),
+    highlightSelectionMatches(),
+    viewUpdateListener(),
+    breakpoints(),
+    lineNumbers(),
+    wavyUnderline(),
+    highlightLine(),
+    keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
+  ]
+}
