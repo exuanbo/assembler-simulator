@@ -4,8 +4,7 @@ import { EditorView, ViewUpdate } from '@codemirror/view'
 type ViewUpdateListener = (update: ViewUpdate) => void
 
 const ViewUpdateListenerEffect = StateEffect.define<{
-  add?: ViewUpdateListener
-  remove?: ViewUpdateListener
+  [actionName in 'add' | 'remove']?: ViewUpdateListener
 }>()
 
 type Unsubscribe = () => void
