@@ -21,30 +21,45 @@ export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener)
   }
 }
 
-const viewUpdateListenerField = StateField.define<Set<ViewUpdateListener>>({
+interface SetRef<T> {
+  readonly current: Set<T>
+}
+
+/**
+ * @returns `false` if the set is not changed
+ */
+type UpdateSet<T> = (set: Set<T>) => Set<T> | boolean
+
+const updateSetRef = <T>(setRef: SetRef<T>, update: UpdateSet<T>): SetRef<T> => {
+  const { current: set } = setRef
+  const isChanged = update(set)
+  return isChanged === false ? setRef : { current: set }
+}
+
+const viewUpdateListenerField = StateField.define<SetRef<ViewUpdateListener>>({
   create() {
-    return new Set()
+    return { current: new Set() }
   },
-  update(listenerSet, transaction) {
-    return transaction.effects.reduce((resultSet, effect) => {
+  update(listenerSetRef, transaction) {
+    return transaction.effects.reduce((resultSetRef, effect) => {
       if (!effect.is(ViewUpdateListenerEffect)) {
-        return resultSet
+        return resultSetRef
       }
-      let updatedSet = resultSet
       const { add: listenerToAdd, remove: listenerToRemove } = effect.value
-      if (listenerToAdd !== undefined && !updatedSet.has(listenerToAdd)) {
-        updatedSet = new Set(updatedSet)
-        updatedSet.add(listenerToAdd)
-      }
-      if (listenerToRemove !== undefined && updatedSet.has(listenerToRemove)) {
-        updatedSet = new Set(updatedSet)
-        updatedSet.delete(listenerToRemove)
-      }
-      return updatedSet
-    }, listenerSet)
+      let currentSetRef = resultSetRef
+      currentSetRef = updateSetRef(
+        currentSetRef,
+        set => listenerToAdd !== undefined && !set.has(listenerToAdd) && set.add(listenerToAdd)
+      )
+      currentSetRef = updateSetRef(
+        currentSetRef,
+        set => listenerToRemove !== undefined && set.delete(listenerToRemove)
+      )
+      return currentSetRef
+    }, listenerSetRef)
   },
   provide: thisField =>
-    EditorView.updateListener.computeN([thisField], state => [...state.field(thisField)])
+    EditorView.updateListener.computeN([thisField], state => [...state.field(thisField).current])
 })
 
 export const viewUpdateListener = (): Extension => viewUpdateListenerField
