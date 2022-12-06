@@ -25,6 +25,15 @@ const BugReportButton = (): JSX.Element => (
   </MenuItem.ExternalLink>
 )
 
+const DiscussionsButton = (): JSX.Element => (
+  <MenuItem.ExternalLink href="https://github.com/exuanbo/assembler-simulator/discussions">
+    <MenuButton>
+      <span className="w-4" />
+      <span>Discussions</span>
+    </MenuButton>
+  </MenuItem.ExternalLink>
+)
+
 interface AboutButtonProps {
   onClick: React.MouseEventHandler<HTMLDivElement>
 }
@@ -98,6 +107,7 @@ const HelpMenu = (): JSX.Element => {
             <MenuItems menuElement={menuElement}>
               <InstructionSetButton />
               <BugReportButton />
+              <DiscussionsButton />
               <AboutButton onClick={toggleAboutModalOpen} />
             </MenuItems>
           )}
