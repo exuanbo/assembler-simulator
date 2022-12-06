@@ -16,11 +16,11 @@ const InstructionSetButton = (): JSX.Element => (
   </MenuItem.ExternalLink>
 )
 
-const BugReportButton = (): JSX.Element => (
+const ReportIssueButton = (): JSX.Element => (
   <MenuItem.ExternalLink href="https://github.com/exuanbo/assembler-simulator/issues">
     <MenuButton>
       <span className="w-4" />
-      <span>Bug Report</span>
+      <span>Report Issue</span>
     </MenuButton>
   </MenuItem.ExternalLink>
 )
@@ -106,7 +106,7 @@ const HelpMenu = (): JSX.Element => {
           {isOpen && (
             <MenuItems menuElement={menuElement}>
               <InstructionSetButton />
-              <BugReportButton />
+              <ReportIssueButton />
               <DiscussionsButton />
               <AboutButton onClick={toggleAboutModalOpen} />
             </MenuItems>
