@@ -7,31 +7,39 @@ import Anchor from '@/common/components/Anchor'
 import { Help } from '@/common/components/icons'
 import { useToggle, useOutsideClick } from '@/common/hooks'
 
-const InstructionSetButton = (): JSX.Element => (
-  <MenuItem.ExternalLink href="https://web.archive.org/web/20200701132011/http://www.softwareforeducation.com/sms32v50/sms32v50_manual/250-FullIset.htm">
+interface ExternalLinkButtonProps {
+  href: string
+  name: string
+}
+
+const ExternalLinkButton = ({ href, name }: ExternalLinkButtonProps): JSX.Element => (
+  <MenuItem.ExternalLink href={href}>
     <MenuButton>
       <span className="w-4" />
-      <span>Instruction Set</span>
+      <span>{name}</span>
     </MenuButton>
   </MenuItem.ExternalLink>
+)
+
+const InstructionSetButton = (): JSX.Element => (
+  <ExternalLinkButton
+    href="https://web.archive.org/web/20200701132011/http://www.softwareforeducation.com/sms32v50/sms32v50_manual/250-FullIset.htm"
+    name="Instruction Set"
+  />
 )
 
 const ReportIssueButton = (): JSX.Element => (
-  <MenuItem.ExternalLink href="https://github.com/exuanbo/assembler-simulator/issues">
-    <MenuButton>
-      <span className="w-4" />
-      <span>Report Issue</span>
-    </MenuButton>
-  </MenuItem.ExternalLink>
+  <ExternalLinkButton
+    href="https://github.com/exuanbo/assembler-simulator/issues"
+    name="Report Issue"
+  />
 )
 
 const DiscussionsButton = (): JSX.Element => (
-  <MenuItem.ExternalLink href="https://github.com/exuanbo/assembler-simulator/discussions">
-    <MenuButton>
-      <span className="w-4" />
-      <span>Discussions</span>
-    </MenuButton>
-  </MenuItem.ExternalLink>
+  <ExternalLinkButton
+    href="https://github.com/exuanbo/assembler-simulator/discussions"
+    name="Discussions"
+  />
 )
 
 interface AboutButtonProps {
