@@ -1,5 +1,5 @@
 import * as Base64 from 'js-base64'
-import { deflate, inflate } from 'pako'
+import * as Pako from 'pako'
 import type { StateToPersist, PersistedState } from './persist'
 
 const QUERY_PARAMETER_NAME = 'shareable'
@@ -10,7 +10,7 @@ export const loadState = (): PersistedState => {
   if (encodedState !== null) {
     try {
       const compressedData = Base64.toUint8Array(encodedState)
-      const decodedState = inflate(compressedData, { to: 'string' })
+      const decodedState = Pako.inflate(compressedData, { to: 'string' })
       return JSON.parse(decodedState)
     } catch {
       // ignore error
@@ -21,7 +21,7 @@ export const loadState = (): PersistedState => {
 
 const getShareUrl = (state: StateToPersist): string => {
   const url = new URL(window.location.href)
-  const compressedData = deflate(JSON.stringify(state))
+  const compressedData = Pako.deflate(JSON.stringify(state))
   const encodedState = Base64.fromUint8Array(compressedData, /* urlsafe: */ true)
   url.searchParams.set(QUERY_PARAMETER_NAME, encodedState)
   return url.toString()
