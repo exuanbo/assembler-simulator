@@ -20,47 +20,57 @@ export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener)
   }
 }
 
-interface SetRef<T> {
-  readonly current: Set<T>
+// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/consistent-type-definitions
+type NonNullishValue = {}
+type Nullable<T> = T | null | undefined
+
+class SetWrapper<T extends NonNullishValue> implements Iterable<T> {
+  private readonly _set: Set<T>
+
+  constructor(set: Set<T> = new Set()) {
+    this._set = set
+  }
+
+  public add(value: Nullable<T>): SetWrapper<T> {
+    if (value == null || this._set.has(value)) {
+      return this
+    }
+    this._set.add(value)
+    return new SetWrapper(this._set)
+  }
+
+  public delete(value: Nullable<T>): SetWrapper<T> {
+    if (value == null || !this._set.has(value)) {
+      return this
+    }
+    this._set.delete(value)
+    return new SetWrapper(this._set)
+  }
+
+  public [Symbol.iterator](): IterableIterator<T> {
+    return this._set[Symbol.iterator]()
+  }
 }
 
-/**
- * @returns `false` if the set is not changed
- */
-type UpdateSet<T> = (set: Set<T>) => Set<T> | boolean
+type ViewUpdateListenerSetWrapper = SetWrapper<ViewUpdateListener>
 
-const updateSetRef = <T>(setRef: SetRef<T>, update: UpdateSet<T>): SetRef<T> => {
-  const { current: set } = setRef
-  const isChanged = update(set)
-  return isChanged === false ? setRef : { current: set }
-}
-
-const viewUpdateListenerField = StateField.define<SetRef<ViewUpdateListener>>({
+const viewUpdateListenerField = StateField.define<ViewUpdateListenerSetWrapper>({
   create() {
-    return { current: new Set() }
+    return new SetWrapper<ViewUpdateListener>()
   },
-  update(listenerSetRef, transaction) {
-    return transaction.effects.reduce((resultSetRef, effect) => {
+  update(listenerSetWrapper, transaction) {
+    return transaction.effects.reduce((resultSetWrapper, effect) => {
       if (!effect.is(ViewUpdateListenerEffect)) {
-        return resultSetRef
+        return resultSetWrapper
       }
       const { add: listenerToAdd, remove: listenerToRemove } = effect.value
-      let currentSetRef = resultSetRef
-      currentSetRef = updateSetRef(
-        currentSetRef,
-        set => listenerToAdd !== undefined && !set.has(listenerToAdd) && set.add(listenerToAdd)
-      )
-      currentSetRef = updateSetRef(
-        currentSetRef,
-        set => listenerToRemove !== undefined && set.delete(listenerToRemove)
-      )
-      return currentSetRef
-    }, listenerSetRef)
+      return resultSetWrapper.add(listenerToAdd).delete(listenerToRemove)
+    }, listenerSetWrapper)
   },
   provide: thisField =>
     EditorView.updateListener.computeN([thisField], state => {
-      const listenerSetRef = state.field(thisField)
-      return [...listenerSetRef.current]
+      const listenerSetWrapper = state.field(thisField)
+      return [...listenerSetWrapper]
     })
 })
 
