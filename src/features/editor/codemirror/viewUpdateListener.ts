@@ -59,13 +59,13 @@ const viewUpdateListenerField = StateField.define<ViewUpdateListenerSetWrapper>(
     return new SetWrapper<ViewUpdateListener>()
   },
   update(listenerSetWrapper, transaction) {
-    return transaction.effects.reduce((resultSetWrapper, effect) => {
-      if (!effect.is(ViewUpdateListenerEffect)) {
-        return resultSetWrapper
-      }
-      const { add: listenerToAdd, remove: listenerToRemove } = effect.value
-      return resultSetWrapper.add(listenerToAdd).delete(listenerToRemove)
-    }, listenerSetWrapper)
+    return transaction.effects.reduce(
+      (resultSetWrapper, effect) =>
+        effect.is(ViewUpdateListenerEffect)
+          ? resultSetWrapper.add(effect.value.add).delete(effect.value.remove)
+          : resultSetWrapper,
+      listenerSetWrapper
+    )
   },
   provide: thisField =>
     EditorView.updateListener.computeN([thisField], state => {
