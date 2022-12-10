@@ -3,7 +3,7 @@ import { clamp, range, throttle, classNames } from '../utils'
 
 export const DEFAULT_RESIZE_THROTTLE_MS = 25
 
-const DOUBLE_CLICK_DELAY_MS = 300
+const DOUBLE_CLICK_DELAY_MS = 500
 
 const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
