@@ -56,7 +56,7 @@ export const highlightActiveLine = (): Extension => {
         boxShadow: 'inset 0 0 0 2px #e5e7eb'
       },
       '.cm-activeLine': {
-        backgroundColor: 'initial'
+        backgroundColor: 'unset'
       }
     })
   ]
