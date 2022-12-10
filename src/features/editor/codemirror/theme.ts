@@ -14,8 +14,8 @@ export const theme = (): Extension => {
     },
     '.cm-gutters': {
       borderRight: '1px solid #e5e7eb',
-      backgroundColor: '#f3f4f6',
-      color: '#9ca3af'
+      backgroundColor: '#f3f4f6', // gray-100
+      color: '#9ca3af' // gray-400
     },
     '.cm-breakpoints': {
       fontSize: '0.875em'
