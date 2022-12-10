@@ -43,9 +43,9 @@ export const HighlightLineEffect = StateEffect.define<{
   addByPos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ addByPos: add, filter }, mapping) {
+  map({ addByPos: pos, filter }, mapping) {
     return {
-      addByPos: add === undefined ? undefined : mapping.mapPos(add),
+      addByPos: pos === undefined ? undefined : mapping.mapPos(pos),
       filter
     }
   }
@@ -68,9 +68,9 @@ const highlightLineField = StateField.define<DecorationSet>({
       if (!effect.is(HighlightLineEffect)) {
         return resultSet
       }
-      const { addByPos: add, filter } = effect.value
+      const { addByPos: pos, filter } = effect.value
       return resultSet.update({
-        add: add === undefined ? undefined : [lineDecoration.range(add)],
+        add: pos === undefined ? undefined : [lineDecoration.range(pos)],
         filter
       })
     }, decorationSet.map(transaction.changes))
