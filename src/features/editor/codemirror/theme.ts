@@ -23,6 +23,7 @@ export const theme = (): Extension => {
     '.cm-lineNumbers': {
       paddingRight: '6px'
     },
+    // TODO: upgrade @codemirror/view and remove this style
     // https://github.com/codemirror/view/commit/40620534f652f9a29ccc7a7dc1d21d9ab7992f9a?#diff-0e21fb1c9519a397050defc2148a2d1b966a0982cc4cf196e1e6b007f8d095e5
     '.cm-content': {
       minHeight: '100%'
