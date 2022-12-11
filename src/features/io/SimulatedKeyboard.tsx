@@ -58,8 +58,8 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   }
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
-    const key = event.target.value
-    dispatchInputData(key.charCodeAt(0))
+    const input = event.target.value
+    dispatchInputData(input.charCodeAt(0))
   }
 
   return (

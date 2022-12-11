@@ -231,20 +231,14 @@ class Controller {
       const addressToStatementMap = selectAddressToStatementMap(state)
       const statement = addressToStatementMap[instructionAdress]
       const hasStatement =
-        // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
         statement !== undefined &&
         statement.machineCodes.length > 0 &&
         statement.machineCodes.every(
           (machineCode, machineCodeIndex) =>
             machineCode === memoryData[instructionAdress + machineCodeIndex]
         )
-      let isVduBufferChanged = false
-      if (changes.memoryData !== undefined) {
-        const { address: addressChanged } = changes.memoryData
-        if (addressChanged >= VDU_START_ADDRESS) {
-          isVduBufferChanged = true
-        }
-      }
+      const changeAddress = changes.memoryData?.address
+      const isVduBufferChanged = changeAddress !== undefined && changeAddress >= VDU_START_ADDRESS
       const dispatchChanges = (): void => {
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
           this.dispatch(setMemoryData(memoryData))
@@ -281,21 +275,19 @@ class Controller {
           }
         }
       }
-      const { data: inputData, interrupt } = signals.input
-      const {
-        halted: shouldHalt = false,
-        expectedInputPort,
-        data: outputData,
-        closeWindows: shouldCloseWindows = false
-      } = signals.output
-      if (interrupt) {
+      const { data: inputData } = signals.input
+      const { data: outputData, expectedInputPort } = signals.output
+      if (signals.input.interrupt) {
         this.dispatch(setInterrupt(false))
       }
-      if (shouldHalt) {
+      if (signals.output.halted === true) {
         this.stopIfRunning(state)
         this.dispatch(setCpuHalted())
         resolve(undefined)
         return
+      }
+      if (signals.output.closeWindows === true) {
+        this.dispatch(setIoDevicesInvisible())
       }
       let willSuspend = false
       if (expectedInputPort !== undefined) {
@@ -351,9 +343,6 @@ class Controller {
             })
           )
         }
-      }
-      if (shouldCloseWindows) {
-        this.dispatch(setIoDevicesInvisible())
       }
       const breakpoints = selectEditorBreakpoints(state)
       let hasBreakpoint = false

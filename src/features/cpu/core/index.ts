@@ -132,14 +132,14 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
   const setHalted = (): void => {
     outputSignals.halted = true
   }
+  const setCloseWindows = (): void => {
+    outputSignals.closeWindows = true
+  }
   const setExpectedInputPort = (port: number): void => {
     outputSignals.expectedInputPort = port
   }
   const setOutputData = (content: number, port: number): void => {
     outputSignals.data = { content, port }
-  }
-  const setCloseWindows = (): void => {
-    outputSignals.closeWindows = true
   }
 
   const signals = {
