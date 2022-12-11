@@ -20,16 +20,16 @@ const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element
       return
     }
     if (containerRef.current === null) {
-      const containerElement = document.createElement('div')
-      containerElement.className = className
-      containerRef.current = containerElement
+      const container = document.createElement('div')
+      container.className = className
+      containerRef.current = container
     }
-    const { current: container } = containerRef
-    containerWrapper.appendChild(container)
+    const currentContainer = containerRef.current
+    containerWrapper.appendChild(currentContainer)
     setContainerReady(true)
     return () => {
       containerRef.current = null
-      containerWrapper.removeChild(container)
+      containerWrapper.removeChild(currentContainer)
       setContainerReady(false)
     }
   }, [isOpen, className])
