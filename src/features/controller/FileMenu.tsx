@@ -49,16 +49,12 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   const store = useStore()
 
   const loadFile = (file: File): void => {
-    const reader = new FileReader()
-    reader.onload = function () {
-      const fileContent = this.result as string
-      store.dispatch(
-        setEditorInput({
-          value: fileContent,
-          isFromFile: true
-        })
-      )
-    }
+    const reader = Object.assign(new FileReader(), {
+      onload: () => {
+        const value = reader.result as string
+        store.dispatch(setEditorInput({ value, isFromFile: true }))
+      }
+    })
     reader.readAsText(file)
   }
 
