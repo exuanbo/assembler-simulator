@@ -33,7 +33,8 @@ const highlightActiveLinePlugin = ViewPlugin.fromClass(
         const decorationRanges: Array<Range<Decoration>> = []
         const rangeCount = selectionRanges.length
         for (let lastLineFrom = -1, rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++) {
-          const line = view.lineBlockAt(selectionRanges[rangeIndex].head)
+          const selectionRange = selectionRanges[rangeIndex]
+          const line = view.state.doc.lineAt(selectionRange.head)
           if (line.from > lastLineFrom) {
             decorationRanges.push(lineDecoration.range(line.from))
             lastLineFrom = line.from
