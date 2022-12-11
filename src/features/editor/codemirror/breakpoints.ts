@@ -82,7 +82,7 @@ export const breakpoints = (): Extension => {
       '.cm-breakpoints .cm-gutterElement': {
         width: '20px',
         padding: '0 3px 0 5px',
-        color: 'red',
+        color: 'red !important',
         cursor: 'pointer'
       }
     })

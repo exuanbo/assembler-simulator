@@ -7,6 +7,7 @@ import { asm } from './lang-asm'
 import { highlightSelectionMatches } from './highlightSelectionMatches'
 import { highlightActiveLine } from './highlightActiveLine'
 import { viewUpdateListener } from './viewUpdateListener'
+import { highlightActiveLineGutter } from './highlightActiveLineGutter'
 import { breakpoints } from './breakpoints'
 import { lineNumbers } from './lineNumbers'
 import { wavyUnderline } from './wavyUnderline'
@@ -23,6 +24,7 @@ export const getSetup = (): Extension => {
     highlightActiveLine(),
     highlightSelectionMatches(),
     viewUpdateListener(),
+    highlightActiveLineGutter(),
     breakpoints(),
     lineNumbers(),
     wavyUnderline(),
