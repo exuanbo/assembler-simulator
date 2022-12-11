@@ -5,14 +5,13 @@ import {
   useState,
   useEffect,
   useContext,
-  useCallback,
   useMemo,
   useRef
 } from 'react'
 import { EditorViewConfig, EditorView } from '@codemirror/view'
 import CodeMirrorContext from './Context'
 
-type CodeMirrorConfig = Omit<EditorViewConfig, 'state' | 'parent' | 'root'>
+export type CodeMirrorConfig = Pick<EditorViewConfig, 'doc' | 'extensions'>
 
 export interface CodeMirror<T extends Element = Element> {
   view: EditorView | undefined
@@ -22,36 +21,31 @@ export interface CodeMirror<T extends Element = Element> {
 export const useCodeMirror = <T extends Element = Element>(
   config?: CodeMirrorConfig
 ): CodeMirror<T> => {
-  const [current, setCurrent] = useState<T | null>(null)
-
-  const refCallback = useCallback<RefCallback<T>>(element => {
-    setCurrent(element)
-  }, [])
-
-  const [view, setView] = useState<EditorView | undefined>()
+  const [refElement, setRefElement] = useState<T | null>(null)
+  const [currentView, setCurrentView] = useState<EditorView | undefined>()
 
   useEffect(() => {
-    if (current === null) {
+    if (refElement === null) {
       return
     }
-    const initialView = new EditorView({
-      ...config,
-      parent: current,
-      root: document
+    const view = new EditorView({
+      root: document,
+      parent: refElement,
+      ...config
     })
-    setView(initialView)
+    setCurrentView(view)
     return () => {
-      initialView.destroy()
-      setView(undefined)
+      view.destroy()
+      setCurrentView(undefined)
     }
-  }, [current, config])
+  }, [refElement, config])
 
   const codeMirror = useMemo<CodeMirror<T>>(() => {
     return {
-      view,
-      ref: refCallback
+      view: currentView,
+      ref: setRefElement
     }
-  }, [view])
+  }, [currentView])
   return codeMirror
 }
 

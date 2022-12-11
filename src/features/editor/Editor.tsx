@@ -4,16 +4,16 @@ import CodeMirrorContainer from './CodeMirrorContainer'
 import EditorMessage from './EditorMessage'
 import { useStore } from '@/app/hooks'
 import { selectEditorInput } from './editorSlice'
-import { useCodeMirror } from './codemirror/hooks'
+import { CodeMirrorConfig, useCodeMirror } from './codemirror/hooks'
 import { getSetup } from './codemirror/setup'
 
 const Editor = (): JSX.Element => {
   const store = useStore()
 
-  const codeMirrorConfig = useMemo(() => {
-    const defaultInput = selectEditorInput(store.getState())
+  const codeMirrorConfig = useMemo<CodeMirrorConfig>(() => {
+    const editorInput = selectEditorInput(store.getState())
     return {
-      doc: defaultInput,
+      doc: editorInput,
       extensions: getSetup()
     }
   }, [])
