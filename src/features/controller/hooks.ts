@@ -62,7 +62,7 @@ import {
 } from '@/features/io/ioSlice'
 import { setException } from '@/features/exception/exceptionSlice'
 import { useConstant } from '@/common/hooks'
-import { call, errorToPlainObject } from '@/common/utils'
+import { call } from '@/common/utils'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 const sourceChangedMessage: EditorMessage = {
@@ -211,17 +211,13 @@ class Controller {
           },
           selectInputSignals(state)
         )
-      } catch (error) {
+      } catch (exception) {
         this.stopIfRunning(state)
-        if (error instanceof RuntimeError) {
-          const runtimeErrorObject = error.toPlainObject()
+        if (exception instanceof RuntimeError) {
+          const runtimeErrorObject = exception.toPlainObject()
           this.dispatch(setCpuFault(runtimeErrorObject))
-        } else if (error instanceof Error) {
-          const errorObject = errorToPlainObject(error)
-          this.dispatch(setException(errorObject))
         } else {
-          const errorObject = errorToPlainObject(new Error(String(error)))
-          this.dispatch(setException(errorObject))
+          this.dispatch(setException(exception))
         }
         resolve(undefined)
         return

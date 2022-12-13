@@ -9,7 +9,10 @@ export const exceptionSlice = createSlice({
   name: 'exception',
   initialState,
   reducers: {
-    set: (_, action: PayloadAction<Error>) => action.payload,
+    set: (_, action: PayloadAction<unknown>) => {
+      // converted to `Error` object in middleware `exceptionHandler`
+      return action.payload as Error
+    },
     clear: () => null
   }
 })
