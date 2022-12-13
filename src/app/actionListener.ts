@@ -1,4 +1,10 @@
-import { MiddlewareAPI, Middleware, PayloadActionCreator, getType } from '@reduxjs/toolkit'
+import {
+  MiddlewareAPI,
+  Middleware,
+  PayloadAction,
+  PayloadActionCreator,
+  getType
+} from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 interface ListenerAPI extends MiddlewareAPI {
@@ -31,7 +37,7 @@ interface ActionListener extends Middleware {
 const createActionListener = (): ActionListener => {
   const subscriptions: Subscriptions = new Map()
 
-  const actionListener: ActionListener = api => next => action => {
+  const actionListener: ActionListener = api => next => (action: PayloadAction<unknown>) => {
     const result = next(action)
     subscriptions.get(action.type)?.forEach(cb => cb(action.payload, api))
     return result
