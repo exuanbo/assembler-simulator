@@ -6,7 +6,6 @@ import memoryReducer from '@/features/memory/memorySlice'
 import cpuReducer from '@/features/cpu/cpuSlice'
 import ioReducer from '@/features/io/ioSlice'
 import exceptionReducer from '@/features/exception/exceptionSlice'
-import { exceptionHandler } from '@/features/exception/exceptionHandler'
 import { loadState as loadStateFromLocalStorage } from './localStorage'
 import { loadState as loadStateFromUrl } from './url'
 import { getInitialStateToPersist } from './persist'
@@ -35,10 +34,7 @@ const getPreloadedState = (): PreloadedState<RootState> => {
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => {
-    const defaultMiddleware = getDefaultMiddleware()
-    return defaultMiddleware.prepend(exceptionHandler, watcher, actionListener)
-  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(watcher, actionListener),
   preloadedState: getPreloadedState()
 })
 

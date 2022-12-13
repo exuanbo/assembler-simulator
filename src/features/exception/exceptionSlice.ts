@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '@/app/store'
+import { errorToPlainObject } from '@/common/utils'
 
 type ExceptionState = Error | null
 
@@ -9,9 +10,16 @@ export const exceptionSlice = createSlice({
   name: 'exception',
   initialState,
   reducers: {
-    set: (_, action: PayloadAction<unknown>) => {
-      // converted to `Error` object in middleware `exceptionHandler`
-      return action.payload as Error
+    set: {
+      reducer: (_, action: PayloadAction<Error>) => action.payload,
+      prepare: (exception: unknown) => {
+        if (exception instanceof Error) {
+          return { payload: errorToPlainObject(exception) }
+        } else {
+          const error = new Error(`Uncaught ${JSON.stringify(exception)}`)
+          return { payload: errorToPlainObject(error) }
+        }
+      }
     },
     clear: () => null
   }
