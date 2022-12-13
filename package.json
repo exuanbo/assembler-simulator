@@ -18,7 +18,7 @@
     "@codemirror/language": "6.3.1",
     "@codemirror/search": "6.2.3",
     "@codemirror/state": "6.1.4",
-    "@codemirror/view": "6.7.0",
+    "@codemirror/view": "6.7.1",
     "@reduxjs/toolkit": "1.9.1",
     "immer": "9.0.16",
     "js-base64": "3.7.3",
