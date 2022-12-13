@@ -545,21 +545,21 @@ describe('cpu', () => {
     })
 
     describe('with POP', () => {
-      const __memory = getMemoryData('pop al end')
+      const memoryData = getMemoryData('pop al end')
 
       it('should pop to register from stack', () => {
-        const memoryData = produce(__memory, draft => {
+        const __memoryData = produce(memoryData, draft => {
           draft[0xbf] = 1
         })
         const cpuRegisters = produce(initialRegisters, draft => {
           draft.sp = 0xbf - 1
         })
-        expect(step(memoryData, cpuRegisters)).toMatchSnapshot()
+        expect(step(__memoryData, cpuRegisters)).toMatchSnapshot()
       })
 
       it('should throw StackUnderflowError', () => {
         expect(() => {
-          step(__memory, initialRegisters)
+          step(memoryData, initialRegisters)
         }).toThrowError('Stack underflow')
       })
     })
