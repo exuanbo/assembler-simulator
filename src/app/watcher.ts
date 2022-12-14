@@ -1,7 +1,5 @@
 import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit'
-import type { RootState } from './store'
-
-type Selector<TSelected> = (state: RootState) => TSelected
+import type { RootState, Selector } from './store'
 
 interface WatcherAPI extends MiddlewareAPI {
   getState: () => RootState

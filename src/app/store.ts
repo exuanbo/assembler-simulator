@@ -25,6 +25,8 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>
 
+export type Selector<TSelected> = (state: RootState) => TSelected
+
 const getPreloadedState = (): PreloadedState<RootState> => {
   const stateFromLocalStorage = loadStateFromLocalStorage()
   const stateFromUrl = loadStateFromUrl()
@@ -34,7 +36,10 @@ const getPreloadedState = (): PreloadedState<RootState> => {
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(watcher, actionListener),
+  middleware: getDefaultMiddleware => {
+    const defaultMiddleware = getDefaultMiddleware()
+    return defaultMiddleware.prepend(watcher, actionListener)
+  },
   preloadedState: getPreloadedState()
 })
 
