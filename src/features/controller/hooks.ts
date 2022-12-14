@@ -140,7 +140,7 @@ class Controller {
     this.setStepInterval()
     const lastStepResult = await this.lastStep
     if (lastStepResult !== undefined) {
-      const isSrInterruptFlagSet = __getSrInterruptFlag(lastStepResult.cpuRegisters)
+      const isSrInterruptFlagSet = __getSrInterruptFlag(lastStepResult.cpuRegisters.sr)
       if (isSrInterruptFlagSet) {
         this.setInterruptInterval()
       }
@@ -259,7 +259,7 @@ class Controller {
       if (isRunning) {
         const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
         if (isSrInterruptFlagChanged) {
-          const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters)
+          const isSrInterruptFlagSet = __getSrInterruptFlag(cpuRegisters.sr)
           if (isSrInterruptFlagSet) {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()

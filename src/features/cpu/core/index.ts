@@ -55,6 +55,10 @@ export type StatusRegister = number
 
 const __getSrFlag = (sr: StatusRegister, flag: number): boolean => (sr & flag) === flag
 
+// istanbul ignore next
+export const __getSrInterruptFlag = (sr: StatusRegister): boolean =>
+  __getSrFlag(sr, StatusRegisterFlag.Interrupt)
+
 export interface Registers {
   gpr: GeneralPurposeRegisters
   ip: InstructionPointer
@@ -70,10 +74,6 @@ export const initRegisters = (): Registers => {
     sr: 0
   }
 }
-
-// istanbul ignore next
-export const __getSrInterruptFlag = (registers: Registers): boolean =>
-  __getSrFlag(registers.sr, StatusRegisterFlag.Interrupt)
 
 const validateGpr = (register: number): GeneralPurposeRegister => {
   if (register > GeneralPurposeRegister.DL) {
