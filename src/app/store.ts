@@ -44,7 +44,5 @@ const store = configureStore({
 })
 
 export type Store = typeof store
-export type StoreGetState = typeof store.getState
-export type StoreDispatch = typeof store.dispatch
 
 export default store
