@@ -12,9 +12,25 @@ export const mapRangeSetToArray = <T extends RangeValue, U>(
   const values = new Array<U>(valueCount)
   if (valueCount > 0) {
     const rangeCursor = rangeSet.iter()
-    for (let valueIndex = 0; valueIndex < valueCount; valueIndex++, rangeCursor.next()) {
-      values[valueIndex] = callbackfn(rangeCursor.from, rangeCursor.to, rangeCursor.value!)
+    for (let valueIndex = 0; rangeCursor.value !== null; valueIndex++, rangeCursor.next()) {
+      values[valueIndex] = callbackfn(rangeCursor.from, rangeCursor.to, rangeCursor.value)
     }
   }
   return values
+}
+
+export const reduceRangeSet = <T extends RangeValue, U>(
+  rangeSet: RangeSet<T>,
+  callbackfn: (previousValue: U, currentValue: T, from: number, to: number) => U,
+  initialValue: U
+): U => {
+  let accumulator = initialValue
+  if (rangeSet.size > 0) {
+    const rangeCursor = rangeSet.iter()
+    while (rangeCursor.value !== null) {
+      accumulator = callbackfn(accumulator, rangeCursor.value, rangeCursor.from, rangeCursor.to)
+      rangeCursor.next()
+    }
+  }
+  return accumulator
 }

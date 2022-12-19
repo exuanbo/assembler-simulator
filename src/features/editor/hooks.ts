@@ -20,12 +20,12 @@ import { template } from './examples'
 import { useCodeMirrorEffect } from './codemirror/hooks'
 import { listenViewUpdate } from './codemirror/viewUpdateListener'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { reconfigureHighlightLine, HighlightLineEffect } from './codemirror/highlightLine'
+import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointSet, breakpointsEqual } from './codemirror/breakpoints'
 import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { mapRangeSetToArray } from './codemirror/rangeSet'
-import { selectAutoAssemble, selectIsRunning } from '@/features/controller/controllerSlice'
+import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
@@ -167,12 +167,6 @@ export const useHighlightLine = (): void => {
       if (isFromFile) {
         api.dispatch(clearEditorHighlightRange())
       }
-    })
-  }, [])
-
-  useCodeMirrorEffect(view => {
-    return watch(selectIsRunning, isRunning => {
-      view.dispatch(reconfigureHighlightLine({ clearOnNonEmptySelect: !isRunning }))
     })
   }, [])
 

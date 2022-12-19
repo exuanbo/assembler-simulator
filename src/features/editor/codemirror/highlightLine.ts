@@ -1,91 +1,106 @@
-import {
-  Facet,
-  Compartment,
-  TransactionSpec,
-  StateEffect,
-  StateField,
-  Extension,
-  combineConfig
-} from '@codemirror/state'
+import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import type { RangeSetUpdateFilter } from './rangeSet'
-
-interface HighlightLineConfig {
-  clearOnNonEmptySelect?: boolean
-}
-
-const HighlightLineConfigFacet = Facet.define<HighlightLineConfig, Required<HighlightLineConfig>>({
-  combine(values) {
-    return combineConfig(
-      values,
-      {
-        clearOnNonEmptySelect: true
-      },
-      {
-        clearOnNonEmptySelect(_prevOption, option) {
-          return option
-        }
-      }
-    )
-  }
-})
-
-const HighlightLineConfigCompartment = new Compartment()
-
-export const reconfigureHighlightLine = (config: HighlightLineConfig): TransactionSpec => {
-  const configExtension = HighlightLineConfigFacet.of(config)
-  return {
-    effects: HighlightLineConfigCompartment.reconfigure(configExtension)
-  }
-}
+import { RangeSetUpdateFilter, reduceRangeSet } from './rangeSet'
+import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
   addByPos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ addByPos: pos, filter }, mapping) {
+  map({ addByPos, filter }, mapping) {
     return {
-      addByPos: pos === undefined ? undefined : mapping.mapPos(pos),
+      addByPos: maybeNullable(addByPos)
+        .map(pos => mapping.mapPos(pos))
+        .extract(),
       filter
     }
   }
 })
 
 const lineDecoration = Decoration.line({ class: 'cm-highlightLine' })
+const lineDecorationWithOpacity = Decoration.line({
+  class: 'cm-highlightLine--withOpacity',
+  // TODO: upgrade @codemirror/view and remove this
+  attributes: {}
+})
 
 const highlightLineField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    const { clearOnNonEmptySelect } = transaction.state.facet(HighlightLineConfigFacet)
-    if (clearOnNonEmptySelect && transaction.selection !== undefined) {
-      if (transaction.selection.ranges.some(selectionRange => !selectionRange.empty)) {
-        return Decoration.none
-      }
-    }
-    return transaction.effects.reduce((resultSet, effect) => {
-      if (!effect.is(HighlightLineEffect)) {
+    const mappedDecorationSet = decorationSet.map(transaction.changes)
+    const updatedDecorationSet = reduceRangeSet(
+      mappedDecorationSet,
+      (resultSet, decoration, decorationFrom) => {
+        const lineWithDecoration = transaction.state.doc.lineAt(decorationFrom)
+        const selectionRangeAtSameLine = transaction.selection?.ranges.find(
+          selectionRange =>
+            selectionRange.from <= lineWithDecoration.to &&
+            selectionRange.to >= lineWithDecoration.from
+        )
+        if (selectionRangeAtSameLine === undefined) {
+          // TODO: upgrade @codemirror/view and replace with `LineDecoration.eq`
+          if (decoration.spec.class !== lineDecoration.spec.class) {
+            return resultSet.update({
+              add: [lineDecoration.range(decorationFrom)],
+              filter: from => from !== decorationFrom
+            })
+          }
+        } else {
+          const newLineDecoration = selectionRangeAtSameLine.empty
+            ? lineDecoration
+            : lineDecorationWithOpacity
+          // TODO: upgrade @codemirror/view and replace with `LineDecoration.eq`
+          if (newLineDecoration.spec.class !== decoration.spec.class) {
+            return resultSet.update({
+              add: [newLineDecoration.range(decorationFrom)],
+              filter: from => from !== decorationFrom
+            })
+          }
+        }
         return resultSet
-      }
-      const { addByPos: pos, filter } = effect.value
-      return resultSet.update({
-        add: pos === undefined ? undefined : [lineDecoration.range(pos)],
-        filter
-      })
-    }, decorationSet.map(transaction.changes))
+      },
+      mappedDecorationSet
+    )
+    return transaction.effects.reduce(
+      (resultSet, effect) =>
+        effect.is(HighlightLineEffect)
+          ? resultSet.update({
+              add: maybeNullable(effect.value.addByPos)
+                .map(pos => {
+                  const lineWithPos = transaction.state.doc.lineAt(pos)
+                  const hasSelectionAtSameLine = transaction.state.selection.ranges.some(
+                    selectionRange =>
+                      selectionRange.empty
+                        ? false
+                        : selectionRange.from <= lineWithPos.to &&
+                          selectionRange.to >= lineWithPos.from
+                  )
+                  const newLineDecoration = hasSelectionAtSameLine
+                    ? lineDecorationWithOpacity
+                    : lineDecoration
+                  return [newLineDecoration.range(pos)]
+                })
+                .extract(),
+              filter: effect.value.filter
+            })
+          : resultSet,
+      updatedDecorationSet
+    )
   },
   provide: thisField => EditorView.decorations.from(thisField)
 })
 
-export const highlightLine = (config: HighlightLineConfig = {}): Extension => {
-  const configExtension = HighlightLineConfigFacet.of(config)
+export const highlightLine = (): Extension => {
   return [
-    HighlightLineConfigCompartment.of(configExtension),
     highlightLineField,
     EditorView.baseTheme({
       '.cm-highlightLine': {
         backgroundColor: '#dcfce7 !important'
+      },
+      '.cm-highlightLine--withOpacity': {
+        backgroundColor: '#dcfce780 !important'
       }
     })
   ]
