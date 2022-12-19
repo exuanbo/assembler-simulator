@@ -1,6 +1,7 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import type { RangeSetUpdateFilter } from './rangeSet'
+import { maybeNullable } from '@/common/utils'
 
 export const WavyUnderlineEffect = StateEffect.define<{
   add?: { from: number; to: number }
@@ -8,13 +9,12 @@ export const WavyUnderlineEffect = StateEffect.define<{
 }>({
   map({ add, filter }, mapping) {
     return {
-      add:
-        add === undefined
-          ? undefined
-          : {
-              from: mapping.mapPos(add.from),
-              to: mapping.mapPos(add.to)
-            },
+      add: maybeNullable(add)
+        .map(({ from, to }) => ({
+          from: mapping.mapPos(from),
+          to: mapping.mapPos(to)
+        }))
+        .extract(),
       filter
     }
   }
@@ -27,19 +27,18 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorationSet, transaction) {
-    return transaction.effects.reduce((resultSet, effect) => {
-      if (!effect.is(WavyUnderlineEffect)) {
-        return resultSet
-      }
-      const { add: rangeToAdd, filter } = effect.value
-      return resultSet.update({
-        add:
-          rangeToAdd === undefined
-            ? undefined
-            : [markDecoration.range(rangeToAdd.from, rangeToAdd.to)],
-        filter
-      })
-    }, decorationSet.map(transaction.changes))
+    return transaction.effects.reduce(
+      (resultSet, effect) =>
+        effect.is(WavyUnderlineEffect)
+          ? resultSet.update({
+              add: maybeNullable(effect.value.add)
+                .map(({ from, to }) => [markDecoration.range(from, to)])
+                .extract(),
+              filter: effect.value.filter
+            })
+          : resultSet,
+      decorationSet.map(transaction.changes)
+    )
   },
   provide: thisField => EditorView.decorations.from(thisField)
 })
