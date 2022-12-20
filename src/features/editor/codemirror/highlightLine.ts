@@ -1,6 +1,7 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import { RangeSetUpdateFilter, reduceRangeSet } from './rangeSet'
+import { hasNonEmptySelectionAtLine } from './text'
 import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
@@ -33,33 +34,21 @@ const highlightLineField = StateField.define<DecorationSet>({
     const updatedDecorationSet = reduceRangeSet(
       mappedDecorationSet,
       (resultSet, decoration, decorationFrom) => {
-        const lineWithDecoration = transaction.state.doc.lineAt(decorationFrom)
-        const selectionRangeAtSameLine = transaction.selection?.ranges.find(
-          selectionRange =>
-            selectionRange.from <= lineWithDecoration.to &&
-            selectionRange.to >= lineWithDecoration.from
-        )
-        if (selectionRangeAtSameLine === undefined) {
-          // TODO: upgrade @codemirror/view and replace with `LineDecoration.eq`
-          if (decoration.spec.class !== lineDecoration.spec.class) {
-            return resultSet.update({
-              add: [lineDecoration.range(decorationFrom)],
+        const hasNewOverlappedSelection =
+          transaction.selection !== undefined &&
+          hasNonEmptySelectionAtLine(
+            transaction.state.doc.lineAt(decorationFrom),
+            transaction.selection.ranges
+          )
+        const expectedLineDecoration = hasNewOverlappedSelection
+          ? lineDecorationWithOpacity
+          : lineDecoration
+        return decoration.eq(expectedLineDecoration)
+          ? resultSet
+          : resultSet.update({
+              add: [expectedLineDecoration.range(decorationFrom)],
               filter: from => from !== decorationFrom
             })
-          }
-        } else {
-          const newLineDecoration = selectionRangeAtSameLine.empty
-            ? lineDecoration
-            : lineDecorationWithOpacity
-          // TODO: upgrade @codemirror/view and replace with `LineDecoration.eq`
-          if (newLineDecoration.spec.class !== decoration.spec.class) {
-            return resultSet.update({
-              add: [newLineDecoration.range(decorationFrom)],
-              filter: from => from !== decorationFrom
-            })
-          }
-        }
-        return resultSet
       },
       mappedDecorationSet
     )
@@ -69,15 +58,11 @@ const highlightLineField = StateField.define<DecorationSet>({
           ? resultSet.update({
               add: maybeNullable(effect.value.addByPos)
                 .map(pos => {
-                  const lineWithPos = transaction.state.doc.lineAt(pos)
-                  const hasSelectionAtSameLine = transaction.state.selection.ranges.some(
-                    selectionRange =>
-                      selectionRange.empty
-                        ? false
-                        : selectionRange.from <= lineWithPos.to &&
-                          selectionRange.to >= lineWithPos.from
+                  const hasOverlappedSelection = hasNonEmptySelectionAtLine(
+                    transaction.state.doc.lineAt(pos),
+                    transaction.state.selection.ranges
                   )
-                  const newLineDecoration = hasSelectionAtSameLine
+                  const newLineDecoration = hasOverlappedSelection
                     ? lineDecorationWithOpacity
                     : lineDecoration
                   return [newLineDecoration.range(pos)]
