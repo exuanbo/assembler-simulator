@@ -51,7 +51,7 @@ interface Tokenizer {
 }
 
 const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
-  const ruleEntries = Object.entries(rules)
+  const ruleEntries = Object.entries(rules) as Array<[TokenType, RegExp]>
   const regexp = new RegExp(ruleEntries.map(([, pattern]) => `(${pattern.source})`).join('|'), 'y')
   let buffer = ''
   return {
@@ -66,7 +66,7 @@ const createTokenizer = (rules: Record<TokenType, RegExp>): Tokenizer => {
         for (let ruleIndex = 0; ; ruleIndex++) {
           if (match[ruleIndex + 1] !== undefined) {
             const [type] = ruleEntries[ruleIndex]
-            return createToken(type as TokenType, match[0], match.index)
+            return createToken(type, match[0], match.index)
           }
         }
       }
