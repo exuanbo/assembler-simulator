@@ -26,10 +26,8 @@ export const reduceRangeSet = <T extends RangeValue, U>(
 ): U => {
   let accumulator = initialValue
   if (rangeSet.size > 0) {
-    const rangeCursor = rangeSet.iter()
-    while (rangeCursor.value !== null) {
+    for (const rangeCursor = rangeSet.iter(); rangeCursor.value !== null; rangeCursor.next()) {
       accumulator = callbackfn(accumulator, rangeCursor.value, rangeCursor.from, rangeCursor.to)
-      rangeCursor.next()
     }
   }
   return accumulator

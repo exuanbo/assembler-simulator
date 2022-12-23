@@ -99,8 +99,7 @@ const tokenizer = createTokenizer({
 export const tokenize = (input: string): Token[] => {
   tokenizer.reset(input)
   const tokens: Token[] = []
-  let token: Token | null
-  while ((token = tokenizer.next()) !== null) {
+  for (let token: Token | null; (token = tokenizer.next()) !== null; ) {
     if (token.type !== TokenType.Whitespace && token.type !== TokenType.Comment) {
       tokens.push(token)
       if (token.value === Mnemonic.END) {
