@@ -46,8 +46,8 @@ const breakpointField = StateField.define<BreakpointSet>({
 export const getBreakpointSet = (state: EditorState): BreakpointSet => state.field(breakpointField)
 
 const toggleBreakpoint = (view: EditorView, pos: number): void => {
-  const breakpointSet = getBreakpointSet(view.state)
   let hasBreakpoint = false
+  const breakpointSet = getBreakpointSet(view.state)
   breakpointSet.between(pos, pos, () => {
     hasBreakpoint = true
   })

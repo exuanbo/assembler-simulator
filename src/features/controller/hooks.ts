@@ -337,8 +337,8 @@ class Controller {
           )
         }
       }
-      const breakpoints = this.applySelector(selectEditorBreakpoints)
       let hasBreakpoint = false
+      const breakpoints = this.applySelector(selectEditorBreakpoints)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
         const breakpointLineLoc = breakpoints.find(lineLoc =>
           lineRangesOverlap(lineLoc, statement.range)
