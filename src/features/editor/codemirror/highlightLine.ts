@@ -19,8 +19,8 @@ export const HighlightLineEffect = StateEffect.define<{
 })
 
 const lineDecoration = Decoration.line({ class: 'cm-highlightLine' })
-const lineDecorationWithOpacity = Decoration.line({
-  class: 'cm-highlightLine--withOpacity',
+const lineDecorationWithTransparency = Decoration.line({
+  class: 'cm-highlightLine--withTransparency',
   // TODO: upgrade @codemirror/view and remove this
   attributes: {}
 })
@@ -41,7 +41,7 @@ const highlightLineField = StateField.define<DecorationSet>({
             transaction.selection.ranges
           )
         const expectedLineDecoration = hasNewOverlappedSelection
-          ? lineDecorationWithOpacity
+          ? lineDecorationWithTransparency
           : lineDecoration
         return decoration.eq(expectedLineDecoration)
           ? resultSet
@@ -63,7 +63,7 @@ const highlightLineField = StateField.define<DecorationSet>({
                     transaction.state.selection.ranges
                   )
                   const newLineDecoration = hasOverlappedSelection
-                    ? lineDecorationWithOpacity
+                    ? lineDecorationWithTransparency
                     : lineDecoration
                   return [newLineDecoration.range(pos)]
                 })
@@ -84,7 +84,7 @@ export const highlightLine = (): Extension => {
       '.cm-highlightLine': {
         backgroundColor: '#dcfce7 !important'
       },
-      '.cm-highlightLine--withOpacity': {
+      '.cm-highlightLine--withTransparency': {
         backgroundColor: '#dcfce780 !important'
       }
     })
