@@ -15,6 +15,10 @@ export const BreakpointEffect = StateEffect.define<{
 })
 
 class BreakpointMarker extends GutterMarker {
+  public override eq(other: GutterMarker): boolean {
+    return other instanceof BreakpointMarker
+  }
+
   public override toDOM(): Text {
     return document.createTextNode('●')
   }
@@ -87,22 +91,4 @@ export const breakpoints = (): Extension => {
       }
     })
   ]
-}
-
-export const breakpointsEqual = (a: BreakpointSet, b: BreakpointSet): boolean => {
-  if (b.size !== a.size) {
-    return false
-  }
-  if (b.size === 0) {
-    return true
-  }
-  const aCursor = a.iter()
-  const bCursor = b.iter()
-  const valueCount = b.size
-  for (let valueIndex = 0; valueIndex < valueCount; valueIndex++, aCursor.next(), bCursor.next()) {
-    if (bCursor.from !== aCursor.from || bCursor.to !== aCursor.to) {
-      return false
-    }
-  }
-  return true
 }

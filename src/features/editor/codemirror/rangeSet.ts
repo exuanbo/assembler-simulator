@@ -1,4 +1,12 @@
-import type { RangeValue, RangeSet } from '@codemirror/state'
+import { RangeValue, RangeSet } from '@codemirror/state'
+
+type AnyRangeSet = RangeSet<RangeValue>
+
+/**
+ * @param a new `RangeSet`
+ * @param b old `RangeSet`
+ */
+export const rangeSetsEqual = (a: AnyRangeSet, b: AnyRangeSet): boolean => RangeSet.eq([b], [a])
 
 type RangeValueCallback<T extends RangeValue, U> = (from: number, to: number, value: T) => U
 
