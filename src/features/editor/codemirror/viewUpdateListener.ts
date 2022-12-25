@@ -1,5 +1,6 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
+import type { NonNullishValue, Nullable } from '@/common/utils'
 
 type ViewUpdateListener = (update: ViewUpdate) => void
 
@@ -19,10 +20,6 @@ export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener)
     })
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/consistent-type-definitions
-type NonNullishValue = {}
-type Nullable<T> = T | null | undefined
 
 class SetWrapper<T extends NonNullishValue> implements Iterable<T> {
   private readonly _set: Set<T>

@@ -3,7 +3,7 @@
 // https://github.com/lukeed/clsx/blob/74cefa60314506f93a4db565c59152c6c0a2295c/src/index.js
 // MIT Licensed https://github.com/lukeed/clsx/blob/74cefa60314506f93a4db565c59152c6c0a2295c/license
 
-type Nullable<T> = T | null | undefined
+import type { Nullable } from './types'
 
 type Item = Nullable<string | Record<string, Nullable<boolean>>>
 
