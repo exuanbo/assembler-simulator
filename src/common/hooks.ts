@@ -1,20 +1,19 @@
 import { RefCallback, useState, useEffect, useReducer, useRef } from 'react'
 import { isFunction } from './utils/common'
+import type { NonNullishValue } from './utils/types'
 
 export const useToggle = (
   initialState: boolean
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
-const nil = Symbol('nil')
-
-export const useSingleton = <T>(initialValue: T | (() => T)): T => {
-  const ref = useRef<T | typeof nil>(nil)
-  if (ref.current === nil) {
+export const useSingleton = <T extends NonNullishValue>(instance: T | (() => T)): T => {
+  const instanceRef = useRef<T | null>(null)
+  if (instanceRef.current === null) {
     // https://github.com/microsoft/TypeScript/issues/37663
-    ref.current = isFunction(initialValue) ? initialValue() : initialValue
+    instanceRef.current = isFunction(instance) ? instance() : instance
   }
-  return ref.current
+  return instanceRef.current
 }
 
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
