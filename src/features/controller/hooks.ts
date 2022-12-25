@@ -61,7 +61,7 @@ import {
   resetIoState
 } from '@/features/io/ioSlice'
 import { setException } from '@/features/exception/exceptionSlice'
-import { useConstant } from '@/common/hooks'
+import { useSingleton } from '@/common/hooks'
 import { call } from '@/common/utils'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
@@ -405,7 +405,7 @@ class Controller {
 
 export const useController = (): Controller => {
   const store = useStore()
-  const controller = useConstant(() => new Controller(store))
+  const controller = useSingleton(() => new Controller(store))
 
   useEffect(() => {
     return listenAction(setEditorInput, controller.resetSelf)

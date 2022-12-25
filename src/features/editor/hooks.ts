@@ -33,7 +33,7 @@ import {
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpuState } from '@/features/cpu/cpuSlice'
-import { useConstant } from '@/common/hooks'
+import { useSingleton } from '@/common/hooks'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 enum AnnotationValue {
@@ -106,7 +106,7 @@ export const useAutoFocus = (): void => {
 
 export const useAutoAssemble = (): void => {
   const store = useStore()
-  const assemble = useConstant(() => createAssemble(store))
+  const assemble = useSingleton(() => createAssemble(store))
 
   useCodeMirrorEffect(view => {
     let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {

@@ -8,7 +8,7 @@ export const useToggle = (
 
 const nil = Symbol('nil')
 
-export const useConstant = <T>(initialValue: T | (() => T)): T => {
+export const useSingleton = <T>(initialValue: T | (() => T)): T => {
   const ref = useRef<T | typeof nil>(nil)
   if (ref.current === nil) {
     // https://github.com/microsoft/TypeScript/issues/37663
@@ -52,7 +52,7 @@ export const useHover = <T extends Element = Element>(
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
-  const mutableState = useConstant<{
+  const mutableState = useSingleton<{
     isHovered: boolean
     timeoutId?: number | undefined
   }>({
