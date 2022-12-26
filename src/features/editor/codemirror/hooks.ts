@@ -5,8 +5,7 @@ import {
   useState,
   useEffect,
   useContext,
-  useMemo,
-  useRef
+  useMemo
 } from 'react'
 import { EditorViewConfig, EditorView } from '@codemirror/view'
 import CodeMirrorContext from './Context'
@@ -15,63 +14,57 @@ export type CodeMirrorConfig = Pick<EditorViewConfig, 'doc' | 'extensions'>
 
 export interface CodeMirror<T extends Element = Element> {
   view: EditorView | undefined
-  ref: RefCallback<T>
+  containerRef: RefCallback<T>
 }
 
 export const useCodeMirror = <T extends Element = Element>(
   config?: CodeMirrorConfig
 ): CodeMirror<T> => {
-  const [refElement, setRefElement] = useState<T | null>(null)
-  const [currentView, setCurrentView] = useState<EditorView | undefined>()
+  const [container, setContainer] = useState<T | null>(null)
+  const [view, setView] = useState<EditorView | undefined>()
 
   useEffect(() => {
-    if (refElement === null) {
+    if (container === null) {
       return
     }
-    const view = new EditorView({
+    const currentView = new EditorView({
+      parent: container,
       root: document,
-      parent: refElement,
       ...config
     })
-    setCurrentView(view)
+    setView(currentView)
     return () => {
-      view.destroy()
-      setCurrentView(undefined)
+      currentView.destroy()
+      setView(undefined)
     }
-  }, [refElement, config])
+  }, [container, config])
 
   const codeMirror = useMemo<CodeMirror<T>>(() => {
     return {
-      view: currentView,
-      ref: setRefElement
+      view,
+      containerRef: setContainer
     }
-  }, [currentView])
+  }, [view])
   return codeMirror
 }
 
-export const useCodeMirrorView = (): EditorView | undefined => {
+export const useView = (): EditorView | undefined => {
   const { view } = useContext(CodeMirrorContext)
   return view
 }
 
-type CodeMirrorEffectCallback = (view: EditorView) => ReturnType<EffectCallback>
+type ViewEffectCallback = (view: EditorView) => ReturnType<EffectCallback>
 
-export const useCodeMirrorEffect = (
-  effect: CodeMirrorEffectCallback,
-  deps?: DependencyList
-): void => {
-  const view = useCodeMirrorView()
-  const flag = useRef(1)
-
+export const useViewEffect = (effect: ViewEffectCallback, deps: DependencyList): void => {
+  const view = useView()
   useEffect(() => {
-    flag.current <<= 1
     if (view !== undefined) {
       return effect(view)
     }
-  }, [view, ...(deps ?? [flag.current])])
+  }, [view, ...deps])
 }
 
-export const useCodeMirrorRef = <T extends Element = Element>(): RefCallback<T> => {
-  const { ref } = useContext(CodeMirrorContext)
-  return ref
+export const useContainerRef = <T extends Element = Element>(): RefCallback<T> => {
+  const { containerRef } = useContext(CodeMirrorContext)
+  return containerRef
 }

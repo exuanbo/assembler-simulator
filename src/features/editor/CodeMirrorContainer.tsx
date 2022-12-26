@@ -1,4 +1,4 @@
-import { useCodeMirrorRef } from './codemirror/hooks'
+import { useContainerRef } from './codemirror/hooks'
 import {
   useSyncInput,
   useAutoFocus,
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
-  const ref = useCodeMirrorRef()
+  const containerRef = useContainerRef()
 
   useSyncInput()
   useAutoFocus()
@@ -24,7 +24,10 @@ const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
   useBreakpoints()
 
   return (
-    <div ref={ref} className={classNames('cursor-auto select-auto overflow-y-auto', className)} />
+    <div
+      ref={containerRef}
+      className={classNames('cursor-auto select-auto overflow-y-auto', className)}
+    />
   )
 }
 

@@ -4,7 +4,7 @@ import { noop } from '@/common/utils'
 
 const CodeMirrorContext = createContext<CodeMirror>({
   view: undefined,
-  ref: noop
+  containerRef: noop
 })
 
 if (import.meta.env.DEV) {

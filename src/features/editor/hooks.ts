@@ -17,7 +17,7 @@ import {
   clearEditorMessage
 } from './editorSlice'
 import { template } from './examples'
-import { useCodeMirrorEffect } from './codemirror/hooks'
+import { useViewEffect } from './codemirror/hooks'
 import { listenViewUpdate } from './codemirror/viewUpdateListener'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
@@ -45,7 +45,7 @@ const isChangedFromState = hasStringAnnotation(AnnotationValue.ChangedFromState)
 export const useSyncInput = (): void => {
   const store = useStore()
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     let syncInputTimeoutId: number | undefined
     return listenViewUpdate(view, update => {
       if (!update.docChanged) {
@@ -69,7 +69,7 @@ export const useSyncInput = (): void => {
     })
   }, [])
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
         view.dispatch({
@@ -87,7 +87,7 @@ export const useSyncInput = (): void => {
 }
 
 export const useAutoFocus = (): void => {
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile && value === template.content) {
         view.focus()
@@ -108,7 +108,7 @@ export const useAutoAssemble = (): void => {
   const store = useStore()
   const assemble = useSingleton(() => createAssemble(store))
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {
       if (selectAutoAssemble(store.getState())) {
         assemble(textToString(view.state.doc))
@@ -140,7 +140,7 @@ export const useAutoAssemble = (): void => {
 export const useAssemblerError = (): void => {
   const store = useStore()
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return listenViewUpdate(view, update => {
       if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
         store.dispatch(clearAssemblerError())
@@ -148,7 +148,7 @@ export const useAssemblerError = (): void => {
     })
   }, [])
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return watch(selectAssemblerErrorRange, errorRange => {
       const hasError = errorRange !== undefined
       view.dispatch({
@@ -170,7 +170,7 @@ export const useHighlightLine = (): void => {
     })
   }, [])
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return watch(selectEditorHighlightLinePos(view), linePos => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
@@ -199,7 +199,7 @@ export const useHighlightLine = (): void => {
 export const useBreakpoints = (): void => {
   const store = useStore()
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     return listenViewUpdate(view, update => {
       if (update.docChanged) {
         const breakpointSet = getBreakpointSet(update.state)
@@ -226,7 +226,7 @@ export const useBreakpoints = (): void => {
     })
   }, [])
 
-  useCodeMirrorEffect(view => {
+  useViewEffect(view => {
     const breakpoints = selectEditorBreakpoints(store.getState())
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
