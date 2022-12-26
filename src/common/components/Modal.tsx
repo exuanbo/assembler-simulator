@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect, useRef } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 const containerWrapper = document.getElementById('modal-root')!
@@ -10,31 +10,23 @@ interface Props {
 }
 
 const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
-  const [isContainerReady, setContainerReady] = useState(false)
-  const isReady = isOpen && isContainerReady
+  const [container, setContainer] = useState<HTMLDivElement | null>(null)
+  const isReady = isOpen && container !== null
 
   useEffect(() => {
     if (!isOpen) {
       return
     }
-    if (containerRef.current === null) {
-      const container = document.createElement('div')
-      container.className = className
-      containerRef.current = container
-    }
-    const currentContainer = containerRef.current
+    const currentContainer = Object.assign(document.createElement('div'), { className })
     containerWrapper.appendChild(currentContainer)
-    setContainerReady(true)
+    setContainer(currentContainer)
     return () => {
-      containerRef.current = null
       containerWrapper.removeChild(currentContainer)
-      setContainerReady(false)
+      setContainer(null)
     }
   }, [isOpen, className])
 
-  return isReady ? createPortal(children, containerRef.current!) : null
+  return isReady ? createPortal(children, container) : null
 }
 
 export default Modal
