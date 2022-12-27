@@ -1,29 +1,35 @@
 {
   "compilerOptions": {
+    // Type Checking
     "noImplicitOverride": true,
     "strict": true,
 
-    "baseUrl": ".",
+    // Modules
     "module": "ESNext",
     "moduleResolution": "node",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
 
+    // Emit
     "noEmit": true,
 
+    // Interop Constraints
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
 
+    // Language and Environment
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "target": "ESNext",
     "useDefineForClassFields": true,
 
+    // Output Formatting
     "noErrorTruncation": true,
 
+    // Completeness
     "skipLibCheck": true
   }
 }
