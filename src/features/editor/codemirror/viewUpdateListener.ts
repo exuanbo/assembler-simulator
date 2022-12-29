@@ -59,7 +59,7 @@ const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>
     return transaction.effects.reduce(
       (resultSetWrapper, effect) =>
         effect.is(ViewUpdateListenerEffect)
-          ? resultSetWrapper.addNullable(effect.value.add).deleteNullable(effect.value.remove)
+          ? resultSetWrapper.deleteNullable(effect.value.remove).addNullable(effect.value.add)
           : resultSetWrapper,
       listenerSetWrapper
     )
