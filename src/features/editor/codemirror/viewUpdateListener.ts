@@ -55,13 +55,13 @@ const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>
   create() {
     return new SetWrapper()
   },
-  update(listenerSetWrapper, transaction) {
+  update(listeners, transaction) {
     return transaction.effects.reduce(
-      (resultSetWrapper, effect) =>
+      (resultListeners, effect) =>
         effect.is(ViewUpdateListenerEffect)
-          ? resultSetWrapper.deleteNullable(effect.value.remove).addNullable(effect.value.add)
-          : resultSetWrapper,
-      listenerSetWrapper
+          ? resultListeners.deleteNullable(effect.value.remove).addNullable(effect.value.add)
+          : resultListeners,
+      listeners
     )
   },
   provide: thisField =>

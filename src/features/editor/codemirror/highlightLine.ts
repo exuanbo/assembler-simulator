@@ -29,11 +29,11 @@ const highlightLineField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
-  update(decorationSet, transaction) {
-    const mappedDecorationSet = decorationSet.map(transaction.changes)
-    const updatedDecorationSet = reduceRangeSet(
-      mappedDecorationSet,
-      (resultSet, decoration, decorationFrom) => {
+  update(decorations, transaction) {
+    const mappedDecorations = decorations.map(transaction.changes)
+    const updatedDecorations = reduceRangeSet(
+      mappedDecorations,
+      (resultDecorations, decoration, decorationFrom) => {
         const hasNewOverlappedSelection =
           transaction.selection !== undefined &&
           hasNonEmptySelectionAtLine(
@@ -44,18 +44,18 @@ const highlightLineField = StateField.define<DecorationSet>({
           ? lineDecorationWithTransparency
           : lineDecoration
         return decoration.eq(expectedLineDecoration)
-          ? resultSet
-          : resultSet.update({
+          ? resultDecorations
+          : resultDecorations.update({
               add: [expectedLineDecoration.range(decorationFrom)],
               filter: from => from !== decorationFrom
             })
       },
-      mappedDecorationSet
+      mappedDecorations
     )
     return transaction.effects.reduce(
-      (resultSet, effect) =>
+      (resultDecorations, effect) =>
         effect.is(HighlightLineEffect)
-          ? resultSet.update({
+          ? resultDecorations.update({
               add: maybeNullable(effect.value.addByPos)
                 .map(pos => {
                   const hasOverlappedSelection = hasNonEmptySelectionAtLine(
@@ -70,8 +70,8 @@ const highlightLineField = StateField.define<DecorationSet>({
                 .extract(),
               filter: effect.value.filter
             })
-          : resultSet,
-      updatedDecorationSet
+          : resultDecorations,
+      updatedDecorations
     )
   },
   provide: thisField => EditorView.decorations.from(thisField)

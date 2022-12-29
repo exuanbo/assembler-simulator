@@ -32,17 +32,17 @@ const breakpointField = StateField.define<BreakpointSet>({
   create() {
     return RangeSet.empty
   },
-  update(markerSet, transaction) {
+  update(breakpoints, transaction) {
     return transaction.effects.reduce(
-      (resultSet, effect) =>
+      (resultBreakpoints, effect) =>
         effect.is(BreakpointEffect)
-          ? resultSet.update(
+          ? resultBreakpoints.update(
               effect.value.on
                 ? { add: [breakpointMarker.range(effect.value.pos)] }
                 : { filter: from => from !== effect.value.pos }
             )
-          : resultSet,
-      markerSet.map(transaction.changes)
+          : resultBreakpoints,
+      breakpoints.map(transaction.changes)
     )
   }
 })
