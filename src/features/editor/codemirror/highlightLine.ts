@@ -2,6 +2,7 @@ import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import { RangeSetUpdateFilter, reduceRangeSet } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
+import { mapStateEffectValue } from './state'
 import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
@@ -55,21 +56,23 @@ const highlightLineField = StateField.define<DecorationSet>({
     return transaction.effects.reduce(
       (resultDecorations, effect) =>
         effect.is(HighlightLineEffect)
-          ? resultDecorations.update({
-              add: maybeNullable(effect.value.addByPos)
-                .map(pos => {
-                  const hasOverlappedSelection = hasNonEmptySelectionAtLine(
-                    transaction.state.doc.lineAt(pos),
-                    transaction.state.selection.ranges
-                  )
-                  const newLineDecoration = hasOverlappedSelection
-                    ? lineDecorationWithTransparency
-                    : lineDecoration
-                  return [newLineDecoration.range(pos)]
-                })
-                .extract(),
-              filter: effect.value.filter
-            })
+          ? mapStateEffectValue(effect, ({ addByPos, filter }) =>
+              resultDecorations.update({
+                add: maybeNullable(addByPos)
+                  .map(pos => {
+                    const hasOverlappedSelection = hasNonEmptySelectionAtLine(
+                      transaction.state.doc.lineAt(pos),
+                      transaction.state.selection.ranges
+                    )
+                    const newLineDecoration = hasOverlappedSelection
+                      ? lineDecorationWithTransparency
+                      : lineDecoration
+                    return [newLineDecoration.range(pos)]
+                  })
+                  .extract(),
+                filter
+              })
+            )
           : resultDecorations,
       updatedDecorations
     )

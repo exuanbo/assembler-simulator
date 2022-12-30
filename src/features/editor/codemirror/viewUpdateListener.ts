@@ -1,5 +1,6 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
+import { mapStateEffectValue } from './state'
 import type { NonNullishValue, Nullable } from '@/common/utils'
 
 type ViewUpdateListener = (update: ViewUpdate) => void
@@ -59,7 +60,9 @@ const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>
     return transaction.effects.reduce(
       (resultListeners, effect) =>
         effect.is(ViewUpdateListenerEffect)
-          ? resultListeners.deleteNullable(effect.value.remove).addNullable(effect.value.add)
+          ? mapStateEffectValue(effect, ({ add: listenerToAdd, remove: listenerToRemove }) =>
+              resultListeners.deleteNullable(listenerToRemove).addNullable(listenerToAdd)
+            )
           : resultListeners,
       listeners
     )
