@@ -5,9 +5,12 @@ import type { NonNullishValue, Nullable } from '@/common/utils'
 
 type ViewUpdateListener = (update: ViewUpdate) => void
 
-const ViewUpdateListenerEffect = StateEffect.define<{
-  [actionName in 'add' | 'remove']?: ViewUpdateListener
-}>()
+interface ViewUpdateListenerAction {
+  add?: ViewUpdateListener
+  remove?: ViewUpdateListener
+}
+
+const ViewUpdateListenerEffect = StateEffect.define<ViewUpdateListenerAction>()
 
 type Unsubscribe = () => void
 
@@ -60,8 +63,8 @@ const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>
     return transaction.effects.reduce(
       (resultListeners, effect) =>
         effect.is(ViewUpdateListenerEffect)
-          ? mapStateEffectValue(effect, ({ add: listenerToAdd, remove: listenerToRemove }) =>
-              resultListeners.deleteNullable(listenerToRemove).addNullable(listenerToAdd)
+          ? mapStateEffectValue(effect, listenerAction =>
+              resultListeners.deleteNullable(listenerAction.remove).addNullable(listenerAction.add)
             )
           : resultListeners,
       listeners
