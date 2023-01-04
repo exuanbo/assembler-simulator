@@ -68,8 +68,14 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
 
 export const toggleBreakpointOnMouseEvent: GutterDOMEventHandler = (view, line, event) => {
   if (event instanceof MouseEvent && event.offsetY <= line.bottom) {
-    toggleBreakpoint(view, line.from)
-    return true
+    if (event.target instanceof Element) {
+      // matches cursor style
+      if (event.target.classList.contains('cm-breakpoints')) {
+        return false
+      }
+      toggleBreakpoint(view, line.from)
+      return true
+    }
   }
   return false
 }
