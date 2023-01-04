@@ -21,9 +21,7 @@ export const HighlightLineEffect = StateEffect.define<{
 
 const lineDecoration = Decoration.line({ class: 'cm-highlightLine' })
 const lineDecorationWithTransparency = Decoration.line({
-  class: 'cm-highlightLine--withTransparency',
-  // TODO: upgrade @codemirror/view and remove this
-  attributes: {}
+  class: 'cm-highlightLine--withTransparency'
 })
 
 const highlightLineField = StateField.define<DecorationSet>({
