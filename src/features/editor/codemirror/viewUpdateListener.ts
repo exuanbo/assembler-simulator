@@ -25,7 +25,7 @@ export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener)
   }
 }
 
-class SetWrapper<T extends NonNullishValue> {
+class SetProxy<T extends NonNullishValue> {
   private readonly _set: Set<T>
 
   constructor(set: Set<T> = new Set()) {
@@ -36,28 +36,28 @@ class SetWrapper<T extends NonNullishValue> {
     return this._set
   }
 
-  public addNullable(value: Nullable<T>): SetWrapper<T> {
+  public addNullable(value: Nullable<T>): SetProxy<T> {
     if (value == null || this._set.has(value)) {
       return this
     }
     this._set.add(value)
-    return new SetWrapper(this._set)
+    return new SetProxy(this._set)
   }
 
-  public deleteNullable(value: Nullable<T>): SetWrapper<T> {
+  public deleteNullable(value: Nullable<T>): SetProxy<T> {
     if (value == null || !this._set.has(value)) {
       return this
     }
     this._set.delete(value)
-    return new SetWrapper(this._set)
+    return new SetProxy(this._set)
   }
 }
 
-type ViewUpdateListenerSetWrapper = SetWrapper<ViewUpdateListener>
+type ViewUpdateListenerSetProxy = SetProxy<ViewUpdateListener>
 
-const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>({
+const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetProxy>({
   create() {
-    return new SetWrapper()
+    return new SetProxy()
   },
   update(listeners, transaction) {
     return transaction.effects.reduce(
@@ -72,8 +72,8 @@ const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetWrapper>
   },
   provide: thisField =>
     EditorView.updateListener.computeN([thisField], state => {
-      const listenerSetWrapper = state.field(thisField)
-      return [...listenerSetWrapper.unwrap()]
+      const listenerSetProxy = state.field(thisField)
+      return [...listenerSetProxy.unwrap()]
     })
 })
 
