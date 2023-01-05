@@ -8,12 +8,12 @@ export const WavyUnderlineEffect = StateEffect.define<{
   add?: { from: number; to: number }
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ add, filter }, mapping) {
+  map({ add, filter }, change) {
     return {
       add: maybeNullable(add)
         .map(({ from, to }) => ({
-          from: mapping.mapPos(from),
-          to: mapping.mapPos(to)
+          from: change.mapPos(from),
+          to: change.mapPos(to)
         }))
         .extract(),
       filter

@@ -9,10 +9,10 @@ export const HighlightLineEffect = StateEffect.define<{
   addByPos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ addByPos, filter }, mapping) {
+  map({ addByPos, filter }, change) {
     return {
       addByPos: maybeNullable(addByPos)
-        .map(pos => mapping.mapPos(pos))
+        .map(pos => change.mapPos(pos))
         .extract(),
       filter
     }
