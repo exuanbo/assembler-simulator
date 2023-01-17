@@ -1,6 +1,13 @@
-import { Annotation, Transaction } from '@codemirror/state'
+import { Annotation, TransactionSpec, Transaction } from '@codemirror/state'
 
-export const StringAnnotation = Annotation.define<string>()
+const StringAnnotation = Annotation.define<string>()
+
+export const withStringAnnotation =
+  (value: string) =>
+  (spec: TransactionSpec): TransactionSpec => ({
+    ...spec,
+    annotations: [StringAnnotation.of(value)].concat(spec.annotations ?? [])
+  })
 
 export const hasStringAnnotation =
   (value: string) =>

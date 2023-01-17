@@ -22,7 +22,7 @@ import { listenViewUpdate } from './codemirror/viewUpdateListener'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointSet } from './codemirror/breakpoints'
-import { StringAnnotation, hasStringAnnotation } from './codemirror/annotations'
+import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
 import { rangeSetsEqual, mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
@@ -37,10 +37,11 @@ import { useSingleton } from '@/common/hooks'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 enum AnnotationValue {
-  ChangedFromState = 'ChangedFromState'
+  SyncFromState = 'SyncFromState'
 }
 
-const isChangedFromState = hasStringAnnotation(AnnotationValue.ChangedFromState)
+const syncFromState = withStringAnnotation(AnnotationValue.SyncFromState)
+const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 
 export const useSyncInput = (): void => {
   const store = useStore()
@@ -58,7 +59,7 @@ export const useSyncInput = (): void => {
       // document changes must be caused by at least one transaction
       const firstTransaction = update.transactions[0]
       // only one transaction is dispatched if input is set from file
-      if (isChangedFromState(firstTransaction)) {
+      if (isSyncFromState(firstTransaction)) {
         return
       }
       const input = textToString(update.state.doc)
@@ -72,14 +73,15 @@ export const useSyncInput = (): void => {
   useViewEffect(view => {
     return listenAction(setEditorInput, ({ value, isFromFile }) => {
       if (isFromFile) {
-        view.dispatch({
-          changes: {
-            from: 0,
-            to: view.state.doc.length,
-            insert: value
-          },
-          annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
-        })
+        view.dispatch(
+          syncFromState({
+            changes: {
+              from: 0,
+              to: view.state.doc.length,
+              insert: value
+            }
+          })
+        )
         view.contentDOM.blur()
       }
     })
@@ -212,7 +214,7 @@ export const useBreakpoints = (): void => {
       } else {
         // we only consider the first transaction
         const transaction = update.transactions[0]
-        if (transaction === undefined || isChangedFromState(transaction)) {
+        if (transaction === undefined || isSyncFromState(transaction)) {
           return
         }
         transaction.effects.forEach(effect => {
@@ -237,19 +239,21 @@ export const useBreakpoints = (): void => {
     if (validBreakpoints.length < breakpoints.length) {
       store.dispatch(setBreakpoints(validBreakpoints))
     }
-    if (validBreakpoints.length > 0) {
-      const breakpointSet = getBreakpointSet(view.state)
-      if (breakpointSet.size === 0) {
-        view.dispatch({
+    if (validBreakpoints.length === 0) {
+      return
+    }
+    const breakpointSet = getBreakpointSet(view.state)
+    if (breakpointSet.size === 0) {
+      view.dispatch(
+        syncFromState({
           effects: validBreakpoints.map(lineLoc =>
             BreakpointEffect.of({
               pos: lineLoc.from,
               on: true
             })
-          ),
-          annotations: StringAnnotation.of(AnnotationValue.ChangedFromState)
+          )
         })
-      }
+      )
     }
   }, [])
 }
