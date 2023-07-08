@@ -7,9 +7,8 @@ import { selectIsRunning } from '@/features/controller/controllerSlice'
 
 const ResizablePanel = (props: ResizablePanelProps): JSX.Element => {
   const isRunning = useSelector(selectIsRunning)
-  // const resizeThrottleMs = isRunning ? 50 : 10
-  const resizeThrottleMs = DEFAULT_RESIZE_THROTTLE_MS * (isRunning ? 2 : 0.4)
-  return <BaseResizablePanel resizeThrottleMs={resizeThrottleMs} {...props} />
+  const throttleMs = DEFAULT_RESIZE_THROTTLE_MS * (isRunning ? 5 : 1)
+  return <BaseResizablePanel throttle={throttleMs} {...props} />
 }
 
 export default ResizablePanel
