@@ -66,5 +66,5 @@ export const merge = <TTarget extends PlainObject, TSources extends PlainObject[
   target: TTarget,
   ...sources: TSources
 ): ExpandDeep<ObjectTypeUtils.Assign<TTarget, TSources, 'deep'>> =>
-  // @ts-expect-error: safe to ignore
-  sources.reduce((resultObject, source) => mergeRecursively(resultObject, source), target)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sources.reduce<any>((resultObject, source) => mergeRecursively(resultObject, source), target)

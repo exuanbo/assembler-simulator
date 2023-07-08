@@ -1,3 +1,5 @@
+import { Nullable } from './types'
+
 export interface Maybe<T> {
   isJust: () => boolean
   isNothing: () => boolean
@@ -28,6 +30,6 @@ export const nothing = <T>(): Maybe<T> => ({
   extractNullable: () => null
 })
 
-type MaybeNullable = <T>(value: T | null | undefined) => Maybe<T>
+type MaybeNullable = <T>(value: Nullable<T>) => Maybe<T>
 
 export const maybeNullable: MaybeNullable = value => (value == null ? nothing() : just(value))
