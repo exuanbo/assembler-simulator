@@ -82,7 +82,6 @@ export const useSyncInput = (): void => {
             }
           })
         )
-        view.contentDOM.blur()
       }
     })
   }, [])
@@ -192,7 +191,6 @@ export const useHighlightLine = (): void => {
           selection: { anchor: linePos[0] },
           scrollIntoView: true
         })
-        view.contentDOM.blur()
       }
     })
   }, [])
