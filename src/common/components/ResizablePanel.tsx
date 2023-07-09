@@ -31,8 +31,13 @@ const ResizablePanel = ({
 
   const getAvailableWidth = (): number => getTotalWidth() - rightChildRef.current!.offsetWidth
 
-  const [leftChildWidth, setLeftChildWidth] = useState<number>()
+  const [leftChildWidth, __setLeftChildWidth] = useState<number>()
   const isReady = leftChildWidth !== undefined
+
+  const setLeftChildWidth = (width: number): void => {
+    const roundedWidth = Math.round(width)
+    __setLeftChildWidth(roundedWidth)
+  }
 
   useLayoutEffect(() => {
     if (!isReady) {
