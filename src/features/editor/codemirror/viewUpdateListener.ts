@@ -1,7 +1,7 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, ViewUpdate } from '@codemirror/view'
 import { mapStateEffectValue } from './state'
-import type { NonNullishValue, Nullable } from '@/common/utils'
+import { maybeNullable } from '@/common/utils'
 
 type ViewUpdateListener = (update: ViewUpdate) => void
 
@@ -25,55 +25,35 @@ export const listenViewUpdate = (view: EditorView, listener: ViewUpdateListener)
   }
 }
 
-class SetProxy<T extends NonNullishValue> {
-  private readonly _set: Set<T>
+type ViewUpdateListenerSet = Set<ViewUpdateListener>
 
-  constructor(set: Set<T> = new Set()) {
-    this._set = set
-  }
-
-  public unwrap(): Set<T> {
-    return this._set
-  }
-
-  public addNullable(value: Nullable<T>): SetProxy<T> {
-    if (value == null || this._set.has(value)) {
-      return this
-    }
-    this._set.add(value)
-    return new SetProxy(this._set)
-  }
-
-  public deleteNullable(value: Nullable<T>): SetProxy<T> {
-    if (value == null || !this._set.has(value)) {
-      return this
-    }
-    this._set.delete(value)
-    return new SetProxy(this._set)
-  }
-}
-
-type ViewUpdateListenerSetProxy = SetProxy<ViewUpdateListener>
-
-const viewUpdateListenersField = StateField.define<ViewUpdateListenerSetProxy>({
+const viewUpdateListenersField = StateField.define<ViewUpdateListenerSet>({
   create() {
-    return new SetProxy()
+    return new Set()
   },
   update(listeners, transaction) {
     return transaction.effects.reduce(
       (resultListeners, effect) =>
         effect.is(ViewUpdateListenerEffect)
-          ? mapStateEffectValue(effect, listenerAction =>
-              resultListeners.deleteNullable(listenerAction.remove).addNullable(listenerAction.add)
-            )
+          ? mapStateEffectValue(effect, ({ add, remove }) => {
+              const updatedListeners = new Set(resultListeners)
+              maybeNullable(add).ifJust(listener => updatedListeners.add(listener))
+              maybeNullable(remove).ifJust(listener => updatedListeners.delete(listener))
+              return updatedListeners
+            })
           : resultListeners,
       listeners
     )
   },
+  compare(xs, ys) {
+    return xs === ys || (xs.size === ys.size && [...xs].every(x => ys.has(x)))
+  },
   provide: thisField =>
-    EditorView.updateListener.computeN([thisField], state => {
-      const listenerSetProxy = state.field(thisField)
-      return [...listenerSetProxy.unwrap()]
+    EditorView.updateListener.compute([thisField], state => {
+      const listenerSet = state.field(thisField)
+      return update => {
+        listenerSet.forEach(listener => listener(update))
+      }
     })
 })
 

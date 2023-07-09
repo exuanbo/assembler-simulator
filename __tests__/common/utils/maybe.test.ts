@@ -66,4 +66,28 @@ describe('Maybe', () => {
       expect(result).toBe(2)
     })
   })
+
+  describe('ifJust', () => {
+    it('should call a function with a value', () => {
+      expect.assertions(1)
+      maybeNullable(1).ifJust(x => expect(x).toBe(1))
+    })
+
+    it('should not call a function', () => {
+      expect.assertions(0)
+      maybeNullable(null).ifJust(() => expect(true).toBeFalsy())
+    })
+  })
+
+  describe('ifNothing', () => {
+    it('should not call a function', () => {
+      expect.assertions(0)
+      maybeNullable(1).ifNothing(() => expect(true).toBeFalsy())
+    })
+
+    it('should call a function', () => {
+      expect.assertions(1)
+      maybeNullable(null).ifNothing(() => expect(true).toBeTruthy())
+    })
+  })
 })
