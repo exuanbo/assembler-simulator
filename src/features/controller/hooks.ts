@@ -146,7 +146,7 @@ class Controller {
         this.setInterruptInterval()
       }
     }
-    await this.step(/* isUserAction: */ true)
+    await this.step({ isUserAction: true })
   }
 
   private setStepInterval(): void {
@@ -184,7 +184,7 @@ class Controller {
     }
   }
 
-  public step = async (isUserAction = false): Promise<void> => {
+  public step = async ({ isUserAction = false } = {}): Promise<void> => {
     const lastStepResult = await this.lastStep
     if (isUserAction) {
       this.store.dispatch(setInterrupt(false))
