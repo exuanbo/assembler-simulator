@@ -82,6 +82,9 @@ class Controller {
   private lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
 
   private dispatchChangesTimeoutId: number | undefined
+  private get willDispatchChanges(): boolean {
+    return this.dispatchChangesTimeoutId !== undefined
+  }
 
   private unsubscribeSetSuspended: (() => void) | undefined
 
@@ -233,6 +236,7 @@ class Controller {
       const changeAddress = changes.memoryData?.address
       const isVduBufferChanged = changeAddress !== undefined && changeAddress >= VDU_START_ADDRESS
       const dispatchChanges = (): void => {
+        this.cancelDispatchChanges()
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
           this.store.dispatch(setMemoryData(memoryData))
           if (isVduBufferChanged) {
@@ -247,9 +251,7 @@ class Controller {
           this.dispatchChangesTimeoutId = undefined
         })
       }
-      let willDispatchChanges = false
-      if (this.dispatchChangesTimeoutId === undefined || isVduBufferChanged) {
-        willDispatchChanges = true
+      if (!this.willDispatchChanges || isVduBufferChanged) {
         dispatchChanges()
       }
       const isRunning = this.applySelector(selectIsRunning)
@@ -346,7 +348,7 @@ class Controller {
         if (breakpointLineLoc !== undefined) {
           hasBreakpoint = true
           if (breakpointLineLoc.number !== this.lastBreakpointLineNumber) {
-            if (!willDispatchChanges) {
+            if (!this.willDispatchChanges) {
               dispatchChanges()
             }
             // `isRunning` is already checked
@@ -360,6 +362,13 @@ class Controller {
       }
       resolve({ memoryData, cpuRegisters })
     })
+  }
+
+  private cancelDispatchChanges(): void {
+    if (this.dispatchChangesTimeoutId !== undefined) {
+      window.clearTimeout(this.dispatchChangesTimeoutId)
+      this.dispatchChangesTimeoutId = undefined
+    }
   }
 
   private resetBreakpointLineNumber(): void {
@@ -388,13 +397,6 @@ class Controller {
       this.unsubscribeSetSuspended!()
       this.unsubscribeSetSuspended = undefined
       this.store.dispatch(setSuspended(false))
-    }
-  }
-
-  private cancelDispatchChanges(): void {
-    if (this.dispatchChangesTimeoutId !== undefined) {
-      window.clearTimeout(this.dispatchChangesTimeoutId)
-      this.dispatchChangesTimeoutId = undefined
     }
   }
 
