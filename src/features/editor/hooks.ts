@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { listenAction } from '@/app/actionListener'
 import { watch } from '@/app/watcher'
 import { useStore, useSelector } from '@/app/hooks'
@@ -18,7 +19,6 @@ import {
 } from './editorSlice'
 import { template } from './examples'
 import { useViewEffect } from './codemirror/hooks'
-import { listenViewUpdate } from './codemirror/viewUpdateListener'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointSet } from './codemirror/breakpoints'
@@ -48,7 +48,7 @@ export const useSyncInput = (): void => {
 
   useViewEffect(view => {
     let syncInputTimeoutId: number | undefined
-    return listenViewUpdate(view, update => {
+    return addUpdateListener(view, update => {
       if (!update.docChanged) {
         return
       }
@@ -142,7 +142,7 @@ export const useAssemblerError = (): void => {
   const store = useStore()
 
   useViewEffect(view => {
-    return listenViewUpdate(view, update => {
+    return addUpdateListener(view, update => {
       if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
         store.dispatch(clearAssemblerError())
       }
@@ -200,7 +200,7 @@ export const useBreakpoints = (): void => {
   const store = useStore()
 
   useViewEffect(view => {
-    return listenViewUpdate(view, update => {
+    return addUpdateListener(view, update => {
       if (update.docChanged) {
         const breakpointSet = getBreakpointSet(update.state)
         if (!rangeSetsEqual(breakpointSet, getBreakpointSet(update.startState))) {
