@@ -1,8 +1,8 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import { RangeSetUpdateFilter, reduceRangeSet } from './rangeSet'
+import { reduceRangeSet, isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
+import type { RangeSetUpdateFilter } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
-import { mapStateEffectValue } from './state'
 import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
@@ -29,9 +29,9 @@ const highlightLineField = StateField.define<DecorationSet>({
     return Decoration.none
   },
   update(decorations, transaction) {
-    const mappedDecorations = decorations.map(transaction.changes)
+    decorations = decorations.map(transaction.changes)
     const updatedDecorations = reduceRangeSet(
-      mappedDecorations,
+      decorations,
       (resultDecorations, decoration, decorationFrom) => {
         const hasNewOverlappedSelection =
           transaction.selection !== undefined &&
@@ -49,29 +49,27 @@ const highlightLineField = StateField.define<DecorationSet>({
               filter: from => from !== decorationFrom
             })
       },
-      mappedDecorations
+      decorations
     )
-    return transaction.effects.reduce(
+    return transaction.effects.filter(isEffectOfType(HighlightLineEffect)).reduce(
       (resultDecorations, effect) =>
-        effect.is(HighlightLineEffect)
-          ? mapStateEffectValue(effect, ({ addByPos, filter }) =>
-              resultDecorations.update({
-                add: maybeNullable(addByPos)
-                  .map(pos => {
-                    const hasOverlappedSelection = hasNonEmptySelectionAtLine(
-                      transaction.state.doc.lineAt(pos),
-                      transaction.state.selection.ranges
-                    )
-                    const newLineDecoration = hasOverlappedSelection
-                      ? lineDecorationWithTransparency
-                      : lineDecoration
-                    return [newLineDecoration.range(pos)]
-                  })
-                  .extract(),
-                filter
+        mapEffectValue(effect, ({ addByPos, filter }) =>
+          resultDecorations.update({
+            add: maybeNullable(addByPos)
+              .map(pos => {
+                const hasOverlappedSelection = hasNonEmptySelectionAtLine(
+                  transaction.state.doc.lineAt(pos),
+                  transaction.state.selection.ranges
+                )
+                const newLineDecoration = hasOverlappedSelection
+                  ? lineDecorationWithTransparency
+                  : lineDecoration
+                return [newLineDecoration.range(pos)]
               })
-            )
-          : resultDecorations,
+              .extract(),
+            filter
+          })
+        ),
       updatedDecorations
     )
   },

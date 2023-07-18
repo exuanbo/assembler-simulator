@@ -2,7 +2,7 @@ import type { Extension } from '@codemirror/state'
 import { keymap, drawSelection } from '@codemirror/view'
 import { history, defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
-import { updateListeners } from '@codemirror-toolkit/extensions'
+import { updateListener } from '@codemirror-toolkit/extensions'
 import { theme } from './theme'
 import { asm } from './asm'
 import { highlightSelectionMatches } from './highlightSelectionMatches'
@@ -19,7 +19,7 @@ export const getSetup = (): Extension => {
     drawSelection(),
     history(),
     closeBrackets(),
-    updateListeners(),
+    updateListener(),
     theme(),
     asm(),
     highlightActiveLine(),

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
+import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
 import { listenAction } from '@/app/actionListener'
 import { watch } from '@/app/watcher'
 import { useStore, useSelector } from '@/app/hooks'
@@ -24,7 +25,6 @@ import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointSet } from './codemirror/breakpoints'
 import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
-import { rangeSetsEqual, mapRangeSetToArray } from './codemirror/rangeSet'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { createAssemble } from '@/features/assembler/assemble'
 import {
@@ -204,7 +204,7 @@ export const useBreakpoints = (): void => {
       if (update.docChanged) {
         const breakpointSet = getBreakpointSet(update.state)
         if (!rangeSetsEqual(breakpointSet, getBreakpointSet(update.startState))) {
-          const breakpoints = mapRangeSetToArray(breakpointSet, from =>
+          const breakpoints = mapRangeSetToArray(breakpointSet, (_, from) =>
             lineLocAt(update.state.doc, from)
           )
           store.dispatch(setBreakpoints(breakpoints))
