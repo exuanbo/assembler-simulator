@@ -28,8 +28,8 @@ const highlightLineField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
-  update(decorations, transaction) {
-    decorations = decorations.map(transaction.changes)
+  update(__decorations, transaction) {
+    const decorations = __decorations.map(transaction.changes)
     const updatedDecorations = reduceRangeSet(
       decorations,
       (resultDecorations, decoration, decorationFrom) => {
