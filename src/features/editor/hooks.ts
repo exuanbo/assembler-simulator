@@ -24,7 +24,7 @@ import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointSet } from './codemirror/breakpoints'
 import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
-import { textToString, lineLocAt, lineRangesEqual } from './codemirror/text'
+import { lineLocAt, lineRangesEqual } from './codemirror/text'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
 import { createAssemble } from '@/features/assembler/assemble'
 import {
@@ -62,8 +62,8 @@ export const useSyncInput = (): void => {
       if (isSyncFromState(firstTransaction)) {
         return
       }
-      const input = textToString(update.state.doc)
       syncInputTimeoutId = window.setTimeout(() => {
+        const input = update.state.doc.toString()
         store.dispatch(setEditorInput({ value: input }))
         syncInputTimeoutId = undefined
       }, UPDATE_TIMEOUT_MS)
@@ -112,7 +112,8 @@ export const useAutoAssemble = (): void => {
   useViewEffect(view => {
     let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {
       if (selectAutoAssemble(store.getState())) {
-        assemble(textToString(view.state.doc))
+        const input = view.state.doc.toString()
+        assemble(input)
       }
       initialAssembleTimeoutId = undefined
     }, UPDATE_TIMEOUT_MS)

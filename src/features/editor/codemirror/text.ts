@@ -1,6 +1,4 @@
-import type { Text, Line, SelectionRange } from '@codemirror/state'
-
-export const textToString = (text: Text): string => text.sliceString(0)
+import type { Line, Text, SelectionRange } from '@codemirror/state'
 
 export type LineLoc = Pick<Line, 'from' | 'to' | 'number'>
 
