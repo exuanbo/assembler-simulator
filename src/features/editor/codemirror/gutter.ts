@@ -1,3 +1,9 @@
-import type { EditorView, BlockInfo } from '@codemirror/view'
+import type { gutter } from '@codemirror/view'
 
-export type DOMEventHandler = (view: EditorView, line: BlockInfo, event: Event) => boolean
+type GutterConfig = Required<Parameters<typeof gutter>[0]>
+
+type DOMEventHandlers = GutterConfig['domEventHandlers']
+
+type DOMEventName = keyof DOMEventHandlers
+
+export type DOMEventHandler = DOMEventHandlers[DOMEventName]
