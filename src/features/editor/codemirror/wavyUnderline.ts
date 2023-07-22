@@ -27,7 +27,8 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
   create() {
     return Decoration.none
   },
-  update(decorations, transaction) {
+  update(__decorations, transaction) {
+    const decorations = __decorations.map(transaction.changes)
     return transaction.effects.filter(isEffectOfType(WavyUnderlineEffect)).reduce(
       (resultDecorations, effect) =>
         mapEffectValue(effect, ({ add: addByRange, filter }) =>
@@ -38,7 +39,7 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
             filter
           })
         ),
-      decorations.map(transaction.changes)
+      decorations
     )
   },
   provide: thisField => EditorView.decorations.from(thisField)
