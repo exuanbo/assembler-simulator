@@ -9,43 +9,42 @@ const lineDecoration = Decoration.line({ class: 'cm-activeLine' })
 
 const highlightActiveLinePlugin = ViewPlugin.fromClass(
   class PluginValue {
-    private _decorationSet: DecorationSet
+    private _decorations: DecorationSet
 
-    constructor(view: EditorView) {
-      this._decorationSet = this.getDecorationSet(view)
+    public get decorations(): DecorationSet {
+      return this._decorations
     }
 
-    public get decorationSet(): DecorationSet {
-      return this._decorationSet
+    constructor(view: EditorView) {
+      this._decorations = this.getDecorations(view)
     }
 
     public update(update: ViewUpdate): void {
       if (update.docChanged || update.selectionSet) {
-        this._decorationSet = this.getDecorationSet(update.view)
+        this._decorations = this.getDecorations(update.view)
       }
     }
 
-    private getDecorationSet(view: EditorView): DecorationSet {
+    private getDecorations(view: EditorView): DecorationSet {
       const selectionRanges = view.state.selection.ranges
       if (selectionRanges.some(selectionRange => !selectionRange.empty)) {
         return Decoration.none
-      } else {
-        const decorationRanges: Array<Range<Decoration>> = []
-        const rangeCount = selectionRanges.length
-        for (let lastLineFrom = -1, rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++) {
-          const selectionRange = selectionRanges[rangeIndex]
-          const line = view.state.doc.lineAt(selectionRange.head)
-          if (line.from > lastLineFrom) {
-            decorationRanges.push(lineDecoration.range(line.from))
-            lastLineFrom = line.from
-          }
-        }
-        return Decoration.set(decorationRanges)
       }
+      const decorationRanges: Array<Range<Decoration>> = []
+      const rangeCount = selectionRanges.length
+      for (let lastLineFrom = -1, rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++) {
+        const selectionRange = selectionRanges[rangeIndex]
+        const line = view.state.doc.lineAt(selectionRange.head)
+        if (line.from > lastLineFrom) {
+          decorationRanges.push(lineDecoration.range(line.from))
+          lastLineFrom = line.from
+        }
+      }
+      return Decoration.set(decorationRanges)
     }
   },
   {
-    decorations: pluginValue => pluginValue.decorationSet
+    decorations: pluginValue => pluginValue.decorations
   }
 )
 
