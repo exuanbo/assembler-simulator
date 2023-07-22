@@ -5,8 +5,11 @@
 import { Extension, Range, RangeSet } from '@codemirror/state'
 import { EditorView, GutterMarker, gutterLineClass } from '@codemirror/view'
 
+// TODO: extract to separate file
+const ACTIVE_LINE_GUTTER_MARKER_CLASS = 'cm-activeLineGutterMarker'
+
 class ActiveLineGutterMarker extends GutterMarker {
-  public override elementClass = 'cm-activeLineGutter'
+  public override elementClass = ACTIVE_LINE_GUTTER_MARKER_CLASS
 }
 
 const activeLineGutterMarker = new ActiveLineGutterMarker()
@@ -33,10 +36,10 @@ export const highlightActiveLineGutter = (): Extension => {
   return [
     activeLineGutterHighlighter,
     EditorView.baseTheme({
-      '&.cm-focused .cm-activeLineGutter': {
+      [`&.cm-focused .${ACTIVE_LINE_GUTTER_MARKER_CLASS}`]: {
         color: '#4b5563' // gray-600
       },
-      '.cm-activeLineGutter': {
+      [`.${ACTIVE_LINE_GUTTER_MARKER_CLASS}`]: {
         backgroundColor: 'unset'
       }
     })

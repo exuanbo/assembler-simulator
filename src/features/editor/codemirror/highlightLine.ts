@@ -5,6 +5,12 @@ import type { RangeSetUpdateFilter } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
 import { maybeNullable } from '@/common/utils'
 
+// TODO: extract to separate file
+enum HighlightLineClass {
+  Default = 'cm-highlightLine',
+  Transparent = 'cm-highlightLine--transparent'
+}
+
 export const HighlightLineEffect = StateEffect.define<{
   pos?: number
   filter?: RangeSetUpdateFilter<Decoration>
@@ -19,10 +25,8 @@ export const HighlightLineEffect = StateEffect.define<{
   }
 })
 
-const lineDecoration = Decoration.line({ class: 'cm-highlightLine' })
-const lineDecorationWithTransparency = Decoration.line({
-  class: 'cm-highlightLine--withTransparency'
-})
+const lineDecoration = Decoration.line({ class: HighlightLineClass.Default })
+const lineDecorationTransparent = Decoration.line({ class: HighlightLineClass.Transparent })
 
 const highlightLineField = StateField.define<DecorationSet>({
   create() {
@@ -40,7 +44,7 @@ const highlightLineField = StateField.define<DecorationSet>({
             transaction.selection.ranges
           )
         const expectedLineDecoration = hasNewOverlappedSelection
-          ? lineDecorationWithTransparency
+          ? lineDecorationTransparent
           : lineDecoration
         return decoration.eq(expectedLineDecoration)
           ? resultDecorations
@@ -62,7 +66,7 @@ const highlightLineField = StateField.define<DecorationSet>({
                   transaction.state.selection.ranges
                 )
                 const newLineDecoration = hasOverlappedSelection
-                  ? lineDecorationWithTransparency
+                  ? lineDecorationTransparent
                   : lineDecoration
                 return [newLineDecoration.range(pos)]
               })
@@ -80,10 +84,10 @@ export const highlightLine = (): Extension => {
   return [
     highlightLineField,
     EditorView.baseTheme({
-      '.cm-highlightLine': {
+      [`.${HighlightLineClass.Default}`]: {
         backgroundColor: '#dcfce7 !important'
       },
-      '.cm-highlightLine--withTransparency': {
+      [`.${HighlightLineClass.Transparent}`]: {
         backgroundColor: '#dcfce780 !important'
       }
     })

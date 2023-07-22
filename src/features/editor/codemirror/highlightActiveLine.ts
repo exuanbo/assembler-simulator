@@ -5,7 +5,10 @@
 import type { Extension, Range } from '@codemirror/state'
 import { EditorView, ViewPlugin, ViewUpdate, Decoration, DecorationSet } from '@codemirror/view'
 
-const lineDecoration = Decoration.line({ class: 'cm-activeLine' })
+// TODO: extract to separate file
+const ACTIVE_LINE_CLASS = 'cm-activeLine'
+
+const lineDecoration = Decoration.line({ class: ACTIVE_LINE_CLASS })
 
 const highlightActiveLinePlugin = ViewPlugin.fromClass(
   class PluginValue {
@@ -52,10 +55,10 @@ export const highlightActiveLine = (): Extension => {
   return [
     highlightActiveLinePlugin,
     EditorView.baseTheme({
-      '&.cm-focused .cm-activeLine': {
+      [`&.cm-focused .${ACTIVE_LINE_CLASS}`]: {
         boxShadow: 'inset 0 0 0 2px #e5e7eb'
       },
-      '.cm-activeLine': {
+      [`.${ACTIVE_LINE_CLASS}`]: {
         backgroundColor: 'unset'
       }
     })
