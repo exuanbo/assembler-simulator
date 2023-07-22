@@ -179,7 +179,7 @@ export const useHighlightLine = (): void => {
         effects: shouldAddHighlight
           ? linePos.map((pos, posIndex) =>
               HighlightLineEffect.of({
-                addByPos: pos,
+                pos,
                 // clear previous decorations on first line
                 filter: () => posIndex !== 0
               })

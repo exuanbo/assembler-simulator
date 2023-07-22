@@ -6,12 +6,12 @@ import { hasNonEmptySelectionAtLine } from './text'
 import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
-  addByPos?: number
+  pos?: number
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ addByPos, filter }, change) {
+  map({ pos: targetPos, filter }, change) {
     return {
-      addByPos: maybeNullable(addByPos)
+      pos: maybeNullable(targetPos)
         .map(pos => change.mapPos(pos))
         .extract(),
       filter
@@ -53,9 +53,9 @@ const highlightLineField = StateField.define<DecorationSet>({
     )
     return transaction.effects.filter(isEffectOfType(HighlightLineEffect)).reduce(
       (resultDecorations, effect) =>
-        mapEffectValue(effect, ({ addByPos, filter }) =>
+        mapEffectValue(effect, ({ pos: targetPos, filter }) =>
           resultDecorations.update({
-            add: maybeNullable(addByPos)
+            add: maybeNullable(targetPos)
               .map(pos => {
                 const hasOverlappedSelection = hasNonEmptySelectionAtLine(
                   transaction.state.doc.lineAt(pos),
