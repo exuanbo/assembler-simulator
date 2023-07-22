@@ -15,19 +15,18 @@ const activeLineGutterHighlighter = gutterLineClass.compute(['selection'], state
   const selectionRanges = state.selection.ranges
   if (selectionRanges.some(selectionRange => !selectionRange.empty)) {
     return RangeSet.empty
-  } else {
-    const markerRanges: Array<Range<ActiveLineGutterMarker>> = []
-    const rangeCount = selectionRanges.length
-    for (let lastLineFrom = -1, rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++) {
-      const selectionRange = selectionRanges[rangeIndex]
-      const line = state.doc.lineAt(selectionRange.head)
-      if (line.from > lastLineFrom) {
-        markerRanges.push(activeLineGutterMarker.range(line.from))
-        lastLineFrom = line.from
-      }
-    }
-    return RangeSet.of(markerRanges)
   }
+  const markerRanges: Array<Range<ActiveLineGutterMarker>> = []
+  const rangeCount = selectionRanges.length
+  for (let lastLineFrom = -1, rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++) {
+    const selectionRange = selectionRanges[rangeIndex]
+    const line = state.doc.lineAt(selectionRange.head)
+    if (line.from > lastLineFrom) {
+      markerRanges.push(activeLineGutterMarker.range(line.from))
+      lastLineFrom = line.from
+    }
+  }
+  return RangeSet.of(markerRanges)
 })
 
 export const highlightActiveLineGutter = (): Extension => {
