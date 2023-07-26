@@ -22,7 +22,7 @@ import { template } from './examples'
 import { useViewEffect } from './codemirror/hooks'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
-import { BreakpointEffect, getBreakpointSet } from './codemirror/breakpoints'
+import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
 import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
@@ -203,9 +203,9 @@ export const useBreakpoints = (): void => {
   useViewEffect(view => {
     return addUpdateListener(view, update => {
       if (update.docChanged) {
-        const breakpointSet = getBreakpointSet(update.state)
-        if (!rangeSetsEqual(breakpointSet, getBreakpointSet(update.startState))) {
-          const breakpoints = mapRangeSetToArray(breakpointSet, (_, from) =>
+        const breakpointMarkers = getBreakpointMarkers(update.state)
+        if (!rangeSetsEqual(breakpointMarkers, getBreakpointMarkers(update.startState))) {
+          const breakpoints = mapRangeSetToArray(breakpointMarkers, (_, from) =>
             lineLocAt(update.state.doc, from)
           )
           store.dispatch(setBreakpoints(breakpoints))
@@ -241,8 +241,8 @@ export const useBreakpoints = (): void => {
     if (validBreakpoints.length === 0) {
       return
     }
-    const breakpointSet = getBreakpointSet(view.state)
-    if (breakpointSet.size === 0) {
+    const breakpointMarkers = getBreakpointMarkers(view.state)
+    if (breakpointMarkers.size === 0) {
       view.dispatch(
         syncFromState({
           effects: validBreakpoints.map(lineLoc =>

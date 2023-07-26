@@ -30,36 +30,37 @@ class BreakpointMarker extends GutterMarker {
 
 const breakpointMarker = new BreakpointMarker()
 
-type BreakpointSet = RangeSet<BreakpointMarker>
+type BreakpointMarkerSet = RangeSet<BreakpointMarker>
 
-const breakpointField = StateField.define<BreakpointSet>({
+const breakpointField = StateField.define<BreakpointMarkerSet>({
   create() {
     return RangeSet.empty
   },
-  update(__breakpoints, transaction) {
-    const breakpoints = __breakpoints.map(transaction.changes)
+  update(__markers, transaction) {
+    const markers = __markers.map(transaction.changes)
     return transaction.effects
       .filter(isEffectOfType(BreakpointEffect))
       .reduce(
-        (resultBreakpoints, effect) =>
-          mapEffectValue(effect, ({ pos: targetPos, on: shouldTurnOn }) =>
-            resultBreakpoints.update(
-              shouldTurnOn
+        (resultMarkers, effect) =>
+          mapEffectValue(effect, ({ pos: targetPos, on }) =>
+            resultMarkers.update(
+              on
                 ? { add: [breakpointMarker.range(targetPos)] }
                 : { filter: from => from !== targetPos }
             )
           ),
-        breakpoints
+        markers
       )
   }
 })
 
-export const getBreakpointSet = (state: EditorState): BreakpointSet => state.field(breakpointField)
+export const getBreakpointMarkers = (state: EditorState): BreakpointMarkerSet =>
+  state.field(breakpointField)
 
 const toggleBreakpoint = (view: EditorView, pos: number): void => {
   let hasBreakpoint = false
-  const breakpointSet = getBreakpointSet(view.state)
-  breakpointSet.between(pos, pos, () => {
+  const breakpointMarkers = getBreakpointMarkers(view.state)
+  breakpointMarkers.between(pos, pos, () => {
     hasBreakpoint = true
   })
   view.dispatch({
@@ -87,7 +88,7 @@ export const breakpoints = (): Extension => {
     breakpointField,
     gutter({
       class: BREAKPOINT_MARKER_CLASS,
-      markers: view => getBreakpointSet(view.state),
+      markers: view => getBreakpointMarkers(view.state),
       initialSpacer: () => breakpointMarker,
       domEventHandlers: {
         mousedown: toggleBreakpointOnMouseEvent
