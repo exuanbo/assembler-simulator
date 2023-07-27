@@ -3,13 +3,8 @@ import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import { reduceRangeSet, isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
 import type { RangeSetUpdateFilter } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
+import { ClassName } from './classNames'
 import { maybeNullable } from '@/common/utils'
-
-// TODO: extract to separate file
-enum HighlightLineClass {
-  Default = 'cm-highlightLine',
-  Transparent = 'cm-highlightLine--transparent'
-}
 
 export const HighlightLineEffect = StateEffect.define<{
   pos?: number
@@ -25,8 +20,8 @@ export const HighlightLineEffect = StateEffect.define<{
   }
 })
 
-const lineDecoration = Decoration.line({ class: HighlightLineClass.Default })
-const lineDecorationTransparent = Decoration.line({ class: HighlightLineClass.Transparent })
+const lineDecoration = Decoration.line({ class: ClassName.HighlightLineDefault })
+const lineDecorationTransparent = Decoration.line({ class: ClassName.HighlightLineTransparent })
 
 const highlightLineField = StateField.define<DecorationSet>({
   create() {
@@ -84,10 +79,10 @@ export const highlightLine = (): Extension => {
   return [
     highlightLineField,
     EditorView.baseTheme({
-      [`.${HighlightLineClass.Default}`]: {
+      [`.${ClassName.HighlightLineDefault}`]: {
         backgroundColor: '#dcfce7 !important'
       },
-      [`.${HighlightLineClass.Transparent}`]: {
+      [`.${ClassName.HighlightLineTransparent}`]: {
         backgroundColor: '#dcfce780 !important'
       }
     })

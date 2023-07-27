@@ -2,9 +2,7 @@ import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@code
 import { EditorView, GutterMarker, gutter } from '@codemirror/view'
 import { isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
 import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
-
-// TODO: extract to separate file
-const BREAKPOINT_MARKER_CLASS = 'cm-breakpoint'
+import { ClassName, InternalClassName } from './classNames'
 
 export const BreakpointEffect = StateEffect.define<{
   pos: number
@@ -74,7 +72,7 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
 export const toggleBreakpointOnMouseEvent: GutterDOMEventHandler = (view, line, event) => {
   if (event instanceof MouseEvent && event.offsetY <= line.bottom) {
     // matches cursor style
-    if ((event.target as Element).classList.contains(BREAKPOINT_MARKER_CLASS)) {
+    if ((event.target as Element).classList.contains(ClassName.Breakpoint)) {
       return false
     }
     toggleBreakpoint(view, line.from)
@@ -87,7 +85,7 @@ export const breakpoints = (): Extension => {
   return [
     breakpointField,
     gutter({
-      class: BREAKPOINT_MARKER_CLASS,
+      class: ClassName.Breakpoint,
       markers: view => getBreakpointMarkers(view.state),
       initialSpacer: () => breakpointMarker,
       domEventHandlers: {
@@ -95,7 +93,7 @@ export const breakpoints = (): Extension => {
       }
     }),
     EditorView.baseTheme({
-      [`.${BREAKPOINT_MARKER_CLASS} .cm-gutterElement`]: {
+      [`.${ClassName.Breakpoint} .${InternalClassName.GutterElement}`]: {
         width: '20px',
         padding: '0 3px 0 5px',
         color: 'red !important',

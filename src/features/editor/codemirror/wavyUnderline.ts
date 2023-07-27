@@ -2,6 +2,7 @@ import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
 import { isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
 import type { RangeSetUpdateFilter } from './rangeSet'
+import { ClassName } from './classNames'
 import { maybeNullable } from '@/common/utils'
 
 export const WavyUnderlineEffect = StateEffect.define<{
@@ -21,7 +22,7 @@ export const WavyUnderlineEffect = StateEffect.define<{
   }
 })
 
-const markDecoration = Decoration.mark({ class: 'cm-wavyUnderline' })
+const markDecoration = Decoration.mark({ class: ClassName.WavyUnderline })
 
 const wavyUnderlineField = StateField.define<DecorationSet>({
   create() {
@@ -55,7 +56,7 @@ export const wavyUnderline = (): Extension => {
   return [
     wavyUnderlineField,
     EditorView.baseTheme({
-      '.cm-wavyUnderline': {
+      [`.${ClassName.WavyUnderline}`]: {
         background: `${WAVY_UNDERLINE_IMAGE} left bottom repeat-x`,
         paddingBottom: '2px'
       }
