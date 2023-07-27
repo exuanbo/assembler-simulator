@@ -19,7 +19,7 @@ import {
   clearEditorMessage
 } from './editorSlice'
 import { template } from './examples'
-import { useViewEffect } from './codemirror/hooks'
+import { useViewEffect } from './codemirror/react'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'

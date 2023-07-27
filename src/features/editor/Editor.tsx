@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { CodeMirrorProvider } from './codemirror/Context'
+import type { CodeMirrorConfig } from '@codemirror-toolkit/react'
+import { CodeMirrorProvider } from './codemirror/react'
 import CodeMirrorContainer from './CodeMirrorContainer'
 import EditorMessage from './EditorMessage'
 import { useStore } from '@/app/hooks'
 import { selectEditorInput } from './editorSlice'
-import { CodeMirrorConfig, useCodeMirror } from './codemirror/hooks'
 import { getSetup } from './codemirror/setup'
 import { exceptionSink } from './codemirror/exceptionSink'
 import { setException } from '@/features/exception/exceptionSlice'
@@ -24,11 +24,10 @@ const Editor = (): JSX.Element => {
       ]
     }
   }, [])
-  const codeMirror = useCodeMirror(codeMirrorConfig)
 
   return (
     <div className="flex flex-col h-full">
-      <CodeMirrorProvider value={codeMirror}>
+      <CodeMirrorProvider config={codeMirrorConfig}>
         <CodeMirrorContainer className="flex-1" />
       </CodeMirrorProvider>
       <EditorMessage />

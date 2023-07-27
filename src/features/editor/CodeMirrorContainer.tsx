@@ -1,4 +1,4 @@
-import { useContainerRef } from './codemirror/hooks'
+import { useContainerRef } from './codemirror/react'
 import {
   useSyncInput,
   useAutoFocus,
