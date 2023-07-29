@@ -1,6 +1,6 @@
 import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@codemirror/state'
 import { EditorView, GutterMarker, gutter } from '@codemirror/view'
-import { isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
+import { mapEffectValue, filterEffects } from '@codemirror-toolkit/utils'
 import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 import { ClassName, InternalClassName } from './classNames'
 
@@ -36,19 +36,17 @@ const breakpointField = StateField.define<BreakpointMarkerSet>({
   },
   update(__markers, transaction) {
     const markers = __markers.map(transaction.changes)
-    return transaction.effects
-      .filter(isEffectOfType(BreakpointEffect))
-      .reduce(
-        (resultMarkers, effect) =>
-          mapEffectValue(effect, ({ pos: targetPos, on }) =>
-            resultMarkers.update(
-              on
-                ? { add: [breakpointMarker.range(targetPos)] }
-                : { filter: from => from !== targetPos }
-            )
-          ),
-        markers
-      )
+    return filterEffects(transaction.effects, BreakpointEffect).reduce(
+      (resultMarkers, effect) =>
+        mapEffectValue(effect, ({ pos: targetPos, on }) =>
+          resultMarkers.update(
+            on
+              ? { add: [breakpointMarker.range(targetPos)] }
+              : { filter: from => from !== targetPos }
+          )
+        ),
+      markers
+    )
   }
 })
 

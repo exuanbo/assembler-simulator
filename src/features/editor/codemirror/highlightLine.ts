@@ -1,6 +1,6 @@
 import { StateEffect, StateField, Extension } from '@codemirror/state'
 import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import { reduceRangeSet, isEffectOfType, mapEffectValue } from '@codemirror-toolkit/utils'
+import { reduceRangeSet, mapEffectValue, filterEffects } from '@codemirror-toolkit/utils'
 import type { RangeSetUpdateFilter } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
 import { ClassName } from './classNames'
@@ -50,7 +50,7 @@ const highlightLineField = StateField.define<DecorationSet>({
       },
       decorations
     )
-    return transaction.effects.filter(isEffectOfType(HighlightLineEffect)).reduce(
+    return filterEffects(transaction.effects, HighlightLineEffect).reduce(
       (resultDecorations, effect) =>
         mapEffectValue(effect, ({ pos: targetPos, filter }) =>
           resultDecorations.update({
