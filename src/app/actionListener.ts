@@ -40,7 +40,7 @@ const createActionListener = (): ActionListener => {
   }
 
   actionListener.listenAction = (actionCreator, __callback, { once = false } = {}) => {
-    const actionType = actionCreator.type
+    const { type: actionType } = actionCreator
     if (!subscriptions.has(actionType)) {
       subscriptions.set(actionType, new Set())
     }
