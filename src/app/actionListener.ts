@@ -1,10 +1,4 @@
-import {
-  MiddlewareAPI,
-  Middleware,
-  PayloadAction,
-  PayloadActionCreator,
-  getType
-} from '@reduxjs/toolkit'
+import { MiddlewareAPI, Middleware, PayloadActionCreator } from '@reduxjs/toolkit'
 import type { RootState } from './store'
 
 interface ListenerAPI extends MiddlewareAPI {
@@ -37,14 +31,16 @@ interface ActionListener extends Middleware {
 const createActionListener = (): ActionListener => {
   const subscriptions: Subscriptions = new Map()
 
-  const actionListener: ActionListener = api => next => (action: PayloadAction<unknown>) => {
+  // FIXME: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const actionListener: ActionListener = api => next => (action: any) => {
     const result = next(action)
     subscriptions.get(action.type)?.forEach(cb => cb(action.payload, api))
     return result
   }
 
   actionListener.listenAction = (actionCreator, __callback, { once = false } = {}) => {
-    const actionType = getType(actionCreator)
+    const actionType = actionCreator.type
     if (!subscriptions.has(actionType)) {
       subscriptions.set(actionType, new Set())
     }

@@ -1,4 +1,4 @@
-import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import editorReducer from '@/features/editor/editorSlice'
 import assemblerReducer from '@/features/assembler/assemblerSlice'
 import controllerReducer from '@/features/controller/controllerSlice'
@@ -27,7 +27,7 @@ export type RootState = ReturnType<typeof rootReducer>
 
 export type Selector<TSelected> = (state: RootState) => TSelected
 
-const getPreloadedState = (): PreloadedState<RootState> => {
+const getPreloadedState = (): Partial<RootState> => {
   const stateFromLocalStorage = loadStateFromLocalStorage()
   const stateFromUrl = loadStateFromUrl()
   // in case any future changes to the state structure
