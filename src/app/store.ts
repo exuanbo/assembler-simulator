@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>
 
-export type Selector<TSelected> = (state: RootState) => TSelected
+export type RootStateSelector<TSelected> = (state: RootState) => TSelected
 
 const getPreloadedState = (): Partial<RootState> => {
   const stateFromLocalStorage = loadStateFromLocalStorage()

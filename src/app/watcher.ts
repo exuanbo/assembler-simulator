@@ -1,5 +1,5 @@
 import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit'
-import type { RootState, Selector } from './store'
+import type { RootState, RootStateSelector } from './store'
 
 interface WatcherAPI extends MiddlewareAPI {
   getState: () => RootState
@@ -13,12 +13,12 @@ interface Subscription<TSelected> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscriptions<TSelected = any> = Map<Selector<TSelected>, Subscription<TSelected>>
+type Subscriptions<TSelected = any> = Map<RootStateSelector<TSelected>, Subscription<TSelected>>
 
 export type Unsubscribe = () => void
 
 type Watch = <TSelected>(
-  selector: Selector<TSelected>,
+  selector: RootStateSelector<TSelected>,
   callback: WatchCallback<TSelected>
 ) => Unsubscribe
 

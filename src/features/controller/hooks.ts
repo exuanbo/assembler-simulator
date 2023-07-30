@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { Selector, Store } from '@/app/store'
+import type { RootStateSelector, Store } from '@/app/store'
 import { listenAction } from '@/app/actionListener'
 import { watch } from '@/app/watcher'
 import { useStore } from '@/app/hooks'
@@ -72,7 +72,7 @@ const sourceChangedMessage: EditorMessage = {
 
 class Controller {
   private readonly store: Store
-  private readonly applySelector: <T>(selector: Selector<T>) => T
+  private readonly applySelector: <T>(selector: RootStateSelector<T>) => T
 
   private stepIntervalId?: number
 
