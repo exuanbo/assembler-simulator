@@ -2,11 +2,9 @@ import type { Extension } from '@codemirror/state'
 import {
   StreamLanguage,
   LanguageSupport,
-  IndentContext,
   syntaxHighlighting,
   defaultHighlightStyle,
-  indentUnit,
-  indentService
+  indentUnit
 } from '@codemirror/language'
 import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 
@@ -95,27 +93,24 @@ const asmLanguage = StreamLanguage.define<State>({
     /* eslint-enable @typescript-eslint/strict-boolean-expressions */
     stream.match(NON_WHITESPACE_REGEXP)
     return null
+  },
+  indent(_state, _textAfter, context) {
+    const { selection, tabSize } = context.state
+    const pos = selection.main.from
+    const indentation = context.lineAt(pos, -1).text.match(/^\s+/)?.[0] ?? ''
+    const whitespaces = indentation
+      .replace(new RegExp(` {${tabSize}}`, 'g'), '\t')
+      .replace(/ +(?=\t)/g, '')
+      .split('')
+    const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
+    const spaceCount = whitespaces.length - tabCount
+    return tabCount * tabSize + spaceCount
   }
 })
 
-const INDENT_UNIT = '\t'
-
-const LEADING_SPACE_REGEXP = /^ */
-const LEADING_WHITESPACE_REGEXP = /^\s*/
-
-const computeIndentation = ({ state }: IndentContext, pos: number): number => {
-  const trimmedLine = state.doc.lineAt(pos).text.replace(LEADING_SPACE_REGEXP, '')
-  const whitespaces = LEADING_WHITESPACE_REGEXP.exec(trimmedLine)?.[0].split('') ?? []
-  const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
-  const spaceCount = whitespaces.length - tabCount
-  return tabCount * state.tabSize + spaceCount
-}
-
 export const asm = (): Extension => {
   return [
-    new LanguageSupport(asmLanguage),
-    syntaxHighlighting(defaultHighlightStyle),
-    indentUnit.of(INDENT_UNIT),
-    indentService.of(computeIndentation)
+    new LanguageSupport(asmLanguage, [indentUnit.of('\t')]),
+    syntaxHighlighting(defaultHighlightStyle)
   ]
 }
