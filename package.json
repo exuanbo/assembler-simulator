@@ -1,6 +1,6 @@
 {
   "name": "assembler-simulator",
-  "private": "true",
+  "private": true,
   "version": "1.0.0-alpha.22",
   "description": "A simulator of 8-bit CPU using the Samphire Microprocessor Simulator instruction set.",
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "ts-standardx",
     "lint:fix": "ts-standardx --fix",
     "jest": "jest",
-    "test": "npm run lint && npm run build && npm run jest"
+    "test": "run lint && run build && run jest"
   },
   "dependencies": {
     "@codemirror-toolkit/extensions": "0.6.1",
@@ -47,8 +47,5 @@
     "vite-plugin-windicss": "1.9.0",
     "windicss": "3.5.6"
   },
-  "//": "https://github.com/reduxjs/redux-thunk/pull/349",
-  "overrides": {
-    "redux": "5.0.0-beta.0"
-  }
+  "packageManager": "yarn@3.6.1"
 }
