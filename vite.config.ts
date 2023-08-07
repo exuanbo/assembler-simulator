@@ -59,7 +59,7 @@ export default defineConfig({
               },
               expiration: {
                 maxAgeSeconds: 60 * 60 * 24 * 365,
-                maxEntries: 1
+                maxEntries: 10
               }
             }
           }
