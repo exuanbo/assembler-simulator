@@ -47,8 +47,8 @@ export const store = Object.assign(
     preloadedState: getPreloadedState()
   }),
   {
-    onAction: actionObserver.onAction,
-    onState: stateObserver.onState
+    onAction: actionObserver.on,
+    onState: stateObserver.on
   }
 )
 

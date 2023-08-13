@@ -1,10 +1,17 @@
-import { Middleware, PayloadActionCreator, Action, isAction } from '@reduxjs/toolkit'
+import { Middleware, PayloadActionCreator, Action, PayloadAction, isAction } from '@reduxjs/toolkit'
 import { Observable, Subject, filter, map } from 'rxjs'
+
+type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
 
 interface ActionObserver {
   middleware: Middleware
-  onAction: <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
+  on: OnAction
 }
+
+const matchType =
+  <TPayload>(actionCreator: PayloadActionCreator<TPayload>) =>
+  (action: Action): action is PayloadAction<TPayload> =>
+    actionCreator.match(action)
 
 export const createActionObserver = (): ActionObserver => {
   const action$ = new Subject<Action>()
@@ -17,12 +24,11 @@ export const createActionObserver = (): ActionObserver => {
     return result
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onAction = (actionCreator: PayloadActionCreator<any>): Observable<any> =>
+  const on: OnAction = actionCreator =>
     action$.pipe(
-      filter(actionCreator.match),
+      filter(matchType(actionCreator)),
       map(action => action.payload)
     )
 
-  return { middleware, onAction }
+  return { middleware, on }
 }

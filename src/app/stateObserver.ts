@@ -2,9 +2,11 @@ import type { Middleware } from '@reduxjs/toolkit'
 import { Observable, ReplaySubject, map, distinctUntilChanged, skip } from 'rxjs'
 import type { RootState, RootStateSelector } from './store'
 
+type OnState = <TSelected>(selector: RootStateSelector<TSelected>) => Observable<TSelected>
+
 interface StateObserver {
   middleware: Middleware
-  onState: <TSelected>(selector: RootStateSelector<TSelected>) => Observable<TSelected>
+  on: OnState
 }
 
 export const createStateObserver = (): StateObserver => {
@@ -29,8 +31,8 @@ export const createStateObserver = (): StateObserver => {
     }
   }
 
-  const onState = <TSelected>(selector: RootStateSelector<TSelected>): Observable<TSelected> =>
+  const on: OnState = selector =>
     distinctState$.pipe(map(selector), distinctUntilChanged(), skip(1))
 
-  return { middleware, onState }
+  return { middleware, on }
 }
