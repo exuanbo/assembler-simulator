@@ -9,8 +9,8 @@ import exceptionReducer from '@/features/exception/exceptionSlice'
 import { loadState as loadStateFromLocalStorage } from './localStorage'
 import { loadState as loadStateFromUrl } from './url'
 import { getInitialStateToPersist } from './persist'
-import { actionListener } from './actionListener'
-import { watcher } from './watcher'
+import { createActionObserver } from './actionObserver'
+import { createStateObserver } from './stateObserver'
 import { merge } from '@/common/utils'
 
 const rootReducer = combineReducers({
@@ -34,14 +34,23 @@ const getPreloadedState = (): Partial<RootState> => {
   return merge(getInitialStateToPersist(), stateFromLocalStorage, stateFromUrl)
 }
 
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: getDefaultMiddleware => {
-    const defaultMiddleware = getDefaultMiddleware()
-    return defaultMiddleware.prepend(watcher, actionListener)
-  },
-  preloadedState: getPreloadedState()
-})
+const actionObserver = createActionObserver()
+const stateObserver = createStateObserver()
+
+const store = Object.assign(
+  configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => {
+      const defaultMiddleware = getDefaultMiddleware()
+      return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
+    },
+    preloadedState: getPreloadedState()
+  }),
+  {
+    onAction: actionObserver.onAction,
+    onState: stateObserver.onState
+  }
+)
 
 export type Store = typeof store
 

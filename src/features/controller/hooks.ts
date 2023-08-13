@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
+import { debounceTime, filter, first } from 'rxjs'
 import type { RootStateSelector, Store } from '@/app/store'
-import { listenAction } from '@/app/actionListener'
-import { watch } from '@/app/watcher'
+import { subscribe } from '@/app/subscribe'
 import { useStore } from '@/app/hooks'
 import {
   selectRuntimeConfiguration,
@@ -25,6 +25,7 @@ import { lineRangesOverlap } from '@/features/editor/codemirror/text'
 import { createAssemble } from '@/features/assembler/assemble'
 import {
   selectAssembledSource,
+  selectIsAssembled,
   selectAddressToStatementMap,
   setAssemblerState,
   resetAssemblerState
@@ -298,8 +299,8 @@ class Controller {
               this.store.dispatch(setWaitingForKeyboardInput(true))
               break
           }
-          this.unsubscribeSetSuspended = listenAction(
-            setSuspended,
+          this.unsubscribeSetSuspended = subscribe(
+            this.store.onAction(setSuspended).pipe(first()),
             // payload must be false
             async () => {
               this.unsubscribeSetSuspended = undefined
@@ -308,8 +309,7 @@ class Controller {
                 this.resumeMainLoop()
               }
               await this.step()
-            },
-            { once: true }
+            }
           )
         } else {
           // wrong port
@@ -410,37 +410,35 @@ export const useController = (): Controller => {
   const controller = useSingleton(() => new Controller(store))
 
   useEffect(() => {
-    return listenAction(setEditorInput, controller.resetSelf)
+    return subscribe(store.onAction(setEditorInput), controller.resetSelf)
   }, [])
 
   useEffect(() => {
-    let assembleTimeoutId: number | undefined
-    return listenAction(setAutoAssemble, (shouldAutoAssemble, api) => {
-      if (assembleTimeoutId !== undefined) {
-        window.clearTimeout(assembleTimeoutId)
-        assembleTimeoutId = undefined
-      }
-      if (shouldAutoAssemble && selectAssembledSource(api.getState()) === '') {
-        assembleTimeoutId = window.setTimeout(() => {
-          controller.assemble()
-          assembleTimeoutId = undefined
-        }, UPDATE_TIMEOUT_MS)
-      }
-    })
+    return subscribe(
+      store.onAction(setAutoAssemble).pipe(
+        debounceTime(UPDATE_TIMEOUT_MS),
+        filter(shouldAutoAssemble => shouldAutoAssemble && !selectIsAssembled(store.getState()))
+      ),
+      controller.assemble
+    )
   }, [])
 
   useEffect(() => {
-    return listenAction(setAssemblerState, controller.resetSelf)
+    return subscribe(store.onAction(setAssemblerState), controller.resetSelf)
   }, [])
 
   useEffect(() => {
-    return watch(selectRuntimeConfiguration, async (_, api) => {
-      // `setSuspended` action listener will resume the main loop with new configuration
-      // so we skip calling `stopAndRun` if cpu is suspended
-      if (selectIsRunning(api.getState()) && !selectIsSuspended(api.getState())) {
-        await controller.stopAndRun()
-      }
-    })
+    return subscribe(
+      store.onState(selectRuntimeConfiguration).pipe(
+        filter(() => {
+          const state = store.getState()
+          // `setSuspended` action listener will resume the main loop with new configuration
+          // so we skip calling `stopAndRun` if cpu is suspended
+          return selectIsRunning(state) && !selectIsSuspended(state)
+        })
+      ),
+      controller.stopAndRun
+    )
   }, [])
 
   return controller

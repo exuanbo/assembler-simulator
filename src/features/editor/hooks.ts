@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
-import { listenAction } from '@/app/actionListener'
-import { watch } from '@/app/watcher'
+import { subscribe } from '@/app/subscribe'
 import { useStore, useSelector } from '@/app/hooks'
 import {
   MessageType,
@@ -71,8 +71,9 @@ export const useSyncInput = (): void => {
   }, [])
 
   useViewEffect(view => {
-    return listenAction(setEditorInput, ({ value, isFromFile }) => {
-      if (isFromFile) {
+    return subscribe(
+      store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
+      ({ value }) => {
         view.dispatch(
           syncFromState({
             changes: {
@@ -83,14 +84,19 @@ export const useSyncInput = (): void => {
           })
         )
       }
-    })
+    )
   }, [])
 }
 
 export const useAutoFocus = (): void => {
+  const store = useStore()
+
   useViewEffect(view => {
-    return listenAction(setEditorInput, ({ value, isFromFile }) => {
-      if (isFromFile && value === template.content) {
+    return subscribe(
+      store
+        .onAction(setEditorInput)
+        .pipe(filter(({ value, isFromFile }) => isFromFile && value === template.content)),
+      () => {
         view.focus()
         const { title, content } = template
         const titleIndex = content.indexOf(title)
@@ -101,7 +107,7 @@ export const useAutoFocus = (): void => {
           }
         })
       }
-    })
+    )
   }, [])
 }
 
@@ -125,8 +131,8 @@ export const useAutoAssemble = (): void => {
   }, [])
 
   useEffect(() => {
-    return listenAction(setEditorInput, ({ value, isFromFile }, api) => {
-      if (selectAutoAssemble(api.getState())) {
+    return subscribe(store.onAction(setEditorInput), ({ value, isFromFile }) => {
+      if (selectAutoAssemble(store.getState())) {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
@@ -151,7 +157,7 @@ export const useAssemblerError = (): void => {
   }, [])
 
   useViewEffect(view => {
-    return watch(selectAssemblerErrorRange, errorRange => {
+    return subscribe(store.onState(selectAssemblerErrorRange), errorRange => {
       const hasError = errorRange !== undefined
       view.dispatch({
         effects: WavyUnderlineEffect.of({
@@ -164,16 +170,19 @@ export const useAssemblerError = (): void => {
 }
 
 export const useHighlightLine = (): void => {
+  const store = useStore()
+
   useEffect(() => {
-    return listenAction(setEditorInput, ({ isFromFile }, api) => {
-      if (isFromFile) {
-        api.dispatch(clearEditorHighlightRange())
+    return subscribe(
+      store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
+      () => {
+        store.dispatch(clearEditorHighlightRange())
       }
-    })
+    )
   }, [])
 
   useViewEffect(view => {
-    return watch(selectEditorHighlightLinePos(view), linePos => {
+    return subscribe(store.onState(selectEditorHighlightLinePos(view)), linePos => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
         effects: shouldAddHighlight
@@ -272,6 +281,8 @@ const errorToMessage = (error: Error): EditorMessage => {
 }
 
 export const useMessage = (): EditorMessage | null => {
+  const store = useStore()
+
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
@@ -281,31 +292,34 @@ export const useMessage = (): EditorMessage | null => {
   const messageTimeoutIdRef = useRef<number | undefined>()
 
   useEffect(() => {
-    return listenAction(setEditorMessage, (_, api) => {
+    return subscribe(store.onAction(setEditorMessage), () => {
       if (messageTimeoutIdRef.current !== undefined) {
         window.clearTimeout(messageTimeoutIdRef.current)
       }
       messageTimeoutIdRef.current = window.setTimeout(() => {
-        api.dispatch(clearEditorMessage())
+        store.dispatch(clearEditorMessage())
         messageTimeoutIdRef.current = undefined
       }, MESSAGE_DURATION_MS)
     })
   }, [])
 
   useEffect(() => {
-    return listenAction(setCpuHalted, (_, api) => {
-      api.dispatch(setEditorMessage(haltedMessage))
+    return subscribe(store.onAction(setCpuHalted), () => {
+      store.dispatch(setEditorMessage(haltedMessage))
     })
   }, [])
 
   useEffect(() => {
-    return listenAction(resetCpuState, (_, api) => {
-      if (selectEditorMessage(api.getState()) === haltedMessage) {
+    return subscribe(
+      store
+        .onAction(resetCpuState)
+        .pipe(filter(() => selectEditorMessage(store.getState()) === haltedMessage)),
+      () => {
         window.clearTimeout(messageTimeoutIdRef.current)
         messageTimeoutIdRef.current = undefined
-        api.dispatch(clearEditorMessage())
+        store.dispatch(clearEditorMessage())
       }
-    })
+    )
   }, [])
 
   if (error !== null) {

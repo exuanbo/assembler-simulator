@@ -43,6 +43,9 @@ export const assemblerSlice = createSlice({
 
 export const selectAssembledSource = (state: RootState): string => state.assembler.source
 
+export const selectIsAssembled = (state: RootState): boolean =>
+  state.assembler.source !== initialState.source
+
 export const selectAddressToStatementMap = (state: RootState): Partial<AddressToStatementMap> =>
   state.assembler.addressToStatementMap
 

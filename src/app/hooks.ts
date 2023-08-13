@@ -7,6 +7,6 @@ import type { RootState, Store } from './store'
 
 type TypedUseStoreHook = () => Store
 
-export const useStore: TypedUseStoreHook = __useStore
+export const useStore = __useStore as TypedUseStoreHook
 
 export const useSelector: TypedUseSelectorHook<RootState> = __useSelector

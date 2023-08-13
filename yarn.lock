@@ -2930,6 +2930,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-redux: 8.1.2
+    rxjs: 8.0.0-alpha.10
     ts-jest: 28.0.8
     ts-standardx: 0.8.4
     ts-toolbelt: 9.6.0
@@ -7266,6 +7267,13 @@ __metadata:
   dependencies:
     queue-microtask: ^1.2.2
   checksum: cb4f97ad25a75ebc11a8ef4e33bb962f8af8516bb2001082ceabd8902e15b98f4b84b4f8a9b222e5d57fc3bd1379c483886ed4619367a7680dad65316993021d
+  languageName: node
+  linkType: hard
+
+"rxjs@npm:8.0.0-alpha.10":
+  version: 8.0.0-alpha.10
+  resolution: "rxjs@npm:8.0.0-alpha.10"
+  checksum: 93a7c3d8cbf96e47123c8c691642adcbe84743665aa0b69f98567b27ebe76c1aaf24e3b463bd7427d34f7e1341dfa229319c0eee2f2ea124d7df8598b93f1115
   languageName: node
   linkType: hard
 

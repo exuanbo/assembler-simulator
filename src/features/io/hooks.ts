@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useMemo } from 'react'
-import { listenAction } from '@/app/actionListener'
-import { Unsubscribe, watch } from '@/app/watcher'
+import { filter } from 'rxjs'
+import { Unsubscribe, subscribe } from '@/app/subscribe'
 import { useStore, useSelector } from '@/app/hooks'
 import {
   IoDeviceName,
@@ -29,7 +29,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
   type DataListener = (data: number[]) => void
   const subscribeData = useCallback(
     (listener: DataListener) => {
-      return watch(selectData, listener)
+      return subscribe(store.onState(selectData), listener)
     },
     [deviceName]
   )
@@ -43,11 +43,12 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
 
   useEffect(() => {
     if (!isVisible) {
-      return listenAction(setIoDeviceData, ({ name: targetDeviceName }) => {
-        if (targetDeviceName === deviceName) {
-          toggleVisible()
-        }
-      })
+      return subscribe(
+        store
+          .onAction(setIoDeviceData)
+          .pipe(filter(({ name: targetDeviceName }) => targetDeviceName === deviceName)),
+        toggleVisible
+      )
     }
   }, [isVisible, deviceName])
 
@@ -55,12 +56,13 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
 }
 
 export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
+  const store = useStore()
   const device = useIoDevice(IoDeviceName.VisualDisplayUnit)
 
   useEffect(() => {
-    return listenAction(setMemoryDataFrom, (_, api) => {
-      const memoryData = selectMemoryData(api.getState())
-      api.dispatch(setVduDataFrom(memoryData))
+    return subscribe(store.onAction(setMemoryDataFrom), () => {
+      const memoryData = selectMemoryData(store.getState())
+      store.dispatch(setVduDataFrom(memoryData))
     })
   }, [])
 

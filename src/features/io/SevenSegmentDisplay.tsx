@@ -1,7 +1,8 @@
 import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
 import DeviceCard from './DeviceCard'
-import { listenAction } from '@/app/actionListener'
+import { useStore } from '@/app/hooks'
+import { subscribe } from '@/app/subscribe'
 import { IoDeviceName, resetIoState } from './ioSlice'
 import { useIoDevice } from './hooks'
 import { range } from '@/common/utils'
@@ -135,12 +136,14 @@ const DATA_DIGIT_COUNT = 14
 const initialData = new Array<number>(DATA_DIGIT_COUNT).fill(0)
 
 const SevenSegmentDisplay = (): JSX.Element | null => {
+  const store = useStore()
+
   // an array of 14 digits,
   // elements with even index represent the left part
   const [data, setData] = useState(initialData)
 
   useEffect(() => {
-    return listenAction(resetIoState, () => {
+    return subscribe(store.onAction(resetIoState), () => {
       setData(initialData)
     })
   }, [])
