@@ -11,7 +11,7 @@ This project aims to recreate as much of the "Samphire" application as possible 
 - [CodeMirror 6](https://codemirror.net/6/)
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org/)
-- [Windi CSS](https://windicss.org/)
+- [RxJS](https://rxjs.dev/)
 - [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 
