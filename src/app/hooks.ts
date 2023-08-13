@@ -1,12 +1,22 @@
-import {
-  TypedUseSelectorHook,
-  useStore as __useStore,
-  useSelector as __useSelector
-} from 'react-redux'
-import type { RootState, Store } from './store'
+import { useDebugValue } from 'react'
+import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
+import { RootStateSelector, store } from './store'
 
-type TypedUseStoreHook = () => Store
+type EqualityFn<T> = (a: T, b: T) => boolean
 
-export const useStore = __useStore as TypedUseStoreHook
+const refEquality: EqualityFn<unknown> = (a, b) => a === b
 
-export const useSelector: TypedUseSelectorHook<RootState> = __useSelector
+export const useSelector = <TSelected>(
+  selector: RootStateSelector<TSelected>,
+  equalityFn: EqualityFn<TSelected> = refEquality
+): TSelected => {
+  const selectedState = useSyncExternalStoreWithSelector(
+    store.subscribe,
+    store.getState,
+    null,
+    selector,
+    equalityFn
+  )
+  useDebugValue(selectedState)
+  return selectedState
+}

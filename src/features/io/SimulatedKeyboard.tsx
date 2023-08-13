@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import Modal from '@/common/components/Modal'
-import { useStore, useSelector } from '@/app/hooks'
+import { store } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
 import {
   selectIsWaitingForKeyboardInput,
@@ -11,8 +12,6 @@ import { InputPort, SKIP } from './core'
 import { Ascii } from '@/common/constants'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
-  const store = useStore()
-
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
   const shouldOpen = isSuspended && isWaitingForKeyboardInput

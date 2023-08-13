@@ -3,7 +3,8 @@ import { filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
 import { subscribe } from '@/app/subscribe'
-import { useStore, useSelector } from '@/app/hooks'
+import { store, applySelector } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import {
   MessageType,
   EditorMessage,
@@ -26,14 +27,13 @@ import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints
 import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
 import { selectAutoAssemble } from '@/features/controller/controllerSlice'
-import { createAssemble } from '@/features/assembler/assemble'
+import { assemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
   selectAssemblerErrorRange,
   clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpuState } from '@/features/cpu/cpuSlice'
-import { useSingleton } from '@/common/hooks'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 
 enum AnnotationValue {
@@ -44,8 +44,6 @@ const syncFromState = withStringAnnotation(AnnotationValue.SyncFromState)
 const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 
 export const useSyncInput = (): void => {
-  const store = useStore()
-
   useViewEffect(view => {
     let syncInputTimeoutId: number | undefined
     return addUpdateListener(view, update => {
@@ -89,8 +87,6 @@ export const useSyncInput = (): void => {
 }
 
 export const useAutoFocus = (): void => {
-  const store = useStore()
-
   useViewEffect(view => {
     return subscribe(
       store
@@ -112,12 +108,9 @@ export const useAutoFocus = (): void => {
 }
 
 export const useAutoAssemble = (): void => {
-  const store = useStore()
-  const assemble = useSingleton(() => createAssemble(store))
-
   useViewEffect(view => {
     let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {
-      if (selectAutoAssemble(store.getState())) {
+      if (applySelector(selectAutoAssemble)) {
         const input = view.state.doc.toString()
         assemble(input)
       }
@@ -132,7 +125,7 @@ export const useAutoAssemble = (): void => {
 
   useEffect(() => {
     return subscribe(store.onAction(setEditorInput), ({ value, isFromFile }) => {
-      if (selectAutoAssemble(store.getState())) {
+      if (applySelector(selectAutoAssemble)) {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
@@ -146,11 +139,9 @@ export const useAutoAssemble = (): void => {
 }
 
 export const useAssemblerError = (): void => {
-  const store = useStore()
-
   useViewEffect(view => {
     return addUpdateListener(view, update => {
-      if (update.docChanged && selectAssemblerError(store.getState()) !== null) {
+      if (update.docChanged && applySelector(selectAssemblerError) !== null) {
         store.dispatch(clearAssemblerError())
       }
     })
@@ -170,8 +161,6 @@ export const useAssemblerError = (): void => {
 }
 
 export const useHighlightLine = (): void => {
-  const store = useStore()
-
   useEffect(() => {
     return subscribe(
       store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
@@ -207,8 +196,6 @@ export const useHighlightLine = (): void => {
 }
 
 export const useBreakpoints = (): void => {
-  const store = useStore()
-
   useViewEffect(view => {
     return addUpdateListener(view, update => {
       if (update.docChanged) {
@@ -237,7 +224,7 @@ export const useBreakpoints = (): void => {
   }, [])
 
   useViewEffect(view => {
-    const breakpoints = selectEditorBreakpoints(store.getState())
+    const breakpoints = applySelector(selectEditorBreakpoints)
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
       lineLoc =>
@@ -281,8 +268,6 @@ const errorToMessage = (error: Error): EditorMessage => {
 }
 
 export const useMessage = (): EditorMessage | null => {
-  const store = useStore()
-
   const assemblerError = useSelector(selectAssemblerError)
   const runtimeError = useSelector(selectCpuFault)
 
@@ -313,7 +298,7 @@ export const useMessage = (): EditorMessage | null => {
     return subscribe(
       store
         .onAction(resetCpuState)
-        .pipe(filter(() => selectEditorMessage(store.getState()) === haltedMessage)),
+        .pipe(filter(() => applySelector(selectEditorMessage) === haltedMessage)),
       () => {
         window.clearTimeout(messageTimeoutIdRef.current)
         messageTimeoutIdRef.current = undefined

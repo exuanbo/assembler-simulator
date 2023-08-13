@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useStore } from './hooks'
+import { store, applySelector } from './store'
 import { subscribe } from './subscribe'
 import { StateToPersist, selectStateToPersist } from './persist'
 import { saveState as saveStateToUrl } from './url'
@@ -11,10 +11,8 @@ const saveState = (state: StateToPersist): void => {
 }
 
 export const useStateSaver = (): void => {
-  const store = useStore()
-
   useEffect(() => {
-    const stateToPersist = selectStateToPersist(store.getState())
+    const stateToPersist = applySelector(selectStateToPersist)
     saveState(stateToPersist)
     return subscribe(store.onState(selectStateToPersist), saveState)
   }, [])

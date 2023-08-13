@@ -3,7 +3,8 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, Wrench } from '@/common/components/icons'
-import { useStore, useSelector } from '@/app/hooks'
+import { store } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import {
   ClockSpeed,
   clockSpeedOptionNames,
@@ -18,7 +19,6 @@ import {
 } from './controllerSlice'
 
 const AutoAssembleSwitch = (): JSX.Element => {
-  const store = useStore()
   const autoAssemble = useSelector(selectAutoAssemble)
 
   const toggleAutoAssemble = (): void => {
@@ -36,7 +36,6 @@ const AutoAssembleSwitch = (): JSX.Element => {
 }
 
 const ClockSpeedMenu = (): JSX.Element => {
-  const store = useStore()
   const clockSpeed = useSelector(selectClockSpeed)
 
   return (
@@ -74,7 +73,6 @@ const ClockSpeedMenu = (): JSX.Element => {
 }
 
 const TimerIntervalMenu = (): JSX.Element => {
-  const store = useStore()
   const timerInterval = useSelector(selectTimerInterval)
 
   return (

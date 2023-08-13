@@ -37,7 +37,7 @@ const getPreloadedState = (): Partial<RootState> => {
 const actionObserver = createActionObserver()
 const stateObserver = createStateObserver()
 
-const store = Object.assign(
+export const store = Object.assign(
   configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => {
@@ -54,4 +54,5 @@ const store = Object.assign(
 
 export type Store = typeof store
 
-export default store
+export const applySelector = <TSelected>(selector: RootStateSelector<TSelected>): TSelected =>
+  selector(store.getState())

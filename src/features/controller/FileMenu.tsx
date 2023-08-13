@@ -5,30 +5,26 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import Modal from '@/common/components/Modal'
 import { File as FileIcon } from '@/common/components/icons'
-import { useStore } from '@/app/hooks'
+import { store, applySelector } from '@/app/store'
 import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
 import { template, examples } from '@/features/editor/examples'
 
-const NewFileButton = (): JSX.Element => {
-  const store = useStore()
-
-  return (
-    <MenuItem
-      onClick={() => {
-        store.dispatch(
-          setEditorInput({
-            value: template.content,
-            isFromFile: true
-          })
-        )
-      }}>
-      <MenuButton>
-        <span className="w-4" />
-        <span>New File</span>
-      </MenuButton>
-    </MenuItem>
-  )
-}
+const NewFileButton = (): JSX.Element => (
+  <MenuItem
+    onClick={() => {
+      store.dispatch(
+        setEditorInput({
+          value: template.content,
+          isFromFile: true
+        })
+      )
+    }}>
+    <MenuButton>
+      <span className="w-4" />
+      <span>New File</span>
+    </MenuButton>
+  </MenuItem>
+)
 
 interface OpenButtonProps {
   onFileLoad: () => void
@@ -45,8 +41,6 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   const handleClickInput: React.MouseEventHandler<HTMLInputElement> = event => {
     event.stopPropagation()
   }
-
-  const store = useStore()
 
   const loadFile = (file: File): void => {
     const reader = Object.assign(new FileReader(), {
@@ -81,49 +75,43 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   )
 }
 
-const OpenExampleMenu = (): JSX.Element => {
-  const store = useStore()
-
-  return (
-    <MenuItem.Expandable>
-      {(isHovered, menuItemsRef, menuItemElement) => (
-        <>
-          <MenuButton>
-            <span className="w-4" />
-            <span>Open Example</span>
-          </MenuButton>
-          {isHovered && (
-            <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
-              {examples.map(({ title, content }, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={() => {
-                    store.dispatch(
-                      setEditorInput({
-                        value: content,
-                        isFromFile: true
-                      })
-                    )
-                  }}>
-                  <MenuButton>
-                    <span className="w-4" />
-                    <span>{title}</span>
-                  </MenuButton>
-                </MenuItem>
-              ))}
-            </MenuItems.Expanded>
-          )}
-        </>
-      )}
-    </MenuItem.Expandable>
-  )
-}
+const OpenExampleMenu = (): JSX.Element => (
+  <MenuItem.Expandable>
+    {(isHovered, menuItemsRef, menuItemElement) => (
+      <>
+        <MenuButton>
+          <span className="w-4" />
+          <span>Open Example</span>
+        </MenuButton>
+        {isHovered && (
+          <MenuItems.Expanded innerRef={menuItemsRef} menuItemElement={menuItemElement}>
+            {examples.map(({ title, content }, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => {
+                  store.dispatch(
+                    setEditorInput({
+                      value: content,
+                      isFromFile: true
+                    })
+                  )
+                }}>
+                <MenuButton>
+                  <span className="w-4" />
+                  <span>{title}</span>
+                </MenuButton>
+              </MenuItem>
+            ))}
+          </MenuItems.Expanded>
+        )}
+      </>
+    )}
+  </MenuItem.Expandable>
+)
 
 const SaveButton = (): JSX.Element => {
-  const store = useStore()
-
   const handleClick = (): void => {
-    const editorInput = selectEditorInput(store.getState())
+    const editorInput = applySelector(selectEditorInput)
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const anchorElement = Object.assign(document.createElement('a'), {

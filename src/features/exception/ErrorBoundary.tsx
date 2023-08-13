@@ -1,5 +1,5 @@
 import { ReactNode, Component, useCallback } from 'react'
-import { useStore } from '@/app/hooks'
+import { store } from '@/app/store'
 import { setException } from './exceptionSlice'
 
 type ErrorHandler = (error: Error) => void
@@ -30,8 +30,6 @@ interface Props {
 }
 
 const ErrorBoundary = ({ children }: Props): JSX.Element => {
-  const store = useStore()
-
   const handleError = useCallback<ErrorHandler>(error => {
     store.dispatch(setException(error))
   }, [])

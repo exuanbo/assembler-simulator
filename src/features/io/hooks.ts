@@ -1,7 +1,8 @@
 import { useEffect, useCallback, useMemo } from 'react'
 import { filter } from 'rxjs'
 import { Unsubscribe, subscribe } from '@/app/subscribe'
-import { useStore, useSelector } from '@/app/hooks'
+import { store, applySelector } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import {
   IoDeviceName,
   IoDeviceState,
@@ -21,8 +22,6 @@ interface IoDeviceActions {
 interface IoDevice extends IoDeviceState, IoDeviceActions {}
 
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
-  const store = useStore()
-
   const selectData = useMemo(() => selectIoDeviceData(deviceName), [deviceName])
   const data = useSelector(selectData)
 
@@ -56,12 +55,11 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
 }
 
 export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
-  const store = useStore()
   const device = useIoDevice(IoDeviceName.VisualDisplayUnit)
 
   useEffect(() => {
     return subscribe(store.onAction(setMemoryDataFrom), () => {
-      const memoryData = selectMemoryData(store.getState())
+      const memoryData = applySelector(selectMemoryData)
       store.dispatch(setVduDataFrom(memoryData))
     })
   }, [])

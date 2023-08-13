@@ -3,13 +3,13 @@ import MenuButton from './MenuButton'
 import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, View as ViewIcon } from '@/common/components/icons'
-import { useStore, useSelector } from '@/app/hooks'
+import { store } from '@/app/store'
+import { useSelector } from '@/app/hooks'
 import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
 import { ioDeviceNames, selectIoDeviceStates, toggleIoDeviceVisible } from '@/features/io/ioSlice'
 import { splitCamelCaseToString } from '@/common/utils'
 
 const MemoryMenu = (): JSX.Element => {
-  const store = useStore()
   const memoryView = useSelector(selectMemoryView)
 
   return (
@@ -43,7 +43,6 @@ const MemoryMenu = (): JSX.Element => {
 }
 
 const IoMenu = (): JSX.Element => {
-  const store = useStore()
   const ioDeviceStates = useSelector(selectIoDeviceStates)
 
   return (

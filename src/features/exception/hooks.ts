@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
-import { useStore } from '@/app/hooks'
+import { store } from '@/app/store'
 import { setException } from './exceptionSlice'
 
 export const useGlobalExceptionHandler = (): void => {
-  const store = useStore()
-
   useEffect(() => {
     const handleError = (event: ErrorEvent): void => {
       store.dispatch(setException(event.error))

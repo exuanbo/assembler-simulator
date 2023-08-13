@@ -3,17 +3,15 @@ import type { CodeMirrorConfig } from '@codemirror-toolkit/react'
 import { CodeMirrorProvider } from './codemirror/react'
 import CodeMirrorContainer from './CodeMirrorContainer'
 import EditorMessage from './EditorMessage'
-import { useStore } from '@/app/hooks'
+import { store, applySelector } from '@/app/store'
 import { selectEditorInput } from './editorSlice'
 import { getSetup } from './codemirror/setup'
 import { exceptionSink } from './codemirror/exceptionSink'
 import { setException } from '@/features/exception/exceptionSlice'
 
 const Editor = (): JSX.Element => {
-  const store = useStore()
-
   const codeMirrorConfig = useMemo<CodeMirrorConfig>(() => {
-    const editorInput = selectEditorInput(store.getState())
+    const editorInput = applySelector(selectEditorInput)
     return {
       doc: editorInput,
       extensions: [
