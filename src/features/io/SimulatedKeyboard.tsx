@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import Modal from '@/common/components/Modal'
 import { store } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
 import {
   selectIsWaitingForKeyboardInput,

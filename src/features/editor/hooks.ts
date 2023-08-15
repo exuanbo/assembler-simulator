@@ -3,8 +3,8 @@ import { filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
 import { subscribe } from '@/app/subscribe'
-import { store, applySelector } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { store } from '@/app/store'
+import { applySelector, useSelector } from '@/app/selector'
 import {
   MessageType,
   EditorMessage,

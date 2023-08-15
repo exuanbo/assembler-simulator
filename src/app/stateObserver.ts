@@ -1,8 +1,9 @@
 import type { Middleware } from '@reduxjs/toolkit'
 import { Observable, ReplaySubject, map, distinctUntilChanged, skip } from 'rxjs'
-import type { RootState, RootStateSelector } from './store'
+import type { RootState } from './store'
+import type { StateSelector } from './selector'
 
-type OnState = <TSelected>(selector: RootStateSelector<TSelected>) => Observable<TSelected>
+type OnState = <TSelected>(selector: StateSelector<TSelected>) => Observable<TSelected>
 
 interface StateObserver {
   middleware: Middleware

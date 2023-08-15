@@ -1,6 +1,6 @@
 import CardHeader from '@/common/components/CardHeader'
 import RegisterTableRow from './RegisterTableRow'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import {
   selectCpuGeneralPurposeRegisters,
   selectCpuPointerRegisters,

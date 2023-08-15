@@ -1,6 +1,6 @@
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowUp, ArrowDown } from '@/common/components/icons'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import {
   MemoryView,
   selectMemoryDataRowsGetter,

@@ -3,7 +3,7 @@ import Modal from '@/common/components/Modal'
 import Anchor from '@/common/components/Anchor'
 import { selectException, clearException } from './exceptionSlice'
 import { store } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import { useOutsideClick } from '@/common/hooks'
 
 const ExceptionModal = (): JSX.Element => {

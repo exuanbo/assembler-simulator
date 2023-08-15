@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { store, applySelector } from './store'
+import { store } from './store'
+import { applySelector } from './selector'
 import { subscribe } from './subscribe'
 import { StateToPersist, selectStateToPersist } from './persist'
 import { saveState as saveStateToUrl } from './url'

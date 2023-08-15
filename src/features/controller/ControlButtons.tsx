@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { Arrow, Play, Stop, Forward, Undo } from '@/common/components/icons'
 import { useController } from './hooks'
 import { selectIsRunning, selectIsSuspended } from './controllerSlice'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import { classNames } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
 

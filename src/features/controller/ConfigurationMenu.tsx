@@ -4,7 +4,7 @@ import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
 import { CheckMark, Wrench } from '@/common/components/icons'
 import { store } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { useSelector } from '@/app/selector'
 import {
   ClockSpeed,
   clockSpeedOptionNames,

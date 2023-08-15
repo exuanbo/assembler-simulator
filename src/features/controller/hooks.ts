@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { debounceTime, filter, first } from 'rxjs'
 import { subscribe } from '@/app/subscribe'
-import { store, applySelector } from '@/app/store'
+import { store } from '@/app/store'
+import { applySelector } from '@/app/selector'
 import {
   selectRuntimeConfiguration,
   selectIsRunning,

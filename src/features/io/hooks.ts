@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useMemo } from 'react'
 import { filter } from 'rxjs'
 import { Unsubscribe, subscribe } from '@/app/subscribe'
-import { store, applySelector } from '@/app/store'
-import { useSelector } from '@/app/hooks'
+import { store } from '@/app/store'
+import { applySelector, useSelector } from '@/app/selector'
 import {
   IoDeviceName,
   IoDeviceState,
