@@ -3,6 +3,7 @@ import { EditorView } from '@codemirror/view'
 
 const __exceptionSink = EditorView.exceptionSink
 
-type ExceptionSink = (handler: Parameters<typeof __exceptionSink.of>[0]) => Extension
+type ExceptionHandler = (exception: unknown) => void
+type ExceptionSink = (handler: ExceptionHandler) => Extension
 
 export const exceptionSink: ExceptionSink = handler => __exceptionSink.of(handler)
