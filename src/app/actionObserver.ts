@@ -13,6 +13,8 @@ const matchType =
   (action: Action): action is PayloadAction<TPayload> =>
     actionCreator.match(action)
 
+const getPayload = <TPayload>(action: PayloadAction<TPayload>): TPayload => action.payload
+
 export const createActionObserver = (): ActionObserver => {
   const action$ = new Subject<Action>()
 
@@ -25,10 +27,7 @@ export const createActionObserver = (): ActionObserver => {
   }
 
   const on: OnAction = actionCreator =>
-    action$.pipe(
-      filter(matchType(actionCreator)),
-      map(action => action.payload)
-    )
+    action$.pipe(filter(matchType(actionCreator)), map(getPayload))
 
   return { middleware, on }
 }
