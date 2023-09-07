@@ -10,6 +10,9 @@ const getCommitHash = (): string => execSync('git rev-parse --short HEAD').toStr
 
 export default defineConfig({
   base: './',
+  build: {
+    chunkSizeWarningLimit: 1000
+  },
   define: {
     __VERSION__: JSON.stringify(version),
     __COMMIT_HASH__: JSON.stringify(getCommitHash())
