@@ -1,3 +1,4 @@
 {
-  "reject": ["@types/jest", "jest", "jest-environment-jsdom", "ts-jest", "typescript"]
+  "reject": ["@types/jest", "jest", "jest-environment-jsdom", "ts-jest", "typescript"],
+  "target": "newest"
 }
