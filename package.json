@@ -49,5 +49,5 @@
     "vite-plugin-windicss": "1.9.1",
     "windicss": "3.5.6"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@4.0.0"
 }
