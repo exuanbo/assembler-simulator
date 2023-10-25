@@ -1465,9 +1465,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/language@npm:6.9.1, @codemirror/language@npm:^6.0.0":
-  version: 6.9.1
-  resolution: "@codemirror/language@npm:6.9.1"
+"@codemirror/language@npm:6.9.2, @codemirror/language@npm:^6.0.0":
+  version: 6.9.2
+  resolution: "@codemirror/language@npm:6.9.2"
   dependencies:
     "@codemirror/state": "npm:^6.0.0"
     "@codemirror/view": "npm:^6.0.0"
@@ -1475,7 +1475,7 @@ __metadata:
     "@lezer/highlight": "npm:^1.0.0"
     "@lezer/lr": "npm:^1.0.0"
     style-mod: "npm:^4.0.0"
-  checksum: 21a1e7d20eeff86b5b137bdda8a9cd4183e96a6a8995dce0d0531bc9e05e7e3d1658fb037261e4d3b8b9cc48e115a9ad9792c2f6ee07ff978580e353d37efd8d
+  checksum: 6220bb2500d07743b9fd77795961c555b8070608f3415acbd96186b61120614c166489bff119b6d88720b9bd7d5994265e828a821aacf21072db6894db0cec01
   languageName: node
   linkType: hard
 
@@ -1497,14 +1497,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/view@npm:6.21.3, @codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0":
-  version: 6.21.3
-  resolution: "@codemirror/view@npm:6.21.3"
+"@codemirror/view@npm:6.21.4, @codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0":
+  version: 6.21.4
+  resolution: "@codemirror/view@npm:6.21.4"
   dependencies:
     "@codemirror/state": "npm:^6.1.4"
     style-mod: "npm:^4.1.0"
     w3c-keyname: "npm:^2.2.4"
-  checksum: 10c9d4c5d52523d450efdfc4be8f3a4389ae6f4b986a1d8111c71fbb361a305832a3d2c7c207d0a4033d7bc8d04eafd06f75e6a6124607e4e5a6ec1e010ac337
+  checksum: 834fc8597bbad7430a746e97e484ba985683fa403dfedce21e4727615884e0c195be057eb772c267006b869a353292426bed47af584f7695524ed0a45a8d38a1
   languageName: node
   linkType: hard
 
@@ -2339,18 +2339,18 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 20.8.7
-  resolution: "@types/node@npm:20.8.7"
+  version: 20.8.8
+  resolution: "@types/node@npm:20.8.8"
   dependencies:
     undici-types: "npm:~5.25.1"
-  checksum: e82b87e7f3f4c12acc5803db21f9144d5e87c20841db9ae98746958e038064700ab04294d08a3714a3df8bd710a974998e2e423443a5d031840cbba17fa126a7
+  checksum: 739b3d6f4aa760d72373d504d91adec86ac2eab502f68a80214711983e7d1886fd276ade78a276a2affe4942a55ad65cf655c3aa9464d1150f6405445c5ba635
   languageName: node
   linkType: hard
 
-"@types/pako@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@types/pako@npm:2.0.1"
-  checksum: c4fd3a1431cb2bb866a4db96fafcd4bec64e1d6eb2a072547c95b644fa6ef4e944dae607e0b669c6dc37a7661067961bd8c12f3e126621a0dab857ee8e13104d
+"@types/pako@npm:2.0.2":
+  version: 2.0.2
+  resolution: "@types/pako@npm:2.0.2"
+  checksum: 92ccd1df1b953389c7a1473ec906402354128a34bb77b1cf7ecd801b87c77103e3cad9575a846a51bc1d8d1a32b70837742b1932e67b65bdbfef80d5b2d41e90
   languageName: node
   linkType: hard
 
@@ -2375,12 +2375,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.12":
-  version: 18.2.12
-  resolution: "@types/react-dom@npm:18.2.12"
+"@types/react-dom@npm:18.2.14":
+  version: 18.2.14
+  resolution: "@types/react-dom@npm:18.2.14"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 8de055588ca6840400947e2ae9c5ad663c225d73bc24aa352c6f56dcad124a408caf6f19045cb98b822069d07e81a93d3c4dfefab31bb65c1b7b36bd509e825c
+  checksum: 1f79a7708d038cd651bdb21e01a99c594761bc9a40a565abe98958e1d27facfeb6e9824ddf6ae3504e7a56568f0f3da2380fe52ac18477b5864d2d5cf1386a9e
   languageName: node
   linkType: hard
 
@@ -2882,15 +2882,15 @@ __metadata:
     "@codemirror-toolkit/utils": "npm:0.4.1"
     "@codemirror/autocomplete": "npm:6.10.2"
     "@codemirror/commands": "npm:6.3.0"
-    "@codemirror/language": "npm:6.9.1"
+    "@codemirror/language": "npm:6.9.2"
     "@codemirror/search": "npm:6.5.4"
     "@codemirror/state": "npm:6.3.1"
-    "@codemirror/view": "npm:6.21.3"
+    "@codemirror/view": "npm:6.21.4"
     "@reduxjs/toolkit": "npm:2.0.0-beta.3"
     "@types/jest": "npm:28.1.8"
-    "@types/pako": "npm:2.0.1"
+    "@types/pako": "npm:2.0.2"
     "@types/react": "npm:18.2.31"
-    "@types/react-dom": "npm:18.2.12"
+    "@types/react-dom": "npm:18.2.14"
     "@types/use-sync-external-store": "npm:0.0.5"
     "@vitejs/plugin-react": "npm:4.1.0"
     immer: "npm:10.0.3"
@@ -2906,7 +2906,7 @@ __metadata:
     ts-toolbelt: "npm:9.6.0"
     typescript: "npm:4.4.4"
     use-sync-external-store: "npm:1.2.0"
-    vite: "npm:4.4.11"
+    vite: "npm:4.5.0"
     vite-plugin-pwa: "npm:0.16.5"
     vite-plugin-windicss: "npm:1.9.1"
     windicss: "npm:3.5.6"
@@ -3201,9 +3201,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001541":
-  version: 1.0.30001553
-  resolution: "caniuse-lite@npm:1.0.30001553"
-  checksum: 75656429566b44f968e5575f2bc4a27052ed5bb49763069f6b6c3f64c5a2d4c561dc17342faee42ef42d004572fba7c214d5321d18d9283c95f3bf17e5498355
+  version: 1.0.30001554
+  resolution: "caniuse-lite@npm:1.0.30001554"
+  checksum: 1ef7647d005ff4b6d2797dd3d4d47cf66733531999e40b50dcbe3c84f59f8ecac92ffba7ca35b932bd1ce5f8aedbf22f3bd464898be00874e3db99ef869bd726
   languageName: node
   linkType: hard
 
@@ -3618,9 +3618,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.535":
-  version: 1.4.563
-  resolution: "electron-to-chromium@npm:1.4.563"
-  checksum: 2f5b7ff65b863378f737467f694041d73de79812c8ed46ff405e319ff0fb12dd0e978f6f1769407879ea694b18117947370e9ba40be51aef50f224f1d36ed11a
+  version: 1.4.566
+  resolution: "electron-to-chromium@npm:1.4.566"
+  checksum: 9df1aed0ecbf0026e8b2b055169aac0b73c1077d809430801093f0d5e19e82e8466c273eddc1c0b7d9f63f598546421c42fedee93c341b8f7c38e6bb9286d0e7
   languageName: node
   linkType: hard
 
@@ -8340,9 +8340,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:4.4.11":
-  version: 4.4.11
-  resolution: "vite@npm:4.4.11"
+"vite@npm:4.5.0":
+  version: 4.5.0
+  resolution: "vite@npm:4.5.0"
   dependencies:
     esbuild: "npm:^0.18.10"
     fsevents: "npm:~2.3.2"
@@ -8376,7 +8376,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 550af0f67b600f603d0c129b74ac18dfa674d19e2b7dba28f4214d5edeba217a91fb7b8f4f47037aa0297f142d22360780a0a4533b27dbaacd2894030f61e5f4
+  checksum: 7e21e9e4b80656ae5ee61e8c5edb5e8f589139c2b22c43e89d054c65a0194f1c1ef066fbc770204173c7eb244c798265042f988adda5880ad74337a053b28b7f
   languageName: node
   linkType: hard
 
