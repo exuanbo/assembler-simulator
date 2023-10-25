@@ -8,6 +8,11 @@ import { name, version, description } from './package.json'
 
 const getCommitHash = (): string => execSync('git rev-parse --short HEAD').toString().trimEnd()
 
+const getCommitDate = (): string => {
+  const commitDate = execSync('git log -1 --format=%cd').toString()
+  return new Date(commitDate).toISOString()
+}
+
 export default defineConfig({
   base: './',
   build: {
@@ -15,7 +20,8 @@ export default defineConfig({
   },
   define: {
     __VERSION__: JSON.stringify(version),
-    __COMMIT_HASH__: JSON.stringify(getCommitHash())
+    __COMMIT_HASH__: JSON.stringify(getCommitHash()),
+    __COMMIT_DATE__: JSON.stringify(getCommitDate())
   },
   plugins: [
     react(),

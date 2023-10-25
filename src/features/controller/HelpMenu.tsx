@@ -79,20 +79,26 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
         <div className="font-bold">Assembler Simulator</div>
         <div className="space-y-4 text-sm">
           <div>
-            <div>Version {__VERSION__}</div>
             <div>
-              Build{' '}
+              Version:{' '}
+              <Anchor href="https://github.com/exuanbo/assembler-simulator/releases">
+                {__VERSION__}
+              </Anchor>
+            </div>
+            <div>
+              Commit:{' '}
               <Anchor
                 href={`https://github.com/exuanbo/assembler-simulator/commits/${__COMMIT_HASH__}`}>
                 {__COMMIT_HASH__}
               </Anchor>
             </div>
+            <div>Date: {__COMMIT_DATE__}</div>
           </div>
           <div>
             <Anchor href="https://github.com/exuanbo/assembler-simulator/blob/main/LICENSE">
               GPL-3.0 License
             </Anchor>{' '}
-            <span className="font-sans">©</span> 2022{' '}
+            <span className="font-sans">©</span> 2022-Present{' '}
             <Anchor href="https://github.com/exuanbo">Exuanbo</Anchor>
           </div>
         </div>
