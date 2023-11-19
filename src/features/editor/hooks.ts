@@ -124,8 +124,9 @@ export const useAutoAssemble = (): void => {
   }, [])
 
   useEffect(() => {
-    return subscribe(store.onAction(setEditorInput), ({ value, isFromFile }) => {
-      if (applySelector(selectAutoAssemble)) {
+    return subscribe(
+      store.onAction(setEditorInput).pipe(filter(() => applySelector(selectAutoAssemble))),
+      ({ value, isFromFile }) => {
         if (isFromFile) {
           window.setTimeout(() => {
             assemble(value)
@@ -134,7 +135,7 @@ export const useAutoAssemble = (): void => {
           assemble(value)
         }
       }
-    })
+    )
   }, [])
 }
 
