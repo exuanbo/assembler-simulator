@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { map, filter } from 'rxjs'
+import { from, of, map, switchMap, filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
 import { subscribe } from '@/app/subscribe'
@@ -21,7 +21,7 @@ import {
 } from './editorSlice'
 import { template } from './examples'
 import { useViewEffect } from './codemirror/react'
-import { enableVim, disableVim } from './codemirror/vim'
+import { initVim, enableVim, disableVim } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
@@ -42,7 +42,11 @@ export const useVimKeybindings = (): void => {
     return subscribe(
       store
         .onState(selectVimKeybindings, { initial: true })
-        .pipe(map(isEnabled => (isEnabled ? enableVim : disableVim))),
+        .pipe(
+          switchMap(isEnabled =>
+            isEnabled ? from(initVim()).pipe(map(() => enableVim)) : of(disableVim)
+          )
+        ),
       action => {
         action(view)
       }
