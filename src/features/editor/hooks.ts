@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { filter } from 'rxjs'
+import { map, filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
 import { subscribe } from '@/app/subscribe'
@@ -21,12 +21,13 @@ import {
 } from './editorSlice'
 import { template } from './examples'
 import { useViewEffect } from './codemirror/react'
+import { enableVim, disableVim } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
 import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
-import { selectAutoAssemble } from '@/features/controller/controllerSlice'
+import { selectAutoAssemble, selectVimKeybindings } from '@/features/controller/controllerSlice'
 import { assemble } from '@/features/assembler/assemble'
 import {
   selectAssemblerError,
@@ -35,6 +36,19 @@ import {
 } from '@/features/assembler/assemblerSlice'
 import { selectCpuFault, setCpuHalted, resetCpuState } from '@/features/cpu/cpuSlice'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+
+export const useVimKeybindings = (): void => {
+  useViewEffect(view => {
+    return subscribe(
+      store
+        .onState(selectVimKeybindings, { initial: true })
+        .pipe(map(isEnabled => (isEnabled ? enableVim : disableVim))),
+      action => {
+        action(view)
+      }
+    )
+  }, [])
+}
 
 enum AnnotationValue {
   SyncFromState = 'SyncFromState'

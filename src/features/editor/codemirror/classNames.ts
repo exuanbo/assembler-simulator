@@ -9,6 +9,7 @@ export enum ClassName {
 
 export enum InternalClassName {
   Cursor = 'cm-cursor',
+  CursorPrimary = 'cm-cursor-primary',
   Focused = 'cm-focused',
   Scroller = 'cm-scroller',
   Gutters = 'cm-gutters',

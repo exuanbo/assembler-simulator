@@ -1,5 +1,6 @@
 import { useContainerRef } from './codemirror/react'
 import {
+  useVimKeybindings,
   useSyncInput,
   useAutoFocus,
   useAutoAssemble,
@@ -16,6 +17,7 @@ interface Props {
 const CodeMirrorContainer = ({ className }: Props): JSX.Element => {
   const containerRef = useContainerRef()
 
+  useVimKeybindings()
   useSyncInput()
   useAutoFocus()
   useAutoAssemble()

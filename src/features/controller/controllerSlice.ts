@@ -38,6 +38,7 @@ interface Configuration {
   autoAssemble: boolean
   clockSpeed: ClockSpeed
   timerInterval: TimerInterval
+  vimKeybindings: boolean
 }
 
 interface ControllerState {
@@ -50,7 +51,8 @@ const initialState: ControllerState = {
   configuration: {
     autoAssemble: true,
     clockSpeed: ClockSpeed['4 Hz'],
-    timerInterval: TimerInterval['2 seconds']
+    timerInterval: TimerInterval['2 seconds'],
+    vimKeybindings: false
   },
   isRunning: false,
   isSuspended: false
@@ -68,6 +70,9 @@ export const controllerSlice = createSlice({
     },
     setTimerInterval: (state, action: PayloadAction<TimerInterval>) => {
       state.configuration.timerInterval = action.payload
+    },
+    setVimKeybindings: (state, action: PayloadAction<boolean>) => {
+      state.configuration.vimKeybindings = action.payload
     },
     setRunning: (state, action: PayloadAction<boolean>) => {
       state.isRunning = action.payload
@@ -95,6 +100,9 @@ export const selectRuntimeConfiguration = createSelector(
   (clockSpeed, timerInterval) => ({ clockSpeed, timerInterval })
 )
 
+export const selectVimKeybindings = (state: RootState): boolean =>
+  state.controller.configuration.vimKeybindings
+
 export const selectIsRunning = (state: RootState): boolean => state.controller.isRunning
 
 export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
@@ -104,7 +112,13 @@ export const selectControllerStateToPersist = createSelector(
   configuration => ({ configuration })
 )
 
-export const { setAutoAssemble, setClockSpeed, setTimerInterval, setRunning, setSuspended } =
-  controllerSlice.actions
+export const {
+  setAutoAssemble,
+  setClockSpeed,
+  setTimerInterval,
+  setVimKeybindings,
+  setRunning,
+  setSuspended
+} = controllerSlice.actions
 
 export default controllerSlice.reducer

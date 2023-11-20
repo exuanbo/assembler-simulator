@@ -28,6 +28,9 @@ export const theme = (): Extension => {
     },
     [`.${InternalClassName.Cursor}`]: {
       borderLeft: '2px solid black'
+    },
+    [`&:not(.${InternalClassName.Focused}) .${InternalClassName.CursorPrimary}`]: {
+      outline: '0 !important'
     }
   })
 }

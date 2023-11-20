@@ -13,9 +13,11 @@ import {
   selectAutoAssemble,
   selectClockSpeed,
   selectTimerInterval,
+  selectVimKeybindings,
   setAutoAssemble,
   setClockSpeed,
-  setTimerInterval
+  setTimerInterval,
+  setVimKeybindings
 } from './controllerSlice'
 
 const AutoAssembleSwitch = (): JSX.Element => {
@@ -109,6 +111,23 @@ const TimerIntervalMenu = (): JSX.Element => {
   )
 }
 
+const VimKeybindingsSwitch = (): JSX.Element => {
+  const vimKeybindings = useSelector(selectVimKeybindings)
+
+  const toggleVimKeybindings = (): void => {
+    store.dispatch(setVimKeybindings(!vimKeybindings))
+  }
+
+  return (
+    <MenuItem onClick={toggleVimKeybindings}>
+      <MenuButton>
+        {vimKeybindings ? <CheckMark /> : <span className="w-4" />}
+        <span>Vim Keybindings</span>
+      </MenuButton>
+    </MenuItem>
+  )
+}
+
 const ConfigurationMenu = (): JSX.Element => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
@@ -122,6 +141,7 @@ const ConfigurationMenu = (): JSX.Element => (
             <AutoAssembleSwitch />
             <ClockSpeedMenu />
             <TimerIntervalMenu />
+            <VimKeybindingsSwitch />
           </MenuItems>
         )}
       </>

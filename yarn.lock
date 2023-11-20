@@ -2102,6 +2102,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@replit/codemirror-vim@npm:6.1.0":
+  version: 6.1.0
+  resolution: "@replit/codemirror-vim@npm:6.1.0"
+  peerDependencies:
+    "@codemirror/commands": ^6.0.0
+    "@codemirror/language": ^6.1.0
+    "@codemirror/search": ^6.2.0
+    "@codemirror/state": ^6.0.1
+    "@codemirror/view": ^6.0.3
+  checksum: 31ec669956f093e2a5057670b0f8d8a69ccb74f64c69e01c675052eac57d40224996a549e69afea67340ebeebba47759401dedb0a8730c11564eb608710c0b05
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.1
   resolution: "@rollup/plugin-babel@npm:5.3.1"
@@ -2887,6 +2900,7 @@ __metadata:
     "@codemirror/state": "npm:6.3.1"
     "@codemirror/view": "npm:6.21.4"
     "@reduxjs/toolkit": "npm:2.0.0-beta.3"
+    "@replit/codemirror-vim": "npm:6.1.0"
     "@types/jest": "npm:28.1.8"
     "@types/pako": "npm:2.0.2"
     "@types/react": "npm:18.2.31"

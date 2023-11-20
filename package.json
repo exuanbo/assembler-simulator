@@ -23,6 +23,7 @@
     "@codemirror/state": "6.3.1",
     "@codemirror/view": "6.21.4",
     "@reduxjs/toolkit": "2.0.0-beta.3",
+    "@replit/codemirror-vim": "6.1.0",
     "immer": "10.0.3",
     "js-base64": "3.7.5",
     "pako": "2.1.0",
