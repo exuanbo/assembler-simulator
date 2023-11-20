@@ -20,6 +20,9 @@ export const lineNumbers = (): Extension => {
       }
     }),
     EditorView.baseTheme({
+      [`.${InternalClassName.LineNumbers}`]: {
+        paddingRight: '6px'
+      },
       [`.${InternalClassName.LineNumbers} .${InternalClassName.GutterElement}`]: {
         cursor: 'pointer'
       }

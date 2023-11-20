@@ -91,6 +91,9 @@ export const breakpoints = (): Extension => {
       }
     }),
     EditorView.baseTheme({
+      [`.${ClassName.Breakpoint}`]: {
+        fontSize: '0.875em'
+      },
       [`.${ClassName.Breakpoint} .${InternalClassName.GutterElement}`]: {
         width: '20px',
         padding: '0 3px 0 5px',
