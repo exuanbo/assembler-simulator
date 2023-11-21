@@ -23,7 +23,7 @@ const ExternalLinkButton = ({ href, name }: ExternalLinkButtonProps): JSX.Elemen
 
 const InstructionSetButton = (): JSX.Element => (
   <ExternalLinkButton
-    href="https://web.archive.org/web/20200701132011/http://www.softwareforeducation.com/sms32v50/sms32v50_manual/250-FullIset.htm"
+    href="https://nbest.co.uk/Softwareforeducation/sms32v50/sms32v50_manual/250-FullIset.htm"
     name="Instruction Set"
   />
 )
