@@ -4,7 +4,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/exuanbo/assembler-simulator/nodejs.yml.svg?branch=main)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
-A simulator of 8-bit CPU using the "Samphire" [Microprocessor Simulator](https://web.archive.org/web/20220417233401/http://www.softwareforeducation.com/sms32v50/index.php) instruction set (similar to the Intel 8086 chip). "Samphire" is used for teaching CS1111 Systems Organisation at University College Cork, but it is restricted to Windows operating system.
+A simulator of 8-bit CPU using the "Samphire" [Microprocessor Simulator](https://nbest.co.uk/Softwareforeducation/sms32v50/sms32v50_manual/index.htm) instruction set (similar to the Intel 8086 chip). "Samphire" is used for teaching CS1111 Systems Organisation at University College Cork, but it is restricted to Windows operating system.
 
 This project aims to recreate as much of the "Samphire" application as possible and provide a better learning experience using modern front-end web technologies:
 
