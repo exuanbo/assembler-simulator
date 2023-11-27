@@ -1,7 +1,7 @@
 {
   "name": "assembler-simulator",
   "private": true,
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-alpha.28",
   "description": "A simulator of 8-bit CPU using the Samphire Microprocessor Simulator instruction set.",
   "scripts": {
     "dev": "vite",
