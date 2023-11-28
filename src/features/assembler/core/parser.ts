@@ -241,14 +241,13 @@ const parseDoubleOperands =
   <T1 extends OperandType, T2 extends OperandType>(
     ...expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
-    const parseOperand = parseSingleOperand(tokenizer)
     const possibleFirstOperandTypes: T1[] = []
     expectedTypePairs.forEach(([firstOperandType]) => {
       if (!possibleFirstOperandTypes.includes(firstOperandType)) {
         possibleFirstOperandTypes.push(firstOperandType)
       }
     })
-    const firstOperand = parseOperand(...possibleFirstOperandTypes)
+    const firstOperand = parseSingleOperand(tokenizer)(...possibleFirstOperandTypes)
     tokenizer.match(TokenType.Comma, token => new MissingCommaError(token))
     const possibleSecondOperandTypes: T2[] = []
     expectedTypePairs.forEach(([firstOperandType, secondOperandType]) => {
@@ -256,7 +255,7 @@ const parseDoubleOperands =
         possibleSecondOperandTypes.push(secondOperandType)
       }
     })
-    const secondOperand = parseOperand(...possibleSecondOperandTypes)
+    const secondOperand = parseSingleOperand(tokenizer)(...possibleSecondOperandTypes)
     return [firstOperand, secondOperand]
   }
 
