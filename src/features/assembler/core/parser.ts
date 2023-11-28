@@ -4,9 +4,9 @@ import type {
   MnemonicWithOneOperand,
   MnemonicWithTwoOperands
 } from './types'
-import { TokenType, Token } from './tokenizer'
+import { TokenType, Token, Tokenizer, createTokenizer } from './tokenizer'
 import {
-  AssemblerError,
+  EndOfTokenStreamError,
   InvalidLabelError,
   StatementError,
   MissingEndError,
@@ -142,11 +142,15 @@ const validateLabel = (token: Token): Token => {
   return token
 }
 
-const parseLabel = (tokens: Token[], index: number): Label | null => {
-  if (tokens[index + 1]?.type !== TokenType.Colon) {
+const parseLabel = (tokenizer: Tokenizer): Label | null => {
+  const nextToken = tokenizer.peekNext()
+  if (nextToken?.type !== TokenType.Colon) {
     return null
   }
-  return createLabel(validateLabel(tokens[index]))
+  const token = tokenizer.consume()
+  const label = createLabel(validateLabel(token))
+  tokenizer.advance()
+  return label
 }
 
 const validateNumber = (token: Token): Token => {
@@ -171,13 +175,9 @@ const NUMBER_REGEXP = /^[\dA-F]+$/
 const REGISTER_REGEXP = /^[A-D]L$/
 
 const parseSingleOperand =
-  (tokens: Token[], index: number) =>
+  (tokenizer: Tokenizer) =>
   <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
-    if (index >= tokens.length) {
-      throw new MissingEndError()
-    }
-    const token = tokens[index]
-
+    const token = tokenizer.consume()
     let t: OperandType
 
     const isExpectedType = (type: OperandType): type is T =>
@@ -236,68 +236,38 @@ const parseSingleOperand =
     throw new OperandTypeError(token, ...expectedTypes)
   }
 
-const checkComma = (tokens: Token[], index: number): AssemblerError | null => {
-  if (index >= tokens.length) {
-    return new MissingEndError()
-  }
-  const token = tokens[index]
-  if (token.type !== TokenType.Comma) {
-    return new MissingCommaError(token)
-  }
-  return null
-}
-
 const parseDoubleOperands =
-  (tokens: Token[], index: number) =>
+  (tokenizer: Tokenizer) =>
   <T1 extends OperandType, T2 extends OperandType>(
     ...expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
+    const parseOperand = parseSingleOperand(tokenizer)
     const possibleFirstOperandTypes: T1[] = []
     expectedTypePairs.forEach(([firstOperandType]) => {
       if (!possibleFirstOperandTypes.includes(firstOperandType)) {
         possibleFirstOperandTypes.push(firstOperandType)
       }
     })
-    const firstOperand = parseSingleOperand(tokens, index)(...possibleFirstOperandTypes)
-    const error = checkComma(tokens, index + 1)
-    if (error !== null) {
-      throw error
-    }
+    const firstOperand = parseOperand(...possibleFirstOperandTypes)
+    tokenizer.match(TokenType.Comma, token => new MissingCommaError(token))
     const possibleSecondOperandTypes: T2[] = []
     expectedTypePairs.forEach(([firstOperandType, secondOperandType]) => {
       if (firstOperandType === firstOperand.type) {
         possibleSecondOperandTypes.push(secondOperandType)
       }
     })
-    const secondOperand = parseSingleOperand(tokens, index + 2)(...possibleSecondOperandTypes)
+    const secondOperand = parseOperand(...possibleSecondOperandTypes)
     return [firstOperand, secondOperand]
   }
 
-const parseStatement = (
-  tokens: Token[],
-  __index: number
-): [statement: Statement, consumed: number] => {
-  const getIndex = (): number => __index + consumedTokenCount
-
-  let consumedTokenCount = 0
-  const consumeToken = (count: number): void => {
-    consumedTokenCount += count
-  }
-
-  const label = parseLabel(tokens, getIndex())
+const parseStatement = (tokenizer: Tokenizer): Statement => {
+  const label = parseLabel(tokenizer)
   const hasLabel = label !== null
-  if (hasLabel) {
-    consumeToken(2) // Label + Colon
-  }
 
-  const token = tokens[getIndex()]
-  if (token === undefined) {
-    throw new MissingEndError()
-  }
+  const token = tokenizer.consume()
   if (token.type !== TokenType.Unknown || !(token.value in Mnemonic)) {
     throw new StatementError(token, hasLabel)
   }
-  consumeToken(1) // instruction
 
   const instruction = createInstruction(token)
   const setOpcode = (opcode: Opcode | null): void => {
@@ -319,7 +289,7 @@ const parseStatement = (
     }
     case 1: {
       let opcode, operand
-      const parseOperand = parseSingleOperand(tokens, getIndex())
+      const parseOperand = parseSingleOperand(tokenizer)
 
       switch (mnemonic as MnemonicWithOneOperand) {
         case Mnemonic.INC:
@@ -414,12 +384,11 @@ const parseStatement = (
 
       setOpcode(opcode)
       setOperands(operand)
-      consumeToken(1) // Operand
       break
     }
     case 2: {
       let opcode, firstOperand, secondOperand
-      const parseOperands = parseDoubleOperands(tokens, getIndex())
+      const parseOperands = parseDoubleOperands(tokenizer)
 
       switch (mnemonic as MnemonicWithTwoOperands) {
         case Mnemonic.ADD:
@@ -588,21 +557,29 @@ const parseStatement = (
 
       setOpcode(opcode)
       setOperands(firstOperand, secondOperand)
-      consumeToken(3) // Operand + Comma + Operand
       break
     }
   }
 
-  const statement = createStatement(label, instruction, operands)
-  return [statement, consumedTokenCount]
+  return createStatement(label, instruction, operands)
 }
 
-export const parse = (tokens: Token[]): Statement[] => {
+export const parse = (source: string): Statement[] => {
+  const tokenizer = createTokenizer(source)
   const statements: Statement[] = []
-  for (let index = 0; index < tokens.length; ) {
-    const [statement, consumed] = parseStatement(tokens, index)
-    statements.push(statement)
-    index += consumed
+  while (tokenizer.hasCurrent) {
+    try {
+      const statement = parseStatement(tokenizer)
+      statements.push(statement)
+      if (statement.instruction.mnemonic === Mnemonic.END) {
+        break
+      }
+    } catch (error) {
+      if (error instanceof EndOfTokenStreamError) {
+        throw new MissingEndError()
+      }
+      throw error
+    }
   }
   if (
     statements.length > 0 &&

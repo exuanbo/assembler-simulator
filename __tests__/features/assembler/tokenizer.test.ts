@@ -1,7 +1,16 @@
-import { tokenize } from '@/features/assembler/core/tokenizer'
+import { Token, createTokenizer } from '@/features/assembler/core/tokenizer'
 import { shortArraySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)
+
+const tokenize = (source: string): Token[] => {
+  const tokenizer = createTokenizer(source)
+  const tokens: Token[] = []
+  while (tokenizer.hasCurrent) {
+    tokens.push(tokenizer.consume())
+  }
+  return tokens
+}
 
 describe('tokenizer', () => {
   it('should skip whitespace', () => {

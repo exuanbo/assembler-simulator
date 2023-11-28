@@ -1,4 +1,3 @@
-import { tokenize } from './tokenizer'
 import { OperandType, Operand, Statement, parse } from './parser'
 import {
   DuplicateLabelError,
@@ -55,7 +54,7 @@ export interface AddressToStatementMap {
 export type AssembleResult = [AddressToMachineCodeMap, Partial<AddressToStatementMap>]
 
 export const assemble = (input: string): AssembleResult => {
-  const statements = parse(tokenize(input))
+  const statements = parse(input)
   const labelToAddressMap = getLabelToAddressMap(statements)
   const addressToMachineCodeMap: AddressToMachineCodeMap = {}
   const addressToStatementMap: AddressToStatementMap = {}

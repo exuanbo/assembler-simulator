@@ -28,6 +28,16 @@ export abstract class AssemblerError extends Error {
   }
 }
 
+class TokenizeError extends AssemblerError {
+  public name = 'TokenizeError'
+}
+
+export class EndOfTokenStreamError extends TokenizeError {
+  constructor() {
+    super('Unexpected end of token stream.')
+  }
+}
+
 class ParseError extends AssemblerError {
   public name = 'ParseError'
 
