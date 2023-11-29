@@ -19,8 +19,7 @@ interface TokenRule {
   pattern: RegExp
 }
 
-/* eslint-disable prettier/prettier */
-
+// prettier-ignore
 const tokenRules: readonly TokenRule[] = [
   { type: TokenType.Whitespace, pattern: /\s+/ },
   { type: TokenType.Comment,    pattern: /;.*/ },
@@ -33,10 +32,8 @@ const tokenRules: readonly TokenRule[] = [
   { type: TokenType.Unknown,    pattern: /[^\s;:,["]+|\[.*?(?=\s*?(?:[\r\n;:,]|$))|".*/ }
 ]
 
-/* eslint-enable prettier/prettier */
-
-const tokenRegExpLiteral = tokenRules.map(({ pattern }) => `(${pattern.source})`).join('|')
-const createTokenRegExp = (): RegExp => new RegExp(tokenRegExpLiteral, 'y')
+const tokenRegExpSource = tokenRules.map(({ pattern }) => `(${pattern.source})`).join('|')
+const createTokenRegExp = (): RegExp => new RegExp(tokenRegExpSource, 'y')
 
 export interface Token {
   type: TokenType
