@@ -78,9 +78,10 @@ const createTokenStream = (source: string): TokenStream => {
       const match = regexp.exec(source)
       if (match !== null && match.index === startIndex) {
         for (let ruleIndex = 0; ; ruleIndex++) {
-          if (match[ruleIndex + 1] !== undefined) {
+          const value = match[ruleIndex + 1]
+          if (value !== undefined) {
             const { type } = tokenRules[ruleIndex]
-            return createToken(type, match[0], match.index)
+            return createToken(type, value, match.index)
           }
         }
       }
