@@ -106,7 +106,7 @@ export interface Tokenizer {
 
 export const createTokenizer = (source: string): Tokenizer => {
   const stream = createTokenStream(source)
-  const extractNextToken = (): Token | null => {
+  const streamNext = (): Token | null => {
     let token: Token | null = null
     do {
       token = stream.next()
@@ -117,8 +117,8 @@ export const createTokenizer = (source: string): Tokenizer => {
     return token
   }
 
-  let current: Token | null = extractNextToken()
-  let next: Token | null = extractNextToken()
+  let current: Token | null = streamNext()
+  let next: Token | null = streamNext()
 
   const assertCurrent = (): Token => {
     if (current === null) {
@@ -139,7 +139,7 @@ export const createTokenizer = (source: string): Tokenizer => {
     },
     advance: () => {
       current = next
-      next = extractNextToken()
+      next = streamNext()
     },
     consume: () => {
       const token = assertCurrent()
