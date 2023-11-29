@@ -96,12 +96,12 @@ const createTokenStream = (source: string): TokenStream => {
 }
 
 export interface Tokenizer {
-  current: Token
-  hasCurrent: boolean
+  hasMore: () => boolean
+  peek: () => Token | null
   peekNext: () => Token | null
   advance: () => void
   consume: () => Token
-  match: (type: TokenType, createError: (token: Token) => Error) => void
+  match: (type: TokenType) => boolean
 }
 
 export const createTokenizer = (source: string): Tokenizer => {
@@ -116,43 +116,43 @@ export const createTokenizer = (source: string): Tokenizer => {
     )
     return token
   }
+
   let current: Token | null = extractNextToken()
-  let next: Token | null = null
+  let next: Token | null = extractNextToken()
+
+  const assertCurrent = (): Token => {
+    if (current === null) {
+      throw new EndOfTokenStreamError()
+    }
+    return current
+  }
+
   const tokenizer: Tokenizer = {
-    get current() {
-      if (current === null) {
-        throw new EndOfTokenStreamError()
-      }
-      return current
-    },
-    get hasCurrent() {
+    hasMore: () => {
       return current !== null
     },
+    peek: () => {
+      return current
+    },
     peekNext: () => {
-      if (next === null) {
-        next = extractNextToken()
-      }
       return next
     },
     advance: () => {
-      if (next !== null) {
-        current = next
-        next = null
-        return
-      }
-      current = extractNextToken()
+      current = next
+      next = extractNextToken()
     },
     consume: () => {
-      const token = tokenizer.current
+      const token = assertCurrent()
       tokenizer.advance()
       return token
     },
-    match: (type, createError) => {
-      const token = tokenizer.current
+    match: type => {
+      const token = assertCurrent()
       if (token.type !== type) {
-        throw createError(token)
+        return false
       }
       tokenizer.advance()
+      return true
     }
   }
   return tokenizer

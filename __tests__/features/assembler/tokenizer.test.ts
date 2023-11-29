@@ -6,7 +6,7 @@ expect.addSnapshotSerializer(shortArraySerializer)
 const tokenize = (source: string): Token[] => {
   const tokenizer = createTokenizer(source)
   const tokens: Token[] = []
-  while (tokenizer.hasCurrent) {
+  while (tokenizer.hasMore()) {
     tokens.push(tokenizer.consume())
   }
   return tokens

@@ -248,7 +248,9 @@ const parseDoubleOperands =
       }
     })
     const firstOperand = parseSingleOperand(tokenizer)(...possibleFirstOperandTypes)
-    tokenizer.match(TokenType.Comma, token => new MissingCommaError(token))
+    if (!tokenizer.match(TokenType.Comma)) {
+      throw new MissingCommaError(tokenizer.peek()!)
+    }
     const possibleSecondOperandTypes: T2[] = []
     expectedTypePairs.forEach(([firstOperandType, secondOperandType]) => {
       if (firstOperandType === firstOperand.type) {
@@ -566,7 +568,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
 export const parse = (source: string): Statement[] => {
   const tokenizer = createTokenizer(source)
   const statements: Statement[] = []
-  while (tokenizer.hasCurrent) {
+  while (tokenizer.hasMore()) {
     try {
       const statement = parseStatement(tokenizer)
       statements.push(statement)
