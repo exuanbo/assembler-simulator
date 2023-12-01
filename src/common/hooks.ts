@@ -59,10 +59,7 @@ export const useHover = <T extends Element = Element>(
   })
 
   const clearHoverTimeout = (): void => {
-    if (mutableState.timeoutId !== undefined) {
-      window.clearTimeout(mutableState.timeoutId)
-      mutableState.timeoutId = undefined
-    }
+    window.clearTimeout(mutableState.timeoutId)
   }
 
   useEffect(() => {
@@ -77,7 +74,6 @@ export const useHover = <T extends Element = Element>(
         mutableState.timeoutId = window.setTimeout(() => {
           handler(/* isHovered: */ true)
           mutableState.isHovered = true
-          mutableState.timeoutId = undefined
         }, delay)
       }
     }

@@ -68,10 +68,7 @@ export const useSyncInput = (): void => {
       if (!update.docChanged) {
         return
       }
-      if (syncInputTimeoutId !== undefined) {
-        window.clearTimeout(syncInputTimeoutId)
-        syncInputTimeoutId = undefined
-      }
+      window.clearTimeout(syncInputTimeoutId)
       // document changes must be caused by at least one transaction
       const firstTransaction = update.transactions[0]
       // only one transaction is dispatched if input is set from file
@@ -81,7 +78,6 @@ export const useSyncInput = (): void => {
       syncInputTimeoutId = window.setTimeout(() => {
         const input = update.state.doc.toString()
         store.dispatch(setEditorInput({ value: input }))
-        syncInputTimeoutId = undefined
       }, UPDATE_TIMEOUT_MS)
     })
   }, [])
@@ -127,17 +123,14 @@ export const useAutoFocus = (): void => {
 
 export const useAutoAssemble = (): void => {
   useViewEffect(view => {
-    let initialAssembleTimeoutId: number | undefined = window.setTimeout(() => {
+    const initialAssembleTimeoutId = window.setTimeout(() => {
       if (applySelector(selectAutoAssemble)) {
         const input = view.state.doc.toString()
         assemble(input)
       }
-      initialAssembleTimeoutId = undefined
     }, UPDATE_TIMEOUT_MS)
     return () => {
-      if (initialAssembleTimeoutId !== undefined) {
-        window.clearTimeout(initialAssembleTimeoutId)
-      }
+      window.clearTimeout(initialAssembleTimeoutId)
     }
   }, [])
 
@@ -297,12 +290,9 @@ export const useMessage = (): EditorMessage | null => {
 
   useEffect(() => {
     return subscribe(store.onAction(setEditorMessage), () => {
-      if (messageTimeoutIdRef.current !== undefined) {
-        window.clearTimeout(messageTimeoutIdRef.current)
-      }
+      window.clearTimeout(messageTimeoutIdRef.current)
       messageTimeoutIdRef.current = window.setTimeout(() => {
         store.dispatch(clearEditorMessage())
-        messageTimeoutIdRef.current = undefined
       }, MESSAGE_DURATION_MS)
     })
   }, [])
@@ -320,7 +310,6 @@ export const useMessage = (): EditorMessage | null => {
         .pipe(filter(() => applySelector(selectEditorMessage) === haltedMessage)),
       () => {
         window.clearTimeout(messageTimeoutIdRef.current)
-        messageTimeoutIdRef.current = undefined
         store.dispatch(clearEditorMessage())
       }
     )
