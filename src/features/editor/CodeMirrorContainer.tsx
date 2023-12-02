@@ -1,14 +1,15 @@
+import { classNames } from '@/common/utils'
+
 import { useContainerRef } from './codemirror/react'
 import {
-  useVimKeybindings,
-  useSyncInput,
-  useAutoFocus,
-  useAutoAssemble,
   useAssemblerError,
+  useAutoAssemble,
+  useAutoFocus,
+  useBreakpoints,
   useHighlightLine,
-  useBreakpoints
+  useSyncInput,
+  useVimKeybindings,
 } from './hooks'
-import { classNames } from '@/common/utils'
 
 interface Props {
   className?: string

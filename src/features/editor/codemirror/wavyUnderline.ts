@@ -1,9 +1,11 @@
-import { StateEffect, StateField, Extension } from '@codemirror/state'
-import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import { mapEffectValue, filterEffects } from '@codemirror-toolkit/utils'
-import type { RangeSetUpdateFilter } from './rangeSet'
-import { ClassName } from './classNames'
+import { Extension, StateEffect, StateField } from '@codemirror/state'
+import { Decoration, DecorationSet, EditorView } from '@codemirror/view'
+import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
+
 import { maybeNullable } from '@/common/utils'
+
+import { ClassName } from './classNames'
+import type { RangeSetUpdateFilter } from './rangeSet'
 
 export const WavyUnderlineEffect = StateEffect.define<{
   add?: { from: number; to: number }
@@ -14,12 +16,12 @@ export const WavyUnderlineEffect = StateEffect.define<{
       add: maybeNullable(add)
         .map(({ from, to }) => ({
           from: change.mapPos(from),
-          to: change.mapPos(to)
+          to: change.mapPos(to),
         }))
         .extract(),
-      filter
+      filter,
     }
-  }
+  },
 })
 
 const markDecoration = Decoration.mark({ class: ClassName.WavyUnderline })
@@ -37,19 +39,19 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
             add: maybeNullable(addByRange)
               .map(({ from, to }) => [markDecoration.range(from, to)])
               .extract(),
-            filter
-          })
+            filter,
+          }),
         ),
-      decorations
+      decorations,
     )
   },
-  provide: thisField => EditorView.decorations.from(thisField)
+  provide: (thisField) => EditorView.decorations.from(thisField),
 })
 
 const WAVY_UNDERLINE_IMAGE = `url('data:image/svg+xml;base64,${window.btoa(
   `<svg height="4" width="6" xmlns="http://www.w3.org/2000/svg">
   <path fill="none" stroke="red" d="m0 3 l2 -2 l1 0 l2 2 l1 0" />
-</svg>`
+</svg>`,
 )}')`
 
 export const wavyUnderline = (): Extension => {
@@ -58,8 +60,8 @@ export const wavyUnderline = (): Extension => {
     EditorView.baseTheme({
       [`.${ClassName.WavyUnderline}`]: {
         background: `${WAVY_UNDERLINE_IMAGE} left bottom repeat-x`,
-        paddingBottom: '2px'
-      }
-    })
+        paddingBottom: '2px',
+      },
+    }),
   ]
 }

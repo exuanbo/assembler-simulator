@@ -3,7 +3,8 @@
 // MIT Licensed https://github.com/codemirror/view/blob/d67284f146b03cf78b73d1d03e703301522ab574/LICENSE
 
 import { Extension, Range, RangeSet } from '@codemirror/state'
-import { EditorView, GutterMarker, gutterLineClass } from '@codemirror/view'
+import { EditorView, gutterLineClass, GutterMarker } from '@codemirror/view'
+
 import { ClassName, InternalClassName } from './classNames'
 
 class ActiveLineGutterMarker extends GutterMarker {
@@ -12,9 +13,9 @@ class ActiveLineGutterMarker extends GutterMarker {
 
 const activeLineGutterMarker = new ActiveLineGutterMarker()
 
-const activeLineGutterHighlighter = gutterLineClass.compute(['selection'], state => {
+const activeLineGutterHighlighter = gutterLineClass.compute(['selection'], (state) => {
   const selectionRanges = state.selection.ranges
-  if (selectionRanges.some(selectionRange => !selectionRange.empty)) {
+  if (selectionRanges.some((selectionRange) => !selectionRange.empty)) {
     return RangeSet.empty
   }
   const markerRanges: Array<Range<ActiveLineGutterMarker>> = []
@@ -35,11 +36,11 @@ export const highlightActiveLineGutter = (): Extension => {
     activeLineGutterHighlighter,
     EditorView.baseTheme({
       [`&.${InternalClassName.Focused} .${ClassName.ActiveLineGutter}`]: {
-        color: '#4b5563' // gray-600
+        color: '#4b5563', // gray-600
       },
       [`.${ClassName.ActiveLineGutter}`]: {
-        backgroundColor: 'unset'
-      }
-    })
+        backgroundColor: 'unset',
+      },
+    }),
   ]
 }

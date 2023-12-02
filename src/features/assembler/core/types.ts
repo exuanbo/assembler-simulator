@@ -6,9 +6,9 @@ export interface SourceRange {
 }
 
 type MnemonicWithOperandCount<
-  C extends typeof MnemonicToOperandCountMap[Mnemonic],
-  M extends Mnemonic = Mnemonic
-> = M extends never ? never : typeof MnemonicToOperandCountMap[M] extends C ? M : never
+  C extends (typeof MnemonicToOperandCountMap)[Mnemonic],
+  M extends Mnemonic = Mnemonic,
+> = M extends never ? never : (typeof MnemonicToOperandCountMap)[M] extends C ? M : never
 
 export type MnemonicWithNoOperand = MnemonicWithOperandCount<0>
 

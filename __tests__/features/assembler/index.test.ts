@@ -1,6 +1,7 @@
-import { AssemblerError, assemble } from '@/features/assembler/core'
+import { assemble, AssemblerError } from '@/features/assembler/core'
 import { examples } from '@/features/editor/examples'
 import { initDataFrom } from '@/features/memory/core'
+
 import { memoryDataSerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(memoryDataSerializer)

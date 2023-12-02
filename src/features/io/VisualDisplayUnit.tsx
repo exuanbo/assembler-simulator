@@ -1,7 +1,8 @@
-import DeviceCard from './DeviceCard'
-import { useVisualDisplayUnit } from './hooks'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
+
+import DeviceCard from './DeviceCard'
+import { useVisualDisplayUnit } from './hooks'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
   const { data, isVisible, toggleVisible } = useVisualDisplayUnit()

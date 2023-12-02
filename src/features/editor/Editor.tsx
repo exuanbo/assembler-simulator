@@ -1,14 +1,16 @@
-import { useMemo } from 'react'
 import type { CodeMirrorConfig } from '@codemirror-toolkit/react'
+import { useMemo } from 'react'
+
+import { applySelector } from '@/app/selector'
+import { store } from '@/app/store'
+import { setException } from '@/features/exception/exceptionSlice'
+
+import { exceptionSink } from './codemirror/exceptionSink'
 import { CodeMirrorProvider } from './codemirror/react'
+import { getSetup } from './codemirror/setup'
 import CodeMirrorContainer from './CodeMirrorContainer'
 import EditorMessage from './EditorMessage'
-import { store } from '@/app/store'
-import { applySelector } from '@/app/selector'
 import { selectEditorInput } from './editorSlice'
-import { getSetup } from './codemirror/setup'
-import { exceptionSink } from './codemirror/exceptionSink'
-import { setException } from '@/features/exception/exceptionSlice'
 
 const Editor = (): JSX.Element => {
   const codeMirrorConfig = useMemo<CodeMirrorConfig>(() => {
@@ -17,10 +19,10 @@ const Editor = (): JSX.Element => {
       doc: editorInput,
       extensions: [
         getSetup(),
-        exceptionSink(exception => {
+        exceptionSink((exception) => {
           store.dispatch(setException(exception))
-        })
-      ]
+        }),
+      ],
     }
   }, [])
 

@@ -1,10 +1,10 @@
-import { classNames } from '@/common/utils'
 import { NO_BREAK_SPACE } from '@/common/constants'
+import { classNames } from '@/common/utils'
 
 export enum RadixLabel {
   Hex = 'hex',
   Bin = 'bin',
-  Dec = 'dec'
+  Dec = 'dec',
 }
 
 interface Props {

@@ -26,7 +26,7 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
         (isKeySymbol && !sourcePropertySymbols.includes(key))
       ) {
         Object.defineProperty(resultObject, key, {
-          ...Object.getOwnPropertyDescriptor(target, key)
+          ...Object.getOwnPropertyDescriptor(target, key),
         })
       }
     }
@@ -40,11 +40,11 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
       const targetPropertyValue = target[key]
       Object.defineProperty(resultObject, key, {
         ...Object.getOwnPropertyDescriptor(source, key),
-        value: mergeRecursively(targetPropertyValue, sourcePropertyValue)
+        value: mergeRecursively(targetPropertyValue, sourcePropertyValue),
       })
     } else {
       Object.defineProperty(resultObject, key, {
-        ...Object.getOwnPropertyDescriptor(source, key)
+        ...Object.getOwnPropertyDescriptor(source, key),
       })
     }
   }
@@ -59,8 +59,8 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
 type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
   ? { [K in keyof T]: ExpandDeep<T[K]> }
   : T extends Array<infer E>
-  ? Array<ExpandDeep<E>>
-  : T
+    ? Array<ExpandDeep<E>>
+    : T
 
 export const merge = <TTarget extends PlainObject, TSources extends PlainObject[]>(
   target: TTarget,

@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import type { RootState } from '@/app/store'
 import { errorToPlainObject } from '@/common/utils'
 
@@ -19,10 +20,10 @@ export const exceptionSlice = createSlice({
           const error = new Error(`Uncaught ${JSON.stringify(exception)}`)
           return { payload: errorToPlainObject(error) }
         }
-      }
+      },
     },
-    clear: () => null
-  }
+    clear: () => null,
+  },
 })
 
 export const selectException = (state: RootState): ExceptionState => state.exception

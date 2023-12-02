@@ -1,4 +1,4 @@
-import type { RangeValue, RangeSet } from '@codemirror/state'
+import type { RangeSet, RangeValue } from '@codemirror/state'
 
 type RangeSetUpdate<T extends RangeValue> = Parameters<RangeSet<T>['update']>[0]
 

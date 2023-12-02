@@ -1,9 +1,10 @@
-import { RefCallback, useState, useEffect, useReducer, useRef } from 'react'
+import { RefCallback, useEffect, useReducer, useRef, useState } from 'react'
+
 import { isFunction } from './utils/common'
 import type { NonNullishValue } from './utils/types'
 
 export const useToggle = (
-  initialState: boolean
+  initialState: boolean,
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
@@ -19,7 +20,7 @@ export const useSingleton = <T extends NonNullishValue>(instance: T | (() => T))
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
 
 export const useOutsideClick = <T extends Element = Element>(
-  handler: (event: MouseEvent) => void
+  handler: (event: MouseEvent) => void,
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
@@ -47,7 +48,7 @@ export const useOutsideClick = <T extends Element = Element>(
 
 export const useHover = <T extends Element = Element>(
   handler: (isHovered: boolean) => void,
-  delay?: number
+  delay?: number,
 ): RefCallback<T> => {
   const [current, refCallback] = useRefCallback<T>()
 
@@ -55,7 +56,7 @@ export const useHover = <T extends Element = Element>(
     isHovered: boolean
     timeoutId?: number | undefined
   }>({
-    isHovered: false
+    isHovered: false,
   })
 
   const clearHoverTimeout = (): void => {

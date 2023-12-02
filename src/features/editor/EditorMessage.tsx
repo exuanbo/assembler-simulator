@@ -1,6 +1,7 @@
+import { classNames } from '@/common/utils'
+
 import { MessageType } from './editorSlice'
 import { useMessage } from './hooks'
-import { classNames } from '@/common/utils'
 
 const getClassNameFrom = (type: MessageType): string => {
   switch (type) {

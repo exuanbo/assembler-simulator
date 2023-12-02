@@ -1,27 +1,28 @@
-import type {
-  SourceRange,
-  MnemonicWithNoOperand,
-  MnemonicWithOneOperand,
-  MnemonicWithTwoOperands
-} from './types'
-import { TokenType, Token, Tokenizer, createTokenizer } from './tokenizer'
+import { Mnemonic, MnemonicToOperandCountMap, Opcode } from '@/common/constants'
+import { call, hexToDec, stringToAscii } from '@/common/utils'
+import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '@/features/cpu/core'
+
 import {
+  AddressError,
   EndOfTokenStreamError,
   InvalidLabelError,
-  StatementError,
-  MissingEndError,
   InvalidNumberError,
   InvalidStringError,
-  AddressError,
+  MissingCommaError,
+  MissingEndError,
+  OperandTypeError,
+  SingleQuoteError,
+  StatementError,
   UnterminatedAddressError,
   UnterminatedStringError,
-  SingleQuoteError,
-  OperandTypeError,
-  MissingCommaError
 } from './exceptions'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '@/features/cpu/core'
-import { Mnemonic, MnemonicToOperandCountMap, Opcode } from '@/common/constants'
-import { hexToDec, stringToAscii, call } from '@/common/utils'
+import { createTokenizer, Token, Tokenizer, TokenType } from './tokenizer'
+import type {
+  MnemonicWithNoOperand,
+  MnemonicWithOneOperand,
+  MnemonicWithTwoOperands,
+  SourceRange,
+} from './types'
 
 interface BaseNode {
   range: SourceRange
@@ -34,7 +35,7 @@ export interface Label extends BaseNode {
 const createLabel = ({ value, range }: Token): Label => {
   return {
     identifier: value,
-    range
+    range,
   }
 }
 
@@ -47,7 +48,7 @@ const createInstruction = ({ value, range }: Token): Instruction => {
   return {
     mnemonic: value,
     opcode: undefined,
-    range
+    range,
   }
 }
 
@@ -57,7 +58,7 @@ export enum OperandType {
   Address = 'Address',
   RegisterAddress = 'RegisterAddress',
   String = 'String',
-  Label = 'Label'
+  Label = 'Label',
 }
 
 export interface Operand<T extends OperandType = OperandType> extends BaseNode {
@@ -88,7 +89,7 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
     value,
     rawValue,
     raw,
-    range
+    range,
   }
 }
 
@@ -102,7 +103,7 @@ export interface Statement extends BaseNode {
 const createStatement = (
   label: Label | null,
   instruction: Instruction,
-  operands: Operand[]
+  operands: Operand[],
 ): Statement => {
   // istanbul ignore next
   if (instruction.opcode === undefined) {
@@ -112,7 +113,7 @@ const createStatement = (
   if (instruction.opcode !== null) {
     machineCodes.push(instruction.opcode)
   }
-  operands.forEach(operand => {
+  operands.forEach((operand) => {
     if (operand.value !== undefined) {
       if (typeof operand.value === 'number') {
         machineCodes.push(operand.value)
@@ -129,7 +130,7 @@ const createStatement = (
     instruction,
     operands,
     machineCodes,
-    range: { from, to }
+    range: { from, to },
   }
 }
 
@@ -395,7 +396,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.ADD:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -409,7 +410,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.SUB:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -423,7 +424,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.MUL:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -437,7 +438,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.DIV:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -451,7 +452,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.MOD:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -465,7 +466,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.AND:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -479,7 +480,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.OR:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -493,7 +494,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
         case Mnemonic.XOR:
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number]
+            [OperandType.Register, OperandType.Number],
           )
           switch (secondOperand.type) {
             case OperandType.Register:
@@ -510,7 +511,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
             [OperandType.Register, OperandType.Address],
             [OperandType.Address, OperandType.Register],
             [OperandType.Register, OperandType.RegisterAddress],
-            [OperandType.RegisterAddress, OperandType.Register]
+            [OperandType.RegisterAddress, OperandType.Register],
           )
           switch (firstOperand.type) {
             case OperandType.Register:
@@ -540,7 +541,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           ;[firstOperand, secondOperand] = parseOperands(
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-            [OperandType.Register, OperandType.Address]
+            [OperandType.Register, OperandType.Address],
           )
           switch (secondOperand.type) {
             case OperandType.Register:

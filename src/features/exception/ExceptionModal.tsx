@@ -1,10 +1,12 @@
 import { useCallback } from 'react'
-import Modal from '@/common/components/Modal'
-import Anchor from '@/common/components/Anchor'
-import { selectException, clearException } from './exceptionSlice'
-import { store } from '@/app/store'
+
 import { useSelector } from '@/app/selector'
+import { store } from '@/app/store'
+import Anchor from '@/common/components/Anchor'
+import Modal from '@/common/components/Modal'
 import { useOutsideClick } from '@/common/hooks'
+
+import { clearException, selectException } from './exceptionSlice'
 
 const ExceptionModal = (): JSX.Element => {
   const error = useSelector(selectException)

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+
 import { classNames } from '../utils/classNames'
 
 interface Props {
@@ -13,7 +14,7 @@ const CardHeader = ({ title, onClick, children }: Props): JSX.Element => {
     <header
       className={classNames(
         'border-b flex space-x-2 bg-gray-100 py-1 px-2 items-center justify-between',
-        { 'cursor-pointer': isClickable }
+        { 'cursor-pointer': isClickable },
       )}
       onClick={onClick}>
       <span>{title}</span>

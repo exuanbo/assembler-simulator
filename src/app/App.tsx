@@ -1,14 +1,15 @@
-import ResizablePanel from './ResizablePanel'
-import ReloadPrompt from './ReloadPrompt'
 import ToolBar from '@/features/controller/Toolbar'
-import ErrorBoundary from '@/features/exception/ErrorBoundary'
-import Editor from '@/features/editor/Editor'
 import CpuRegisters from '@/features/cpu/CpuRegisters'
-import Memory from '@/features/memory/Memory'
-import IoDevices from '@/features/io/IoDevices'
+import Editor from '@/features/editor/Editor'
+import ErrorBoundary from '@/features/exception/ErrorBoundary'
 import ExceptionModal from '@/features/exception/ExceptionModal'
-import { useStateSaver } from './stateSaver'
 import { useGlobalExceptionHandler } from '@/features/exception/hooks'
+import IoDevices from '@/features/io/IoDevices'
+import Memory from '@/features/memory/Memory'
+
+import ReloadPrompt from './ReloadPrompt'
+import ResizablePanel from './ResizablePanel'
+import { useStateSaver } from './stateSaver'
 
 const App = (): JSX.Element => {
   useStateSaver()

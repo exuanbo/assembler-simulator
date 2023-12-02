@@ -1,7 +1,8 @@
 import type { Middleware } from '@reduxjs/toolkit'
-import { Observable, ReplaySubject, map, distinctUntilChanged, identity, skip } from 'rxjs'
-import type { RootState } from './store'
+import { distinctUntilChanged, identity, map, Observable, ReplaySubject, skip } from 'rxjs'
+
 import type { StateSelector } from './selector'
+import type { RootState } from './store'
 
 interface OnStateOptions {
   initial?: boolean
@@ -9,7 +10,7 @@ interface OnStateOptions {
 
 type OnState = <TSelected>(
   selector: StateSelector<TSelected>,
-  options?: OnStateOptions
+  options?: OnStateOptions,
 ) => Observable<TSelected>
 
 interface StateObserver {
@@ -21,11 +22,11 @@ export const createStateObserver = (): StateObserver => {
   const state$ = new ReplaySubject<RootState>(1)
   const distinctState$ = state$.pipe(distinctUntilChanged())
 
-  const middleware: Middleware = api => {
+  const middleware: Middleware = (api) => {
     state$.next(api.getState())
     let nestedDepth = 0
 
-    return next => action => {
+    return (next) => (action) => {
       try {
         nestedDepth += 1
         const result = next(action)

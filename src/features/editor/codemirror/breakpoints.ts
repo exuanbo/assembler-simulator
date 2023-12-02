@@ -1,8 +1,9 @@
-import { EditorState, StateEffect, StateField, RangeSet, Extension } from '@codemirror/state'
-import { EditorView, GutterMarker, gutter } from '@codemirror/view'
-import { mapEffectValue, filterEffects } from '@codemirror-toolkit/utils'
-import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
+import { EditorState, Extension, RangeSet, StateEffect, StateField } from '@codemirror/state'
+import { EditorView, gutter, GutterMarker } from '@codemirror/view'
+import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
+
 import { ClassName, InternalClassName } from './classNames'
+import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 
 export const BreakpointEffect = StateEffect.define<{
   pos: number
@@ -11,9 +12,9 @@ export const BreakpointEffect = StateEffect.define<{
   map(value, mapping) {
     return {
       pos: mapping.mapPos(value.pos),
-      on: value.on
+      on: value.on,
     }
-  }
+  },
 })
 
 class BreakpointMarker extends GutterMarker {
@@ -42,12 +43,12 @@ const breakpointField = StateField.define<BreakpointMarkerSet>({
           resultMarkers.update(
             on
               ? { add: [breakpointMarker.range(targetPos)] }
-              : { filter: from => from !== targetPos }
-          )
+              : { filter: (from) => from !== targetPos },
+          ),
         ),
-      markers
+      markers,
     )
-  }
+  },
 })
 
 export const getBreakpointMarkers = (state: EditorState): BreakpointMarkerSet =>
@@ -62,8 +63,8 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
   view.dispatch({
     effects: BreakpointEffect.of({
       pos,
-      on: !hasBreakpoint
-    })
+      on: !hasBreakpoint,
+    }),
   })
 }
 
@@ -84,22 +85,22 @@ export const breakpoints = (): Extension => {
     breakpointField,
     gutter({
       class: ClassName.Breakpoint,
-      markers: view => getBreakpointMarkers(view.state),
+      markers: (view) => getBreakpointMarkers(view.state),
       initialSpacer: () => breakpointMarker,
       domEventHandlers: {
-        mousedown: toggleBreakpointOnMouseEvent
-      }
+        mousedown: toggleBreakpointOnMouseEvent,
+      },
     }),
     EditorView.baseTheme({
       [`.${ClassName.Breakpoint}`]: {
-        fontSize: '0.875em'
+        fontSize: '0.875em',
       },
       [`.${ClassName.Breakpoint} .${InternalClassName.GutterElement}`]: {
         width: '20px',
         padding: '0 3px 0 5px',
         color: 'red !important',
-        cursor: 'pointer'
-      }
-    })
+        cursor: 'pointer',
+      },
+    }),
   ]
 }

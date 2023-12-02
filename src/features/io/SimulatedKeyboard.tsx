@@ -1,15 +1,17 @@
 import { useRef } from 'react'
-import Modal from '@/common/components/Modal'
-import { store } from '@/app/store'
+
 import { useSelector } from '@/app/selector'
+import { store } from '@/app/store'
+import Modal from '@/common/components/Modal'
+import { Ascii } from '@/common/constants'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
+
+import { InputPort, SKIP } from './core'
 import {
   selectIsWaitingForKeyboardInput,
+  setInputData,
   setWaitingForKeyboardInput,
-  setInputData
 } from './ioSlice'
-import { InputPort, SKIP } from './core'
-import { Ascii } from '@/common/constants'
 
 const SimulatedKeyboard = (): JSX.Element | null => {
   const isSuspended = useSelector(selectIsSuspended)
@@ -31,14 +33,14 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     store.dispatch(
       setInputData({
         content,
-        port: InputPort.SimulatedKeyboard
-      })
+        port: InputPort.SimulatedKeyboard,
+      }),
     )
     store.dispatch(setSuspended(false))
     store.dispatch(setWaitingForKeyboardInput(false))
   }
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
     switch (event.key) {
       case 'Backspace':
         dispatchInputData(Ascii.BS)
@@ -56,7 +58,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
     }
   }
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const input = event.target.value
     dispatchInputData(input.charCodeAt(0))
   }

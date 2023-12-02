@@ -1,10 +1,11 @@
 import { store } from '@/app/store'
-import { AssembleResult, AssemblerError, assemble as assemblePure } from './core'
-import { setAssemblerState, setAssemblerError } from './assemblerSlice'
-import { setMemoryDataFrom } from '@/features/memory/memorySlice'
 import { resetCpuState } from '@/features/cpu/cpuSlice'
-import { setEditorHighlightRange, clearEditorHighlightRange } from '@/features/editor/editorSlice'
+import { clearEditorHighlightRange, setEditorHighlightRange } from '@/features/editor/editorSlice'
 import { setException } from '@/features/exception/exceptionSlice'
+import { setMemoryDataFrom } from '@/features/memory/memorySlice'
+
+import { setAssemblerError, setAssemblerState } from './assemblerSlice'
+import { assemble as assemblePure, AssemblerError, AssembleResult } from './core'
 
 export const assemble = (input: string): void => {
   let assembleResult: AssembleResult

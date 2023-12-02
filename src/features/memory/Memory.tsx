@@ -1,16 +1,17 @@
-import CardHeader from '@/common/components/CardHeader'
-import { ArrowUp, ArrowDown } from '@/common/components/icons'
 import { useSelector } from '@/app/selector'
+import CardHeader from '@/common/components/CardHeader'
+import { ArrowDown, ArrowUp } from '@/common/components/icons'
+import { useToggle } from '@/common/hooks'
+import { classNames, decToHex, range } from '@/common/utils'
+import { MAX_SP } from '@/features/cpu/core'
+import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
+
 import {
   MemoryView,
   selectMemoryDataRowsGetter,
   selectMemorySourceRowsGetter,
-  selectMemoryView
+  selectMemoryView,
 } from './memorySlice'
-import { MAX_SP } from '@/features/cpu/core'
-import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
-import { useToggle } from '@/common/hooks'
-import { decToHex, range, classNames } from '@/common/utils'
 
 const Memory = (): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(true)
@@ -38,7 +39,7 @@ const Memory = (): JSX.Element => {
           <tbody className="divide-y">
             <tr className="divide-x bg-gray-50 text-gray-400">
               <td />
-              {range(0x10).map(colIndex => (
+              {range(0x10).map((colIndex) => (
                 <td key={colIndex} className="text-center">
                   <span className="px-1">{decToHex(colIndex)[1] /* ignore padded 0 */}</span>
                 </td>
@@ -55,12 +56,12 @@ const Memory = (): JSX.Element => {
                     <td
                       key={colIndex}
                       className={classNames('text-center', {
-                        'bg-blue-50': sp < address && address <= MAX_SP && isDataView
+                        'bg-blue-50': sp < address && address <= MAX_SP && isDataView,
                       })}>
                       <span
                         className={classNames('px-1', {
                           'rounded bg-green-100': address === ip,
-                          'rounded bg-blue-100': address === sp && isDataView
+                          'rounded bg-blue-100': address === sp && isDataView,
                         })}>
                         {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
                       </span>

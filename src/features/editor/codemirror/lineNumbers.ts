@@ -1,8 +1,9 @@
 import type { Extension } from '@codemirror/state'
 import { EditorView, lineNumbers as __lineNumbers } from '@codemirror/view'
+
 import { toggleBreakpointOnMouseEvent } from './breakpoints'
-import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 import { InternalClassName } from './classNames'
+import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 
 const toggleBreakpointOnStrictMouseEvent: GutterDOMEventHandler = (view, line, event) => {
   // only when clicking on a gutter element
@@ -16,16 +17,16 @@ export const lineNumbers = (): Extension => {
   return [
     __lineNumbers({
       domEventHandlers: {
-        mousedown: toggleBreakpointOnStrictMouseEvent
-      }
+        mousedown: toggleBreakpointOnStrictMouseEvent,
+      },
     }),
     EditorView.baseTheme({
       [`.${InternalClassName.LineNumbers}`]: {
-        paddingRight: '6px'
+        paddingRight: '6px',
       },
       [`.${InternalClassName.LineNumbers} .${InternalClassName.GutterElement}`]: {
-        cursor: 'pointer'
-      }
-    })
+        cursor: 'pointer',
+      },
+    }),
   ]
 }

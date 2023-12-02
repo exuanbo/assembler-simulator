@@ -4,7 +4,7 @@ export enum ClassName {
   ActiveLineGutter = 'cm-activeLineGutter',
   HighlightLineDefault = 'cm-highlightLine',
   HighlightLineTransparent = 'cm-highlightLine--transparent',
-  WavyUnderline = 'cm-wavyUnderline'
+  WavyUnderline = 'cm-wavyUnderline',
 }
 
 export enum InternalClassName {
@@ -15,5 +15,5 @@ export enum InternalClassName {
   Gutters = 'cm-gutters',
   GutterElement = 'cm-gutterElement',
   SelectionMatch = 'cm-selectionMatch',
-  LineNumbers = 'cm-lineNumbers'
+  LineNumbers = 'cm-lineNumbers',
 }

@@ -1,5 +1,6 @@
 import { assemble } from '@/features/assembler/core'
-import { initData, getVduDataFrom, getSourceFrom } from '@/features/memory/core'
+import { getSourceFrom, getVduDataFrom, initData } from '@/features/memory/core'
+
 import { memoryDataSerializer } from '../snapshotSerializers'
 
 expect.addSnapshotSerializer(memoryDataSerializer)

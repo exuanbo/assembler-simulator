@@ -4,7 +4,7 @@ export enum GeneralPurposeRegister {
   AL,
   BL,
   CL,
-  DL
+  DL,
 }
 
 export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
@@ -12,7 +12,7 @@ export type GeneralPurposeRegisterName = keyof typeof GeneralPurposeRegister
 export enum SpecialPurposeRegisterName {
   IP = 'IP',
   SP = 'SP',
-  SR = 'SR'
+  SR = 'SR',
 }
 
 export type RegisterName = GeneralPurposeRegisterName | SpecialPurposeRegisterName

@@ -1,10 +1,12 @@
-import { StateEffect, StateField, Extension } from '@codemirror/state'
-import { EditorView, Decoration, DecorationSet } from '@codemirror/view'
-import { reduceRangeSet, mapEffectValue, filterEffects } from '@codemirror-toolkit/utils'
+import { Extension, StateEffect, StateField } from '@codemirror/state'
+import { Decoration, DecorationSet, EditorView } from '@codemirror/view'
+import { filterEffects, mapEffectValue, reduceRangeSet } from '@codemirror-toolkit/utils'
+
+import { maybeNullable } from '@/common/utils'
+
+import { ClassName } from './classNames'
 import type { RangeSetUpdateFilter } from './rangeSet'
 import { hasNonEmptySelectionAtLine } from './text'
-import { ClassName } from './classNames'
-import { maybeNullable } from '@/common/utils'
 
 export const HighlightLineEffect = StateEffect.define<{
   pos?: number
@@ -13,11 +15,11 @@ export const HighlightLineEffect = StateEffect.define<{
   map({ pos: targetPos, filter }, change) {
     return {
       pos: maybeNullable(targetPos)
-        .map(pos => change.mapPos(pos))
+        .map((pos) => change.mapPos(pos))
         .extract(),
-      filter
+      filter,
     }
-  }
+  },
 })
 
 const lineDecoration = Decoration.line({ class: ClassName.HighlightLineDefault })
@@ -36,7 +38,7 @@ const highlightLineField = StateField.define<DecorationSet>({
           transaction.selection !== undefined &&
           hasNonEmptySelectionAtLine(
             transaction.state.doc.lineAt(decorationFrom),
-            transaction.selection.ranges
+            transaction.selection.ranges,
           )
         const expectedLineDecoration = hasNewOverlappedSelection
           ? lineDecorationTransparent
@@ -45,20 +47,20 @@ const highlightLineField = StateField.define<DecorationSet>({
           ? resultDecorations
           : resultDecorations.update({
               add: [expectedLineDecoration.range(decorationFrom)],
-              filter: from => from !== decorationFrom
+              filter: (from) => from !== decorationFrom,
             })
       },
-      decorations
+      decorations,
     )
     return filterEffects(transaction.effects, HighlightLineEffect).reduce(
       (resultDecorations, effect) =>
         mapEffectValue(effect, ({ pos: targetPos, filter }) =>
           resultDecorations.update({
             add: maybeNullable(targetPos)
-              .map(pos => {
+              .map((pos) => {
                 const hasOverlappedSelection = hasNonEmptySelectionAtLine(
                   transaction.state.doc.lineAt(pos),
-                  transaction.state.selection.ranges
+                  transaction.state.selection.ranges,
                 )
                 const newLineDecoration = hasOverlappedSelection
                   ? lineDecorationTransparent
@@ -66,13 +68,13 @@ const highlightLineField = StateField.define<DecorationSet>({
                 return [newLineDecoration.range(pos)]
               })
               .extract(),
-            filter
-          })
+            filter,
+          }),
         ),
-      updatedDecorations
+      updatedDecorations,
     )
   },
-  provide: thisField => EditorView.decorations.from(thisField)
+  provide: (thisField) => EditorView.decorations.from(thisField),
 })
 
 export const highlightLine = (): Extension => {
@@ -80,11 +82,11 @@ export const highlightLine = (): Extension => {
     highlightLineField,
     EditorView.baseTheme({
       [`.${ClassName.HighlightLineDefault}`]: {
-        backgroundColor: '#dcfce7 !important'
+        backgroundColor: '#dcfce7 !important',
       },
       [`.${ClassName.HighlightLineTransparent}`]: {
-        backgroundColor: '#dcfce780 !important'
-      }
-    })
+        backgroundColor: '#dcfce780 !important',
+      },
+    }),
   ]
 }

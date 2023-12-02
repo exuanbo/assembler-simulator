@@ -1,7 +1,8 @@
-import type { SourceRange } from './types'
+import { escapeBackslashes, escapeInnerSingleQuotes, trimBrackets } from '@/common/utils'
+
+import type { Label, Operand, OperandType, Statement } from './parser'
 import type { Token } from './tokenizer'
-import type { Label, OperandType, Operand, Statement } from './parser'
-import { trimBrackets, escapeBackslashes, escapeInnerSingleQuotes } from '@/common/utils'
+import type { SourceRange } from './types'
 
 export interface AssemblerErrorObject {
   name: string
@@ -23,7 +24,7 @@ export abstract class AssemblerError extends Error {
     return {
       name: this.name,
       message: this.message,
-      range: this.range
+      range: this.range,
     }
   }
 }
@@ -83,7 +84,7 @@ export class AddressError extends ParseError {
     const addressValue = trimBrackets(raw).trim()
     super(
       `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'.`,
-      range
+      range,
     )
   }
 }
@@ -109,7 +110,7 @@ export class SingleQuoteError extends ParseError {
 export class OperandTypeError extends ParseError {
   constructor({ raw, range }: Token, ...expectedTypes: OperandType[]) {
     const types = expectedTypes
-      .map(type => type.replace(/[A-Z]/g, char => ` ${char.toLowerCase()}`).trimStart())
+      .map((type) => type.replace(/[A-Z]/g, (char) => ` ${char.toLowerCase()}`).trimStart())
       .reduce((acc, cur, idx) => {
         switch (idx) {
           case 0:

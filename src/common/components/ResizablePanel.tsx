@@ -1,5 +1,6 @@
-import { ReactNode, useState, useEffect, useRef, useLayoutEffect } from 'react'
-import { clamp, range, throttle, classNames } from '../utils'
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+import { clamp, classNames, range, throttle } from '../utils'
 
 export const DEFAULT_RESIZE_THROTTLE_MS = 10
 
@@ -17,7 +18,7 @@ export interface ResizablePanelProps {
 const ResizablePanel = ({
   children: [leftChild, rightChild],
   throttle: throttleMs = DEFAULT_RESIZE_THROTTLE_MS,
-  className
+  className,
 }: ResizablePanelProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
@@ -123,15 +124,15 @@ const ResizablePanel = ({
           ref={dividerRef}
           className={classNames(
             'border-x cursor-col-resize flex flex-col space-y-2 px-1 justify-center group hover:bg-gray-200',
-            isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible'
+            isReady ? (isDragging ? 'bg-gray-200' : 'bg-gray-100') : 'invisible',
           )}
           onMouseDown={handleMouseDown}>
-          {range(3).map(dotIndex => (
+          {range(3).map((dotIndex) => (
             <span
               key={dotIndex}
               className={classNames(
                 'rounded-full h-1 w-1 group-hover:bg-slate-400',
-                isDragging ? 'bg-slate-400' : 'bg-slate-300'
+                isDragging ? 'bg-slate-400' : 'bg-slate-300',
               )}
             />
           ))}

@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { useDebugValue } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
+
 import { RootState, store } from './store'
 
 export type StateSelector<TSelected> = (state: RootState) => TSelected
@@ -15,14 +18,14 @@ const refEquality: EqualityFn<unknown> = (a, b) => a === b
 
 export const useSelector = <TSelected>(
   selector: StateSelector<TSelected>,
-  equalityFn: EqualityFn<TSelected> = refEquality
+  equalityFn: EqualityFn<TSelected> = refEquality,
 ): TSelected => {
   const selectedState = useSyncExternalStoreWithSelector(
     store.subscribe,
     store.getState,
     null,
     selector,
-    equalityFn
+    equalityFn,
   )
   useDebugValue(selectedState)
   return selectedState

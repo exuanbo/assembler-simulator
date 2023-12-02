@@ -3,7 +3,8 @@
 // MIT Licensed https://github.com/codemirror/view/blob/5989c150d65172c36917d8bd2ea04316a79f20ed/LICENSE
 
 import type { Extension, Range } from '@codemirror/state'
-import { EditorView, ViewPlugin, ViewUpdate, Decoration, DecorationSet } from '@codemirror/view'
+import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
+
 import { ClassName, InternalClassName } from './classNames'
 
 const lineDecoration = Decoration.line({ class: ClassName.ActiveLine })
@@ -28,7 +29,7 @@ const highlightActiveLinePlugin = ViewPlugin.fromClass(
 
     private getDecorations(view: EditorView): DecorationSet {
       const selectionRanges = view.state.selection.ranges
-      if (selectionRanges.some(selectionRange => !selectionRange.empty)) {
+      if (selectionRanges.some((selectionRange) => !selectionRange.empty)) {
         return Decoration.none
       }
       const decorationRanges: Array<Range<Decoration>> = []
@@ -45,8 +46,8 @@ const highlightActiveLinePlugin = ViewPlugin.fromClass(
     }
   },
   {
-    decorations: pluginValue => pluginValue.decorations
-  }
+    decorations: (pluginValue) => pluginValue.decorations,
+  },
 )
 
 export const highlightActiveLine = (): Extension => {
@@ -54,11 +55,11 @@ export const highlightActiveLine = (): Extension => {
     highlightActiveLinePlugin,
     EditorView.baseTheme({
       [`&.${InternalClassName.Focused} .${ClassName.ActiveLine}`]: {
-        boxShadow: 'inset 0 0 0 2px #e5e7eb'
+        boxShadow: 'inset 0 0 0 2px #e5e7eb',
       },
       [`.${ClassName.ActiveLine}`]: {
-        backgroundColor: 'unset'
-      }
-    })
+        backgroundColor: 'unset',
+      },
+    }),
   ]
 }

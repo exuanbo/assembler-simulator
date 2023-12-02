@@ -1,17 +1,18 @@
-import CardHeader from '@/common/components/CardHeader'
-import RegisterTableRow from './RegisterTableRow'
 import { useSelector } from '@/app/selector'
-import {
-  selectCpuGeneralPurposeRegisters,
-  selectCpuPointerRegisters,
-  selectStatusRegister
-} from './cpuSlice'
+import CardHeader from '@/common/components/CardHeader'
+import { arrayShallowEqual } from '@/common/utils'
+
 import {
   GeneralPurposeRegister,
   GeneralPurposeRegisterName,
-  SpecialPurposeRegisterName
+  SpecialPurposeRegisterName,
 } from './core'
-import { arrayShallowEqual } from '@/common/utils'
+import {
+  selectCpuGeneralPurposeRegisters,
+  selectCpuPointerRegisters,
+  selectStatusRegister,
+} from './cpuSlice'
+import RegisterTableRow from './RegisterTableRow'
 
 const CpuRegisters = (): JSX.Element => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, arrayShallowEqual)

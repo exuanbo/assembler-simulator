@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { store } from './store'
-import { applySelector } from './selector'
-import { subscribe } from './subscribe'
-import { StateToPersist, selectStateToPersist } from './persist'
-import { saveState as saveStateToUrl } from './url'
+
 import { saveState as saveStateToLocalStorage } from './localStorage'
+import { selectStateToPersist, StateToPersist } from './persist'
+import { applySelector } from './selector'
+import { store } from './store'
+import { subscribe } from './subscribe'
+import { saveState as saveStateToUrl } from './url'
 
 const saveState = (state: StateToPersist): void => {
   saveStateToUrl(state)

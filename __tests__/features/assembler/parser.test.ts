@@ -1,4 +1,5 @@
 import { parse } from '@/features/assembler/core/parser'
+
 import { shortArraySerializer } from '../../snapshotSerializers'
 
 expect.addSnapshotSerializer(shortArraySerializer)
@@ -17,7 +18,7 @@ clo
 cli
 sti
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -49,7 +50,7 @@ org 4
 db 5
 db "67"
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -65,7 +66,7 @@ and cl, dl
 or al, bl
 xor cl, dl
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -81,7 +82,7 @@ and bl, 02
 or cl, 03
 xor dl, 04
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -94,7 +95,7 @@ mov [03], cl
 mov dl, [al]
 mov [bl], cl
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -105,7 +106,7 @@ cmp al, bl
 cmp cl, 01
 cmp dl, [02]
 end
-`)
+`),
     ).toMatchSnapshot()
   })
 
@@ -140,7 +141,7 @@ end
   const TOKENS_KNOWN = [',', '01', 'al', '[bl]', '"cl"'] as const
 
   it('should throw StatementError if both label and instruction are missing', () => {
-    TOKENS_KNOWN.forEach(token => {
+    TOKENS_KNOWN.forEach((token) => {
       expect(() => {
         parse(`${token} end`)
       }).toThrowError(`Expected label or instruction, got '${token}'`)
@@ -148,7 +149,7 @@ end
   })
 
   it('should throw StatementError if label exists but instruction is missing', () => {
-    TOKENS_KNOWN.forEach(token => {
+    TOKENS_KNOWN.forEach((token) => {
       expect(() => {
         parse(`start: ${token} end`)
       }).toThrowError(`Expected instruction, got '${token}'`)

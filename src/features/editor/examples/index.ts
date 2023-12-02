@@ -1,11 +1,11 @@
-import __template from './template.asm?raw'
-import procedures from './procedures.asm?raw'
-import softwareInterrupts from './software_interrupts.asm?raw'
 import hardwareInterrupts from './hardware_interrupts.asm?raw'
 import keyboardInput from './keyboard_input.asm?raw'
-import visualDisplayUnit from './visual_display_unit.asm?raw'
-import trafficLights from './traffic_lights.asm?raw'
+import procedures from './procedures.asm?raw'
 import sevenSegmentDisplay from './seven_segment_display.asm?raw'
+import softwareInterrupts from './software_interrupts.asm?raw'
+import __template from './template.asm?raw'
+import trafficLights from './traffic_lights.asm?raw'
+import visualDisplayUnit from './visual_display_unit.asm?raw'
 
 const TITLE_REGEXP = /;\t(.*)/
 
@@ -18,7 +18,7 @@ interface Example {
 
 export const template: Example = {
   title: getTitleFrom(__template),
-  content: __template
+  content: __template,
 }
 
 export const examples: readonly Example[] = [
@@ -28,10 +28,10 @@ export const examples: readonly Example[] = [
   keyboardInput,
   visualDisplayUnit,
   trafficLights,
-  sevenSegmentDisplay
-].map(content => {
+  sevenSegmentDisplay,
+].map((content) => {
   return {
     title: getTitleFrom(content),
-    content
+    content,
   }
 })

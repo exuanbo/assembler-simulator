@@ -6,7 +6,7 @@ export enum Ascii {
   BS = 0x08,
   TAB = 0x09,
   CR = 0x0d,
-  Space = 0x20
+  Space = 0x20,
 }
 
 export enum Mnemonic {
@@ -71,7 +71,7 @@ export enum Mnemonic {
   CLO = 'CLO',
   NOP = 'NOP',
   ORG = 'ORG',
-  DB = 'DB'
+  DB = 'DB',
 }
 
 export const MnemonicToOperandCountMap = {
@@ -136,7 +136,7 @@ export const MnemonicToOperandCountMap = {
   [Mnemonic.CLO]: 0,
   [Mnemonic.NOP]: 0,
   [Mnemonic.ORG]: 1,
-  [Mnemonic.DB]: 1
+  [Mnemonic.DB]: 1,
 } as const
 
 export enum Opcode {
@@ -215,9 +215,10 @@ export enum Opcode {
   OUT_FROM_AL_TO_PORT = 0xf1,
 
   // Miscellaneous
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   HALT = 0x00,
   STI = 0xfc,
   CLI = 0xfd,
   CLO = 0xfe,
-  NOP = 0xff
+  NOP = 0xff,
 }

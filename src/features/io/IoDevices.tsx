@@ -1,10 +1,11 @@
 import CardHeader from '@/common/components/CardHeader'
-import SimulatedKeyboard from './SimulatedKeyboard'
-import VisualDisplayUnit from './VisualDisplayUnit'
-import TrafficLights from './TrafficLights'
-import SevenSegmentDisplay from './SevenSegmentDisplay'
-import { ArrowUp, ArrowDown } from '@/common/components/icons'
+import { ArrowDown, ArrowUp } from '@/common/components/icons'
 import { useToggle } from '@/common/hooks'
+
+import SevenSegmentDisplay from './SevenSegmentDisplay'
+import SimulatedKeyboard from './SimulatedKeyboard'
+import TrafficLights from './TrafficLights'
+import VisualDisplayUnit from './VisualDisplayUnit'
 
 const IoDevices = (): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(true)

@@ -73,7 +73,7 @@ const parseStringRecursively = (str: string): string => {
 }
 
 export const stringToAscii = (str: string): number[] =>
-  str.split('').map(char => char.charCodeAt(0))
+  str.split('').map((char) => char.charCodeAt(0))
 
 export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
   if (b.length !== a.length) {
@@ -97,7 +97,7 @@ export const chunk = <T>(size: number, arr: T[]): T[][] => {
   return chunks
 }
 
-export const asciiToChars = (arr: number[]): string[] => arr.map(num => String.fromCharCode(num))
+export const asciiToChars = (arr: number[]): string[] => arr.map((num) => String.fromCharCode(num))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FunctionType = (...args: any[]) => any
@@ -117,7 +117,7 @@ export const curryRight2 =
 
 export const throttle = <T extends unknown[]>(
   fn: (...args: T) => unknown,
-  wait: number
+  wait: number,
 ): ((...args: T) => void) => {
   let lastTime: number | undefined
   let queuedTimeoutId: number | undefined
@@ -130,9 +130,12 @@ export const throttle = <T extends unknown[]>(
       fn(...args)
       lastTime = currentTime
     } else {
-      queuedTimeoutId = window.setTimeout(() => {
-        invokeFn(...args)
-      }, wait - (currentTime - lastTime))
+      queuedTimeoutId = window.setTimeout(
+        () => {
+          invokeFn(...args)
+        },
+        wait - (currentTime - lastTime),
+      )
     }
   }
 }

@@ -1,4 +1,4 @@
-import { decToHex, chunk } from '@/common/utils'
+import { chunk, decToHex } from '@/common/utils'
 
 const SEPARATOR = ', '
 
@@ -12,7 +12,7 @@ type TypeofResult =
   | 'object'
   | 'function'
 
-/* eslint-disable prettier/prettier */
+// prettier-ignore
 /* eslint-disable @typescript-eslint/ban-types */
 
 type TypeofResultToType<T extends TypeofResult> =
@@ -26,7 +26,6 @@ type TypeofResultToType<T extends TypeofResult> =
   T extends 'function' ? Function :
   never
 
-/* eslint-enable prettier/prettier */
 /* eslint-enable @typescript-eslint/ban-types */
 
 const isArrayOf =
@@ -34,24 +33,24 @@ const isArrayOf =
   (value: unknown): value is Array<TypeofResultToType<T>> =>
     Array.isArray(value) &&
     value.length > 0 &&
-    value.every(item => (types as TypeofResult[]).includes(typeof item))
+    value.every((item) => (types as TypeofResult[]).includes(typeof item))
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
-  test: value => isArrayOf('number', 'boolean')(value) && value.length <= 4,
+  test: (value) => isArrayOf('number', 'boolean')(value) && value.length <= 4,
   serialize: (arr: Array<number | boolean>) =>
-    `[${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`
+    `[${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`,
 }
 
 export const memoryDataSerializer: jest.SnapshotSerializerPlugin = {
-  test: value => isArrayOf('number', 'string')(value) && value.length % 0x10 === 0,
+  test: (value) => isArrayOf('number', 'string')(value) && value.length % 0x10 === 0,
   serialize: (arr: Array<number | string>, _config, indentation) => `[
 ${chunk(0x10, arr)
   .map(
-    row =>
+    (row) =>
       `${indentation}${' '.repeat(2)}${row
-        .map(value => (typeof value === 'number' ? decToHex(value) : value))
-        .join(SEPARATOR)}`
+        .map((value) => (typeof value === 'number' ? decToHex(value) : value))
+        .join(SEPARATOR)}`,
   )
   .join(',\n')},
-${indentation}]`
+${indentation}]`,
 }

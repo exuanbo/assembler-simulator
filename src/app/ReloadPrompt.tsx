@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
+
 import { Spinner } from '@/common/components/icons'
 
 interface ButtonProps {
@@ -18,7 +19,7 @@ const PromptButton = ({ onClick, children }: ButtonProps): JSX.Element => (
 const ReloadPrompt = (): JSX.Element | null => {
   const {
     needRefresh: [needReload, setNeedReload],
-    updateServiceWorker
+    updateServiceWorker,
   } = useRegisterSW()
 
   const [isReloading, setReloading] = useState(false)

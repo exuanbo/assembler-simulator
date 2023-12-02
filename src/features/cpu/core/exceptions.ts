@@ -12,7 +12,7 @@ export abstract class RuntimeError extends Error {
   public toPlainObject(): RuntimeErrorObject {
     return {
       name: this.name,
-      message: this.message
+      message: this.message,
     }
   }
 }

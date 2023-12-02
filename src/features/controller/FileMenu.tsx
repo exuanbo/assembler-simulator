@@ -1,14 +1,16 @@
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
+
+import { applySelector } from '@/app/selector'
+import { store } from '@/app/store'
+import { File as FileIcon } from '@/common/components/icons'
+import Modal from '@/common/components/Modal'
+import { selectEditorInput, setEditorInput } from '@/features/editor/editorSlice'
+import { examples, template } from '@/features/editor/examples'
+
 import Menu from './Menu'
 import MenuButton from './MenuButton'
-import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import Modal from '@/common/components/Modal'
-import { File as FileIcon } from '@/common/components/icons'
-import { store } from '@/app/store'
-import { applySelector } from '@/app/selector'
-import { setEditorInput, selectEditorInput } from '@/features/editor/editorSlice'
-import { template, examples } from '@/features/editor/examples'
+import MenuItems from './MenuItems'
 
 const NewFileButton = (): JSX.Element => (
   <MenuItem
@@ -16,8 +18,8 @@ const NewFileButton = (): JSX.Element => (
       store.dispatch(
         setEditorInput({
           value: template.content,
-          isFromFile: true
-        })
+          isFromFile: true,
+        }),
       )
     }}>
     <MenuButton>
@@ -34,12 +36,12 @@ interface OpenButtonProps {
 const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation()
     inputRef.current!.click()
   }
 
-  const handleClickInput: React.MouseEventHandler<HTMLInputElement> = event => {
+  const handleClickInput: React.MouseEventHandler<HTMLInputElement> = (event) => {
     event.stopPropagation()
   }
 
@@ -48,12 +50,12 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
       onload: () => {
         const value = reader.result as string
         store.dispatch(setEditorInput({ value, isFromFile: true }))
-      }
+      },
     })
     reader.readAsText(file)
   }
 
-  const handleSelectFile: React.ChangeEventHandler<HTMLInputElement> = event => {
+  const handleSelectFile: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const file = event.target.files![0]
     loadFile(file)
     onFileLoad()
@@ -93,8 +95,8 @@ const OpenExampleMenu = (): JSX.Element => (
                   store.dispatch(
                     setEditorInput({
                       value: content,
-                      isFromFile: true
-                    })
+                      isFromFile: true,
+                    }),
                   )
                 }}>
                 <MenuButton>
@@ -117,7 +119,7 @@ const SaveButton = (): JSX.Element => {
     const fileUrl = URL.createObjectURL(fileBlob)
     const anchorElement = Object.assign(document.createElement('a'), {
       download: 'file.asm',
-      href: fileUrl
+      href: fileUrl,
     })
     anchorElement.click()
     URL.revokeObjectURL(fileUrl)
@@ -138,7 +140,7 @@ const ERROR_DURATION_MS = 2000
 const CopyLinkButton = (): JSX.Element => {
   const [shouldShowError, setShouldShowError] = useState(false)
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = async event => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = async (event) => {
     try {
       await navigator.clipboard.writeText(window.location.href)
     } catch {

@@ -17,7 +17,7 @@ const Anchor = ({ href, children, className = DEFAULT_CLASSNAME }: Props): JSX.E
       {...(isExternal
         ? {
             rel: 'noopener noreferrer',
-            target: '_blank'
+            target: '_blank',
           }
         : {})}>
       {children}

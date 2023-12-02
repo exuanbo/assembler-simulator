@@ -1,11 +1,13 @@
-import { memo, useState, useEffect } from 'react'
 import { createNextState } from '@reduxjs/toolkit'
-import DeviceCard from './DeviceCard'
+import { memo, useEffect, useState } from 'react'
+
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
-import { IoDeviceName, resetIoState } from './ioSlice'
-import { useIoDevice } from './hooks'
 import { range } from '@/common/utils'
+
+import DeviceCard from './DeviceCard'
+import { useIoDevice } from './hooks'
+import { IoDeviceName, resetIoState } from './ioSlice'
 
 const StaticParts = memo(() => (
   <>
@@ -80,10 +82,10 @@ const StaticParts = memo(() => (
     </g>
     <g fill="#fff">
       <title>Circut Node</title>
-      {range(8).map(index => (
+      {range(8).map((index) => (
         <rect key={index} height="8" width="8" x={96 + index * 16} y="260" />
       ))}
-      {range(5).map(index => (
+      {range(5).map((index) => (
         <rect key={index} height="4" width="8" x={128 + index * 16} y={230 - index * 8} />
       ))}
       <rect height="4" width="8" x="76" y="38" />
@@ -129,7 +131,7 @@ const segments: readonly JSX.Element[] = [
   <polygon key={11} points="208,120 212,116 252,116 256,120 252,124 212,124" />,
   // 6
   <polygon key={12} points="108,68 108,116 100,108 100,76" />,
-  <polygon key={13} points="260,68 260,116 252,108 252,76" />
+  <polygon key={13} points="260,68 260,116 252,108 252,76" />,
 ]
 
 const DATA_DIGIT_COUNT = 14
@@ -150,19 +152,19 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     data: outputData,
     subscribeData: subscribeOutputData,
     isVisible,
-    toggleVisible
+    toggleVisible,
   } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
   useEffect(() => {
-    return subscribeOutputData(outputData => {
-      setData(prevData =>
-        createNextState(prevData, draft => {
+    return subscribeOutputData((outputData) => {
+      setData((prevData) =>
+        createNextState(prevData, (draft) => {
           // controls which of the two groups of segments is active
           const LSB = outputData[outputData.length - 1]
           for (let digitIndex = LSB; digitIndex < DATA_DIGIT_COUNT; digitIndex += 2) {
             draft[digitIndex] = outputData[Math.floor(digitIndex / 2)]
           }
-        })
+        }),
       )
     })
   }, [])

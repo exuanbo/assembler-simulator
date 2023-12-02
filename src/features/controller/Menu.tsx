@@ -1,6 +1,7 @@
-import { ReactNode, RefCallback, createContext, useContext, useCallback } from 'react'
-import { useRefCallback, useHover } from '@/common/hooks'
-import { noop, classNames } from '@/common/utils'
+import { createContext, ReactNode, RefCallback, useCallback, useContext } from 'react'
+
+import { useHover, useRefCallback } from '@/common/hooks'
+import { classNames, noop } from '@/common/utils'
 
 interface MenuContextValue {
   currentOpen: HTMLDivElement | null
@@ -9,7 +10,7 @@ interface MenuContextValue {
 
 export const MenuContext = createContext<MenuContextValue>({
   currentOpen: null,
-  setCurrentOpen: noop
+  setCurrentOpen: noop,
 })
 
 if (import.meta.env.DEV) {
@@ -20,7 +21,7 @@ interface Props {
   children: (
     isOpen: boolean,
     hoverRef: RefCallback<HTMLDivElement>,
-    menuElement: HTMLDivElement
+    menuElement: HTMLDivElement,
   ) => ReactNode
 }
 
@@ -42,7 +43,7 @@ const Menu = ({ children }: Props): JSX.Element => {
         setCurrentOpen(menuElement)
       }
     },
-    [currentOpen, menuElement]
+    [currentOpen, menuElement],
   )
   const hoverRef = useHover(handleHover)
 

@@ -1,7 +1,8 @@
 import { ReactNode, RefCallback, useState } from 'react'
+
 import Anchor from '@/common/components/Anchor'
 import { Play, Share } from '@/common/components/icons'
-import { useRefCallback, useHover } from '@/common/hooks'
+import { useHover, useRefCallback } from '@/common/hooks'
 
 const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
 
@@ -39,7 +40,7 @@ interface ExpandableProps {
   children: (
     isHovered: boolean,
     menuItemsRef: RefCallback<HTMLDivElement>,
-    menuItemElement: HTMLDivElement
+    menuItemElement: HTMLDivElement,
   ) => ReactNode
 }
 
@@ -50,14 +51,14 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [isHovered, setHovered] = useState(false)
   const hoverRef = useHover(setHovered, /* delay: */ 100)
 
-  const refCallback: RefCallback<HTMLDivElement> = element => {
+  const refCallback: RefCallback<HTMLDivElement> = (element) => {
     menuItemRef(element)
     hoverRef(element)
   }
 
   const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (menuItems === null || !menuItems.contains(event.target as Element)) {
       event.stopPropagation()
     }

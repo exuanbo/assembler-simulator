@@ -1,13 +1,14 @@
+import { useSelector } from '@/app/selector'
+import { store } from '@/app/store'
+import { CheckMark, View as ViewIcon } from '@/common/components/icons'
+import { splitCamelCaseToString } from '@/common/utils'
+import { ioDeviceNames, selectIoDeviceStates, toggleIoDeviceVisible } from '@/features/io/ioSlice'
+import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
+
 import Menu from './Menu'
 import MenuButton from './MenuButton'
-import MenuItems from './MenuItems'
 import MenuItem from './MenuItem'
-import { CheckMark, View as ViewIcon } from '@/common/components/icons'
-import { store } from '@/app/store'
-import { useSelector } from '@/app/selector'
-import { memoryViewOptions, selectMemoryView, setMemoryView } from '@/features/memory/memorySlice'
-import { ioDeviceNames, selectIoDeviceStates, toggleIoDeviceVisible } from '@/features/io/ioSlice'
-import { splitCamelCaseToString } from '@/common/utils'
+import MenuItems from './MenuItems'
 
 const MemoryMenu = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)

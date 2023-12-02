@@ -6,7 +6,7 @@ export enum InputPort {
   SimulatedKeyboard = 0,
   Thermostat = 3,
   Keyboard = 7,
-  NumericKeypad = 8
+  NumericKeypad = 8,
 }
 
 export type InputData =
@@ -28,9 +28,9 @@ export interface InputSignals {
 export const initialInputSignals: InputSignals = {
   data: {
     content: null,
-    port: null
+    port: null,
   },
-  interrupt: false
+  interrupt: false,
 }
 
 export enum OutputPort {
@@ -41,7 +41,7 @@ export enum OutputPort {
   StepperMotor = 5,
   Lift = 6,
   Keyboard = 7,
-  NumericKeypad = 8
+  NumericKeypad = 8,
 }
 
 type OutputFlagSignalName = 'halted' | 'closeWindows'

@@ -1,10 +1,11 @@
+import react from '@vitejs/plugin-react'
 import { execSync } from 'child_process'
 import { join } from 'path'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
-import react from '@vitejs/plugin-react'
-import windicss from 'vite-plugin-windicss'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
-import { name, version, description } from './package.json'
+import windicss from 'vite-plugin-windicss'
+
+import { description, name, version } from './package.json'
 
 const getCommitHash = (): string => execSync('git rev-parse --short HEAD').toString().trimEnd()
 
@@ -16,12 +17,12 @@ const getCommitDate = (): string => {
 export default defineConfig({
   base: './',
   build: {
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
   },
   define: {
     __VERSION__: JSON.stringify(version),
     __COMMIT_HASH__: JSON.stringify(getCommitHash()),
-    __COMMIT_DATE__: JSON.stringify(getCommitDate())
+    __COMMIT_DATE__: JSON.stringify(getCommitDate()),
   },
   plugins: [
     react(),
@@ -40,14 +41,14 @@ export default defineConfig({
           {
             src: 'pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
+            type: 'image/png',
+          },
+        ],
       },
       workbox: {
         runtimeCaching: [
@@ -55,8 +56,8 @@ export default defineConfig({
             urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'google-fonts-stylesheets'
-            }
+              cacheName: 'google-fonts-stylesheets',
+            },
           },
           {
             urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
@@ -64,27 +65,27 @@ export default defineConfig({
             options: {
               cacheName: 'google-fonts-webfonts',
               cacheableResponse: {
-                statuses: [0, 200]
+                statuses: [0, 200],
               },
               expiration: {
                 maxAgeSeconds: 60 * 60 * 24 * 365,
-                maxEntries: 10
-              }
-            }
-          }
-        ]
-      }
+                maxEntries: 10,
+              },
+            },
+          },
+        ],
+      },
     }),
-    splitVendorChunkPlugin()
+    splitVendorChunkPlugin(),
   ],
   resolve: {
     alias: {
-      '@': join(__dirname, 'src')
-    }
+      '@': join(__dirname, 'src'),
+    },
   },
   server: {
     watch: {
-      ignored: [/coverage/, /dist/]
-    }
-  }
+      ignored: [/coverage/, /dist/],
+    },
+  },
 })

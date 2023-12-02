@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react'
-import { Arrow, Play, Stop, Forward, Undo } from '@/common/components/icons'
-import { useController } from './hooks'
-import { selectIsRunning, selectIsSuspended } from './controllerSlice'
+
 import { useSelector } from '@/app/selector'
-import { classNames } from '@/common/utils'
+import { Arrow, Forward, Play, Stop, Undo } from '@/common/components/icons'
 import { NO_BREAK_SPACE } from '@/common/constants'
+import { classNames } from '@/common/utils'
+
+import { selectIsRunning, selectIsSuspended } from './controllerSlice'
+import { useController } from './hooks'
 
 interface ButtonProps {
   children: ReactNode
@@ -16,7 +18,7 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
   <div
     className={classNames(
       'flex space-x-2 py-1 px-2 items-center',
-      disabled ? 'text-gray-400 fill-gray-400' : 'hover:(bg-gray-200 active:bg-gray-300)'
+      disabled ? 'text-gray-400 fill-gray-400' : 'hover:(bg-gray-200 active:bg-gray-300)',
     )}
     onClick={disabled ? undefined : onClick}>
     {children}

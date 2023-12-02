@@ -1,5 +1,5 @@
-import { Middleware, PayloadActionCreator, Action, PayloadAction, isAction } from '@reduxjs/toolkit'
-import { Observable, Subject, filter, map } from 'rxjs'
+import { Action, isAction, Middleware, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
+import { filter, map, Observable, Subject } from 'rxjs'
 
 type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
 
@@ -18,7 +18,7 @@ const getPayload = <TPayload>(action: PayloadAction<TPayload>): TPayload => acti
 export const createActionObserver = (): ActionObserver => {
   const action$ = new Subject<Action>()
 
-  const middleware: Middleware = () => next => action => {
+  const middleware: Middleware = () => (next) => (action) => {
     const result = next(action)
     if (isAction(action)) {
       action$.next(action)
@@ -26,7 +26,7 @@ export const createActionObserver = (): ActionObserver => {
     return result
   }
 
-  const on: OnAction = actionCreator =>
+  const on: OnAction = (actionCreator) =>
     action$.pipe(filter(matchType(actionCreator)), map(getPayload))
 
   return { middleware, on }

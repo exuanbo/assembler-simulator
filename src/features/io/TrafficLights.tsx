@@ -1,8 +1,10 @@
 import { memo } from 'react'
-import DeviceCard from './DeviceCard'
-import { IoDeviceName } from './ioSlice'
-import { useIoDevice } from './hooks'
+
 import { range } from '@/common/utils'
+
+import DeviceCard from './DeviceCard'
+import { useIoDevice } from './hooks'
+import { IoDeviceName } from './ioSlice'
 
 const StaticParts = memo(() => (
   <>
@@ -36,7 +38,7 @@ const StaticParts = memo(() => (
     </g>
     <g fill="#fff">
       <title>Circut Node</title>
-      {range(8).map(index => (
+      {range(8).map((index) => (
         <rect key={index} height="8" width="8" x={96 + index * 16} y="200" />
       ))}
     </g>
@@ -70,7 +72,7 @@ const TrafficLights = (): JSX.Element | null => {
         </g>
         <g>
           <title>Lights Layer</title>
-          {range(6).map(index => {
+          {range(6).map((index) => {
             const isOn = Boolean(data[index])
             return (
               <circle

@@ -1,74 +1,76 @@
 import { useEffect } from 'react'
 import { debounceTime, filter, first } from 'rxjs'
-import { subscribe } from '@/app/subscribe'
-import { store } from '@/app/store'
+
 import { applySelector } from '@/app/selector'
-import {
-  selectRuntimeConfiguration,
-  selectIsRunning,
-  selectIsSuspended,
-  setAutoAssemble,
-  setRunning,
-  setSuspended
-} from './controllerSlice'
-import {
-  MessageType,
-  EditorMessage,
-  selectEditorInput,
-  selectEditorBreakpoints,
-  setEditorInput,
-  setEditorHighlightRange,
-  clearEditorHighlightRange,
-  setEditorMessage
-} from '@/features/editor/editorSlice'
-import { lineRangesOverlap } from '@/features/editor/codemirror/text'
+import { store } from '@/app/store'
+import { subscribe } from '@/app/subscribe'
+import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+import { useSingleton } from '@/common/hooks'
+import { call } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
+  resetAssemblerState,
+  selectAddressToStatementMap,
   selectAssembledSource,
   selectIsAssembled,
-  selectAddressToStatementMap,
   setAssemblerState,
-  resetAssemblerState
 } from '@/features/assembler/assemblerSlice'
-import { VDU_START_ADDRESS } from '@/features/memory/core'
-import { setMemoryData, resetMemoryData, selectMemoryData } from '@/features/memory/memorySlice'
 import {
-  RuntimeError,
-  StepResult,
-  StepOutput,
   __getSrInterruptFlag,
-  step as stepPure
+  RuntimeError,
+  step as stepPure,
+  StepOutput,
+  StepResult,
 } from '@/features/cpu/core'
 import {
-  selectCpuStatus,
+  resetCpuState,
   selectCpuRegisters,
+  selectCpuStatus,
   setCpuFault,
   setCpuHalted,
   setCpuRegisters,
-  resetCpuState
 } from '@/features/cpu/cpuSlice'
+import { lineRangesOverlap } from '@/features/editor/codemirror/text'
+import {
+  clearEditorHighlightRange,
+  EditorMessage,
+  MessageType,
+  selectEditorBreakpoints,
+  selectEditorInput,
+  setEditorHighlightRange,
+  setEditorInput,
+  setEditorMessage,
+} from '@/features/editor/editorSlice'
+import { setException } from '@/features/exception/exceptionSlice'
 import { InputPort, OutputPort } from '@/features/io/core'
 import {
+  clearInputData,
   IoDeviceName,
+  resetIoState,
   selectInputSignals,
   selectIsWaitingForInput,
-  clearInputData,
   setInterrupt,
-  setWaitingForInput,
-  setWaitingForKeyboardInput,
-  setVduDataFrom,
   setIoDeviceData,
   setIoDevicesInvisible,
-  resetIoState
+  setVduDataFrom,
+  setWaitingForInput,
+  setWaitingForKeyboardInput,
 } from '@/features/io/ioSlice'
-import { setException } from '@/features/exception/exceptionSlice'
-import { useSingleton } from '@/common/hooks'
-import { call } from '@/common/utils'
-import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+import { VDU_START_ADDRESS } from '@/features/memory/core'
+import { resetMemoryData, selectMemoryData, setMemoryData } from '@/features/memory/memorySlice'
+
+import {
+  selectIsRunning,
+  selectIsSuspended,
+  selectRuntimeConfiguration,
+  setAutoAssemble,
+  setRunning,
+  setSuspended,
+} from './controllerSlice'
 
 const sourceChangedMessage: EditorMessage = {
   type: MessageType.Warning,
-  content: 'Warning: Source code has changed since last assemble.'
+  content: 'Warning: Source code has changed since last assemble.',
 }
 
 class Controller {
@@ -193,15 +195,15 @@ class Controller {
       }
       return
     }
-    this.lastStep = new Promise(resolve => {
+    this.lastStep = new Promise((resolve) => {
       let stepOutput: StepOutput
       try {
         stepOutput = stepPure(
           lastStepResult ?? {
             memoryData: applySelector(selectMemoryData),
-            cpuRegisters: applySelector(selectCpuRegisters)
+            cpuRegisters: applySelector(selectCpuRegisters),
           },
-          applySelector(selectInputSignals)
+          applySelector(selectInputSignals),
         )
       } catch (exception) {
         this.stopIfRunning()
@@ -223,7 +225,7 @@ class Controller {
         statement.machineCodes.length > 0 &&
         statement.machineCodes.every(
           (machineCode, machineCodeIndex) =>
-            machineCode === memoryData[instructionAdress + machineCodeIndex]
+            machineCode === memoryData[instructionAdress + machineCodeIndex],
         )
       const changeAddress = changes.memoryData?.address
       const isVduBufferChanged = changeAddress !== undefined && changeAddress >= VDU_START_ADDRESS
@@ -300,7 +302,7 @@ class Controller {
                 this.resumeMainLoop()
               }
               await this.step()
-            }
+            },
           )
         } else {
           // wrong port
@@ -325,16 +327,16 @@ class Controller {
           store.dispatch(
             setIoDeviceData({
               name: ioDeviceName,
-              data: outputDataContent
-            })
+              data: outputDataContent,
+            }),
           )
         }
       }
       let hasBreakpoint = false
       const breakpoints = applySelector(selectEditorBreakpoints)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
-        const breakpointLineLoc = breakpoints.find(lineLoc =>
-          lineRangesOverlap(lineLoc, statement.range)
+        const breakpointLineLoc = breakpoints.find((lineLoc) =>
+          lineRangesOverlap(lineLoc, statement.range),
         )
         if (breakpointLineLoc !== undefined) {
           hasBreakpoint = true
@@ -407,9 +409,9 @@ export const useController = (): Controller => {
     return subscribe(
       store.onAction(setAutoAssemble).pipe(
         debounceTime(UPDATE_TIMEOUT_MS),
-        filter(shouldAutoAssemble => shouldAutoAssemble && !applySelector(selectIsAssembled))
+        filter((shouldAutoAssemble) => shouldAutoAssemble && !applySelector(selectIsAssembled)),
       ),
-      controller.assemble
+      controller.assemble,
     )
   }, [])
 
@@ -424,9 +426,9 @@ export const useController = (): Controller => {
           // `setSuspended` action listener will resume the main loop with new configuration
           // so we skip calling `stopAndRun` if cpu is suspended
           return applySelector(selectIsRunning) && !applySelector(selectIsSuspended)
-        })
+        }),
       ),
-      controller.stopAndRun
+      controller.stopAndRun,
     )
   }, [])
 

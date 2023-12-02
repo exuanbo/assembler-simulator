@@ -1,13 +1,15 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { InputSignals, InputPort, initialInputSignals } from './core'
-import { MemoryData, initVduData, getVduDataFrom } from '@/features/memory/core'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import type { RootState } from '@/app/store'
 import { decTo8bitBinDigits, merge } from '@/common/utils'
+import { getVduDataFrom, initVduData, MemoryData } from '@/features/memory/core'
+
+import { initialInputSignals, InputPort, InputSignals } from './core'
 
 export enum IoDeviceName {
   VisualDisplayUnit = 'VisualDisplayUnit',
   TrafficLights = 'TrafficLights',
-  SevenSegmentDisplay = 'Seven-segmentDisplay'
+  SevenSegmentDisplay = 'Seven-segmentDisplay',
 }
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
@@ -41,17 +43,17 @@ const initialState: IoState = {
   devices: {
     [IoDeviceName.VisualDisplayUnit]: {
       data: initialVduData,
-      isVisible: true
+      isVisible: true,
     },
     [IoDeviceName.TrafficLights]: {
       data: initialData,
-      isVisible: false
+      isVisible: false,
     },
     [IoDeviceName.SevenSegmentDisplay]: {
       data: initialData,
-      isVisible: false
-    }
-  }
+      isVisible: false,
+    },
+  },
 }
 
 export const ioSlice = createSlice({
@@ -63,7 +65,7 @@ export const ioSlice = createSlice({
       state.inputSignals.data.content = content
       state.inputSignals.data.port = port
     },
-    clearInputData: state => {
+    clearInputData: (state) => {
       state.inputSignals.data.content = null
       state.inputSignals.data.port = null
     },
@@ -88,22 +90,22 @@ export const ioSlice = createSlice({
       const name = action.payload
       state.devices[name].isVisible = !state.devices[name].isVisible
     },
-    setDevicesInvisible: state => {
-      ioDeviceNames.forEach(name => {
+    setDevicesInvisible: (state) => {
+      ioDeviceNames.forEach((name) => {
         state.devices[name].isVisible = false
       })
     },
-    resetState: state =>
+    resetState: (state) =>
       merge(initialState, {
         devices: Object.entries(state.devices).reduce<Record<string, IoDeviceVisibility>>(
           (visibilityStates, [name, { isVisible }]) =>
             Object.assign(visibilityStates, {
-              [name]: { isVisible }
+              [name]: { isVisible },
             }),
-          {}
-        )
-      })
-  }
+          {},
+        ),
+      }),
+  },
 })
 
 export const selectInputSignals = (state: RootState): InputSignals => state.io.inputSignals
@@ -135,7 +137,7 @@ export const {
   setDeviceData: setIoDeviceData,
   toggleDeviceVisible: toggleIoDeviceVisible,
   setDevicesInvisible: setIoDevicesInvisible,
-  resetState: resetIoState
+  resetState: resetIoState,
 } = ioSlice.actions
 
 export default ioSlice.reducer

@@ -1,36 +1,38 @@
 import { produce } from 'immer'
-import { MAX_SP, GeneralPurposeRegister } from './constants'
-import type { RegisterChange, MemoryDataChange, StepChanges } from './changes'
+
+import { Opcode } from '@/common/constants'
+import { sign8, unsign8 } from '@/common/utils'
+import { InputData, InputSignals, MAX_PORT, OutputSignals, Signals, SKIP } from '@/features/io/core'
+import type { MemoryData } from '@/features/memory/core'
+
+import type { MemoryDataChange, RegisterChange, StepChanges } from './changes'
+import { GeneralPurposeRegister, MAX_SP } from './constants'
 import {
-  add,
-  subtract,
-  increase,
-  decrease,
-  multiply,
-  divide,
-  modulo,
-  and,
-  or,
-  xor,
-  not,
-  rol,
-  ror,
-  shl,
-  shr
-} from './operations'
-import {
+  InvalidInputDataError,
+  InvalidOpcodeError,
+  InvalidPortError,
   InvalidRegisterError,
   RunBeyondEndOfMemoryError,
   StackOverflowError,
   StackUnderflowError,
-  InvalidPortError,
-  InvalidInputDataError,
-  InvalidOpcodeError
 } from './exceptions'
-import type { MemoryData } from '@/features/memory/core'
-import { InputData, InputSignals, OutputSignals, Signals, SKIP, MAX_PORT } from '@/features/io/core'
-import { Opcode } from '@/common/constants'
-import { sign8, unsign8 } from '@/common/utils'
+import {
+  add,
+  and,
+  decrease,
+  divide,
+  increase,
+  modulo,
+  multiply,
+  not,
+  or,
+  rol,
+  ror,
+  shl,
+  shr,
+  subtract,
+  xor,
+} from './operations'
 
 export * from './constants'
 export type { RuntimeErrorObject } from './exceptions'
@@ -48,7 +50,7 @@ export enum StatusRegisterFlag {
   Zero = 0b10 << 0,
   Overflow = 0b10 << 1,
   Sign = 0b10 << 2,
-  Interrupt = 0b10 << 3
+  Interrupt = 0b10 << 3,
 }
 
 export type StatusRegister = number
@@ -71,7 +73,7 @@ export const initRegisters = (): Registers => {
     gpr: [0, 0, 0, 0],
     ip: 0,
     sp: MAX_SP,
-    sr: 0
+    sr: 0,
   }
 }
 
@@ -144,7 +146,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
 
   const signals = {
     input: inputSignals,
-    output: outputSignals
+    output: outputSignals,
   }
 
   const changes: StepChanges = {}
@@ -158,7 +160,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
 
   /* -------------------------------------------------------------------------------------------- */
 
-  const stepResult = produce(lastStepResult, draft => {
+  const stepResult = produce(lastStepResult, (draft) => {
     const { memoryData: __memoryData, cpuRegisters: __cpuRegisters } = draft
 
     const loadFromMemory = (address: number): number => {
@@ -174,7 +176,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
       __cpuRegisters.gpr[register] = value
       setRegisterChange('gpr', {
         name: GeneralPurposeRegister[register],
-        value
+        value,
       })
     }
 
@@ -219,7 +221,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
         : flags & ~StatusRegisterFlag.Interrupt
       setRegisterChange('sr', {
         interrupt: true,
-        value: __cpuRegisters.sr
+        value: __cpuRegisters.sr,
       })
     }
 

@@ -1,16 +1,16 @@
 import {
-  decToBin,
-  decTo8bitBinDigits,
-  clamp,
-  range,
-  splitCamelCaseToString,
   arrayShallowEqual,
   asciiToChars,
+  clamp,
+  curryRight2,
+  decTo8bitBinDigits,
+  decToBin,
+  errorToPlainObject,
   isFunction,
   noop,
-  curryRight2,
+  range,
+  splitCamelCaseToString,
   throttle,
-  errorToPlainObject
 } from '@/common/utils'
 
 describe('decToBin', () => {
@@ -126,7 +126,7 @@ describe('throttle', () => {
     throttledFn()
     throttledFn()
     throttledFn()
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     expect(fn).toHaveBeenCalledTimes(2)
   })
 })
@@ -139,7 +139,7 @@ describe('errorToPlainObject', () => {
     expect(errorObject).toEqual({
       name: 'Error',
       message: 'test',
-      stack: expect.any(String)
+      stack: expect.any(String),
     })
     expect(Object.prototype.toString.call(errorObject)).toBe('[object Object]')
   })

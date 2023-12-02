@@ -1,14 +1,16 @@
-import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import type { RootState } from '@/app/store'
+
 import {
-  RuntimeErrorObject,
   GeneralPurposeRegisters,
+  initRegisters,
   InstructionPointer,
+  Registers,
+  RuntimeErrorObject,
   StackPointer,
   StatusRegister,
-  Registers,
-  initRegisters
 } from './core'
-import type { RootState } from '@/app/store'
 
 interface Status {
   fault: RuntimeErrorObject | null
@@ -23,9 +25,9 @@ interface CpuState {
 const initialState: CpuState = {
   status: {
     fault: null,
-    halted: false
+    halted: false,
   },
-  registers: initRegisters()
+  registers: initRegisters(),
 }
 
 export const cpuSlice = createSlice({
@@ -35,14 +37,14 @@ export const cpuSlice = createSlice({
     setFault: (state, action: PayloadAction<RuntimeErrorObject>) => {
       state.status.fault = action.payload
     },
-    setHalted: state => {
+    setHalted: (state) => {
       state.status.halted = true
     },
     setRegisters: (state, action: PayloadAction<Registers>) => {
       state.registers = action.payload
     },
-    resetState: () => initialState
-  }
+    resetState: () => initialState,
+  },
 })
 
 export const selectCpuStatus = (state: RootState): Status => state.cpu.status
@@ -62,7 +64,7 @@ const selectCpuStackPointer = (state: RootState): StackPointer => state.cpu.regi
 export const selectCpuPointerRegisters = createSelector(
   selectCpuInstructionPointer,
   selectCpuStackPointer,
-  (ip, sp) => ({ ip, sp })
+  (ip, sp) => ({ ip, sp }),
 )
 
 export const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
@@ -71,7 +73,7 @@ export const {
   setFault: setCpuFault,
   setHalted: setCpuHalted,
   setRegisters: setCpuRegisters,
-  resetState: resetCpuState
+  resetState: resetCpuState,
 } = cpuSlice.actions
 
 export default cpuSlice.reducer

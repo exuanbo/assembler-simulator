@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+
 import { store } from '@/app/store'
+
 import { setException } from './exceptionSlice'
 
 export const useGlobalExceptionHandler = (): void => {

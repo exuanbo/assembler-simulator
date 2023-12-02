@@ -1,4 +1,4 @@
-import { just, nothing, maybeNullable } from '@/common/utils'
+import { just, maybeNullable, nothing } from '@/common/utils'
 
 describe('Maybe', () => {
   describe('maybeNullable', () => {
@@ -33,24 +33,24 @@ describe('Maybe', () => {
 
   describe('map', () => {
     it('should map a value', () => {
-      const result = maybeNullable(1).map(x => x + 1)
+      const result = maybeNullable(1).map((x) => x + 1)
       expect(result.extract()).toBe(2)
     })
 
     it('should map a nullable value', () => {
-      const result = maybeNullable<number>(null).map(x => x + 1)
+      const result = maybeNullable<number>(null).map((x) => x + 1)
       expect(result.extract()).toBe(undefined)
     })
   })
 
   describe('chain', () => {
     it('should chain a value', () => {
-      const result = maybeNullable(1).chain(x => just(x + 1))
+      const result = maybeNullable(1).chain((x) => just(x + 1))
       expect(result.extract()).toBe(2)
     })
 
     it('should chain a nullable value', () => {
-      const result = maybeNullable<number>(null).chain(x => just(x + 1))
+      const result = maybeNullable<number>(null).chain((x) => just(x + 1))
       expect(result.extract()).toBe(undefined)
     })
   })
@@ -70,7 +70,7 @@ describe('Maybe', () => {
   describe('ifJust', () => {
     it('should call a function with a value', () => {
       expect.assertions(1)
-      maybeNullable(1).ifJust(x => expect(x).toBe(1))
+      maybeNullable(1).ifJust((x) => expect(x).toBe(1))
     })
 
     it('should not call a function', () => {

@@ -1,5 +1,6 @@
-import type { StateToPersist, PersistedState } from './persist'
 import { name } from '@/../package.json'
+
+import type { PersistedState, StateToPersist } from './persist'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
 

@@ -1,6 +1,7 @@
-import type { SourceRange } from './types'
+import { call, parseString, trimBrackets } from '@/common/utils'
+
 import { EndOfTokenStreamError } from './exceptions'
-import { trimBrackets, parseString, call } from '@/common/utils'
+import type { SourceRange } from './types'
 
 export enum TokenType {
   Whitespace = 'Whitespace',
@@ -11,7 +12,7 @@ export enum TokenType {
   Register = 'Register',
   Address = 'Address',
   String = 'String',
-  Unknown = 'Unknown'
+  Unknown = 'Unknown',
 }
 
 interface TokenRule {
@@ -62,7 +63,7 @@ const createToken = (type: TokenType, value: string, index: number): Token => {
     type,
     value: tokenValue,
     raw: value,
-    range: { from, to }
+    range: { from, to },
   }
 }
 
@@ -91,7 +92,7 @@ const createTokenStream = (source: string): TokenStream => {
         throw new Error(`Unexpected token ${source[startIndex]} at position ${startIndex}`)
       }
       return null
-    }
+    },
   }
 }
 
@@ -146,14 +147,14 @@ export const createTokenizer = (source: string): Tokenizer => {
       tokenizer.advance()
       return token
     },
-    match: type => {
+    match: (type) => {
       const token = assertCurrent()
       if (token.type !== type) {
         return false
       }
       tokenizer.advance()
       return true
-    }
+    },
   }
   return tokenizer
 }

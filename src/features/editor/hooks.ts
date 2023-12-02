@@ -1,70 +1,72 @@
-import { useEffect, useRef } from 'react'
-import { of, map, switchMap, filter } from 'rxjs'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
-import { rangeSetsEqual, mapRangeSetToArray } from '@codemirror-toolkit/utils'
-import { subscribe } from '@/app/subscribe'
-import { store } from '@/app/store'
+import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
+import { useEffect, useRef } from 'react'
+import { filter, map, of, switchMap } from 'rxjs'
+
 import { applySelector, useSelector } from '@/app/selector'
-import {
-  MessageType,
-  EditorMessage,
-  selectEditorHighlightLinePos,
-  selectEditorBreakpoints,
-  selectEditorMessage,
-  setEditorInput,
-  clearEditorHighlightRange,
-  setBreakpoints,
-  addBreakpoint,
-  removeBreakpoint,
-  setEditorMessage,
-  clearEditorMessage
-} from './editorSlice'
-import { template } from './examples'
-import { useViewEffect } from './codemirror/react'
-import { initVim$, enableVim, disableVim } from './codemirror/vim'
-import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
-import { HighlightLineEffect } from './codemirror/highlightLine'
-import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
-import { withStringAnnotation, hasStringAnnotation } from './codemirror/annotations'
-import { lineLocAt, lineRangesEqual } from './codemirror/text'
-import { selectAutoAssemble, selectVimKeybindings } from '@/features/controller/controllerSlice'
+import { store } from '@/app/store'
+import { subscribe } from '@/app/subscribe'
+import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import { assemble } from '@/features/assembler/assemble'
 import {
+  clearAssemblerError,
   selectAssemblerError,
   selectAssemblerErrorRange,
-  clearAssemblerError
 } from '@/features/assembler/assemblerSlice'
-import { selectCpuFault, setCpuHalted, resetCpuState } from '@/features/cpu/cpuSlice'
-import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+import { selectAutoAssemble, selectVimKeybindings } from '@/features/controller/controllerSlice'
+import { resetCpuState, selectCpuFault, setCpuHalted } from '@/features/cpu/cpuSlice'
+
+import { hasStringAnnotation, withStringAnnotation } from './codemirror/annotations'
+import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
+import { HighlightLineEffect } from './codemirror/highlightLine'
+import { useViewEffect } from './codemirror/react'
+import { lineLocAt, lineRangesEqual } from './codemirror/text'
+import { disableVim, enableVim, initVim$ } from './codemirror/vim'
+import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
+import {
+  addBreakpoint,
+  clearEditorHighlightRange,
+  clearEditorMessage,
+  EditorMessage,
+  MessageType,
+  removeBreakpoint,
+  selectEditorBreakpoints,
+  selectEditorHighlightLinePos,
+  selectEditorMessage,
+  setBreakpoints,
+  setEditorInput,
+  setEditorMessage,
+} from './editorSlice'
+import { template } from './examples'
 
 export const useVimKeybindings = (): void => {
-  useViewEffect(view => {
+  useViewEffect((view) => {
     return subscribe(
       store
         .onState(selectVimKeybindings, { initial: true })
         .pipe(
-          switchMap(shouldEnable =>
-            shouldEnable ? initVim$.pipe(map(() => enableVim)) : of(disableVim)
-          )
+          switchMap((shouldEnable) =>
+            shouldEnable ? initVim$.pipe(map(() => enableVim)) : of(disableVim),
+          ),
         ),
-      action => {
+      (action) => {
         action(view)
-      }
+      },
     )
   }, [])
 }
 
 enum AnnotationValue {
-  SyncFromState = 'SyncFromState'
+  SyncFromState = 'SyncFromState',
 }
 
 const syncFromState = withStringAnnotation(AnnotationValue.SyncFromState)
 const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 
 export const useSyncInput = (): void => {
-  useViewEffect(view => {
+  useViewEffect((view) => {
     let syncInputTimeoutId: number | undefined
-    return addUpdateListener(view, update => {
+    return addUpdateListener(view, (update) => {
       if (!update.docChanged) {
         return
       }
@@ -82,7 +84,7 @@ export const useSyncInput = (): void => {
     })
   }, [])
 
-  useViewEffect(view => {
+  useViewEffect((view) => {
     return subscribe(
       store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
       ({ value }) => {
@@ -91,17 +93,17 @@ export const useSyncInput = (): void => {
             changes: {
               from: 0,
               to: view.state.doc.length,
-              insert: value
-            }
-          })
+              insert: value,
+            },
+          }),
         )
-      }
+      },
     )
   }, [])
 }
 
 export const useAutoFocus = (): void => {
-  useViewEffect(view => {
+  useViewEffect((view) => {
     return subscribe(
       store
         .onAction(setEditorInput)
@@ -113,16 +115,16 @@ export const useAutoFocus = (): void => {
         view.dispatch({
           selection: {
             anchor: titleIndex,
-            head: titleIndex + title.length
-          }
+            head: titleIndex + title.length,
+          },
         })
-      }
+      },
     )
   }, [])
 }
 
 export const useAutoAssemble = (): void => {
-  useViewEffect(view => {
+  useViewEffect((view) => {
     const initialAssembleTimeoutId = window.setTimeout(() => {
       if (applySelector(selectAutoAssemble)) {
         const input = view.state.doc.toString()
@@ -145,28 +147,28 @@ export const useAutoAssemble = (): void => {
         } else {
           assemble(value)
         }
-      }
+      },
     )
   }, [])
 }
 
 export const useAssemblerError = (): void => {
-  useViewEffect(view => {
-    return addUpdateListener(view, update => {
+  useViewEffect((view) => {
+    return addUpdateListener(view, (update) => {
       if (update.docChanged && applySelector(selectAssemblerError) !== null) {
         store.dispatch(clearAssemblerError())
       }
     })
   }, [])
 
-  useViewEffect(view => {
-    return subscribe(store.onState(selectAssemblerErrorRange), errorRange => {
+  useViewEffect((view) => {
+    return subscribe(store.onState(selectAssemblerErrorRange), (errorRange) => {
       const hasError = errorRange !== undefined
       view.dispatch({
         effects: WavyUnderlineEffect.of({
           add: errorRange,
-          filter: () => hasError
-        })
+          filter: () => hasError,
+        }),
       })
     })
   }, [])
@@ -178,12 +180,12 @@ export const useHighlightLine = (): void => {
       store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
       () => {
         store.dispatch(clearEditorHighlightRange())
-      }
+      },
     )
   }, [])
 
-  useViewEffect(view => {
-    return subscribe(store.onState(selectEditorHighlightLinePos(view)), linePos => {
+  useViewEffect((view) => {
+    return subscribe(store.onState(selectEditorHighlightLinePos(view)), (linePos) => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
         effects: shouldAddHighlight
@@ -191,16 +193,16 @@ export const useHighlightLine = (): void => {
               HighlightLineEffect.of({
                 pos,
                 // clear previous decorations on first line
-                filter: () => posIndex !== 0
-              })
+                filter: () => posIndex !== 0,
+              }),
             )
-          : HighlightLineEffect.of({ filter: () => false })
+          : HighlightLineEffect.of({ filter: () => false }),
       })
       if (!view.hasFocus && shouldAddHighlight) {
         view.dispatch({
           // length of `linePos` is already checked
           selection: { anchor: linePos[0] },
-          scrollIntoView: true
+          scrollIntoView: true,
         })
       }
     })
@@ -208,13 +210,13 @@ export const useHighlightLine = (): void => {
 }
 
 export const useBreakpoints = (): void => {
-  useViewEffect(view => {
-    return addUpdateListener(view, update => {
+  useViewEffect((view) => {
+    return addUpdateListener(view, (update) => {
       if (update.docChanged) {
         const breakpointMarkers = getBreakpointMarkers(update.state)
         if (!rangeSetsEqual(breakpointMarkers, getBreakpointMarkers(update.startState))) {
           const breakpoints = mapRangeSetToArray(breakpointMarkers, (_, from) =>
-            lineLocAt(update.state.doc, from)
+            lineLocAt(update.state.doc, from),
           )
           store.dispatch(setBreakpoints(breakpoints))
         }
@@ -224,7 +226,7 @@ export const useBreakpoints = (): void => {
         if (transaction === undefined || isSyncFromState(transaction)) {
           return
         }
-        transaction.effects.forEach(effect => {
+        transaction.effects.forEach((effect) => {
           if (effect.is(BreakpointEffect)) {
             const actionCreator = effect.value.on ? addBreakpoint : removeBreakpoint
             const lineLoc = lineLocAt(update.state.doc, effect.value.pos)
@@ -235,13 +237,13 @@ export const useBreakpoints = (): void => {
     })
   }, [])
 
-  useViewEffect(view => {
+  useViewEffect((view) => {
     const breakpoints = applySelector(selectEditorBreakpoints)
     // persisted state might not be in sync with codemirror
     const validBreakpoints = breakpoints.filter(
-      lineLoc =>
+      (lineLoc) =>
         lineLoc.to <= view.state.doc.length &&
-        lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from))
+        lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from)),
     )
     if (validBreakpoints.length < breakpoints.length) {
       store.dispatch(setBreakpoints(validBreakpoints))
@@ -253,13 +255,13 @@ export const useBreakpoints = (): void => {
     if (breakpointMarkers.size === 0) {
       view.dispatch(
         syncFromState({
-          effects: validBreakpoints.map(lineLoc =>
+          effects: validBreakpoints.map((lineLoc) =>
             BreakpointEffect.of({
               pos: lineLoc.from,
-              on: true
-            })
-          )
-        })
+              on: true,
+            }),
+          ),
+        }),
       )
     }
   }, [])
@@ -269,13 +271,13 @@ const MESSAGE_DURATION_MS = 2000
 
 const haltedMessage: EditorMessage = {
   type: MessageType.Info,
-  content: 'Info: Program has halted.'
+  content: 'Info: Program has halted.',
 }
 
 const errorToMessage = (error: Error): EditorMessage => {
   return {
     type: MessageType.Error,
-    content: `${error.name}: ${error.message}`
+    content: `${error.name}: ${error.message}`,
   }
 }
 
@@ -311,7 +313,7 @@ export const useMessage = (): EditorMessage | null => {
       () => {
         window.clearTimeout(messageTimeoutIdRef.current)
         store.dispatch(clearEditorMessage())
-      }
+      },
     )
   }, [])
 

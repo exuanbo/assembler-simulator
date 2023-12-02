@@ -1,15 +1,10 @@
-import Menu from './Menu'
-import MenuButton from './MenuButton'
-import MenuItems from './MenuItems'
-import MenuItem from './MenuItem'
-import { CheckMark, Wrench } from '@/common/components/icons'
-import { store } from '@/app/store'
 import { useSelector } from '@/app/selector'
+import { store } from '@/app/store'
+import { CheckMark, Wrench } from '@/common/components/icons'
+
 import {
   ClockSpeed,
   clockSpeedOptionNames,
-  TimerInterval,
-  timerIntervalOptionNames,
   selectAutoAssemble,
   selectClockSpeed,
   selectTimerInterval,
@@ -17,8 +12,14 @@ import {
   setAutoAssemble,
   setClockSpeed,
   setTimerInterval,
-  setVimKeybindings
+  setVimKeybindings,
+  TimerInterval,
+  timerIntervalOptionNames,
 } from './controllerSlice'
+import Menu from './Menu'
+import MenuButton from './MenuButton'
+import MenuItem from './MenuItem'
+import MenuItems from './MenuItems'
 
 const AutoAssembleSwitch = (): JSX.Element => {
   const autoAssemble = useSelector(selectAutoAssemble)

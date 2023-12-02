@@ -1,11 +1,12 @@
-import Menu from './Menu'
-import MenuButton from './MenuButton'
-import MenuItems from './MenuItems'
-import MenuItem from './MenuItem'
-import Modal from '@/common/components/Modal'
 import Anchor from '@/common/components/Anchor'
 import { Help } from '@/common/components/icons'
-import { useToggle, useOutsideClick } from '@/common/hooks'
+import Modal from '@/common/components/Modal'
+import { useOutsideClick, useToggle } from '@/common/hooks'
+
+import Menu from './Menu'
+import MenuButton from './MenuButton'
+import MenuItem from './MenuItem'
+import MenuItems from './MenuItems'
 
 interface ExternalLinkButtonProps {
   href: string
@@ -63,7 +64,7 @@ interface AboutModalProps {
 const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
   const outsideClickRef = useOutsideClick(toggleOpen)
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = event => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation()
   }
 

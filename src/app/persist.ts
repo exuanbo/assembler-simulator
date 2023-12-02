@@ -1,17 +1,19 @@
 import { createSelector } from '@reduxjs/toolkit'
-import type { RootState } from './store'
-import { editorSlice, selectEditorStateToPersist } from '@/features/editor/editorSlice'
+
 import {
   controllerSlice,
-  selectControllerStateToPersist
+  selectControllerStateToPersist,
 } from '@/features/controller/controllerSlice'
+import { editorSlice, selectEditorStateToPersist } from '@/features/editor/editorSlice'
+
+import type { RootState } from './store'
 
 type InitialStateToPersist = Pick<RootState, 'editor' | 'controller'>
 
 export const getInitialStateToPersist = (): InitialStateToPersist => {
   return {
     editor: editorSlice.getInitialState(),
-    controller: controllerSlice.getInitialState()
+    controller: controllerSlice.getInitialState(),
   }
 }
 
@@ -20,8 +22,8 @@ export const selectStateToPersist = createSelector(
   selectControllerStateToPersist,
   (editorState, controllerState) => ({
     editor: editorState,
-    controller: controllerState
-  })
+    controller: controllerState,
+  }),
 )
 
 export type StateToPersist = ReturnType<typeof selectStateToPersist>

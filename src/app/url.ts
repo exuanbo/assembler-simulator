@@ -1,6 +1,7 @@
 import * as Base64 from 'js-base64'
 import * as Pako from 'pako'
-import type { StateToPersist, PersistedState } from './persist'
+
+import type { PersistedState, StateToPersist } from './persist'
 
 const QUERY_PARAMETER_NAME = 'shareable'
 

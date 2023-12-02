@@ -1,4 +1,4 @@
-import type { Line, Text, SelectionRange } from '@codemirror/state'
+import type { Line, SelectionRange, Text } from '@codemirror/state'
 
 export type LineLoc = Pick<Line, 'from' | 'to' | 'number'>
 
@@ -17,9 +17,9 @@ export const lineRangesOverlap: LineRangeComparator = (a, b) => a.from < b.to &&
 
 export const hasNonEmptySelectionAtLine = (
   line: Line,
-  selectionRanges: readonly SelectionRange[]
+  selectionRanges: readonly SelectionRange[],
 ): boolean =>
   selectionRanges.some(
-    selectionRange =>
-      !selectionRange.empty && selectionRange.from < line.to && selectionRange.to > line.from
+    (selectionRange) =>
+      !selectionRange.empty && selectionRange.from < line.to && selectionRange.to > line.from,
   )

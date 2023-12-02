@@ -1,13 +1,15 @@
-import { useState, useCallback, useMemo } from 'react'
-import { MenuContext } from './Menu'
-import FileMenu from './FileMenu'
-import ViewMenu from './ViewMenu'
-import ConfigurationMenu from './ConfigurationMenu'
-import ControlButtons from './ControlButtons'
-import HelpMenu from './HelpMenu'
+import { useCallback, useMemo, useState } from 'react'
+
 import Anchor from '@/common/components/Anchor'
 import { Github } from '@/common/components/icons'
 import { useOutsideClick } from '@/common/hooks'
+
+import ConfigurationMenu from './ConfigurationMenu'
+import ControlButtons from './ControlButtons'
+import FileMenu from './FileMenu'
+import HelpMenu from './HelpMenu'
+import { MenuContext } from './Menu'
+import ViewMenu from './ViewMenu'
 
 const ToolBar = (): JSX.Element => {
   const [openMenu, __setOpenMenu] = useState<HTMLDivElement | null>(null)
@@ -20,7 +22,7 @@ const ToolBar = (): JSX.Element => {
   const menuContextValue = useMemo(() => {
     return {
       currentOpen: openMenu,
-      setCurrentOpen: setOpenMenu
+      setCurrentOpen: setOpenMenu,
     }
   }, [openMenu])
 

@@ -1,8 +1,10 @@
 import { memo } from 'react'
-import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
-import type { RegisterName } from './core'
-import { sign8, decToBin, decToHex } from '@/common/utils'
+
 import { NO_BREAK_SPACE } from '@/common/constants'
+import { decToBin, decToHex, sign8 } from '@/common/utils'
+
+import type { RegisterName } from './core'
+import RegisterValueTableCell, { RadixLabel } from './RegisterValueTableCell'
 
 interface Props {
   name: RegisterName

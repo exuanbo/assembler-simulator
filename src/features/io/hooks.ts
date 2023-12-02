@@ -1,18 +1,20 @@
-import { useEffect, useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { filter } from 'rxjs'
-import { Unsubscribe, subscribe } from '@/app/subscribe'
-import { store } from '@/app/store'
+
 import { applySelector, useSelector } from '@/app/selector'
+import { store } from '@/app/store'
+import { subscribe, Unsubscribe } from '@/app/subscribe'
+import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
+
 import {
   IoDeviceName,
   IoDeviceState,
   selectIoDeviceData,
   selectIoDeviceVisibility,
-  setVduDataFrom,
   setIoDeviceData,
-  toggleIoDeviceVisible
+  setVduDataFrom,
+  toggleIoDeviceVisible,
 } from './ioSlice'
-import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 interface IoDeviceActions {
   subscribeData: (callback: (data: number[]) => void) => Unsubscribe
@@ -30,7 +32,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
     (listener: DataListener) => {
       return subscribe(store.onState(selectData), listener)
     },
-    [deviceName]
+    [deviceName],
   )
 
   const selectVisibility = useMemo(() => selectIoDeviceVisibility(deviceName), [deviceName])
@@ -46,7 +48,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
         store
           .onAction(setIoDeviceData)
           .pipe(filter(({ name: targetDeviceName }) => targetDeviceName === deviceName)),
-        toggleVisible
+        toggleVisible,
       )
     }
   }, [isVisible, deviceName])

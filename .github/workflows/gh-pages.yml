@@ -3,7 +3,7 @@ name: Github Pages
 on:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   deploy:

@@ -6,18 +6,18 @@ import { defer, from, map } from 'rxjs'
 // TODO: use satisfies operator
 const vim = {
   initialized: false,
-  extension: [] as Extension
+  extension: [] as Extension,
 }
 
 export const initVim$ = defer(() =>
   vim.initialized
     ? from(Promise.resolve())
     : from(import('@replit/codemirror-vim')).pipe(
-        map(module => {
+        map((module) => {
           vim.extension = module.vim({ status: true })
           vim.initialized = true
-        })
-      )
+        }),
+      ),
 )
 
 export const enableVim = (view: EditorView): void => {

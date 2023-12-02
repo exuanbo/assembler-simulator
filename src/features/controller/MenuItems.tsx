@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
-  const refCallback: RefCallback<HTMLDivElement> = element => {
+  const refCallback: RefCallback<HTMLDivElement> = (element) => {
     if (element === null) {
       return
     }
@@ -31,7 +31,7 @@ interface ExpandedProps {
 }
 
 const Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
-  const refCallback: RefCallback<HTMLDivElement> = element => {
+  const refCallback: RefCallback<HTMLDivElement> = (element) => {
     innerRef(element)
     if (element === null) {
       return

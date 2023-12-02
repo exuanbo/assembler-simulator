@@ -1,18 +1,19 @@
-import type { Extension } from '@codemirror/state'
-import { keymap, drawSelection } from '@codemirror/view'
-import { history, defaultKeymap, historyKeymap } from '@codemirror/commands'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
-import { updateListener, extensionManager } from '@codemirror-toolkit/extensions'
-import { theme } from './theme'
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
+import type { Extension } from '@codemirror/state'
+import { drawSelection, keymap } from '@codemirror/view'
+import { extensionManager, updateListener } from '@codemirror-toolkit/extensions'
+
 import { asm } from './asm'
-import { highlightActiveLine } from './highlightActiveLine'
-import { highlightSelectionMatches } from './highlightSelectionMatches'
-import { highlightActiveLineGutter } from './highlightActiveLineGutter'
 import { breakpoints } from './breakpoints'
-import { lineNumbers } from './lineNumbers'
-import { wavyUnderline } from './wavyUnderline'
+import { highlightActiveLine } from './highlightActiveLine'
+import { highlightActiveLineGutter } from './highlightActiveLineGutter'
 import { highlightLine } from './highlightLine'
+import { highlightSelectionMatches } from './highlightSelectionMatches'
 import { indentWithTab } from './indentWithTab'
+import { lineNumbers } from './lineNumbers'
+import { theme } from './theme'
+import { wavyUnderline } from './wavyUnderline'
 
 export const getSetup = (): Extension => {
   return [
@@ -30,6 +31,6 @@ export const getSetup = (): Extension => {
     lineNumbers(),
     wavyUnderline(),
     highlightLine(),
-    keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab])
+    keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab]),
   ]
 }

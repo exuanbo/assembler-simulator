@@ -1,15 +1,17 @@
-import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit'
 import type { EditorView } from '@codemirror/view'
-import { LineLoc, lineRangesEqual } from './codemirror/text'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import type { RootState } from '@/app/store'
-import type { SourceRange, Statement } from '@/features/assembler/core'
-import { examples } from './examples'
 import { curryRight2 } from '@/common/utils'
+import type { SourceRange, Statement } from '@/features/assembler/core'
+
+import { LineLoc, lineRangesEqual } from './codemirror/text'
+import { examples } from './examples'
 
 export enum MessageType {
   Info,
   Warning,
-  Error
+  Error,
 }
 
 export interface EditorMessage {
@@ -28,7 +30,7 @@ const initialState: EditorState = {
   input: examples[/* Visual Display Unit */ 4].content,
   highlightRange: null,
   breakpoints: [],
-  message: null
+  message: null,
 }
 
 export const editorSlice = createSlice({
@@ -42,15 +44,15 @@ export const editorSlice = createSlice({
       prepare: (payload: { value: string; isFromFile?: boolean }) => {
         const { value, isFromFile = false } = payload
         return {
-          payload: { value, isFromFile }
+          payload: { value, isFromFile },
         }
-      }
+      },
     },
     setHighlightRange: (state, action: PayloadAction<Statement>) => {
       const statement = action.payload
       state.highlightRange = statement.range
     },
-    clearHighlightRange: state => {
+    clearHighlightRange: (state) => {
       state.highlightRange = null
     },
     setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
@@ -58,7 +60,9 @@ export const editorSlice = createSlice({
     },
     addBreakpoint: (state, action: PayloadAction<LineLoc>) => {
       const targetLineLoc = action.payload
-      const targetIndex = state.breakpoints.findIndex(lineLoc => lineLoc.from > targetLineLoc.from)
+      const targetIndex = state.breakpoints.findIndex(
+        (lineLoc) => lineLoc.from > targetLineLoc.from,
+      )
       if (targetIndex === -1) {
         state.breakpoints.push(targetLineLoc)
       } else {
@@ -67,18 +71,18 @@ export const editorSlice = createSlice({
     },
     removeBreakpoint: (state, action: PayloadAction<LineLoc>) => {
       const targetLineLoc = action.payload
-      const targetIndex = state.breakpoints.findIndex(lineLoc =>
-        lineRangesEqual(lineLoc, targetLineLoc)
+      const targetIndex = state.breakpoints.findIndex((lineLoc) =>
+        lineRangesEqual(lineLoc, targetLineLoc),
       )
       state.breakpoints.splice(targetIndex, 1)
     },
     setMessage: (state, action: PayloadAction<EditorMessage>) => {
       state.message = action.payload
     },
-    clearMessage: state => {
+    clearMessage: (state) => {
       state.message = null
-    }
-  }
+    },
+  },
 })
 
 export const selectEditorInput = (state: RootState): string => state.editor.input
@@ -100,7 +104,7 @@ export const selectEditorHighlightLinePos = curryRight2(
       }
     }
     return linePos.length > 0 ? linePos : undefined
-  })
+  }),
 )
 
 export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
@@ -110,7 +114,7 @@ export const selectEditorMessage = (state: RootState): EditorMessage | null => s
 export const selectEditorStateToPersist = createSelector(
   selectEditorInput,
   selectEditorBreakpoints,
-  (input, breakpoints) => ({ input, breakpoints })
+  (input, breakpoints) => ({ input, breakpoints }),
 )
 
 export const {
@@ -121,7 +125,7 @@ export const {
   setHighlightRange: setEditorHighlightRange,
   clearHighlightRange: clearEditorHighlightRange,
   setMessage: setEditorMessage,
-  clearMessage: clearEditorMessage
+  clearMessage: clearEditorMessage,
 } = editorSlice.actions
 
 export default editorSlice.reducer

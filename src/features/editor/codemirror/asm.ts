@@ -1,25 +1,22 @@
-import type { Extension } from '@codemirror/state'
 import {
-  StreamLanguage,
-  LanguageSupport,
-  syntaxHighlighting,
   defaultHighlightStyle,
-  indentUnit
+  indentUnit,
+  LanguageSupport,
+  StreamLanguage,
+  syntaxHighlighting,
 } from '@codemirror/language'
+import type { Extension } from '@codemirror/state'
+
 import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 
-/* eslint-disable prettier/prettier */
-
 const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
-const LABEL_DECLARATION_REGEXP =  /^[a-zA-Z_]+(?=:)/
-const LABEL_REFERENCE_REGEXP =    /^[a-zA-Z_]+/
-const MAYBE_INSTRUCTION_REGEXP =  /^[^\s;:,["]+/
-const NUMBER_REGEXP =             /^[\da-fA-F]+\b/
-const REGISTER_REGEXP =           /^[a-dA-D][lL]\b/
-const STRING_REGEXP =             /^"(?:(?:[^\\]|\\.)*?"|.*)/
-const NON_WHITESPACE_REGEXP =     /^\S+/
-
-/* eslint-enable prettier/prettier */
+const LABEL_DECLARATION_REGEXP = /^[a-zA-Z_]+(?=:)/
+const LABEL_REFERENCE_REGEXP = /^[a-zA-Z_]+/
+const MAYBE_INSTRUCTION_REGEXP = /^[^\s;:,["]+/
+const NUMBER_REGEXP = /^[\da-fA-F]+\b/
+const REGISTER_REGEXP = /^[a-dA-D][lL]\b/
+const STRING_REGEXP = /^"(?:(?:[^\\]|\\.)*?"|.*)/
+const NON_WHITESPACE_REGEXP = /^\S+/
 
 interface State {
   ended: boolean
@@ -31,7 +28,7 @@ const startState = (): State => {
   return {
     ended: false,
     operandsLeft: 0,
-    expectingLabel: false
+    expectingLabel: false,
   }
 }
 
@@ -105,12 +102,12 @@ const asmLanguage = StreamLanguage.define<State>({
     const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
     const spaceCount = whitespaces.length - tabCount
     return tabCount * tabSize + spaceCount
-  }
+  },
 })
 
 export const asm = (): Extension => {
   return [
     new LanguageSupport(asmLanguage, [indentUnit.of('\t')]),
-    syntaxHighlighting(defaultHighlightStyle)
+    syntaxHighlighting(defaultHighlightStyle),
   ]
 }

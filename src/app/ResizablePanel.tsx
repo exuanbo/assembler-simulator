@@ -1,9 +1,10 @@
 import BaseResizablePanel, {
   DEFAULT_RESIZE_THROTTLE_MS,
-  ResizablePanelProps
+  ResizablePanelProps,
 } from '@/common/components/ResizablePanel'
-import { useSelector } from './selector'
 import { selectIsRunning } from '@/features/controller/controllerSlice'
+
+import { useSelector } from './selector'
 
 const ResizablePanel = (props: ResizablePanelProps): JSX.Element => {
   const isRunning = useSelector(selectIsRunning)
