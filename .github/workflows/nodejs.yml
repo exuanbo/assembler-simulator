@@ -23,4 +23,5 @@ jobs:
           check-latest: true
           cache: yarn
       - run: yarn install
+      - run: yarn lint:ci
       - run: yarn test
