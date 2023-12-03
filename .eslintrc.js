@@ -31,13 +31,21 @@ const config = {
         '@typescript-eslint/ban-types': [
           'error',
           {
+            extendDefaults: true,
             types: {
               Function: false,
               '{}': false,
             },
-            extendDefaults: true,
           },
         ],
+        '@typescript-eslint/consistent-type-exports': 'error',
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          {
+            fixStyle: 'inline-type-imports',
+          },
+        ],
+        '@typescript-eslint/no-import-type-side-effects': 'error',
         '@typescript-eslint/no-unsafe-argument': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/no-unsafe-enum-comparison': 'off',
