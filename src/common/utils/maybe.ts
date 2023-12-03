@@ -1,12 +1,10 @@
-/* eslint-disable no-sequences */
-
 import { Nullable } from './types'
 
-export interface Maybe<T> {
+export interface Maybe<T extends {}> {
   isJust: () => boolean
   isNothing: () => boolean
-  map: <U>(f: (value: T) => U) => Maybe<U>
-  chain: <U>(f: (value: T) => Maybe<U>) => Maybe<U>
+  map: <U extends {}>(f: (value: T) => U) => Maybe<U>
+  chain: <U extends {}>(f: (value: T) => Maybe<U>) => Maybe<U>
   orDefault: (defaultValue: T) => T
   extract: () => T | undefined
   extractNullable: () => T | null
@@ -14,7 +12,7 @@ export interface Maybe<T> {
   ifNothing: (f: () => void) => this
 }
 
-export const just = <T>(value: T): Maybe<T> => {
+export const just = <T extends {}>(value: T): Maybe<T> => {
   const instance: Maybe<T> = {
     isJust: () => true,
     isNothing: () => false,
@@ -29,7 +27,7 @@ export const just = <T>(value: T): Maybe<T> => {
   return instance
 }
 
-export const nothing = <T>(): Maybe<T> => {
+export const nothing = <T extends {}>(): Maybe<T> => {
   const instance: Maybe<T> = {
     isJust: () => false,
     isNothing: () => true,
@@ -44,6 +42,6 @@ export const nothing = <T>(): Maybe<T> => {
   return instance
 }
 
-type MaybeNullable = <T>(value: Nullable<T>) => Maybe<T>
+type MaybeNullable = <T extends {}>(value: Nullable<T>) => Maybe<T>
 
 export const maybeNullable: MaybeNullable = (value) => (value == null ? nothing() : just(value))

@@ -630,6 +630,7 @@ describe('cpu', () => {
             initialRegisters,
             produce(initialInputSignals, (draft) => {
               draft.data.content = 0x61
+              // @ts-expect-error: testing
               draft.data.port = 0x01
             }),
           ),
