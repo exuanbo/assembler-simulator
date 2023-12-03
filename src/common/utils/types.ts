@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/consistent-type-definitions
-export type NonNullishValue = {}
-
 export type Nullable<T> = T | null | undefined
 
 type UnionToFunctionWithUnionAsArg<Union> = (arg: Union) => void

@@ -9,14 +9,13 @@ import {
 } from 'react'
 
 import { isFunction } from './utils/common'
-import type { NonNullishValue } from './utils/types'
 
 export const useToggle = (
   initialState: boolean,
 ): [state: boolean, toggleState: React.DispatchWithoutAction] =>
   useReducer((state: boolean) => !state, initialState)
 
-export const useSingleton = <T extends NonNullishValue>(instance: T | (() => T)): T => {
+export const useSingleton = <T extends {}>(instance: T | (() => T)): T => {
   const instanceRef = useRef<T | null>(null)
   if (instanceRef.current === null) {
     // https://github.com/microsoft/TypeScript/issues/37663

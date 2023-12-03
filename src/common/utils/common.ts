@@ -104,7 +104,6 @@ type FunctionType = (...args: any[]) => any
 
 export const isFunction = (value: unknown): value is FunctionType => typeof value === 'function'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = (): void => {}
 
 export const call = <T>(fn: () => T): T => fn()

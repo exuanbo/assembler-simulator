@@ -13,8 +13,6 @@ type TypeofResult =
   | 'function'
 
 // prettier-ignore
-/* eslint-disable @typescript-eslint/ban-types */
-
 type TypeofResultToType<T extends TypeofResult> =
   T extends 'string' ? string :
   T extends 'number' ? number :
@@ -25,8 +23,6 @@ type TypeofResultToType<T extends TypeofResult> =
   T extends 'object' ? object :
   T extends 'function' ? Function :
   never
-
-/* eslint-enable @typescript-eslint/ban-types */
 
 const isArrayOf =
   <T extends TypeofResult>(...types: T[]) =>
