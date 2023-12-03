@@ -1,16 +1,12 @@
-name: Node.js CI
+name: Lint
 
 on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - '**.md'
   push:
     branches:
       - main
-    paths-ignore:
-      - '**.md'
 
 jobs:
   test:
@@ -24,4 +20,4 @@ jobs:
           cache: yarn
       - run: yarn install
       - run: yarn lint:ci
-      - run: yarn test
+      - run: yarn format:check

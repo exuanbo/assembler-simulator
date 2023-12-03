@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --cache --fix",
     "lint:ci": "eslint . --cache --cache-location ./node_modules/.cache/eslint/.eslintcache --max-warnings 0",
-    "format": "prettier --write --cache .",
+    "format": "prettier --write --log-level warn --cache .",
     "format:check": "prettier --check --cache .",
     "test": "run build && jest",
     "all": "run lint && run format && run test"
