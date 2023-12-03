@@ -1,10 +1,12 @@
 // @ts-check
-/** @typedef {import('prettier').Config} Config */
+/** @typedef {import('prettier').Config} PrettierConfig */
 
-/** @type {Config} */
-module.exports = {
+/** @type {PrettierConfig} */
+const config = {
   printWidth: 100,
   semi: false,
   singleQuote: true,
   bracketSameLine: true,
 }
+
+module.exports = config

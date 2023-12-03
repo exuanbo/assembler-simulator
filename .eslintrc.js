@@ -1,8 +1,8 @@
 // @ts-check
-/** @typedef {import('eslint').Linter.Config} Config */
+/** @typedef {import('eslint').Linter.Config} ESLintConfig */
 
-/** @type {Config} */
-const defaultConfig = {
+/** @type {ESLintConfig} */
+const config = {
   root: true,
   env: {
     browser: true,
@@ -24,10 +24,20 @@ const defaultConfig = {
         'prettier',
       ],
       parserOptions: {
-        project: ['./tsconfig.eslint.json'],
+        project: ['./tsconfig.json'],
         extraFileExtensions: ['.cts', '.mts'],
       },
       rules: {
+        '@typescript-eslint/ban-types': [
+          'error',
+          {
+            types: {
+              Function: false,
+              '{}': false,
+            },
+            extendDefaults: true,
+          },
+        ],
         '@typescript-eslint/no-unsafe-argument': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/no-unsafe-enum-comparison': 'off',
@@ -66,4 +76,4 @@ const defaultConfig = {
   },
 }
 
-module.exports = defaultConfig
+module.exports = config

@@ -6,7 +6,8 @@
 
     // Modules
     "module": "ESNext",
-    "moduleResolution": "node",
+    // TODO: use "Bundler" after migrating to unocss
+    "moduleResolution": "Node10",
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -32,5 +33,5 @@
     // Completeness
     "skipLibCheck": true
   },
-  "include": ["__tests__", "src"]
+  "include": ["."]
 }

@@ -1,5 +1,8 @@
-/** @type {import('@jest/types').Config.InitialOptions} */
-module.exports = {
+// @ts-check
+/** @typedef {import('ts-jest').JestConfigWithTsJest} JestConfig */
+
+/** @type {JestConfig} */
+const config = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/common/utils/*.ts',
@@ -7,28 +10,24 @@ module.exports = {
     'src/features/memory/core.ts',
     'src/features/cpu/core/*.ts',
   ],
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
-    },
-  },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    // jest does not support loading a module with query parameters
-    // https://github.com/facebook/jest/issues/4181
-    // solution is found here:
-    // https://github.com/vitejs/vite/issues/4067#issuecomment-892631379
-    '^(.*)\\?raw$': '$1',
+    '^@/(.*)': '<rootDir>/src/$1',
+    '(.+)\\?raw$': '$1',
   },
-  preset: 'ts-jest',
   snapshotFormat: {
     escapeString: true,
-    // TODO: remove in future realeases of jest
-    printBasicPrototype: false,
   },
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
   transform: {
-    '\\.asm$': '<rootDir>/__tests__/rawTransformer.js',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        isolatedModules: true,
+      },
+    ],
+    '^.+\\.asm$': '<rootDir>/__tests__/rawTransformer.js',
   },
 }
+
+module.exports = config
