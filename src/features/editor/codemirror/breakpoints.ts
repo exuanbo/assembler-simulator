@@ -1,4 +1,10 @@
-import { EditorState, Extension, RangeSet, StateEffect, StateField } from '@codemirror/state'
+import {
+  type EditorState,
+  type Extension,
+  RangeSet,
+  StateEffect,
+  StateField,
+} from '@codemirror/state'
 import { EditorView, gutter, GutterMarker } from '@codemirror/view'
 import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
 

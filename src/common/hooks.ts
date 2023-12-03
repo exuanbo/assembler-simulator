@@ -1,5 +1,5 @@
 import {
-  RefCallback,
+  type RefCallback,
   useCallback,
   useEffect,
   useInsertionEffect,

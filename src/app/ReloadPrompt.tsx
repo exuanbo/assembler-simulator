@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { type ReactNode, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 import { Spinner } from '@/common/components/icons'

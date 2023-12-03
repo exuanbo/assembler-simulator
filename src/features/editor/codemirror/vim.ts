@@ -1,9 +1,8 @@
 import type { Extension } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import type { EditorView } from '@codemirror/view'
 import { addExtension, removeExtension } from '@codemirror-toolkit/extensions'
 import { defer, from, map } from 'rxjs'
 
-// TODO: use satisfies operator
 const vim = {
   initialized: false,
   extension: [] as Extension,

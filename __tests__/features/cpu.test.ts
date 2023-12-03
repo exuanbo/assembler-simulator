@@ -5,14 +5,14 @@ import { assemble } from '@/features/assembler/core'
 import {
   GeneralPurposeRegister,
   initRegisters,
-  Registers,
+  type Registers,
   RuntimeError,
   StatusRegisterFlag,
   step as __step,
-  StepOutput,
+  type StepOutput,
 } from '@/features/cpu/core'
-import { initialInputSignals, InputSignals, SKIP } from '@/features/io/core'
-import { initData, initDataFrom, MemoryData } from '@/features/memory/core'
+import { initialInputSignals, type InputSignals, SKIP } from '@/features/io/core'
+import { initData, initDataFrom, type MemoryData } from '@/features/memory/core'
 
 import { memoryDataSerializer, shortArraySerializer } from '../snapshotSerializers'
 

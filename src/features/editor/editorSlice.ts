@@ -1,11 +1,11 @@
 import type { EditorView } from '@codemirror/view'
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from '@/app/store'
 import { curryRight2 } from '@/common/utils'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 
-import { LineLoc, lineRangesEqual } from './codemirror/text'
+import { type LineLoc, lineRangesEqual } from './codemirror/text'
 import { examples } from './examples'
 
 export enum MessageType {

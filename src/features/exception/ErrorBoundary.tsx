@@ -1,4 +1,4 @@
-import { Component, ReactNode, useCallback } from 'react'
+import { Component, type ReactNode, useCallback } from 'react'
 
 import { store } from '@/app/store'
 

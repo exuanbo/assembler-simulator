@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { saveState as saveStateToLocalStorage } from './localStorage'
-import { selectStateToPersist, StateToPersist } from './persist'
+import { selectStateToPersist, type StateToPersist } from './persist'
 import { applySelector } from './selector'
 import { store } from './store'
 import { subscribe } from './subscribe'

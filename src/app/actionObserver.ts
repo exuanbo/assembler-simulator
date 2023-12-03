@@ -1,5 +1,11 @@
-import { Action, isAction, Middleware, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
-import { filter, map, Observable, Subject } from 'rxjs'
+import {
+  type Action,
+  isAction,
+  type Middleware,
+  type PayloadAction,
+  type PayloadActionCreator,
+} from '@reduxjs/toolkit'
+import { filter, map, type Observable, Subject } from 'rxjs'
 
 type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
 

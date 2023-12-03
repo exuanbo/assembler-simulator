@@ -1,6 +1,6 @@
 import BaseResizablePanel, {
   DEFAULT_RESIZE_THROTTLE_MS,
-  ResizablePanelProps,
+  type ResizablePanelProps,
 } from '@/common/components/ResizablePanel'
 import { selectIsRunning } from '@/features/controller/controllerSlice'
 

@@ -1,6 +1,6 @@
 import { Mnemonic, MnemonicToOperandCountMap, Opcode } from '@/common/constants'
 import { call, hexToDec, stringToAscii } from '@/common/utils'
-import { GeneralPurposeRegister, GeneralPurposeRegisterName } from '@/features/cpu/core'
+import { GeneralPurposeRegister, type GeneralPurposeRegisterName } from '@/features/cpu/core'
 
 import {
   AddressError,
@@ -16,7 +16,7 @@ import {
   UnterminatedAddressError,
   UnterminatedStringError,
 } from './exceptions'
-import { createTokenizer, Token, Tokenizer, TokenType } from './tokenizer'
+import { createTokenizer, type Token, type Tokenizer, TokenType } from './tokenizer'
 import type {
   MnemonicWithNoOperand,
   MnemonicWithOneOperand,

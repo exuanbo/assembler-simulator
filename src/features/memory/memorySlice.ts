@@ -1,11 +1,11 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from '@/app/store'
 import { chunk } from '@/common/utils'
 import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
 import type { AddressToMachineCodeMap } from '@/features/assembler/core'
 
-import { getSourceFrom, initData, initDataFrom, MemoryData } from './core'
+import { getSourceFrom, initData, initDataFrom, type MemoryData } from './core'
 
 export enum MemoryView {
   Hexadecimal = 'Hexadecimal',

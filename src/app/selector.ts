@@ -3,7 +3,7 @@
 import { useDebugValue } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
 
-import { RootState, store } from './store'
+import { type RootState, store } from './store'
 
 export type StateSelector<TSelected> = (state: RootState) => TSelected
 

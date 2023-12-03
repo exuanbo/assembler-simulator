@@ -2,7 +2,14 @@ import { produce } from 'immer'
 
 import { Opcode } from '@/common/constants'
 import { sign8, unsign8 } from '@/common/utils'
-import { InputData, InputSignals, MAX_PORT, OutputSignals, Signals, SKIP } from '@/features/io/core'
+import {
+  type InputData,
+  type InputSignals,
+  MAX_PORT,
+  type OutputSignals,
+  type Signals,
+  SKIP,
+} from '@/features/io/core'
 import type { MemoryData } from '@/features/memory/core'
 
 import type { MemoryDataChange, RegisterChange, StepChanges } from './changes'

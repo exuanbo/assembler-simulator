@@ -27,7 +27,7 @@ import {
   addBreakpoint,
   clearEditorHighlightRange,
   clearEditorMessage,
-  EditorMessage,
+  type EditorMessage,
   MessageType,
   removeBreakpoint,
   selectEditorBreakpoints,

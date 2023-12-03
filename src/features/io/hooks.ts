@@ -3,12 +3,12 @@ import { filter } from 'rxjs'
 
 import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
-import { subscribe, Unsubscribe } from '@/app/subscribe'
+import { subscribe, type Unsubscribe } from '@/app/subscribe'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 import {
   IoDeviceName,
-  IoDeviceState,
+  type IoDeviceState,
   selectIoDeviceData,
   selectIoDeviceVisibility,
   setIoDeviceData,

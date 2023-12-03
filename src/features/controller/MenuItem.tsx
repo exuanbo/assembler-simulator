@@ -1,4 +1,4 @@
-import { ReactNode, RefCallback, useState } from 'react'
+import { type ReactNode, type RefCallback, useState } from 'react'
 
 import Anchor from '@/common/components/Anchor'
 import { Play, Share } from '@/common/components/icons'

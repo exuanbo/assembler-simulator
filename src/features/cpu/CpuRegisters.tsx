@@ -4,7 +4,7 @@ import { arrayShallowEqual } from '@/common/utils'
 
 import {
   GeneralPurposeRegister,
-  GeneralPurposeRegisterName,
+  type GeneralPurposeRegisterName,
   SpecialPurposeRegisterName,
 } from './core'
 import {

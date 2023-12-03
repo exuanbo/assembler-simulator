@@ -7,7 +7,7 @@ import {
   JumpDistanceError,
   LabelNotExistError,
 } from './exceptions'
-import { Operand, OperandType, parse, Statement } from './parser'
+import { type Operand, OperandType, parse, type Statement } from './parser'
 
 export type { AssemblerErrorObject } from './exceptions'
 export { AssemblerError } from './exceptions'

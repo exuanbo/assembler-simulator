@@ -1,5 +1,5 @@
-import { Extension, StateEffect, StateField } from '@codemirror/state'
-import { Decoration, DecorationSet, EditorView } from '@codemirror/view'
+import { type Extension, StateEffect, StateField } from '@codemirror/state'
+import { Decoration, type DecorationSet, EditorView } from '@codemirror/view'
 import { filterEffects, mapEffectValue, reduceRangeSet } from '@codemirror-toolkit/utils'
 
 import { maybeNullable } from '@/common/utils'

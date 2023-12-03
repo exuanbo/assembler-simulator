@@ -19,8 +19,8 @@ import {
   __getSrInterruptFlag,
   RuntimeError,
   step as stepPure,
-  StepOutput,
-  StepResult,
+  type StepOutput,
+  type StepResult,
 } from '@/features/cpu/core'
 import {
   resetCpuState,
@@ -33,7 +33,7 @@ import {
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
 import {
   clearEditorHighlightRange,
-  EditorMessage,
+  type EditorMessage,
   MessageType,
   selectEditorBreakpoints,
   selectEditorInput,

@@ -5,7 +5,7 @@ import { setException } from '@/features/exception/exceptionSlice'
 import { setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 import { setAssemblerError, setAssemblerState } from './assemblerSlice'
-import { assemble as assemblePure, AssemblerError, AssembleResult } from './core'
+import { assemble as assemblePure, AssemblerError, type AssembleResult } from './core'
 
 export const assemble = (input: string): void => {
   let assembleResult: AssembleResult

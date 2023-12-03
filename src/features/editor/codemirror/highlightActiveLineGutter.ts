@@ -2,7 +2,7 @@
 // https://github.com/codemirror/view/blob/d67284f146b03cf78b73d1d03e703301522ab574/src/gutter.ts#L443-L464
 // MIT Licensed https://github.com/codemirror/view/blob/d67284f146b03cf78b73d1d03e703301522ab574/LICENSE
 
-import { Extension, Range, RangeSet } from '@codemirror/state'
+import { type Extension, type Range, RangeSet } from '@codemirror/state'
 import { EditorView, gutterLineClass, GutterMarker } from '@codemirror/view'
 
 import { ClassName, InternalClassName } from './classNames'

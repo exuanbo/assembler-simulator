@@ -1,5 +1,5 @@
 import type { Middleware } from '@reduxjs/toolkit'
-import { distinctUntilChanged, identity, map, Observable, ReplaySubject, skip } from 'rxjs'
+import { distinctUntilChanged, identity, map, type Observable, ReplaySubject, skip } from 'rxjs'
 
 import type { StateSelector } from './selector'
 import type { RootState } from './store'

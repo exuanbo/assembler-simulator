@@ -1,4 +1,4 @@
-import { Annotation, Transaction, TransactionSpec } from '@codemirror/state'
+import { Annotation, type Transaction, type TransactionSpec } from '@codemirror/state'
 
 const StringAnnotation = Annotation.define<string>()
 

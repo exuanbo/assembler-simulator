@@ -1,4 +1,4 @@
-import { createContext, ReactNode, RefCallback, useCallback, useContext } from 'react'
+import { createContext, type ReactNode, type RefCallback, useCallback, useContext } from 'react'
 
 import { useHover, useRefCallback } from '@/common/hooks'
 import { classNames, noop } from '@/common/utils'

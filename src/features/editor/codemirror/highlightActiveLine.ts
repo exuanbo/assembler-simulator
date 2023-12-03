@@ -3,7 +3,13 @@
 // MIT Licensed https://github.com/codemirror/view/blob/5989c150d65172c36917d8bd2ea04316a79f20ed/LICENSE
 
 import type { Extension, Range } from '@codemirror/state'
-import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
+import {
+  Decoration,
+  type DecorationSet,
+  EditorView,
+  ViewPlugin,
+  type ViewUpdate,
+} from '@codemirror/view'
 
 import { ClassName, InternalClassName } from './classNames'
 

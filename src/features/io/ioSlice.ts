@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import type { RootState } from '@/app/store'
 import { decTo8bitBinDigits, merge } from '@/common/utils'
-import { getVduDataFrom, initVduData, MemoryData } from '@/features/memory/core'
+import { getVduDataFrom, initVduData, type MemoryData } from '@/features/memory/core'
 
-import { initialInputSignals, InputPort, InputSignals } from './core'
+import { initialInputSignals, type InputPort, type InputSignals } from './core'
 
 export enum IoDeviceName {
   VisualDisplayUnit = 'VisualDisplayUnit',

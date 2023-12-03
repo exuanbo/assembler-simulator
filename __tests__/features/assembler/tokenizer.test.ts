@@ -1,4 +1,4 @@
-import { createTokenizer, Token } from '@/features/assembler/core/tokenizer'
+import { createTokenizer, type Token } from '@/features/assembler/core/tokenizer'
 
 import { shortArraySerializer } from '../../snapshotSerializers'
 
