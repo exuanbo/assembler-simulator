@@ -1,5 +1,5 @@
 export { classNames } from './classNames'
 export * from './common'
 export * from './maybe'
-export { merge } from './merge'
+export * from './merge'
 export * from './types'
