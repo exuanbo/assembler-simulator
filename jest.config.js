@@ -20,14 +20,14 @@ const config = {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
   transform: {
-    '^.+\\.tsx?$': [
+    '\\.tsx?$': [
       'ts-jest',
       {
         tsconfig: 'tsconfig.test.json',
         isolatedModules: true,
       },
     ],
-    '^.+\\.asm$': '<rootDir>/__tests__/rawTransformer.js',
+    '\\.asm$': '<rootDir>/__tests__/rawTransformer.js',
   },
 }
 
