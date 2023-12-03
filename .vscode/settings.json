@@ -1,4 +1,4 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["immer", "pako", "reduxjs", "windi", "windicss"]
+  "cSpell.words": ["immer", "pako", "reduxjs", "unocss"]
 }

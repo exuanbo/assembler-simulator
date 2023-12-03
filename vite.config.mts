@@ -1,9 +1,10 @@
+import { execSync } from 'node:child_process'
+import { join } from 'node:path'
+
 import react from '@vitejs/plugin-react'
-import { execSync } from 'child_process'
-import { join } from 'path'
+import unocss from 'unocss/vite'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
-import windicss from 'vite-plugin-windicss'
 
 import { description, name, version } from './package.json'
 
@@ -26,7 +27,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    windicss(),
+    unocss(),
     pwa({
       manifestFilename: 'app.webmanifest',
       registerType: 'prompt',
@@ -52,13 +53,6 @@ export default defineConfig({
       },
       workbox: {
         runtimeCaching: [
-          {
-            urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'google-fonts-stylesheets',
-            },
-          },
           {
             urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
             handler: 'CacheFirst',
