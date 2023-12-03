@@ -24,7 +24,7 @@
     "@codemirror/search": "6.5.5",
     "@codemirror/state": "6.3.2",
     "@codemirror/view": "6.22.1",
-    "@reduxjs/toolkit": "2.0.0-beta.3",
+    "@reduxjs/toolkit": "2.0.0-rc.3",
     "@replit/codemirror-vim": "6.1.0",
     "immer": "10.0.3",
     "js-base64": "3.7.5",
@@ -59,11 +59,6 @@
     "vite-plugin-pwa": "0.17.2",
     "vite-plugin-windicss": "1.9.2",
     "windicss": "3.5.6"
-  },
-  "resolutions": {
-    "redux": "5.0.0-beta.0",
-    "redux-thunk": "3.0.0-beta.0",
-    "reselect": "5.0.0-alpha.2"
   },
   "packageManager": "yarn@4.0.2"
 }
