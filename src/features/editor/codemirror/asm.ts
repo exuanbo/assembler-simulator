@@ -9,14 +9,17 @@ import type { Extension } from '@codemirror/state'
 
 import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 
-const SKIPABLE_CHARACTER_REGEXP = /[,[\]:]/
-const LABEL_DECLARATION_REGEXP = /^[a-zA-Z_]+(?=:)/
-const LABEL_REFERENCE_REGEXP = /^[a-zA-Z_]+/
-const MAYBE_INSTRUCTION_REGEXP = /^[^\s;:,["]+/
-const NUMBER_REGEXP = /^[\da-fA-F]+\b/
-const REGISTER_REGEXP = /^[a-dA-D][lL]\b/
-const STRING_REGEXP = /^"(?:(?:[^\\]|\\.)*?"|.*)/
-const NON_WHITESPACE_REGEXP = /^\S+/
+// prettier-ignore
+const TokenRegExp = {
+  SKIPABLE_CHARACTER: /[,[\]:]/,
+  LABEL_DECLARATION:  /^[a-zA-Z_]+(?=:)/,
+  LABEL_REFERENCE:    /^[a-zA-Z_]+/,
+  MAYBE_INSTRUCTION:  /^[^\s;:,["]+/,
+  NUMBER:             /^[\da-fA-F]+\b/,
+  REGISTER:           /^[a-dA-D][lL]\b/,
+  STRING:             /^"(?:(?:[^\\]|\\.)*?"|.*)/,
+  NON_WHITESPACE:     /^\S+/
+} as const
 
 interface State {
   ended: boolean
@@ -40,20 +43,20 @@ const asmLanguage = StreamLanguage.define<State>({
       stream.skipToEnd()
       return 'comment'
     }
-    /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-    if (stream.eatSpace() || stream.eat(SKIPABLE_CHARACTER_REGEXP)) {
+
+    if (stream.eatSpace() || stream.eat(TokenRegExp.SKIPABLE_CHARACTER)) {
       return null
     }
     if (stream.eat(';')) {
       stream.skipToEnd()
       return 'comment'
     }
-    if (stream.match(LABEL_DECLARATION_REGEXP)) {
+    if (stream.match(TokenRegExp.LABEL_DECLARATION)) {
       state.operandsLeft = 0
       return 'labelName'
     }
     if (!state.operandsLeft) {
-      if (stream.match(MAYBE_INSTRUCTION_REGEXP)) {
+      if (stream.match(TokenRegExp.MAYBE_INSTRUCTION)) {
         const upperCaseToken = stream.current().toUpperCase()
         if (upperCaseToken in Mnemonic) {
           const mnemonic = upperCaseToken as Mnemonic
@@ -68,27 +71,27 @@ const asmLanguage = StreamLanguage.define<State>({
         }
       }
     } else {
-      if (stream.match(NUMBER_REGEXP)) {
+      if (stream.match(TokenRegExp.NUMBER)) {
         state.operandsLeft -= 1
         return 'number'
       }
-      if (stream.match(REGISTER_REGEXP)) {
+      if (stream.match(TokenRegExp.REGISTER)) {
         state.operandsLeft -= 1
         return 'variableName.special'
       }
-      if (stream.match(STRING_REGEXP)) {
+      if (stream.match(TokenRegExp.STRING)) {
         state.operandsLeft -= 1
         return 'string'
       }
-      if (state.expectingLabel && stream.match(LABEL_REFERENCE_REGEXP)) {
+      if (state.expectingLabel && stream.match(TokenRegExp.LABEL_REFERENCE)) {
         state.operandsLeft -= 1
         state.expectingLabel = false
         return 'labelName'
       }
       state.operandsLeft = 0
     }
-    /* eslint-enable @typescript-eslint/strict-boolean-expressions */
-    stream.match(NON_WHITESPACE_REGEXP)
+
+    stream.match(TokenRegExp.NON_WHITESPACE)
     return null
   },
   indent(_state, _textAfter, context) {
