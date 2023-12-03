@@ -6,8 +6,7 @@
 
     // Modules
     "module": "ESNext",
-    // TODO: use "Bundler" after migrating to unocss
-    "moduleResolution": "Node10",
+    "moduleResolution": "Bundler",
     "paths": {
       "@/*": ["./src/*"]
     },

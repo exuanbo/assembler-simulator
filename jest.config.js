@@ -23,6 +23,7 @@ const config = {
     '^.+\\.tsx?$': [
       'ts-jest',
       {
+        tsconfig: 'tsconfig.test.json',
         isolatedModules: true,
       },
     ],
