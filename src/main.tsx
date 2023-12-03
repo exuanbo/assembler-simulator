@@ -7,8 +7,8 @@ import * as ReactDOM from 'react-dom/client'
 
 import App from './app/App'
 
-const container = document.getElementById('app-root')!
-const root = ReactDOM.createRoot(container)
+const appContainer = document.getElementById('app-root')!
+const root = ReactDOM.createRoot(appContainer)
 
 root.render(
   <React.StrictMode>
