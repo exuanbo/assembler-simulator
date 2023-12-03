@@ -58,7 +58,7 @@ const defaultConfig = {
       },
     ],
     'react-hooks/exhaustive-deps': [
-      'warn',
+      'error',
       {
         additionalHooks: '(useViewEffect)',
       },

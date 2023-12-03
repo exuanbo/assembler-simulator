@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { clamp, classNames, range, throttle } from '../utils'
 
@@ -15,6 +15,8 @@ export interface ResizablePanelProps {
   className?: string
 }
 
+const getOffsetWidth = (ref: React.RefObject<HTMLElement>) => ref.current!.offsetWidth
+
 const ResizablePanel = ({
   children: [leftChild, rightChild],
   throttle: throttleMs = DEFAULT_RESIZE_THROTTLE_MS,
@@ -24,13 +26,17 @@ const ResizablePanel = ({
   const dividerRef = useRef<HTMLDivElement>(null)
   const rightChildRef = useRef<HTMLDivElement>(null)
 
-  const getDividerWidth = (): number => dividerRef.current!.offsetWidth
+  const getTotalWidth = useCallback(
+    () => getOffsetWidth(containerRef) - getOffsetWidth(dividerRef),
+    [],
+  )
 
-  const getTotalWidth = (): number => containerRef.current!.offsetWidth - getDividerWidth()
+  const getInitialLeftChildWidth = useCallback(() => getTotalWidth() / 2, [getTotalWidth])
 
-  const getInitialLeftChildWidth = (): number => 0.5 * getTotalWidth()
-
-  const getAvailableWidth = (): number => getTotalWidth() - rightChildRef.current!.offsetWidth
+  const getAvailableWidth = useCallback(
+    () => getTotalWidth() - getOffsetWidth(rightChildRef),
+    [getTotalWidth],
+  )
 
   const [leftChildWidth, __setLeftChildWidth] = useState<number>()
   const isReady = leftChildWidth !== undefined
@@ -44,7 +50,7 @@ const ResizablePanel = ({
     if (!isReady) {
       setLeftChildWidth(getInitialLeftChildWidth())
     }
-  }, [isReady])
+  }, [getInitialLeftChildWidth, isReady])
 
   useLayoutEffect(() => {
     if (leftChildWidth !== undefined) {
@@ -53,7 +59,7 @@ const ResizablePanel = ({
         setLeftChildWidth(availableWidth)
       }
     }
-  }, [leftChildWidth])
+  }, [getAvailableWidth, leftChildWidth])
 
   const [isDragging, setDragging] = useState(false)
 
@@ -81,7 +87,7 @@ const ResizablePanel = ({
     }
 
     const handleMouseMove = throttle((event: MouseEvent) => {
-      const dividerWidth = getDividerWidth()
+      const dividerWidth = getOffsetWidth(dividerRef)
       const clientX = event.clientX - dividerWidth / 2
 
       const totalWidth = getTotalWidth()
@@ -112,7 +118,7 @@ const ResizablePanel = ({
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [isDragging, throttleMs])
+  }, [getAvailableWidth, getTotalWidth, isDragging, throttleMs])
 
   return (
     <>

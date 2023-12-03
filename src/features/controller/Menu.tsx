@@ -43,7 +43,7 @@ const Menu = ({ children }: Props): JSX.Element => {
         setCurrentOpen(menuElement)
       }
     },
-    [currentOpen, menuElement],
+    [currentOpen, menuElement, setCurrentOpen],
   )
   const hoverRef = useHover(handleHover)
 

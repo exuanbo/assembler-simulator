@@ -1,4 +1,12 @@
-import { RefCallback, useEffect, useReducer, useRef, useState } from 'react'
+import {
+  RefCallback,
+  useCallback,
+  useEffect,
+  useInsertionEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react'
 
 import { isFunction } from './utils/common'
 import type { NonNullishValue } from './utils/types'
@@ -18,6 +26,21 @@ export const useSingleton = <T extends NonNullishValue>(instance: T | (() => T))
 }
 
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
+
+// https://github.com/SukkaW/foxact/blob/master/src/use-stable-handler-only-when-you-know-what-you-are-doing-or-you-will-be-fired/index.ts
+export const useStableHandler = <A extends unknown[], R>(
+  callback: (...args: A) => R,
+): typeof callback => {
+  const callbackRef = useRef<typeof callback>(null!)
+  useInsertionEffect(() => {
+    callbackRef.current = callback
+  }, [callback])
+
+  return useCallback<typeof callback>((...args) => {
+    const fn = callbackRef.current
+    return fn(...args)
+  }, [])
+}
 
 export const useOutsideClick = <T extends Element = Element>(
   handler: (event: MouseEvent) => void,
@@ -59,10 +82,6 @@ export const useHover = <T extends Element = Element>(
     isHovered: false,
   })
 
-  const clearHoverTimeout = (): void => {
-    window.clearTimeout(mutableState.timeoutId)
-  }
-
   useEffect(() => {
     if (current === null) {
       return
@@ -77,6 +96,9 @@ export const useHover = <T extends Element = Element>(
           mutableState.isHovered = true
         }, delay)
       }
+    }
+    const clearHoverTimeout = (): void => {
+      window.clearTimeout(mutableState.timeoutId)
     }
     const handleMouseLeave = (): void => {
       clearHoverTimeout()
@@ -94,7 +116,7 @@ export const useHover = <T extends Element = Element>(
         mutableState.isHovered = false
       }
     }
-  }, [current, handler, delay])
+  }, [current, delay, handler, mutableState])
 
   return refCallback
 }

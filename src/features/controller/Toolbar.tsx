@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import Anchor from '@/common/components/Anchor'
 import { Github } from '@/common/components/icons'
-import { useOutsideClick } from '@/common/hooks'
+import { useOutsideClick, useStableHandler } from '@/common/hooks'
 
 import ConfigurationMenu from './ConfigurationMenu'
 import ControlButtons from './ControlButtons'
@@ -14,21 +14,21 @@ import ViewMenu from './ViewMenu'
 const ToolBar = (): JSX.Element => {
   const [openMenu, __setOpenMenu] = useState<HTMLDivElement | null>(null)
 
-  const setOpenMenu = (element: HTMLDivElement | null): void => {
+  const setOpenMenu = useStableHandler((element: HTMLDivElement | null) => {
     __setOpenMenu(element)
     outsideClickRef(element)
-  }
+  })
 
   const menuContextValue = useMemo(() => {
     return {
       currentOpen: openMenu,
       setCurrentOpen: setOpenMenu,
     }
-  }, [openMenu])
+  }, [openMenu, setOpenMenu])
 
   const handleOutsideClick = useCallback(() => {
     setOpenMenu(null)
-  }, [])
+  }, [setOpenMenu])
   const outsideClickRef = useOutsideClick(handleOutsideClick)
 
   return (

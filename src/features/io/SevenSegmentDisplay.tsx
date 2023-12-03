@@ -167,7 +167,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
         }),
       )
     })
-  }, [])
+  }, [subscribeOutputData])
 
   return isVisible ? (
     <DeviceCard name="Seven-segment Display" onClose={toggleVisible}>

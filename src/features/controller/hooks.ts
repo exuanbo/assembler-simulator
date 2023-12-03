@@ -418,7 +418,7 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     return subscribe(store.onAction(setEditorInput), controller.resetSelf)
-  }, [])
+  }, [controller])
 
   useEffect(() => {
     return subscribe(
@@ -428,11 +428,11 @@ export const useController = (): Controller => {
       ),
       controller.assemble,
     )
-  }, [])
+  }, [controller])
 
   useEffect(() => {
     return subscribe(store.onAction(setAssemblerState), controller.resetSelf)
-  }, [])
+  }, [controller])
 
   useEffect(() => {
     return subscribe(
@@ -445,7 +445,7 @@ export const useController = (): Controller => {
       ),
       controller.stopAndRun,
     )
-  }, [])
+  }, [controller])
 
   return controller
 }

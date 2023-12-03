@@ -32,7 +32,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
     (listener: DataListener) => {
       return subscribe(store.onState(selectData), listener)
     },
-    [deviceName],
+    [selectData],
   )
 
   const selectVisibility = useMemo(() => selectIoDeviceVisibility(deviceName), [deviceName])
@@ -51,7 +51,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
         toggleVisible,
       )
     }
-  }, [isVisible, deviceName])
+  }, [deviceName, isVisible, toggleVisible])
 
   return { data, subscribeData, isVisible, toggleVisible }
 }
