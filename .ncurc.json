@@ -1,3 +1,0 @@
-{
-  "reject": ["@types/jest", "jest", "jest-environment-jsdom", "ts-jest", "typescript"]
-}
