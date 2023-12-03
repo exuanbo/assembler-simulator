@@ -8,7 +8,6 @@ import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
-import type { Nullable } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
   clearAssemblerError,
@@ -74,7 +73,7 @@ export const useSyncInput = (): void => {
       }
       window.clearTimeout(syncInputTimeoutId)
       // only consider the first transaction
-      const transaction = update.transactions[0] as Nullable<Transaction>
+      const transaction = update.transactions[0] as Transaction | undefined
       if (transaction && isSyncFromState(transaction)) {
         return
       }
@@ -223,7 +222,7 @@ export const useBreakpoints = (): void => {
         }
       } else {
         // only consider the first transaction
-        const transaction = update.transactions[0] as Nullable<Transaction>
+        const transaction = update.transactions[0] as Transaction | undefined
         if (!transaction || isSyncFromState(transaction)) {
           return
         }
