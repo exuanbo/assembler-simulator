@@ -140,16 +140,14 @@ const ERROR_DURATION_MS = 2000
 const CopyLinkButton = (): JSX.Element => {
   const [shouldShowError, setShouldShowError] = useState(false)
 
-  const handleClick: React.MouseEventHandler<HTMLDivElement> = async (event) => {
-    try {
-      await navigator.clipboard.writeText(window.location.href)
-    } catch {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    navigator.clipboard.writeText(window.location.href).catch(() => {
       event.stopPropagation()
       setShouldShowError(true)
       window.setTimeout(() => {
         setShouldShowError(false)
       }, ERROR_DURATION_MS)
-    }
+    })
   }
 
   return (

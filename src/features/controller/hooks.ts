@@ -68,6 +68,11 @@ import {
   setSuspended,
 } from './controllerSlice'
 
+interface StepOptions {
+  isUserAction?: boolean
+  lastStepResult?: StepResult | null
+}
+
 const sourceChangedMessage: EditorMessage = {
   type: MessageType.Warning,
   content: 'Warning: Source code has changed since last assemble.',
@@ -79,7 +84,7 @@ class Controller {
   private interruptIntervalId?: number
   private isInterruptIntervalSet = false
 
-  private lastStep: Promise<StepResult | undefined> = Promise.resolve(undefined)
+  private lastStep: Promise<StepResult | null> = Promise.resolve(null)
 
   private dispatchChangesTimeoutId: number | undefined
   private get willDispatchChanges(): boolean {
@@ -94,9 +99,9 @@ class Controller {
     assembleFrom(applySelector(selectEditorInput))
   }
 
-  public runOrStop = async (): Promise<void> => {
+  public runOrStop = (): void => {
     if (!this.stopIfRunning()) {
-      await this.run()
+      void this.run()
     }
   }
 
@@ -134,13 +139,13 @@ class Controller {
     store.dispatch(setRunning(true))
     this.setStepInterval()
     const lastStepResult = await this.lastStep
-    if (lastStepResult !== undefined) {
+    if (lastStepResult !== null) {
       const isSrInterruptFlagSet = __getSrInterruptFlag(lastStepResult.cpuRegisters.sr)
       if (isSrInterruptFlagSet) {
         this.setInterruptInterval()
       }
     }
-    await this.step({ isUserAction: true })
+    await this.stepAsync({ isUserAction: true, lastStepResult })
   }
 
   private setStepInterval(): void {
@@ -158,10 +163,10 @@ class Controller {
     }
   }
 
-  public stopAndRun = async (): Promise<void> => {
+  public stopAndRun = (): void => {
     this.pauseMainLoop()
     this.resumeMainLoop()
-    await this.step()
+    this.step()
   }
 
   private pauseMainLoop(): void {
@@ -178,11 +183,21 @@ class Controller {
     }
   }
 
-  public step = async ({ isUserAction = false } = {}): Promise<void> => {
-    const lastStepResult = await this.lastStep
+  public step = (options: StepOptions = {}): void => {
+    void this.stepAsync(options)
+  }
+
+  private stepAsync = async ({ isUserAction, lastStepResult }: StepOptions): Promise<void> => {
+    if (lastStepResult === undefined) {
+      lastStepResult = await this.lastStep
+    }
     if (isUserAction) {
       store.dispatch(setInterrupt(false))
     }
+    this.stepFrom(lastStepResult)
+  }
+
+  private stepFrom = (lastStepResult: StepResult | null): void => {
     if (applySelector(selectEditorInput) !== applySelector(selectAssembledSource)) {
       store.dispatch(setEditorMessage(sourceChangedMessage))
     }
@@ -213,7 +228,7 @@ class Controller {
         } else {
           store.dispatch(setException(exception))
         }
-        resolve(undefined)
+        resolve(null)
         return
       }
       const { memoryData, cpuRegisters, signals, changes } = stepOutput
@@ -272,7 +287,7 @@ class Controller {
       if (signals.output.halted === true) {
         this.stopIfRunning()
         store.dispatch(setCpuHalted())
-        resolve(undefined)
+        resolve(null)
         return
       }
       if (signals.output.closeWindows === true) {
@@ -295,13 +310,13 @@ class Controller {
           this.unsubscribeSetSuspended = subscribe(
             store.onAction(setSuspended).pipe(first()),
             // payload must be false
-            async () => {
+            () => {
               this.unsubscribeSetSuspended = undefined
               // state cannot be changed when suspended
               if (isRunning) {
                 this.resumeMainLoop()
               }
-              await this.step()
+              this.step()
             },
           )
         } else {
@@ -394,7 +409,7 @@ class Controller {
   }
 
   private resetLastStep(): void {
-    this.lastStep = Promise.resolve(undefined)
+    this.lastStep = Promise.resolve(null)
   }
 }
 

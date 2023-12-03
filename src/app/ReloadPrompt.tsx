@@ -24,9 +24,9 @@ const ReloadPrompt = (): JSX.Element | null => {
 
   const [isReloading, setReloading] = useState(false)
 
-  const handleClickReload = async (): Promise<void> => {
+  const handleClickReload = (): void => {
     setReloading(true)
-    await updateServiceWorker(/* reloadPage: */ true)
+    void updateServiceWorker(/* reloadPage: */ true)
   }
 
   const handleClickClose = (): void => {
