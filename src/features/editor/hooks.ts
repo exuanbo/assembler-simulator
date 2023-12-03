@@ -1,3 +1,4 @@
+import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
 import { useEffect, useRef } from 'react'
@@ -7,7 +8,8 @@ import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
-import { assemble } from '@/features/assembler/assemble'
+import type { Nullable } from '@/common/utils'
+import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
   clearAssemblerError,
   selectAssemblerError,
@@ -71,10 +73,9 @@ export const useSyncInput = (): void => {
         return
       }
       window.clearTimeout(syncInputTimeoutId)
-      // document changes must be caused by at least one transaction
-      const firstTransaction = update.transactions[0]
-      // only one transaction is dispatched if input is set from file
-      if (isSyncFromState(firstTransaction)) {
+      // only consider the first transaction
+      const transaction = update.transactions[0] as Nullable<Transaction>
+      if (transaction && isSyncFromState(transaction)) {
         return
       }
       syncInputTimeoutId = window.setTimeout(() => {
@@ -128,7 +129,7 @@ export const useAutoAssemble = (): void => {
     const initialAssembleTimeoutId = window.setTimeout(() => {
       if (applySelector(selectAutoAssemble)) {
         const input = view.state.doc.toString()
-        assemble(input)
+        assembleFrom(input)
       }
     }, UPDATE_TIMEOUT_MS)
     return () => {
@@ -142,10 +143,10 @@ export const useAutoAssemble = (): void => {
       ({ value, isFromFile }) => {
         if (isFromFile) {
           window.setTimeout(() => {
-            assemble(value)
+            assembleFrom(value)
           }, UPDATE_TIMEOUT_MS)
         } else {
-          assemble(value)
+          assembleFrom(value)
         }
       },
     )
@@ -221,9 +222,9 @@ export const useBreakpoints = (): void => {
           store.dispatch(setBreakpoints(breakpoints))
         }
       } else {
-        // we only consider the first transaction
-        const transaction = update.transactions[0]
-        if (transaction === undefined || isSyncFromState(transaction)) {
+        // only consider the first transaction
+        const transaction = update.transactions[0] as Nullable<Transaction>
+        if (!transaction || isSyncFromState(transaction)) {
           return
         }
         transaction.effects.forEach((effect) => {
