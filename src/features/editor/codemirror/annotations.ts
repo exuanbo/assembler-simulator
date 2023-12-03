@@ -4,10 +4,13 @@ const StringAnnotation = Annotation.define<string>()
 
 export const withStringAnnotation =
   (value: string) =>
-  (spec: TransactionSpec): TransactionSpec => ({
-    ...spec,
-    annotations: [StringAnnotation.of(value)].concat(spec.annotations ?? []),
-  })
+  (spec: TransactionSpec): TransactionSpec => {
+    const annotations = [spec.annotations ?? []].flat()
+    return {
+      ...spec,
+      annotations: [...annotations, StringAnnotation.of(value)],
+    }
+  }
 
 export const hasStringAnnotation =
   (value: string) =>
