@@ -5,6 +5,7 @@ import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
+  blocklist: ['?', 'px', 'static'],
   presets: [
     presetWind(),
     presetWebFonts({
