@@ -83,7 +83,6 @@ export const editorSlice = createSlice({
   },
   selectors: {
     selectEditorInput: (state) => state.input,
-    selectEditorHighlightRange: (state) => state.highlightRange,
     selectEditorHighlightLinePos: createSelector(
       [(state: EditorState) => state.highlightRange, (_, view: EditorView) => view],
       (highlightRange, view) => {
@@ -125,7 +124,6 @@ export const {
 
 export const {
   selectEditorInput,
-  selectEditorHighlightRange,
   selectEditorHighlightLinePos,
   selectEditorBreakpoints,
   selectEditorMessage,

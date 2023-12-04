@@ -51,5 +51,3 @@ export const store = Object.assign(
     onState: stateObserver.on,
   },
 )
-
-export type Store = typeof store
