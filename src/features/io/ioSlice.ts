@@ -13,12 +13,12 @@ export enum IoDeviceName {
 
 export const ioDeviceNames: readonly IoDeviceName[] = Object.values(IoDeviceName)
 
+export type IoDeviceData = number[]
+
 export interface IoDeviceState {
-  data: number[]
+  data: IoDeviceData
   isVisible: boolean
 }
-
-type IoDeviceVisibility = Pick<IoDeviceState, 'isVisible'>
 
 type IoDeviceStates = {
   [name in IoDeviceName]: IoDeviceState
@@ -94,16 +94,18 @@ export const ioSlice = createSlice({
         state.devices[name].isVisible = false
       })
     },
-    resetState: (state) =>
-      merge(initialState, {
-        devices: Object.entries(state.devices).reduce<Record<string, IoDeviceVisibility>>(
+    resetState: (state) => {
+      type IoDeviceVisibilityState = Pick<IoDeviceState, 'isVisible'>
+      return merge(initialState, {
+        devices: Object.entries(state.devices).reduce<Record<string, IoDeviceVisibilityState>>(
           (visibilityStates, [name, { isVisible }]) =>
             Object.assign(visibilityStates, {
               [name]: { isVisible },
             }),
           {},
         ),
-      }),
+      })
+    },
   },
   selectors: {
     selectInputSignals: (state) => state.inputSignals,

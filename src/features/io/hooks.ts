@@ -8,6 +8,7 @@ import { curryRight2 } from '@/common/utils'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 import {
+  type IoDeviceData,
   IoDeviceName,
   type IoDeviceState,
   selectIoDeviceData,
@@ -17,7 +18,7 @@ import {
   toggleIoDeviceVisible,
 } from './ioSlice'
 
-type DataCallback = (data: number[]) => void
+type DataCallback = (data: IoDeviceData) => void
 
 interface IoDeviceActions {
   subscribeData: (callback: DataCallback) => Unsubscribe

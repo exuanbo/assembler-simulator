@@ -3,11 +3,12 @@ import { memo, useEffect, useState } from 'react'
 
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
+import { useSingleton } from '@/common/hooks'
 import { range } from '@/common/utils'
 
 import DeviceCard from './DeviceCard'
 import { useIoDevice } from './hooks'
-import { IoDeviceName, resetIoState } from './ioSlice'
+import { type IoDeviceData, IoDeviceName, resetIoState } from './ioSlice'
 
 const StaticParts = memo(() => (
   <>
@@ -155,18 +156,26 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     toggleVisible,
   } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
+  const initialOutputData = useSingleton(outputData)
+
+  const updateDataFrom = (output: IoDeviceData) => {
+    setData((prevData) =>
+      createNextState(prevData, (draft) => {
+        // controls which of the two groups of segments is active
+        const LSB = output[output.length - 1]
+        for (let digitIndex = LSB; digitIndex < DATA_DIGIT_COUNT; digitIndex += 2) {
+          draft[digitIndex] = output[Math.floor(digitIndex / 2)]
+        }
+      }),
+    )
+  }
+
   useEffect(() => {
-    return subscribeOutputData((outputData) => {
-      setData((prevData) =>
-        createNextState(prevData, (draft) => {
-          // controls which of the two groups of segments is active
-          const LSB = outputData[outputData.length - 1]
-          for (let digitIndex = LSB; digitIndex < DATA_DIGIT_COUNT; digitIndex += 2) {
-            draft[digitIndex] = outputData[Math.floor(digitIndex / 2)]
-          }
-        }),
-      )
-    })
+    updateDataFrom(initialOutputData)
+  }, [initialOutputData])
+
+  useEffect(() => {
+    return subscribeOutputData(updateDataFrom)
   }, [subscribeOutputData])
 
   return isVisible ? (
