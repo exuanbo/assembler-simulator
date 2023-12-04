@@ -1,5 +1,7 @@
 import type { ReactNode, RefCallback } from 'react'
 
+const BORDER_WIDTH = 1
+
 const className = 'divide-y border bg-gray-50 shadow fixed'
 
 interface Props {
@@ -13,7 +15,7 @@ const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
       return
     }
     const { bottom: menuBottom, left: menuLeft } = menuElement.getBoundingClientRect()
-    element.style.top = `${menuBottom - /* border: */ 1}px`
+    element.style.top = `${menuBottom - BORDER_WIDTH}px`
     element.style.left = `${menuLeft}px`
   }
 
@@ -38,7 +40,7 @@ const Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.E
     }
     const { top: menuItemTop, right: menuItemRight } = menuItemElement.getBoundingClientRect()
     const isParentFirstChild = menuItemElement.offsetTop === 0
-    element.style.top = `${menuItemTop - (isParentFirstChild ? /* border: */ 1 : 0)}px`
+    element.style.top = `${menuItemTop - (isParentFirstChild ? BORDER_WIDTH : 0)}px`
     element.style.left = `${menuItemRight}px`
   }
 
