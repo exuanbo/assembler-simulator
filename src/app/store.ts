@@ -15,6 +15,10 @@ import { getInitialStateToPersist } from './persist'
 import { createStateObserver } from './stateObserver'
 import { loadState as loadStateFromUrl } from './url'
 
+// TODO: https://redux-toolkit.js.org/usage/migrating-rtk-2
+// TODO: use `selectors` field in `createSlice`
+
+// TODO: use `combineSlices`
 const rootReducer = combineReducers({
   editor: editorReducer,
   assembler: assemblerReducer,
