@@ -24,7 +24,7 @@
     "@codemirror/search": "6.5.5",
     "@codemirror/state": "6.3.2",
     "@codemirror/view": "6.22.1",
-    "@reduxjs/toolkit": "2.0.0",
+    "@reduxjs/toolkit": "2.0.1",
     "@replit/codemirror-vim": "6.1.0",
     "@unocss/reset": "0.58.0",
     "immer": "10.0.3",
