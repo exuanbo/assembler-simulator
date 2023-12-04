@@ -4,6 +4,7 @@ import { filter } from 'rxjs'
 import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe, type Unsubscribe } from '@/app/subscribe'
+import { curryRight2 } from '@/common/utils'
 import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 import {
@@ -16,27 +17,29 @@ import {
   toggleIoDeviceVisible,
 } from './ioSlice'
 
+type DataCallback = (data: number[]) => void
+
 interface IoDeviceActions {
-  subscribeData: (callback: (data: number[]) => void) => Unsubscribe
+  subscribeData: (callback: DataCallback) => Unsubscribe
   toggleVisible: () => void
 }
 
 interface IoDevice extends IoDeviceState, IoDeviceActions {}
 
 export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
-  const selectData = useMemo(() => selectIoDeviceData(deviceName), [deviceName])
+  const selectData = useMemo(() => curryRight2(selectIoDeviceData)(deviceName), [deviceName])
   const data = useSelector(selectData)
 
-  type DataListener = (data: number[]) => void
   const subscribeData = useCallback(
-    (listener: DataListener) => {
+    (listener: DataCallback) => {
       return subscribe(store.onState(selectData), listener)
     },
     [selectData],
   )
 
-  const selectVisibility = useMemo(() => selectIoDeviceVisibility(deviceName), [deviceName])
-  const isVisible = useSelector(selectVisibility)
+  const isVisible = useSelector(
+    useMemo(() => curryRight2(selectIoDeviceVisibility)(deviceName), [deviceName]),
+  )
 
   const toggleVisible = useCallback(() => {
     store.dispatch(toggleIoDeviceVisible(deviceName))

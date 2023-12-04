@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
 import { decTo8bitBinDigits, merge } from '@/common/utils'
 import { getVduDataFrom, initVduData, type MemoryData } from '@/features/memory/core'
 
@@ -106,26 +105,15 @@ export const ioSlice = createSlice({
         ),
       }),
   },
+  selectors: {
+    selectInputSignals: (state) => state.inputSignals,
+    selectIsWaitingForInput: (state) => state.isWaitingForInput,
+    selectIsWaitingForKeyboardInput: (state) => state.isWaitingForKeyboardInput,
+    selectIoDeviceStates: (state) => state.devices,
+    selectIoDeviceData: (state, name: IoDeviceName) => state.devices[name].data,
+    selectIoDeviceVisibility: (state, name: IoDeviceName) => state.devices[name].isVisible,
+  },
 })
-
-export const selectInputSignals = (state: RootState): InputSignals => state.io.inputSignals
-
-export const selectIsWaitingForInput = (state: RootState): boolean => state.io.isWaitingForInput
-
-export const selectIsWaitingForKeyboardInput = (state: RootState): boolean =>
-  state.io.isWaitingForKeyboardInput
-
-export const selectIoDeviceStates = (state: RootState): IoDeviceStates => state.io.devices
-
-export const selectIoDeviceData =
-  (name: IoDeviceName) =>
-  (state: RootState): number[] =>
-    state.io.devices[name].data
-
-export const selectIoDeviceVisibility =
-  (name: IoDeviceName) =>
-  (state: RootState): boolean =>
-    state.io.devices[name].isVisible
 
 export const {
   setInputData,
@@ -140,4 +128,11 @@ export const {
   resetState: resetIoState,
 } = ioSlice.actions
 
-export default ioSlice.reducer
+export const {
+  selectInputSignals,
+  selectIsWaitingForInput,
+  selectIsWaitingForKeyboardInput,
+  selectIoDeviceStates,
+  selectIoDeviceData,
+  selectIoDeviceVisibility,
+} = ioSlice.selectors

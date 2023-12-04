@@ -1,8 +1,6 @@
 import type { EditorView } from '@codemirror/view'
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
-import { curryRight2 } from '@/common/utils'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 
 import { type LineLoc, lineRangesEqual } from './codemirror/text'
@@ -83,39 +81,36 @@ export const editorSlice = createSlice({
       state.message = null
     },
   },
-})
-
-export const selectEditorInput = (state: RootState): string => state.editor.input
-
-const selectHighlightRange = (state: RootState): SourceRange | null => state.editor.highlightRange
-
-export const selectEditorHighlightLinePos = curryRight2(
-  createSelector([selectHighlightRange, (_, view: EditorView) => view], (highlightRange, view) => {
-    if (highlightRange === null) {
-      return undefined
-    }
-    const linePos: number[] = []
-    for (let pos = highlightRange.from; pos < highlightRange.to; pos++) {
-      if (pos < view.state.doc.length) {
-        const line = view.state.doc.lineAt(pos)
-        if (!linePos.includes(line.from)) {
-          linePos.push(line.from)
+  selectors: {
+    selectEditorInput: (state) => state.input,
+    selectEditorHighlightRange: (state) => state.highlightRange,
+    selectEditorHighlightLinePos: createSelector(
+      [(state: EditorState) => state.highlightRange, (_, view: EditorView) => view],
+      (highlightRange, view) => {
+        if (highlightRange === null) {
+          return undefined
         }
-      }
-    }
-    return linePos.length > 0 ? linePos : undefined
-  }),
-)
-
-export const selectEditorBreakpoints = (state: RootState): LineLoc[] => state.editor.breakpoints
-
-export const selectEditorMessage = (state: RootState): EditorMessage | null => state.editor.message
-
-export const selectEditorStateToPersist = createSelector(
-  selectEditorInput,
-  selectEditorBreakpoints,
-  (input, breakpoints) => ({ input, breakpoints }),
-)
+        const linePos: number[] = []
+        for (let pos = highlightRange.from; pos < highlightRange.to; pos++) {
+          if (pos < view.state.doc.length) {
+            const line = view.state.doc.lineAt(pos)
+            if (!linePos.includes(line.from)) {
+              linePos.push(line.from)
+            }
+          }
+        }
+        return linePos.length > 0 ? linePos : undefined
+      },
+    ),
+    selectEditorBreakpoints: (state) => state.breakpoints,
+    selectEditorMessage: (state) => state.message,
+    selectEditorStateToPersist: createSelector(
+      (state: EditorState) => state.input,
+      (state: EditorState) => state.breakpoints,
+      (input, breakpoints) => ({ input, breakpoints }),
+    ),
+  },
+})
 
 export const {
   setInput: setEditorInput,
@@ -128,4 +123,11 @@ export const {
   clearMessage: clearEditorMessage,
 } = editorSlice.actions
 
-export default editorSlice.reducer
+export const {
+  selectEditorInput,
+  selectEditorHighlightRange,
+  selectEditorHighlightLinePos,
+  selectEditorBreakpoints,
+  selectEditorMessage,
+  selectEditorStateToPersist,
+} = editorSlice.selectors

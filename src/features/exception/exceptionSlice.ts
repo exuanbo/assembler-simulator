@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
 import { errorToPlainObject } from '@/common/utils'
 
 type ExceptionState = Error | null
@@ -24,10 +23,11 @@ export const exceptionSlice = createSlice({
     },
     clear: () => null,
   },
+  selectors: {
+    selectException: (state) => state,
+  },
 })
-
-export const selectException = (state: RootState): ExceptionState => state.exception
 
 export const { set: setException, clear: clearException } = exceptionSlice.actions
 
-export default exceptionSlice.reducer
+export const { selectException } = exceptionSlice.selectors

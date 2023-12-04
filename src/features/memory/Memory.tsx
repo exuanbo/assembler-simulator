@@ -8,8 +8,8 @@ import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 
 import {
   MemoryView,
-  selectMemoryDataRowsGetter,
-  selectMemorySourceRowsGetter,
+  selectMemoryDataRows,
+  selectMemorySourceRows,
   selectMemoryView,
 } from './memorySlice'
 
@@ -20,8 +20,8 @@ const Memory = (): JSX.Element => {
   const memoryView = useSelector(selectMemoryView)
   const isDataView = memoryView !== MemoryView.Source
 
-  const getDataRows = useSelector(selectMemoryDataRowsGetter)
-  const getSourceRows = useSelector(selectMemorySourceRowsGetter)
+  const getDataRows = useSelector(selectMemoryDataRows)
+  const getSourceRows = useSelector(selectMemorySourceRows)
 
   const rows = isDataView ? getDataRows() : getSourceRows()
 

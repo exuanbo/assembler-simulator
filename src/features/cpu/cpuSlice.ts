@@ -1,16 +1,6 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
-
-import {
-  type GeneralPurposeRegisters,
-  initRegisters,
-  type InstructionPointer,
-  type Registers,
-  type RuntimeErrorObject,
-  type StackPointer,
-  type StatusRegister,
-} from './core'
+import { initRegisters, type Registers, type RuntimeErrorObject } from './core'
 
 interface Status {
   fault: RuntimeErrorObject | null
@@ -45,29 +35,21 @@ export const cpuSlice = createSlice({
     },
     resetState: () => initialState,
   },
+  selectors: {
+    selectCpuStatus: (state) => state.status,
+    selectCpuFault: (state) => state.status.fault,
+    selectCpuRegisters: (state) => state.registers,
+    selectCpuGeneralPurposeRegisters: (state) => state.registers.gpr,
+    selectCpuInstructionPointer: (state) => state.registers.ip,
+    selectCpuStackPointer: (state) => state.registers.sp,
+    selectCpuPointerRegisters: createSelector(
+      (state: CpuState) => state.registers.ip,
+      (state: CpuState) => state.registers.sp,
+      (ip, sp) => ({ ip, sp }),
+    ),
+    selectStatusRegister: (state) => state.registers.sr,
+  },
 })
-
-export const selectCpuStatus = (state: RootState): Status => state.cpu.status
-
-export const selectCpuFault = (state: RootState): RuntimeErrorObject | null =>
-  state.cpu.status.fault
-
-export const selectCpuRegisters = (state: RootState): Registers => state.cpu.registers
-
-export const selectCpuGeneralPurposeRegisters = (state: RootState): GeneralPurposeRegisters =>
-  state.cpu.registers.gpr
-
-const selectCpuInstructionPointer = (state: RootState): InstructionPointer => state.cpu.registers.ip
-
-const selectCpuStackPointer = (state: RootState): StackPointer => state.cpu.registers.sp
-
-export const selectCpuPointerRegisters = createSelector(
-  selectCpuInstructionPointer,
-  selectCpuStackPointer,
-  (ip, sp) => ({ ip, sp }),
-)
-
-export const selectStatusRegister = (state: RootState): StatusRegister => state.cpu.registers.sr
 
 export const {
   setFault: setCpuFault,
@@ -76,4 +58,13 @@ export const {
   resetState: resetCpuState,
 } = cpuSlice.actions
 
-export default cpuSlice.reducer
+export const {
+  selectCpuStatus,
+  selectCpuFault,
+  selectCpuRegisters,
+  selectCpuGeneralPurposeRegisters,
+  selectCpuInstructionPointer,
+  selectCpuStackPointer,
+  selectCpuPointerRegisters,
+  selectStatusRegister,
+} = cpuSlice.selectors

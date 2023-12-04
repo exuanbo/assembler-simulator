@@ -1,13 +1,13 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineSlices, configureStore } from '@reduxjs/toolkit'
 
 import { merge } from '@/common/utils'
-import assemblerReducer from '@/features/assembler/assemblerSlice'
-import controllerReducer from '@/features/controller/controllerSlice'
-import cpuReducer from '@/features/cpu/cpuSlice'
-import editorReducer from '@/features/editor/editorSlice'
-import exceptionReducer from '@/features/exception/exceptionSlice'
-import ioReducer from '@/features/io/ioSlice'
-import memoryReducer from '@/features/memory/memorySlice'
+import { assemblerSlice } from '@/features/assembler/assemblerSlice'
+import { controllerSlice } from '@/features/controller/controllerSlice'
+import { cpuSlice } from '@/features/cpu/cpuSlice'
+import { editorSlice } from '@/features/editor/editorSlice'
+import { exceptionSlice } from '@/features/exception/exceptionSlice'
+import { ioSlice } from '@/features/io/ioSlice'
+import { memorySlice } from '@/features/memory/memorySlice'
 
 import { createActionObserver } from './actionObserver'
 import { loadState as loadStateFromLocalStorage } from './localStorage'
@@ -15,19 +15,15 @@ import { getInitialStateToPersist } from './persist'
 import { createStateObserver } from './stateObserver'
 import { loadState as loadStateFromUrl } from './url'
 
-// TODO: https://redux-toolkit.js.org/usage/migrating-rtk-2
-// TODO: use `selectors` field in `createSlice`
-
-// TODO: use `combineSlices`
-const rootReducer = combineReducers({
-  editor: editorReducer,
-  assembler: assemblerReducer,
-  controller: controllerReducer,
-  memory: memoryReducer,
-  cpu: cpuReducer,
-  io: ioReducer,
-  exception: exceptionReducer,
-})
+const rootReducer = combineSlices(
+  editorSlice,
+  assemblerSlice,
+  controllerSlice,
+  memorySlice,
+  cpuSlice,
+  ioSlice,
+  exceptionSlice,
+)
 
 export type RootState = ReturnType<typeof rootReducer>
 

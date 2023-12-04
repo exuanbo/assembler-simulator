@@ -1,6 +1,5 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
 import { chunk } from '@/common/utils'
 import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
 import type { AddressToMachineCodeMap } from '@/features/assembler/core'
@@ -44,24 +43,15 @@ export const memorySlice = createSlice({
       state.view = action.payload
     },
   },
-})
-
-export const selectMemoryData = (state: RootState): MemoryData => state.memory.data
-
-export const selectMemoryDataRowsGetter = createSelector(
-  selectMemoryData,
-  (memoryData) => () => chunk(0x10, memoryData),
-)
-
-export const selectMemorySourceRowsGetter = createSelector(
-  selectAddressToStatementMap,
-  (addressToStatementMap) => () => {
-    const memorySource = getSourceFrom(addressToStatementMap)
-    return chunk(0x10, memorySource)
+  selectors: {
+    selectMemoryData: (state) => state.data,
+    selectMemoryDataRows: createSelector(
+      (state: MemoryState) => state.data,
+      (memoryData) => () => chunk(0x10, memoryData),
+    ),
+    selectMemoryView: (state) => state.view,
   },
-)
-
-export const selectMemoryView = (state: RootState): MemoryView => state.memory.view
+})
 
 export const {
   setData: setMemoryData,
@@ -70,4 +60,12 @@ export const {
   setView: setMemoryView,
 } = memorySlice.actions
 
-export default memorySlice.reducer
+export const { selectMemoryData, selectMemoryDataRows, selectMemoryView } = memorySlice.selectors
+
+export const selectMemorySourceRows = createSelector(
+  selectAddressToStatementMap,
+  (addressToStatementMap) => () => {
+    const memorySource = getSourceFrom(addressToStatementMap)
+    return chunk(0x10, memorySource)
+  },
+)

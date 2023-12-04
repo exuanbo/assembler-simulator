@@ -8,6 +8,7 @@ import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+import { curryRight2 } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
   clearAssemblerError,
@@ -185,7 +186,7 @@ export const useHighlightLine = (): void => {
   }, [])
 
   useViewEffect((view) => {
-    return subscribe(store.onState(selectEditorHighlightLinePos(view)), (linePos) => {
+    return subscribe(store.onState(curryRight2(selectEditorHighlightLinePos)(view)), (linePos) => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
         effects: shouldAddHighlight

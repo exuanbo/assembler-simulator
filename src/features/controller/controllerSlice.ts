@@ -1,6 +1,5 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import type { RootState } from '@/app/store'
 import type { UnionToTuple } from '@/common/utils'
 
 export enum ClockSpeed {
@@ -82,36 +81,24 @@ export const controllerSlice = createSlice({
       state.isSuspended = action.payload
     },
   },
+  selectors: {
+    selectAutoAssemble: (state) => state.configuration.autoAssemble,
+    selectClockSpeed: (state) => state.configuration.clockSpeed,
+    selectTimerInterval: (state) => state.configuration.timerInterval,
+    selectRuntimeConfiguration: createSelector(
+      (state: ControllerState) => state.configuration.clockSpeed,
+      (state: ControllerState) => state.configuration.timerInterval,
+      (clockSpeed, timerInterval) => ({ clockSpeed, timerInterval }),
+    ),
+    selectVimKeybindings: (state) => state.configuration.vimKeybindings,
+    selectIsRunning: (state) => state.isRunning,
+    selectIsSuspended: (state) => state.isSuspended,
+    selectControllerStateToPersist: createSelector(
+      (state: ControllerState) => state.configuration,
+      (configuration) => ({ configuration }),
+    ),
+  },
 })
-
-const selectConfiguration = (state: RootState): Configuration => state.controller.configuration
-
-export const selectAutoAssemble = (state: RootState): boolean =>
-  state.controller.configuration.autoAssemble
-
-export const selectClockSpeed = (state: RootState): ClockSpeed =>
-  state.controller.configuration.clockSpeed
-
-export const selectTimerInterval = (state: RootState): TimerInterval =>
-  state.controller.configuration.timerInterval
-
-export const selectRuntimeConfiguration = createSelector(
-  selectClockSpeed,
-  selectTimerInterval,
-  (clockSpeed, timerInterval) => ({ clockSpeed, timerInterval }),
-)
-
-export const selectVimKeybindings = (state: RootState): boolean =>
-  state.controller.configuration.vimKeybindings
-
-export const selectIsRunning = (state: RootState): boolean => state.controller.isRunning
-
-export const selectIsSuspended = (state: RootState): boolean => state.controller.isSuspended
-
-export const selectControllerStateToPersist = createSelector(
-  selectConfiguration,
-  (configuration) => ({ configuration }),
-)
 
 export const {
   setAutoAssemble,
@@ -122,4 +109,13 @@ export const {
   setSuspended,
 } = controllerSlice.actions
 
-export default controllerSlice.reducer
+export const {
+  selectAutoAssemble,
+  selectClockSpeed,
+  selectTimerInterval,
+  selectRuntimeConfiguration,
+  selectVimKeybindings,
+  selectIsRunning,
+  selectIsSuspended,
+  selectControllerStateToPersist,
+} = controllerSlice.selectors
