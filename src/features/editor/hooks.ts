@@ -2,7 +2,7 @@ import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
 import { useEffect, useRef } from 'react'
-import { filter, map, of, switchMap } from 'rxjs'
+import { debounceTime, filter, map, of, switchMap, timer } from 'rxjs'
 
 import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
@@ -22,6 +22,7 @@ import { hasStringAnnotation, withStringAnnotation } from './codemirror/annotati
 import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints'
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { useViewEffect } from './codemirror/react'
+import { onUpdate } from './codemirror/rx'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
 import { disableVim, enableVim, initVim$ } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
@@ -44,13 +45,14 @@ import { template } from './examples'
 export const useVimKeybindings = (): void => {
   useViewEffect((view) => {
     return subscribe(
-      store
-        .onState(selectVimKeybindings, { initial: true })
-        .pipe(
-          switchMap((shouldEnable) =>
-            shouldEnable ? initVim$.pipe(map(() => enableVim)) : of(disableVim),
-          ),
-        ),
+      store.onState(selectVimKeybindings, { initial: true }).pipe(
+        switchMap((shouldEnable) => {
+          if (shouldEnable) {
+            return initVim$.pipe(map(() => enableVim))
+          }
+          return of(disableVim)
+        }),
+      ),
       (action) => {
         action(view)
       },
@@ -67,22 +69,21 @@ const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 
 export const useSyncInput = (): void => {
   useViewEffect((view) => {
-    let syncInputTimeoutId: number | undefined
-    return addUpdateListener(view, (update) => {
-      if (!update.docChanged) {
-        return
-      }
-      window.clearTimeout(syncInputTimeoutId)
-      // only consider the first transaction
-      const transaction = update.transactions[0] as Transaction | undefined
-      if (transaction && isSyncFromState(transaction)) {
-        return
-      }
-      syncInputTimeoutId = window.setTimeout(() => {
+    return subscribe(
+      onUpdate(view).pipe(
+        filter((update) => update.docChanged),
+        debounceTime(UPDATE_TIMEOUT_MS),
+        filter((update) => {
+          // only consider the first transaction
+          const transaction = update.transactions[0] as Transaction | undefined
+          return !transaction || !isSyncFromState(transaction)
+        }),
+      ),
+      (update) => {
         const input = update.state.doc.toString()
         store.dispatch(setEditorInput({ value: input }))
-      }, UPDATE_TIMEOUT_MS)
-    })
+      },
+    )
   }, [])
 
   useViewEffect((view) => {
@@ -106,9 +107,10 @@ export const useSyncInput = (): void => {
 export const useAutoFocus = (): void => {
   useViewEffect((view) => {
     return subscribe(
-      store
-        .onAction(setEditorInput)
-        .pipe(filter(({ value, isFromFile }) => isFromFile && value === template.content)),
+      store.onAction(setEditorInput).pipe(
+        filter(({ isFromFile }) => isFromFile),
+        filter(({ value }) => value === template.content),
+      ),
       () => {
         view.focus()
         const { title, content } = template
@@ -139,27 +141,31 @@ export const useAutoAssemble = (): void => {
 
   useEffect(() => {
     return subscribe(
-      store.onAction(setEditorInput).pipe(filter(() => applySelector(selectAutoAssemble))),
-      ({ value, isFromFile }) => {
-        if (isFromFile) {
-          window.setTimeout(() => {
-            assembleFrom(value)
-          }, UPDATE_TIMEOUT_MS)
-        } else {
-          assembleFrom(value)
-        }
-      },
+      store.onAction(setEditorInput).pipe(
+        filter(() => applySelector(selectAutoAssemble)),
+        switchMap(({ value, isFromFile }) => {
+          if (isFromFile) {
+            return timer(UPDATE_TIMEOUT_MS).pipe(map(() => value))
+          }
+          return of(value)
+        }),
+      ),
+      assembleFrom,
     )
   }, [])
 }
 
 export const useAssemblerError = (): void => {
   useViewEffect((view) => {
-    return addUpdateListener(view, (update) => {
-      if (update.docChanged && applySelector(selectAssemblerError) !== null) {
+    return subscribe(
+      onUpdate(view).pipe(
+        filter((update) => update.docChanged),
+        filter(() => !!applySelector(selectAssemblerError)),
+      ),
+      () => {
         store.dispatch(clearAssemblerError())
-      }
-    })
+      },
+    )
   }, [])
 
   useViewEffect((view) => {
