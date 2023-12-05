@@ -1,11 +1,32 @@
+import { useEffect } from 'react'
+import { first, map, merge, switchMap } from 'rxjs'
+
+import { store } from '@/app/store'
+import { subscribe } from '@/app/subscribe'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { asciiToChars, chunk } from '@/common/utils'
 
+import { resetMemoryData, selectMemoryData, setMemoryDataFrom } from '../memory/memorySlice'
 import DeviceCard from './DeviceCard'
-import { useVisualDisplayUnit } from './hooks'
+import { useIoDevice } from './hooks'
+import { IoDeviceName, setVduDataFrom } from './ioSlice'
 
 const VisualDisplayUnit = (): JSX.Element | null => {
-  const { data, isVisible, toggleVisible } = useVisualDisplayUnit()
+  const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.VisualDisplayUnit)
+
+  useEffect(() => {
+    // TODO: refactor handling memory changes
+    const setMemoryDataFrom$ = store.onAction(setMemoryDataFrom)
+    const resetMemoryData$ = store.onAction(resetMemoryData)
+    const memoryData$ = store.onState(selectMemoryData)
+    return subscribe(
+      merge(setMemoryDataFrom$, resetMemoryData$).pipe(
+        switchMap(() => memoryData$.pipe(first())),
+        map(setVduDataFrom),
+      ),
+      store.dispatch,
+    )
+  }, [])
 
   return isVisible ? (
     <DeviceCard

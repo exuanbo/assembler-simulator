@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { filter } from 'rxjs'
 
-import { applySelector, useSelector } from '@/app/selector'
+import { useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe, type Unsubscribe } from '@/app/subscribe'
 import { curryRight2 } from '@/common/utils'
-import { selectMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
 import {
   type IoDeviceData,
-  IoDeviceName,
+  type IoDeviceName,
   type IoDeviceState,
   selectIoDeviceData,
   selectIoDeviceVisibility,
   setIoDeviceData,
-  setVduDataFrom,
   toggleIoDeviceVisible,
 } from './ioSlice'
 
@@ -33,7 +31,8 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
 
   const subscribeData = useCallback(
     (listener: DataCallback) => {
-      return subscribe(store.onState(selectData), listener)
+      const data$ = store.onState(selectData)
+      return subscribe(data$, listener)
     },
     [selectData],
   )
@@ -47,28 +46,15 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
   }, [deviceName])
 
   useEffect(() => {
-    if (!isVisible) {
-      return subscribe(
-        store
-          .onAction(setIoDeviceData)
-          .pipe(filter(({ name: targetDeviceName }) => targetDeviceName === deviceName)),
-        toggleVisible,
-      )
+    if (isVisible) {
+      return
     }
+    const setIoDeviceData$ = store.onAction(setIoDeviceData)
+    return subscribe(
+      setIoDeviceData$.pipe(filter(({ name }) => name === deviceName)),
+      toggleVisible,
+    )
   }, [deviceName, isVisible, toggleVisible])
 
   return { data, subscribeData, isVisible, toggleVisible }
-}
-
-export const useVisualDisplayUnit = (): ReturnType<typeof useIoDevice> => {
-  const device = useIoDevice(IoDeviceName.VisualDisplayUnit)
-
-  useEffect(() => {
-    return subscribe(store.onAction(setMemoryDataFrom), () => {
-      const memoryData = applySelector(selectMemoryData)
-      store.dispatch(setVduDataFrom(memoryData))
-    })
-  }, [])
-
-  return device
 }
