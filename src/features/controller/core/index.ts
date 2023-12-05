@@ -377,10 +377,10 @@ export class Controller {
 
   public reset = (): void => {
     this.resetSelf()
-    store.dispatch(resetMemoryData())
     store.dispatch(resetCpuState())
-    store.dispatch(resetAssemblerState())
+    store.dispatch(resetMemoryData())
     store.dispatch(clearEditorHighlightRange())
+    store.dispatch(resetAssemblerState())
     store.dispatch(resetIoState())
   }
 
