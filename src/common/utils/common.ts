@@ -138,7 +138,3 @@ export const throttle = <T extends unknown[]>(
     }
   }
 }
-
-export const errorToPlainObject = ({ name, message, stack }: Error): Error => {
-  return { name, message, stack }
-}

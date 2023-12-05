@@ -1,19 +1,14 @@
+import { type ErrorObject, errorToPlainObject } from '@/common/error'
 import { decToHex } from '@/common/utils'
 
-export interface RuntimeErrorObject {
-  name: string
-  message: string
-}
+export interface RuntimeErrorObject extends ErrorObject {}
 
 export abstract class RuntimeError extends Error {
   public override name = 'RuntimeError'
 
   // istanbul ignore next
   public toPlainObject(): RuntimeErrorObject {
-    return {
-      name: this.name,
-      message: this.message,
-    }
+    return errorToPlainObject(this)
   }
 }
 

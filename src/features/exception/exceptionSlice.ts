@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { errorToPlainObject } from '@/common/utils'
+import { type ErrorObject, errorToPlainObject } from '@/common/error'
 
-type ExceptionState = Error | null
+type ExceptionState = ErrorObject | null
 
 const initialState = null as ExceptionState
 
@@ -11,7 +11,7 @@ export const exceptionSlice = createSlice({
   initialState,
   reducers: {
     set: {
-      reducer: (_, action: PayloadAction<Error>) => action.payload,
+      reducer: (_, action: PayloadAction<ErrorObject>) => action.payload,
       prepare: (exception: unknown) => {
         if (exception instanceof Error) {
           return { payload: errorToPlainObject(exception) }

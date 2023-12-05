@@ -1,12 +1,11 @@
+import { type ErrorObject, errorToPlainObject } from '@/common/error'
 import { escapeBackslashes, escapeInnerSingleQuotes, trimBrackets } from '@/common/utils'
 
 import type { Label, Operand, OperandType, Statement } from './parser'
 import type { Token } from './tokenizer'
 import type { SourceRange } from './types'
 
-export interface AssemblerErrorObject {
-  name: string
-  message: string
+export interface AssemblerErrorObject extends ErrorObject {
   range: SourceRange | undefined
 }
 
@@ -22,8 +21,7 @@ export abstract class AssemblerError extends Error {
   // istanbul ignore next
   public toPlainObject(): AssemblerErrorObject {
     return {
-      name: this.name,
-      message: this.message,
+      ...errorToPlainObject(this),
       range: this.range,
     }
   }
