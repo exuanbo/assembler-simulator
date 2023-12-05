@@ -1,25 +1,24 @@
-import type { Middleware } from '@reduxjs/toolkit'
+import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
 import { distinctUntilChanged, identity, map, type Observable, ReplaySubject, skip } from 'rxjs'
 
-import type { StateSelector } from './selector'
-import type { RootState } from './store'
+import { extendStore } from './storeEnhancer'
 
 interface OnStateOptions {
   initial?: boolean
 }
 
-type OnState = <TSelected>(
-  selector: StateSelector<TSelected>,
+type OnState<TState> = <TSelected>(
+  selector: Selector<TState, TSelected>,
   options?: OnStateOptions,
 ) => Observable<TSelected>
 
-interface StateObserver {
+interface StateObserver<TState> {
   middleware: Middleware
-  on: OnState
+  enhancer: StoreEnhancer<{ onState: OnState<TState> }>
 }
 
-export const createStateObserver = (): StateObserver => {
-  const state$ = new ReplaySubject<RootState>(1)
+export const createStateObserver = <TState>(): StateObserver<TState> => {
+  const state$ = new ReplaySubject<TState>(1)
   const distinctState$ = state$.pipe(distinctUntilChanged())
 
   const middleware: Middleware = (api) => {
@@ -40,8 +39,11 @@ export const createStateObserver = (): StateObserver => {
     }
   }
 
-  const on: OnState = (selector, { initial = false } = {}) =>
+  const onState: OnState<TState> = (selector, { initial = false } = {}) =>
     distinctState$.pipe(map(selector), distinctUntilChanged(), initial ? identity : skip(1))
 
-  return { middleware, on }
+  return {
+    middleware,
+    enhancer: extendStore({ onState }),
+  }
 }

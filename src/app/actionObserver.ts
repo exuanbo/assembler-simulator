@@ -4,14 +4,17 @@ import {
   type Middleware,
   type PayloadAction,
   type PayloadActionCreator,
+  type StoreEnhancer,
 } from '@reduxjs/toolkit'
 import { filter, map, type Observable, Subject } from 'rxjs'
+
+import { extendStore } from './storeEnhancer'
 
 type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
 
 interface ActionObserver {
   middleware: Middleware
-  on: OnAction
+  enhancer: StoreEnhancer<{ onAction: OnAction }>
 }
 
 const matchType =
@@ -32,8 +35,11 @@ export const createActionObserver = (): ActionObserver => {
     return result
   }
 
-  const on: OnAction = (actionCreator) =>
+  const onAction: OnAction = (actionCreator) =>
     action$.pipe(filter(matchType(actionCreator)), map(getPayload))
 
-  return { middleware, on }
+  return {
+    middleware,
+    enhancer: extendStore({ onAction }),
+  }
 }

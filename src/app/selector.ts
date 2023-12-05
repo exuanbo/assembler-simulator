@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
+import type { Selector } from '@reduxjs/toolkit'
 import { useDebugValue } from 'react'
 import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
 
 import { type RootState, store } from './store'
 
-export type StateSelector<TSelected> = (state: RootState) => TSelected
+type StateSelector<TSelected> = Selector<RootState, TSelected>
 
 export const applySelector = <TSelected>(selector: StateSelector<TSelected>): TSelected => {
   const state = store.getState()

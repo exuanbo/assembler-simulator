@@ -35,19 +35,17 @@ const getPreloadedState = (): Partial<RootState> => {
 }
 
 const actionObserver = createActionObserver()
-const stateObserver = createStateObserver()
+const stateObserver = createStateObserver<RootState>()
 
-export const store = Object.assign(
-  configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => {
-      const defaultMiddleware = getDefaultMiddleware()
-      return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
-    },
-    preloadedState: getPreloadedState(),
-  }),
-  {
-    onAction: actionObserver.on,
-    onState: stateObserver.on,
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => {
+    const defaultMiddleware = getDefaultMiddleware()
+    return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
   },
-)
+  preloadedState: getPreloadedState(),
+  enhancers: (getDefaultEnhancers) => {
+    const defaultEnhancers = getDefaultEnhancers()
+    return defaultEnhancers.concat(stateObserver.enhancer, actionObserver.enhancer)
+  },
+})
