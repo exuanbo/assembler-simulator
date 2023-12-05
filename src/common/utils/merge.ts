@@ -4,12 +4,11 @@
 
 import type { Object as ObjectTypeUtils } from 'ts-toolbelt'
 
-const getType = (value: unknown): string => Object.prototype.toString.call(value).slice(8, -1)
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PlainObject = Record<string | number | symbol, any>
 
-const isPlainObject = (value: unknown): value is PlainObject => getType(value) === 'Object'
+const isPlainObject = (value: unknown): value is PlainObject =>
+  Object.prototype.toString.call(value) === '[object Object]'
 
 const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => {
   const resultObject: PlainObject = {}
