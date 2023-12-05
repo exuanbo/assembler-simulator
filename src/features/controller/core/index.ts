@@ -28,10 +28,12 @@ import {
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
 import {
   clearEditorHighlightRange,
+  clearEditorMessage,
   type EditorMessage,
   MessageType,
   selectEditorBreakpoints,
   selectEditorInput,
+  selectEditorMessage,
   setEditorHighlightRange,
   setEditorMessage,
 } from '@/features/editor/editorSlice'
@@ -193,6 +195,8 @@ export class Controller {
   private stepFrom = (lastStepResult: StepResult | null): void => {
     if (applySelector(selectEditorInput) !== applySelector(selectAssembledSource)) {
       store.dispatch(setEditorMessage(sourceChangedMessage))
+    } else if (applySelector(selectEditorMessage) === sourceChangedMessage) {
+      store.dispatch(clearEditorMessage())
     }
     const { fault, halted } = applySelector(selectCpuStatus)
     if (fault !== null || halted) {
