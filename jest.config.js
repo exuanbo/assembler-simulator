@@ -4,12 +4,6 @@
 /** @type {JestConfig} */
 const config = {
   collectCoverage: true,
-  collectCoverageFrom: [
-    'src/common/utils/*.ts',
-    'src/features/assembler/core/*.ts',
-    'src/features/memory/core.ts',
-    'src/features/cpu/core/*.ts',
-  ],
   moduleNameMapper: {
     '^@/(.*)': '<rootDir>/src/$1',
     '(.+)\\?raw$': '$1',
