@@ -2,7 +2,7 @@ import { type Extension, StateEffect, StateField } from '@codemirror/state'
 import { Decoration, type DecorationSet, EditorView } from '@codemirror/view'
 import { filterEffects, mapEffectValue, reduceRangeSet } from '@codemirror-toolkit/utils'
 
-import { maybeNullable } from '@/common/maybe'
+import { fromNullable } from '@/common/maybe'
 
 import { ClassName } from './classNames'
 import type { RangeSetUpdateFilter } from './rangeSet'
@@ -14,7 +14,7 @@ export const HighlightLineEffect = StateEffect.define<{
 }>({
   map({ pos: targetPos, filter }, change) {
     return {
-      pos: maybeNullable(targetPos)
+      pos: fromNullable(targetPos)
         .map((pos) => change.mapPos(pos))
         .extract(),
       filter,
@@ -56,7 +56,7 @@ const highlightLineField = StateField.define<DecorationSet>({
       (resultDecorations, effect) =>
         mapEffectValue(effect, ({ pos: targetPos, filter }) =>
           resultDecorations.update({
-            add: maybeNullable(targetPos)
+            add: fromNullable(targetPos)
               .map((pos) => {
                 const hasOverlappedSelection = hasNonEmptySelectionAtLine(
                   transaction.state.doc.lineAt(pos),

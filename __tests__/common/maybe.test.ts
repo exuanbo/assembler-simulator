@@ -1,15 +1,15 @@
-import { just, maybeNullable, nothing } from '@/common/maybe'
+import { fromNullable, just, nothing } from '@/common/maybe'
 
 describe('Maybe', () => {
-  describe('maybeNullable', () => {
+  describe('fromNullable', () => {
     it('should create a Maybe with a value', () => {
-      const result = maybeNullable(1)
+      const result = fromNullable(1)
       expect(result.extract()).toBe(1)
       expect(result.extractNullable()).toBe(1)
     })
 
     it('should create a Maybe with a nullable value', () => {
-      const result = maybeNullable<number>(null)
+      const result = fromNullable<number>(null)
       expect(result.extract()).toBe(undefined)
       expect(result.extractNullable()).toBe(null)
     })
@@ -33,36 +33,36 @@ describe('Maybe', () => {
 
   describe('map', () => {
     it('should map a value', () => {
-      const result = maybeNullable(1).map((x) => x + 1)
+      const result = fromNullable(1).map((x) => x + 1)
       expect(result.extract()).toBe(2)
     })
 
     it('should map a nullable value', () => {
-      const result = maybeNullable<number>(null).map((x) => x + 1)
+      const result = fromNullable<number>(null).map((x) => x + 1)
       expect(result.extract()).toBe(undefined)
     })
   })
 
   describe('chain', () => {
     it('should chain a value', () => {
-      const result = maybeNullable(1).chain((x) => just(x + 1))
+      const result = fromNullable(1).chain((x) => just(x + 1))
       expect(result.extract()).toBe(2)
     })
 
     it('should chain a nullable value', () => {
-      const result = maybeNullable<number>(null).chain((x) => just(x + 1))
+      const result = fromNullable<number>(null).chain((x) => just(x + 1))
       expect(result.extract()).toBe(undefined)
     })
   })
 
   describe('orDefault', () => {
     it('should return a value', () => {
-      const result = maybeNullable(1).orDefault(2)
+      const result = fromNullable(1).orDefault(2)
       expect(result).toBe(1)
     })
 
     it('should return a default value', () => {
-      const result = maybeNullable<number>(null).orDefault(2)
+      const result = fromNullable<number>(null).orDefault(2)
       expect(result).toBe(2)
     })
   })
@@ -70,24 +70,24 @@ describe('Maybe', () => {
   describe('ifJust', () => {
     it('should call a function with a value', () => {
       expect.assertions(1)
-      maybeNullable(1).ifJust((x) => expect(x).toBe(1))
+      fromNullable(1).ifJust((x) => expect(x).toBe(1))
     })
 
     it('should not call a function', () => {
       expect.assertions(0)
-      maybeNullable(null).ifJust(() => expect(true).toBeFalsy())
+      fromNullable(null).ifJust(() => expect(true).toBeFalsy())
     })
   })
 
   describe('ifNothing', () => {
     it('should not call a function', () => {
       expect.assertions(0)
-      maybeNullable(1).ifNothing(() => expect(true).toBeFalsy())
+      fromNullable(1).ifNothing(() => expect(true).toBeFalsy())
     })
 
     it('should call a function', () => {
       expect.assertions(1)
-      maybeNullable(null).ifNothing(() => expect(true).toBeTruthy())
+      fromNullable(null).ifNothing(() => expect(true).toBeTruthy())
     })
   })
 })

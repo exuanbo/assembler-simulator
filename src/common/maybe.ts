@@ -42,6 +42,6 @@ export const nothing = <T extends {}>(): Maybe<T> => {
   return instance
 }
 
-type MaybeNullable = <T extends {}>(value: Nullable<T>) => Maybe<T>
+type MaybeFromNullable = <T extends {}>(value: Nullable<T>) => Maybe<T>
 
-export const maybeNullable: MaybeNullable = (value) => (value == null ? nothing() : just(value))
+export const fromNullable: MaybeFromNullable = (value) => (value ? just(value) : nothing())
