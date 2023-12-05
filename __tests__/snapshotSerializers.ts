@@ -14,14 +14,14 @@ type TypeofResult =
 
 // prettier-ignore
 type TypeofResultToType<T extends TypeofResult> =
-  T extends 'string' ? string :
-  T extends 'number' ? number :
-  T extends 'bigint' ? bigint :
-  T extends 'boolean' ? boolean :
-  T extends 'symbol' ? symbol :
+  T extends 'string'    ? string :
+  T extends 'number'    ? number :
+  T extends 'bigint'    ? bigint :
+  T extends 'boolean'   ? boolean :
+  T extends 'symbol'    ? symbol :
   T extends 'undefined' ? undefined :
-  T extends 'object' ? object :
-  T extends 'function' ? Function :
+  T extends 'object'    ? object :
+  T extends 'function'  ? Function :
   never
 
 const isArrayOf =
@@ -33,8 +33,7 @@ const isArrayOf =
 
 export const shortArraySerializer: jest.SnapshotSerializerPlugin = {
   test: (value) => isArrayOf('number', 'boolean')(value) && value.length <= 4,
-  serialize: (arr: Array<number | boolean>) =>
-    `[${arr.join(SEPARATOR)}${arr.length > 0 ? ',' : ''}]`,
+  serialize: (arr: Array<number | boolean>) => `[${arr.join(SEPARATOR)},]`,
 }
 
 export const memoryDataSerializer: jest.SnapshotSerializerPlugin = {
