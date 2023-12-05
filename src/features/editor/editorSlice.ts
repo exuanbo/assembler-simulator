@@ -74,7 +74,7 @@ export const editorSlice = createSlice({
       )
       state.breakpoints.splice(targetIndex, 1)
     },
-    setMessage: (state, action: PayloadAction<EditorMessage>) => {
+    setMessage: (state, action: PayloadAction<EditorMessage | null>) => {
       state.message = action.payload
     },
     clearMessage: (state) => {

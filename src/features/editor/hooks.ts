@@ -1,13 +1,14 @@
 import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
-import { useEffect, useRef } from 'react'
-import { debounceTime, filter, map, of, switchMap, timer } from 'rxjs'
+import { useEffect } from 'react'
+import { debounceTime, filter, first, map, merge, of, switchMap, timer } from 'rxjs'
 
 import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
+import { fromNullable } from '@/common/maybe'
 import { curryRight2 } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
@@ -295,37 +296,36 @@ export const useMessage = (): EditorMessage | null => {
   const error = assemblerError ?? runtimeError
 
   const message = useSelector(selectEditorMessage)
-  const messageTimeoutIdRef = useRef<number | undefined>()
 
   useEffect(() => {
-    return subscribe(store.onAction(setEditorMessage), () => {
-      window.clearTimeout(messageTimeoutIdRef.current)
-      messageTimeoutIdRef.current = window.setTimeout(() => {
-        store.dispatch(clearEditorMessage())
-      }, MESSAGE_DURATION_MS)
-    })
-  }, [])
-
-  useEffect(() => {
-    return subscribe(store.onAction(setCpuHalted), () => {
-      store.dispatch(setEditorMessage(haltedMessage))
-    })
-  }, [])
-
-  useEffect(() => {
+    const message$ = store.onState(selectEditorMessage, { initial: true })
+    const setCpuHalted$ = store.onAction(setCpuHalted)
+    const resetCpuState$ = store.onAction(resetCpuState)
     return subscribe(
-      store
-        .onAction(resetCpuState)
-        .pipe(filter(() => applySelector(selectEditorMessage) === haltedMessage)),
-      () => {
-        window.clearTimeout(messageTimeoutIdRef.current)
-        store.dispatch(clearEditorMessage())
-      },
+      merge(
+        setCpuHalted$.pipe(map(() => setEditorMessage(haltedMessage))),
+        resetCpuState$.pipe(
+          switchMap(() => message$.pipe(first())),
+          filter((msg) => msg === haltedMessage),
+          map(() => clearEditorMessage()),
+        ),
+      ),
+      (action) => store.dispatch(action),
     )
   }, [])
 
-  if (error !== null) {
-    return errorToMessage(error)
-  }
-  return message
+  useEffect(() => {
+    const setEditorMessage$ = store.onAction(setEditorMessage)
+    return subscribe(
+      setEditorMessage$.pipe(
+        debounceTime(MESSAGE_DURATION_MS),
+        filter(Boolean),
+        filter(({ type }) => type !== MessageType.Error),
+        map(() => clearEditorMessage()),
+      ),
+      (action) => store.dispatch(action),
+    )
+  }, [])
+
+  return fromNullable(error).map(errorToMessage).orDefault(message)
 }
