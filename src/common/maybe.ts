@@ -1,11 +1,11 @@
-import type { Nullable } from './types'
+import type { Nullable } from './utils/types'
 
 export interface Maybe<T extends {}> {
   isJust: () => boolean
   isNothing: () => boolean
   map: <U extends {}>(f: (value: T) => U) => Maybe<U>
   chain: <U extends {}>(f: (value: T) => Maybe<U>) => Maybe<U>
-  orDefault: (defaultValue: T) => T
+  orDefault: <U>(defaultValue: U) => T | U
   extract: () => T | undefined
   extractNullable: () => T | null
   ifJust: (f: (value: T) => void) => this

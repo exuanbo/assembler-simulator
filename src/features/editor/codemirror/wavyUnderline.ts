@@ -2,7 +2,7 @@ import { type Extension, StateEffect, StateField } from '@codemirror/state'
 import { Decoration, type DecorationSet, EditorView } from '@codemirror/view'
 import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
 
-import { maybeNullable } from '@/common/utils'
+import { maybeNullable } from '@/common/maybe'
 
 import { ClassName } from './classNames'
 import type { RangeSetUpdateFilter } from './rangeSet'

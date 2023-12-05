@@ -1,4 +1,4 @@
-import { just, maybeNullable, nothing } from '@/common/utils'
+import { just, maybeNullable, nothing } from '@/common/maybe'
 
 describe('Maybe', () => {
   describe('maybeNullable', () => {
