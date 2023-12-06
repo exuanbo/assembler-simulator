@@ -6,7 +6,6 @@ import { subscribe } from '@/app/subscribe'
 import { call } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
-  resetAssemblerState,
   selectAddressToStatementMap,
   selectAssembledSource,
 } from '@/features/assembler/assemblerSlice'
@@ -384,7 +383,6 @@ export class Controller {
     store.dispatch(resetCpuState())
     store.dispatch(resetMemoryData())
     store.dispatch(clearEditorHighlightRange())
-    store.dispatch(resetAssemblerState())
     store.dispatch(resetIoState())
   }
 
