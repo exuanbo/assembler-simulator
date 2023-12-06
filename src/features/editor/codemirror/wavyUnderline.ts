@@ -2,23 +2,21 @@ import { type Extension, StateEffect, StateField } from '@codemirror/state'
 import { Decoration, type DecorationSet, EditorView } from '@codemirror/view'
 import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
 
-import { fromNullable } from '@/common/maybe'
+import type { Maybe } from '@/common/maybe'
 
 import { ClassName } from './classNames'
 import type { RangeSetUpdateFilter } from './rangeSet'
 
 export const WavyUnderlineEffect = StateEffect.define<{
-  add?: { from: number; to: number }
+  range: Maybe<{ from: number; to: number }>
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ add, filter }, change) {
+  map({ range: range_M, filter }, change) {
     return {
-      add: fromNullable(add)
-        .map(({ from, to }) => ({
-          from: change.mapPos(from),
-          to: change.mapPos(to),
-        }))
-        .extract(),
+      range: range_M.map(({ from, to }) => ({
+        from: change.mapPos(from),
+        to: change.mapPos(to),
+      })),
       filter,
     }
   },
@@ -34,11 +32,9 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     const decorations = __decorations.map(transaction.changes)
     return filterEffects(transaction.effects, WavyUnderlineEffect).reduce(
       (resultDecorations, effect) =>
-        mapEffectValue(effect, ({ add: addByRange, filter }) =>
+        mapEffectValue(effect, ({ range: range_M, filter }) =>
           resultDecorations.update({
-            add: fromNullable(addByRange)
-              .map(({ from, to }) => [markDecoration.range(from, to)])
-              .extract(),
+            add: range_M.map(({ from, to }) => [markDecoration.range(from, to)]).extract(),
             filter,
           }),
         ),

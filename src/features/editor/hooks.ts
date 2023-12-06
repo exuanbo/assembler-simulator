@@ -8,7 +8,7 @@ import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
-import { fromNullable } from '@/common/maybe'
+import * as Maybe from '@/common/maybe'
 import { curryRight2 } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
@@ -161,13 +161,13 @@ export const useAssemblerError = (): void => {
     const assemblerErrorRange$ = store.onState(selectAssemblerErrorRange)
     return subscribe(
       assemblerErrorRange$.pipe(
-        map((errorRange) => {
-          const hasError = errorRange !== undefined
-          return WavyUnderlineEffect.of({
-            add: errorRange,
-            filter: () => hasError,
-          })
-        }),
+        map(Maybe.fromNullable),
+        map((range_M) =>
+          WavyUnderlineEffect.of({
+            range: range_M,
+            filter: () => range_M.isJust(),
+          }),
+        ),
         map((effect) => ({ effects: effect })),
       ),
       (transaction) => view.dispatch(transaction),
@@ -189,29 +189,36 @@ export const useHighlightLine = (): void => {
 
   useViewEffect((view) => {
     const highlightLinePos$ = store.onState(curryRight2(selectEditorHighlightLinePos)(view))
-    return subscribe(highlightLinePos$, (maybeLinePos) => {
-      view.dispatch({
-        effects: maybeLinePos
-          .map((linePos) =>
-            linePos.map((pos, posIndex) =>
-              HighlightLineEffect.of({
-                pos,
-                // clear previous decorations on first line
-                filter: () => posIndex !== 0,
-              }),
-            ),
-          )
-          .orDefaultLazy(() => HighlightLineEffect.of({ filter: () => false })),
-      })
-      maybeLinePos
+    return subscribe(highlightLinePos$, (linePos_M) => {
+      linePos_M
+        .map((linePos) =>
+          linePos.map((pos, posIndex) =>
+            HighlightLineEffect.of({
+              pos: Maybe.Just(pos),
+              // clear previous decorations on first line
+              filter: () => posIndex !== 0,
+            }),
+          ),
+        )
+        .altLazy(() =>
+          Maybe.Just([
+            HighlightLineEffect.of({
+              pos: Maybe.Nothing,
+              filter: () => false,
+            }),
+          ]),
+        )
+        .map((effects) => ({ effects }))
+        .ifJust((transaction) => view.dispatch(transaction))
+
+      linePos_M
         .filter(() => !view.hasFocus)
-        .ifJust((linePos) => {
-          view.dispatch({
-            // length of `linePos` is already checked
-            selection: { anchor: linePos[0] },
-            scrollIntoView: true,
-          })
-        })
+        .map((linePos) => ({
+          // length of `linePos` is already checked
+          selection: { anchor: linePos[0] },
+          scrollIntoView: true,
+        }))
+        .ifJust((transaction) => view.dispatch(transaction))
     })
   }, [])
 }
@@ -326,5 +333,5 @@ export const useMessage = (): EditorMessage | null => {
     )
   }, [])
 
-  return fromNullable(error).map(errorToMessage).orDefault(message)
+  return Maybe.fromNullable(error).map(errorToMessage).orDefault(message)
 }

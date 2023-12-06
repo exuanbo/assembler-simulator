@@ -1,7 +1,7 @@
 import type { EditorView } from '@codemirror/view'
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { fromFalsy, fromNullable } from '@/common/maybe'
+import * as Maybe from '@/common/maybe'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 
 import { type LineLoc, lineRangesEqual } from './codemirror/text'
@@ -90,7 +90,7 @@ export const editorSlice = createSlice({
         (_: EditorState, view: EditorView) => view.state.doc,
       ],
       (highlightRange, doc) =>
-        fromNullable(highlightRange).chain((range) => {
+        Maybe.fromNullable(highlightRange).chain((range) => {
           const linePos: number[] = []
           const rangeTo = Math.min(range.to, doc.length)
           for (let pos = range.from; pos < rangeTo; pos++) {
@@ -99,7 +99,7 @@ export const editorSlice = createSlice({
               linePos.push(line.from)
             }
           }
-          return fromFalsy(linePos.length && linePos)
+          return Maybe.fromFalsy(linePos.length && linePos)
         }),
     ),
     selectEditorBreakpoints: (state) => state.breakpoints,
