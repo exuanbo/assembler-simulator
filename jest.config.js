@@ -4,6 +4,7 @@
 /** @type {JestConfig} */
 const config = {
   collectCoverage: true,
+  coveragePathIgnorePatterns: ['<rootDir>/src/features/editor/examples/'],
   moduleNameMapper: {
     '^@/(.*)': '<rootDir>/src/$1',
     '(.+)\\?raw$': '$1',
