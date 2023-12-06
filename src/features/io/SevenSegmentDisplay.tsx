@@ -1,5 +1,6 @@
 import { createNextState } from '@reduxjs/toolkit'
 import { memo, useEffect, useState } from 'react'
+import { map } from 'rxjs'
 
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
@@ -144,9 +145,8 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
   const [data, setData] = useState(initialData)
 
   useEffect(() => {
-    return subscribe(store.onAction(resetIoState), () => {
-      setData(initialData)
-    })
+    const resetIoState$ = store.onAction(resetIoState)
+    return subscribe(resetIoState$.pipe(map(() => initialData)), setData)
   }, [])
 
   const {
