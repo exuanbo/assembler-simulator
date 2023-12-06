@@ -1,4 +1,4 @@
-import { fromNullable, just, nothing } from '@/common/maybe'
+import { fromFalsy, fromNullable, just, nothing } from '@/common/maybe'
 
 describe('Maybe', () => {
   describe('fromNullable', () => {
@@ -8,8 +8,52 @@ describe('Maybe', () => {
       expect(result.extractNullable()).toBe(1)
     })
 
-    it('should create a Maybe with a nullable value', () => {
+    it('should create a Maybe with null', () => {
       const result = fromNullable<number>(null)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+
+    it('should create a Maybe with undefined', () => {
+      const result = fromNullable<number>(undefined)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+  })
+
+  describe('fromFalsy', () => {
+    it('should create a Maybe with a value', () => {
+      const result = fromFalsy(1)
+      expect(result.extract()).toBe(1)
+      expect(result.extractNullable()).toBe(1)
+    })
+
+    it('should create a Maybe with null', () => {
+      const result = fromFalsy<number>(null)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+
+    it('should create a Maybe with undefined', () => {
+      const result = fromFalsy<number>(undefined)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+
+    it('should create a Maybe with false', () => {
+      const result = fromFalsy<number>(false)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+
+    it('should create a Maybe with 0', () => {
+      const result = fromFalsy<number>(0)
+      expect(result.extract()).toBe(undefined)
+      expect(result.extractNullable()).toBe(null)
+    })
+
+    it('should create a Maybe with an empty string', () => {
+      const result = fromFalsy<string>('')
       expect(result.extract()).toBe(undefined)
       expect(result.extractNullable()).toBe(null)
     })
@@ -64,6 +108,35 @@ describe('Maybe', () => {
     it('should return a default value', () => {
       const result = fromNullable<number>(null).orDefault(2)
       expect(result).toBe(2)
+    })
+  })
+
+  describe('orDefaultLazy', () => {
+    it('should return a value', () => {
+      const result = fromNullable(1).orDefaultLazy(() => 2)
+      expect(result).toBe(1)
+    })
+
+    it('should return a default value', () => {
+      const result = fromNullable<number>(null).orDefaultLazy(() => 2)
+      expect(result).toBe(2)
+    })
+  })
+
+  describe('filter', () => {
+    it('should filter with truthy predicate', () => {
+      const result = fromNullable(1).filter((x) => x === 1)
+      expect(result.extract()).toBe(1)
+    })
+
+    it('should filter with falsy predicate', () => {
+      const result = fromNullable(1).filter((x) => x === 2)
+      expect(result.extract()).toBe(undefined)
+    })
+
+    it('should filter a nullable value', () => {
+      const result = fromNullable<number>(null).filter((x) => x === 1)
+      expect(result.extract()).toBe(undefined)
     })
   })
 

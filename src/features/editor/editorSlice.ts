@@ -1,6 +1,7 @@
 import type { EditorView } from '@codemirror/view'
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
+import { fromFalsy, fromNullable } from '@/common/maybe'
 import type { SourceRange, Statement } from '@/features/assembler/core'
 
 import { type LineLoc, lineRangesEqual } from './codemirror/text'
@@ -84,22 +85,22 @@ export const editorSlice = createSlice({
   selectors: {
     selectEditorInput: (state) => state.input,
     selectEditorHighlightLinePos: createSelector(
-      [(state: EditorState) => state.highlightRange, (_: EditorState, view: EditorView) => view],
-      (highlightRange, view) => {
-        if (highlightRange === null) {
-          return undefined
-        }
-        const linePos: number[] = []
-        for (let pos = highlightRange.from; pos < highlightRange.to; pos++) {
-          if (pos < view.state.doc.length) {
-            const line = view.state.doc.lineAt(pos)
+      [
+        (state: EditorState) => state.highlightRange,
+        (_: EditorState, view: EditorView) => view.state.doc,
+      ],
+      (highlightRange, doc) =>
+        fromNullable(highlightRange).chain((range) => {
+          const linePos: number[] = []
+          const rangeTo = Math.min(range.to, doc.length)
+          for (let pos = range.from; pos < rangeTo; pos++) {
+            const line = doc.lineAt(pos)
             if (!linePos.includes(line.from)) {
               linePos.push(line.from)
             }
           }
-        }
-        return linePos.length > 0 ? linePos : undefined
-      },
+          return fromFalsy(linePos.length && linePos)
+        }),
     ),
     selectEditorBreakpoints: (state) => state.breakpoints,
     selectEditorMessage: (state) => state.message,

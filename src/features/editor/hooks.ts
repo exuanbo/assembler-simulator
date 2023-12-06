@@ -189,26 +189,29 @@ export const useHighlightLine = (): void => {
 
   useViewEffect((view) => {
     const highlightLinePos$ = store.onState(curryRight2(selectEditorHighlightLinePos)(view))
-    return subscribe(highlightLinePos$, (linePos) => {
-      const shouldAddHighlight = linePos !== undefined
+    return subscribe(highlightLinePos$, (maybeLinePos) => {
       view.dispatch({
-        effects: shouldAddHighlight
-          ? linePos.map((pos, posIndex) =>
+        effects: maybeLinePos
+          .map((linePos) =>
+            linePos.map((pos, posIndex) =>
               HighlightLineEffect.of({
                 pos,
                 // clear previous decorations on first line
                 filter: () => posIndex !== 0,
               }),
-            )
-          : HighlightLineEffect.of({ filter: () => false }),
+            ),
+          )
+          .orDefaultLazy(() => HighlightLineEffect.of({ filter: () => false })),
       })
-      if (!view.hasFocus && shouldAddHighlight) {
-        view.dispatch({
-          // length of `linePos` is already checked
-          selection: { anchor: linePos[0] },
-          scrollIntoView: true,
+      maybeLinePos
+        .filter(() => !view.hasFocus)
+        .ifJust((linePos) => {
+          view.dispatch({
+            // length of `linePos` is already checked
+            selection: { anchor: linePos[0] },
+            scrollIntoView: true,
+          })
         })
-      }
     })
   }, [])
 }

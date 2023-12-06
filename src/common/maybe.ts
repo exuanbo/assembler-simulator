@@ -6,6 +6,8 @@ export interface Maybe<T extends {}> {
   map: <U extends {}>(f: (value: T) => U) => Maybe<U>
   chain: <U extends {}>(f: (value: T) => Maybe<U>) => Maybe<U>
   orDefault: <U>(defaultValue: U) => T | U
+  orDefaultLazy: <U>(getDefaultValue: () => U) => T | U
+  filter: (pred: (value: T) => boolean) => Maybe<T>
   extract: () => T | undefined
   extractNullable: () => T | null
   ifJust: (f: (value: T) => void) => this
@@ -19,6 +21,8 @@ export const just = <T extends {}>(value: T): Maybe<T> => {
     map: (f) => just(f(value)),
     chain: (f) => f(value),
     orDefault: () => value,
+    orDefaultLazy: () => value,
+    filter: (pred) => (pred(value) ? instance : nothing()),
     extract: () => value,
     extractNullable: () => value,
     ifJust: (f) => (f(value), instance),
@@ -34,6 +38,8 @@ export const nothing = <T extends {}>(): Maybe<T> => {
     map: () => nothing(),
     chain: () => nothing(),
     orDefault: (defaultValue) => defaultValue,
+    orDefaultLazy: (getDefaultValue) => getDefaultValue(),
+    filter: () => instance,
     extract: () => undefined,
     extractNullable: () => null,
     ifJust: () => instance,
@@ -44,4 +50,8 @@ export const nothing = <T extends {}>(): Maybe<T> => {
 
 type MaybeFromNullable = <T extends {}>(value: Nullable<T>) => Maybe<T>
 
-export const fromNullable: MaybeFromNullable = (value) => (value ? just(value) : nothing())
+export const fromNullable: MaybeFromNullable = (value) => (value != null ? just(value) : nothing())
+
+type MaybeFromFalsy = <T extends {}>(value: Nullable<T> | false | 0 | 0n | '') => Maybe<T>
+
+export const fromFalsy: MaybeFromFalsy = (value) => (value ? just(value) : nothing())
