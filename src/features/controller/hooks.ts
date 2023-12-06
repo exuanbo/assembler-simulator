@@ -21,12 +21,14 @@ export const useController = (): Controller => {
   const controller = useSingleton(() => new Controller())
 
   useEffect(() => {
-    return subscribe(store.onAction(setEditorInput), controller.resetSelf)
+    const setEditorInput$ = store.onAction(setEditorInput)
+    return subscribe(setEditorInput$, controller.resetSelf)
   }, [controller])
 
   useEffect(() => {
+    const setAutoAssemble$ = store.onAction(setAutoAssemble)
     return subscribe(
-      store.onAction(setAutoAssemble).pipe(
+      setAutoAssemble$.pipe(
         debounceTime(UPDATE_TIMEOUT_MS),
         filter((shouldAutoAssemble) => shouldAutoAssemble && !applySelector(selectIsAssembled)),
       ),
@@ -35,12 +37,14 @@ export const useController = (): Controller => {
   }, [controller])
 
   useEffect(() => {
-    return subscribe(store.onAction(setAssemblerState), controller.resetSelf)
+    const setAssemblerState$ = store.onAction(setAssemblerState)
+    return subscribe(setAssemblerState$, controller.resetSelf)
   }, [controller])
 
   useEffect(() => {
+    const runtimeConfiguration$ = store.onState(selectRuntimeConfiguration)
     return subscribe(
-      store.onState(selectRuntimeConfiguration).pipe(
+      runtimeConfiguration$.pipe(
         filter(() => {
           // `setSuspended` action listener will resume the main loop with new configuration
           // so we skip calling `stopAndRun` if cpu is suspended

@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 import { saveState as saveStateToLocalStorage } from './localStorage'
 import { selectStateToPersist, type StateToPersist } from './persist'
-import { applySelector } from './selector'
 import { store } from './store'
 import { subscribe } from './subscribe'
 import { saveState as saveStateToUrl } from './url'
@@ -14,8 +13,7 @@ const saveState = (state: StateToPersist): void => {
 
 export const useStateSaver = (): void => {
   useEffect(() => {
-    const stateToPersist = applySelector(selectStateToPersist)
-    saveState(stateToPersist)
-    return subscribe(store.onState(selectStateToPersist), saveState)
+    const stateToPersist$ = store.onState(selectStateToPersist, { initial: true })
+    return subscribe(stateToPersist$, saveState)
   }, [])
 }

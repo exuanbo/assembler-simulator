@@ -24,7 +24,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
         switchMap(() => memoryData$.pipe(first())),
         map(setVduDataFrom),
       ),
-      store.dispatch,
+      (action) => store.dispatch(action),
     )
   }, [])
 

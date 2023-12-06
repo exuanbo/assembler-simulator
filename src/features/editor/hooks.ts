@@ -2,7 +2,7 @@ import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
 import { useEffect } from 'react'
-import { debounceTime, filter, first, map, merge, of, switchMap, timer } from 'rxjs'
+import { debounceTime, filter, first, map, merge, of, switchMap, tap, timer } from 'rxjs'
 
 import { applySelector, useSelector } from '@/app/selector'
 import { store } from '@/app/store'
@@ -24,6 +24,7 @@ import { BreakpointEffect, getBreakpointMarkers } from './codemirror/breakpoints
 import { HighlightLineEffect } from './codemirror/highlightLine'
 import { useViewEffect } from './codemirror/react'
 import { onUpdate } from './codemirror/rx'
+import { replaceContent } from './codemirror/state'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
 import { disableVim, enableVim, initVim$ } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
@@ -41,12 +42,13 @@ import {
   setEditorInput,
   setEditorMessage,
 } from './editorSlice'
-import { template } from './examples'
+import { isTemplate, templateSelection } from './examples'
 
 export const useVimKeybindings = (): void => {
   useViewEffect((view) => {
+    const vimKeybindings$ = store.onState(selectVimKeybindings, { initial: true })
     return subscribe(
-      store.onState(selectVimKeybindings, { initial: true }).pipe(
+      vimKeybindings$.pipe(
         switchMap((shouldEnable) => {
           if (shouldEnable) {
             return initVim$.pipe(map(() => enableVim))
@@ -54,9 +56,7 @@ export const useVimKeybindings = (): void => {
           return of(disableVim)
         }),
       ),
-      (action) => {
-        action(view)
-      },
+      (action) => action(view),
     )
   }, [])
 }
@@ -70,8 +70,9 @@ const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 
 export const useSyncInput = (): void => {
   useViewEffect((view) => {
+    const viewUpdate$ = onUpdate(view)
     return subscribe(
-      onUpdate(view).pipe(
+      viewUpdate$.pipe(
         filter((update) => update.docChanged),
         debounceTime(UPDATE_TIMEOUT_MS),
         filter((update) => {
@@ -79,70 +80,57 @@ export const useSyncInput = (): void => {
           const transaction = update.transactions[0] as Transaction | undefined
           return !transaction || !isSyncFromState(transaction)
         }),
+        map((update) => update.state.doc.toString()),
+        map((value) => setEditorInput({ value })),
       ),
-      (update) => {
-        const input = update.state.doc.toString()
-        store.dispatch(setEditorInput({ value: input }))
-      },
+      (action) => store.dispatch(action),
     )
   }, [])
 
   useViewEffect((view) => {
+    const setEditorInput$ = store.onAction(setEditorInput)
     return subscribe(
-      store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
-      ({ value }) => {
-        view.dispatch(
-          syncFromState({
-            changes: {
-              from: 0,
-              to: view.state.doc.length,
-              insert: value,
-            },
-          }),
-        )
-      },
+      setEditorInput$.pipe(
+        filter(({ isFromFile }) => isFromFile),
+        map(({ value }) => replaceContent(view.state, value)),
+        map((spec) => syncFromState(spec)),
+      ),
+      (transaction) => view.dispatch(transaction),
     )
   }, [])
 }
 
 export const useAutoFocus = (): void => {
   useViewEffect((view) => {
+    const setEditorInput$ = store.onAction(setEditorInput)
     return subscribe(
-      store.onAction(setEditorInput).pipe(
+      setEditorInput$.pipe(
         filter(({ isFromFile }) => isFromFile),
-        filter(({ value }) => value === template.content),
+        filter(({ value }) => isTemplate(value)),
+        tap(() => view.focus()),
+        map(() => ({ selection: templateSelection })),
       ),
-      () => {
-        view.focus()
-        const { title, content } = template
-        const titleIndex = content.indexOf(title)
-        view.dispatch({
-          selection: {
-            anchor: titleIndex,
-            head: titleIndex + title.length,
-          },
-        })
-      },
+      (transaction) => view.dispatch(transaction),
     )
   }, [])
 }
 
 export const useAutoAssemble = (): void => {
   useViewEffect((view) => {
-    const initialAssembleTimeoutId = window.setTimeout(() => {
-      if (applySelector(selectAutoAssemble)) {
-        const input = view.state.doc.toString()
-        assembleFrom(input)
-      }
-    }, UPDATE_TIMEOUT_MS)
-    return () => {
-      window.clearTimeout(initialAssembleTimeoutId)
-    }
+    const initialAssemble$ = timer(UPDATE_TIMEOUT_MS)
+    return subscribe(
+      initialAssemble$.pipe(
+        filter(() => applySelector(selectAutoAssemble)),
+        map(() => view.state.doc.toString()),
+      ),
+      assembleFrom,
+    )
   }, [])
 
   useEffect(() => {
+    const setEditorInput$ = store.onAction(setEditorInput)
     return subscribe(
-      store.onAction(setEditorInput).pipe(
+      setEditorInput$.pipe(
         filter(() => applySelector(selectAutoAssemble)),
         switchMap(({ value, isFromFile }) => {
           if (isFromFile) {
@@ -158,42 +146,50 @@ export const useAutoAssemble = (): void => {
 
 export const useAssemblerError = (): void => {
   useViewEffect((view) => {
+    const viewUpdate$ = onUpdate(view)
     return subscribe(
-      onUpdate(view).pipe(
+      viewUpdate$.pipe(
         filter((update) => update.docChanged),
         filter(() => !!applySelector(selectAssemblerError)),
+        map(() => clearAssemblerError()),
       ),
-      () => {
-        store.dispatch(clearAssemblerError())
-      },
+      (action) => store.dispatch(action),
     )
   }, [])
 
   useViewEffect((view) => {
-    return subscribe(store.onState(selectAssemblerErrorRange), (errorRange) => {
-      const hasError = errorRange !== undefined
-      view.dispatch({
-        effects: WavyUnderlineEffect.of({
-          add: errorRange,
-          filter: () => hasError,
+    const assemblerErrorRange$ = store.onState(selectAssemblerErrorRange)
+    return subscribe(
+      assemblerErrorRange$.pipe(
+        map((errorRange) => {
+          const hasError = errorRange !== undefined
+          return WavyUnderlineEffect.of({
+            add: errorRange,
+            filter: () => hasError,
+          })
         }),
-      })
-    })
+        map((effect) => ({ effects: effect })),
+      ),
+      (transaction) => view.dispatch(transaction),
+    )
   }, [])
 }
 
 export const useHighlightLine = (): void => {
   useEffect(() => {
+    const setEditorInput$ = store.onAction(setEditorInput)
     return subscribe(
-      store.onAction(setEditorInput).pipe(filter(({ isFromFile }) => isFromFile)),
-      () => {
-        store.dispatch(clearEditorHighlightRange())
-      },
+      setEditorInput$.pipe(
+        filter(({ isFromFile }) => isFromFile),
+        map(() => clearEditorHighlightRange()),
+      ),
+      (action) => store.dispatch(action),
     )
   }, [])
 
   useViewEffect((view) => {
-    return subscribe(store.onState(curryRight2(selectEditorHighlightLinePos)(view)), (linePos) => {
+    const highlightLinePos$ = store.onState(curryRight2(selectEditorHighlightLinePos)(view))
+    return subscribe(highlightLinePos$, (linePos) => {
       const shouldAddHighlight = linePos !== undefined
       view.dispatch({
         effects: shouldAddHighlight

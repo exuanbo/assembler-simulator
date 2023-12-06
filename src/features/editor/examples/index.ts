@@ -3,7 +3,7 @@ import keyboardInput from './keyboard_input.asm?raw'
 import procedures from './procedures.asm?raw'
 import sevenSegmentDisplay from './seven_segment_display.asm?raw'
 import softwareInterrupts from './software_interrupts.asm?raw'
-import __template from './template.asm?raw'
+import template from './template.asm?raw'
 import trafficLights from './traffic_lights.asm?raw'
 import visualDisplayUnit from './visual_display_unit.asm?raw'
 
@@ -16,10 +16,23 @@ interface Example {
   content: string
 }
 
-export const template: Example = {
-  title: getTitleFrom(__template),
-  content: __template,
+const templateExample: Example = {
+  title: getTitleFrom(template),
+  content: template,
 }
+
+export { templateExample as template }
+
+export const isTemplate = (value: string) => value === templateExample.content
+
+export const templateSelection = (() => {
+  const { title, content } = templateExample
+  const titleIndex = content.indexOf(title)
+  return {
+    anchor: titleIndex,
+    head: titleIndex + title.length,
+  }
+})()
 
 export const examples: readonly Example[] = [
   procedures,
