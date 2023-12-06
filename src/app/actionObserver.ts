@@ -35,8 +35,17 @@ export const createActionObserver = (): ActionObserver => {
     return result
   }
 
-  const onAction: OnAction = (actionCreator) =>
-    action$.pipe(filter(matchType(actionCreator)), map(getPayload))
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const payload$Map = new WeakMap<PayloadActionCreator<any>, Observable<any>>()
+
+  const onAction: OnAction = (actionCreator) => {
+    let payload$ = payload$Map.get(actionCreator)
+    if (!payload$) {
+      payload$ = action$.pipe(filter(matchType(actionCreator)), map(getPayload))
+      payload$Map.set(actionCreator, payload$)
+    }
+    return payload$
+  }
 
   return {
     middleware,
