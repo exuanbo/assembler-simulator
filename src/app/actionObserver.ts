@@ -9,6 +9,7 @@ import {
 import { filter, map, type Observable, Subject } from 'rxjs'
 
 import { extendStore } from './storeEnhancer'
+import { createWeakCache } from './weakCache'
 
 type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
 
@@ -36,16 +37,10 @@ export const createActionObserver = (): ActionObserver => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const payload$Map = new WeakMap<PayloadActionCreator<any>, Observable<any>>()
+  const getOrCache = createWeakCache<PayloadActionCreator<any>, Observable<any>>()
 
-  const onAction: OnAction = (actionCreator) => {
-    let payload$ = payload$Map.get(actionCreator)
-    if (!payload$) {
-      payload$ = action$.pipe(filter(matchType(actionCreator)), map(getPayload))
-      payload$Map.set(actionCreator, payload$)
-    }
-    return payload$
-  }
+  const onAction: OnAction = (actionCreator) =>
+    getOrCache(actionCreator, () => action$.pipe(filter(matchType(actionCreator)), map(getPayload)))
 
   return {
     middleware,

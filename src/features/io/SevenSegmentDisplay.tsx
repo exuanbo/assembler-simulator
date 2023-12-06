@@ -4,7 +4,6 @@ import { map } from 'rxjs'
 
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
-import { useSingleton } from '@/common/hooks'
 import { range } from '@/common/utils'
 
 import DeviceCard from './DeviceCard'
@@ -156,8 +155,6 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
     toggleVisible,
   } = useIoDevice(IoDeviceName.SevenSegmentDisplay)
 
-  const initialOutputData = useSingleton(outputData)
-
   const updateDataFrom = (output: IoDeviceData) => {
     setData((prevData) =>
       createNextState(prevData, (draft) => {
@@ -169,10 +166,6 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
       }),
     )
   }
-
-  useEffect(() => {
-    updateDataFrom(initialOutputData)
-  }, [initialOutputData])
 
   useEffect(() => {
     return subscribeOutputData(updateDataFrom)

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { first, map, merge, switchMap } from 'rxjs'
+import { first, map, merge, skip, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
 import { subscribe } from '@/app/subscribe'
@@ -21,7 +21,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
     const memoryData$ = store.onState(selectMemoryData)
     return subscribe(
       merge(setMemoryDataFrom$, resetMemoryData$).pipe(
-        switchMap(() => memoryData$.pipe(first())),
+        switchMap(() => memoryData$.pipe(skip(1), first())),
         map(setVduDataFrom),
       ),
       (action) => store.dispatch(action),

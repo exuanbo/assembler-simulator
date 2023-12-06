@@ -1,16 +1,10 @@
 import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
-import { distinctUntilChanged, identity, map, type Observable, ReplaySubject, skip } from 'rxjs'
+import { distinctUntilChanged, map, type Observable, ReplaySubject } from 'rxjs'
 
 import { extendStore } from './storeEnhancer'
+import { createWeakCache } from './weakCache'
 
-interface OnStateOptions {
-  initial?: boolean
-}
-
-type OnState<TState> = <TSelected>(
-  selector: Selector<TState, TSelected>,
-  options?: OnStateOptions,
-) => Observable<TSelected>
+type OnState<TState> = <TSelected>(selector: Selector<TState, TSelected>) => Observable<TSelected>
 
 interface StateObserver<TState> {
   middleware: Middleware
@@ -40,16 +34,10 @@ export const createStateObserver = <TState>(): StateObserver<TState> => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selected$Map = new WeakMap<Selector<TState, unknown>, Observable<any>>()
+  const getOrCache = createWeakCache<Selector<TState, unknown>, Observable<any>>()
 
-  const onState: OnState<TState> = (selector, { initial = false } = {}) => {
-    let selected$ = selected$Map.get(selector)
-    if (!selected$) {
-      selected$ = distinctState$.pipe(map(selector), distinctUntilChanged())
-      selected$Map.set(selector, selected$)
-    }
-    return selected$.pipe(initial ? identity : skip(1))
-  }
+  const onState: OnState<TState> = (selector) =>
+    getOrCache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))
 
   return {
     middleware,

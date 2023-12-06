@@ -13,7 +13,7 @@ const saveState = (state: StateToPersist): void => {
 
 export const useStateSaver = (): void => {
   useEffect(() => {
-    const stateToPersist$ = store.onState(selectStateToPersist, { initial: true })
+    const stateToPersist$ = store.onState(selectStateToPersist)
     return subscribe(stateToPersist$, saveState)
   }, [])
 }

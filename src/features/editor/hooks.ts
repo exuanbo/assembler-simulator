@@ -46,7 +46,7 @@ import { isTemplate, templateSelection } from './examples'
 
 export const useVimKeybindings = (): void => {
   useViewEffect((view) => {
-    const vimKeybindings$ = store.onState(selectVimKeybindings, { initial: true })
+    const vimKeybindings$ = store.onState(selectVimKeybindings)
     return subscribe(
       vimKeybindings$.pipe(
         switchMap((shouldEnable) => {
@@ -297,7 +297,7 @@ export const useMessage = (): EditorMessage | null => {
   const message = useSelector(selectEditorMessage)
 
   useEffect(() => {
-    const message$ = store.onState(selectEditorMessage, { initial: true })
+    const message$ = store.onState(selectEditorMessage)
     const setCpuHalted$ = store.onAction(setCpuHalted)
     const resetCpuState$ = store.onAction(resetCpuState)
     return subscribe(
