@@ -33,8 +33,7 @@ export const createStateObserver = <TState>(): StateObserver<TState> => {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getOrCache = createWeakCache<Selector<TState, unknown>, Observable<any>>()
+  const getOrCache = createWeakCache<Selector<TState, unknown>>()
 
   const onState: OnState<TState> = (selector) =>
     getOrCache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))

@@ -37,7 +37,7 @@ export const createActionObserver = (): ActionObserver => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getOrCache = createWeakCache<PayloadActionCreator<any>, Observable<any>>()
+  const getOrCache = createWeakCache<PayloadActionCreator<any>>()
 
   const onAction: OnAction = (actionCreator) =>
     getOrCache(actionCreator, () => action$.pipe(filter(matchType(actionCreator)), map(getPayload)))
