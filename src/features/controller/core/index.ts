@@ -243,11 +243,11 @@ export class Controller {
       const dispatchChanges = (): void => {
         this.cancelDispatchChanges()
         this.dispatchChangesTimeoutId = window.setTimeout(() => {
+          store.dispatch(setCpuRegisters(cpuRegisters))
           store.dispatch(setMemoryData(memoryData))
           if (isVduBufferChanged) {
             store.dispatch(setVduDataFrom(memoryData))
           }
-          store.dispatch(setCpuRegisters(cpuRegisters))
           if (hasStatement) {
             store.dispatch(setEditorHighlightRange(statement))
           } else {
