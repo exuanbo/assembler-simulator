@@ -21,7 +21,7 @@ interface ActionObserver {
 const matchType =
   <TPayload>(actionCreator: PayloadActionCreator<TPayload>) =>
   (action: Action): action is PayloadAction<TPayload> =>
-    actionCreator.match(action)
+    action.type === actionCreator.type
 
 const getPayload = <TPayload>(action: PayloadAction<TPayload>): TPayload => action.payload
 
