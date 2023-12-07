@@ -2,9 +2,9 @@
 
 import type { Selector } from '@reduxjs/toolkit'
 import { useDebugValue } from 'react'
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector'
 
 import { type RootState, store } from './store'
+import { useSyncExternalStoreWithSelector } from './useSyncExternalStoreWithSelector'
 
 type StateSelector<TSelected> = Selector<RootState, TSelected>
 
@@ -24,7 +24,6 @@ export const useSelector = <TSelected>(
   const selectedState = useSyncExternalStoreWithSelector(
     store.subscribe,
     store.getState,
-    null,
     selector,
     equalityFn,
   )
