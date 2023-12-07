@@ -34,8 +34,8 @@ const getPreloadedState = (): Partial<RootState> => {
   return merge(getInitialStateToPersist(), stateFromLocalStorage, stateFromUrl)
 }
 
-const actionObserver = createActionObserver()
 const stateObserver = createStateObserver<RootState>()
+const actionObserver = createActionObserver()
 
 export const store = configureStore({
   reducer: rootReducer,
