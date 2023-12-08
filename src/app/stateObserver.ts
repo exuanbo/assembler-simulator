@@ -17,18 +17,18 @@ export const createStateObserver = <TState>(): StateObserver<TState> => {
 
   const middleware: Middleware = (api) => {
     state$.next(api.getState())
-    let nestedDepth = 0
+    let dispatchDepth = 0
 
     return (next) => (action) => {
       try {
-        nestedDepth += 1
+        dispatchDepth += 1
         const result = next(action)
-        if (nestedDepth === 1) {
+        if (dispatchDepth === 1) {
           state$.next(api.getState())
         }
         return result
       } finally {
-        nestedDepth -= 1
+        dispatchDepth -= 1
       }
     }
   }
