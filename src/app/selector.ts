@@ -22,7 +22,7 @@ export const useSelector = <TSelected>(
   equalityFn: EqualityFn<TSelected> = refEquality,
 ): TSelected => {
   const selectedState = useSyncExternalStoreWithSelector(
-    store.subscribe,
+    store.subscribeChange,
     store.getState,
     selector,
     equalityFn,

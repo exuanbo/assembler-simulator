@@ -13,6 +13,7 @@ import { createActionObserver } from './actionObserver'
 import { loadState as loadStateFromLocalStorage } from './localStorage'
 import { getInitialStateToPersist } from './persist'
 import { createStateObserver } from './stateObserver'
+import { subscribeChange } from './subscribeChange'
 import { loadState as loadStateFromUrl } from './url'
 
 const rootReducer = combineSlices(
@@ -46,6 +47,8 @@ export const store = configureStore({
   preloadedState: getPreloadedState(),
   enhancers: (getDefaultEnhancers) => {
     const defaultEnhancers = getDefaultEnhancers()
-    return defaultEnhancers.concat(stateObserver.enhancer, actionObserver.enhancer)
+    return defaultEnhancers
+      .concat(stateObserver.enhancer, actionObserver.enhancer)
+      .concat(subscribeChange)
   },
 })
