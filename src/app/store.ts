@@ -44,11 +44,12 @@ export const store = configureStore({
     const defaultMiddleware = getDefaultMiddleware()
     return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
   },
+  devTools: import.meta.env.DEV,
   preloadedState: getPreloadedState(),
   enhancers: (getDefaultEnhancers) => {
-    const defaultEnhancers = getDefaultEnhancers()
+    const defaultEnhancers = getDefaultEnhancers({ autoBatch: false })
     return defaultEnhancers
-      .concat(stateObserver.enhancer, actionObserver.enhancer)
       .concat(subscribeChange)
+      .concat(stateObserver.enhancer, actionObserver.enhancer)
   },
 })
