@@ -1,7 +1,7 @@
 import { createContext, type ReactNode, type RefCallback, useCallback, useContext } from 'react'
 
 import { useHover, useRefCallback } from '@/common/hooks'
-import { classNames, noop } from '@/common/utils'
+import { classNames } from '@/common/utils'
 
 interface MenuContextValue {
   currentOpen: HTMLDivElement | null
@@ -10,7 +10,9 @@ interface MenuContextValue {
 
 export const MenuContext = createContext<MenuContextValue>({
   currentOpen: null,
-  setCurrentOpen: noop,
+  setCurrentOpen: () => {
+    throw new Error('MenuContext not initialized')
+  },
 })
 
 if (import.meta.env.DEV) {

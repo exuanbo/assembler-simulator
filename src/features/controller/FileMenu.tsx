@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 
-import { applySelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { applySelector, store } from '@/app/store'
 import { File as FileIcon } from '@/common/components/icons'
 import Modal from '@/common/components/Modal'
 import { selectEditorInput, setEditorInput } from '@/features/editor/editorSlice'

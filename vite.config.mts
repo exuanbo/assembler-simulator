@@ -27,6 +27,7 @@ export default defineConfig(async () => ({
     chunkSizeWarningLimit: 1000,
   },
   define: {
+    'import.meta.env.NEVER': false,
     __VERSION__: JSON.stringify(version),
     __COMMIT_HASH__: JSON.stringify(await getCommitHash()),
     __COMMIT_DATE__: JSON.stringify(await getCommitDate()),

@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
 import { debounceTime, filter } from 'rxjs'
 
-import { applySelector } from '@/app/selector'
-import { store } from '@/app/store'
-import { subscribe } from '@/app/subscribe'
+import { applySelector, store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import { useSingleton } from '@/common/hooks'
+import { observe } from '@/common/observe'
 import { selectIsAssembled, setAssemblerState } from '@/features/assembler/assemblerSlice'
 import { setEditorInput } from '@/features/editor/editorSlice'
 
@@ -22,12 +21,12 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     const setEditorInput$ = store.onAction(setEditorInput)
-    return subscribe(setEditorInput$, controller.resetSelf)
+    return observe(setEditorInput$, controller.resetSelf)
   }, [controller])
 
   useEffect(() => {
     const setAutoAssemble$ = store.onAction(setAutoAssemble)
-    return subscribe(
+    return observe(
       setAutoAssemble$.pipe(
         debounceTime(UPDATE_TIMEOUT_MS),
         filter((shouldAutoAssemble) => shouldAutoAssemble && !applySelector(selectIsAssembled)),
@@ -38,12 +37,12 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     const setAssemblerState$ = store.onAction(setAssemblerState)
-    return subscribe(setAssemblerState$, controller.resetSelf)
+    return observe(setAssemblerState$, controller.resetSelf)
   }, [controller])
 
   useEffect(() => {
     const runtimeConfiguration$ = store.onState(selectRuntimeConfiguration)
-    return subscribe(
+    return observe(
       runtimeConfiguration$.pipe(
         filter(() => {
           // `setSuspended` action listener will resume the main loop with new configuration

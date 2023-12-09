@@ -9,10 +9,8 @@ import Memory from '@/features/memory/Memory'
 
 import ReloadPrompt from './ReloadPrompt'
 import ResizablePanel from './ResizablePanel'
-import { useStateSaver } from './stateSaver'
 
 const App = (): JSX.Element => {
-  useStateSaver()
   useGlobalExceptionHandler()
 
   return (

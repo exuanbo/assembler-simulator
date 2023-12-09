@@ -2,7 +2,7 @@ import type { Observable, Observer, Subscription } from 'rxjs'
 
 export type Unsubscribe = Subscription['unsubscribe']
 
-export const subscribe = <T>(
+export const observe = <T>(
   observable: Observable<T>,
   observerOrNext?: Partial<Observer<T>> | ((value: T) => void) | null,
 ): Unsubscribe => {

@@ -93,7 +93,7 @@ export const controllerSlice = createSlice({
     selectVimKeybindings: (state) => state.configuration.vimKeybindings,
     selectIsRunning: (state) => state.isRunning,
     selectIsSuspended: (state) => state.isSuspended,
-    selectControllerStateToPersist: createSelector(
+    selectToPersist: createSelector(
       (state: ControllerState) => state.configuration,
       (configuration) => ({ configuration }),
     ),
@@ -117,5 +117,4 @@ export const {
   selectVimKeybindings,
   selectIsRunning,
   selectIsSuspended,
-  selectControllerStateToPersist,
 } = controllerSlice.selectors

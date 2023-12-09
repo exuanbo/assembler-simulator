@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { useSelector } from '@/app/selector'
+import { useSelector } from '@/app/store'
 import { Arrow, Forward, Play, Stop, Undo } from '@/common/components/icons'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { classNames } from '@/common/utils'

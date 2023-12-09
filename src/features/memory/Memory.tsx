@@ -1,4 +1,4 @@
-import { useSelector } from '@/app/selector'
+import { useSelector } from '@/app/store'
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowDown, ArrowUp } from '@/common/components/icons'
 import { useToggle } from '@/common/hooks'

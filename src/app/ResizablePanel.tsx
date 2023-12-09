@@ -4,7 +4,7 @@ import BaseResizablePanel, {
 } from '@/common/components/ResizablePanel'
 import { selectIsRunning } from '@/features/controller/controllerSlice'
 
-import { useSelector } from './selector'
+import { useSelector } from './store'
 
 const ResizablePanel = (props: ResizablePanelProps): JSX.Element => {
   const isRunning = useSelector(selectIsRunning)

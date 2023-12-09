@@ -1,5 +1,4 @@
-import { useSelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { store, useSelector } from '@/app/store'
 import { CheckMark, View as ViewIcon } from '@/common/components/icons'
 import { splitCamelCaseToString } from '@/common/utils'
 import { ioDeviceNames, selectIoDeviceStates, toggleIoDeviceVisible } from '@/features/io/ioSlice'

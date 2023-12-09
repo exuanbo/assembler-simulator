@@ -1,7 +1,7 @@
 import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
 import { distinctUntilChanged, map, type Observable, ReplaySubject } from 'rxjs'
 
-import { extendStore } from './storeEnhancer'
+import { injectExtension } from '../enhancers/injectExtension'
 import { createWeakCache } from './weakCache'
 
 type OnState<TState> = <TSelected>(selector: Selector<TState, TSelected>) => Observable<TSelected>
@@ -40,6 +40,6 @@ export const createStateObserver = <TState>(): StateObserver<TState> => {
 
   return {
     middleware,
-    enhancer: extendStore({ onState }),
+    enhancer: injectExtension({ onState }),
   }
 }

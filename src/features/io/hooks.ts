@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { filter } from 'rxjs'
 
-import { useSelector } from '@/app/selector'
-import { store } from '@/app/store'
-import { subscribe, type Unsubscribe } from '@/app/subscribe'
+import { store, useSelector } from '@/app/store'
+import { observe, type Unsubscribe } from '@/common/observe'
 import { curryRight2 } from '@/common/utils'
 
 import {
@@ -32,7 +31,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
   const subscribeData = useCallback(
     (listener: DataCallback) => {
       const data$ = store.onState(selectData)
-      return subscribe(data$, listener)
+      return observe(data$, listener)
     },
     [selectData],
   )
@@ -50,10 +49,7 @@ export const useIoDevice = (deviceName: IoDeviceName): IoDevice => {
       return
     }
     const setIoDeviceData$ = store.onAction(setIoDeviceData)
-    return subscribe(
-      setIoDeviceData$.pipe(filter(({ name }) => name === deviceName)),
-      toggleVisible,
-    )
+    return observe(setIoDeviceData$.pipe(filter(({ name }) => name === deviceName)), toggleVisible)
   }, [deviceName, isVisible, toggleVisible])
 
   return { data, subscribeData, isVisible, toggleVisible }

@@ -1,5 +1,4 @@
-import { useSelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { store, useSelector } from '@/app/store'
 import { CheckMark, Wrench } from '@/common/components/icons'
 
 import {

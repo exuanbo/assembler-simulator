@@ -104,7 +104,7 @@ export const editorSlice = createSlice({
     ),
     selectEditorBreakpoints: (state) => state.breakpoints,
     selectEditorMessage: (state) => state.message,
-    selectEditorStateToPersist: createSelector(
+    selectToPersist: createSelector(
       (state: EditorState) => state.input,
       (state: EditorState) => state.breakpoints,
       (input, breakpoints) => ({ input, breakpoints }),
@@ -128,5 +128,4 @@ export const {
   selectEditorHighlightLinePos,
   selectEditorBreakpoints,
   selectEditorMessage,
-  selectEditorStateToPersist,
 } = editorSlice.selectors

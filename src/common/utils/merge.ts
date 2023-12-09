@@ -2,12 +2,12 @@
 // https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/src/merge.ts
 // MIT Licensed https://github.com/mesqueeb/merge-anything/blob/e492bfc05b2b333a5c6316e0dbc8953752eafe07/LICENSE
 
-import type { Object as ObjectTypeUtils } from 'ts-toolbelt'
+import type { O } from 'ts-toolbelt'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type PlainObject = Record<string | number | symbol, any>
+export type PlainObject = Record<string | number | symbol, any>
 
-const isPlainObject = (value: unknown): value is PlainObject =>
+export const isPlainObject = (value: unknown): value is PlainObject =>
   Object.prototype.toString.call(value) === '[object Object]'
 
 const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => {
@@ -36,7 +36,7 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
     const sourcePropertyValue = source[key]
     const shouldMerge = isTargetPlainObject && isPlainObject(sourcePropertyValue)
     if (shouldMerge) {
-      const targetPropertyValue = target[key]
+      const targetPropertyValue: unknown = target[key]
       Object.defineProperty(resultObject, key, {
         ...Object.getOwnPropertyDescriptor(source, key),
         value: mergeRecursively(targetPropertyValue, sourcePropertyValue),
@@ -61,9 +61,9 @@ type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
     ? Array<ExpandDeep<E>>
     : T
 
-export const merge = <TTarget extends PlainObject, TSources extends PlainObject[]>(
-  target: TTarget,
-  ...sources: TSources
-): ExpandDeep<ObjectTypeUtils.Assign<TTarget, TSources, 'deep'>> =>
+export const merge = <Target extends PlainObject, Sources extends PlainObject[]>(
+  target: Target,
+  ...sources: Sources
+): ExpandDeep<O.Assign<Target, Sources, 'deep'>> =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sources.reduce<any>((resultObject, source) => mergeRecursively(resultObject, source), target)

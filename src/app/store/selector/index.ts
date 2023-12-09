@@ -3,7 +3,7 @@
 import type { Selector } from '@reduxjs/toolkit'
 import { useDebugValue } from 'react'
 
-import { type RootState, store } from './store'
+import { type RootState, store } from '..'
 import { useSyncExternalStoreWithSelector } from './useSyncExternalStoreWithSelector'
 
 type StateSelector<TSelected> = Selector<RootState, TSelected>

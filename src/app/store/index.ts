@@ -1,6 +1,5 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
 
-import { merge } from '@/common/utils'
 import { assemblerSlice } from '@/features/assembler/assemblerSlice'
 import { controllerSlice } from '@/features/controller/controllerSlice'
 import { cpuSlice } from '@/features/cpu/cpuSlice'
@@ -9,12 +8,14 @@ import { exceptionSlice } from '@/features/exception/exceptionSlice'
 import { ioSlice } from '@/features/io/ioSlice'
 import { memorySlice } from '@/features/memory/memorySlice'
 
-import { createActionObserver } from './actionObserver'
-import { loadState as loadStateFromLocalStorage } from './localStorage'
-import { getInitialStateToPersist } from './persist'
-import { createStateObserver } from './stateObserver'
-import { subscribeChange } from './subscribeChange'
-import { loadState as loadStateFromUrl } from './url'
+import { subscribeChange } from './enhancers/subscribeChange'
+import { createActionObserver } from './observers/actionObserver'
+import { createStateObserver } from './observers/stateObserver'
+import {
+  readStateFromPersistence,
+  selectStateToPersist,
+  writeStateToPersistence,
+} from './persistence'
 
 const rootReducer = combineSlices(
   editorSlice,
@@ -28,13 +29,6 @@ const rootReducer = combineSlices(
 
 export type RootState = ReturnType<typeof rootReducer>
 
-const getPreloadedState = (): Partial<RootState> => {
-  const stateFromLocalStorage = loadStateFromLocalStorage()
-  const stateFromUrl = loadStateFromUrl()
-  // in case any future changes to the state structure
-  return merge(getInitialStateToPersist(), stateFromLocalStorage, stateFromUrl)
-}
-
 const stateObserver = createStateObserver<RootState>()
 const actionObserver = createActionObserver()
 
@@ -45,7 +39,7 @@ export const store = configureStore({
     return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
   },
   devTools: import.meta.env.DEV,
-  preloadedState: getPreloadedState(),
+  preloadedState: readStateFromPersistence(),
   enhancers: (getDefaultEnhancers) => {
     const defaultEnhancers = getDefaultEnhancers({ autoBatch: false })
     return defaultEnhancers
@@ -53,3 +47,7 @@ export const store = configureStore({
       .concat(stateObserver.enhancer, actionObserver.enhancer)
   },
 })
+
+store.onState(selectStateToPersist).subscribe(writeStateToPersistence)
+
+export * from './selector'

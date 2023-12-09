@@ -4,11 +4,10 @@ import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
 import { useEffect } from 'react'
 import { debounceTime, filter, first, map, merge, of, switchMap, tap, timer } from 'rxjs'
 
-import { applySelector, useSelector } from '@/app/selector'
-import { store } from '@/app/store'
-import { subscribe } from '@/app/subscribe'
+import { applySelector, store, useSelector } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import * as Maybe from '@/common/maybe'
+import { observe } from '@/common/observe'
 import { curryRight2 } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
@@ -47,7 +46,7 @@ import { isTemplate, templateSelection } from './examples'
 export const useVimKeybindings = (): void => {
   useViewEffect((view) => {
     const vimKeybindings$ = store.onState(selectVimKeybindings)
-    return subscribe(
+    return observe(
       vimKeybindings$.pipe(
         switchMap((shouldEnable) => {
           if (shouldEnable) {
@@ -71,7 +70,7 @@ const isSyncFromState = hasStringAnnotation(AnnotationValue.SyncFromState)
 export const useSyncInput = (): void => {
   useViewEffect((view) => {
     const viewUpdate$ = onUpdate(view)
-    return subscribe(
+    return observe(
       viewUpdate$.pipe(
         filter((update) => update.docChanged),
         debounceTime(UPDATE_TIMEOUT_MS),
@@ -89,7 +88,7 @@ export const useSyncInput = (): void => {
 
   useViewEffect((view) => {
     const setEditorInput$ = store.onAction(setEditorInput)
-    return subscribe(
+    return observe(
       setEditorInput$.pipe(
         filter(({ isFromFile }) => isFromFile),
         map(({ value }) => replaceContent(view.state, value)),
@@ -103,7 +102,7 @@ export const useSyncInput = (): void => {
 export const useAutoFocus = (): void => {
   useViewEffect((view) => {
     const setEditorInput$ = store.onAction(setEditorInput)
-    return subscribe(
+    return observe(
       setEditorInput$.pipe(
         filter(({ isFromFile }) => isFromFile),
         filter(({ value }) => isTemplate(value)),
@@ -118,7 +117,7 @@ export const useAutoFocus = (): void => {
 export const useAutoAssemble = (): void => {
   useViewEffect((view) => {
     const initialAssemble$ = timer(UPDATE_TIMEOUT_MS)
-    return subscribe(
+    return observe(
       initialAssemble$.pipe(
         filter(() => applySelector(selectAutoAssemble)),
         map(() => view.state.doc.toString()),
@@ -129,7 +128,7 @@ export const useAutoAssemble = (): void => {
 
   useEffect(() => {
     const setEditorInput$ = store.onAction(setEditorInput)
-    return subscribe(
+    return observe(
       setEditorInput$.pipe(
         filter(() => applySelector(selectAutoAssemble)),
         switchMap(({ value, isFromFile }) => {
@@ -147,7 +146,7 @@ export const useAutoAssemble = (): void => {
 export const useAssemblerError = (): void => {
   useViewEffect((view) => {
     const viewUpdate$ = onUpdate(view)
-    return subscribe(
+    return observe(
       viewUpdate$.pipe(
         filter((update) => update.docChanged),
         filter(() => !!applySelector(selectAssemblerError)),
@@ -159,7 +158,7 @@ export const useAssemblerError = (): void => {
 
   useViewEffect((view) => {
     const assemblerErrorRange$ = store.onState(selectAssemblerErrorRange)
-    return subscribe(
+    return observe(
       assemblerErrorRange$.pipe(
         map(Maybe.fromNullable),
         map((range_M) =>
@@ -178,7 +177,7 @@ export const useAssemblerError = (): void => {
 export const useHighlightLine = (): void => {
   useEffect(() => {
     const setEditorInput$ = store.onAction(setEditorInput)
-    return subscribe(
+    return observe(
       setEditorInput$.pipe(
         filter(({ isFromFile }) => isFromFile),
         map(() => clearEditorHighlightRange()),
@@ -189,7 +188,7 @@ export const useHighlightLine = (): void => {
 
   useViewEffect((view) => {
     const highlightLinePos$ = store.onState(curryRight2(selectEditorHighlightLinePos)(view))
-    return subscribe(highlightLinePos$, (linePos_M) => {
+    return observe(highlightLinePos$, (linePos_M) => {
       linePos_M
         .map((linePos) =>
           linePos.map((pos, posIndex) =>
@@ -307,7 +306,7 @@ export const useMessage = (): EditorMessage | null => {
     const message$ = store.onState(selectEditorMessage)
     const setCpuHalted$ = store.onAction(setCpuHalted)
     const resetCpuState$ = store.onAction(resetCpuState)
-    return subscribe(
+    return observe(
       merge(
         setCpuHalted$.pipe(map(() => setEditorMessage(haltedMessage))),
         resetCpuState$.pipe(
@@ -322,7 +321,7 @@ export const useMessage = (): EditorMessage | null => {
 
   useEffect(() => {
     const setEditorMessage$ = store.onAction(setEditorMessage)
-    return subscribe(
+    return observe(
       setEditorMessage$.pipe(
         debounceTime(MESSAGE_DURATION_MS),
         filter(Boolean),

@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { first, map, merge, skip, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
-import { subscribe } from '@/app/subscribe'
 import { NO_BREAK_SPACE } from '@/common/constants'
+import { observe } from '@/common/observe'
 import { asciiToChars, chunk } from '@/common/utils'
 
 import { resetMemoryData, selectMemoryData, setMemoryDataFrom } from '../memory/memorySlice'
@@ -19,7 +19,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
     const setMemoryDataFrom$ = store.onAction(setMemoryDataFrom)
     const resetMemoryData$ = store.onAction(resetMemoryData)
     const memoryData$ = store.onState(selectMemoryData)
-    return subscribe(
+    return observe(
       merge(setMemoryDataFrom$, resetMemoryData$).pipe(
         switchMap(() => memoryData$.pipe(skip(1), first())),
         map(setVduDataFrom),

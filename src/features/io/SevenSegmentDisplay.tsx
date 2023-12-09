@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react'
 import { map } from 'rxjs'
 
 import { store } from '@/app/store'
-import { subscribe } from '@/app/subscribe'
+import { observe } from '@/common/observe'
 import { range } from '@/common/utils'
 
 import DeviceCard from './DeviceCard'
@@ -145,7 +145,7 @@ const SevenSegmentDisplay = (): JSX.Element | null => {
 
   useEffect(() => {
     const resetIoState$ = store.onAction(resetIoState)
-    return subscribe(resetIoState$.pipe(map(() => initialData)), setData)
+    return observe(resetIoState$.pipe(map(() => initialData)), setData)
   }, [])
 
   const {

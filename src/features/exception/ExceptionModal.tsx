@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 
-import { useSelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { store, useSelector } from '@/app/store'
 import Anchor from '@/common/components/Anchor'
 import Modal from '@/common/components/Modal'
 import { useOutsideClick } from '@/common/hooks'

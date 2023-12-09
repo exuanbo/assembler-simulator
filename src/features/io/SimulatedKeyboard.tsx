@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 
-import { useSelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { store, useSelector } from '@/app/store'
 import Modal from '@/common/components/Modal'
 import { Ascii } from '@/common/constants'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'

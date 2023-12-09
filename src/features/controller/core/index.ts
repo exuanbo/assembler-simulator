@@ -1,8 +1,7 @@
 import { first } from 'rxjs'
 
-import { applySelector } from '@/app/selector'
-import { store } from '@/app/store'
-import { subscribe } from '@/app/subscribe'
+import { applySelector, store } from '@/app/store'
+import { observe } from '@/common/observe'
 import { call } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
 import {
@@ -303,7 +302,7 @@ export class Controller {
               store.dispatch(setWaitingForKeyboardInput(true))
               break
           }
-          this.unsubscribeSetSuspended = subscribe(
+          this.unsubscribeSetSuspended = observe(
             store.onAction(setSuspended).pipe(first()),
             // payload must be false
             () => {

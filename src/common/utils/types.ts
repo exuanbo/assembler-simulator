@@ -1,3 +1,5 @@
+import type { A, Test } from 'ts-toolbelt'
+
 export type Nullable<T> = T | null | undefined
 
 type UnionToFunctionWithUnionAsArg<Union> = (arg: Union) => void
@@ -16,3 +18,10 @@ export type UnionToTuple<Union> = UnionToFunctionIntersectionWithUnionMemberAsAr
 ) => void
   ? [...UnionToTuple<Exclude<Union, ArgAsLastUnionMember>>, ArgAsLastUnionMember]
   : []
+
+export declare function checkType<Type, Expect, Outcome extends Test.Pass | Test.Fail>(): A.Equals<
+  A.Equals<Type, Expect>,
+  Outcome
+>
+
+export declare function checkTypes(outcomes: Test.Pass[]): void

@@ -1,8 +1,7 @@
 import type { CodeMirrorConfig } from '@codemirror-toolkit/react'
 import { useMemo } from 'react'
 
-import { applySelector } from '@/app/selector'
-import { store } from '@/app/store'
+import { applySelector, store } from '@/app/store'
 import { setException } from '@/features/exception/exceptionSlice'
 
 import { exceptionSink } from './codemirror/exceptionSink'
