@@ -7,11 +7,13 @@ import { useGlobalExceptionHandler } from '@/features/exception/hooks'
 import IoDevices from '@/features/io/IoDevices'
 import Memory from '@/features/memory/Memory'
 
+import { useAckee } from './hooks'
 import ReloadPrompt from './ReloadPrompt'
 import ResizablePanel from './ResizablePanel'
 
 const App = (): JSX.Element => {
   useGlobalExceptionHandler()
+  useAckee()
 
   return (
     <>

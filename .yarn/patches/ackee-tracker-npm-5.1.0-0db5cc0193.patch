@@ -1,0 +1,16 @@
+diff --git a/src/scripts/main.js b/src/scripts/main.js
+index 47294e9b4f4f2dc6628d7e0549028bc11c5a0712..9a3c03ec47ff26e35dac3d51a19156c221fbf262 100644
+--- a/src/scripts/main.js
++++ b/src/scripts/main.js
+@@ -429,10 +429,3 @@ export const create = function(server, opts) {
+ 	}
+ 
+ }
+-
+-// Only run Ackee automatically when executed in a browser environment
+-if (isBrowser === true) {
+-
+-	detect()
+-
+-}
+\ No newline at end of file
