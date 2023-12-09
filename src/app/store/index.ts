@@ -17,6 +17,8 @@ import {
   writeStateToPersistence,
 } from './persistence'
 
+export * from './selector'
+
 const rootReducer = combineSlices(
   editorSlice,
   assemblerSlice,
@@ -49,5 +51,3 @@ export const store = configureStore({
 })
 
 store.onState(selectStateToPersist).subscribe(writeStateToPersistence)
-
-export * from './selector'
