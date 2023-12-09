@@ -1,5 +1,6 @@
-import { execSync } from 'node:child_process'
+import * as child_process from 'node:child_process'
 import { join } from 'node:path'
+import { promisify } from 'node:util'
 
 import react from '@vitejs/plugin-react'
 import unocss from 'unocss/vite'
@@ -8,22 +9,27 @@ import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
 
-const getCommitHash = (): string => execSync('git rev-parse --short HEAD').toString().trimEnd()
+const exec = promisify(child_process.exec)
 
-const getCommitDate = (): string => {
-  const commitDate = execSync('git log -1 --format=%cd').toString()
-  return new Date(commitDate).toISOString()
+const getCommitHash = async () => {
+  const { stdout } = await exec('git rev-parse --short HEAD')
+  return stdout.trim()
 }
 
-export default defineConfig({
+const getCommitDate = async () => {
+  const { stdout } = await exec('git log -1 --format=%cd')
+  return new Date(stdout).toISOString()
+}
+
+export default defineConfig(async () => ({
   base: './',
   build: {
     chunkSizeWarningLimit: 1000,
   },
   define: {
     __VERSION__: JSON.stringify(version),
-    __COMMIT_HASH__: JSON.stringify(getCommitHash()),
-    __COMMIT_DATE__: JSON.stringify(getCommitDate()),
+    __COMMIT_HASH__: JSON.stringify(await getCommitHash()),
+    __COMMIT_DATE__: JSON.stringify(await getCommitDate()),
   },
   plugins: [
     react(),
@@ -82,4 +88,4 @@ export default defineConfig({
       ignored: [/coverage/, /dist/],
     },
   },
-})
+}))
