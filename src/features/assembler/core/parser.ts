@@ -145,7 +145,7 @@ const validateLabel = (token: Token): Token => {
 
 const parseLabel = (tokenizer: Tokenizer): Label | null => {
   const nextToken = tokenizer.peekNext()
-  if (nextToken?.type !== TokenType.Colon) {
+  if (nextToken?.type !== TokenType.Colon || nextToken.range.from !== tokenizer.peek()!.range.to) {
     return null
   }
   const token = tokenizer.consume()
