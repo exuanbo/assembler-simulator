@@ -1,13 +1,16 @@
-import { merge, type PlainObject } from '@/common/utils'
+import { getLocalStorageProvider } from './providers/localStorage'
+import { getQueryParamProvider } from './providers/queryParam'
+import type { PersistenceProvider, PersistenceValidator } from './types'
 
-import { localStorageProvider } from './providers/localStorage'
-import { queryParamProvider } from './providers/queryParam'
-import type { PersistenceProvider } from './types'
-
-export const getCombinedProvider = <State extends PlainObject>(): PersistenceProvider<State> => {
-  const providers: PersistenceProvider<State>[] = [localStorageProvider, queryParamProvider]
-  return {
-    read: () => providers.reduce((result, provider) => merge(result, provider.read()), {}),
-    write: (state) => providers.forEach((provider) => provider.write(state)),
+export const getCombinedProvider =
+  <State>(combine: (a: State, b: State) => State) =>
+  (validate: PersistenceValidator<State>, fallback: State): PersistenceProvider<State> => {
+    const providers = [
+      getLocalStorageProvider(validate, fallback),
+      getQueryParamProvider(validate, fallback),
+    ]
+    return {
+      read: () => providers.map((provider) => provider.read()).reduce((a, b) => combine(a, b)),
+      write: (state) => providers.forEach((provider) => provider.write(state)),
+    }
   }
-}

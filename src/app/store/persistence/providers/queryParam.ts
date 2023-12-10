@@ -1,9 +1,7 @@
 import * as Base64 from 'js-base64'
 import * as Pako from 'pako'
 
-import { isPlainObject } from '@/common/utils'
-
-import type { PersistenceProvider } from '../types'
+import type { GetPersistenceProvider } from '../types'
 
 const QUERY_PARAMETER_NAME = 'shareable'
 
@@ -15,26 +13,29 @@ const getShareUrl = (state: unknown) => {
   return url
 }
 
-export const queryParamProvider: PersistenceProvider = {
-  read: () => {
-    const url = new URL(window.location.href)
-    const encodedState = url.searchParams.get(QUERY_PARAMETER_NAME)
-    if (encodedState !== null) {
-      try {
-        const compressedData = Base64.toUint8Array(encodedState)
-        const decodedState = Pako.inflate(compressedData, { to: 'string' })
-        const state: unknown = JSON.parse(decodedState)
-        if (isPlainObject(state)) {
-          return state
+export const getQueryParamProvider: GetPersistenceProvider = (validate, fallback) => {
+  return {
+    read: () => {
+      const url = new URL(window.location.href)
+      const encodedState = url.searchParams.get(QUERY_PARAMETER_NAME)
+      if (encodedState !== null) {
+        try {
+          const compressedData = Base64.toUint8Array(encodedState)
+          const decodedState = Pako.inflate(compressedData, { to: 'string' })
+          const state: unknown = JSON.parse(decodedState)
+          if (validate(state)) {
+            return state
+          }
+        } catch {
+          // ignore error
         }
-      } catch {
-        // ignore error
       }
-    }
-    return {}
-  },
-  write: (state) => {
-    const shareUrl = getShareUrl(state)
-    window.history.replaceState({}, '', shareUrl)
-  },
+      return fallback
+    },
+
+    write: (state) => {
+      const shareUrl = getShareUrl(state)
+      window.history.replaceState({}, '', shareUrl)
+    },
+  }
 }

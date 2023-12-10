@@ -1,14 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit'
 import type { Test as TypeTest } from 'ts-toolbelt'
 
-import { merge } from '@/common/utils'
+import { isPlainObject, merge, type PlainObject } from '@/common/utils'
 import { controllerSlice } from '@/features/controller/controllerSlice'
 import { editorSlice } from '@/features/editor/editorSlice'
 
 import { getCombinedProvider } from './combinedProvider'
 import type { PersistenceProvider } from './types'
 
-const provider = getCombinedProvider()
+// TODO: validate the state shape
+const provider = getCombinedProvider(merge<PlainObject, PlainObject[]>)(isPlainObject, {})
 
 type PreloadedState = {
   [editorSlice.reducerPath]: ReturnType<typeof editorSlice.getInitialState>
