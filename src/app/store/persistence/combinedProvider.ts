@@ -10,7 +10,7 @@ export const getCombinedProvider =
       getQueryParamProvider(validate, fallback),
     ]
     return {
-      read: () => providers.map((provider) => provider.read()).reduce((a, b) => combine(a, b)),
+      read: () => providers.map((provider) => provider.read()).reduce(combine),
       write: (state) => providers.forEach((provider) => provider.write(state)),
     }
   }

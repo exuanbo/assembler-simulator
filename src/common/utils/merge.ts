@@ -61,9 +61,10 @@ type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
     ? Array<ExpandDeep<E>>
     : T
 
-export const merge = <Target extends PlainObject, Sources extends PlainObject[]>(
+type Merge = <Target extends PlainObject, Sources extends PlainObject[]>(
   target: Target,
   ...sources: Sources
-): ExpandDeep<O.Assign<Target, Sources, 'deep'>> =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sources.reduce<any>((resultObject, source) => mergeRecursively(resultObject, source), target)
+) => ExpandDeep<O.Assign<Target, Sources, 'deep'>>
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const merge: Merge = (target, ...sources) => sources.reduce<any>(mergeRecursively, target)
