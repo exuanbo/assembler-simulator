@@ -100,7 +100,7 @@ const asmLanguage = StreamLanguage.define<State>({
       .replace(new RegExp(` {${tabSize}}`, 'g'), '\t')
       .replace(/ +(?=\t)/g, '')
       .split('')
-    const tabCount = whitespaces.reduce((acc, char) => (char === '\t' ? acc + 1 : acc), 0)
+    const tabCount = whitespaces.reduce((count, char) => (char === '\t' ? count + 1 : count), 0)
     const spaceCount = whitespaces.length - tabCount
     return tabCount * tabSize + spaceCount
   },
