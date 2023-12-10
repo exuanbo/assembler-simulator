@@ -14,10 +14,10 @@ const TokenRegExp = {
   SKIPABLE_CHARACTER: /[,[\]:]/,
   LABEL_DECLARATION:  /^[a-zA-Z_]+(?=:)/,
   LABEL_REFERENCE:    /^[a-zA-Z_]+/,
-  MAYBE_INSTRUCTION:  /^[^\s;:,["]+/,
   NUMBER:             /^[\da-fA-F]+\b/,
   REGISTER:           /^[a-dA-D][lL]\b/,
   STRING:             /^"(?:(?:[^\\]|\\.)*?"|.*)/,
+  UNKNOWN:            /^[^\s;:,["]+/,
   NON_WHITESPACE:     /^\S+/
 } as const
 
@@ -55,22 +55,7 @@ const asmLanguage = StreamLanguage.define<State>({
       state.operandsLeft = 0
       return 'labelName'
     }
-    if (!state.operandsLeft) {
-      if (stream.match(TokenRegExp.MAYBE_INSTRUCTION)) {
-        const upperCaseToken = stream.current().toUpperCase()
-        if (upperCaseToken in Mnemonic) {
-          const mnemonic = upperCaseToken as Mnemonic
-          if (mnemonic === Mnemonic.END) {
-            state.ended = true
-          }
-          state.operandsLeft = MnemonicToOperandCountMap[mnemonic]
-          state.expectingLabel = mnemonic.startsWith('J')
-          return 'keyword'
-        } else {
-          return null
-        }
-      }
-    } else {
+    if (state.operandsLeft) {
       if (stream.match(TokenRegExp.NUMBER)) {
         state.operandsLeft -= 1
         return 'number'
@@ -89,6 +74,19 @@ const asmLanguage = StreamLanguage.define<State>({
         return 'labelName'
       }
       state.operandsLeft = 0
+    } else if (stream.match(TokenRegExp.UNKNOWN)) {
+      const upperCaseToken = stream.current().toUpperCase()
+      if (upperCaseToken in Mnemonic) {
+        const mnemonic = upperCaseToken as Mnemonic
+        if (mnemonic === Mnemonic.END) {
+          state.ended = true
+        }
+        state.operandsLeft = MnemonicToOperandCountMap[mnemonic]
+        state.expectingLabel = mnemonic.startsWith('J')
+        return 'keyword'
+      } else {
+        return null
+      }
     }
 
     stream.match(TokenRegExp.NON_WHITESPACE)
