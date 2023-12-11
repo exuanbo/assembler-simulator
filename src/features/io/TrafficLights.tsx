@@ -63,7 +63,11 @@ const lightColors = ['red', 'yellow', 'lime'] as const
 const TrafficLights = (): JSX.Element | null => {
   const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.TrafficLights)
 
-  return isVisible ? (
+  if (!isVisible) {
+    return null
+  }
+
+  return (
     <DeviceCard name="Traffic Lights" onClose={toggleVisible}>
       <svg viewBox="0 0 312 240" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
@@ -95,7 +99,7 @@ const TrafficLights = (): JSX.Element | null => {
         </g>
       </svg>
     </DeviceCard>
-  ) : null
+  )
 }
 
 export default TrafficLights

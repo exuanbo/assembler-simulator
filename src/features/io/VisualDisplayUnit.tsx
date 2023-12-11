@@ -28,7 +28,11 @@ const VisualDisplayUnit = (): JSX.Element | null => {
     )
   }, [])
 
-  return isVisible ? (
+  if (!isVisible) {
+    return null
+  }
+
+  return (
     <DeviceCard
       className="flex flex-col space-y-1"
       name="Visual Display Unit"
@@ -43,7 +47,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
         </div>
       ))}
     </DeviceCard>
-  ) : null
+  )
 }
 
 export default VisualDisplayUnit

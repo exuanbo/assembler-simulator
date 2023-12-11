@@ -33,19 +33,27 @@ const ReloadPrompt = (): JSX.Element | null => {
     setNeedReload(false)
   }
 
-  return isReloading ? (
-    <div className="bg-white flex bg-opacity-80 inset-0 z-10 fixed justify-center items-center">
-      <Spinner className="animate-spin" width="1.5rem" />
-    </div>
-  ) : needReload ? (
-    <div className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 right-4 bottom-4 fixed">
-      <div>New version is available</div>
-      <div className="space-x-2">
-        <PromptButton onClick={handleClickReload}>Reload</PromptButton>
-        <PromptButton onClick={handleClickClose}>Close</PromptButton>
+  if (isReloading) {
+    return (
+      <div className="bg-white flex bg-opacity-80 inset-0 z-10 fixed justify-center items-center">
+        <Spinner className="animate-spin" width="1.5rem" />
       </div>
-    </div>
-  ) : null
+    )
+  }
+
+  if (needReload) {
+    return (
+      <div className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 right-4 bottom-4 fixed">
+        <div>New version is available</div>
+        <div className="space-x-2">
+          <PromptButton onClick={handleClickReload}>Reload</PromptButton>
+          <PromptButton onClick={handleClickClose}>Close</PromptButton>
+        </div>
+      </div>
+    )
+  }
+
+  return null
 }
 
 export default ReloadPrompt
