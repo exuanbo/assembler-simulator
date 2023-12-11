@@ -52,8 +52,6 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
   return resultObject
 }
 
-// Modified from an answer to the question
-// "How can I see the full expanded contract of a Typescript type?"
 // https://stackoverflow.com/a/57683652/13346012
 type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
   ? { [K in keyof T]: ExpandDeep<T[K]> }
@@ -61,7 +59,7 @@ type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
     ? Array<ExpandDeep<E>>
     : T
 
-type Merge = <Target extends PlainObject, Sources extends PlainObject[]>(
+type Merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
   target: Target,
   ...sources: Sources
 ) => ExpandDeep<O.Assign<Target, Sources, 'deep'>>

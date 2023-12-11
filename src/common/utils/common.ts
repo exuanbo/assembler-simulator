@@ -108,6 +108,12 @@ export const noop = (): void => {}
 
 export const call = <T>(fn: () => T): T => fn()
 
+// TODO: type more precisely
+export const ary =
+  <T extends unknown[], R>(fn: (...args: T) => R, arity: number) =>
+  (...args: T): R =>
+    fn(...(args.slice(0, arity) as T))
+
 export const curryRight2 =
   <T1, T2, R>(fn: (arg1: T1, arg2: T2) => R) =>
   (arg2: T2) =>

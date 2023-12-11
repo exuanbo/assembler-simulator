@@ -1,5 +1,6 @@
 import {
   arrayShallowEqual,
+  ary,
   asciiToChars,
   clamp,
   curryRight2,
@@ -83,6 +84,14 @@ describe('isFunction', () => {
 describe('noop', () => {
   it('should do nothing', () => {
     expect(noop()).toBeUndefined()
+  })
+})
+
+describe('ary', () => {
+  it('should create a function with the specified arity', () => {
+    const sum = (...ns: number[]): number => ns.reduce((acc, n) => acc + n, 0)
+    const sum2 = ary(sum, 2)
+    expect(sum2(1, 2, 3)).toBe(3)
   })
 })
 
