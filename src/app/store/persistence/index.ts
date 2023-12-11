@@ -1,14 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit'
 import type { Test as TypeTest } from 'ts-toolbelt'
 
-import { ary, isPlainObject, merge, type PlainObject } from '@/common/utils'
+import { ary, isPlainObject, merge, mergeSafe, type PlainObject } from '@/common/utils'
 import { controllerSlice } from '@/features/controller/controllerSlice'
 import { editorSlice } from '@/features/editor/editorSlice'
 
 import { getCombinedProvider } from './combinedProvider'
 import type { PersistenceProvider } from './types'
 
-// TODO: validate the state shape
 const provider = getCombinedProvider(ary(merge<PlainObject>, 2))(isPlainObject, {})
 
 type PreloadedState = {
@@ -19,7 +18,7 @@ type PreloadedState = {
 export const readStateFromPersistence = (): PreloadedState => {
   const persistedState = provider.read()
   // in case of future changes to the state shape
-  return merge(
+  return mergeSafe(
     {
       [editorSlice.reducerPath]: editorSlice.getInitialState(),
       [controllerSlice.reducerPath]: controllerSlice.getInitialState(),

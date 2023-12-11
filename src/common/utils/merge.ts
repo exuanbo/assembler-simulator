@@ -4,14 +4,10 @@
 
 import type { O } from 'ts-toolbelt'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type PlainObject = Record<string | number | symbol, any>
-
-export const isPlainObject = (value: unknown): value is PlainObject =>
-  Object.prototype.toString.call(value) === '[object Object]'
+import { isPlainObject, type PlainObject } from './common'
 
 const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => {
-  const resultObject: PlainObject = {}
+  const result: PlainObject = {}
   const sourcePropertyNames = Object.getOwnPropertyNames(source)
   const sourcePropertySymbols = Object.getOwnPropertySymbols(source)
   const isTargetPlainObject = isPlainObject(target)
@@ -24,9 +20,7 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
         (!isKeySymbol && !sourcePropertyNames.includes(key)) ||
         (isKeySymbol && !sourcePropertySymbols.includes(key))
       ) {
-        Object.defineProperty(resultObject, key, {
-          ...Object.getOwnPropertyDescriptor(target, key),
-        })
+        Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(target, key)!)
       }
     }
     targetPropertyNames.forEach(assignTargetProperty)
@@ -37,19 +31,17 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
     const shouldMerge = isTargetPlainObject && isPlainObject(sourcePropertyValue)
     if (shouldMerge) {
       const targetPropertyValue: unknown = target[key]
-      Object.defineProperty(resultObject, key, {
+      Object.defineProperty(result, key, {
         ...Object.getOwnPropertyDescriptor(source, key),
         value: mergeRecursively(targetPropertyValue, sourcePropertyValue),
       })
     } else {
-      Object.defineProperty(resultObject, key, {
-        ...Object.getOwnPropertyDescriptor(source, key),
-      })
+      Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(source, key)!)
     }
   }
   sourcePropertyNames.forEach(assignSourceProperty)
   sourcePropertySymbols.forEach(assignSourceProperty)
-  return resultObject
+  return result
 }
 
 // https://stackoverflow.com/a/57683652/13346012
@@ -59,10 +51,8 @@ type ExpandDeep<T> = T extends Record<string | number | symbol, unknown>
     ? Array<ExpandDeep<E>>
     : T
 
-type Merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
+export const merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
   target: Target,
   ...sources: Sources
-) => ExpandDeep<O.Assign<Target, Sources, 'deep'>>
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const merge: Merge = (target, ...sources) => sources.reduce<any>(mergeRecursively, target)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): ExpandDeep<O.Assign<Target, Sources, 'deep'>> => sources.reduce<any>(mergeRecursively, target)

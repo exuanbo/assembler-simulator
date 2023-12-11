@@ -1,4 +1,5 @@
 export * from './classNames'
 export * from './common'
 export * from './merge'
+export * from './mergeSafe'
 export * from './types'

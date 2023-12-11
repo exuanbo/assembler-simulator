@@ -75,6 +75,16 @@ const parseStringRecursively = (str: string): string => {
 export const stringToAscii = (str: string): number[] =>
   str.split('').map((char) => char.charCodeAt(0))
 
+const getType = (value: unknown): string => Object.prototype.toString.call(value)
+
+export const isSameType = <T>(a: T, b: unknown): b is T => getType(a) === getType(b)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PlainObject = Record<string | number | symbol, any>
+
+export const isPlainObject = (value: unknown): value is PlainObject =>
+  getType(value) === '[object Object]'
+
 export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
   if (b.length !== a.length) {
     return false
