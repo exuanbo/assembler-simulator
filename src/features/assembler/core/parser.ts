@@ -11,10 +11,7 @@ import {
   MissingCommaError,
   MissingEndError,
   OperandTypeError,
-  SingleQuoteError,
   StatementError,
-  UnterminatedAddressError,
-  UnterminatedStringError,
 } from './exceptions'
 import { createTokenizer, type Token, type Tokenizer, TokenType } from './tokenizer'
 import type {
@@ -216,15 +213,6 @@ const parseSingleOperand =
         }
         break
       case TokenType.Unknown:
-        if (token.raw.startsWith('[')) {
-          throw new UnterminatedAddressError(token)
-        }
-        if (token.raw.startsWith('"')) {
-          throw new UnterminatedStringError(token)
-        }
-        if (token.raw.startsWith("'")) {
-          throw new SingleQuoteError(token)
-        }
         if (isExpectedType((t = OperandType.Number))) {
           if (NUMBER_REGEXP.test(token.value)) {
             return createOperand(t, validateNumber(token))

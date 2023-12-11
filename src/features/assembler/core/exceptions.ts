@@ -1,5 +1,5 @@
 import { type ErrorObject, errorToPlainObject } from '@/common/error'
-import { escapeBackslashes, escapeInnerSingleQuotes, trimBrackets } from '@/common/utils'
+import { escapeBackslashes, escapeInnerSingleQuotes, pipe, trimBrackets } from '@/common/utils'
 
 import type { Label, Operand, OperandType, Statement } from './parser'
 import type { Token } from './tokenizer'
@@ -13,8 +13,10 @@ export abstract class AssemblerError extends Error {
   public abstract override name: string
   public range: SourceRange | undefined
 
+  private static escape = pipe(escapeBackslashes, escapeInnerSingleQuotes)
+
   constructor(message: string, range?: SourceRange) {
-    super(message)
+    super(AssemblerError.escape(message))
     this.range = range
   }
 
@@ -31,6 +33,30 @@ class TokenizeError extends AssemblerError {
   public name = 'TokenizeError'
 }
 
+export class UnterminatedAddressError extends TokenizeError {
+  constructor(value: string, range: SourceRange) {
+    super(`Unterminated address '${value}'.`, range)
+  }
+}
+
+export class UnterminatedStringError extends TokenizeError {
+  constructor(value: string, range: SourceRange) {
+    super(`Unterminated string '${value}'.`, range)
+  }
+}
+
+export class NotAllowedSingleQuoteError extends TokenizeError {
+  constructor(range: SourceRange) {
+    super('Single quote is not allowed.', range)
+  }
+}
+
+export class UnexpectedCharacterError extends TokenizeError {
+  constructor(char: string, range: SourceRange) {
+    super(`Unexpected character '${char}'.`, range)
+  }
+}
+
 export class EndOfTokenStreamError extends TokenizeError {
   constructor() {
     super('Unexpected end of token stream.')
@@ -39,10 +65,6 @@ export class EndOfTokenStreamError extends TokenizeError {
 
 class ParseError extends AssemblerError {
   public name = 'ParseError'
-
-  constructor(message: string, range?: SourceRange) {
-    super(escapeInnerSingleQuotes(escapeBackslashes(message)), range)
-  }
 }
 
 export class StatementError extends ParseError {
@@ -78,30 +100,13 @@ export class InvalidStringError extends ParseError {
 }
 
 export class AddressError extends ParseError {
-  constructor({ raw, range }: Token) {
+  constructor({ raw, range: { from, to } }: Token) {
     const addressValue = trimBrackets(raw).trim()
-    super(
-      `Expected number or register, got '${addressValue.length > 0 ? addressValue : ']'}'.`,
-      range,
-    )
-  }
-}
-
-export class UnterminatedAddressError extends ParseError {
-  constructor({ raw, range }: Token) {
-    super(`Unterminated address '${raw.trimEnd()}'.`, range)
-  }
-}
-
-export class UnterminatedStringError extends ParseError {
-  constructor({ raw, range }: Token) {
-    super(`Unterminated string '${raw}'.`, range)
-  }
-}
-
-export class SingleQuoteError extends ParseError {
-  constructor({ range }: Token) {
-    super('Single quote is not allowed.', range)
+    const range: SourceRange = {
+      from: from + 1,
+      to: to - Math.min(1, addressValue.length),
+    }
+    super(`Expected number or register, got '${addressValue || ']'}'.`, range)
   }
 }
 

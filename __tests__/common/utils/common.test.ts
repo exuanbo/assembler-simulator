@@ -8,6 +8,7 @@ import {
   decToBin,
   isFunction,
   noop,
+  pipe,
   range,
   splitCamelCaseToString,
   throttle,
@@ -104,6 +105,14 @@ describe('curryRight2', () => {
   it('should curry a function with its arguments reversed', () => {
     const concatStrings = (a: string, b: string): string => a + b
     expect(curryRight2(concatStrings)('a')('b')).toBe('ba')
+  })
+})
+
+describe('pipe', () => {
+  it('should pipe functions', () => {
+    const add1 = (a: number): number => a + 1
+    const multiply2 = (a: number): number => a * 2
+    expect(pipe(add1, multiply2)(1)).toBe(4)
   })
 })
 

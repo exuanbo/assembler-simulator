@@ -1,6 +1,12 @@
 import { call, parseString, trimBrackets } from '@/common/utils'
 
-import { EndOfTokenStreamError } from './exceptions'
+import {
+  EndOfTokenStreamError,
+  NotAllowedSingleQuoteError,
+  UnexpectedCharacterError,
+  UnterminatedAddressError,
+  UnterminatedStringError,
+} from './exceptions'
 import type { SourceRange } from './types'
 
 export enum TokenType {
@@ -30,7 +36,7 @@ const tokenRules: readonly TokenRule[] = [
   { type: TokenType.Register,   pattern: /[a-dA-D][lL]\b/ },
   { type: TokenType.Address,    pattern: /\[.*?\]/ },
   { type: TokenType.String,     pattern: /"(?:[^\\\r\n]|\\.)*?"/ },
-  { type: TokenType.Unknown,    pattern: /[^\s;:,["]+|\[.*?(?=\s*?(?:[\r\n;:,]|$))|".*/ }
+  { type: TokenType.Unknown,    pattern: /\w+/ },
 ]
 
 const tokenRegExpSource = tokenRules.map(({ pattern }) => `(${pattern.source})`).join('|')
@@ -87,11 +93,27 @@ const createTokenStream = (source: string): TokenStream => {
         }
       }
       regexp.lastIndex = startIndex
-      // istanbul ignore next
-      if (startIndex < source.length) {
-        throw new Error(`Unexpected token ${source[startIndex]} at position ${startIndex}`)
+      if (startIndex === source.length) {
+        // end of source
+        return null
       }
-      return null
+      const range: SourceRange = { from: startIndex, to: startIndex + 1 }
+      const char = source[startIndex]
+      switch (char) {
+        case '[': {
+          const [value] = source.slice(startIndex).match(/^\[\s*\w*/)!
+          range.to += value.length - 1
+          throw new UnterminatedAddressError(value, range)
+        }
+        case '"': {
+          const [value] = source.slice(startIndex).match(/^".*/)!
+          range.to += value.length - 1
+          throw new UnterminatedStringError(value, range)
+        }
+        case "'":
+          throw new NotAllowedSingleQuoteError(range)
+      }
+      throw new UnexpectedCharacterError(char, range)
     },
   }
 }

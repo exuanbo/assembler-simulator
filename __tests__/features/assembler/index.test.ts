@@ -30,7 +30,7 @@ start: inc al
 start: dec bl
 end
 `)
-    }).toThrowError("Duplicate label 'START'")
+    }).toThrowErrorMatchingInlineSnapshot(`"Duplicate label 'START'."`)
   })
 
   it('should throw EndOfMemoryError', () => {
@@ -40,13 +40,13 @@ org ff
 inc al
 end
 `)
-    }).toThrowError('Can not generate code beyond the end of RAM')
+    }).toThrowErrorMatchingInlineSnapshot(`"Can not generate code beyond the end of RAM."`)
   })
 
   it('should throw LabelNotExistError', () => {
     expect(() => {
       assemble('jmp start end')
-    }).toThrowError("Label 'start' does not exist")
+    }).toThrowErrorMatchingInlineSnapshot(`"Label 'start' does not exist."`)
   })
 
   it('should throw JumpDistanceError', () => {
@@ -58,6 +58,6 @@ org fd
 jmp start
 end
 `)
-    }).toThrowError('Jump distance should be between -128 and 127')
+    }).toThrowErrorMatchingInlineSnapshot(`"Jump distance should be between -128 and 127."`)
   })
 })

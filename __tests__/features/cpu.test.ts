@@ -55,7 +55,7 @@ describe('cpu', () => {
       })
       expect(() => {
         step(memoryData, initialRegisters)
-      }).toThrowError("Invalid register '04'")
+      }).toThrowErrorMatchingInlineSnapshot(`"Invalid register '04'."`)
     })
 
     it('should throw RunBeyondEndOfMemoryError', () => {
@@ -68,7 +68,7 @@ describe('cpu', () => {
       })
       expect(() => {
         step(memoryData, cpuRegisters)
-      }).toThrowError('Can not execute code beyond the end of RAM')
+      }).toThrowErrorMatchingInlineSnapshot(`"Can not execute code beyond the end of RAM."`)
     })
 
     it('should throw InvalidOpcodeError', () => {
@@ -77,7 +77,7 @@ describe('cpu', () => {
       })
       expect(() => {
         step(memoryData, initialRegisters)
-      }).toThrowError("Invalid opcode '10'")
+      }).toThrowErrorMatchingInlineSnapshot(`"Invalid opcode '10'."`)
     })
 
     it('with END should set halted', () => {
@@ -210,11 +210,11 @@ describe('cpu', () => {
 
         expect(() => {
           step(getMemoryData('div al, bl end'), cpuRegisters)
-        }).toThrowError('Can not divide by zero')
+        }).toThrowErrorMatchingInlineSnapshot(`"Can not divide by zero."`)
 
         expect(() => {
           step(getMemoryData('div al, 00 end'), cpuRegisters)
-        }).toThrowError('Can not divide by zero')
+        }).toThrowErrorMatchingInlineSnapshot(`"Can not divide by zero."`)
       })
     })
 
@@ -258,11 +258,11 @@ describe('cpu', () => {
 
         expect(() => {
           step(getMemoryData('mod al, bl end'), cpuRegisters)
-        }).toThrowError('Can not divide by zero')
+        }).toThrowErrorMatchingInlineSnapshot(`"Can not divide by zero."`)
 
         expect(() => {
           step(getMemoryData('mod al, 00 end'), cpuRegisters)
-        }).toThrowError('Can not divide by zero')
+        }).toThrowErrorMatchingInlineSnapshot(`"Can not divide by zero."`)
       })
     })
 
@@ -542,7 +542,9 @@ describe('cpu', () => {
           draft.gpr = [1, 0, 0, 0]
           draft.sp = 0
         })
-        expect(() => step(memoryData, cpuRegisters)).toThrowError('Stack overflow')
+        expect(() => {
+          step(memoryData, cpuRegisters)
+        }).toThrowErrorMatchingInlineSnapshot(`"Stack overflow."`)
       })
     })
 
@@ -562,7 +564,7 @@ describe('cpu', () => {
       it('should throw StackUnderflowError', () => {
         expect(() => {
           step(memoryData, initialRegisters)
-        }).toThrowError('Stack underflow')
+        }).toThrowErrorMatchingInlineSnapshot(`"Stack underflow."`)
       })
     })
 
@@ -669,7 +671,9 @@ describe('cpu', () => {
         const memoryData = getMemoryData('in 10 end')
         expect(() => {
           step(memoryData, initialRegisters)
-        }).toThrowError("I/O ports between 0 and F are available, got '10'")
+        }).toThrowErrorMatchingInlineSnapshot(
+          `"I/O ports between 0 and F are available, got '10'."`,
+        )
       })
 
       it('should throw InvalidInputDataError', () => {
@@ -682,7 +686,7 @@ describe('cpu', () => {
               draft.data.port = 0x00
             }),
           )
-        }).toThrowError("Input data '100' is greater than FF")
+        }).toThrowErrorMatchingInlineSnapshot(`"Input data '100' is greater than FF."`)
       })
     })
 

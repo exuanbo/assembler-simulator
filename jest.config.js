@@ -9,6 +9,8 @@ const config = {
     '^@/(.*)': '<rootDir>/src/$1',
     '(.+)\\?raw$': '$1',
   },
+  // TODO: remove once Jest supports Prettier version 3
+  prettierPath: null,
   snapshotFormat: {
     escapeString: true,
   },

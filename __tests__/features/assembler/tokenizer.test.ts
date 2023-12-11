@@ -42,12 +42,26 @@ describe('tokenizer', () => {
     expect(tokenize('[] [00][al] [ Bl  ]')).toMatchSnapshot()
   })
 
-  it('should emit token with type `Unknown` when tokenizing address if closing bracket is missing', () => {
-    expect(tokenize('[00')).toMatchSnapshot()
-    expect(tokenize('[al\n')).toMatchSnapshot()
-    expect(tokenize('[Bl ')).toMatchSnapshot()
-    expect(tokenize('[cL \n')).toMatchSnapshot()
-    expect(tokenize('[ DL ;')).toMatchSnapshot()
+  it('should throw UnterminatedAddressError when tokenizing address if closing bracket is missing', () => {
+    expect(() => {
+      tokenize('[00')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated address '[00'."`)
+
+    expect(() => {
+      tokenize('[al\n')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated address '[al'."`)
+
+    expect(() => {
+      tokenize('[Bl ')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated address '[Bl'."`)
+
+    expect(() => {
+      tokenize('[cL \n')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated address '[cL'."`)
+
+    expect(() => {
+      tokenize('[ DL ;')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated address '[ DL'."`)
   })
 
   it('should tokenize string', () => {
@@ -59,8 +73,19 @@ describe('tokenizer', () => {
     expect(tokenize('"\\0\\u1"')).toMatchSnapshot()
   })
 
-  it('should emit token with type `Unknown` when tokenizing string if closing quote is missing', () => {
-    expect(tokenize('"\\"')).toMatchSnapshot()
-    expect(tokenize('"foo\nbar"')).toMatchSnapshot()
+  it('should throw UnterminatedStringError when tokenizing string if closing quote is missing', () => {
+    expect(() => {
+      tokenize('"\\"')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated string '\\"\\\\\\\\\\"'."`)
+
+    expect(() => {
+      tokenize('"foo\nbar"')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unterminated string '\\"foo'."`)
+  })
+
+  it('should throw Error when tokenizing unsupported character', () => {
+    expect(() => {
+      tokenize('!')
+    }).toThrowErrorMatchingInlineSnapshot(`"Unexpected character '!'."`)
   })
 })

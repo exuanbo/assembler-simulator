@@ -120,6 +120,11 @@ export const curryRight2 =
   (arg1: T1): R =>
     fn(arg1, arg2)
 
+export const pipe =
+  <T>(...fns: ((value: T) => T)[]) =>
+  (value: T): T =>
+    fns.reduce((acc, fn) => fn(acc), value)
+
 export const throttle = <T extends unknown[]>(
   fn: (...args: T) => unknown,
   wait: number,
