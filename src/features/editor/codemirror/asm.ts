@@ -1,3 +1,5 @@
+import type { CloseBracketConfig } from '@codemirror/autocomplete'
+import type { CommentTokens } from '@codemirror/commands'
 import {
   defaultHighlightStyle,
   indentUnit,
@@ -103,6 +105,10 @@ const asmLanguage = StreamLanguage.define<State>({
     const tabCount = whitespaces.reduce((count, char) => (char === '\t' ? count + 1 : count), 0)
     const spaceCount = whitespaces.length - tabCount
     return tabCount * tabSize + spaceCount
+  },
+  languageData: {
+    commentTokens: { line: ';' } satisfies CommentTokens,
+    closeBrackets: { brackets: ['[', '"'] } satisfies CloseBracketConfig,
   },
 })
 
