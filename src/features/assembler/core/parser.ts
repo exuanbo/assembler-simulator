@@ -60,13 +60,13 @@ export enum OperandType {
 
 export interface Operand<T extends OperandType = OperandType> extends BaseNode {
   type: T
-  value: number | number[] | undefined
-  rawValue: string
-  raw: string
+  value: string
+  source: string
+  code: number | number[] | undefined
 }
 
 const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
-  const value = call((): Operand['value'] => {
+  const code = call((): Operand['code'] => {
     switch (type) {
       case OperandType.Number:
       case OperandType.Address:
@@ -80,13 +80,10 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return undefined
     }
   })
-  const { value: rawValue, raw, range } = token
   return {
+    ...token,
     type,
-    value,
-    rawValue,
-    raw,
-    range,
+    code,
   }
 }
 
@@ -94,7 +91,7 @@ export interface Statement extends BaseNode {
   label: Label | null
   instruction: Instruction
   operands: Operand[]
-  machineCodes: number[]
+  codes: number[]
 }
 
 const createStatement = (
@@ -106,16 +103,16 @@ const createStatement = (
   if (instruction.opcode === undefined) {
     throw new Error(`Opcode for instruction ${instruction.mnemonic} is undefined`)
   }
-  const machineCodes: number[] = []
+  const codes: number[] = []
   if (instruction.opcode !== null) {
-    machineCodes.push(instruction.opcode)
+    codes.push(instruction.opcode)
   }
   operands.forEach((operand) => {
-    if (operand.value !== undefined) {
-      if (typeof operand.value === 'number') {
-        machineCodes.push(operand.value)
+    if (operand.code !== undefined) {
+      if (typeof operand.code === 'number') {
+        codes.push(operand.code)
       } else {
-        machineCodes.push(...operand.value)
+        codes.push(...operand.code)
       }
     }
   })
@@ -126,7 +123,7 @@ const createStatement = (
     label,
     instruction,
     operands,
-    machineCodes,
+    codes,
     range: { from, to },
   }
 }

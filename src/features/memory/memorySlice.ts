@@ -2,7 +2,7 @@ import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolki
 
 import { chunk } from '@/common/utils'
 import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
-import type { AddressToMachineCodeMap } from '@/features/assembler/core'
+import type { AddressToCodeMap } from '@/features/assembler/core'
 
 import { getSourceFrom, initData, initDataFrom, type MemoryData } from './core'
 
@@ -33,7 +33,7 @@ export const memorySlice = createSlice({
     setData: (state, action: PayloadAction<MemoryData>) => {
       state.data = action.payload
     },
-    setDataFrom: (state, action: PayloadAction<AddressToMachineCodeMap>) => {
+    setDataFrom: (state, action: PayloadAction<AddressToCodeMap>) => {
       state.data = initDataFrom(action.payload)
     },
     resetData: (state) => {

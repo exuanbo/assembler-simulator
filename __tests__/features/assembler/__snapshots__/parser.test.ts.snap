@@ -3,6 +3,7 @@
 exports[`parser should parse compare instruction 1`] = `
 [
   {
+    "codes": [218, 0, 1,],
     "instruction": {
       "mnemonic": "CMP",
       "opcode": 218,
@@ -12,27 +13,26 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [218, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 5,
           "to": 7,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 9,
           "to": 11,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -41,6 +41,7 @@ exports[`parser should parse compare instruction 1`] = `
     },
   },
   {
+    "codes": [219, 2, 1,],
     "instruction": {
       "mnemonic": "CMP",
       "opcode": 219,
@@ -50,27 +51,26 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [219, 2, 1,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 16,
           "to": 18,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 1,
         "range": {
           "from": 20,
           "to": 22,
         },
-        "raw": "01",
-        "rawValue": "01",
+        "source": "01",
         "type": "Number",
-        "value": 1,
+        "value": "01",
       },
     ],
     "range": {
@@ -79,6 +79,7 @@ exports[`parser should parse compare instruction 1`] = `
     },
   },
   {
+    "codes": [220, 3, 2,],
     "instruction": {
       "mnemonic": "CMP",
       "opcode": 220,
@@ -88,27 +89,26 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [220, 3, 2,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 27,
           "to": 29,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
       {
+        "code": 2,
         "range": {
           "from": 31,
           "to": 35,
         },
-        "raw": "[02]",
-        "rawValue": "02",
+        "source": "[02]",
         "type": "Address",
-        "value": 2,
+        "value": "02",
       },
     ],
     "range": {
@@ -117,6 +117,7 @@ exports[`parser should parse compare instruction 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -126,7 +127,6 @@ exports[`parser should parse compare instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 36,
@@ -139,6 +139,7 @@ exports[`parser should parse compare instruction 1`] = `
 exports[`parser should parse direct arithmetic instruction 1`] = `
 [
   {
+    "codes": [160, 0, 1,],
     "instruction": {
       "mnemonic": "ADD",
       "opcode": 160,
@@ -148,27 +149,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [160, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 5,
           "to": 7,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 9,
           "to": 11,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -177,6 +177,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [161, 2, 3,],
     "instruction": {
       "mnemonic": "SUB",
       "opcode": 161,
@@ -186,27 +187,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [161, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 16,
           "to": 18,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 20,
           "to": 22,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
     ],
     "range": {
@@ -215,6 +215,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [162, 0, 1,],
     "instruction": {
       "mnemonic": "MUL",
       "opcode": 162,
@@ -224,27 +225,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [162, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 27,
           "to": 29,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 31,
           "to": 33,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -253,6 +253,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [163, 2, 3,],
     "instruction": {
       "mnemonic": "DIV",
       "opcode": 163,
@@ -262,27 +263,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [163, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 38,
           "to": 40,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 42,
           "to": 44,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
     ],
     "range": {
@@ -291,6 +291,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [166, 0, 1,],
     "instruction": {
       "mnemonic": "MOD",
       "opcode": 166,
@@ -300,27 +301,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [166, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 49,
           "to": 51,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 53,
           "to": 55,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -329,6 +329,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [170, 2, 3,],
     "instruction": {
       "mnemonic": "AND",
       "opcode": 170,
@@ -338,27 +339,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [170, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 60,
           "to": 62,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 64,
           "to": 66,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
     ],
     "range": {
@@ -367,6 +367,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [171, 0, 1,],
     "instruction": {
       "mnemonic": "OR",
       "opcode": 171,
@@ -376,27 +377,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [171, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 70,
           "to": 72,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 74,
           "to": 76,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -405,6 +405,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [172, 2, 3,],
     "instruction": {
       "mnemonic": "XOR",
       "opcode": 172,
@@ -414,27 +415,26 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [172, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 81,
           "to": 83,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 85,
           "to": 87,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
     ],
     "range": {
@@ -443,6 +443,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -452,7 +453,6 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 88,
@@ -465,6 +465,7 @@ exports[`parser should parse direct arithmetic instruction 1`] = `
 exports[`parser should parse immediate arithmetic instruction 1`] = `
 [
   {
+    "codes": [176, 0, 1,],
     "instruction": {
       "mnemonic": "ADD",
       "opcode": 176,
@@ -474,27 +475,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [176, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 5,
           "to": 7,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 9,
           "to": 11,
         },
-        "raw": "01",
-        "rawValue": "01",
+        "source": "01",
         "type": "Number",
-        "value": 1,
+        "value": "01",
       },
     ],
     "range": {
@@ -503,6 +503,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [177, 1, 2,],
     "instruction": {
       "mnemonic": "SUB",
       "opcode": 177,
@@ -512,27 +513,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [177, 1, 2,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 16,
           "to": 18,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
       {
+        "code": 2,
         "range": {
           "from": 20,
           "to": 22,
         },
-        "raw": "02",
-        "rawValue": "02",
+        "source": "02",
         "type": "Number",
-        "value": 2,
+        "value": "02",
       },
     ],
     "range": {
@@ -541,6 +541,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [178, 2, 3,],
     "instruction": {
       "mnemonic": "MUL",
       "opcode": 178,
@@ -550,27 +551,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [178, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 27,
           "to": 29,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 31,
           "to": 33,
         },
-        "raw": "03",
-        "rawValue": "03",
+        "source": "03",
         "type": "Number",
-        "value": 3,
+        "value": "03",
       },
     ],
     "range": {
@@ -579,6 +579,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [179, 3, 4,],
     "instruction": {
       "mnemonic": "DIV",
       "opcode": 179,
@@ -588,27 +589,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [179, 3, 4,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 38,
           "to": 40,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
       {
+        "code": 4,
         "range": {
           "from": 42,
           "to": 44,
         },
-        "raw": "04",
-        "rawValue": "04",
+        "source": "04",
         "type": "Number",
-        "value": 4,
+        "value": "04",
       },
     ],
     "range": {
@@ -617,6 +617,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [182, 0, 1,],
     "instruction": {
       "mnemonic": "MOD",
       "opcode": 182,
@@ -626,27 +627,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [182, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 49,
           "to": 51,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 53,
           "to": 55,
         },
-        "raw": "01",
-        "rawValue": "01",
+        "source": "01",
         "type": "Number",
-        "value": 1,
+        "value": "01",
       },
     ],
     "range": {
@@ -655,6 +655,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [186, 1, 2,],
     "instruction": {
       "mnemonic": "AND",
       "opcode": 186,
@@ -664,27 +665,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [186, 1, 2,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 60,
           "to": 62,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
       {
+        "code": 2,
         "range": {
           "from": 64,
           "to": 66,
         },
-        "raw": "02",
-        "rawValue": "02",
+        "source": "02",
         "type": "Number",
-        "value": 2,
+        "value": "02",
       },
     ],
     "range": {
@@ -693,6 +693,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [187, 2, 3,],
     "instruction": {
       "mnemonic": "OR",
       "opcode": 187,
@@ -702,27 +703,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [187, 2, 3,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 70,
           "to": 72,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
       {
+        "code": 3,
         "range": {
           "from": 74,
           "to": 76,
         },
-        "raw": "03",
-        "rawValue": "03",
+        "source": "03",
         "type": "Number",
-        "value": 3,
+        "value": "03",
       },
     ],
     "range": {
@@ -731,6 +731,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [188, 3, 4,],
     "instruction": {
       "mnemonic": "XOR",
       "opcode": 188,
@@ -740,27 +741,26 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [188, 3, 4,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 81,
           "to": 83,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
       {
+        "code": 4,
         "range": {
           "from": 85,
           "to": 87,
         },
-        "raw": "04",
-        "rawValue": "04",
+        "source": "04",
         "type": "Number",
-        "value": 4,
+        "value": "04",
       },
     ],
     "range": {
@@ -769,6 +769,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -778,7 +779,6 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 88,
@@ -791,6 +791,7 @@ exports[`parser should parse immediate arithmetic instruction 1`] = `
 exports[`parser should parse instruction with 1 operand 1`] = `
 [
   {
+    "codes": [164, 0,],
     "instruction": {
       "mnemonic": "INC",
       "opcode": 164,
@@ -806,17 +807,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
         "to": 6,
       },
     },
-    "machineCodes": [164, 0,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 12,
           "to": 14,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
     ],
     "range": {
@@ -825,6 +825,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [165, 1,],
     "instruction": {
       "mnemonic": "DEC",
       "opcode": 165,
@@ -834,17 +835,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [165, 1,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 19,
           "to": 21,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -853,6 +853,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [173, 2,],
     "instruction": {
       "mnemonic": "NOT",
       "opcode": 173,
@@ -862,17 +863,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [173, 2,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 26,
           "to": 28,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
     ],
     "range": {
@@ -881,6 +881,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [154, 3,],
     "instruction": {
       "mnemonic": "ROL",
       "opcode": 154,
@@ -890,17 +891,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [154, 3,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 33,
           "to": 35,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
     ],
     "range": {
@@ -909,6 +909,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [155, 0,],
     "instruction": {
       "mnemonic": "ROR",
       "opcode": 155,
@@ -918,17 +919,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [155, 0,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 40,
           "to": 42,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
     ],
     "range": {
@@ -937,6 +937,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [156, 1,],
     "instruction": {
       "mnemonic": "SHL",
       "opcode": 156,
@@ -946,17 +947,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [156, 1,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 47,
           "to": 49,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -965,6 +965,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [157, 2,],
     "instruction": {
       "mnemonic": "SHR",
       "opcode": 157,
@@ -974,17 +975,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [157, 2,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 54,
           "to": 56,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
     ],
     "range": {
@@ -993,6 +993,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [192,],
     "instruction": {
       "mnemonic": "JMP",
       "opcode": 192,
@@ -1002,17 +1003,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [192,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 61,
           "to": 66,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1021,6 +1021,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [193,],
     "instruction": {
       "mnemonic": "JZ",
       "opcode": 193,
@@ -1030,17 +1031,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [193,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 70,
           "to": 75,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1049,6 +1049,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [194,],
     "instruction": {
       "mnemonic": "JNZ",
       "opcode": 194,
@@ -1058,17 +1059,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [194,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 80,
           "to": 85,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1077,6 +1077,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [195,],
     "instruction": {
       "mnemonic": "JS",
       "opcode": 195,
@@ -1086,17 +1087,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [195,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 89,
           "to": 94,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1105,6 +1105,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [196,],
     "instruction": {
       "mnemonic": "JNS",
       "opcode": 196,
@@ -1114,17 +1115,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [196,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 99,
           "to": 104,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1133,6 +1133,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [197,],
     "instruction": {
       "mnemonic": "JO",
       "opcode": 197,
@@ -1142,17 +1143,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [197,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 108,
           "to": 113,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1161,6 +1161,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [198,],
     "instruction": {
       "mnemonic": "JNO",
       "opcode": 198,
@@ -1170,17 +1171,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [198,],
     "operands": [
       {
+        "code": undefined,
         "range": {
           "from": 118,
           "to": 123,
         },
-        "raw": "start",
-        "rawValue": "START",
+        "source": "start",
         "type": "Label",
-        "value": undefined,
+        "value": "START",
       },
     ],
     "range": {
@@ -1189,6 +1189,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [224, 0,],
     "instruction": {
       "mnemonic": "PUSH",
       "opcode": 224,
@@ -1198,17 +1199,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [224, 0,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 129,
           "to": 131,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
     ],
     "range": {
@@ -1217,6 +1217,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [225, 1,],
     "instruction": {
       "mnemonic": "POP",
       "opcode": 225,
@@ -1226,17 +1227,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [225, 1,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 136,
           "to": 138,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
     ],
     "range": {
@@ -1245,6 +1245,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [202, 0,],
     "instruction": {
       "mnemonic": "CALL",
       "opcode": 202,
@@ -1254,17 +1255,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [202, 0,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 144,
           "to": 145,
         },
-        "raw": "0",
-        "rawValue": "0",
+        "source": "0",
         "type": "Number",
-        "value": 0,
+        "value": "0",
       },
     ],
     "range": {
@@ -1273,6 +1273,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [204, 1,],
     "instruction": {
       "mnemonic": "INT",
       "opcode": 204,
@@ -1282,17 +1283,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [204, 1,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 150,
           "to": 151,
         },
-        "raw": "1",
-        "rawValue": "1",
+        "source": "1",
         "type": "Number",
-        "value": 1,
+        "value": "1",
       },
     ],
     "range": {
@@ -1301,6 +1301,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [240, 2,],
     "instruction": {
       "mnemonic": "IN",
       "opcode": 240,
@@ -1310,17 +1311,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [240, 2,],
     "operands": [
       {
+        "code": 2,
         "range": {
           "from": 155,
           "to": 156,
         },
-        "raw": "2",
-        "rawValue": "2",
+        "source": "2",
         "type": "Number",
-        "value": 2,
+        "value": "2",
       },
     ],
     "range": {
@@ -1329,6 +1329,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [241, 3,],
     "instruction": {
       "mnemonic": "OUT",
       "opcode": 241,
@@ -1338,17 +1339,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [241, 3,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 161,
           "to": 162,
         },
-        "raw": "3",
-        "rawValue": "3",
+        "source": "3",
         "type": "Number",
-        "value": 3,
+        "value": "3",
       },
     ],
     "range": {
@@ -1357,6 +1357,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [4,],
     "instruction": {
       "mnemonic": "ORG",
       "opcode": null,
@@ -1366,17 +1367,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [4,],
     "operands": [
       {
+        "code": 4,
         "range": {
           "from": 167,
           "to": 168,
         },
-        "raw": "4",
-        "rawValue": "4",
+        "source": "4",
         "type": "Number",
-        "value": 4,
+        "value": "4",
       },
     ],
     "range": {
@@ -1385,6 +1385,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [5,],
     "instruction": {
       "mnemonic": "DB",
       "opcode": null,
@@ -1394,17 +1395,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [5,],
     "operands": [
       {
+        "code": 5,
         "range": {
           "from": 172,
           "to": 173,
         },
-        "raw": "5",
-        "rawValue": "5",
+        "source": "5",
         "type": "Number",
-        "value": 5,
+        "value": "5",
       },
     ],
     "range": {
@@ -1413,6 +1413,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [54, 55,],
     "instruction": {
       "mnemonic": "DB",
       "opcode": null,
@@ -1422,17 +1423,16 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [54, 55,],
     "operands": [
       {
+        "code": [54, 55,],
         "range": {
           "from": 177,
           "to": 181,
         },
-        "raw": "\\"67\\"",
-        "rawValue": "67",
+        "source": "\\"67\\"",
         "type": "String",
-        "value": [54, 55,],
+        "value": "67",
       },
     ],
     "range": {
@@ -1441,6 +1441,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -1450,7 +1451,6 @@ exports[`parser should parse instruction with 1 operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 182,
@@ -1463,6 +1463,7 @@ exports[`parser should parse instruction with 1 operand 1`] = `
 exports[`parser should parse instruction with no operand 1`] = `
 [
   {
+    "codes": [234,],
     "instruction": {
       "mnemonic": "PUSHF",
       "opcode": 234,
@@ -1472,7 +1473,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [234,],
     "operands": [],
     "range": {
       "from": 1,
@@ -1480,6 +1480,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [235,],
     "instruction": {
       "mnemonic": "POPF",
       "opcode": 235,
@@ -1489,7 +1490,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [235,],
     "operands": [],
     "range": {
       "from": 7,
@@ -1497,6 +1497,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [203,],
     "instruction": {
       "mnemonic": "RET",
       "opcode": 203,
@@ -1506,7 +1507,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [203,],
     "operands": [],
     "range": {
       "from": 12,
@@ -1514,6 +1514,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [205,],
     "instruction": {
       "mnemonic": "IRET",
       "opcode": 205,
@@ -1523,7 +1524,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [205,],
     "operands": [],
     "range": {
       "from": 16,
@@ -1531,6 +1531,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "HALT",
       "opcode": 0,
@@ -1540,7 +1541,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 21,
@@ -1548,6 +1548,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [255,],
     "instruction": {
       "mnemonic": "NOP",
       "opcode": 255,
@@ -1557,7 +1558,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [255,],
     "operands": [],
     "range": {
       "from": 26,
@@ -1565,6 +1565,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [254,],
     "instruction": {
       "mnemonic": "CLO",
       "opcode": 254,
@@ -1574,7 +1575,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [254,],
     "operands": [],
     "range": {
       "from": 30,
@@ -1582,6 +1582,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [253,],
     "instruction": {
       "mnemonic": "CLI",
       "opcode": 253,
@@ -1591,7 +1592,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [253,],
     "operands": [],
     "range": {
       "from": 34,
@@ -1599,6 +1599,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [252,],
     "instruction": {
       "mnemonic": "STI",
       "opcode": 252,
@@ -1608,7 +1609,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [252,],
     "operands": [],
     "range": {
       "from": 38,
@@ -1616,6 +1616,7 @@ exports[`parser should parse instruction with no operand 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -1625,7 +1626,6 @@ exports[`parser should parse instruction with no operand 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 42,
@@ -1638,6 +1638,7 @@ exports[`parser should parse instruction with no operand 1`] = `
 exports[`parser should parse move instruction 1`] = `
 [
   {
+    "codes": [208, 0, 1,],
     "instruction": {
       "mnemonic": "MOV",
       "opcode": 208,
@@ -1647,27 +1648,26 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [208, 0, 1,],
     "operands": [
       {
+        "code": 0,
         "range": {
           "from": 5,
           "to": 7,
         },
-        "raw": "al",
-        "rawValue": "AL",
+        "source": "al",
         "type": "Register",
-        "value": 0,
+        "value": "AL",
       },
       {
+        "code": 1,
         "range": {
           "from": 9,
           "to": 11,
         },
-        "raw": "01",
-        "rawValue": "01",
+        "source": "01",
         "type": "Number",
-        "value": 1,
+        "value": "01",
       },
     ],
     "range": {
@@ -1676,6 +1676,7 @@ exports[`parser should parse move instruction 1`] = `
     },
   },
   {
+    "codes": [209, 1, 2,],
     "instruction": {
       "mnemonic": "MOV",
       "opcode": 209,
@@ -1685,27 +1686,26 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [209, 1, 2,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 16,
           "to": 18,
         },
-        "raw": "bl",
-        "rawValue": "BL",
+        "source": "bl",
         "type": "Register",
-        "value": 1,
+        "value": "BL",
       },
       {
+        "code": 2,
         "range": {
           "from": 20,
           "to": 24,
         },
-        "raw": "[02]",
-        "rawValue": "02",
+        "source": "[02]",
         "type": "Address",
-        "value": 2,
+        "value": "02",
       },
     ],
     "range": {
@@ -1714,6 +1714,7 @@ exports[`parser should parse move instruction 1`] = `
     },
   },
   {
+    "codes": [210, 3, 2,],
     "instruction": {
       "mnemonic": "MOV",
       "opcode": 210,
@@ -1723,27 +1724,26 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [210, 3, 2,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 29,
           "to": 33,
         },
-        "raw": "[03]",
-        "rawValue": "03",
+        "source": "[03]",
         "type": "Address",
-        "value": 3,
+        "value": "03",
       },
       {
+        "code": 2,
         "range": {
           "from": 35,
           "to": 37,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
     ],
     "range": {
@@ -1752,6 +1752,7 @@ exports[`parser should parse move instruction 1`] = `
     },
   },
   {
+    "codes": [211, 3, 0,],
     "instruction": {
       "mnemonic": "MOV",
       "opcode": 211,
@@ -1761,27 +1762,26 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [211, 3, 0,],
     "operands": [
       {
+        "code": 3,
         "range": {
           "from": 42,
           "to": 44,
         },
-        "raw": "dl",
-        "rawValue": "DL",
+        "source": "dl",
         "type": "Register",
-        "value": 3,
+        "value": "DL",
       },
       {
+        "code": 0,
         "range": {
           "from": 46,
           "to": 50,
         },
-        "raw": "[al]",
-        "rawValue": "AL",
+        "source": "[al]",
         "type": "RegisterAddress",
-        "value": 0,
+        "value": "AL",
       },
     ],
     "range": {
@@ -1790,6 +1790,7 @@ exports[`parser should parse move instruction 1`] = `
     },
   },
   {
+    "codes": [212, 1, 2,],
     "instruction": {
       "mnemonic": "MOV",
       "opcode": 212,
@@ -1799,27 +1800,26 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [212, 1, 2,],
     "operands": [
       {
+        "code": 1,
         "range": {
           "from": 55,
           "to": 59,
         },
-        "raw": "[bl]",
-        "rawValue": "BL",
+        "source": "[bl]",
         "type": "RegisterAddress",
-        "value": 1,
+        "value": "BL",
       },
       {
+        "code": 2,
         "range": {
           "from": 61,
           "to": 63,
         },
-        "raw": "cl",
-        "rawValue": "CL",
+        "source": "cl",
         "type": "Register",
-        "value": 2,
+        "value": "CL",
       },
     ],
     "range": {
@@ -1828,6 +1828,7 @@ exports[`parser should parse move instruction 1`] = `
     },
   },
   {
+    "codes": [0,],
     "instruction": {
       "mnemonic": "END",
       "opcode": 0,
@@ -1837,7 +1838,6 @@ exports[`parser should parse move instruction 1`] = `
       },
     },
     "label": null,
-    "machineCodes": [0,],
     "operands": [],
     "range": {
       "from": 64,

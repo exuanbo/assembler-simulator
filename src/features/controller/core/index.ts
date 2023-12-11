@@ -235,10 +235,9 @@ export class Controller {
       const statement = addressToStatementMap[instructionAdress]
       const hasStatement =
         statement !== undefined &&
-        statement.machineCodes.length > 0 &&
-        statement.machineCodes.every(
-          (machineCode, machineCodeIndex) =>
-            machineCode === memoryData[instructionAdress + machineCodeIndex],
+        statement.codes.length > 0 &&
+        statement.codes.every(
+          (code, codeIndex) => code === memoryData[instructionAdress + codeIndex],
         )
       const changeAddress = changes.memoryData?.address
       const isVduBufferChanged = changeAddress !== undefined && changeAddress >= VDU_START_ADDRESS

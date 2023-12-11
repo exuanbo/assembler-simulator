@@ -68,14 +68,14 @@ class ParseError extends AssemblerError {
 }
 
 export class StatementError extends ParseError {
-  constructor({ raw, range }: Token, hasLabel: boolean) {
-    super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${raw}'.`, range)
+  constructor({ source, range }: Token, hasLabel: boolean) {
+    super(`Expected ${hasLabel ? '' : 'label or '}instruction, got '${source}'.`, range)
   }
 }
 
 export class InvalidLabelError extends ParseError {
-  constructor({ raw, range }: Token) {
-    const identifier = raw.replace(/:$/, '')
+  constructor({ source, range }: Token) {
+    const identifier = source.replace(/:$/, '')
     super(`Label should contain only letter or underscore, got '${identifier}'.`, range)
   }
 }
@@ -87,8 +87,8 @@ export class MissingEndError extends ParseError {
 }
 
 export class InvalidNumberError extends ParseError {
-  constructor({ raw, range }: Token) {
-    const numberValue = trimBrackets(raw).trim()
+  constructor({ source, range }: Token) {
+    const numberValue = trimBrackets(source).trim()
     super(`Number '${numberValue}' is greater than FF.`, range)
   }
 }
@@ -100,8 +100,8 @@ export class InvalidStringError extends ParseError {
 }
 
 export class AddressError extends ParseError {
-  constructor({ raw, range: { from, to } }: Token) {
-    const addressValue = trimBrackets(raw).trim()
+  constructor({ source, range: { from, to } }: Token) {
+    const addressValue = trimBrackets(source).trim()
     const range: SourceRange = {
       from: from + 1,
       to: to - Math.min(1, addressValue.length),
@@ -111,7 +111,7 @@ export class AddressError extends ParseError {
 }
 
 export class OperandTypeError extends ParseError {
-  constructor({ raw, range }: Token, expectedTypes: OperandType[]) {
+  constructor({ source, range }: Token, expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map((type) => type.replace(/[A-Z]/g, (char) => ` ${char.toLowerCase()}`).trimStart())
       .reduce((acc, cur, idx) => {
@@ -124,13 +124,13 @@ export class OperandTypeError extends ParseError {
             return `${acc}, ${cur}`
         }
       }, '')
-    super(`Expected ${types}, got '${raw}'.`, range)
+    super(`Expected ${types}, got '${source}'.`, range)
   }
 }
 
 export class MissingCommaError extends ParseError {
-  constructor({ raw, range }: Token) {
-    super(`Expected comma, got '${raw}'.`, range)
+  constructor({ source, range }: Token) {
+    super(`Expected comma, got '${source}'.`, range)
   }
 }
 
@@ -151,8 +151,8 @@ export class AssembleEndOfMemoryError extends AssembleError {
 }
 
 export class LabelNotExistError extends AssembleError {
-  constructor({ raw, range }: Operand) {
-    super(`Label '${raw}' does not exist.`, range)
+  constructor({ source, range }: Operand) {
+    super(`Label '${source}' does not exist.`, range)
   }
 }
 

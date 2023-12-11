@@ -45,30 +45,30 @@ const createTokenRegExp = () => new RegExp(tokenRegExpSource, 'y')
 export interface Token {
   type: TokenType
   value: string
-  raw: string
+  source: string
   range: SourceRange
 }
 
-const createToken = (type: TokenType, value: string, index: number): Token => {
-  const tokenValue = call((): string => {
+const createToken = (type: TokenType, source: string, index: number): Token => {
+  const value = call((): string => {
     switch (type) {
       case TokenType.Register:
       case TokenType.Unknown:
-        return value.toUpperCase()
+        return source.toUpperCase()
       case TokenType.Address:
-        return trimBrackets(value).trim().toUpperCase()
+        return trimBrackets(source).trim().toUpperCase()
       case TokenType.String:
-        return parseString(value)
+        return parseString(source)
       default:
-        return value
+        return source
     }
   })
   const from = index
-  const to = from + value.length
+  const to = from + source.length
   return {
     type,
-    value: tokenValue,
-    raw: value,
+    value,
+    source,
     range: { from, to },
   }
 }

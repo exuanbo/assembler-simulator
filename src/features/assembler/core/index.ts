@@ -23,7 +23,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   const statementCount = statements.length
   for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
     const statement = statements[statementIndex]
-    const { label, instruction, operands, machineCodes } = statement
+    const { label, instruction, operands, codes } = statement
     if (label !== null) {
       if (label.identifier in labelToAddressMap) {
         throw new DuplicateLabelError(label)
@@ -32,10 +32,10 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     }
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
-      address = firstOperand!.value as number
+      address = firstOperand!.code as number
     } else {
       // label value has not been calculated yet
-      address += machineCodes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
+      address += codes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
       if (address > 0xff && statementIndex !== statementCount - 1) {
         throw new AssembleEndOfMemoryError(statement)
       }
@@ -44,7 +44,7 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
   return labelToAddressMap
 }
 
-export interface AddressToMachineCodeMap {
+export interface AddressToCodeMap {
   [address: number]: number
 }
 
@@ -52,40 +52,40 @@ export interface AddressToStatementMap {
   [address: number]: Statement
 }
 
-export type AssembleResult = [AddressToMachineCodeMap, Partial<AddressToStatementMap>]
+export type AssembleResult = [AddressToCodeMap, Partial<AddressToStatementMap>]
 
 export const assemble = (input: string): AssembleResult => {
   const statements = parse(input)
   const labelToAddressMap = getLabelToAddressMap(statements)
-  const addressToMachineCodeMap: AddressToMachineCodeMap = {}
+  const addressToCodeMap: AddressToCodeMap = {}
   const addressToStatementMap: AddressToStatementMap = {}
   const statementCount = statements.length
   for (let address = 0, statementIndex = 0; statementIndex < statementCount; statementIndex++) {
     const statement = statements[statementIndex]
-    const { instruction, operands, machineCodes } = statement
+    const { instruction, operands, codes } = statement
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
-      address = firstOperand!.value as number
+      address = firstOperand!.code as number
       continue
     }
     if (firstOperand?.type === OperandType.Label) {
-      if (!(firstOperand.rawValue in labelToAddressMap)) {
+      if (!(firstOperand.value in labelToAddressMap)) {
         throw new LabelNotExistError(firstOperand)
       }
-      const distance = labelToAddressMap[firstOperand.rawValue] - address
+      const distance = labelToAddressMap[firstOperand.value] - address
       if (distance < -128 || distance > 127) {
         throw new JumpDistanceError(firstOperand)
       }
       const unsignedDistance = unsign8(distance)
-      firstOperand.value = unsignedDistance
-      machineCodes.push(unsignedDistance)
+      firstOperand.code = unsignedDistance
+      codes.push(unsignedDistance)
     }
-    const nextAddress = address + machineCodes.length
-    machineCodes.forEach((machineCode, machineCodeIndex) => {
-      addressToMachineCodeMap[address + machineCodeIndex] = machineCode
+    const nextAddress = address + codes.length
+    codes.forEach((code, codeIndex) => {
+      addressToCodeMap[address + codeIndex] = code
     })
     addressToStatementMap[address] = statement
     address = nextAddress
   }
-  return [addressToMachineCodeMap, addressToStatementMap]
+  return [addressToCodeMap, addressToStatementMap]
 }

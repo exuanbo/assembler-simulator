@@ -25,11 +25,11 @@ const CpuRegisters = (): JSX.Element => {
       <div className="divide-x flex">
         <table className="flex-1">
           <tbody className="divide-y">
-            {gpr.map((registerValue, indexAsMachineCode) => {
-              const registerName = GeneralPurposeRegister[indexAsMachineCode]
+            {gpr.map((registerValue, indexAsCode) => {
+              const registerName = GeneralPurposeRegister[indexAsCode]
               return (
                 <RegisterTableRow
-                  key={indexAsMachineCode}
+                  key={indexAsCode}
                   name={registerName as GeneralPurposeRegisterName}
                   value={registerValue}
                 />

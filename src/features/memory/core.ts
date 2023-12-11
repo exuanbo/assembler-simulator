@@ -1,5 +1,5 @@
 import { Ascii, Mnemonic } from '@/common/constants'
-import type { AddressToMachineCodeMap, AddressToStatementMap } from '@/features/assembler/core'
+import type { AddressToCodeMap, AddressToStatementMap } from '@/features/assembler/core'
 
 export type MemoryData = number[]
 
@@ -13,7 +13,7 @@ export const initVduData = (): number[] =>
 export const initData = (): MemoryData =>
   new Array<number>(VDU_START_ADDRESS).fill(0).concat(initVduData())
 
-export const initDataFrom = (map: AddressToMachineCodeMap): MemoryData => {
+export const initDataFrom = (map: AddressToCodeMap): MemoryData => {
   const data = initData()
   for (const address in map) {
     data[address] = map[address]
@@ -38,11 +38,11 @@ export const getSourceFrom = (map: Partial<AddressToStatementMap>): string[] => 
     if (instruction.mnemonic === Mnemonic.DB) {
       const operand = operands[0]
       // OperandType.Number
-      if (typeof operand.value === 'number') {
-        source[address] = operand.rawValue
+      if (typeof operand.code === 'number') {
+        source[address] = operand.value
       } else {
         // OperandType.String
-        operand.rawValue.split('').forEach((char, charIndex) => {
+        operand.value.split('').forEach((char, charIndex) => {
           source[Number(address) + charIndex] = char
         })
       }
@@ -50,10 +50,10 @@ export const getSourceFrom = (map: Partial<AddressToStatementMap>): string[] => 
       source[address] = instruction.mnemonic
       const nextAddress = Number(address) + 1
       operands.forEach((operand, operandIndex) => {
-        const { rawValue } = operand
+        const { value } = operand
         // Address or RegisterAddress
         const isAddressOperand = operand.type.endsWith('Address')
-        source[nextAddress + operandIndex] = isAddressOperand ? `[${rawValue}]` : rawValue
+        source[nextAddress + operandIndex] = isAddressOperand ? `[${value}]` : value
       })
     }
   }
