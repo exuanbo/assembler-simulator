@@ -15,7 +15,7 @@ import { lineNumbers } from './lineNumbers'
 import { theme } from './theme'
 import { wavyUnderline } from './wavyUnderline'
 
-export const getSetup = (): Extension => {
+export const setup = (): Extension => {
   return [
     drawSelection(),
     history(),
