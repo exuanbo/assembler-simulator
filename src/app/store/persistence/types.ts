@@ -5,7 +5,7 @@ export interface PersistenceProvider<State> {
 
 export type PersistenceValidator<State> = (state: unknown) => state is State
 
-export type GetPersistenceProvider = <State>(
+export type PersistenceProviderCreator = <State>(
   validate: PersistenceValidator<State>,
   fallback: State,
 ) => PersistenceProvider<State>

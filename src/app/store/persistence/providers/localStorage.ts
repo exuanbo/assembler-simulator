@@ -1,10 +1,10 @@
 import { name } from '@/../package.json'
 
-import type { GetPersistenceProvider } from '../types'
+import type { PersistenceProviderCreator } from '../types'
 
 const LOCAL_STORAGE_KEY = `persist:${name}`
 
-export const getLocalStorageProvider: GetPersistenceProvider = (validate, fallbackState) => {
+export const createLocalStorageProvider: PersistenceProviderCreator = (validate, fallbackState) => {
   return {
     read: () => {
       try {

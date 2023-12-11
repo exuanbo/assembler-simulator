@@ -5,10 +5,10 @@ import { ary, isPlainObject, merge, mergeSafe, type PlainObject } from '@/common
 import { controllerSlice } from '@/features/controller/controllerSlice'
 import { editorSlice } from '@/features/editor/editorSlice'
 
-import { getCombinedProvider } from './combinedProvider'
+import { createCombinedProvider } from './combinedProvider'
 import type { PersistenceProvider } from './types'
 
-const provider = getCombinedProvider(ary(merge<PlainObject>, 2))(isPlainObject, {})
+const provider = createCombinedProvider(ary(merge<PlainObject>, 2))(isPlainObject, {})
 
 type PreloadedState = {
   [editorSlice.reducerPath]: ReturnType<typeof editorSlice.getInitialState>

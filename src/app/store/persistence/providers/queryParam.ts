@@ -1,7 +1,7 @@
 import * as Base64 from 'js-base64'
 import * as Pako from 'pako'
 
-import type { GetPersistenceProvider } from '../types'
+import type { PersistenceProviderCreator } from '../types'
 
 const QUERY_PARAMETER_NAME = 'shareable'
 
@@ -13,7 +13,7 @@ const getShareUrl = (state: unknown) => {
   return url
 }
 
-export const getQueryParamProvider: GetPersistenceProvider = (validate, fallback) => {
+export const createQueryParamProvider: PersistenceProviderCreator = (validate, fallback) => {
   return {
     read: () => {
       const url = new URL(window.location.href)
