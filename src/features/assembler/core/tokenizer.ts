@@ -40,7 +40,7 @@ const tokenRules: readonly TokenRule[] = [
 ]
 
 const tokenRegExpSource = tokenRules.map(({ pattern }) => `(${pattern.source})`).join('|')
-const createTokenRegExp = (): RegExp => new RegExp(tokenRegExpSource, 'y')
+const createTokenRegExp = () => new RegExp(tokenRegExpSource, 'y')
 
 export interface Token {
   type: TokenType
@@ -73,6 +73,9 @@ const createToken = (type: TokenType, value: string, index: number): Token => {
   }
 }
 
+const shouldSkip = (token: Token) =>
+  token.type === TokenType.Whitespace || token.type === TokenType.Comment
+
 interface TokenStream {
   next: () => Token | null
 }
@@ -83,12 +86,12 @@ const createTokenStream = (source: string): TokenStream => {
     next: () => {
       const startIndex = regexp.lastIndex
       const match = regexp.exec(source)
-      if (match !== null && match.index === startIndex) {
+      if (match) {
         for (let ruleIndex = 0; ; ruleIndex++) {
           const value = match[ruleIndex + 1]
-          if (value !== undefined) {
+          if (value) {
             const { type } = tokenRules[ruleIndex]
-            return createToken(type, value, match.index)
+            return createToken(type, value, startIndex)
           }
         }
       }
@@ -133,10 +136,7 @@ export const createTokenizer = (source: string): Tokenizer => {
     let token: Token | null = null
     do {
       token = stream.next()
-    } while (
-      token !== null &&
-      (token.type === TokenType.Whitespace || token.type === TokenType.Comment)
-    )
+    } while (token && shouldSkip(token))
     return token
   }
 
@@ -144,7 +144,7 @@ export const createTokenizer = (source: string): Tokenizer => {
   let next: Token | null = streamNext()
 
   const assertCurrent = (): Token => {
-    if (current === null) {
+    if (!current) {
       throw new EndOfTokenStreamError()
     }
     return current
@@ -152,7 +152,7 @@ export const createTokenizer = (source: string): Tokenizer => {
 
   const tokenizer: Tokenizer = {
     hasMore: () => {
-      return current !== null
+      return !!current
     },
     peek: () => {
       return current

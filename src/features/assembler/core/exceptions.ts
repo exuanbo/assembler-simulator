@@ -111,7 +111,7 @@ export class AddressError extends ParseError {
 }
 
 export class OperandTypeError extends ParseError {
-  constructor({ raw, range }: Token, ...expectedTypes: OperandType[]) {
+  constructor({ raw, range }: Token, expectedTypes: OperandType[]) {
     const types = expectedTypes
       .map((type) => type.replace(/[A-Z]/g, (char) => ` ${char.toLowerCase()}`).trimStart())
       .reduce((acc, cur, idx) => {

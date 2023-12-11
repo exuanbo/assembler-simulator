@@ -222,13 +222,13 @@ const parseSingleOperand =
         }
         break
     }
-    throw new OperandTypeError(token, ...expectedTypes)
+    throw new OperandTypeError(token, expectedTypes)
   }
 
 const parseDoubleOperands =
   (tokenizer: Tokenizer) =>
   <T1 extends OperandType, T2 extends OperandType>(
-    ...expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>
+    expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>,
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
     const possibleFirstOperandTypes: T1[] = []
     expectedTypePairs.forEach(([firstOperandType]) => {
@@ -382,10 +382,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
 
       switch (mnemonic as MnemonicWithTwoOperands) {
         case Mnemonic.ADD:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.ADD_REG_TO_REG
@@ -396,10 +396,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.SUB:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.SUB_REG_FROM_REG
@@ -410,10 +410,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.MUL:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.MUL_REG_BY_REG
@@ -424,10 +424,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.DIV:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.DIV_REG_BY_REG
@@ -438,10 +438,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.MOD:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.MOD_REG_BY_REG
@@ -452,10 +452,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.AND:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.AND_REG_WITH_REG
@@ -466,10 +466,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.OR:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.OR_REG_WITH_REG
@@ -480,10 +480,10 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.XOR:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.XOR_REG_WITH_REG
@@ -494,13 +494,13 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.MOV:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Number],
             [OperandType.Register, OperandType.Address],
             [OperandType.Address, OperandType.Register],
             [OperandType.Register, OperandType.RegisterAddress],
             [OperandType.RegisterAddress, OperandType.Register],
-          )
+          ])
           switch (firstOperand.type) {
             case OperandType.Register:
               switch (secondOperand.type) {
@@ -526,11 +526,11 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           }
           break
         case Mnemonic.CMP:
-          ;[firstOperand, secondOperand] = parseOperands(
+          ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],
             [OperandType.Register, OperandType.Number],
             [OperandType.Register, OperandType.Address],
-          )
+          ])
           switch (secondOperand.type) {
             case OperandType.Register:
               opcode = Opcode.CMP_REG_WITH_REG
