@@ -191,10 +191,13 @@ export class Controller {
   }
 
   private stepFrom = (lastStepResult: StepResult | null): void => {
-    if (applySelector(selectEditorInput) !== applySelector(selectAssembledSource)) {
-      store.dispatch(setEditorMessage(sourceChangedMessage))
-    } else if (applySelector(selectEditorMessage) === sourceChangedMessage) {
-      store.dispatch(clearEditorMessage())
+    switch (true) {
+      case applySelector(selectEditorInput) !== applySelector(selectAssembledSource):
+        store.dispatch(setEditorMessage(sourceChangedMessage))
+        break
+      case applySelector(selectEditorMessage) === sourceChangedMessage:
+        store.dispatch(clearEditorMessage())
+        break
     }
     const { fault, halted } = applySelector(selectCpuStatus)
     if (fault !== null || halted) {

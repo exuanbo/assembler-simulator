@@ -246,10 +246,13 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
         flags |= StatusRegisterFlag.Overflow
       }
       const result = __result > 0xff ? __result % 0x100 : unsign8(__result)
-      if (result === 0) {
-        flags |= StatusRegisterFlag.Zero
-      } else if (result >= 0x80) {
-        flags |= StatusRegisterFlag.Sign
+      switch (true) {
+        case result === 0:
+          flags |= StatusRegisterFlag.Zero
+          break
+        case result >= 0x80:
+          flags |= StatusRegisterFlag.Sign
+          break
       }
       const interruptFlag = __cpuRegisters.sr & StatusRegisterFlag.Interrupt
       setSr(flags | interruptFlag)

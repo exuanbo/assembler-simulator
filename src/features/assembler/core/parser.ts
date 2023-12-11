@@ -213,12 +213,14 @@ const parseSingleOperand =
         }
         break
       case TokenType.Unknown:
-        if (isExpectedType((t = OperandType.Number))) {
-          if (NUMBER_REGEXP.test(token.value)) {
-            return createOperand(t, validateNumber(token))
-          }
-        } else if (isExpectedType((t = OperandType.Label))) {
-          return createOperand(t, validateLabel(token))
+        switch (true) {
+          case isExpectedType((t = OperandType.Number)):
+            if (NUMBER_REGEXP.test(token.value)) {
+              return createOperand(t, validateNumber(token))
+            }
+            break
+          case isExpectedType((t = OperandType.Label)):
+            return createOperand(t, validateLabel(token))
         }
         break
     }

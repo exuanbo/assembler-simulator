@@ -265,9 +265,9 @@ end
   describe('when parsing move instruction', () => {
     it('should throw OperandTypeError if second operand is of wrong type', () => {
       expect(() => {
-        parse('mov al, "bl"')
+        parse('mov al, bll')
       }).toThrowErrorMatchingInlineSnapshot(
-        `"Expected number, address or register address, got '\\"bl\\"'."`,
+        `"Expected number, address or register address, got 'bll'."`,
       )
 
       expect(() => {
