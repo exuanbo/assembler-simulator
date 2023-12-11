@@ -17,5 +17,14 @@ export default defineConfig({
       },
     }),
   ],
+  rules: [
+    [
+      'font-ligatures-none',
+      {
+        'font-variant-ligatures': 'none',
+        'font-feature-settings': "'liga' 0",
+      },
+    ],
+  ],
   transformers: [transformerVariantGroup(), transformerDirectives()],
 })
