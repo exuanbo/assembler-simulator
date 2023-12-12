@@ -11,19 +11,19 @@ import { filter, map, type Observable, Subject } from 'rxjs'
 import { injectExtension } from '../enhancers/injectExtension'
 import { createWeakCache } from './weakCache'
 
-type OnAction = <TPayload>(actionCreator: PayloadActionCreator<TPayload>) => Observable<TPayload>
+type ObserveAction = <Payload>(actionCreator: PayloadActionCreator<Payload>) => Observable<Payload>
 
 interface ActionObserver {
   middleware: Middleware
-  enhancer: StoreEnhancer<{ onAction: OnAction }>
+  enhancer: StoreEnhancer<{ onAction: ObserveAction }>
 }
 
 const matchType =
-  <TPayload>(actionCreator: PayloadActionCreator<TPayload>) =>
-  (action: Action): action is PayloadAction<TPayload> =>
+  <Payload>(actionCreator: PayloadActionCreator<Payload>) =>
+  (action: Action): action is PayloadAction<Payload> =>
     action.type === actionCreator.type
 
-const getPayload = <TPayload>(action: PayloadAction<TPayload>): TPayload => action.payload
+const getPayload = <Payload>(action: PayloadAction<Payload>): Payload => action.payload
 
 export const createActionObserver = (): ActionObserver => {
   const action$ = new Subject<Action>()
@@ -39,7 +39,7 @@ export const createActionObserver = (): ActionObserver => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getOrCache = createWeakCache<PayloadActionCreator<any>>()
 
-  const onAction: OnAction = (actionCreator) =>
+  const onAction: ObserveAction = (actionCreator) =>
     getOrCache(actionCreator, () => action$.pipe(filter(matchType(actionCreator)), map(getPayload)))
 
   return {
