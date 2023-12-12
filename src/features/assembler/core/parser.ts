@@ -1,6 +1,6 @@
 import { Mnemonic, MnemonicToOperandCountMap, Opcode } from '@/common/constants'
-import { call, hexToDec, stringToAscii } from '@/common/utils'
-import { GeneralPurposeRegister, type GeneralPurposeRegisterName } from '@/features/cpu/core'
+import { call, hexToDec, invariant, isIn, stringToAscii } from '@/common/utils'
+import { GeneralPurposeRegister } from '@/features/cpu/core'
 
 import {
   AddressError,
@@ -73,7 +73,8 @@ const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T>
         return hexToDec(token.value)
       case OperandType.Register:
       case OperandType.RegisterAddress:
-        return GeneralPurposeRegister[token.value as GeneralPurposeRegisterName]
+        invariant(isIn(token.value, GeneralPurposeRegister))
+        return GeneralPurposeRegister[token.value]
       case OperandType.String:
         return stringToAscii(token.value)
       case OperandType.Label:
@@ -99,10 +100,7 @@ const createStatement = (
   instruction: Instruction,
   operands: Operand[],
 ): Statement => {
-  // istanbul ignore next
-  if (instruction.opcode === undefined) {
-    throw new Error(`Opcode for instruction ${instruction.mnemonic} is undefined`)
-  }
+  invariant(instruction.opcode !== undefined)
   const codes: number[] = []
   if (instruction.opcode !== null) {
     codes.push(instruction.opcode)
@@ -254,7 +252,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
   const hasLabel = label !== null
 
   const token = tokenizer.consume()
-  if (token.type !== TokenType.Unknown || !(token.value in Mnemonic)) {
+  if (token.type !== TokenType.Unknown || !isIn(token.value, Mnemonic)) {
     throw new StatementError(token, hasLabel)
   }
 
@@ -268,7 +266,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
     operands.push(...parsedOperands)
   }
 
-  const mnemonic = token.value as Mnemonic
+  const mnemonic = token.value
   const operandCount = MnemonicToOperandCountMap[mnemonic]
 
   switch (operandCount) {
@@ -502,6 +500,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
           ])
           switch (firstOperand.type) {
             case OperandType.Register:
+              invariant(secondOperand.type !== OperandType.Register)
               switch (secondOperand.type) {
                 case OperandType.Number:
                   opcode = Opcode.MOV_IMM_TO_REG
@@ -512,9 +511,6 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
                 case OperandType.RegisterAddress:
                   opcode = Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG
                   break
-                // istanbul ignore next
-                default:
-                  throw new Error('unreachable')
               }
               break
             case OperandType.Address:

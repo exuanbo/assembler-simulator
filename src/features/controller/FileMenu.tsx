@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { applySelector, store } from '@/app/store'
 import { File as FileIcon } from '@/common/components/icons'
 import Modal from '@/common/components/Modal'
+import { invariant } from '@/common/utils'
 import { selectEditorInput, setEditorInput } from '@/features/editor/editorSlice'
 import { examples, template } from '@/features/editor/examples'
 
@@ -47,8 +48,13 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   const loadFile = (file: File): void => {
     const reader = Object.assign(new FileReader(), {
       onload: () => {
-        const value = reader.result as string
-        store.dispatch(setEditorInput({ value, isFromFile: true }))
+        invariant(typeof reader.result === 'string')
+        store.dispatch(
+          setEditorInput({
+            value: reader.result,
+            isFromFile: true,
+          }),
+        )
       },
     })
     reader.readAsText(file)

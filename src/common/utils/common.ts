@@ -85,6 +85,8 @@ export type PlainObject = Record<PropertyKey, any>
 export const isPlainObject = (value: unknown): value is PlainObject =>
   getType(value) === '[object Object]'
 
+export const isIn = <T extends {}>(key: PropertyKey, obj: T): key is keyof T => key in obj
+
 export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
   if (b.length !== a.length) {
     return false

@@ -10,6 +10,7 @@ import {
 import type { Extension } from '@codemirror/state'
 
 import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
+import { isIn } from '@/common/utils'
 
 // prettier-ignore
 const TokenRegExp = {
@@ -78,8 +79,8 @@ const asmLanguage = StreamLanguage.define<State>({
       state.operandsLeft = 0
     } else if (stream.match(TokenRegExp.UNKNOWN)) {
       const upperCaseToken = stream.current().toUpperCase()
-      if (upperCaseToken in Mnemonic) {
-        const mnemonic = upperCaseToken as Mnemonic
+      if (isIn(upperCaseToken, Mnemonic)) {
+        const mnemonic = upperCaseToken
         if (mnemonic === Mnemonic.END) {
           state.ended = true
         }

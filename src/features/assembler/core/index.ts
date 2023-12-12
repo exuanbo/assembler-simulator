@@ -1,5 +1,5 @@
 import { Mnemonic } from '@/common/constants'
-import { unsign8 } from '@/common/utils'
+import { invariant, unsign8 } from '@/common/utils'
 
 import {
   AssembleEndOfMemoryError,
@@ -32,7 +32,8 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     }
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
-      address = firstOperand!.code as number
+      invariant(typeof firstOperand?.code === 'number')
+      address = firstOperand.code
     } else {
       // label value has not been calculated yet
       address += codes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
@@ -65,7 +66,8 @@ export const assemble = (input: string): AssembleResult => {
     const { instruction, operands, codes } = statement
     const firstOperand = operands[0] as Operand | undefined
     if (instruction.mnemonic === Mnemonic.ORG) {
-      address = firstOperand!.code as number
+      invariant(typeof firstOperand?.code === 'number')
+      address = firstOperand.code
       continue
     }
     if (firstOperand?.type === OperandType.Label) {

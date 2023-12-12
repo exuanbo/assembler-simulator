@@ -1,12 +1,8 @@
 import { useSelector } from '@/app/store'
 import CardHeader from '@/common/components/CardHeader'
-import { arrayShallowEqual } from '@/common/utils'
+import { arrayShallowEqual, invariant, isIn } from '@/common/utils'
 
-import {
-  GeneralPurposeRegister,
-  type GeneralPurposeRegisterName,
-  SpecialPurposeRegisterName,
-} from './core'
+import { GeneralPurposeRegister, SpecialPurposeRegisterName } from './core'
 import {
   selectCpuGeneralPurposeRegisters,
   selectCpuPointerRegisters,
@@ -27,12 +23,9 @@ const CpuRegisters = (): JSX.Element => {
           <tbody className="divide-y">
             {gpr.map((registerValue, indexAsCode) => {
               const registerName = GeneralPurposeRegister[indexAsCode]
+              invariant(isIn(registerName, GeneralPurposeRegister))
               return (
-                <RegisterTableRow
-                  key={indexAsCode}
-                  name={registerName as GeneralPurposeRegisterName}
-                  value={registerValue}
-                />
+                <RegisterTableRow key={indexAsCode} name={registerName} value={registerValue} />
               )
             })}
           </tbody>

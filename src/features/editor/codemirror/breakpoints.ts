@@ -8,6 +8,8 @@ import {
 import { EditorView, gutter, GutterMarker } from '@codemirror/view'
 import { filterEffects, mapEffectValue } from '@codemirror-toolkit/utils'
 
+import { invariant } from '@/common/utils'
+
 import { ClassName, InternalClassName } from './classNames'
 import type { DOMEventHandler as GutterDOMEventHandler } from './gutter'
 
@@ -75,15 +77,18 @@ const toggleBreakpoint = (view: EditorView, pos: number): void => {
 }
 
 export const toggleBreakpointOnMouseEvent: GutterDOMEventHandler = (view, line, event) => {
-  if (event instanceof MouseEvent && event.offsetY <= line.bottom) {
-    // matches cursor style
-    if ((event.target as Element).classList.contains(ClassName.Breakpoint)) {
-      return false
-    }
-    toggleBreakpoint(view, line.from)
-    return true
+  invariant(event instanceof MouseEvent)
+  invariant(event.target instanceof Element)
+  // ignore clicks below the line
+  if (event.offsetY > line.bottom) {
+    return false
   }
-  return false
+  // match cursor style
+  if (event.target.classList.contains(ClassName.Breakpoint)) {
+    return false
+  }
+  toggleBreakpoint(view, line.from)
+  return true
 }
 
 export const breakpoints = (): Extension => {

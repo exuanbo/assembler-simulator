@@ -3,9 +3,18 @@ import type { EditorView } from '@codemirror/view'
 import { addExtension, removeExtension } from '@codemirror-toolkit/extensions'
 import { defer, from, map } from 'rxjs'
 
-const vim = {
+import { invariant } from '@/common/utils'
+
+// TODO: import from @codemirror-toolkit/extensions
+type ExtensionObject = Exclude<Extension, readonly Extension[]>
+
+interface VimExtension extends ExtensionObject {
+  initialized: boolean
+}
+
+const vim: VimExtension = {
+  extension: [],
   initialized: false,
-  extension: [] as Extension,
 }
 
 export const initVim$ = defer(() =>
@@ -20,9 +29,7 @@ export const initVim$ = defer(() =>
 )
 
 export const enableVim = (view: EditorView): void => {
-  if (!vim.initialized) {
-    throw new Error('Vim extension not initialized.')
-  }
+  invariant(vim.initialized, 'Vim extension not initialized.')
   addExtension(view, vim)
 }
 

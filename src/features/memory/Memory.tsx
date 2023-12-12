@@ -2,7 +2,7 @@ import { useSelector } from '@/app/store'
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowDown, ArrowUp } from '@/common/components/icons'
 import { useToggle } from '@/common/hooks'
-import { classNames, decToHex, range } from '@/common/utils'
+import { classNames, decToHex, invariant, range } from '@/common/utils'
 import { MAX_SP } from '@/features/cpu/core'
 import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 
@@ -63,7 +63,9 @@ const Memory = (): JSX.Element => {
                           'rounded bg-green-100': address === ip,
                           'rounded bg-blue-100': address === sp && isDataView,
                         })}>
-                        {memoryView === MemoryView.Hexadecimal ? decToHex(value as number) : value}
+                        {memoryView === MemoryView.Hexadecimal
+                          ? (invariant(typeof value === 'number'), decToHex(value))
+                          : value}
                       </span>
                     </td>
                   )

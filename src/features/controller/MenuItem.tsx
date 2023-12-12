@@ -3,6 +3,7 @@ import { type ReactNode, type RefCallback, useState } from 'react'
 import Anchor from '@/common/components/Anchor'
 import { Play, Share } from '@/common/components/icons'
 import { useHover, useRefCallback } from '@/common/hooks'
+import { invariant } from '@/common/utils'
 
 const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
 
@@ -59,7 +60,8 @@ const Expandable = ({ children }: ExpandableProps): JSX.Element => {
   const [menuItems, menuItemsRef] = useRefCallback<HTMLDivElement>()
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-    if (menuItems === null || !menuItems.contains(event.target as Element)) {
+    invariant(event.target instanceof Node)
+    if (menuItems === null || !menuItems.contains(event.target)) {
       event.stopPropagation()
     }
   }
