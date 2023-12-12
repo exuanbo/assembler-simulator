@@ -176,7 +176,7 @@ const parseSingleOperand =
     let t: OperandType
 
     const isExpectedType = (type: OperandType): type is T =>
-      (expectedTypes as OperandType[]).includes(type)
+      (<OperandType[]>expectedTypes).includes(type)
 
     switch (token.type) {
       case TokenType.Digits:
@@ -273,14 +273,14 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
 
   switch (operandCount) {
     case 0: {
-      setOpcode(Opcode[mnemonic as MnemonicWithNoOperand])
+      setOpcode(Opcode[<MnemonicWithNoOperand>mnemonic])
       break
     }
     case 1: {
       let opcode, operand
       const parseOperand = parseSingleOperand(tokenizer)
 
-      switch (mnemonic as MnemonicWithOneOperand) {
+      switch (<MnemonicWithOneOperand>mnemonic) {
         case Mnemonic.INC:
           operand = parseOperand(OperandType.Register)
           opcode = Opcode.INC_REG
@@ -379,7 +379,7 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
       let opcode, firstOperand, secondOperand
       const parseOperands = parseDoubleOperands(tokenizer)
 
-      switch (mnemonic as MnemonicWithTwoOperands) {
+      switch (<MnemonicWithTwoOperands>mnemonic) {
         case Mnemonic.ADD:
           ;[firstOperand, secondOperand] = parseOperands([
             [OperandType.Register, OperandType.Register],

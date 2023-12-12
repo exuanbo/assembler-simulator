@@ -9,23 +9,20 @@ type Item = Nullable<string | Record<string, Nullable<boolean>>>
 
 export const classNames = (...items: Item[]): string => {
   let className = ''
-  const itemCount = items.length
-  for (let itemIndex = 0; itemIndex < itemCount; itemIndex++) {
-    const item = items[itemIndex]
-    if (item != null) {
-      if (typeof item === 'string') {
-        if (className.length > 0) {
-          className += ' '
-        }
-        className += item
-      } else {
-        for (const key in item) {
-          if (item[key] === true) {
-            if (className.length > 0) {
-              className += ' '
-            }
-            className += key
-          }
+  const count = items.length
+  for (let index = 0; index < count; index++) {
+    const item = items[index]
+    if (!item) {
+      continue
+    }
+    if (typeof item === 'string') {
+      className && (className += ' ')
+      className += item
+    } else {
+      for (const key in item) {
+        if (item[key]) {
+          className && (className += ' ')
+          className += key
         }
       }
     }

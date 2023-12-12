@@ -80,7 +80,7 @@ const getType = (value: unknown): string => Object.prototype.toString.call(value
 export const isSameType = <T>(a: T, b: unknown): b is T => getType(a) === getType(b)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type PlainObject = Record<string | number | symbol, any>
+export type PlainObject = Record<PropertyKey, any>
 
 export const isPlainObject = (value: unknown): value is PlainObject =>
   getType(value) === '[object Object]'
@@ -89,9 +89,9 @@ export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
   if (b.length !== a.length) {
     return false
   }
-  const elementCount = b.length
-  for (let elementIndex = 0; elementIndex < elementCount; elementIndex++) {
-    if (b[elementIndex] !== a[elementIndex]) {
+  const count = b.length
+  for (let index = 0; index < count; index++) {
+    if (b[index] !== a[index]) {
       return false
     }
   }
@@ -100,29 +100,25 @@ export const arrayShallowEqual = (a: unknown[], b: unknown[]): boolean => {
 
 export const chunk = <T>(size: number, arr: T[]): T[][] => {
   const chunks: T[][] = []
-  const elementCount = arr.length
-  for (let elementIndex = 0; elementIndex < elementCount; elementIndex += size) {
-    chunks.push(arr.slice(elementIndex, elementIndex + size))
+  const count = arr.length
+  for (let index = 0; index < count; index += size) {
+    chunks.push(arr.slice(index, index + size))
   }
   return chunks
 }
 
 export const asciiToChars = (arr: number[]): string[] => arr.map((num) => String.fromCharCode(num))
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type FunctionType = (...args: any[]) => any
-
-export const isFunction = (value: unknown): value is FunctionType => typeof value === 'function'
+export const isFunction = (value: unknown): value is Function => typeof value === 'function'
 
 export const noop = (): void => {}
 
 export const call = <T>(fn: () => T): T => fn()
 
-// TODO: type more precisely
 export const ary =
   <T extends unknown[], R>(fn: (...args: T) => R, arity: number) =>
   (...args: T): R =>
-    fn(...(args.slice(0, arity) as T))
+    fn(...(<T>args.slice(0, arity)))
 
 export const curryRight2 =
   <T1, T2, R>(fn: (arg1: T1, arg2: T2) => R) =>
