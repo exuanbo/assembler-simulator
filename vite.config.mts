@@ -9,6 +9,14 @@ import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
 
+interface ImportMetaEnvDefinition {
+  [key: `import.meta.env.${string}`]: string | boolean
+}
+
+const importMetaEnv: ImportMetaEnvDefinition = {
+  'import.meta.env.NEVER': false,
+}
+
 const exec = promisify(child_process.exec)
 
 const getCommitHash = async () => {
@@ -21,16 +29,20 @@ const getCommitDate = async () => {
   return new Date(stdout).toISOString()
 }
 
+const globalConstants = {
+  __VERSION__: JSON.stringify(version),
+  __COMMIT_HASH__: getCommitHash().then((hash) => JSON.stringify(hash)),
+  __COMMIT_DATE__: getCommitDate().then((date) => JSON.stringify(date)),
+}
+
 export default defineConfig(async () => ({
   base: './',
   build: {
     chunkSizeWarningLimit: 1000,
   },
   define: {
-    'import.meta.env.NEVER': false,
-    __VERSION__: JSON.stringify(version),
-    __COMMIT_HASH__: JSON.stringify(await getCommitHash()),
-    __COMMIT_DATE__: JSON.stringify(await getCommitDate()),
+    ...importMetaEnv,
+    ...(await forkJoin(globalConstants)),
   },
   plugins: [
     react(),
@@ -90,3 +102,13 @@ export default defineConfig(async () => ({
     },
   },
 }))
+
+type Joined<T extends Record<string, unknown>> = {
+  [K in keyof T]: T[K] extends Promise<infer U> ? U : T[K]
+}
+
+async function forkJoin<T extends Record<string, unknown>>(promises: T): Promise<Joined<T>> {
+  const keys = Object.keys(promises)
+  const values = await Promise.all(Object.values(promises))
+  return Object.fromEntries(keys.map((key, index) => [key, values[index]])) as Joined<T>
+}
