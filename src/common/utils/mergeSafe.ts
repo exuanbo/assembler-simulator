@@ -11,23 +11,29 @@ const mergeSafeRecursive = <Target>(target: Target, source: unknown): Target => 
   const result: PlainObject = {}
   const targetPropertyNames = Object.getOwnPropertyNames(target)
   const targetPropertySymbols = Object.getOwnPropertySymbols(target)
+  const sourcePropertyNames = Object.getOwnPropertyNames(source)
+  const sourcePropertySymbols = Object.getOwnPropertySymbols(source)
   const assignTargetProperty = (key: string | symbol): void => {
-    Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(target, key)!)
+    const isKeySymbol = typeof key === 'symbol'
+    if (
+      (!isKeySymbol && !sourcePropertyNames.includes(key)) ||
+      (isKeySymbol && !sourcePropertySymbols.includes(key))
+    ) {
+      Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(target, key)!)
+    }
   }
   targetPropertyNames.forEach(assignTargetProperty)
   targetPropertySymbols.forEach(assignTargetProperty)
-  const sourcePropertyNames = Object.getOwnPropertyNames(source)
-  const sourcePropertySymbols = Object.getOwnPropertySymbols(source)
   const assignSourceProperty = (key: string | symbol): void => {
     const isKeySymbol = typeof key === 'symbol'
     if (
       (!isKeySymbol && targetPropertyNames.includes(key)) ||
       (isKeySymbol && targetPropertySymbols.includes(key))
     ) {
-      const targetPropertyValue = result[key]
+      const targetPropertyValue = target[key]
       const sourcePropertyValue: unknown = source[key]
       Object.defineProperty(result, key, {
-        ...Object.getOwnPropertyDescriptor(source, key),
+        ...Object.getOwnPropertyDescriptor(target, key),
         value: mergeSafeRecursive(targetPropertyValue, sourcePropertyValue),
       })
     }
