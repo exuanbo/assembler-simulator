@@ -54,5 +54,4 @@ type ExpandDeep<T> = T extends Record<PropertyKey, unknown>
 export const merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
   target: Target,
   ...sources: Sources
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): ExpandDeep<O.Assign<Target, Sources, 'deep'>> => sources.reduce<any>(mergeRecursively, target)
+) => sources.reduce(mergeRecursively, target) as ExpandDeep<O.Assign<Target, Sources, 'deep'>>
