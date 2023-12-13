@@ -1,14 +1,10 @@
-import type { Extension } from '@codemirror/state'
 import type { EditorView } from '@codemirror/view'
-import { addExtension, removeExtension } from '@codemirror-toolkit/extensions'
+import { addExtension, type FlatExtension, removeExtension } from '@codemirror-toolkit/extensions'
 import { defer, from, map } from 'rxjs'
 
 import { invariant } from '@/common/utils'
 
-// TODO: import from @codemirror-toolkit/extensions
-type ExtensionObject = Exclude<Extension, readonly Extension[]>
-
-interface VimExtension extends ExtensionObject {
+interface VimExtension extends FlatExtension {
   initialized: boolean
 }
 
