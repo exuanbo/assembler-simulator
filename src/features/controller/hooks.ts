@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { debounceTime, delayWhen, filter, of, tap, timer } from 'rxjs'
 
-import { applySelector, store } from '@/app/store'
+import { store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import { useSingleton } from '@/common/hooks'
 import { observe } from '@/common/observe'
@@ -32,7 +32,7 @@ export const useController = (): Controller => {
     return observe(
       setEditorInput$.pipe(
         tap(controller.resetSelf),
-        filter(() => applySelector(selectAutoAssemble)),
+        filter(() => store.getState(selectAutoAssemble)),
         delayWhen(({ isFromFile }) => (isFromFile ? timer(UPDATE_TIMEOUT_MS) : of(null))),
       ),
       controller.assemble,
@@ -55,7 +55,7 @@ export const useController = (): Controller => {
         filter(() => {
           // `setSuspended` action listener will resume the main loop with new configuration
           // so we skip calling `stopAndRun` if cpu is suspended
-          return applySelector(selectIsRunning) && !applySelector(selectIsSuspended)
+          return store.getState(selectIsRunning) && !store.getState(selectIsSuspended)
         }),
       ),
       controller.stopAndRun,

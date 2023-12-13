@@ -4,7 +4,7 @@ import type { ViewEffectCallback } from '@codemirror-toolkit/react'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
 import { debounceTime, filter, identity, map, of, switchMap } from 'rxjs'
 
-import { applySelector, store } from '@/app/store'
+import { store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import * as Maybe from '@/common/maybe'
 import { observe } from '@/common/observe'
@@ -123,7 +123,7 @@ const clearAssemblerErrorOnInput = defineViewEffect((view) => {
   return observe(
     viewUpdate$.pipe(
       filter((update) => update.docChanged),
-      filter(() => !!applySelector(selectAssemblerError)),
+      filter(() => !!store.getState(selectAssemblerError)),
       map(() => clearAssemblerError()),
     ),
     (action) => store.dispatch(action),
@@ -204,7 +204,7 @@ const syncBreakpointsToState = defineViewEffect((view) => {
 })
 
 const initialSyncBreakpointsFromState = defineViewEffect((view) => {
-  const breakpoints = applySelector(selectEditorBreakpoints)
+  const breakpoints = store.getState(selectEditorBreakpoints)
   // persisted state might not be in sync with codemirror
   const validBreakpoints = breakpoints.filter(
     (lineLoc) =>

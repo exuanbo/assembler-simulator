@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-import { applySelector, store } from '@/app/store'
+import { store } from '@/app/store'
 import { File as FileIcon } from '@/common/components/icons'
 import Modal from '@/common/components/Modal'
 import { invariant } from '@/common/utils'
@@ -119,7 +119,7 @@ const OpenExampleMenu = (): JSX.Element => (
 
 const SaveButton = (): JSX.Element => {
   const handleClick = (): void => {
-    const editorInput = applySelector(selectEditorInput)
+    const editorInput = store.getState(selectEditorInput)
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
     const fileUrl = URL.createObjectURL(fileBlob)
     const anchorElement = Object.assign(document.createElement('a'), {

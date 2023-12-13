@@ -1,6 +1,6 @@
 import { first } from 'rxjs'
 
-import { applySelector, store } from '@/app/store'
+import { store } from '@/app/store'
 import { observe } from '@/common/observe'
 import { call } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
@@ -89,7 +89,7 @@ export class Controller {
   private lastBreakpointLineNumber: number | undefined
 
   public assemble = (): void => {
-    assembleFrom(applySelector(selectEditorInput))
+    assembleFrom(store.getState(selectEditorInput))
   }
 
   public runOrStop = (): void => {
@@ -102,7 +102,7 @@ export class Controller {
    * @returns true if stopped from running
    */
   private stopIfRunning(): boolean {
-    const isRunning = applySelector(selectIsRunning)
+    const isRunning = store.getState(selectIsRunning)
     if (isRunning) {
       this.stop()
     }
@@ -142,12 +142,12 @@ export class Controller {
   }
 
   private setStepInterval(): void {
-    const { clockSpeed } = applySelector(selectRuntimeConfiguration)
+    const { clockSpeed } = store.getState(selectRuntimeConfiguration)
     this.stepIntervalId = window.setInterval(this.step, 1000 / clockSpeed)
   }
 
   private setInterruptInterval(withFlag = true): void {
-    const { timerInterval } = applySelector(selectRuntimeConfiguration)
+    const { timerInterval } = store.getState(selectRuntimeConfiguration)
     this.interruptIntervalId = window.setInterval(() => {
       store.dispatch(setInterrupt(true))
     }, timerInterval)
@@ -192,14 +192,14 @@ export class Controller {
 
   private stepFrom = (lastStepResult: StepResult | null): void => {
     switch (true) {
-      case applySelector(selectEditorInput) !== applySelector(selectAssembledSource):
+      case store.getState(selectEditorInput) !== store.getState(selectAssembledSource):
         store.dispatch(setEditorMessage(sourceChangedMessage))
         break
-      case applySelector(selectEditorMessage) === sourceChangedMessage:
+      case store.getState(selectEditorMessage) === sourceChangedMessage:
         store.dispatch(clearEditorMessage())
         break
     }
-    const { fault, halted } = applySelector(selectCpuStatus)
+    const { fault, halted } = store.getState(selectCpuStatus)
     if (fault !== null || halted) {
       this.stopIfRunning()
       if (fault === null && halted) {
@@ -213,10 +213,10 @@ export class Controller {
       try {
         stepOutput = stepPure(
           lastStepResult ?? {
-            memoryData: applySelector(selectMemoryData),
-            cpuRegisters: applySelector(selectCpuRegisters),
+            memoryData: store.getState(selectMemoryData),
+            cpuRegisters: store.getState(selectCpuRegisters),
           },
-          applySelector(selectInputSignals),
+          store.getState(selectInputSignals),
         )
       } catch (exception) {
         this.stopIfRunning()
@@ -231,7 +231,7 @@ export class Controller {
       }
       const { memoryData, cpuRegisters, signals, changes } = stepOutput
       const instructionAdress = cpuRegisters.ip
-      const addressToStatementMap = applySelector(selectAddressToStatementMap)
+      const addressToStatementMap = store.getState(selectAddressToStatementMap)
       const statement = addressToStatementMap[instructionAdress]
       const hasStatement =
         statement !== undefined &&
@@ -260,7 +260,7 @@ export class Controller {
       if (!this.willDispatchChanges || isVduBufferChanged) {
         dispatchChanges()
       }
-      const isRunning = applySelector(selectIsRunning)
+      const isRunning = store.getState(selectIsRunning)
       if (isRunning) {
         const isSrInterruptFlagChanged = changes.cpuRegisters?.sr?.interrupt ?? false
         if (isSrInterruptFlagChanged) {
@@ -319,7 +319,7 @@ export class Controller {
           // wrong port
           store.dispatch(clearInputData())
         }
-      } else if (applySelector(selectIsWaitingForInput)) {
+      } else if (store.getState(selectIsWaitingForInput)) {
         // `step` called from actionListener
         store.dispatch(setWaitingForInput(false))
         store.dispatch(clearInputData())
@@ -344,7 +344,7 @@ export class Controller {
         }
       }
       let hasBreakpoint = false
-      const breakpoints = applySelector(selectEditorBreakpoints)
+      const breakpoints = store.getState(selectEditorBreakpoints)
       if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
         const breakpointLineLoc = breakpoints.find((lineLoc) =>
           lineRangesOverlap(lineLoc, statement.range),
@@ -396,7 +396,7 @@ export class Controller {
   }
 
   private restoreIfSuspended(): void {
-    if (applySelector(selectIsSuspended)) {
+    if (store.getState(selectIsSuspended)) {
       this.unsubscribeSetSuspended!()
       store.dispatch(setSuspended(false))
     }

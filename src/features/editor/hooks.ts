@@ -2,7 +2,7 @@ import { createCodeMirror } from '@codemirror-toolkit/react'
 import { useEffect } from 'react'
 import { debounceTime, filter, first, map, merge, switchMap } from 'rxjs'
 
-import { applySelector, store, useSelector } from '@/app/store'
+import { store, useSelector } from '@/app/store'
 import * as Maybe from '@/common/maybe'
 import { observe } from '@/common/observe'
 import { selectAssemblerError } from '@/features/assembler/assemblerSlice'
@@ -21,7 +21,7 @@ import {
 } from './editorSlice'
 
 export const { useViewEffect, useContainerRef } = createCodeMirror<HTMLDivElement>(() => {
-  const editorInput = applySelector(selectEditorInput)
+  const editorInput = store.getState(selectEditorInput)
   const handleException: ExceptionHandler = (exception) => {
     store.dispatch(setException(exception))
   }

@@ -15,7 +15,7 @@ export const createStateObserver = <State>(): StateObserver<State> => {
   const state$ = new ReplaySubject<State>(1)
   const distinctState$ = state$.pipe(distinctUntilChanged())
 
-  const middleware: Middleware = (api) => {
+  const middleware: Middleware<{}, State> = (api) => {
     state$.next(api.getState())
     let dispatchDepth = 0
 
