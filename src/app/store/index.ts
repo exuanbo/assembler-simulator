@@ -8,7 +8,6 @@ import { exceptionSlice } from '@/features/exception/exceptionSlice'
 import { ioSlice } from '@/features/io/ioSlice'
 import { memorySlice } from '@/features/memory/memorySlice'
 
-import { createSelectorEnhancer } from './enhancers/getStateWithSelector'
 import { subscribeChange } from './enhancers/subscribeChange'
 import { createActionObserver } from './observers/actionObserver'
 import { createStateObserver } from './observers/stateObserver'
@@ -32,8 +31,6 @@ const rootReducer = combineSlices(
 
 export type RootState = ReturnType<typeof rootReducer>
 
-const getStateWithSelector = createSelectorEnhancer<RootState>()
-
 const stateObserver = createStateObserver<RootState>()
 const actionObserver = createActionObserver()
 
@@ -49,7 +46,6 @@ export const store = configureStore({
     const defaultEnhancers = getDefaultEnhancers({ autoBatch: false })
     return defaultEnhancers
       .concat(subscribeChange)
-      .concat(getStateWithSelector)
       .concat(stateObserver.enhancer, actionObserver.enhancer)
   },
 })

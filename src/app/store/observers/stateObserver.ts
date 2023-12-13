@@ -1,19 +1,33 @@
 import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
-import { distinctUntilChanged, map, type Observable, ReplaySubject } from 'rxjs'
+import { BehaviorSubject, distinctUntilChanged, map, type Observable } from 'rxjs'
+
+import { invariant } from '@/common/utils'
 
 import { injectExtension } from '../enhancers/injectExtension'
 import { createWeakCache } from './weakCache'
 
 type ObserveState<State> = <Selected>(selector: Selector<State, Selected>) => Observable<Selected>
 
-interface StateObserver<State> {
-  middleware: Middleware<{}, State>
-  enhancer: StoreEnhancer<{ onState: ObserveState<State> }>
+interface GetSelectedState<State> {
+  (): State
+  <Selected>(selector: Selector<State, Selected>): Selected
 }
 
-export const createStateObserver = <State>(): StateObserver<State> => {
-  const state$ = new ReplaySubject<State>(1)
-  const distinctState$ = state$.pipe(distinctUntilChanged())
+interface StateObserver<State> {
+  middleware: Middleware<{}, State>
+  enhancer: StoreEnhancer<{
+    onState: ObserveState<State>
+    getState: GetSelectedState<State>
+  }>
+}
+
+export const createStateObserver = <State extends {}>(): StateObserver<State> => {
+  const state$ = new BehaviorSubject<State | null>(null)
+
+  const distinctState$ = state$.pipe(
+    map((state) => (invariant(state != null), state)),
+    distinctUntilChanged(),
+  )
 
   const middleware: Middleware<{}, State> = (api) => {
     state$.next(api.getState())
@@ -38,8 +52,14 @@ export const createStateObserver = <State>(): StateObserver<State> => {
   const onState: ObserveState<State> = (selector) =>
     getOrCache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))
 
+  const getState: GetSelectedState<State> = <Selected>(selector?: Selector<State, Selected>) => {
+    const state = state$.getValue()
+    invariant(state != null)
+    return selector ? selector(state) : state
+  }
+
   return {
     middleware,
-    enhancer: injectExtension({ onState }),
+    enhancer: injectExtension({ onState, getState }),
   }
 }
