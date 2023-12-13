@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
-import { debounceTime, filter } from 'rxjs'
+import { debounceTime, delayWhen, filter, of, tap, timer } from 'rxjs'
 
 import { applySelector, store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import { useSingleton } from '@/common/hooks'
 import { observe } from '@/common/observe'
-import { selectIsAssembled, setAssemblerState } from '@/features/assembler/assemblerSlice'
+import { setAssemblerState } from '@/features/assembler/assemblerSlice'
 import { setEditorInput } from '@/features/editor/editorSlice'
 
 import {
+  selectAutoAssemble,
   selectIsRunning,
   selectIsSuspended,
   selectRuntimeConfiguration,
-  setAutoAssemble,
 } from './controllerSlice'
 import { Controller } from './core'
 
@@ -20,16 +20,20 @@ export const useController = (): Controller => {
   const controller = useSingleton(() => new Controller())
 
   useEffect(() => {
-    const setEditorInput$ = store.onAction(setEditorInput)
-    return observe(setEditorInput$, controller.resetSelf)
+    const autoAssemble$ = store.onState(selectAutoAssemble)
+    return observe(
+      autoAssemble$.pipe(debounceTime(UPDATE_TIMEOUT_MS), filter(Boolean)),
+      controller.assemble,
+    )
   }, [controller])
 
   useEffect(() => {
-    const setAutoAssemble$ = store.onAction(setAutoAssemble)
+    const setEditorInput$ = store.onAction(setEditorInput)
     return observe(
-      setAutoAssemble$.pipe(
-        debounceTime(UPDATE_TIMEOUT_MS),
-        filter((shouldAutoAssemble) => shouldAutoAssemble && !applySelector(selectIsAssembled)),
+      setEditorInput$.pipe(
+        tap(controller.resetSelf),
+        filter(() => applySelector(selectAutoAssemble)),
+        delayWhen(({ isFromFile }) => (isFromFile ? timer(UPDATE_TIMEOUT_MS) : of(null))),
       ),
       controller.assemble,
     )
@@ -37,7 +41,11 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     const setAssemblerState$ = store.onAction(setAssemblerState)
-    return observe(setAssemblerState$, controller.resetSelf)
+    return observe(
+      setAssemblerState$,
+      // TODO: full reset? -> will simplify `assemble`
+      controller.resetSelf,
+    )
   }, [controller])
 
   useEffect(() => {

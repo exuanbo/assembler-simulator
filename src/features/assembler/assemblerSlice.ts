@@ -41,7 +41,6 @@ export const assemblerSlice = createSlice({
   },
   selectors: {
     selectAssembledSource: (state) => state.source,
-    selectIsAssembled: (state) => state.source !== initialState.source,
     selectAddressToStatementMap: (state) => state.addressToStatementMap,
     selectAssemblerError: (state) => state.error,
     selectAssemblerErrorRange: (state) => state.error?.range,
@@ -57,7 +56,6 @@ export const {
 
 export const {
   selectAssembledSource,
-  selectIsAssembled,
   selectAddressToStatementMap,
   selectAssemblerError,
   selectAssemblerErrorRange,
