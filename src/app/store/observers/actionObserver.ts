@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit'
 import { filter, map, type Observable, Subject } from 'rxjs'
 
-import { injectExtension } from '../enhancers/injectExtension'
+import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { createWeakCache } from './weakCache'
 
 type ObserveAction = <Payload>(actionCreator: PayloadActionCreator<Payload>) => Observable<Payload>
@@ -44,6 +44,6 @@ export const createActionObserver = (): ActionObserver => {
 
   return {
     middleware,
-    enhancer: injectExtension({ onAction }),
+    enhancer: injectStoreExtension({ onAction }),
   }
 }

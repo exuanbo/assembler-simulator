@@ -1,7 +1,7 @@
 import type { StoreEnhancer } from '@reduxjs/toolkit'
 
-export const injectExtension =
-  <Ext extends {}>(extension: Ext): StoreEnhancer<Ext> =>
+export const injectStoreExtension =
+  <StoreExtension extends {}>(extension: StoreExtension): StoreEnhancer<StoreExtension> =>
   (createStore) =>
   (...args) => {
     const store = createStore(...args)

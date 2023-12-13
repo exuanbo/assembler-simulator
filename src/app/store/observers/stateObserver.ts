@@ -3,7 +3,7 @@ import { BehaviorSubject, distinctUntilChanged, map, type Observable } from 'rxj
 
 import { invariant } from '@/common/utils'
 
-import { injectExtension } from '../enhancers/injectExtension'
+import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { createWeakCache } from './weakCache'
 
 type ObserveState<State> = <Selected>(selector: Selector<State, Selected>) => Observable<Selected>
@@ -60,6 +60,9 @@ export const createStateObserver = <State extends {}>(): StateObserver<State> =>
 
   return {
     middleware,
-    enhancer: injectExtension({ onState, getState }),
+    enhancer: injectStoreExtension({
+      onState,
+      getState,
+    }),
   }
 }
