@@ -25,12 +25,12 @@ export const assemble = (input: string): void => {
     store.dispatch(resetMemoryData())
     store.dispatch(clearEditorHighlightRange())
   }
-  const [addressToOpcodeMap, addressToStatementMap] = assembleResult
+  const [addressToCodeMap, addressToStatementMap] = assembleResult
   store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-  store.dispatch(setMemoryDataFrom(addressToOpcodeMap))
+  store.dispatch(setMemoryDataFrom(addressToCodeMap))
+  // TODO: move to viewEffects: `store.onAction(setAssemblerState)`
   const firstStatement = addressToStatementMap[0]
-  const hasStatement = firstStatement !== undefined
-  if (hasStatement) {
+  if (firstStatement) {
     store.dispatch(setEditorHighlightRange(firstStatement))
   }
 }

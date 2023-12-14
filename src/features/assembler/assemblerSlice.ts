@@ -27,7 +27,7 @@ export const assemblerSlice = createSlice({
     ) => {
       state.error = null
       state.source = action.payload.source
-      state.addressToStatementMap = action.payload.addressToStatementMap
+      state.addressToStatementMap = Object.freeze(action.payload.addressToStatementMap)
     },
     setError: (state, action: PayloadAction<AssemblerErrorObject>) => {
       state.error = action.payload
