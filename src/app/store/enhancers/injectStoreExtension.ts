@@ -1,12 +1,14 @@
-import type { StoreEnhancer } from '@reduxjs/toolkit'
+import type { Store, StoreEnhancer } from '@reduxjs/toolkit'
 
 export const injectStoreExtension =
-  <StoreExtension extends {}>(extension: StoreExtension): StoreEnhancer<StoreExtension> =>
-  (createStore) =>
+  <StoreExtension extends {}>(
+    createExtension: <NextStore extends Store>(store: NextStore) => StoreExtension,
+  ): StoreEnhancer<StoreExtension> =>
+  (next) =>
   (...args) => {
-    const store = createStore(...args)
+    const store = next(...args)
     return {
       ...store,
-      ...extension,
+      ...createExtension(store),
     }
   }

@@ -37,13 +37,12 @@ export const createActionObserver = (): ActionObserver => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getOrCache = createWeakCache<PayloadActionCreator<any>>()
+  const cache = createWeakCache<PayloadActionCreator<any>>()
 
   const onAction: ObserveAction = (actionCreator) =>
-    getOrCache(actionCreator, () => action$.pipe(filter(matchType(actionCreator)), map(getPayload)))
+    cache(actionCreator, () => action$.pipe(filter(matchType(actionCreator)), map(getPayload)))
 
-  return {
-    middleware,
-    enhancer: injectStoreExtension({ onAction }),
-  }
+  const enhancer = injectStoreExtension(() => ({ onAction }))
+
+  return { middleware, enhancer }
 }

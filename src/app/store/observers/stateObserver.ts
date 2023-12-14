@@ -8,17 +8,9 @@ import { createWeakCache } from './weakCache'
 
 type ObserveState<State> = <Selected>(selector: Selector<State, Selected>) => Observable<Selected>
 
-interface GetSelectedState<State> {
-  (): State
-  <Selected>(selector: Selector<State, Selected>): Selected
-}
-
 interface StateObserver<State> {
   middleware: Middleware<{}, State>
-  enhancer: StoreEnhancer<{
-    onState: ObserveState<State>
-    getState: GetSelectedState<State>
-  }>
+  enhancer: StoreEnhancer<{ onState: ObserveState<State> }>
 }
 
 export const createStateObserver = <State extends {}>(): StateObserver<State> => {
@@ -47,22 +39,12 @@ export const createStateObserver = <State extends {}>(): StateObserver<State> =>
     }
   }
 
-  const getOrCache = createWeakCache<Selector<State, unknown>>()
+  const cache = createWeakCache<Selector<State, unknown>>()
 
   const onState: ObserveState<State> = (selector) =>
-    getOrCache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))
+    cache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))
 
-  const getState: GetSelectedState<State> = <Selected>(selector?: Selector<State, Selected>) => {
-    const state = state$.getValue()
-    invariant(state != null)
-    return selector ? selector(state) : state
-  }
+  const enhancer = injectStoreExtension(() => ({ onState }))
 
-  return {
-    middleware,
-    enhancer: injectStoreExtension({
-      onState,
-      getState,
-    }),
-  }
+  return { middleware, enhancer }
 }

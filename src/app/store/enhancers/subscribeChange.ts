@@ -1,12 +1,11 @@
-import type { Store, StoreEnhancer } from '@reduxjs/toolkit'
+import type { Store } from '@reduxjs/toolkit'
+
+import { injectStoreExtension } from './injectStoreExtension'
 
 type SubscribeChange = Store['subscribe']
 
-export const subscribeChange: StoreEnhancer<{ subscribeChange: SubscribeChange }> =
-  (createStore) =>
-  (...args) => {
-    const store = createStore(...args)
-
+export const subscribeChange = injectStoreExtension<{ subscribeChange: SubscribeChange }>(
+  <State>(store: Store<State>) => {
     let stateSnapshot: ReturnType<typeof store.getState> | null = null
 
     const dispatch: typeof store.dispatch = (action) => {
@@ -18,7 +17,7 @@ export const subscribeChange: StoreEnhancer<{ subscribeChange: SubscribeChange }
       }
     }
 
-    const subscribeChange: typeof store.subscribe = (listener) =>
+    const subscribeChange: SubscribeChange = (listener) =>
       store.subscribe(() => {
         const state = store.getState()
         if (state !== stateSnapshot) {
@@ -26,9 +25,6 @@ export const subscribeChange: StoreEnhancer<{ subscribeChange: SubscribeChange }
         }
       })
 
-    return {
-      ...store,
-      dispatch,
-      subscribeChange,
-    }
-  }
+    return { dispatch, subscribeChange }
+  },
+)
