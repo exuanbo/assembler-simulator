@@ -1,6 +1,6 @@
 import { isPlainObject, isSameType, type PlainObject } from './common'
 
-const mergeSafeRecursive = <Target>(target: Target, source: unknown): Target => {
+const mergeSafeRec = <Target>(target: Target, source: unknown): Target => {
   if (!isSameType(target, source)) {
     return target
   }
@@ -34,7 +34,7 @@ const mergeSafeRecursive = <Target>(target: Target, source: unknown): Target => 
       const sourcePropertyValue: unknown = source[key]
       Object.defineProperty(result, key, {
         ...Object.getOwnPropertyDescriptor(target, key),
-        value: mergeSafeRecursive(targetPropertyValue, sourcePropertyValue),
+        value: mergeSafeRec(targetPropertyValue, sourcePropertyValue),
       })
     }
   }
@@ -46,4 +46,4 @@ const mergeSafeRecursive = <Target>(target: Target, source: unknown): Target => 
 export const mergeSafe = <Target, Sources extends unknown[]>(
   target: Target,
   ...sources: Sources
-): Target => sources.reduce<Target>(mergeSafeRecursive, target)
+): Target => sources.reduce<Target>(mergeSafeRec, target)

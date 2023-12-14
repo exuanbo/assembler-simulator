@@ -6,7 +6,7 @@ import type { O } from 'ts-toolbelt'
 
 import { isPlainObject, type PlainObject } from './common'
 
-const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => {
+const mergeRec = (target: unknown, source: PlainObject): PlainObject => {
   const result: PlainObject = {}
   const sourcePropertyNames = Object.getOwnPropertyNames(source)
   const sourcePropertySymbols = Object.getOwnPropertySymbols(source)
@@ -33,7 +33,7 @@ const mergeRecursively = (target: unknown, source: PlainObject): PlainObject => 
       const targetPropertyValue: unknown = target[key]
       Object.defineProperty(result, key, {
         ...Object.getOwnPropertyDescriptor(source, key),
-        value: mergeRecursively(targetPropertyValue, sourcePropertyValue),
+        value: mergeRec(targetPropertyValue, sourcePropertyValue),
       })
     } else {
       Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(source, key)!)
@@ -54,4 +54,4 @@ type ExpandDeep<T> = T extends Record<PropertyKey, unknown>
 export const merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
   target: Target,
   ...sources: Sources
-) => sources.reduce(mergeRecursively, target) as ExpandDeep<O.Assign<Target, Sources, 'deep'>>
+) => sources.reduce(mergeRec, target) as ExpandDeep<O.Assign<Target, Sources, 'deep'>>
