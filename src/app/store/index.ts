@@ -48,9 +48,9 @@ export const store = configureStore({
   enhancers: (getDefaultEnhancers) => {
     const defaultEnhancers = getDefaultEnhancers({ autoBatch: false })
     return defaultEnhancers
-      .concat(subscribeChange)
+      .concat(actionObserver.enhancer, stateObserver.enhancer)
       .concat(getStateWithSelector)
-      .concat(stateObserver.enhancer, actionObserver.enhancer)
+      .concat(subscribeChange)
   },
 })
 
