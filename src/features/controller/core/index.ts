@@ -4,10 +4,7 @@ import { store } from '@/app/store'
 import { observe } from '@/common/observe'
 import { call } from '@/common/utils'
 import { assemble as assembleFrom } from '@/features/assembler/assemble'
-import {
-  selectAddressToStatementMap,
-  selectAssembledSource,
-} from '@/features/assembler/assemblerSlice'
+import { selectAssembledSource } from '@/features/assembler/assemblerSlice'
 import {
   __getSrInterruptFlag,
   RuntimeError,
@@ -58,6 +55,7 @@ import {
   setRunning,
   setSuspended,
 } from '../controllerSlice'
+import { selectCurrentStatementRange } from '../selectors'
 
 interface StepOptions {
   isUserAction?: boolean
@@ -228,15 +226,6 @@ export class Controller {
         return
       }
       const { memoryData, cpuRegisters, signals, changes } = stepOutput
-      const instructionAdress = cpuRegisters.ip
-      const addressToStatementMap = store.getState(selectAddressToStatementMap)
-      const statement = addressToStatementMap[instructionAdress]
-      const hasStatement =
-        statement !== undefined &&
-        statement.codes.length > 0 &&
-        statement.codes.every(
-          (code, codeIndex) => code === memoryData[instructionAdress + codeIndex],
-        )
       const changeAddress = changes.memoryData?.address
       const isVduBufferChanged = changeAddress !== undefined && changeAddress >= VDU_START_ADDRESS
       const dispatchChanges = (): void => {
@@ -338,9 +327,10 @@ export class Controller {
       }
       let hasBreakpoint = false
       const breakpoints = store.getState(selectEditorBreakpoints)
-      if (breakpoints.length > 0 && hasStatement && isRunning && !willSuspend) {
+      const currentStatementRange = store.getState(selectCurrentStatementRange)
+      if (breakpoints.length && currentStatementRange && isRunning && !willSuspend) {
         const breakpointLineLoc = breakpoints.find((lineLoc) =>
-          lineRangesOverlap(lineLoc, statement.range),
+          lineRangesOverlap(lineLoc, currentStatementRange),
         )
         if (breakpointLineLoc !== undefined) {
           hasBreakpoint = true
