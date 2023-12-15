@@ -1,15 +1,15 @@
 import { store } from '@/app/store'
 import { resetCpuState } from '@/features/cpu/cpuSlice'
 import { setException } from '@/features/exception/exceptionSlice'
-import { resetMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
+import { initMemoryDataFrom, resetMemoryData } from '@/features/memory/memorySlice'
 
 import { resetAssemblerState, setAssemblerError, setAssemblerState } from './assemblerSlice'
 import { assemble as assemblePure, AssemblerError, type AssembleResult } from './core'
 
-export const assemble = (input: string): void => {
+export const assemble = (source: string): void => {
   let assembleResult: AssembleResult
   try {
-    assembleResult = assemblePure(input)
+    assembleResult = assemblePure(source)
   } catch (exception) {
     if (exception instanceof AssemblerError) {
       const assemblerErrorObject = exception.toPlainObject()
@@ -24,6 +24,6 @@ export const assemble = (input: string): void => {
     store.dispatch(resetMemoryData())
   }
   const [addressToCodeMap, addressToStatementMap] = assembleResult
-  store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
-  store.dispatch(setMemoryDataFrom(addressToCodeMap))
+  store.dispatch(setAssemblerState({ source, addressToStatementMap }))
+  store.dispatch(initMemoryDataFrom(addressToCodeMap))
 }

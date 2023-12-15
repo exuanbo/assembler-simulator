@@ -29,11 +29,11 @@ export const memorySlice = createSlice({
   name: 'memory',
   initialState,
   reducers: {
+    initDataFrom: (state, action: PayloadAction<AddressToCodeMap>) => {
+      state.data = initDataFrom(action.payload)
+    },
     setData: (state, action: PayloadAction<MemoryData>) => {
       state.data = action.payload
-    },
-    setDataFrom: (state, action: PayloadAction<AddressToCodeMap>) => {
-      state.data = initDataFrom(action.payload)
     },
     resetData: (state) => {
       state.data = initialData
@@ -53,8 +53,8 @@ export const memorySlice = createSlice({
 })
 
 export const {
+  initDataFrom: initMemoryDataFrom,
   setData: setMemoryData,
-  setDataFrom: setMemoryDataFrom,
   resetData: resetMemoryData,
   setView: setMemoryView,
 } = memorySlice.actions

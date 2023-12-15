@@ -5,8 +5,12 @@ import { store } from '@/app/store'
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { observe } from '@/common/observe'
 import { asciiToChars, chunk } from '@/common/utils'
+import {
+  initMemoryDataFrom,
+  resetMemoryData,
+  selectMemoryData,
+} from '@/features/memory/memorySlice'
 
-import { resetMemoryData, selectMemoryData, setMemoryDataFrom } from '../memory/memorySlice'
 import DeviceCard from './DeviceCard'
 import { useIoDevice } from './hooks'
 import { IoDeviceName, setVduDataFrom } from './ioSlice'
@@ -16,11 +20,11 @@ const VisualDisplayUnit = (): JSX.Element | null => {
 
   useEffect(() => {
     // TODO: refactor handling memory changes
-    const setMemoryDataFrom$ = store.onAction(setMemoryDataFrom)
+    const initMemoryDataFrom$ = store.onAction(initMemoryDataFrom)
     const resetMemoryData$ = store.onAction(resetMemoryData)
     const memoryData$ = store.onState(selectMemoryData)
     return observe(
-      merge(setMemoryDataFrom$, resetMemoryData$).pipe(
+      merge(initMemoryDataFrom$, resetMemoryData$).pipe(
         switchMap(() => memoryData$.pipe(skip(1), first())),
         map(setVduDataFrom),
       ),

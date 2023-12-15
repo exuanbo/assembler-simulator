@@ -55,8 +55,8 @@ export interface AddressToStatementMap {
 
 export type AssembleResult = [AddressToCodeMap, Partial<AddressToStatementMap>]
 
-export const assemble = (input: string): AssembleResult => {
-  const statements = parse(input)
+export const assemble = (source: string): AssembleResult => {
+  const statements = parse(source)
   const labelToAddressMap = getLabelToAddressMap(statements)
   const addressToCodeMap: AddressToCodeMap = {}
   const addressToStatementMap: AddressToStatementMap = {}
