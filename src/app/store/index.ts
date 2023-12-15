@@ -41,7 +41,7 @@ export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     const defaultMiddleware = getDefaultMiddleware()
-    return defaultMiddleware.prepend(stateObserver.middleware, actionObserver.middleware)
+    return defaultMiddleware.concat(actionObserver.middleware, stateObserver.middleware)
   },
   devTools: import.meta.env.DEV,
   preloadedState: readStateFromPersistence(),

@@ -23,19 +23,11 @@ export const createStateObserver = <State extends {}>(): StateObserver<State> =>
 
   const middleware: Middleware<{}, State> = (api) => {
     state$.next(api.getState())
-    let dispatchDepth = 0
 
     return (next) => (action) => {
-      try {
-        dispatchDepth += 1
-        const result = next(action)
-        if (dispatchDepth === 1) {
-          state$.next(api.getState())
-        }
-        return result
-      } finally {
-        dispatchDepth -= 1
-      }
+      const result = next(action)
+      state$.next(api.getState())
+      return result
     }
   }
 

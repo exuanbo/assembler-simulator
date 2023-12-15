@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { first, map, merge, skip, switchMap } from 'rxjs'
+import { first, map, merge, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
 import { NO_BREAK_SPACE } from '@/common/constants'
@@ -25,7 +25,7 @@ const VisualDisplayUnit = (): JSX.Element | null => {
     const memoryData$ = store.onState(selectMemoryData)
     return observe(
       merge(initMemoryDataFrom$, resetMemoryData$).pipe(
-        switchMap(() => memoryData$.pipe(skip(1), first())),
+        switchMap(() => memoryData$.pipe(first())),
         map(setVduDataFrom),
       ),
       (action) => store.dispatch(action),
