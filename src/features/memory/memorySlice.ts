@@ -1,10 +1,9 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import { chunk } from '@/common/utils'
-import { selectAddressToStatementMap } from '@/features/assembler/assemblerSlice'
 import type { AddressToCodeMap } from '@/features/assembler/core'
 
-import { getSourceFrom, initData, initDataFrom, type MemoryData } from './core'
+import { initData, initDataFrom, type MemoryData } from './core'
 
 export enum MemoryView {
   Hexadecimal = 'Hexadecimal',
@@ -61,11 +60,3 @@ export const {
 } = memorySlice.actions
 
 export const { selectMemoryData, selectMemoryDataRows, selectMemoryView } = memorySlice.selectors
-
-export const selectMemorySourceRows = createSelector(
-  selectAddressToStatementMap,
-  (addressToStatementMap) => () => {
-    const memorySource = getSourceFrom(addressToStatementMap)
-    return chunk(0x10, memorySource)
-  },
-)

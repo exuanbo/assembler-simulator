@@ -6,12 +6,8 @@ import { classNames, decToHex, invariant, range } from '@/common/utils'
 import { MAX_SP } from '@/features/cpu/core'
 import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 
-import {
-  MemoryView,
-  selectMemoryDataRows,
-  selectMemorySourceRows,
-  selectMemoryView,
-} from './memorySlice'
+import { MemoryView, selectMemoryDataRows, selectMemoryView } from './memorySlice'
+import { selectMemorySourceRows } from './selectors'
 
 const Memory = (): JSX.Element => {
   const [isOpen, toggleOpen] = useToggle(true)
