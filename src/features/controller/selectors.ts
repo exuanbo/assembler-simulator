@@ -5,15 +5,15 @@ import { selectCpuInstructionPointerRegister } from '@/features/cpu/cpuSlice'
 import { selectMemoryData } from '@/features/memory/memorySlice'
 
 export const selectCurrentStatementRange = createSelector(
-  selectAddressToStatementMap,
   selectCpuInstructionPointerRegister,
+  selectAddressToStatementMap,
   selectMemoryData,
-  (addressToStatementMap, ip, memoryData) => {
-    const statement = addressToStatementMap[ip]
+  (address, addressToStatementMap, memoryData) => {
+    const statement = addressToStatementMap[address]
     if (
       statement &&
       statement.codes.length &&
-      statement.codes.every((code, offset) => code === memoryData[ip + offset])
+      statement.codes.every((code, offset) => code === memoryData[address + offset])
     ) {
       return statement.range
     }
