@@ -1,7 +1,7 @@
 import { classNames } from '@/common/utils'
 
+import { viewEffects } from './effects'
 import { useContainerRef, useViewEffect } from './hooks'
-import { viewEffects } from './viewEffects'
 
 interface Props {
   className?: string

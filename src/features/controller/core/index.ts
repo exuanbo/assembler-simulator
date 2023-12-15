@@ -25,14 +25,12 @@ import {
 } from '@/features/cpu/cpuSlice'
 import { lineRangesOverlap } from '@/features/editor/codemirror/text'
 import {
-  clearEditorHighlightRange,
   clearEditorMessage,
   type EditorMessage,
   MessageType,
   selectEditorBreakpoints,
   selectEditorInput,
   selectEditorMessage,
-  setEditorHighlightRange,
   setEditorMessage,
 } from '@/features/editor/editorSlice'
 import { setException } from '@/features/exception/exceptionSlice'
@@ -249,11 +247,6 @@ export class Controller {
           if (isVduBufferChanged) {
             store.dispatch(setVduDataFrom(memoryData))
           }
-          if (hasStatement) {
-            store.dispatch(setEditorHighlightRange(statement))
-          } else {
-            store.dispatch(clearEditorHighlightRange())
-          }
           this.dispatchChangesTimeoutId = undefined
         })
       }
@@ -383,7 +376,6 @@ export class Controller {
     this.resetSelf()
     store.dispatch(resetCpuState())
     store.dispatch(resetMemoryData())
-    store.dispatch(clearEditorHighlightRange())
     store.dispatch(resetIoState())
   }
 

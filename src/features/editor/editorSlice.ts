@@ -1,8 +1,4 @@
-import type { EditorView } from '@codemirror/view'
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
-
-import * as Maybe from '@/common/maybe'
-import type { SourceRange, Statement } from '@/features/assembler/core'
 
 import { type LineLoc, lineRangesEqual } from './codemirror/text'
 import { examples } from './examples'
@@ -20,14 +16,12 @@ export interface EditorMessage {
 
 interface EditorState {
   input: string
-  highlightRange: SourceRange | null
   breakpoints: LineLoc[]
   message: EditorMessage | null
 }
 
 const initialState: EditorState = {
   input: examples[/* Visual Display Unit */ 4].content,
-  highlightRange: null,
   breakpoints: [],
   message: null,
 }
@@ -46,13 +40,6 @@ export const editorSlice = createSlice({
           payload: { value, isFromFile },
         }
       },
-    },
-    setHighlightRange: (state, action: PayloadAction<Statement>) => {
-      const statement = action.payload
-      state.highlightRange = statement.range
-    },
-    clearHighlightRange: (state) => {
-      state.highlightRange = null
     },
     setBreakpoints: (state, action: PayloadAction<LineLoc[]>) => {
       state.breakpoints = action.payload
@@ -84,24 +71,6 @@ export const editorSlice = createSlice({
   },
   selectors: {
     selectEditorInput: (state) => state.input,
-    selectEditorHighlightLinePos: createSelector(
-      [
-        (state: EditorState) => state.highlightRange,
-        (_: EditorState, view: EditorView) => view.state.doc,
-      ],
-      (highlightRange, doc) =>
-        Maybe.fromNullable(highlightRange).chain((range) => {
-          const linePos: number[] = []
-          const rangeTo = Math.min(range.to, doc.length)
-          for (let pos = range.from; pos < rangeTo; pos++) {
-            const line = doc.lineAt(pos)
-            if (!linePos.includes(line.from)) {
-              linePos.push(line.from)
-            }
-          }
-          return Maybe.fromFalsy(linePos.length && linePos)
-        }),
-    ),
     selectEditorBreakpoints: (state) => state.breakpoints,
     selectEditorMessage: (state) => state.message,
     selectToPersist: createSelector(
@@ -117,15 +86,9 @@ export const {
   setBreakpoints,
   addBreakpoint,
   removeBreakpoint,
-  setHighlightRange: setEditorHighlightRange,
-  clearHighlightRange: clearEditorHighlightRange,
   setMessage: setEditorMessage,
   clearMessage: clearEditorMessage,
 } = editorSlice.actions
 
-export const {
-  selectEditorInput,
-  selectEditorHighlightLinePos,
-  selectEditorBreakpoints,
-  selectEditorMessage,
-} = editorSlice.selectors
+export const { selectEditorInput, selectEditorBreakpoints, selectEditorMessage } =
+  editorSlice.selectors

@@ -9,11 +9,7 @@ import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import * as Maybe from '@/common/maybe'
 import { observe } from '@/common/observe'
 import { curryRight2 } from '@/common/utils'
-import {
-  clearAssemblerError,
-  selectAssemblerError,
-  selectAssemblerErrorRange,
-} from '@/features/assembler/assemblerSlice'
+import { resetAssemblerState, selectAssemblerErrorRange } from '@/features/assembler/assemblerSlice'
 import { selectVimKeybindings } from '@/features/controller/controllerSlice'
 
 import { hasStringAnnotation, withStringAnnotation } from './codemirror/annotations'
@@ -26,29 +22,24 @@ import { disableVim, enableVim, initVim$ } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import {
   addBreakpoint,
-  clearEditorHighlightRange,
   removeBreakpoint,
   selectEditorBreakpoints,
-  selectEditorHighlightLinePos,
   setBreakpoints,
   setEditorInput,
 } from './editorSlice'
 import { isTemplate, templateSelection } from './examples'
+import { selectHighlightLinePos } from './selectors'
 
 const defineViewEffect = identity<ViewEffectCallback>
 
-const toggleVimKeybindings = defineViewEffect((view) => {
-  const vimKeybindings$ = store.onState(selectVimKeybindings)
+const resetAssemblerStateOnInput = defineViewEffect((view) => {
+  const viewUpdate$ = onUpdate(view)
   return observe(
-    vimKeybindings$.pipe(
-      switchMap((shouldEnable) => {
-        if (shouldEnable) {
-          return initVim$.pipe(map(() => enableVim))
-        }
-        return of(disableVim)
-      }),
+    viewUpdate$.pipe(
+      filter((update) => update.docChanged),
+      map(() => resetAssemblerState()),
     ),
-    (action) => action(view),
+    (action) => store.dispatch(action),
   )
 })
 
@@ -118,20 +109,8 @@ const syncAssemblerErrorFromState = defineViewEffect((view) => {
   )
 })
 
-const clearAssemblerErrorOnInput = defineViewEffect((view) => {
-  const viewUpdate$ = onUpdate(view)
-  return observe(
-    viewUpdate$.pipe(
-      filter((update) => update.docChanged),
-      filter(() => !!store.getState(selectAssemblerError)),
-      map(() => clearAssemblerError()),
-    ),
-    (action) => store.dispatch(action),
-  )
-})
-
 const syncHighlightLineFromState = defineViewEffect((view) => {
-  const highlightLinePos$ = store.onState(curryRight2(selectEditorHighlightLinePos)(view))
+  const highlightLinePos$ = store.onState(curryRight2(selectHighlightLinePos)(view))
   return observe(highlightLinePos$, (linePos_M) => {
     linePos_M
       .map((linePos) =>
@@ -163,17 +142,6 @@ const syncHighlightLineFromState = defineViewEffect((view) => {
       }))
       .ifJust((transaction) => view.dispatch(transaction))
   })
-})
-
-const clearHighlightLineOnLoadFile = defineViewEffect(() => {
-  const setEditorInput$ = store.onAction(setEditorInput)
-  return observe(
-    setEditorInput$.pipe(
-      filter(({ isFromFile }) => isFromFile),
-      map(() => clearEditorHighlightRange()),
-    ),
-    (action) => store.dispatch(action),
-  )
 })
 
 const syncBreakpointsToState = defineViewEffect((view) => {
@@ -232,15 +200,29 @@ const initialSyncBreakpointsFromState = defineViewEffect((view) => {
   }
 })
 
+const toggleVimKeybindings = defineViewEffect((view) => {
+  const vimKeybindings$ = store.onState(selectVimKeybindings)
+  return observe(
+    vimKeybindings$.pipe(
+      switchMap((shouldEnable) => {
+        if (shouldEnable) {
+          return initVim$.pipe(map(() => enableVim))
+        }
+        return of(disableVim)
+      }),
+    ),
+    (action) => action(view),
+  )
+})
+
 export const viewEffects: readonly ViewEffectCallback[] = [
-  toggleVimKeybindings,
+  resetAssemblerStateOnInput,
   syncInputToState,
   syncInputFromState,
   autoSelectTemplateTitle,
   syncAssemblerErrorFromState,
-  clearAssemblerErrorOnInput,
   syncHighlightLineFromState,
-  clearHighlightLineOnLoadFile,
   syncBreakpointsToState,
   initialSyncBreakpointsFromState,
+  toggleVimKeybindings,
 ]

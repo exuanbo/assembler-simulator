@@ -1,6 +1,5 @@
 import { store } from '@/app/store'
 import { resetCpuState } from '@/features/cpu/cpuSlice'
-import { clearEditorHighlightRange, setEditorHighlightRange } from '@/features/editor/editorSlice'
 import { setException } from '@/features/exception/exceptionSlice'
 import { resetMemoryData, setMemoryDataFrom } from '@/features/memory/memorySlice'
 
@@ -23,14 +22,8 @@ export const assemble = (input: string): void => {
   } finally {
     store.dispatch(resetCpuState())
     store.dispatch(resetMemoryData())
-    store.dispatch(clearEditorHighlightRange())
   }
   const [addressToCodeMap, addressToStatementMap] = assembleResult
   store.dispatch(setAssemblerState({ source: input, addressToStatementMap }))
   store.dispatch(setMemoryDataFrom(addressToCodeMap))
-  // TODO: move to viewEffects: `store.onAction(setAssemblerState)`
-  const firstStatement = addressToStatementMap[0]
-  if (firstStatement) {
-    store.dispatch(setEditorHighlightRange(firstStatement))
-  }
 }

@@ -34,9 +34,6 @@ export const assemblerSlice = createSlice({
       state.source = ''
       state.addressToStatementMap = {}
     },
-    clearError: (state) => {
-      state.error = null
-    },
     resetState: () => initialState,
   },
   selectors: {
@@ -50,7 +47,6 @@ export const assemblerSlice = createSlice({
 export const {
   setState: setAssemblerState,
   setError: setAssemblerError,
-  clearError: clearAssemblerError,
   resetState: resetAssemblerState,
 } = assemblerSlice.actions
 
