@@ -11,9 +11,9 @@ export const WavyUnderlineEffect = StateEffect.define<{
   range: Maybe<{ from: number; to: number }>
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ range: range_M, filter }, change) {
+  map({ range: maybeRange, filter }, change) {
     return {
-      range: range_M.map(({ from, to }) => ({
+      range: maybeRange.map(({ from, to }) => ({
         from: change.mapPos(from),
         to: change.mapPos(to),
       })),
@@ -32,9 +32,9 @@ const wavyUnderlineField = StateField.define<DecorationSet>({
     const decorations = __decorations.map(transaction.changes)
     return filterEffects(transaction.effects, WavyUnderlineEffect).reduce(
       (resultDecorations, effect) =>
-        mapEffectValue(effect, ({ range: range_M, filter }) =>
+        mapEffectValue(effect, ({ range: maybeRange, filter }) =>
           resultDecorations.update({
-            add: range_M.map(({ from, to }) => [markDecoration.range(from, to)]).extract(),
+            add: maybeRange.map(({ from, to }) => [markDecoration.range(from, to)]).extract(),
             filter,
           }),
         ),

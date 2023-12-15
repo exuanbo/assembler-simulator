@@ -12,9 +12,9 @@ export const HighlightLineEffect = StateEffect.define<{
   pos: Maybe<number>
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
-  map({ pos: pos_M, filter }, change) {
+  map({ pos: maybePos, filter }, change) {
     return {
-      pos: pos_M.map((pos) => change.mapPos(pos)),
+      pos: maybePos.map((pos) => change.mapPos(pos)),
       filter,
     }
   },
@@ -52,9 +52,9 @@ const highlightLineField = StateField.define<DecorationSet>({
     )
     return filterEffects(transaction.effects, HighlightLineEffect).reduce(
       (resultDecorations, effect) =>
-        mapEffectValue(effect, ({ pos: pos_M, filter }) =>
+        mapEffectValue(effect, ({ pos: maybePos, filter }) =>
           resultDecorations.update({
-            add: pos_M
+            add: maybePos
               .map((pos) => {
                 const hasOverlappedSelection = hasNonEmptySelectionAtLine(
                   transaction.state.doc.lineAt(pos),

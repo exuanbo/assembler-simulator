@@ -2,6 +2,8 @@
 // Reference documentation https://gigobyte.github.io/purify/adts/Maybe
 // ISC licensed https://github.com/gigobyte/purify/blob/0840eb69b97617b09aca098f73948c61de563194/LICENSE
 
+export type Maybe<T extends {}> = IMaybe<T>
+
 export interface IMaybe<T extends {}> {
   isJust: () => boolean
   isNothing: () => boolean
@@ -17,8 +19,6 @@ export interface IMaybe<T extends {}> {
   ifJust: (f: (value: T) => void) => this
   ifNothing: (f: () => void) => this
 }
-
-export type Maybe<T extends {}> = IMaybe<T>
 
 export const Just = <T extends {}>(value: T): IMaybe<T> => {
   const instance: IMaybe<T> = {

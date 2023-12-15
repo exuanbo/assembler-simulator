@@ -97,10 +97,10 @@ const underlineAssemblerError = defineViewEffect((view) => {
   return observe(
     assemblerErrorRange$.pipe(
       map(Maybe.fromNullable),
-      map((range_M) =>
+      map((maybeRange) =>
         WavyUnderlineEffect.of({
-          range: range_M,
-          filter: () => range_M.isJust(),
+          range: maybeRange,
+          filter: () => maybeRange.isJust(),
         }),
       ),
       map((effect) => ({ effects: effect })),
@@ -111,8 +111,8 @@ const underlineAssemblerError = defineViewEffect((view) => {
 
 const highlightLineWithStatement = defineViewEffect((view) => {
   const statementLinePos$ = store.onState(curryRight2(selectCurrentStatementLinePos)(view))
-  return observe(statementLinePos$, (linePos_M) => {
-    linePos_M
+  return observe(statementLinePos$, (maybeLinePos) => {
+    maybeLinePos
       .map((linePos) =>
         linePos.map((pos, posIndex) =>
           HighlightLineEffect.of({
@@ -133,7 +133,7 @@ const highlightLineWithStatement = defineViewEffect((view) => {
       .map((effects) => ({ effects }))
       .ifJust((transaction) => view.dispatch(transaction))
 
-    linePos_M
+    maybeLinePos
       .filter(() => !view.hasFocus)
       .map((linePos) => ({
         // length of `linePos` is already checked
