@@ -4,7 +4,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import * as Maybe from '@/common/maybe'
 import { selectCurrentStatementRange } from '@/features/controller/selectors'
 
-export const selectHighlightLinePos = createSelector(
+export const selectCurrentStatementLinePos = createSelector(
   [selectCurrentStatementRange, (_, view: EditorView) => view.state.doc],
   (statementRange, doc) =>
     Maybe.fromNullable(statementRange).chain((range) => {

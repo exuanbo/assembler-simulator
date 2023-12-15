@@ -28,7 +28,7 @@ import {
   setEditorInput,
 } from './editorSlice'
 import { isTemplate, templateSelection } from './examples'
-import { selectHighlightLinePos } from './selectors'
+import { selectCurrentStatementLinePos } from './selectors'
 
 const defineViewEffect = identity<ViewEffectCallback>
 
@@ -92,7 +92,7 @@ const autoSelectTemplateTitle = defineViewEffect((view) => {
   )
 })
 
-const syncAssemblerErrorFromState = defineViewEffect((view) => {
+const underlineAssemblerError = defineViewEffect((view) => {
   const assemblerErrorRange$ = store.onState(selectAssemblerErrorRange)
   return observe(
     assemblerErrorRange$.pipe(
@@ -109,9 +109,9 @@ const syncAssemblerErrorFromState = defineViewEffect((view) => {
   )
 })
 
-const syncHighlightLineFromState = defineViewEffect((view) => {
-  const highlightLinePos$ = store.onState(curryRight2(selectHighlightLinePos)(view))
-  return observe(highlightLinePos$, (linePos_M) => {
+const highlightLineWithStatement = defineViewEffect((view) => {
+  const statementLinePos$ = store.onState(curryRight2(selectCurrentStatementLinePos)(view))
+  return observe(statementLinePos$, (linePos_M) => {
     linePos_M
       .map((linePos) =>
         linePos.map((pos, posIndex) =>
@@ -220,8 +220,8 @@ export const viewEffects: readonly ViewEffectCallback[] = [
   syncInputToState,
   syncInputFromState,
   autoSelectTemplateTitle,
-  syncAssemblerErrorFromState,
-  syncHighlightLineFromState,
+  underlineAssemblerError,
+  highlightLineWithStatement,
   syncBreakpointsToState,
   initialSyncBreakpointsFromState,
   toggleVimKeybindings,
