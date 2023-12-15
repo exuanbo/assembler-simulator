@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { debounceTime, delayWhen, filter, of, tap, timer } from 'rxjs'
+import { debounceTime, delayWhen, filter, merge, of, tap, timer } from 'rxjs'
 
 import { store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
 import { useSingleton } from '@/common/hooks'
 import { observe } from '@/common/observe'
-import { setAssemblerState } from '@/features/assembler/assemblerSlice'
+import { setAssemblerError, setAssemblerState } from '@/features/assembler/assemblerSlice'
 import { setEditorInput } from '@/features/editor/editorSlice'
 
 import {
@@ -41,11 +41,8 @@ export const useController = (): Controller => {
 
   useEffect(() => {
     const setAssemblerState$ = store.onAction(setAssemblerState)
-    return observe(
-      setAssemblerState$,
-      // TODO: full reset? -> will simplify `assemble`
-      controller.resetSelf,
-    )
+    const setAssemblerError$ = store.onAction(setAssemblerError)
+    return observe(merge(setAssemblerState$, setAssemblerError$), controller.reset)
   }, [controller])
 
   useEffect(() => {
