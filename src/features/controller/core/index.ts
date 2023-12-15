@@ -1,3 +1,4 @@
+import { produce } from 'immer'
 import { first } from 'rxjs'
 
 import { store } from '@/app/store'
@@ -327,20 +328,26 @@ export class Controller {
       }
       let hasBreakpoint = false
       const breakpoints = store.getState(selectEditorBreakpoints)
-      const currentStatementRange = store.getState(selectCurrentStatementRange)
-      if (breakpoints.length && currentStatementRange && isRunning && !willSuspend) {
-        const breakpointLineLoc = breakpoints.find((lineLoc) =>
-          lineRangesOverlap(lineLoc, currentStatementRange),
-        )
-        if (breakpointLineLoc !== undefined) {
-          hasBreakpoint = true
-          if (breakpointLineLoc.number !== this.lastBreakpointLineNumber) {
-            if (!this.willDispatchChanges) {
-              dispatchChanges()
+      if (breakpoints.length && isRunning && !willSuspend) {
+        const nextState = produce(store.getState(), (draft) => {
+          draft.cpu.registers = cpuRegisters
+          draft.memory.data = memoryData
+        })
+        const nextStatementRange = selectCurrentStatementRange(nextState)
+        if (nextStatementRange) {
+          const breakpointLineLoc = breakpoints.find((lineLoc) =>
+            lineRangesOverlap(lineLoc, nextStatementRange),
+          )
+          if (breakpointLineLoc !== undefined) {
+            hasBreakpoint = true
+            if (breakpointLineLoc.number !== this.lastBreakpointLineNumber) {
+              if (!this.willDispatchChanges) {
+                dispatchChanges()
+              }
+              // `isRunning` is already checked
+              this.stop()
+              this.lastBreakpointLineNumber = breakpointLineLoc.number
             }
-            // `isRunning` is already checked
-            this.stop()
-            this.lastBreakpointLineNumber = breakpointLineLoc.number
           }
         }
       }
