@@ -45,8 +45,9 @@ export default defineConfig(async () => ({
     ...(await forkJoin(globalConstants)),
   },
   plugins: [
-    react(),
     unocss(),
+    react(),
+    splitVendorChunkPlugin(),
     pwa({
       manifestFilename: 'app.webmanifest',
       registerType: 'prompt',
@@ -89,7 +90,6 @@ export default defineConfig(async () => ({
         ],
       },
     }),
-    splitVendorChunkPlugin(),
   ],
   resolve: {
     alias: {
