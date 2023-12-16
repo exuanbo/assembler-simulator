@@ -13,11 +13,12 @@ interface StateObserver<State> {
   enhancer: StoreEnhancer<{ onState: ObserveState<State> }>
 }
 
-export const createStateObserver = <State extends {}>(): StateObserver<State> => {
-  const state$ = new BehaviorSubject<State | null>(null)
+export const createStateObserver = <State>(): StateObserver<State> => {
+  const NIL = Symbol('NIL')
+  const state$ = new BehaviorSubject<State | typeof NIL>(NIL)
 
   const distinctState$ = state$.pipe(
-    map((state) => (invariant(state != null), state)),
+    map((state) => (invariant(state !== NIL), state)),
     distinctUntilChanged(),
   )
 
