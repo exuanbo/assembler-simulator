@@ -1,8 +1,9 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { store, useSelector } from '@/app/store'
 import Modal from '@/common/components/Modal'
 import { Ascii } from '@/common/constants'
+import { classNames, range } from '@/common/utils'
 import { selectIsSuspended, setSuspended } from '@/features/controller/controllerSlice'
 
 import { InputPort, SKIP } from './core'
@@ -12,7 +13,32 @@ import {
   setWaitingForKeyboardInput,
 } from './ioSlice'
 
-const SimulatedKeyboard = (): JSX.Element | null => {
+const MAX_DOT_COUNT = 3
+const PULSE_INTERVAL_MS = 250
+
+const PulseLoader = (): JSX.Element => {
+  const [count, setCount] = useState(1)
+
+  useEffect(() => {
+    const intervalId = window.setInterval(
+      () => setCount((prevCount) => (prevCount + 1) % (MAX_DOT_COUNT + 1)),
+      PULSE_INTERVAL_MS,
+    )
+    return () => window.clearInterval(intervalId)
+  }, [])
+
+  return (
+    <span className="inline-block my-auto">
+      {range(MAX_DOT_COUNT).map((index) => (
+        <span key={index} className={classNames({ invisible: index >= count })}>
+          .
+        </span>
+      ))}
+    </span>
+  )
+}
+
+const SimulatedKeyboard = (): JSX.Element => {
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
   const shouldOpen = isSuspended && isWaitingForKeyboardInput
@@ -21,7 +47,6 @@ const SimulatedKeyboard = (): JSX.Element | null => {
 
   const focusInput = (): void => {
     // focus immediately `onBlur` does not work in Firefox
-    // we have to let the element lose focus first
     // https://stackoverflow.com/a/15670691/13346012
     window.setTimeout(() => {
       inputRef.current?.focus()
@@ -40,6 +65,7 @@ const SimulatedKeyboard = (): JSX.Element | null => {
   }
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
+    // handle special keys
     switch (event.key) {
       case 'Backspace':
         dispatchInputData(Ascii.BS)
@@ -64,9 +90,11 @@ const SimulatedKeyboard = (): JSX.Element | null => {
 
   return (
     <Modal
-      className="bg-black flex bg-opacity-80 inset-0 fixed items-center justify-center"
+      className="bg-black flex bg-opacity-20 inset-0 fixed items-center justify-center animate-fade-in animate-duration-250"
       isOpen={shouldOpen}>
-      <div className="border rounded bg-light-100 py-2 px-4">Waiting for keyboard input</div>
+      <div className="rounded bg-light-100 shadow py-4 px-8">
+        Waiting for keyboard input <PulseLoader />
+      </div>
       <input
         ref={inputRef}
         autoFocus
