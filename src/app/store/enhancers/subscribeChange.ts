@@ -6,7 +6,7 @@ type SubscribeChange = Store['subscribe']
 
 export const subscribeChange = injectStoreExtension<{ subscribeChange: SubscribeChange }>(
   <State>(store: Store<State>) => {
-    let stateSnapshot: ReturnType<typeof store.getState> | null = null
+    let stateSnapshot: State | null = null
 
     const dispatch: typeof store.dispatch = (action) => {
       try {
