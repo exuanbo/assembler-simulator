@@ -17,9 +17,7 @@ const ExceptionModal = (): JSX.Element => {
   const outsideClickRef = useOutsideClick(handleOutsideClick)
 
   return (
-    <Modal
-      className="bg-white flex bg-opacity-80 inset-0 z-50 fixed items-center justify-center"
-      isOpen={hasError}>
+    <Modal className="bg-white bg-opacity-80 z-50" isOpen={hasError}>
       <div
         ref={outsideClickRef}
         className="border rounded space-y-2 bg-light-100 shadow py-2 px-4 select-text all:select-text">

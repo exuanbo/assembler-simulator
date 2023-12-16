@@ -1,32 +1,37 @@
-import { type ReactNode, useEffect, useState } from 'react'
+import { type FC, type PropsWithChildren, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+
+import { type ClassItem, mergeClassNames } from '../utils'
 
 const modalContainer = document.getElementById('modal-root')!
 
+const modalClassName = 'fixed inset-0 flex items-center justify-center'
+
 interface Props {
-  children: ReactNode
+  className?: ClassItem
   isOpen?: boolean
-  className?: string
 }
 
-const Modal = ({ children, isOpen = false, className = '' }: Props): JSX.Element | null => {
-  const [modal, setModal] = useState<HTMLDivElement | null>(null)
-  const isReady = isOpen && modal !== null
+const Modal: FC<PropsWithChildren<Props>> = ({ children, className, isOpen = false }) => {
+  const [currentModal, setCurrentModal] = useState<HTMLDivElement | null>(null)
+  const isReady = isOpen && !!currentModal
 
   useEffect(() => {
     if (!isOpen) {
       return
     }
-    const currentModal = Object.assign(document.createElement('div'), { className })
-    modalContainer.appendChild(currentModal)
-    setModal(currentModal)
+    const modal = Object.assign(document.createElement('div'), {
+      className: mergeClassNames(modalClassName, className),
+    })
+    modalContainer.appendChild(modal)
+    setCurrentModal(modal)
     return () => {
-      modalContainer.removeChild(currentModal)
-      setModal(null)
+      modalContainer.removeChild(modal)
+      setCurrentModal(null)
     }
   }, [isOpen, className])
 
-  return isReady ? createPortal(children, modal) : null
+  return isReady && createPortal(children, currentModal)
 }
 
 export default Modal

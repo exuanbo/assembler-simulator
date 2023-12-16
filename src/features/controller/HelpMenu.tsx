@@ -69,9 +69,7 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
   }
 
   return (
-    <Modal
-      className="bg-black flex bg-opacity-20 inset-0 fixed items-center justify-center"
-      isOpen={isOpen}>
+    <Modal className="bg-black bg-opacity-20" isOpen={isOpen}>
       <div
         ref={outsideClickRef}
         className="rounded space-y-2 bg-light-100 shadow text-center py-4 px-8 select-text all:select-text"

@@ -90,7 +90,7 @@ const SimulatedKeyboard = (): JSX.Element => {
 
   return (
     <Modal
-      className="bg-black flex bg-opacity-20 inset-0 fixed items-center justify-center animate-fade-in animate-duration-250"
+      className="bg-black bg-opacity-20 animate-fade-in animate-duration-250"
       isOpen={shouldOpen}>
       <div className="rounded bg-light-100 shadow py-4 px-8">
         Waiting for keyboard input <PulseLoader />
