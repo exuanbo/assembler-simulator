@@ -82,8 +82,10 @@ export const isSameType = <T>(a: T, b: unknown): b is T => getType(a) === getTyp
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PlainObject = Record<PropertyKey, any>
 
-export const isPlainObject = (value: unknown): value is PlainObject =>
-  getType(value) === '[object Object]'
+export const isPlainObject = (value: unknown): value is PlainObject => {
+  const type = getType(value)
+  return type === '[object Object]'
+}
 
 export const isIn = <T extends {}>(key: PropertyKey, obj: T): key is keyof T => key in obj
 
