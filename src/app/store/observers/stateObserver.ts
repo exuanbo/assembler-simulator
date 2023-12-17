@@ -4,7 +4,7 @@ import { BehaviorSubject, distinctUntilChanged, map, type Observable } from 'rxj
 import { invariant } from '@/common/utils'
 
 import { injectStoreExtension } from '../enhancers/injectStoreExtension'
-import { createWeakCache } from './weakCache'
+import { weakMemo } from './weakMemo'
 
 type ObserveState<State> = <Selected>(selector: Selector<State, Selected>) => Observable<Selected>
 
@@ -32,10 +32,9 @@ export const createStateObserver = <State>(): StateObserver<State> => {
     }
   }
 
-  const cache = createWeakCache<Selector<State, unknown>>()
-
-  const onState: ObserveState<State> = (selector) =>
-    cache(selector, () => distinctState$.pipe(map(selector), distinctUntilChanged()))
+  const onState: ObserveState<State> = weakMemo((selector) =>
+    distinctState$.pipe(map(selector), distinctUntilChanged()),
+  )
 
   const enhancer = injectStoreExtension(() => ({ onState }))
 
