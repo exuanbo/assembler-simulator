@@ -2,16 +2,17 @@ import type { Selector, Store } from '@reduxjs/toolkit'
 
 import { injectStoreExtension } from './injectStoreExtension'
 
-interface GetStateWithSelector<State> {
-  (): State
-  <Selected>(selector: Selector<State, Selected>): Selected
+interface GetStateWithSelector {
+  <State>(this: Store<State>): State
+  <State, Selected>(this: Store<State>, selector: Selector<State, Selected>): Selected
 }
 
-export const createSelectorEnhancer = <State>() =>
-  injectStoreExtension<{ getState: GetStateWithSelector<State> }>((store: Store<State>) => {
-    const getState = <Selected>(selector?: Selector<State, Selected>) => {
+export const getStateWithSelector = injectStoreExtension<{ getState: GetStateWithSelector }>(
+  <State>(store: Store<State>) => {
+    const getState = function <Selected>(selector?: Selector<State, Selected>) {
       const state = store.getState()
       return selector ? selector(state) : state
     }
     return { getState }
-  })
+  },
+)
