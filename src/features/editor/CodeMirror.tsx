@@ -11,9 +11,9 @@ const CodeMirror = ({ className }: Props): JSX.Element => {
   const containerRef = useContainerRef()
 
   useViewEffect((view) => {
-    const destructors = viewEffects.map((effect) => effect(view))
-    return () => destructors.forEach((dtor) => dtor?.())
-  }, [])
+    const cleanups = viewEffects.map((effect) => effect(view))
+    return () => cleanups.forEach((cleanup) => cleanup?.())
+  })
 
   return (
     <div
