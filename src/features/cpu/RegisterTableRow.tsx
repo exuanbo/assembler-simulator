@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { type FC, memo } from 'react'
 
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { decToBin, decToHex, sign8 } from '@/common/utils'
@@ -37,14 +37,14 @@ if (import.meta.env.DEV) {
   RegisterTableRow.displayName = 'RegisterTableRow'
 }
 
-const FlagIndicator = memo(() => (
+const FlagIndicator: FC = () => (
   <tr>
     <td>{NO_BREAK_SPACE}</td>
     <td />
     <RegisterValueTableCell.FlagIndicator />
     <td />
   </tr>
-))
+)
 
 if (import.meta.env.DEV) {
   FlagIndicator.displayName = 'RegisterTableRow.FlagIndicator'

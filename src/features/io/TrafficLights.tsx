@@ -1,4 +1,4 @@
-import { type FC, memo } from 'react'
+import type { FC } from 'react'
 
 import { range } from '@/common/utils'
 
@@ -6,7 +6,7 @@ import DeviceCard from './DeviceCard'
 import { useIoDevice } from './hooks'
 import { IoDeviceName } from './ioSlice'
 
-const StaticParts = memo(() => (
+const staticParts = (
   <>
     <rect fill="#a1a1aa" height="120" width="320" x="0" y="120">
       <title>Background</title>
@@ -52,11 +52,7 @@ const StaticParts = memo(() => (
       </text>
     </g>
   </>
-))
-
-if (import.meta.env.DEV) {
-  StaticParts.displayName = 'StaticParts'
-}
+)
 
 const lightColors = ['red', 'yellow', 'lime'] as const
 
@@ -72,7 +68,7 @@ const TrafficLights: FC = () => {
       <svg viewBox="0 0 312 240" width="312" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
-          <StaticParts />
+          {staticParts}
         </g>
         <g>
           <title>Lights Layer</title>

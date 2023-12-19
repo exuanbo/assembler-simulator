@@ -1,5 +1,5 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { type FC, memo, useEffect, useState } from 'react'
+import { type FC, useEffect, useState } from 'react'
 import { map } from 'rxjs'
 
 import { store } from '@/app/store'
@@ -10,7 +10,7 @@ import DeviceCard from './DeviceCard'
 import { useIoDevice } from './hooks'
 import { type IoDeviceData, IoDeviceName, resetIoState } from './ioSlice'
 
-const StaticParts = memo(() => (
+const staticParts = (
   <>
     <rect fill="#a1a1aa" height="300" width="320">
       <title>Background</title>
@@ -105,13 +105,9 @@ const StaticParts = memo(() => (
       </text>
     </g>
   </>
-))
+)
 
-if (import.meta.env.DEV) {
-  StaticParts.displayName = 'StaticParts'
-}
-
-const segments: readonly JSX.Element[] = [
+const segments = [
   // 0
   <polygon key={0} points="56,64 104,64 96,72 64,72" />,
   <polygon key={1} points="208,64 256,64 248,72 216,72" />,
@@ -180,7 +176,7 @@ const SevenSegmentDisplay: FC = () => {
       <svg viewBox="0 0 320 300" width="320" xmlns="http://www.w3.org/2000/svg">
         <g>
           <title>Static Layer</title>
-          <StaticParts />
+          {staticParts}
         </g>
         <g fill="lime" stroke="lime" strokeWidth="2">
           <title>Segments Layer</title>
