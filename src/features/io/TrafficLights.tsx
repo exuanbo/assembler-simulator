@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { type FC, memo } from 'react'
 
 import { range } from '@/common/utils'
 
@@ -60,7 +60,7 @@ if (import.meta.env.DEV) {
 
 const lightColors = ['red', 'yellow', 'lime'] as const
 
-const TrafficLights = (): JSX.Element | null => {
+const TrafficLights: FC = () => {
   const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.TrafficLights)
 
   if (!isVisible) {

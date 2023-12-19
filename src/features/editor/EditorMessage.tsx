@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { classNames } from '@/common/utils'
 
 import { MessageType } from './editorSlice'
@@ -14,10 +16,14 @@ const getClassNameFrom = (type: MessageType): string => {
   }
 }
 
-const EditorMessage = (): JSX.Element | null => {
+const EditorMessage: FC = () => {
   const message = useMessage()
 
-  return message === null ? null : (
+  if (!message) {
+    return null
+  }
+
+  return (
     <div className={classNames('py-1 px-2 text-light-100', getClassNameFrom(message.type))}>
       {message.content}
     </div>

@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { classNames } from '@/common/utils'
 
@@ -13,7 +15,7 @@ interface Props {
   valueClassName?: string
 }
 
-const RegisterValueTableCell = ({ label, value, valueClassName }: Props): JSX.Element => (
+const RegisterValueTableCell: FC<Props> = ({ label, value, valueClassName }) => (
   <td className="px-2">
     <div className="flex space-x-1 items-center justify-center">
       <span className="rounded bg-gray-100 text-xs px-1 text-gray-400">{label}</span>
@@ -22,7 +24,7 @@ const RegisterValueTableCell = ({ label, value, valueClassName }: Props): JSX.El
   </td>
 )
 
-const FlagIndicator = (): JSX.Element => (
+const FlagIndicator: FC = () => (
   <td className="px-2">
     <div className="flex space-x-1 items-center justify-center">
       <span className="text-xs px-1">{NO_BREAK_SPACE.repeat(3)}</span>

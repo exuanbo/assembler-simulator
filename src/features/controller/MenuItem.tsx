@@ -1,4 +1,4 @@
-import { type ReactNode, type RefCallback, useState } from 'react'
+import { type FC, type PropsWithChildren, type ReactNode, type RefCallback, useState } from 'react'
 
 import Anchor from '@/common/components/Anchor'
 import { Play, Share } from '@/common/components/icons'
@@ -7,24 +7,22 @@ import { invariant } from '@/common/utils'
 
 const className = 'flex space-x-4 py-1 px-2 items-center justify-between hover:bg-gray-200'
 
-interface Props {
+type Props = PropsWithChildren<{
   onClick: React.MouseEventHandler<HTMLDivElement>
-  children: ReactNode
-}
+}>
 
-const MenuItem = ({ onClick, children }: Props): JSX.Element => (
+const MenuItem: FC<Props> = ({ onClick, children }) => (
   <div className={className} onClick={onClick}>
     {children}
     <span className="w-4" />
   </div>
 )
 
-interface ExternalLinkProps {
+type ExternalLinkProps = PropsWithChildren<{
   href: string
-  children: ReactNode
-}
+}>
 
-const ExternalLink = ({ href, children }: ExternalLinkProps): JSX.Element => (
+const ExternalLink: FC<ExternalLinkProps> = ({ href, children }) => (
   <Anchor className={className} href={href}>
     {children}
     <div className="w-4">
@@ -45,7 +43,7 @@ interface ExpandableProps {
   ) => ReactNode
 }
 
-const Expandable = ({ children }: ExpandableProps): JSX.Element => {
+const Expandable: FC<ExpandableProps> = ({ children }) => {
   const [menuItemElement, menuItemRef] = useRefCallback<HTMLDivElement>()
   const isReady = menuItemElement !== null
 

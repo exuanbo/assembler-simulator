@@ -1,4 +1,12 @@
-import { type ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  type FC,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import { clamp, classNames, range, throttle } from '../utils'
 
@@ -9,7 +17,7 @@ const DOUBLE_CLICK_DELAY_MS = 500
 const MIN_WIDTH_PERCENTAGE = 0.25
 const MAX_WIDTH_PERCENTAGE = 0.75
 
-export interface ResizablePanelProps {
+interface ResizablePanelProps {
   children: [leftChild: ReactNode, rightChild: ReactNode]
   throttle?: number
   className?: string
@@ -17,11 +25,11 @@ export interface ResizablePanelProps {
 
 const getOffsetWidth = (ref: React.RefObject<HTMLElement>) => ref.current!.offsetWidth
 
-const ResizablePanel = ({
+const ResizablePanel: FC<ResizablePanelProps> = ({
   children: [leftChild, rightChild],
   throttle: throttleMs = DEFAULT_RESIZE_THROTTLE_MS,
   className,
-}: ResizablePanelProps): JSX.Element => {
+}) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const dividerRef = useRef<HTMLDivElement>(null)
   const rightChildRef = useRef<HTMLDivElement>(null)

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { type FC, useRef } from 'react'
 
 import { store } from '@/app/store'
 import { File as FileIcon } from '@/common/components/icons'
@@ -11,7 +11,7 @@ import MenuButton from './MenuButton'
 import MenuItem from './MenuItem'
 import MenuItems from './MenuItems'
 
-const NewFileButton = (): JSX.Element => (
+const NewFileButton: FC = () => (
   <MenuItem
     onClick={() => {
       store.dispatch(
@@ -32,7 +32,7 @@ interface OpenButtonProps {
   onFileLoad: () => void
 }
 
-const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
+const OpenButton: FC<OpenButtonProps> = ({ onFileLoad }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
@@ -82,7 +82,7 @@ const OpenButton = ({ onFileLoad }: OpenButtonProps): JSX.Element => {
   )
 }
 
-const OpenExampleMenu = (): JSX.Element => (
+const OpenExampleMenu: FC = () => (
   <MenuItem.Expandable>
     {(isHovered, menuItemsRef, menuItemElement) => (
       <>
@@ -116,7 +116,7 @@ const OpenExampleMenu = (): JSX.Element => (
   </MenuItem.Expandable>
 )
 
-const SaveButton = (): JSX.Element => {
+const SaveButton: FC = () => {
   const handleClick = (): void => {
     const editorInput = store.getState(selectEditorInput)
     const fileBlob = new Blob([editorInput], { type: 'application/octet-stream' })
@@ -139,7 +139,7 @@ const SaveButton = (): JSX.Element => {
   )
 }
 
-const CopyLinkButton = (): JSX.Element => {
+const CopyLinkButton: FC = () => {
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
     navigator.clipboard.writeText(window.location.href).catch((reason) => {
       event.stopPropagation()
@@ -157,7 +157,7 @@ const CopyLinkButton = (): JSX.Element => {
   )
 }
 
-const FileMenu = (): JSX.Element => (
+const FileMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>

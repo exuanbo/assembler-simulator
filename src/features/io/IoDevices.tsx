@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowDown, ArrowUp } from '@/common/components/icons'
 import { useToggle } from '@/common/hooks'
@@ -7,7 +9,7 @@ import SimulatedKeyboard from './SimulatedKeyboard'
 import TrafficLights from './TrafficLights'
 import VisualDisplayUnit from './VisualDisplayUnit'
 
-const IoDevices = (): JSX.Element => {
+const IoDevices: FC = () => {
   const [isOpen, toggleOpen] = useToggle(true)
   const Icon = isOpen ? ArrowUp : ArrowDown
 

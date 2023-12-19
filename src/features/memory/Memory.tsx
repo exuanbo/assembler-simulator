@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { useSelector } from '@/app/store'
 import CardHeader from '@/common/components/CardHeader'
 import { ArrowDown, ArrowUp } from '@/common/components/icons'
@@ -9,7 +11,7 @@ import { selectCpuPointerRegisters } from '@/features/cpu/cpuSlice'
 import { MemoryView, selectMemoryDataRows, selectMemoryView } from './memorySlice'
 import { selectMemorySourceRows } from './selectors'
 
-const Memory = (): JSX.Element => {
+const Memory: FC = () => {
   const [isOpen, toggleOpen] = useToggle(true)
   const Icon = isOpen ? ArrowUp : ArrowDown
 

@@ -7,12 +7,12 @@ const modalContainer = document.getElementById('modal-root')!
 
 const modalClassName = 'fixed inset-0 flex items-center justify-center'
 
-interface Props {
+type Props = PropsWithChildren<{
   className?: ClassItem
   isOpen?: boolean
-}
+}>
 
-const Modal: FC<PropsWithChildren<Props>> = ({ children, className, isOpen = false }) => {
+const Modal: FC<Props> = ({ className, isOpen = false, children }) => {
   const [currentModal, setCurrentModal] = useState<HTMLDivElement | null>(null)
   const isReady = isOpen && !!currentModal
 

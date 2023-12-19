@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { type FC, useCallback, useMemo, useState } from 'react'
 
 import Anchor from '@/common/components/Anchor'
 import { Github } from '@/common/components/icons'
@@ -11,7 +11,7 @@ import HelpMenu from './HelpMenu'
 import { MenuContext } from './Menu'
 import ViewMenu from './ViewMenu'
 
-const ToolBar = (): JSX.Element => {
+const ToolBar: FC = () => {
   const [openMenu, __setOpenMenu] = useState<HTMLDivElement | null>(null)
 
   const setOpenMenu = useStableHandler((element: HTMLDivElement | null) => {

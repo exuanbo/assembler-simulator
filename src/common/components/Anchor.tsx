@@ -1,14 +1,13 @@
-import type { ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
 const DEFAULT_CLASSNAME = 'text-blue-700 hover:underline'
 
-interface Props {
+type Props = PropsWithChildren<{
   href: string
-  children: ReactNode
   className?: string
-}
+}>
 
-const Anchor = ({ href, children, className = DEFAULT_CLASSNAME }: Props): JSX.Element => {
+const Anchor: FC<Props> = ({ href, className = DEFAULT_CLASSNAME, children }) => {
   const isExternal = href.startsWith('http')
   return (
     <a

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { type FC, useEffect, useRef, useState } from 'react'
 
 import { store, useSelector } from '@/app/store'
 import Modal from '@/common/components/Modal'
@@ -16,7 +16,7 @@ import {
 const MAX_DOT_COUNT = 3
 const PULSE_INTERVAL_MS = 250
 
-const PulseLoader = (): JSX.Element => {
+const PulseLoader: FC = () => {
   const [count, setCount] = useState(1)
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const PulseLoader = (): JSX.Element => {
   )
 }
 
-const SimulatedKeyboard = (): JSX.Element => {
+const SimulatedKeyboard: FC = () => {
   const isSuspended = useSelector(selectIsSuspended)
   const isWaitingForKeyboardInput = useSelector(selectIsWaitingForKeyboardInput)
   const shouldOpen = isSuspended && isWaitingForKeyboardInput

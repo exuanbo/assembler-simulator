@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import Anchor from '@/common/components/Anchor'
 import { Help } from '@/common/components/icons'
 import Modal from '@/common/components/Modal'
@@ -13,7 +15,7 @@ interface ExternalLinkButtonProps {
   name: string
 }
 
-const ExternalLinkButton = ({ href, name }: ExternalLinkButtonProps): JSX.Element => (
+const ExternalLinkButton: FC<ExternalLinkButtonProps> = ({ href, name }) => (
   <MenuItem.ExternalLink href={href}>
     <MenuButton>
       <span className="w-4" />
@@ -22,21 +24,21 @@ const ExternalLinkButton = ({ href, name }: ExternalLinkButtonProps): JSX.Elemen
   </MenuItem.ExternalLink>
 )
 
-const InstructionSetButton = (): JSX.Element => (
+const InstructionSetButton: FC = () => (
   <ExternalLinkButton
     href="https://nbest.co.uk/Softwareforeducation/sms32v50/sms32v50_manual/250-FullIset.htm"
     name="Instruction Set"
   />
 )
 
-const ReportIssueButton = (): JSX.Element => (
+const ReportIssueButton: FC = () => (
   <ExternalLinkButton
     href="https://github.com/exuanbo/assembler-simulator/issues"
     name="Report Issue"
   />
 )
 
-const DiscussionsButton = (): JSX.Element => (
+const DiscussionsButton: FC = () => (
   <ExternalLinkButton
     href="https://github.com/exuanbo/assembler-simulator/discussions"
     name="Discussions"
@@ -47,7 +49,7 @@ interface AboutButtonProps {
   onClick: React.MouseEventHandler<HTMLDivElement>
 }
 
-const AboutButton = ({ onClick }: AboutButtonProps): JSX.Element => (
+const AboutButton: FC<AboutButtonProps> = ({ onClick }) => (
   <MenuItem onClick={onClick}>
     <MenuButton>
       <span className="w-4" />
@@ -61,7 +63,7 @@ interface AboutModalProps {
   toggleOpen: () => void
 }
 
-const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
+const AboutModal: FC<AboutModalProps> = ({ isOpen, toggleOpen }) => {
   const outsideClickRef = useOutsideClick(toggleOpen)
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
@@ -106,7 +108,7 @@ const AboutModal = ({ isOpen, toggleOpen }: AboutModalProps): JSX.Element => {
   )
 }
 
-const HelpMenu = (): JSX.Element => {
+const HelpMenu: FC = () => {
   const [isAboutModalOpen, toggleAboutModalOpen] = useToggle(false)
 
   return (

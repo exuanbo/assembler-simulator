@@ -1,5 +1,5 @@
 import { createNextState } from '@reduxjs/toolkit'
-import { memo, useEffect, useState } from 'react'
+import { type FC, memo, useEffect, useState } from 'react'
 import { map } from 'rxjs'
 
 import { store } from '@/app/store'
@@ -138,7 +138,7 @@ const segments: readonly JSX.Element[] = [
 const DATA_DIGIT_COUNT = 14
 const initialData = new Array<number>(DATA_DIGIT_COUNT).fill(0)
 
-const SevenSegmentDisplay = (): JSX.Element | null => {
+const SevenSegmentDisplay: FC = () => {
   // an array of 14 digits,
   // elements with even index represent the left part
   const [data, setData] = useState(initialData)

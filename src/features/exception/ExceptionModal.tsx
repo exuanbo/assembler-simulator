@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { type FC, useCallback } from 'react'
 
 import { store, useSelector } from '@/app/store'
 import Anchor from '@/common/components/Anchor'
@@ -7,7 +7,7 @@ import { useOutsideClick } from '@/common/hooks'
 
 import { clearException, selectException } from './exceptionSlice'
 
-const ExceptionModal = (): JSX.Element => {
+const ExceptionModal: FC = () => {
   const error = useSelector(selectException)
   const hasError = error !== null
 

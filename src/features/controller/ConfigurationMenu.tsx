@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { store, useSelector } from '@/app/store'
 import { CheckMark, Wrench } from '@/common/components/icons'
 
@@ -20,7 +22,7 @@ import MenuButton from './MenuButton'
 import MenuItem from './MenuItem'
 import MenuItems from './MenuItems'
 
-const AutoAssembleSwitch = (): JSX.Element => {
+const AutoAssembleSwitch: FC = () => {
   const autoAssemble = useSelector(selectAutoAssemble)
 
   const toggleAutoAssemble = (): void => {
@@ -37,7 +39,7 @@ const AutoAssembleSwitch = (): JSX.Element => {
   )
 }
 
-const ClockSpeedMenu = (): JSX.Element => {
+const ClockSpeedMenu: FC = () => {
   const clockSpeed = useSelector(selectClockSpeed)
 
   return (
@@ -74,7 +76,7 @@ const ClockSpeedMenu = (): JSX.Element => {
   )
 }
 
-const TimerIntervalMenu = (): JSX.Element => {
+const TimerIntervalMenu: FC = () => {
   const timerInterval = useSelector(selectTimerInterval)
 
   return (
@@ -111,7 +113,7 @@ const TimerIntervalMenu = (): JSX.Element => {
   )
 }
 
-const VimKeybindingsSwitch = (): JSX.Element => {
+const VimKeybindingsSwitch: FC = () => {
   const vimKeybindings = useSelector(selectVimKeybindings)
 
   const toggleVimKeybindings = (): void => {
@@ -128,7 +130,7 @@ const VimKeybindingsSwitch = (): JSX.Element => {
   )
 }
 
-const ConfigurationMenu = (): JSX.Element => (
+const ConfigurationMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>

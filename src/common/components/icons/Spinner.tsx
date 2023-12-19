@@ -1,9 +1,9 @@
-interface Props {
-  [prop: string]: unknown
-}
+import type { FC } from 'react'
+
+import type { IconProps } from './types'
 
 // https://css.gg/spinner
-const Spinner = (props: Props): JSX.Element => (
+const Spinner: FC<IconProps> = (props) => (
   <svg viewBox="0 0 24 24" width="1rem" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       clipRule="evenodd"

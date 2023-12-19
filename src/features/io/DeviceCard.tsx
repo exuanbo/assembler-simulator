@@ -1,17 +1,16 @@
-import type { ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
 import CardHeader from '@/common/components/CardHeader'
 import { Close } from '@/common/components/icons'
 import { classNames } from '@/common/utils'
 
-interface Props {
+type Props = PropsWithChildren<{
   name: string
-  children: ReactNode
   onClose?: () => void
   className?: string
-}
+}>
 
-const DeviceCard = ({ name, children, onClose, className }: Props): JSX.Element => {
+const DeviceCard: FC<Props> = ({ name, onClose, className, children }) => {
   const isClosable = onClose !== undefined
   return (
     <div className="border shadow m-1">

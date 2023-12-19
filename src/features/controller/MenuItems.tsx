@@ -1,15 +1,14 @@
-import type { ReactNode, RefCallback } from 'react'
+import type { FC, PropsWithChildren, RefCallback } from 'react'
 
 const BORDER_WIDTH = 1
 
 const className = 'divide-y border bg-gray-50 shadow fixed'
 
-interface Props {
+type Props = PropsWithChildren<{
   menuElement: HTMLDivElement
-  children: ReactNode
-}
+}>
 
-const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
+const MenuItems: FC<Props> = ({ menuElement, children }) => {
   const refCallback: RefCallback<HTMLDivElement> = (element) => {
     if (element === null) {
       return
@@ -26,13 +25,12 @@ const MenuItems = ({ menuElement, children }: Props): JSX.Element => {
   )
 }
 
-interface ExpandedProps {
+type ExpandedProps = PropsWithChildren<{
   innerRef: RefCallback<HTMLDivElement>
   menuItemElement: HTMLDivElement
-  children: ReactNode
-}
+}>
 
-const Expanded = ({ innerRef, menuItemElement, children }: ExpandedProps): JSX.Element => {
+const Expanded: FC<ExpandedProps> = ({ innerRef, menuItemElement, children }) => {
   const refCallback: RefCallback<HTMLDivElement> = (element) => {
     innerRef(element)
     if (element === null) {

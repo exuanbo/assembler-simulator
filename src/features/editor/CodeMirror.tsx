@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { classNames } from '@/common/utils'
 
 import { viewEffects } from './effects'
@@ -7,7 +9,7 @@ interface Props {
   className?: string
 }
 
-const CodeMirror = ({ className }: Props): JSX.Element => {
+const CodeMirror: FC<Props> = ({ className }) => {
   const containerRef = useContainerRef()
 
   useViewEffect((view) => {

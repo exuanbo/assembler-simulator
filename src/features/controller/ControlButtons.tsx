@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
 import { useSelector } from '@/app/store'
 import { Arrow, Forward, Play, Stop, Undo } from '@/common/components/icons'
@@ -8,13 +8,12 @@ import { classNames } from '@/common/utils'
 import { selectIsRunning, selectIsSuspended } from './controllerSlice'
 import { useController } from './hooks'
 
-interface ButtonProps {
-  children: ReactNode
+type ButtonProps = PropsWithChildren<{
   onClick?: React.MouseEventHandler<HTMLDivElement>
   disabled?: boolean
-}
+}>
 
-const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JSX.Element => (
+const ControlButton: FC<ButtonProps> = ({ onClick, disabled = false, children }) => (
   <div
     className={classNames(
       'flex space-x-2 py-1 px-2 items-center',
@@ -25,17 +24,18 @@ const ControlButton = ({ children, onClick, disabled = false }: ButtonProps): JS
   </div>
 )
 
-const ControlButtons = (): JSX.Element => {
+// TODO: useMemo
+const ControlButtons: FC = () => {
   const controller = useController()
 
-  const AssembleButton = (): JSX.Element => (
+  const AssembleButton = () => (
     <ControlButton onClick={controller.assemble}>
       <Arrow />
       <span>Assemble</span>
     </ControlButton>
   )
 
-  const RunButton = (): JSX.Element => {
+  const RunButton = () => {
     const isRunning = useSelector(selectIsRunning)
     const isSuspended = useSelector(selectIsSuspended)
     return (
@@ -55,7 +55,7 @@ const ControlButtons = (): JSX.Element => {
     )
   }
 
-  const StepButton = (): JSX.Element => {
+  const StepButton = () => {
     const isRunning = useSelector(selectIsRunning)
     const isSuspended = useSelector(selectIsSuspended)
     return (
@@ -68,7 +68,7 @@ const ControlButtons = (): JSX.Element => {
     )
   }
 
-  const ResetButton = (): JSX.Element => (
+  const ResetButton = () => (
     <ControlButton onClick={controller.reset}>
       <Undo />
       <span>Reset</span>

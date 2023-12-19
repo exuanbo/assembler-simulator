@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { store, useSelector } from '@/app/store'
 import { CheckMark, View as ViewIcon } from '@/common/components/icons'
 import { splitCamelCaseToString } from '@/common/utils'
@@ -9,7 +11,7 @@ import MenuButton from './MenuButton'
 import MenuItem from './MenuItem'
 import MenuItems from './MenuItems'
 
-const MemoryMenu = (): JSX.Element => {
+const MemoryMenu: FC = () => {
   const memoryView = useSelector(selectMemoryView)
 
   return (
@@ -42,7 +44,7 @@ const MemoryMenu = (): JSX.Element => {
   )
 }
 
-const IoMenu = (): JSX.Element => {
+const IoMenu: FC = () => {
   const ioDeviceStates = useSelector(selectIoDeviceStates)
 
   return (
@@ -75,7 +77,7 @@ const IoMenu = (): JSX.Element => {
   )
 }
 
-const ViewMenu = (): JSX.Element => (
+const ViewMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>

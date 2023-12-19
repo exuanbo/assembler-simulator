@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import { useSelector } from '@/app/store'
 import CardHeader from '@/common/components/CardHeader'
 import { arrayShallowEqual, invariant, isIn } from '@/common/utils'
@@ -10,7 +12,7 @@ import {
 } from './cpuSlice'
 import RegisterTableRow from './RegisterTableRow'
 
-const CpuRegisters = (): JSX.Element => {
+const CpuRegisters: FC = () => {
   const gpr = useSelector(selectCpuGeneralPurposeRegisters, arrayShallowEqual)
   const { ip, sp } = useSelector(selectCpuPointerRegisters)
   const sr = useSelector(selectStatusRegister)

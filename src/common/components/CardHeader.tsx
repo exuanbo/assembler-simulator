@@ -1,14 +1,13 @@
-import type { ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
 import { classNames } from '../utils/classNames'
 
-interface Props {
+type Props = PropsWithChildren<{
   title: string
   onClick?: React.MouseEventHandler<HTMLElement>
-  children?: ReactNode
-}
+}>
 
-const CardHeader = ({ title, onClick, children }: Props): JSX.Element => {
+const CardHeader: FC<Props> = ({ title, onClick, children }) => {
   const isClickable = onClick !== undefined
   return (
     <header

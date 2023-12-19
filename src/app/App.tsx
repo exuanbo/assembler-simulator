@@ -1,3 +1,5 @@
+import type { FC } from 'react'
+
 import ToolBar from '@/features/controller/Toolbar'
 import CpuRegisters from '@/features/cpu/CpuRegisters'
 import Editor from '@/features/editor/Editor'
@@ -11,7 +13,7 @@ import { useAckee } from './hooks'
 import ReloadPrompt from './ReloadPrompt'
 import ResizablePanel from './ResizablePanel'
 
-const App = (): JSX.Element => {
+const App: FC = () => {
   useGlobalExceptionHandler()
   useAckee()
 

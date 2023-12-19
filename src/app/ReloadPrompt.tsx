@@ -1,14 +1,13 @@
-import { type ReactNode, useState } from 'react'
+import { type FC, type PropsWithChildren, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 import { Spinner } from '@/common/components/icons'
 
-interface ButtonProps {
+type ButtonProps = PropsWithChildren<{
   onClick: React.MouseEventHandler<HTMLDivElement>
-  children: ReactNode
-}
+}>
 
-const PromptButton = ({ onClick, children }: ButtonProps): JSX.Element => (
+const PromptButton: FC<ButtonProps> = ({ onClick, children }) => (
   <div
     className="border rounded bg-gray-100 py-1 px-2 inline-block hover:bg-gray-200"
     onClick={onClick}>
@@ -16,7 +15,7 @@ const PromptButton = ({ onClick, children }: ButtonProps): JSX.Element => (
   </div>
 )
 
-const ReloadPrompt = (): JSX.Element | null => {
+const ReloadPrompt: FC = () => {
   const {
     needRefresh: [needReload, setNeedReload],
     updateServiceWorker,

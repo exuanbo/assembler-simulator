@@ -1,4 +1,11 @@
-import { createContext, type ReactNode, type RefCallback, useCallback, useContext } from 'react'
+import {
+  createContext,
+  type FC,
+  type ReactNode,
+  type RefCallback,
+  useCallback,
+  useContext,
+} from 'react'
 
 import { useHover, useRefCallback } from '@/common/hooks'
 import { classNames } from '@/common/utils'
@@ -27,7 +34,7 @@ interface Props {
   ) => ReactNode
 }
 
-const Menu = ({ children }: Props): JSX.Element => {
+const Menu: FC<Props> = ({ children }) => {
   const [menuElement, menuRef] = useRefCallback<HTMLDivElement>()
   const isReady = menuElement !== null
 

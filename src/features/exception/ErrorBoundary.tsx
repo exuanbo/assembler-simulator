@@ -1,4 +1,4 @@
-import { Component, type ReactNode, useCallback } from 'react'
+import { Component, type FC, type PropsWithChildren, useCallback } from 'react'
 
 import { store } from '@/app/store'
 
@@ -6,19 +6,18 @@ import { setException } from './exceptionSlice'
 
 type ErrorHandler = (error: Error) => void
 
-interface ErrorBoundaryComponentProps {
+type ErrorBoundaryComponentProps = PropsWithChildren<{
   onError: ErrorHandler
-  children: ReactNode
-}
+}>
 
 class ErrorBoundaryComponent extends Component<ErrorBoundaryComponentProps> {
   public declare static displayName?: string
 
-  public override componentDidCatch(error: Error): void {
+  public override componentDidCatch(error: Error) {
     this.props.onError(error)
   }
 
-  public override render(): ReactNode {
+  public override render() {
     return this.props.children
   }
 }
@@ -27,11 +26,7 @@ if (import.meta.env.DEV) {
   ErrorBoundaryComponent.displayName = 'ErrorBoundary'
 }
 
-interface Props {
-  children: ReactNode
-}
-
-const ErrorBoundary = ({ children }: Props): JSX.Element => {
+const ErrorBoundary: FC<PropsWithChildren> = ({ children }) => {
   const handleError = useCallback<ErrorHandler>((error) => {
     store.dispatch(setException(error))
   }, [])

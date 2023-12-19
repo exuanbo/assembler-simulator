@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { type FC, useEffect } from 'react'
 import { first, map, merge, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
@@ -15,7 +15,7 @@ import DeviceCard from './DeviceCard'
 import { useIoDevice } from './hooks'
 import { IoDeviceName, setVduDataFrom } from './ioSlice'
 
-const VisualDisplayUnit = (): JSX.Element | null => {
+const VisualDisplayUnit: FC = () => {
   const { data, isVisible, toggleVisible } = useIoDevice(IoDeviceName.VisualDisplayUnit)
 
   useEffect(() => {

@@ -1,21 +1,18 @@
-import type { ReactNode, Ref } from 'react'
+import type { FC, PropsWithChildren, Ref } from 'react'
 
 import { classNames } from '@/common/utils'
 
 const className = 'flex h-full space-x-2 items-center'
 
-interface Props {
-  children: ReactNode
-}
+const MenuButton: FC<PropsWithChildren> = ({ children }) => (
+  <div className={className}>{children}</div>
+)
 
-const MenuButton = ({ children }: Props): JSX.Element => <div className={className}>{children}</div>
-
-interface MainProps {
-  children: ReactNode
+type Props = PropsWithChildren<{
   innerRef?: Ref<HTMLDivElement>
-}
+}>
 
-const Main = ({ children, innerRef }: MainProps): JSX.Element => (
+const Main: FC<Props> = ({ innerRef, children }) => (
   <div ref={innerRef} className={classNames(className, 'py-1 px-2 hover:active:bg-gray-300')}>
     {children}
   </div>
