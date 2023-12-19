@@ -39,7 +39,10 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
     [],
   )
 
-  const getInitialLeftChildWidth = useCallback(() => getTotalWidth() / 2, [getTotalWidth])
+  const resetLeftChildWidth = useCallback(
+    () => setLeftChildWidth(getTotalWidth() / 2),
+    [getTotalWidth],
+  )
 
   const getAvailableWidth = useCallback(
     () => getTotalWidth() - getOffsetWidth(rightChildRef),
@@ -56,9 +59,9 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
 
   useLayoutEffect(() => {
     if (!isReady) {
-      setLeftChildWidth(getInitialLeftChildWidth())
+      resetLeftChildWidth()
     }
-  }, [getInitialLeftChildWidth, isReady])
+  }, [isReady, resetLeftChildWidth])
 
   useLayoutEffect(() => {
     if (leftChildWidth !== undefined) {
@@ -79,7 +82,7 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
 
     clickCountRef.current += 1
     if (clickCountRef.current === 2) {
-      setLeftChildWidth(getInitialLeftChildWidth())
+      resetLeftChildWidth()
       window.clearTimeout(clickTimeoutIdRef.current)
       clickCountRef.current = 0
     } else {
