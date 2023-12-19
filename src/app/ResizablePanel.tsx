@@ -5,7 +5,7 @@ import { useSelector } from './store'
 
 const ResizablePanel: typeof BaseResizablePanel = (props) => {
   const isRunning = useSelector(selectIsRunning)
-  const throttleMs = DEFAULT_RESIZE_THROTTLE_MS * (isRunning ? 5 : 1)
+  const throttleMs = DEFAULT_RESIZE_THROTTLE_MS * (isRunning ? 2 : 1)
   return <BaseResizablePanel throttle={throttleMs} {...props} />
 }
 
