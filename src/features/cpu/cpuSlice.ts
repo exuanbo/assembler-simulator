@@ -41,6 +41,7 @@ export const cpuSlice = createSlice({
     selectCpuRegisters: (state) => state.registers,
     selectCpuGeneralPurposeRegisters: (state) => state.registers.gpr,
     selectCpuInstructionPointerRegister: (state) => state.registers.ip,
+    selectCpuStackPointerRegister: (state) => state.registers.sp,
     selectCpuPointerRegisters: createSelector(
       (state: CpuState) => state.registers.ip,
       (state: CpuState) => state.registers.sp,
@@ -63,6 +64,7 @@ export const {
   selectCpuRegisters,
   selectCpuGeneralPurposeRegisters,
   selectCpuInstructionPointerRegister,
+  selectCpuStackPointerRegister,
   selectCpuPointerRegisters,
   selectStatusRegister,
 } = cpuSlice.selectors
