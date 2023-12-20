@@ -1,4 +1,4 @@
-import { type FC, memo } from 'react'
+import type { FC } from 'react'
 
 import { NO_BREAK_SPACE } from '@/common/constants'
 import { decToBin, decToHex, sign8 } from '@/common/utils'
@@ -12,7 +12,7 @@ interface Props {
   valueClassName?: string
 }
 
-const RegisterTableRow = memo(({ name, value, valueClassName }: Props) => {
+const RegisterTableRow: FC<Props> = ({ name, value, valueClassName }) => {
   const hexValue = decToHex(value)
   const binValue = decToBin(value)
 
@@ -31,10 +31,6 @@ const RegisterTableRow = memo(({ name, value, valueClassName }: Props) => {
       <RegisterValueTableCell label={RadixLabel.Dec} value={decValue} />
     </tr>
   )
-})
-
-if (import.meta.env.DEV) {
-  RegisterTableRow.displayName = 'RegisterTableRow'
 }
 
 const FlagIndicator: FC = () => (

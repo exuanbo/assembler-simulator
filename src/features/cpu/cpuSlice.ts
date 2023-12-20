@@ -1,6 +1,11 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { initRegisters, type Registers, type RuntimeErrorObject } from './core'
+import {
+  type GeneralPurposeRegister,
+  initRegisters,
+  type Registers,
+  type RuntimeErrorObject,
+} from './core'
 
 interface Status {
   fault: RuntimeErrorObject | null
@@ -39,7 +44,10 @@ export const cpuSlice = createSlice({
     selectCpuStatus: (state) => state.status,
     selectCpuFault: (state) => state.status.fault,
     selectCpuRegisters: (state) => state.registers,
-    selectCpuGeneralPurposeRegisters: (state) => state.registers.gpr,
+    selectCpuGeneralPurposeRegister: createSelector(
+      [(state: CpuState) => state.registers.gpr, (_, code: GeneralPurposeRegister) => code],
+      (gpr, code) => gpr[code],
+    ),
     selectCpuInstructionPointerRegister: (state) => state.registers.ip,
     selectCpuStackPointerRegister: (state) => state.registers.sp,
     selectCpuPointerRegisters: createSelector(
@@ -47,7 +55,7 @@ export const cpuSlice = createSlice({
       (state: CpuState) => state.registers.sp,
       (ip, sp) => ({ ip, sp }),
     ),
-    selectStatusRegister: (state) => state.registers.sr,
+    selectCpuStatusRegister: (state) => state.registers.sr,
   },
 })
 
@@ -62,9 +70,9 @@ export const {
   selectCpuStatus,
   selectCpuFault,
   selectCpuRegisters,
-  selectCpuGeneralPurposeRegisters,
+  selectCpuGeneralPurposeRegister,
   selectCpuInstructionPointerRegister,
   selectCpuStackPointerRegister,
   selectCpuPointerRegisters,
-  selectStatusRegister,
+  selectCpuStatusRegister,
 } = cpuSlice.selectors
