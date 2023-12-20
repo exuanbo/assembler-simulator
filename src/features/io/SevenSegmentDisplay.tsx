@@ -129,7 +129,7 @@ const segments = [
   // 6
   <polygon key={12} points="108,68 108,116 100,108 100,76" />,
   <polygon key={13} points="260,68 260,116 252,108 252,76" />,
-]
+] as const
 
 const DATA_DIGIT_COUNT = 14
 const initialData = new Array<number>(DATA_DIGIT_COUNT).fill(0)
