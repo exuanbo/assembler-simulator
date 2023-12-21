@@ -16,7 +16,7 @@ interface Props {
 }
 
 const RegisterValueTableCell: FC<Props> = ({ label, value, valueClassName }) => (
-  <td className="px-2">
+  <td className="px-1">
     <div className="flex space-x-1 items-center justify-center">
       <span className="rounded bg-gray-100 text-xs px-1 text-gray-400">{label}</span>
       <span className={classNames('rounded text-sm px-1', valueClassName)}>{value}</span>
@@ -25,7 +25,7 @@ const RegisterValueTableCell: FC<Props> = ({ label, value, valueClassName }) => 
 )
 
 const FlagIndicator: FC = () => (
-  <td className="px-2">
+  <td className="px-1">
     <div className="flex space-x-1 items-center justify-center">
       <span className="text-xs px-1">{NO_BREAK_SPACE.repeat(3)}</span>
       <span className="text-sm px-1">{`${NO_BREAK_SPACE.repeat(3)}ISOZ${NO_BREAK_SPACE}`}</span>
