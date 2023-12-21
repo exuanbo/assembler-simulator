@@ -5,7 +5,7 @@
 
 import type { Nullable } from './types'
 
-export type ClassItem = Nullable<string | Record<string, Nullable<boolean>>>
+export type ClassItem = Nullable<string | Record<string, Nullable<boolean>> | false>
 
 export const classNames = (...items: ClassItem[]): string => {
   let className = ''

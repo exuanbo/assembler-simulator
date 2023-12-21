@@ -51,16 +51,16 @@ const Memory: FC = () => {
                 {row.map((value, colIndex) => {
                   const address = rowIndex * 0x10 + colIndex
                   return (
-                    <td
-                      key={colIndex}
-                      className={classNames('text-center', {
-                        'bg-blue-50': sp < address && address <= MAX_SP && isDataView,
-                      })}>
+                    <td key={colIndex} className="text-center">
                       <span
-                        className={classNames('px-1', {
-                          'rounded bg-green-100': address === ip,
-                          'rounded bg-blue-100': address === sp && isDataView,
-                        })}>
+                        className={classNames(
+                          'inline-block w-full rounded',
+                          { 'bg-green-100': address === ip },
+                          isDataView && {
+                            'bg-blue-100': address === sp,
+                            'bg-blue-50': address > sp && address <= MAX_SP,
+                          },
+                        )}>
                         {memoryView === MemoryView.Hexadecimal
                           ? (invariant(typeof value === 'number'), decToHex(value))
                           : value}
