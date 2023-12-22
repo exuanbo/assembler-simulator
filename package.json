@@ -33,12 +33,13 @@
     "pako": "2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "rxjs": "8.0.0-alpha.12"
+    "rxjs": "8.0.0-alpha.13"
   },
   "devDependencies": {
     "@types/ackee-tracker": "5.0.4",
     "@types/eslint": "^8",
     "@types/jest": "29.5.11",
+    "@types/node": "20.10.5",
     "@types/pako": "2.0.3",
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
