@@ -3425,10 +3425,11 @@ __metadata:
     eslint-plugin-react: "npm:7.33.2"
     eslint-plugin-react-hooks: "npm:4.6.0"
     eslint-plugin-simple-import-sort: "npm:10.0.0"
-    immer: "npm:10.0.3"
+    immer: "npm:mutative-compat@^0.0.1"
     jest: "npm:29.7.0"
     jest-environment-jsdom: "npm:29.7.0"
     js-base64: "npm:3.7.5"
+    mutative: "npm:1.0.2"
     pako: "npm:2.1.0"
     prettier: "npm:3.1.1"
     react: "npm:18.2.0"
@@ -5278,10 +5279,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:10.0.3, immer@npm:^10.0.3":
-  version: 10.0.3
-  resolution: "immer@npm:10.0.3"
-  checksum: 282a4f8479a40f7d12b2b3243c095e3e892bf99058e2ffcdd6b8e9fd143e6a90f2717ab9b6c8b97c927ffb8054465c8f647056f41660dbfd672e240cf1063503
+"immer@npm:mutative-compat@^0.0.1":
+  version: 0.0.1
+  resolution: "mutative-compat@npm:0.0.1"
+  peerDependencies:
+    mutative: ^1.0.0
+  checksum: 4567fc12e528a6c2910f315ee0b0726111a0144875421944848c9f29c0395751143eafe38086733d28ae8f77b5f106299a2d2470911ac99bb05190e2806f1747
   languageName: node
   linkType: hard
 
@@ -6834,6 +6837,13 @@ __metadata:
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
   checksum: a437714e2f90dbf881b5191d35a6db792efbca5badf112f87b9e1c712aace4b4b9b742dd6537f3edf90fd6f684de897cec230abde57e87883766712ddda297cc
+  languageName: node
+  linkType: hard
+
+"mutative@npm:1.0.2":
+  version: 1.0.2
+  resolution: "mutative@npm:1.0.2"
+  checksum: e98cf4b412c9b19858e7fa2bbe210cf8c729a043dc0245e474d27ca32d9467d3bd01e123f97f8218d516d9c7096af24c36a84caefb457b07d78ff80b7da05cb0
   languageName: node
   linkType: hard
 
