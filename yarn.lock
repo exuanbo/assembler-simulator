@@ -3425,7 +3425,7 @@ __metadata:
     eslint-plugin-react: "npm:7.33.2"
     eslint-plugin-react-hooks: "npm:4.6.0"
     eslint-plugin-simple-import-sort: "npm:10.0.0"
-    immer: "npm:mutative-compat@^0.0.1"
+    immer: "npm:mutative-compat@^0.1.0"
     jest: "npm:29.7.0"
     jest-environment-jsdom: "npm:29.7.0"
     js-base64: "npm:3.7.5"
@@ -5279,12 +5279,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:mutative-compat@^0.0.1":
-  version: 0.0.1
-  resolution: "mutative-compat@npm:0.0.1"
+"immer@npm:mutative-compat@^0.1.0":
+  version: 0.1.0
+  resolution: "mutative-compat@npm:0.1.0"
   peerDependencies:
     mutative: ^1.0.0
-  checksum: 4567fc12e528a6c2910f315ee0b0726111a0144875421944848c9f29c0395751143eafe38086733d28ae8f77b5f106299a2d2470911ac99bb05190e2806f1747
+  checksum: 32421afce8071ba86d9f03e9fc01ff9d9be01a73ed9fa2bcd84ada689b551205d2521634b7f715337ae54b289562c5ff50923f79809252f2cab436f61fef363d
   languageName: node
   linkType: hard
 

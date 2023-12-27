@@ -28,7 +28,7 @@
     "@replit/codemirror-vim": "6.1.0",
     "@unocss/reset": "0.58.0",
     "ackee-tracker": "patch:ackee-tracker@npm%3A5.1.0#~/.yarn/patches/ackee-tracker-npm-5.1.0-0db5cc0193.patch",
-    "immer": "npm:mutative-compat@^0.0.1",
+    "immer": "npm:mutative-compat@^0.1.0",
     "js-base64": "3.7.5",
     "mutative": "1.0.2",
     "pako": "2.1.0",
@@ -67,7 +67,7 @@
     "vite-plugin-pwa": "0.17.4"
   },
   "resolutions": {
-    "immer": "npm:mutative-compat@^0.0.1"
+    "immer": "npm:mutative-compat@^0.1.0"
   },
   "packageManager": "yarn@4.0.2"
 }
