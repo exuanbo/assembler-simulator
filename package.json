@@ -69,5 +69,5 @@
   "resolutions": {
     "immer": "npm:mutative-compat@^0.1.0"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.3.1"
 }
