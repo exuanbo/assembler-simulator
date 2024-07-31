@@ -58,6 +58,8 @@ const initialState: ControllerState = {
   isSuspended: false,
 }
 
+const createTypedStateSelector = createSelector.withTypes<ControllerState>()
+
 export const controllerSlice = createSlice({
   name: 'controller',
   initialState,
@@ -85,16 +87,15 @@ export const controllerSlice = createSlice({
     selectAutoAssemble: (state) => state.configuration.autoAssemble,
     selectClockSpeed: (state) => state.configuration.clockSpeed,
     selectTimerInterval: (state) => state.configuration.timerInterval,
-    selectRuntimeConfiguration: createSelector(
-      (state: ControllerState) => state.configuration.clockSpeed,
-      (state: ControllerState) => state.configuration.timerInterval,
+    selectRuntimeConfiguration: createTypedStateSelector(
+      [(state) => state.configuration.clockSpeed, (state) => state.configuration.timerInterval],
       (clockSpeed, timerInterval) => ({ clockSpeed, timerInterval }),
     ),
     selectVimKeybindings: (state) => state.configuration.vimKeybindings,
     selectIsRunning: (state) => state.isRunning,
     selectIsSuspended: (state) => state.isSuspended,
-    selectToPersist: createSelector(
-      (state: ControllerState) => state.configuration,
+    selectToPersist: createTypedStateSelector(
+      [(state) => state.configuration],
       (configuration) => ({ configuration }),
     ),
   },

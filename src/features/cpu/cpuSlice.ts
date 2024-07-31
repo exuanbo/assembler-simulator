@@ -25,6 +25,8 @@ const initialState: CpuState = {
   registers: initRegisters(),
 }
 
+const createTypedStateSelector = createSelector.withTypes<CpuState>()
+
 export const cpuSlice = createSlice({
   name: 'cpu',
   initialState,
@@ -44,15 +46,14 @@ export const cpuSlice = createSlice({
     selectCpuStatus: (state) => state.status,
     selectCpuFault: (state) => state.status.fault,
     selectCpuRegisters: (state) => state.registers,
-    selectCpuGeneralPurposeRegister: createSelector(
-      [(state: CpuState) => state.registers.gpr, (_, code: GeneralPurposeRegister) => code],
+    selectCpuGeneralPurposeRegister: createTypedStateSelector(
+      [(state) => state.registers.gpr, (_, code: GeneralPurposeRegister) => code],
       (gpr, code) => gpr[code],
     ),
     selectCpuInstructionPointerRegister: (state) => state.registers.ip,
     selectCpuStackPointerRegister: (state) => state.registers.sp,
-    selectCpuPointerRegisters: createSelector(
-      (state: CpuState) => state.registers.ip,
-      (state: CpuState) => state.registers.sp,
+    selectCpuPointerRegisters: createTypedStateSelector(
+      [(state) => state.registers.ip, (state) => state.registers.sp],
       (ip, sp) => ({ ip, sp }),
     ),
     selectCpuStatusRegister: (state) => state.registers.sr,

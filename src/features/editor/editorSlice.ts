@@ -26,6 +26,8 @@ const initialState: EditorState = {
   message: null,
 }
 
+const createTypedStateSelector = createSelector.withTypes<EditorState>()
+
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
@@ -73,9 +75,8 @@ export const editorSlice = createSlice({
     selectEditorInput: (state) => state.input,
     selectEditorBreakpoints: (state) => state.breakpoints,
     selectEditorMessage: (state) => state.message,
-    selectToPersist: createSelector(
-      (state: EditorState) => state.input,
-      (state: EditorState) => state.breakpoints,
+    selectToPersist: createTypedStateSelector(
+      [(state) => state.input, (state) => state.breakpoints],
       (input, breakpoints) => ({ input, breakpoints }),
     ),
   },

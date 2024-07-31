@@ -25,6 +25,8 @@ const initialState: MemoryState = {
   view: MemoryView.Hexadecimal,
 }
 
+const createTypedStateSelector = createSelector.withTypes<MemoryState>()
+
 export const memorySlice = createSlice({
   name: 'memory',
   initialState,
@@ -44,8 +46,8 @@ export const memorySlice = createSlice({
   },
   selectors: {
     selectMemoryData: (state) => state.data,
-    selectMemoryDataRows: createSelector(
-      (state: MemoryState) => state.data,
+    selectMemoryDataRows: createTypedStateSelector(
+      [(state) => state.data],
       (memoryData) => () => chunk(0x10, memoryData),
     ),
     selectMemoryView: (state) => state.view,
