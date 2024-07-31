@@ -45,11 +45,12 @@ const mergeRec = (target: unknown, source: PlainObject): PlainObject => {
 }
 
 // https://stackoverflow.com/a/57683652/13346012
-type ExpandDeep<T> = T extends Record<PropertyKey, unknown>
-  ? { [K in keyof T]: ExpandDeep<T[K]> }
-  : T extends Array<infer E>
-    ? Array<ExpandDeep<E>>
-    : T
+type ExpandDeep<T> =
+  T extends Record<PropertyKey, unknown>
+    ? { [K in keyof T]: ExpandDeep<T[K]> }
+    : T extends Array<infer E>
+      ? Array<ExpandDeep<E>>
+      : T
 
 export const merge = <Target extends PlainObject, Sources extends PlainObject[] = Target[]>(
   target: Target,
