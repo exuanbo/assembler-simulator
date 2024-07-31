@@ -75,12 +75,6 @@ const config = {
         reservedFirst: true,
       },
     ],
-    'react-hooks/exhaustive-deps': [
-      'error',
-      {
-        additionalHooks: '(useViewEffect)',
-      },
-    ],
   },
 }
 
