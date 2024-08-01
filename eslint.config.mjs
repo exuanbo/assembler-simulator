@@ -30,7 +30,7 @@ export default tseslint.config(
   },
   {
     name: 'exuanbo/react',
-    files: ['**/*.?(j|t)sx'],
+    files: ['**/*.{j,t}sx'],
     extends: [
       {
         name: 'react/recommended',
@@ -45,10 +45,7 @@ export default tseslint.config(
         plugins: {
           'react-hooks': pluginReactHooks,
         },
-        rules: {
-          'react-hooks/exhaustive-deps': 'warn',
-          'react-hooks/rules-of-hooks': 'error',
-        },
+        rules: pluginReactHooks.configs.recommended.rules,
       },
     ],
     settings: {
