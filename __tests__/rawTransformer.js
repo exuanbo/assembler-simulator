@@ -10,4 +10,4 @@ const rawTransformer = {
   },
 }
 
-module.exports = rawTransformer
+export default rawTransformer
