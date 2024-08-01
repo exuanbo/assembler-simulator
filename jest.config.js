@@ -10,6 +10,7 @@ const config = {
     '(.+)\\?raw$': '$1',
   },
   // TODO: remove once Jest supports Prettier version 3
+  // https://jestjs.io/docs/configuration#prettierpath-string
   prettierPath: null,
   snapshotFormat: {
     escapeString: true,
