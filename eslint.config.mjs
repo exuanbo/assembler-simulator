@@ -29,43 +29,6 @@ export default tseslint.config(
     ...eslint.configs.recommended,
   },
   {
-    name: 'exuanbo/react',
-    files: ['**/*.{j,t}sx'],
-    extends: [
-      {
-        name: 'react/recommended',
-        ...pluginReact.configs.flat.recommended,
-      },
-      {
-        name: 'react/jsx-runtime',
-        ...pluginReact.configs.flat['jsx-runtime'],
-      },
-      {
-        name: 'react-hooks',
-        plugins: {
-          'react-hooks': pluginReactHooks,
-        },
-        rules: pluginReactHooks.configs.recommended.rules,
-      },
-    ],
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      'react/prop-types': 'off',
-      'react/jsx-sort-props': [
-        'error',
-        {
-          callbacksLast: true,
-          shorthandFirst: true,
-          reservedFirst: true,
-        },
-      ],
-    },
-  },
-  {
     name: 'exuanbo/typescript',
     files: ['**/*.?(c|m)ts?(x)'],
     extends: tseslint.configs.recommendedTypeChecked,
@@ -86,6 +49,43 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-function-type': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
+    },
+  },
+  {
+    name: 'exuanbo/react',
+    files: ['**/*.{j,t}sx'],
+    extends: [
+      {
+        name: 'react/recommended',
+        ...pluginReact.configs.flat.recommended,
+      },
+      {
+        name: 'react/jsx-runtime',
+        ...pluginReact.configs.flat['jsx-runtime'],
+      },
+      {
+        name: 'react-hooks',
+        plugins: {
+          'react-hooks': pluginReactHooks,
+        },
+        rules: pluginReactHooks.configs.recommended.rules,
+      },
+    ],
+    rules: {
+      'react/prop-types': 'off',
+      'react/jsx-sort-props': [
+        'error',
+        {
+          callbacksLast: true,
+          shorthandFirst: true,
+          reservedFirst: true,
+        },
+      ],
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
   },
   {
