@@ -10,19 +10,37 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    name: 'exuanbo/languages',
+    name: 'exuanbo/languages-node',
+    files: ['**/*.?(c|m)js', '*.?(c|m)ts'],
     languageOptions: {
+      // https://vitejs.dev/blog/announcing-vite5.html#node-js-support
+      // https://node.green/#ES2022
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.es2022,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    name: 'exuanbo/languages-browser',
+    files: ['src/**/*.?(c|m){j,t}s?(x)'],
+    languageOptions: {
+      // https://vitejs.dev/guide/build.html#browser-compatibility
       ecmaVersion: 2021,
       globals: {
         ...globals.browser,
         ...globals.es2021,
-        ...globals.node,
       },
     },
   },
   {
     name: 'exuanbo/ignores',
     ignores: ['.yarn', 'coverage', 'dist'],
+  },
+  {
+    name: 'exuanbo/files',
+    files: ['**/*.?(c|m){j,t}s?(x)'],
   },
   {
     name: 'eslint/recommended',
@@ -65,10 +83,10 @@ export default tseslint.config(
       },
       {
         name: 'react-hooks',
+        ...pluginReactHooks.configs.recommended,
         plugins: {
           'react-hooks': pluginReactHooks,
         },
-        rules: pluginReactHooks.configs.recommended.rules,
       },
     ],
     rules: {
