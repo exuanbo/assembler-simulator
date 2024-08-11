@@ -42,7 +42,6 @@ export const Just = <T extends {}>(value: T): IMaybe<T> => {
   return instance
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Nothing: IMaybe<any> = {
   isJust: () => false,
   isNothing: () => true,
