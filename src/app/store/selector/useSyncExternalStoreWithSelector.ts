@@ -1,6 +1,6 @@
 // Simplified fork of the useSyncExternalStore hook from the official package,
 // with `getServerSnapshot` parameter removed and `instRef` simplified using a symbol.
-// https://github.com/facebook/react/blob/be8aa76873e231555676483a36534bb48ad1b1a3/packages/use-sync-external-store/src/useSyncExternalStoreWithSelector.js
+// https://github.com/facebook/react/blob/8d74e8c73a5cc5e461bb1413a74c6b058c6be134/packages/use-sync-external-store/src/useSyncExternalStoreWithSelector.js
 // MIT Licensed https://github.com/facebook/react/blob/be8aa76873e231555676483a36534bb48ad1b1a3/LICENSE
 
 import { useDebugValue, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
@@ -54,10 +54,13 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
       // The snapshot has changed, so we need to compute a new selection.
       const nextSelection = selector(nextSnapshot)
 
-      // Use the provided isEqual function to check if the data has changed. If
-      // it hasn't, return the previous selection. That signals to React that
-      // the selections are conceptually equal, and we can bail out of rendering.
+      // If a custom isEqual function is provided, use that to check if the data
+      // has changed. If it hasn't, return the previous selection. That signals
+      // to React that the selections are conceptually equal, and we can bail
+      // out of rendering.
       if (isEqual(prevSelection, nextSelection)) {
+        // The snapshot still has changed, so make sure to update to not keep
+        // old references alive
         memoizedSnapshot = nextSnapshot
         return prevSelection
       }
