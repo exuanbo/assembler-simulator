@@ -1,0 +1,6427 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Parser > examples > should parse example Hardware Interrupts 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 22,
+          "line": 2,
+          "offset": 62,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Hardware Interrupts",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 103,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 63,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 56,
+          "line": 4,
+          "offset": 159,
+        },
+        "start": {
+          "column": 14,
+          "line": 4,
+          "offset": 117,
+        },
+      },
+      "type": 1,
+      "value": "; Jump past the table of interrupt vectors",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 49,
+          "line": 5,
+          "offset": 208,
+        },
+        "start": {
+          "column": 12,
+          "line": 5,
+          "offset": 171,
+        },
+      },
+      "type": 1,
+      "value": "; Vector at 02 pointing to address 50",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 49,
+          "line": 7,
+          "offset": 264,
+        },
+        "start": {
+          "column": 9,
+          "line": 7,
+          "offset": 224,
+        },
+      },
+      "type": 1,
+      "value": "; Set I flag. Enable hardware interrupts",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 30,
+          "line": 8,
+          "offset": 294,
+        },
+        "start": {
+          "column": 15,
+          "line": 8,
+          "offset": 279,
+        },
+      },
+      "type": 1,
+      "value": "; ASCII for '0'",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 53,
+          "line": 10,
+          "offset": 353,
+        },
+        "start": {
+          "column": 15,
+          "line": 10,
+          "offset": 315,
+        },
+      },
+      "type": 1,
+      "value": "; Copy the data in AL to the video RAM",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 27,
+          "line": 11,
+          "offset": 380,
+        },
+        "start": {
+          "column": 12,
+          "line": 11,
+          "offset": 365,
+        },
+      },
+      "type": 1,
+      "value": "; Add one to AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 13,
+          "offset": 431,
+        },
+        "start": {
+          "column": 1,
+          "line": 13,
+          "offset": 391,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 42,
+          "line": 15,
+          "offset": 482,
+        },
+        "start": {
+          "column": 15,
+          "line": 15,
+          "offset": 455,
+        },
+      },
+      "type": 1,
+      "value": "; Reset AL to ASCII for '0'",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 17,
+          "offset": 529,
+        },
+        "start": {
+          "column": 1,
+          "line": 17,
+          "offset": 489,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 18,
+      "offset": 534,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 12,
+              "line": 4,
+              "offset": 115,
+            },
+            "start": {
+              "column": 7,
+              "line": 4,
+              "offset": 110,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 12,
+          "line": 4,
+          "offset": 115,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 105,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            80,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 5,
+              "offset": 168,
+            },
+            "start": {
+              "column": 7,
+              "line": 5,
+              "offset": 166,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 5,
+          "offset": 168,
+        },
+        "start": {
+          "column": 2,
+          "line": 5,
+          "offset": 161,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "identifier": {
+        "children": [
+          "START",
+        ],
+        "loc": {
+          "end": {
+            "column": 6,
+            "line": 6,
+            "offset": 214,
+          },
+          "start": {
+            "column": 1,
+            "line": 6,
+            "offset": 209,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 7,
+          "line": 6,
+          "offset": 215,
+        },
+        "start": {
+          "column": 1,
+          "line": 6,
+          "offset": 209,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "STI",
+      ],
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 7,
+          "offset": 220,
+        },
+        "start": {
+          "column": 2,
+          "line": 7,
+          "offset": 217,
+        },
+      },
+      "mnemonic": "STI",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 8,
+              "offset": 273,
+            },
+            "start": {
+              "column": 7,
+              "line": 8,
+              "offset": 271,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            48,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 8,
+              "offset": 278,
+            },
+            "start": {
+              "column": 12,
+              "line": 8,
+              "offset": 276,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 8,
+          "offset": 278,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 266,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 9,
+            "offset": 299,
+          },
+          "start": {
+            "column": 1,
+            "line": 9,
+            "offset": 295,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 9,
+          "offset": 300,
+        },
+        "start": {
+          "column": 1,
+          "line": 9,
+          "offset": 295,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            {
+              "children": [
+                192,
+              ],
+              "loc": {
+                "end": {
+                  "column": 9,
+                  "line": 10,
+                  "offset": 309,
+                },
+                "start": {
+                  "column": 7,
+                  "line": 10,
+                  "offset": 307,
+                },
+              },
+              "type": 8,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 10,
+              "offset": 310,
+            },
+            "start": {
+              "column": 6,
+              "line": 10,
+              "offset": 306,
+            },
+          },
+          "type": 5,
+        },
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 10,
+              "offset": 314,
+            },
+            "start": {
+              "column": 12,
+              "line": 10,
+              "offset": 312,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 10,
+          "offset": 314,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 302,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 11,
+              "offset": 362,
+            },
+            "start": {
+              "column": 7,
+              "line": 11,
+              "offset": 360,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 11,
+          "offset": 362,
+        },
+        "start": {
+          "column": 2,
+          "line": 11,
+          "offset": 355,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 12,
+              "offset": 390,
+            },
+            "start": {
+              "column": 6,
+              "line": 12,
+              "offset": 386,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 12,
+          "offset": 390,
+        },
+        "start": {
+          "column": 2,
+          "line": 12,
+          "offset": 382,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "address": {
+        "children": [
+          80,
+        ],
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 14,
+            "offset": 440,
+          },
+          "start": {
+            "column": 7,
+            "line": 14,
+            "offset": 438,
+          },
+        },
+        "type": 8,
+      },
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 14,
+          "offset": 440,
+        },
+        "start": {
+          "column": 2,
+          "line": 14,
+          "offset": 433,
+        },
+      },
+      "name": "ORG",
+      "type": 4,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 15,
+              "offset": 449,
+            },
+            "start": {
+              "column": 7,
+              "line": 15,
+              "offset": 447,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            48,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 15,
+              "offset": 454,
+            },
+            "start": {
+              "column": 12,
+              "line": 15,
+              "offset": 452,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 15,
+          "offset": 454,
+        },
+        "start": {
+          "column": 2,
+          "line": 15,
+          "offset": 442,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "IRET",
+      ],
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 16,
+          "offset": 488,
+        },
+        "start": {
+          "column": 2,
+          "line": 16,
+          "offset": 484,
+        },
+      },
+      "mnemonic": "IRET",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 18,
+          "offset": 534,
+        },
+        "start": {
+          "column": 2,
+          "line": 18,
+          "offset": 531,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Keyboard Input 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 17,
+          "line": 2,
+          "offset": 57,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Keyboard Input",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 98,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 58,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 43,
+          "line": 4,
+          "offset": 141,
+        },
+        "start": {
+          "column": 15,
+          "line": 4,
+          "offset": 113,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to video RAM",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 37,
+          "line": 6,
+          "offset": 184,
+        },
+        "start": {
+          "column": 12,
+          "line": 6,
+          "offset": 159,
+        },
+      },
+      "type": 1,
+      "value": "; Wait for keyboard input",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 61,
+          "line": 7,
+          "offset": 245,
+        },
+        "start": {
+          "column": 15,
+          "line": 7,
+          "offset": 199,
+        },
+      },
+      "type": 1,
+      "value": "; Check if the key was Enter (Carriage Return)",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 71,
+          "line": 9,
+          "offset": 326,
+        },
+        "start": {
+          "column": 15,
+          "line": 9,
+          "offset": 270,
+        },
+      },
+      "type": 1,
+      "value": "; Copy the data in AL to the video RAM that BL points to",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 58,
+          "line": 10,
+          "offset": 384,
+        },
+        "start": {
+          "column": 12,
+          "line": 10,
+          "offset": 338,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to the next video RAM location",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 13,
+          "offset": 441,
+        },
+        "start": {
+          "column": 1,
+          "line": 13,
+          "offset": 401,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 14,
+      "offset": 446,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 4,
+              "offset": 107,
+            },
+            "start": {
+              "column": 7,
+              "line": 4,
+              "offset": 105,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            192,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 4,
+              "offset": 111,
+            },
+            "start": {
+              "column": 11,
+              "line": 4,
+              "offset": 109,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 4,
+          "offset": 111,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 100,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 5,
+            "offset": 146,
+          },
+          "start": {
+            "column": 1,
+            "line": 5,
+            "offset": 142,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 5,
+          "offset": 147,
+        },
+        "start": {
+          "column": 1,
+          "line": 5,
+          "offset": 142,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "IN",
+        {
+          "children": [
+            0,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 6,
+              "offset": 156,
+            },
+            "start": {
+              "column": 7,
+              "line": 6,
+              "offset": 154,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 6,
+          "offset": 156,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 149,
+        },
+      },
+      "mnemonic": "IN",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CMP",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 7,
+              "offset": 193,
+            },
+            "start": {
+              "column": 7,
+              "line": 7,
+              "offset": 191,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            13,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 7,
+              "offset": 197,
+            },
+            "start": {
+              "column": 11,
+              "line": 7,
+              "offset": 195,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 7,
+          "offset": 197,
+        },
+        "start": {
+          "column": 2,
+          "line": 7,
+          "offset": 186,
+        },
+      },
+      "mnemonic": "CMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JZ",
+        {
+          "children": [
+            "DONE",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 8,
+              "offset": 255,
+            },
+            "start": {
+              "column": 6,
+              "line": 8,
+              "offset": 251,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 8,
+          "offset": 255,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 247,
+        },
+      },
+      "mnemonic": "JZ",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            {
+              "children": [
+                "BL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 9,
+                  "line": 9,
+                  "offset": 264,
+                },
+                "start": {
+                  "column": 7,
+                  "line": 9,
+                  "offset": 262,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 9,
+              "offset": 265,
+            },
+            "start": {
+              "column": 6,
+              "line": 9,
+              "offset": 261,
+            },
+          },
+          "type": 5,
+        },
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 9,
+              "offset": 269,
+            },
+            "start": {
+              "column": 12,
+              "line": 9,
+              "offset": 267,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 9,
+          "offset": 269,
+        },
+        "start": {
+          "column": 2,
+          "line": 9,
+          "offset": 257,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 10,
+              "offset": 335,
+            },
+            "start": {
+              "column": 7,
+              "line": 10,
+              "offset": 333,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 10,
+          "offset": 335,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 328,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JNZ",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 11,
+              "offset": 394,
+            },
+            "start": {
+              "column": 6,
+              "line": 11,
+              "offset": 390,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 11,
+          "offset": 394,
+        },
+        "start": {
+          "column": 2,
+          "line": 11,
+          "offset": 386,
+        },
+      },
+      "mnemonic": "JNZ",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "DONE",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 12,
+            "offset": 399,
+          },
+          "start": {
+            "column": 1,
+            "line": 12,
+            "offset": 395,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 12,
+          "offset": 400,
+        },
+        "start": {
+          "column": 1,
+          "line": 12,
+          "offset": 395,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 14,
+          "offset": 446,
+        },
+        "start": {
+          "column": 2,
+          "line": 14,
+          "offset": 443,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Procedures 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 2,
+          "offset": 53,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Procedures",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 94,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 54,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 4,
+          "offset": 120,
+        },
+        "start": {
+          "column": 15,
+          "line": 4,
+          "offset": 109,
+        },
+      },
+      "type": 1,
+      "value": "; 1110 0000",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 6,
+          "offset": 161,
+        },
+        "start": {
+          "column": 12,
+          "line": 6,
+          "offset": 138,
+        },
+      },
+      "type": 1,
+      "value": "; Invert the bits in AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 7,
+          "offset": 202,
+        },
+        "start": {
+          "column": 12,
+          "line": 7,
+          "offset": 173,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to traffic lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 28,
+          "line": 8,
+          "offset": 230,
+        },
+        "start": {
+          "column": 15,
+          "line": 8,
+          "offset": 217,
+        },
+      },
+      "type": 1,
+      "value": "; Short delay",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 31,
+          "line": 9,
+          "offset": 261,
+        },
+        "start": {
+          "column": 12,
+          "line": 9,
+          "offset": 242,
+        },
+      },
+      "type": 1,
+      "value": "; Call procedure 30",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 11,
+          "offset": 297,
+        },
+        "start": {
+          "column": 12,
+          "line": 11,
+          "offset": 274,
+        },
+      },
+      "type": 1,
+      "value": "; Invert the bits in AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 12,
+          "offset": 338,
+        },
+        "start": {
+          "column": 12,
+          "line": 12,
+          "offset": 309,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to traffic lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 13,
+          "offset": 373,
+        },
+        "start": {
+          "column": 15,
+          "line": 13,
+          "offset": 353,
+        },
+      },
+      "type": 1,
+      "value": "; Middle sized delay",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 31,
+          "line": 14,
+          "offset": 404,
+        },
+        "start": {
+          "column": 12,
+          "line": 14,
+          "offset": 385,
+        },
+      },
+      "type": 1,
+      "value": "; Call procedure 30",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 16,
+          "offset": 440,
+        },
+        "start": {
+          "column": 12,
+          "line": 16,
+          "offset": 417,
+        },
+      },
+      "type": 1,
+      "value": "; Invert the bits in AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 17,
+          "offset": 481,
+        },
+        "start": {
+          "column": 12,
+          "line": 17,
+          "offset": 452,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to traffic lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 29,
+          "line": 18,
+          "offset": 510,
+        },
+        "start": {
+          "column": 15,
+          "line": 18,
+          "offset": 496,
+        },
+      },
+      "type": 1,
+      "value": "; Longer delay",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 31,
+          "line": 19,
+          "offset": 541,
+        },
+        "start": {
+          "column": 12,
+          "line": 19,
+          "offset": 522,
+        },
+      },
+      "type": 1,
+      "value": "; Call procedure 30",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 21,
+          "offset": 593,
+        },
+        "start": {
+          "column": 1,
+          "line": 21,
+          "offset": 553,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 34,
+          "line": 24,
+          "offset": 641,
+        },
+        "start": {
+          "column": 12,
+          "line": 24,
+          "offset": 619,
+        },
+      },
+      "type": 1,
+      "value": "; Subtract one from BL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 27,
+          "offset": 697,
+        },
+        "start": {
+          "column": 1,
+          "line": 27,
+          "offset": 657,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 28,
+      "offset": 702,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 4,
+              "offset": 103,
+            },
+            "start": {
+              "column": 7,
+              "line": 4,
+              "offset": 101,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            224,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 4,
+              "offset": 107,
+            },
+            "start": {
+              "column": 11,
+              "line": 4,
+              "offset": 105,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 4,
+          "offset": 107,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 96,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 5,
+            "offset": 125,
+          },
+          "start": {
+            "column": 1,
+            "line": 5,
+            "offset": 121,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 5,
+          "offset": 126,
+        },
+        "start": {
+          "column": 1,
+          "line": 5,
+          "offset": 121,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "NOT",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 6,
+              "offset": 135,
+            },
+            "start": {
+              "column": 7,
+              "line": 6,
+              "offset": 133,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 6,
+          "offset": 135,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 128,
+        },
+      },
+      "mnemonic": "NOT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 7,
+              "offset": 170,
+            },
+            "start": {
+              "column": 7,
+              "line": 7,
+              "offset": 168,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 7,
+          "offset": 170,
+        },
+        "start": {
+          "column": 2,
+          "line": 7,
+          "offset": 163,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 8,
+              "offset": 211,
+            },
+            "start": {
+              "column": 7,
+              "line": 8,
+              "offset": 209,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 8,
+              "offset": 215,
+            },
+            "start": {
+              "column": 11,
+              "line": 8,
+              "offset": 213,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 8,
+          "offset": 215,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 204,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CALL",
+        {
+          "children": [
+            48,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 9,
+              "offset": 239,
+            },
+            "start": {
+              "column": 7,
+              "line": 9,
+              "offset": 237,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 9,
+          "offset": 239,
+        },
+        "start": {
+          "column": 2,
+          "line": 9,
+          "offset": 232,
+        },
+      },
+      "mnemonic": "CALL",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOT",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 11,
+              "offset": 271,
+            },
+            "start": {
+              "column": 7,
+              "line": 11,
+              "offset": 269,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 11,
+          "offset": 271,
+        },
+        "start": {
+          "column": 2,
+          "line": 11,
+          "offset": 264,
+        },
+      },
+      "mnemonic": "NOT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 12,
+              "offset": 306,
+            },
+            "start": {
+              "column": 7,
+              "line": 12,
+              "offset": 304,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 12,
+          "offset": 306,
+        },
+        "start": {
+          "column": 2,
+          "line": 12,
+          "offset": 299,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 13,
+              "offset": 347,
+            },
+            "start": {
+              "column": 7,
+              "line": 13,
+              "offset": 345,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            4,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 13,
+              "offset": 351,
+            },
+            "start": {
+              "column": 11,
+              "line": 13,
+              "offset": 349,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 13,
+          "offset": 351,
+        },
+        "start": {
+          "column": 2,
+          "line": 13,
+          "offset": 340,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CALL",
+        {
+          "children": [
+            48,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 14,
+              "offset": 382,
+            },
+            "start": {
+              "column": 7,
+              "line": 14,
+              "offset": 380,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 14,
+          "offset": 382,
+        },
+        "start": {
+          "column": 2,
+          "line": 14,
+          "offset": 375,
+        },
+      },
+      "mnemonic": "CALL",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOT",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 16,
+              "offset": 414,
+            },
+            "start": {
+              "column": 7,
+              "line": 16,
+              "offset": 412,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 16,
+          "offset": 414,
+        },
+        "start": {
+          "column": 2,
+          "line": 16,
+          "offset": 407,
+        },
+      },
+      "mnemonic": "NOT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 17,
+              "offset": 449,
+            },
+            "start": {
+              "column": 7,
+              "line": 17,
+              "offset": 447,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 17,
+          "offset": 449,
+        },
+        "start": {
+          "column": 2,
+          "line": 17,
+          "offset": 442,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 18,
+              "offset": 490,
+            },
+            "start": {
+              "column": 7,
+              "line": 18,
+              "offset": 488,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            8,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 18,
+              "offset": 494,
+            },
+            "start": {
+              "column": 11,
+              "line": 18,
+              "offset": 492,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 18,
+          "offset": 494,
+        },
+        "start": {
+          "column": 2,
+          "line": 18,
+          "offset": 483,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CALL",
+        {
+          "children": [
+            48,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 19,
+              "offset": 519,
+            },
+            "start": {
+              "column": 7,
+              "line": 19,
+              "offset": 517,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 19,
+          "offset": 519,
+        },
+        "start": {
+          "column": 2,
+          "line": 19,
+          "offset": 512,
+        },
+      },
+      "mnemonic": "CALL",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 20,
+              "offset": 552,
+            },
+            "start": {
+              "column": 7,
+              "line": 20,
+              "offset": 548,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 20,
+          "offset": 552,
+        },
+        "start": {
+          "column": 2,
+          "line": 20,
+          "offset": 543,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "address": {
+        "children": [
+          48,
+        ],
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 22,
+            "offset": 602,
+          },
+          "start": {
+            "column": 7,
+            "line": 22,
+            "offset": 600,
+          },
+        },
+        "type": 8,
+      },
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 22,
+          "offset": 602,
+        },
+        "start": {
+          "column": 2,
+          "line": 22,
+          "offset": 595,
+        },
+      },
+      "name": "ORG",
+      "type": 4,
+    },
+    {
+      "identifier": {
+        "children": [
+          "REP",
+        ],
+        "loc": {
+          "end": {
+            "column": 4,
+            "line": 23,
+            "offset": 606,
+          },
+          "start": {
+            "column": 1,
+            "line": 23,
+            "offset": 603,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 23,
+          "offset": 607,
+        },
+        "start": {
+          "column": 1,
+          "line": 23,
+          "offset": 603,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "DEC",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 24,
+              "offset": 616,
+            },
+            "start": {
+              "column": 7,
+              "line": 24,
+              "offset": 614,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 24,
+          "offset": 616,
+        },
+        "start": {
+          "column": 2,
+          "line": 24,
+          "offset": 609,
+        },
+      },
+      "mnemonic": "DEC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JNZ",
+        {
+          "children": [
+            "REP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 25,
+              "offset": 651,
+            },
+            "start": {
+              "column": 7,
+              "line": 25,
+              "offset": 648,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 25,
+          "offset": 651,
+        },
+        "start": {
+          "column": 2,
+          "line": 25,
+          "offset": 643,
+        },
+      },
+      "mnemonic": "JNZ",
+      "type": 3,
+    },
+    {
+      "children": [
+        "RET",
+      ],
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 26,
+          "offset": 656,
+        },
+        "start": {
+          "column": 2,
+          "line": 26,
+          "offset": 653,
+        },
+      },
+      "mnemonic": "RET",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 28,
+          "offset": 702,
+        },
+        "start": {
+          "column": 2,
+          "line": 28,
+          "offset": 699,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Seven-segment Display 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 24,
+          "line": 2,
+          "offset": 64,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Seven-segment Display",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 105,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 65,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 39,
+          "line": 4,
+          "offset": 144,
+        },
+        "start": {
+          "column": 13,
+          "line": 4,
+          "offset": 118,
+        },
+      },
+      "type": 1,
+      "value": "; Jump past the data table",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 5,
+          "offset": 170,
+        },
+        "start": {
+          "column": 11,
+          "line": 5,
+          "offset": 155,
+        },
+      },
+      "type": 1,
+      "value": "; 0 - 1111 1010",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 6,
+          "offset": 196,
+        },
+        "start": {
+          "column": 11,
+          "line": 6,
+          "offset": 181,
+        },
+      },
+      "type": 1,
+      "value": "; 1 - 0110 0000",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 7,
+          "offset": 222,
+        },
+        "start": {
+          "column": 11,
+          "line": 7,
+          "offset": 207,
+        },
+      },
+      "type": 1,
+      "value": "; 2 - 1011 0110",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 8,
+          "offset": 248,
+        },
+        "start": {
+          "column": 11,
+          "line": 8,
+          "offset": 233,
+        },
+      },
+      "type": 1,
+      "value": "; 3 - 1001 1110",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 9,
+          "offset": 274,
+        },
+        "start": {
+          "column": 11,
+          "line": 9,
+          "offset": 259,
+        },
+      },
+      "type": 1,
+      "value": "; 4 - 0100 1110",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 10,
+          "offset": 300,
+        },
+        "start": {
+          "column": 11,
+          "line": 10,
+          "offset": 285,
+        },
+      },
+      "type": 1,
+      "value": "; 5 - 1101 1100",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 11,
+          "offset": 326,
+        },
+        "start": {
+          "column": 11,
+          "line": 11,
+          "offset": 311,
+        },
+      },
+      "type": 1,
+      "value": "; 6 - 1111 1100",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 12,
+          "offset": 352,
+        },
+        "start": {
+          "column": 11,
+          "line": 12,
+          "offset": 337,
+        },
+      },
+      "type": 1,
+      "value": "; 7 - 1000 1010",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 13,
+          "offset": 378,
+        },
+        "start": {
+          "column": 11,
+          "line": 13,
+          "offset": 363,
+        },
+      },
+      "type": 1,
+      "value": "; 8 - 1111 1110",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 26,
+          "line": 14,
+          "offset": 404,
+        },
+        "start": {
+          "column": 11,
+          "line": 14,
+          "offset": 389,
+        },
+      },
+      "type": 1,
+      "value": "; 9 - 1101 1110",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 67,
+          "line": 17,
+          "offset": 486,
+        },
+        "start": {
+          "column": 15,
+          "line": 17,
+          "offset": 434,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to the first entry in the data table",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 43,
+          "line": 18,
+          "offset": 529,
+        },
+        "start": {
+          "column": 15,
+          "line": 18,
+          "offset": 501,
+        },
+      },
+      "type": 1,
+      "value": "; Copy data from table to AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 20,
+          "offset": 582,
+        },
+        "start": {
+          "column": 11,
+          "line": 20,
+          "offset": 546,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to seven-segment display",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 42,
+          "line": 21,
+          "offset": 624,
+        },
+        "start": {
+          "column": 11,
+          "line": 21,
+          "offset": 593,
+        },
+      },
+      "type": 1,
+      "value": "; Set the right most bit to one",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 38,
+          "line": 22,
+          "offset": 662,
+        },
+        "start": {
+          "column": 15,
+          "line": 22,
+          "offset": 639,
+        },
+      },
+      "type": 1,
+      "value": "; Wait for three cycles",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 23,
+          "offset": 709,
+        },
+        "start": {
+          "column": 11,
+          "line": 23,
+          "offset": 673,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to seven-segment display",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 62,
+          "line": 24,
+          "offset": 771,
+        },
+        "start": {
+          "column": 11,
+          "line": 24,
+          "offset": 720,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to the next entry in the data table",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 43,
+          "line": 25,
+          "offset": 814,
+        },
+        "start": {
+          "column": 15,
+          "line": 25,
+          "offset": 786,
+        },
+      },
+      "type": 1,
+      "value": "; Copy data from table to AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 26,
+          "offset": 861,
+        },
+        "start": {
+          "column": 15,
+          "line": 26,
+          "offset": 829,
+        },
+      },
+      "type": 1,
+      "value": "; Check if the next entry exists",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 29,
+          "offset": 923,
+        },
+        "start": {
+          "column": 1,
+          "line": 29,
+          "offset": 883,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 30,
+      "offset": 928,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 4,
+              "offset": 116,
+            },
+            "start": {
+              "column": 6,
+              "line": 4,
+              "offset": 111,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 4,
+          "offset": 116,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 107,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            250,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 5,
+              "offset": 152,
+            },
+            "start": {
+              "column": 6,
+              "line": 5,
+              "offset": 150,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 5,
+          "offset": 152,
+        },
+        "start": {
+          "column": 2,
+          "line": 5,
+          "offset": 146,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            96,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 6,
+              "offset": 178,
+            },
+            "start": {
+              "column": 6,
+              "line": 6,
+              "offset": 176,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 6,
+          "offset": 178,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 172,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            182,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 7,
+              "offset": 204,
+            },
+            "start": {
+              "column": 6,
+              "line": 7,
+              "offset": 202,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 7,
+          "offset": 204,
+        },
+        "start": {
+          "column": 2,
+          "line": 7,
+          "offset": 198,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            158,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 8,
+              "offset": 230,
+            },
+            "start": {
+              "column": 6,
+              "line": 8,
+              "offset": 228,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 8,
+          "offset": 230,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 224,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            78,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 9,
+              "offset": 256,
+            },
+            "start": {
+              "column": 6,
+              "line": 9,
+              "offset": 254,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 9,
+          "offset": 256,
+        },
+        "start": {
+          "column": 2,
+          "line": 9,
+          "offset": 250,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            220,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 10,
+              "offset": 282,
+            },
+            "start": {
+              "column": 6,
+              "line": 10,
+              "offset": 280,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 10,
+          "offset": 282,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 276,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            252,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 11,
+              "offset": 308,
+            },
+            "start": {
+              "column": 6,
+              "line": 11,
+              "offset": 306,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 11,
+          "offset": 308,
+        },
+        "start": {
+          "column": 2,
+          "line": 11,
+          "offset": 302,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            138,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 12,
+              "offset": 334,
+            },
+            "start": {
+              "column": 6,
+              "line": 12,
+              "offset": 332,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 12,
+          "offset": 334,
+        },
+        "start": {
+          "column": 2,
+          "line": 12,
+          "offset": 328,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            254,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 13,
+              "offset": 360,
+            },
+            "start": {
+              "column": 6,
+              "line": 13,
+              "offset": 358,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 13,
+          "offset": 360,
+        },
+        "start": {
+          "column": 2,
+          "line": 13,
+          "offset": 354,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            222,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 14,
+              "offset": 386,
+            },
+            "start": {
+              "column": 6,
+              "line": 14,
+              "offset": 384,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 14,
+          "offset": 386,
+        },
+        "start": {
+          "column": 2,
+          "line": 14,
+          "offset": 380,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            0,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 15,
+              "offset": 412,
+            },
+            "start": {
+              "column": 6,
+              "line": 15,
+              "offset": 410,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 15,
+          "offset": 412,
+        },
+        "start": {
+          "column": 2,
+          "line": 15,
+          "offset": 406,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "identifier": {
+        "children": [
+          "START",
+        ],
+        "loc": {
+          "end": {
+            "column": 6,
+            "line": 16,
+            "offset": 418,
+          },
+          "start": {
+            "column": 1,
+            "line": 16,
+            "offset": 413,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 7,
+          "line": 16,
+          "offset": 419,
+        },
+        "start": {
+          "column": 1,
+          "line": 16,
+          "offset": 413,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 17,
+              "offset": 427,
+            },
+            "start": {
+              "column": 6,
+              "line": 17,
+              "offset": 425,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 17,
+              "offset": 432,
+            },
+            "start": {
+              "column": 11,
+              "line": 17,
+              "offset": 430,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 17,
+          "offset": 432,
+        },
+        "start": {
+          "column": 2,
+          "line": 17,
+          "offset": 421,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 18,
+              "offset": 494,
+            },
+            "start": {
+              "column": 6,
+              "line": 18,
+              "offset": 492,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                "BL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 13,
+                  "line": 18,
+                  "offset": 499,
+                },
+                "start": {
+                  "column": 11,
+                  "line": 18,
+                  "offset": 497,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 18,
+              "offset": 500,
+            },
+            "start": {
+              "column": 10,
+              "line": 18,
+              "offset": 496,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 18,
+          "offset": 500,
+        },
+        "start": {
+          "column": 2,
+          "line": 18,
+          "offset": 488,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 19,
+            "offset": 534,
+          },
+          "start": {
+            "column": 1,
+            "line": 19,
+            "offset": 530,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 19,
+          "offset": 535,
+        },
+        "start": {
+          "column": 1,
+          "line": 19,
+          "offset": 530,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 20,
+              "offset": 543,
+            },
+            "start": {
+              "column": 6,
+              "line": 20,
+              "offset": 541,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 20,
+          "offset": 543,
+        },
+        "start": {
+          "column": 2,
+          "line": 20,
+          "offset": 537,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 21,
+              "offset": 590,
+            },
+            "start": {
+              "column": 6,
+              "line": 21,
+              "offset": 588,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 21,
+          "offset": 590,
+        },
+        "start": {
+          "column": 2,
+          "line": 21,
+          "offset": 584,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOP",
+      ],
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 22,
+          "offset": 629,
+        },
+        "start": {
+          "column": 2,
+          "line": 22,
+          "offset": 626,
+        },
+      },
+      "mnemonic": "NOP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOP",
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 22,
+          "offset": 633,
+        },
+        "start": {
+          "column": 6,
+          "line": 22,
+          "offset": 630,
+        },
+      },
+      "mnemonic": "NOP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOP",
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 22,
+          "offset": 637,
+        },
+        "start": {
+          "column": 10,
+          "line": 22,
+          "offset": 634,
+        },
+      },
+      "mnemonic": "NOP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 23,
+              "offset": 670,
+            },
+            "start": {
+              "column": 6,
+              "line": 23,
+              "offset": 668,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 23,
+          "offset": 670,
+        },
+        "start": {
+          "column": 2,
+          "line": 23,
+          "offset": 664,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 24,
+              "offset": 717,
+            },
+            "start": {
+              "column": 6,
+              "line": 24,
+              "offset": 715,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 24,
+          "offset": 717,
+        },
+        "start": {
+          "column": 2,
+          "line": 24,
+          "offset": 711,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 25,
+              "offset": 779,
+            },
+            "start": {
+              "column": 6,
+              "line": 25,
+              "offset": 777,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                "BL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 13,
+                  "line": 25,
+                  "offset": 784,
+                },
+                "start": {
+                  "column": 11,
+                  "line": 25,
+                  "offset": 782,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 25,
+              "offset": 785,
+            },
+            "start": {
+              "column": 10,
+              "line": 25,
+              "offset": 781,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 25,
+          "offset": 785,
+        },
+        "start": {
+          "column": 2,
+          "line": 25,
+          "offset": 773,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CMP",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 26,
+              "offset": 822,
+            },
+            "start": {
+              "column": 6,
+              "line": 26,
+              "offset": 820,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            0,
+          ],
+          "loc": {
+            "end": {
+              "column": 13,
+              "line": 26,
+              "offset": 827,
+            },
+            "start": {
+              "column": 11,
+              "line": 26,
+              "offset": 825,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 13,
+          "line": 26,
+          "offset": 827,
+        },
+        "start": {
+          "column": 2,
+          "line": 26,
+          "offset": 816,
+        },
+      },
+      "mnemonic": "CMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JNZ",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 27,
+              "offset": 871,
+            },
+            "start": {
+              "column": 6,
+              "line": 27,
+              "offset": 867,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 27,
+          "offset": 871,
+        },
+        "start": {
+          "column": 2,
+          "line": 27,
+          "offset": 863,
+        },
+      },
+      "mnemonic": "JNZ",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 28,
+              "offset": 882,
+            },
+            "start": {
+              "column": 6,
+              "line": 28,
+              "offset": 877,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 28,
+          "offset": 882,
+        },
+        "start": {
+          "column": 2,
+          "line": 28,
+          "offset": 873,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 30,
+          "offset": 928,
+        },
+        "start": {
+          "column": 2,
+          "line": 30,
+          "offset": 925,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Software Interrupts 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 22,
+          "line": 2,
+          "offset": 62,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Software Interrupts",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 103,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 63,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 55,
+          "line": 4,
+          "offset": 158,
+        },
+        "start": {
+          "column": 13,
+          "line": 4,
+          "offset": 116,
+        },
+      },
+      "type": 1,
+      "value": "; Jump past the table of interrupt vectors",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 49,
+          "line": 5,
+          "offset": 207,
+        },
+        "start": {
+          "column": 12,
+          "line": 5,
+          "offset": 170,
+        },
+      },
+      "type": 1,
+      "value": "; Vector at 02 pointing to address 51",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 49,
+          "line": 6,
+          "offset": 256,
+        },
+        "start": {
+          "column": 12,
+          "line": 6,
+          "offset": 219,
+        },
+      },
+      "type": 1,
+      "value": "; Vector at 03 pointing to address 71",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 29,
+          "line": 8,
+          "offset": 292,
+        },
+        "start": {
+          "column": 12,
+          "line": 8,
+          "offset": 275,
+        },
+      },
+      "type": 1,
+      "value": "; Do interrupt 02",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 29,
+          "line": 9,
+          "offset": 321,
+        },
+        "start": {
+          "column": 12,
+          "line": 9,
+          "offset": 304,
+        },
+      },
+      "type": 1,
+      "value": "; Do interrupt 03",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 11,
+          "offset": 373,
+        },
+        "start": {
+          "column": 1,
+          "line": 11,
+          "offset": 333,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 34,
+          "line": 14,
+          "offset": 425,
+        },
+        "start": {
+          "column": 6,
+          "line": 14,
+          "offset": 397,
+        },
+      },
+      "type": 1,
+      "value": "; Interrupt code starts here",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 44,
+          "line": 15,
+          "offset": 469,
+        },
+        "start": {
+          "column": 16,
+          "line": 15,
+          "offset": 441,
+        },
+      },
+      "type": 1,
+      "value": "; Copy bits from RAM into AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 16,
+          "offset": 504,
+        },
+        "start": {
+          "column": 12,
+          "line": 16,
+          "offset": 481,
+        },
+      },
+      "type": 1,
+      "value": "; Invert the bits in AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 17,
+          "offset": 551,
+        },
+        "start": {
+          "column": 15,
+          "line": 17,
+          "offset": 519,
+        },
+      },
+      "type": 1,
+      "value": "; Copy inverted bits back to RAM",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 18,
+          "offset": 592,
+        },
+        "start": {
+          "column": 12,
+          "line": 18,
+          "offset": 563,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to traffic lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 20,
+          "offset": 639,
+        },
+        "start": {
+          "column": 1,
+          "line": 20,
+          "offset": 599,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 34,
+          "line": 23,
+          "offset": 691,
+        },
+        "start": {
+          "column": 6,
+          "line": 23,
+          "offset": 663,
+        },
+      },
+      "type": 1,
+      "value": "; Interrupt code starts here",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 44,
+          "line": 24,
+          "offset": 735,
+        },
+        "start": {
+          "column": 16,
+          "line": 24,
+          "offset": 707,
+        },
+      },
+      "type": 1,
+      "value": "; Copy bits from RAM into AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 35,
+          "line": 25,
+          "offset": 770,
+        },
+        "start": {
+          "column": 12,
+          "line": 25,
+          "offset": 747,
+        },
+      },
+      "type": 1,
+      "value": "; Invert the bits in AL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 26,
+          "offset": 817,
+        },
+        "start": {
+          "column": 15,
+          "line": 26,
+          "offset": 785,
+        },
+      },
+      "type": 1,
+      "value": "; Set the right most bit to zero",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 27,
+          "offset": 864,
+        },
+        "start": {
+          "column": 15,
+          "line": 27,
+          "offset": 832,
+        },
+      },
+      "type": 1,
+      "value": "; Copy inverted bits back to RAM",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 48,
+          "line": 28,
+          "offset": 912,
+        },
+        "start": {
+          "column": 12,
+          "line": 28,
+          "offset": 876,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to seven-segment display",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 30,
+          "offset": 959,
+        },
+        "start": {
+          "column": 1,
+          "line": 30,
+          "offset": 919,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 31,
+      "offset": 964,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 4,
+              "offset": 114,
+            },
+            "start": {
+              "column": 6,
+              "line": 4,
+              "offset": 109,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 4,
+          "offset": 114,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 105,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            81,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 5,
+              "offset": 167,
+            },
+            "start": {
+              "column": 7,
+              "line": 5,
+              "offset": 165,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 5,
+          "offset": 167,
+        },
+        "start": {
+          "column": 2,
+          "line": 5,
+          "offset": 160,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            113,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 6,
+              "offset": 216,
+            },
+            "start": {
+              "column": 7,
+              "line": 6,
+              "offset": 214,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 6,
+          "offset": 216,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 209,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "identifier": {
+        "children": [
+          "START",
+        ],
+        "loc": {
+          "end": {
+            "column": 6,
+            "line": 7,
+            "offset": 262,
+          },
+          "start": {
+            "column": 1,
+            "line": 7,
+            "offset": 257,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 7,
+          "line": 7,
+          "offset": 263,
+        },
+        "start": {
+          "column": 1,
+          "line": 7,
+          "offset": 257,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "INT",
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 8,
+              "offset": 272,
+            },
+            "start": {
+              "column": 7,
+              "line": 8,
+              "offset": 270,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 8,
+          "offset": 272,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 265,
+        },
+      },
+      "mnemonic": "INT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INT",
+        {
+          "children": [
+            3,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 9,
+              "offset": 301,
+            },
+            "start": {
+              "column": 7,
+              "line": 9,
+              "offset": 299,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 9,
+          "offset": 301,
+        },
+        "start": {
+          "column": 2,
+          "line": 9,
+          "offset": 294,
+        },
+      },
+      "mnemonic": "INT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 10,
+              "offset": 332,
+            },
+            "start": {
+              "column": 6,
+              "line": 10,
+              "offset": 327,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 10,
+          "offset": 332,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 323,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "address": {
+        "children": [
+          80,
+        ],
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 12,
+            "offset": 382,
+          },
+          "start": {
+            "column": 7,
+            "line": 12,
+            "offset": 380,
+          },
+        },
+        "type": 8,
+      },
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 12,
+          "offset": 382,
+        },
+        "start": {
+          "column": 2,
+          "line": 12,
+          "offset": 375,
+        },
+      },
+      "name": "ORG",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            224,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 13,
+              "offset": 391,
+            },
+            "start": {
+              "column": 7,
+              "line": 13,
+              "offset": 389,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 13,
+          "offset": 391,
+        },
+        "start": {
+          "column": 2,
+          "line": 13,
+          "offset": 384,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 15,
+              "offset": 434,
+            },
+            "start": {
+              "column": 7,
+              "line": 15,
+              "offset": 432,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                80,
+              ],
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 15,
+                  "offset": 439,
+                },
+                "start": {
+                  "column": 12,
+                  "line": 15,
+                  "offset": 437,
+                },
+              },
+              "type": 8,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 15,
+              "offset": 440,
+            },
+            "start": {
+              "column": 11,
+              "line": 15,
+              "offset": 436,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 15,
+          "line": 15,
+          "offset": 440,
+        },
+        "start": {
+          "column": 2,
+          "line": 15,
+          "offset": 427,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOT",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 16,
+              "offset": 478,
+            },
+            "start": {
+              "column": 7,
+              "line": 16,
+              "offset": 476,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 16,
+          "offset": 478,
+        },
+        "start": {
+          "column": 2,
+          "line": 16,
+          "offset": 471,
+        },
+      },
+      "mnemonic": "NOT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            {
+              "children": [
+                80,
+              ],
+              "loc": {
+                "end": {
+                  "column": 9,
+                  "line": 17,
+                  "offset": 513,
+                },
+                "start": {
+                  "column": 7,
+                  "line": 17,
+                  "offset": 511,
+                },
+              },
+              "type": 8,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 17,
+              "offset": 514,
+            },
+            "start": {
+              "column": 6,
+              "line": 17,
+              "offset": 510,
+            },
+          },
+          "type": 5,
+        },
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 17,
+              "offset": 518,
+            },
+            "start": {
+              "column": 12,
+              "line": 17,
+              "offset": 516,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 17,
+          "offset": 518,
+        },
+        "start": {
+          "column": 2,
+          "line": 17,
+          "offset": 506,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 18,
+              "offset": 560,
+            },
+            "start": {
+              "column": 7,
+              "line": 18,
+              "offset": 558,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 18,
+          "offset": 560,
+        },
+        "start": {
+          "column": 2,
+          "line": 18,
+          "offset": 553,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "IRET",
+      ],
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 19,
+          "offset": 598,
+        },
+        "start": {
+          "column": 2,
+          "line": 19,
+          "offset": 594,
+        },
+      },
+      "mnemonic": "IRET",
+      "type": 3,
+    },
+    {
+      "address": {
+        "children": [
+          112,
+        ],
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 21,
+            "offset": 648,
+          },
+          "start": {
+            "column": 7,
+            "line": 21,
+            "offset": 646,
+          },
+        },
+        "type": 8,
+      },
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 21,
+          "offset": 648,
+        },
+        "start": {
+          "column": 2,
+          "line": 21,
+          "offset": 641,
+        },
+      },
+      "name": "ORG",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            254,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 22,
+              "offset": 657,
+            },
+            "start": {
+              "column": 7,
+              "line": 22,
+              "offset": 655,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 22,
+          "offset": 657,
+        },
+        "start": {
+          "column": 2,
+          "line": 22,
+          "offset": 650,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 24,
+              "offset": 700,
+            },
+            "start": {
+              "column": 7,
+              "line": 24,
+              "offset": 698,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                112,
+              ],
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 24,
+                  "offset": 705,
+                },
+                "start": {
+                  "column": 12,
+                  "line": 24,
+                  "offset": 703,
+                },
+              },
+              "type": 8,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 24,
+              "offset": 706,
+            },
+            "start": {
+              "column": 11,
+              "line": 24,
+              "offset": 702,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 15,
+          "line": 24,
+          "offset": 706,
+        },
+        "start": {
+          "column": 2,
+          "line": 24,
+          "offset": 693,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "NOT",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 25,
+              "offset": 744,
+            },
+            "start": {
+              "column": 7,
+              "line": 25,
+              "offset": 742,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 25,
+          "offset": 744,
+        },
+        "start": {
+          "column": 2,
+          "line": 25,
+          "offset": 737,
+        },
+      },
+      "mnemonic": "NOT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "AND",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 26,
+              "offset": 779,
+            },
+            "start": {
+              "column": 7,
+              "line": 26,
+              "offset": 777,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            254,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 26,
+              "offset": 784,
+            },
+            "start": {
+              "column": 12,
+              "line": 26,
+              "offset": 782,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 26,
+          "offset": 784,
+        },
+        "start": {
+          "column": 2,
+          "line": 26,
+          "offset": 772,
+        },
+      },
+      "mnemonic": "AND",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            {
+              "children": [
+                112,
+              ],
+              "loc": {
+                "end": {
+                  "column": 9,
+                  "line": 27,
+                  "offset": 826,
+                },
+                "start": {
+                  "column": 7,
+                  "line": 27,
+                  "offset": 824,
+                },
+              },
+              "type": 8,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 27,
+              "offset": 827,
+            },
+            "start": {
+              "column": 6,
+              "line": 27,
+              "offset": 823,
+            },
+          },
+          "type": 5,
+        },
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 27,
+              "offset": 831,
+            },
+            "start": {
+              "column": 12,
+              "line": 27,
+              "offset": 829,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 27,
+          "offset": 831,
+        },
+        "start": {
+          "column": 2,
+          "line": 27,
+          "offset": 819,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 28,
+              "offset": 873,
+            },
+            "start": {
+              "column": 7,
+              "line": 28,
+              "offset": 871,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 28,
+          "offset": 873,
+        },
+        "start": {
+          "column": 2,
+          "line": 28,
+          "offset": 866,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "IRET",
+      ],
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 29,
+          "offset": 918,
+        },
+        "start": {
+          "column": 2,
+          "line": 29,
+          "offset": 914,
+        },
+      },
+      "mnemonic": "IRET",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 31,
+          "offset": 964,
+        },
+        "start": {
+          "column": 2,
+          "line": 31,
+          "offset": 961,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Traffic Lights 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 17,
+          "line": 2,
+          "offset": 57,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Traffic Lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 98,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 58,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 25,
+          "line": 4,
+          "offset": 123,
+        },
+        "start": {
+          "column": 14,
+          "line": 4,
+          "offset": 112,
+        },
+      },
+      "type": 1,
+      "value": "; 1000 0000",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 40,
+          "line": 6,
+          "offset": 169,
+        },
+        "start": {
+          "column": 11,
+          "line": 6,
+          "offset": 140,
+        },
+      },
+      "type": 1,
+      "value": "; Send data to traffic lights",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 47,
+          "line": 7,
+          "offset": 216,
+        },
+        "start": {
+          "column": 11,
+          "line": 7,
+          "offset": 180,
+        },
+      },
+      "type": 1,
+      "value": "; Rotate the bits in AL to the right",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 9,
+          "offset": 267,
+        },
+        "start": {
+          "column": 1,
+          "line": 9,
+          "offset": 227,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 10,
+      "offset": 272,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 4,
+              "offset": 106,
+            },
+            "start": {
+              "column": 6,
+              "line": 4,
+              "offset": 104,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            128,
+          ],
+          "loc": {
+            "end": {
+              "column": 12,
+              "line": 4,
+              "offset": 110,
+            },
+            "start": {
+              "column": 10,
+              "line": 4,
+              "offset": 108,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 12,
+          "line": 4,
+          "offset": 110,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 100,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 5,
+            "offset": 128,
+          },
+          "start": {
+            "column": 1,
+            "line": 5,
+            "offset": 124,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 5,
+          "offset": 129,
+        },
+        "start": {
+          "column": 1,
+          "line": 5,
+          "offset": 124,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "OUT",
+        {
+          "children": [
+            1,
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 6,
+              "offset": 137,
+            },
+            "start": {
+              "column": 6,
+              "line": 6,
+              "offset": 135,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 6,
+          "offset": 137,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 131,
+        },
+      },
+      "mnemonic": "OUT",
+      "type": 3,
+    },
+    {
+      "children": [
+        "ROR",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 7,
+              "offset": 177,
+            },
+            "start": {
+              "column": 6,
+              "line": 7,
+              "offset": 175,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 8,
+          "line": 7,
+          "offset": 177,
+        },
+        "start": {
+          "column": 2,
+          "line": 7,
+          "offset": 171,
+        },
+      },
+      "mnemonic": "ROR",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 8,
+              "offset": 226,
+            },
+            "start": {
+              "column": 6,
+              "line": 8,
+              "offset": 222,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 8,
+          "offset": 226,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 218,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 10,
+          "offset": 272,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 269,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;
+
+exports[`Parser > examples > should parse example Visual Display Unit 1`] = `
+{
+  "comments": [
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 1,
+          "offset": 40,
+        },
+        "start": {
+          "column": 1,
+          "line": 1,
+          "offset": 0,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 22,
+          "line": 2,
+          "offset": 62,
+        },
+        "start": {
+          "column": 1,
+          "line": 2,
+          "offset": 41,
+        },
+      },
+      "type": 1,
+      "value": ";	Visual Display Unit",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 3,
+          "offset": 103,
+        },
+        "start": {
+          "column": 1,
+          "line": 3,
+          "offset": 63,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 39,
+          "line": 4,
+          "offset": 142,
+        },
+        "start": {
+          "column": 13,
+          "line": 4,
+          "offset": 116,
+        },
+      },
+      "type": 1,
+      "value": "; Jump past the data table",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 43,
+          "line": 8,
+          "offset": 221,
+        },
+        "start": {
+          "column": 15,
+          "line": 8,
+          "offset": 193,
+        },
+      },
+      "type": 1,
+      "value": "; Make AL point to video RAM",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 67,
+          "line": 9,
+          "offset": 288,
+        },
+        "start": {
+          "column": 15,
+          "line": 9,
+          "offset": 236,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to the first character in the string",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 48,
+          "line": 10,
+          "offset": 336,
+        },
+        "start": {
+          "column": 16,
+          "line": 10,
+          "offset": 304,
+        },
+      },
+      "type": 1,
+      "value": "; Copy the data from RAM into CL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 71,
+          "line": 12,
+          "offset": 413,
+        },
+        "start": {
+          "column": 15,
+          "line": 12,
+          "offset": 357,
+        },
+      },
+      "type": 1,
+      "value": "; Copy the data in CL to the video RAM that AL points to",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 58,
+          "line": 13,
+          "offset": 471,
+        },
+        "start": {
+          "column": 12,
+          "line": 13,
+          "offset": 425,
+        },
+      },
+      "type": 1,
+      "value": "; Make AL point to the next video RAM location",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 63,
+          "line": 14,
+          "offset": 534,
+        },
+        "start": {
+          "column": 12,
+          "line": 14,
+          "offset": 483,
+        },
+      },
+      "type": 1,
+      "value": "; Make BL point to the next character in the string",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 48,
+          "line": 15,
+          "offset": 582,
+        },
+        "start": {
+          "column": 16,
+          "line": 15,
+          "offset": 550,
+        },
+      },
+      "type": 1,
+      "value": "; Copy the data from RAM into CL",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 51,
+          "line": 16,
+          "offset": 633,
+        },
+        "start": {
+          "column": 15,
+          "line": 16,
+          "offset": 597,
+        },
+      },
+      "type": 1,
+      "value": "; Check if the next character exists",
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 41,
+          "line": 18,
+          "offset": 684,
+        },
+        "start": {
+          "column": 1,
+          "line": 18,
+          "offset": 644,
+        },
+      },
+      "type": 1,
+      "value": "; --------------------------------------",
+    },
+  ],
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 19,
+      "offset": 689,
+    },
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "statements": [
+    {
+      "children": [
+        "JMP",
+        {
+          "children": [
+            "START",
+          ],
+          "loc": {
+            "end": {
+              "column": 11,
+              "line": 4,
+              "offset": 114,
+            },
+            "start": {
+              "column": 6,
+              "line": 4,
+              "offset": 109,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 11,
+          "line": 4,
+          "offset": 114,
+        },
+        "start": {
+          "column": 2,
+          "line": 4,
+          "offset": 105,
+        },
+      },
+      "mnemonic": "JMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        {
+          "children": "Hello World!",
+          "loc": {
+            "end": {
+              "column": 20,
+              "line": 5,
+              "offset": 162,
+            },
+            "start": {
+              "column": 6,
+              "line": 5,
+              "offset": 148,
+            },
+          },
+          "type": 9,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 20,
+          "line": 5,
+          "offset": 162,
+        },
+        "start": {
+          "column": 2,
+          "line": 5,
+          "offset": 144,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "children": [
+        {
+          "children": [
+            0,
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 6,
+              "offset": 171,
+            },
+            "start": {
+              "column": 7,
+              "line": 6,
+              "offset": 169,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 6,
+          "offset": 171,
+        },
+        "start": {
+          "column": 2,
+          "line": 6,
+          "offset": 164,
+        },
+      },
+      "name": "DB",
+      "type": 4,
+    },
+    {
+      "identifier": {
+        "children": [
+          "START",
+        ],
+        "loc": {
+          "end": {
+            "column": 6,
+            "line": 7,
+            "offset": 177,
+          },
+          "start": {
+            "column": 1,
+            "line": 7,
+            "offset": 172,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 7,
+          "line": 7,
+          "offset": 178,
+        },
+        "start": {
+          "column": 1,
+          "line": 7,
+          "offset": 172,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 8,
+              "offset": 187,
+            },
+            "start": {
+              "column": 7,
+              "line": 8,
+              "offset": 185,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            192,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 8,
+              "offset": 192,
+            },
+            "start": {
+              "column": 12,
+              "line": 8,
+              "offset": 190,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 8,
+          "offset": 192,
+        },
+        "start": {
+          "column": 2,
+          "line": 8,
+          "offset": 180,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 9,
+              "offset": 230,
+            },
+            "start": {
+              "column": 7,
+              "line": 9,
+              "offset": 228,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            2,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 9,
+              "offset": 235,
+            },
+            "start": {
+              "column": 12,
+              "line": 9,
+              "offset": 233,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 9,
+          "offset": 235,
+        },
+        "start": {
+          "column": 2,
+          "line": 9,
+          "offset": 223,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "CL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 10,
+              "offset": 297,
+            },
+            "start": {
+              "column": 7,
+              "line": 10,
+              "offset": 295,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                "BL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 10,
+                  "offset": 302,
+                },
+                "start": {
+                  "column": 12,
+                  "line": 10,
+                  "offset": 300,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 10,
+              "offset": 303,
+            },
+            "start": {
+              "column": 11,
+              "line": 10,
+              "offset": 299,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 15,
+          "line": 10,
+          "offset": 303,
+        },
+        "start": {
+          "column": 2,
+          "line": 10,
+          "offset": 290,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "identifier": {
+        "children": [
+          "LOOP",
+        ],
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 11,
+            "offset": 341,
+          },
+          "start": {
+            "column": 1,
+            "line": 11,
+            "offset": 337,
+          },
+        },
+        "type": 7,
+      },
+      "loc": {
+        "end": {
+          "column": 6,
+          "line": 11,
+          "offset": 342,
+        },
+        "start": {
+          "column": 1,
+          "line": 11,
+          "offset": 337,
+        },
+      },
+      "type": 2,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            {
+              "children": [
+                "AL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 9,
+                  "line": 12,
+                  "offset": 351,
+                },
+                "start": {
+                  "column": 7,
+                  "line": 12,
+                  "offset": 349,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 12,
+              "offset": 352,
+            },
+            "start": {
+              "column": 6,
+              "line": 12,
+              "offset": 348,
+            },
+          },
+          "type": 5,
+        },
+        {
+          "children": [
+            "CL",
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 12,
+              "offset": 356,
+            },
+            "start": {
+              "column": 12,
+              "line": 12,
+              "offset": 354,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 12,
+          "offset": 356,
+        },
+        "start": {
+          "column": 2,
+          "line": 12,
+          "offset": 344,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "AL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 13,
+              "offset": 422,
+            },
+            "start": {
+              "column": 7,
+              "line": 13,
+              "offset": 420,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 13,
+          "offset": 422,
+        },
+        "start": {
+          "column": 2,
+          "line": 13,
+          "offset": 415,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "INC",
+        {
+          "children": [
+            "BL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 14,
+              "offset": 480,
+            },
+            "start": {
+              "column": 7,
+              "line": 14,
+              "offset": 478,
+            },
+          },
+          "type": 6,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 9,
+          "line": 14,
+          "offset": 480,
+        },
+        "start": {
+          "column": 2,
+          "line": 14,
+          "offset": 473,
+        },
+      },
+      "mnemonic": "INC",
+      "type": 3,
+    },
+    {
+      "children": [
+        "MOV",
+        {
+          "children": [
+            "CL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 15,
+              "offset": 543,
+            },
+            "start": {
+              "column": 7,
+              "line": 15,
+              "offset": 541,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            {
+              "children": [
+                "BL",
+              ],
+              "loc": {
+                "end": {
+                  "column": 14,
+                  "line": 15,
+                  "offset": 548,
+                },
+                "start": {
+                  "column": 12,
+                  "line": 15,
+                  "offset": 546,
+                },
+              },
+              "type": 6,
+            },
+          ],
+          "loc": {
+            "end": {
+              "column": 15,
+              "line": 15,
+              "offset": 549,
+            },
+            "start": {
+              "column": 11,
+              "line": 15,
+              "offset": 545,
+            },
+          },
+          "type": 5,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 15,
+          "line": 15,
+          "offset": 549,
+        },
+        "start": {
+          "column": 2,
+          "line": 15,
+          "offset": 536,
+        },
+      },
+      "mnemonic": "MOV",
+      "type": 3,
+    },
+    {
+      "children": [
+        "CMP",
+        {
+          "children": [
+            "CL",
+          ],
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 16,
+              "offset": 591,
+            },
+            "start": {
+              "column": 7,
+              "line": 16,
+              "offset": 589,
+            },
+          },
+          "type": 6,
+        },
+        {
+          "children": [
+            0,
+          ],
+          "loc": {
+            "end": {
+              "column": 14,
+              "line": 16,
+              "offset": 596,
+            },
+            "start": {
+              "column": 12,
+              "line": 16,
+              "offset": 594,
+            },
+          },
+          "type": 8,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 14,
+          "line": 16,
+          "offset": 596,
+        },
+        "start": {
+          "column": 2,
+          "line": 16,
+          "offset": 584,
+        },
+      },
+      "mnemonic": "CMP",
+      "type": 3,
+    },
+    {
+      "children": [
+        "JNZ",
+        {
+          "children": [
+            "LOOP",
+          ],
+          "loc": {
+            "end": {
+              "column": 10,
+              "line": 17,
+              "offset": 643,
+            },
+            "start": {
+              "column": 6,
+              "line": 17,
+              "offset": 639,
+            },
+          },
+          "type": 7,
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 10,
+          "line": 17,
+          "offset": 643,
+        },
+        "start": {
+          "column": 2,
+          "line": 17,
+          "offset": 635,
+        },
+      },
+      "mnemonic": "JNZ",
+      "type": 3,
+    },
+    {
+      "loc": {
+        "end": {
+          "column": 5,
+          "line": 19,
+          "offset": 689,
+        },
+        "start": {
+          "column": 2,
+          "line": 19,
+          "offset": 686,
+        },
+      },
+      "name": "END",
+      "type": 4,
+    },
+  ],
+  "type": 0,
+}
+`;

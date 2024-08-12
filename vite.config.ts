@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import * as child_process from 'node:child_process'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -101,6 +103,12 @@ export default defineConfig(async () => {
     server: {
       watch: {
         ignored: [/coverage/, /dist/],
+      },
+    },
+    test: {
+      include: ['src/**/*.test.ts'],
+      coverage: {
+        all: false,
       },
     },
   }

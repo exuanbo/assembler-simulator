@@ -34,6 +34,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rxjs": "8.0.0-alpha.14",
+    "ts-enum-utilx": "0.3.0",
     "use-external-store": "0.2.2"
   },
   "devDependencies": {
@@ -51,6 +52,8 @@
     "@unocss/transformer-directives": "0.62.4",
     "@unocss/transformer-variant-group": "0.62.4",
     "@vitejs/plugin-react": "4.3.1",
+    "@vitest/coverage-v8": "2.1.1",
+    "@vitest/ui": "2.1.1",
     "eslint": "9.10.0",
     "eslint-plugin-react": "7.36.1",
     "eslint-plugin-react-hooks": "5.1.0-rc-f2df5694-20240916",
@@ -64,7 +67,8 @@
     "typescript-eslint": "8.6.0",
     "unocss": "0.62.4",
     "vite": "5.4.6",
-    "vite-plugin-pwa": "0.20.5"
+    "vite-plugin-pwa": "0.20.5",
+    "vitest": "2.1.1"
   },
   "resolutions": {
     "immer": "npm:mutative-compat@^0.1.0"
