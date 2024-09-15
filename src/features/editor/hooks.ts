@@ -1,4 +1,4 @@
-import { createCodeMirror } from '@codemirror-toolkit/react'
+import { create } from '@codemirror-toolkit/react'
 import { useEffect } from 'react'
 import { debounceTime, filter, first, map, merge, switchMap } from 'rxjs'
 
@@ -20,12 +20,13 @@ import {
   setEditorMessage,
 } from './editorSlice'
 
-export const { useViewEffect, useContainerRef } = createCodeMirror<HTMLDivElement>(() => {
+export const { useViewEffect, setContainer } = create((prevState) => {
   const editorInput = store.getState(selectEditorInput)
   const handleException: ExceptionHandler = (exception) => {
     store.dispatch(setException(exception))
   }
   return {
+    state: prevState,
     doc: editorInput,
     extensions: [setup(), exceptionSink(handleException)],
   }

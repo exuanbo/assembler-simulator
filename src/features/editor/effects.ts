@@ -1,8 +1,8 @@
 import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
-import type { ViewEffectSetup } from '@codemirror-toolkit/react'
+import { defineViewEffect } from '@codemirror-toolkit/react'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
-import { debounceTime, filter, identity, map, of, switchMap } from 'rxjs'
+import { debounceTime, filter, map, of, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
@@ -29,8 +29,6 @@ import {
 } from './editorSlice'
 import { isTemplate, templateSelection } from './examples'
 import { selectCurrentStatementLinePos } from './selectors'
-
-const defineViewEffect = identity<ViewEffectSetup>
 
 const resetAssemblerStateOnInput = defineViewEffect((view) => {
   const viewUpdate$ = onUpdate(view)
@@ -215,7 +213,7 @@ const toggleVimKeybindings = defineViewEffect((view) => {
   )
 })
 
-export const viewEffects: readonly ViewEffectSetup[] = [
+const setups = [
   resetAssemblerStateOnInput,
   syncInputToState,
   syncInputFromState,
@@ -226,3 +224,8 @@ export const viewEffects: readonly ViewEffectSetup[] = [
   initialSyncBreakpointsFromState,
   toggleVimKeybindings,
 ]
+
+export const effects = defineViewEffect((view) => {
+  const cleanups = setups.map((effect) => effect(view))
+  return () => cleanups.forEach((cleanup) => cleanup?.())
+})
