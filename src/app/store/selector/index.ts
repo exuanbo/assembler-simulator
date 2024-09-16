@@ -1,23 +1,29 @@
 import type { Selector } from '@reduxjs/toolkit'
 import { useDebugValue } from 'react'
+import { useExternalStore } from 'use-external-store'
 
-import { type RootState, store } from '..'
+import { readonlyStore, type RootState } from '..'
 import { useSyncExternalStoreWithSelector } from './useSyncExternalStoreWithSelector'
 
-type EqualityFn<T> = (a: T, b: T) => boolean
-
-const refEquality: EqualityFn<unknown> = (a, b) => a === b
-
-export const useSelector = <Selected>(
-  selector: Selector<RootState, Selected>,
-  equalityFn: EqualityFn<Selected> = refEquality,
-): Selected => {
-  const selectedState = useSyncExternalStoreWithSelector(
-    store.subscribeChange,
-    store.getState,
+export const useSyncSelector = <Selection>(
+  selector: Selector<RootState, Selection>,
+  isEqual?: (a: Selection, b: Selection) => boolean,
+): Selection => {
+  const selection = useSyncExternalStoreWithSelector(
+    readonlyStore.subscribe,
+    readonlyStore.getState,
     selector,
-    equalityFn,
+    isEqual,
   )
-  useDebugValue(selectedState)
-  return selectedState
+  useDebugValue(selection)
+  return selection
+}
+
+export const useSelector = <Selection>(
+  selector: Selector<RootState, Selection>,
+  isEqual?: (a: Selection, b: Selection) => boolean,
+): Selection => {
+  const selection = useExternalStore(readonlyStore, selector, isEqual)
+  useDebugValue(selection)
+  return selection
 }

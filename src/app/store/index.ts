@@ -1,4 +1,5 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
+import { defineStore } from 'use-external-store'
 
 import { assemblerSlice } from '@/features/assembler/assemblerSlice'
 import { controllerSlice } from '@/features/controller/controllerSlice'
@@ -17,8 +18,6 @@ import {
   selectStateToPersist,
   writeStateToPersistence,
 } from './persistence'
-
-export { useSelector } from './selector'
 
 const rootReducer = combineSlices(
   editorSlice,
@@ -53,3 +52,10 @@ export const store = configureStore({
 })
 
 store.onState(selectStateToPersist).subscribe(writeStateToPersistence)
+
+export const readonlyStore = defineStore({
+  getState: store.getState,
+  subscribe: store.subscribeChange,
+})
+
+export * from './selector'
