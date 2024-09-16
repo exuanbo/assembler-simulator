@@ -9,23 +9,22 @@ type SubscribeChange = Store['subscribe']
 export const subscribeChange = injectStoreExtension<{ subscribeChange: SubscribeChange }>(
   <State>(store: Store<State>) => {
     const NIL = Symbol('NIL')
-    let stateSnapshot: State | typeof NIL = NIL
+    let snapshot: State | typeof NIL = NIL
 
     const dispatch: typeof store.dispatch = (action) => {
-      invariant(stateSnapshot === NIL)
+      invariant(snapshot === NIL)
+      snapshot = store.getState()
       try {
-        stateSnapshot = store.getState()
         return store.dispatch(action)
       } finally {
-        stateSnapshot = NIL
+        snapshot = NIL
       }
     }
 
     const subscribeChange: SubscribeChange = (listener) =>
       store.subscribe(() => {
-        invariant(stateSnapshot !== NIL)
-        const state = store.getState()
-        if (state !== stateSnapshot) {
+        invariant(snapshot !== NIL)
+        if (snapshot !== store.getState()) {
           listener()
         }
       })
