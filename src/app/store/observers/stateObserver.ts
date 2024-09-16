@@ -6,7 +6,7 @@ import { invariant } from '@/common/utils'
 import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { weakMemo } from './weakMemo'
 
-type ObserveState<State> = <Selected>(selector: Selector<State, Selected>) => Observable<Selected>
+type ObserveState<State> = <Result>(selector: Selector<State, Result>) => Observable<Result>
 
 interface StateObserver<State> {
   middleware: Middleware<{}, State>
