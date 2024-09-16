@@ -3,7 +3,7 @@
 // https://github.com/facebook/react/blob/8d74e8c73a5cc5e461bb1413a74c6b058c6be134/packages/use-sync-external-store/src/useSyncExternalStoreWithSelector.js
 // MIT Licensed https://github.com/facebook/react/blob/be8aa76873e231555676483a36534bb48ad1b1a3/LICENSE
 
-import { useDebugValue, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 
 const NIL = Symbol('NIL')
 
@@ -11,10 +11,10 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
   subscribe: (onStoreChange: () => void) => () => void,
   getSnapshot: () => Snapshot,
   selector: (snapshot: Snapshot) => Selection,
-  isEqual: (a: Selection, b: Selection) => boolean,
+  isEqual: (a: Selection, b: Selection) => boolean = Object.is,
 ): Selection {
   // Use this to track the rendered snapshot.
-  const selectionRef = useRef<Selection | typeof NIL>(NIL)
+  const instRef = useRef<Selection | typeof NIL>(NIL)
 
   const getSelection = useMemo(() => {
     // Track the memoized state using closure variables that are local to this
@@ -33,10 +33,12 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
         // Even if the selector has changed, the currently rendered selection
         // may be equal to the new selection. We should attempt to reuse the
         // current value if possible, to preserve downstream memoizations.
-        const currentSelection = selectionRef.current
-        if (currentSelection !== NIL && isEqual(currentSelection, nextSelection)) {
-          memoizedSelection = currentSelection
-          return currentSelection
+        if (instRef.current !== NIL) {
+          const currentSelection = instRef.current
+          if (isEqual(currentSelection, nextSelection)) {
+            memoizedSelection = currentSelection
+            return currentSelection
+          }
         }
         memoizedSelection = nextSelection
         return nextSelection
@@ -77,9 +79,8 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
   const selection = useSyncExternalStore(subscribe, getSelection)
 
   useEffect(() => {
-    selectionRef.current = selection
+    instRef.current = selection
   }, [selection])
 
-  useDebugValue(selection)
   return selection
 }
