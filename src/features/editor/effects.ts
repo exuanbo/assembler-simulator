@@ -72,7 +72,7 @@ const syncInputFromState = defineViewEffect((view) => {
     setEditorInput$.pipe(
       filter(({ value }) => value !== view.state.doc.toString()),
       map(({ value }) => replaceContent(view.state, value)),
-      map((spec) => syncFromState(spec)),
+      map((transaction) => syncFromState(transaction)),
     ),
     (transaction) => view.dispatch(transaction),
   )
