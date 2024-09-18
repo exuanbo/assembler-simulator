@@ -1,36 +1,22 @@
+import type { Extension } from '@codemirror/state'
 import type { EditorView } from '@codemirror/view'
-import { addExtension, type FlatExtension, removeExtension } from '@codemirror-toolkit/extensions'
-import { defer, from, map } from 'rxjs'
+import { addExtension, removeExtension } from '@codemirror-toolkit/extensions'
+import { BehaviorSubject, filter, from, map, tap } from 'rxjs'
 
-import { invariant } from '@/common/utils'
+const vim$ = new BehaviorSubject<Extension | null>(null)
 
-interface VimExtension extends FlatExtension {
-  initialized: boolean
+export function enableVim(view: EditorView) {
+  return from(import('@replit/codemirror-vim')).pipe(
+    map(({ vim }) => vim({ status: true })),
+    tap((ext) => vim$.next(ext)),
+    tap((ext) => addExtension(view, ext)),
+  )
 }
 
-const vim: VimExtension = {
-  extension: [],
-  initialized: false,
-}
-
-export const initVim$ = defer(() =>
-  vim.initialized
-    ? from(Promise.resolve())
-    : from(import('@replit/codemirror-vim')).pipe(
-        map((module) => {
-          vim.extension = module.vim({ status: true })
-          vim.initialized = true
-        }),
-      ),
-)
-
-export const enableVim = (view: EditorView): void => {
-  invariant(vim.initialized, 'Vim extension not initialized.')
-  addExtension(view, vim)
-}
-
-export const disableVim = (view: EditorView): void => {
-  removeExtension(view, vim)
-  vim.extension = []
-  vim.initialized = false
+export function disableVim(view: EditorView) {
+  return vim$.pipe(
+    filter(Boolean),
+    tap(() => vim$.next(null)),
+    tap((ext) => removeExtension(view, ext)),
+  )
 }

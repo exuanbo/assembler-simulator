@@ -2,7 +2,7 @@ import type { Transaction } from '@codemirror/state'
 import { addUpdateListener } from '@codemirror-toolkit/extensions'
 import { defineViewEffect } from '@codemirror-toolkit/react'
 import { mapRangeSetToArray, rangeSetsEqual } from '@codemirror-toolkit/utils'
-import { debounceTime, filter, map, of, switchMap } from 'rxjs'
+import { debounceTime, filter, map, switchMap } from 'rxjs'
 
 import { store } from '@/app/store'
 import { UPDATE_TIMEOUT_MS } from '@/common/constants'
@@ -18,7 +18,7 @@ import { HighlightLineEffect } from './codemirror/highlightLine'
 import { onUpdate } from './codemirror/observable'
 import { replaceContent } from './codemirror/state'
 import { lineLocAt, lineRangesEqual } from './codemirror/text'
-import { disableVim, enableVim, initVim$ } from './codemirror/vim'
+import { disableVim, enableVim } from './codemirror/vim'
 import { WavyUnderlineEffect } from './codemirror/wavyUnderline'
 import {
   addBreakpoint,
@@ -202,14 +202,9 @@ const toggleVimKeybindings = defineViewEffect((view) => {
   const vimKeybindings$ = store.onState(selectVimKeybindings)
   return observe(
     vimKeybindings$.pipe(
-      switchMap((shouldEnable) => {
-        if (shouldEnable) {
-          return initVim$.pipe(map(() => enableVim))
-        }
-        return of(disableVim)
-      }),
+      map((shouldEnable) => (shouldEnable ? enableVim : disableVim)),
+      switchMap((action) => action(view)),
     ),
-    (action) => action(view),
   )
 })
 
