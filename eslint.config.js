@@ -141,13 +141,17 @@ export default tseslint.config(
         mode: 'minimum',
       }],
       '@stylistic/no-multi-spaces': ['error', {
-        exceptions: { ObjectExpression: true },
+        exceptions: {
+          ObjectExpression: true,
+          TSEnumMember: true,
+        },
       }],
       '@stylistic/quote-props': ['error', 'consistent-as-needed'],
       '@stylistic/quotes': ['error', 'single', {
         avoidEscape: true,
         allowTemplateLiterals: true,
       }],
+      '@stylistic/yield-star-spacing': ['error', 'after'],
     },
   },
 )
