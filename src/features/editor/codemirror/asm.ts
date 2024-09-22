@@ -12,7 +12,6 @@ import type { Extension } from '@codemirror/state'
 import { Mnemonic, MnemonicToOperandCountMap } from '@/common/constants'
 import { isIn } from '@/common/utils'
 
-// prettier-ignore
 const TokenRegExp = {
   SKIPABLE_CHARACTER: /[,[\]:]/,
   LABEL_DECLARATION:  /^[a-zA-Z_]+(?=:)/,

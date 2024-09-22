@@ -94,7 +94,7 @@ describe('merge', () => {
     targetAsAny.toes = 'b'
     targetAsAny.fingers = 'b'
     expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
-    expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { '12': 'a' } }) // prettier-ignore
+    expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { '12': 'a' } })
     expect(targetAsAny).toEqual({ body: 'b', head: 'b', toes: 'b', fingers: 'b' })
   })
   test('Overwrite arrays', () => {
@@ -128,7 +128,7 @@ describe('merge', () => {
     const origin = { info: { time: 'now', newDate, very: { deep: { prop: false } } } }
     const target = { info: { date: 'tomorrow', very: { deep: { prop: true } } } }
     const res = merge(origin, target)
-    expect(res).toEqual({ info: { time: 'now', newDate, date: 'tomorrow', very: { deep: { prop: true } } } }) // prettier-ignore
+    expect(res).toEqual({ info: { time: 'now', newDate, date: 'tomorrow', very: { deep: { prop: true } } } })
     expect(origin).toEqual({ info: { time: 'now', newDate, very: { deep: { prop: false } } } })
     expect(target).toEqual({ info: { date: 'tomorrow', very: { deep: { prop: true } } } })
     expect(res.info.newDate instanceof Date).toEqual(true)
@@ -137,7 +137,7 @@ describe('merge', () => {
     const origin = { info: { time: { when: 'now' }, very: { deep: { prop: false } } } }
     const target = { info: { time: {}, very: { whole: 1 } } }
     const res = merge(origin, target)
-    expect(res).toEqual({ info: { time: { when: 'now' }, very: { deep: { prop: false }, whole: 1 } } }) // prettier-ignore
+    expect(res).toEqual({ info: { time: { when: 'now' }, very: { deep: { prop: false }, whole: 1 } } })
   })
   test('overwrites any origin prop when target prop is an object with props', () => {
     const origin = { body: 'a', body2: { head: false }, tail: {} }
@@ -226,6 +226,6 @@ describe('merge', () => {
     const starter = { name: 'Squirtle', types: { water: true } }
     const newValues = { name: 'Wartortle', types: { fighting: true }, level: 16 }
     const evolution = merge(starter, newValues, { is: 'cool' })
-    expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' }) // prettier-ignore
+    expect(evolution).toEqual({ name: 'Wartortle', types: { water: true, fighting: true }, level: 16, is: 'cool' })
   })
 })

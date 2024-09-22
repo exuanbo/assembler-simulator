@@ -2646,6 +2646,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stylistic/eslint-plugin@npm:2.8.0":
+  version: 2.8.0
+  resolution: "@stylistic/eslint-plugin@npm:2.8.0"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^8.4.0"
+    eslint-visitor-keys: "npm:^4.0.0"
+    espree: "npm:^10.1.0"
+    estraverse: "npm:^5.3.0"
+    picomatch: "npm:^4.0.2"
+  peerDependencies:
+    eslint: ">=8.40.0"
+  checksum: 10c0/e85fc3ecad6df8b18e4c8e25ae4dfb330565efe5b91176fa84ec0fb636f07b1efa75eddc91fb36d146fc983a3538efc294f04d4b5636b3a708da123c70470671
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.3":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -2986,7 +3001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.6.0":
+"@typescript-eslint/utils@npm:8.6.0, @typescript-eslint/utils@npm:^8.4.0":
   version: 8.6.0
   resolution: "@typescript-eslint/utils@npm:8.6.0"
   dependencies:
@@ -3537,6 +3552,7 @@ __metadata:
     "@eslint/js": "npm:9.10.0"
     "@reduxjs/toolkit": "npm:2.2.7"
     "@replit/codemirror-vim": "npm:6.2.1"
+    "@stylistic/eslint-plugin": "npm:2.8.0"
     "@types/ackee-tracker": "npm:5.0.4"
     "@types/eslint__js": "npm:8.42.3"
     "@types/jest": "npm:29.5.13"
@@ -3552,7 +3568,6 @@ __metadata:
     "@vitejs/plugin-react": "npm:4.3.1"
     ackee-tracker: "patch:ackee-tracker@npm%3A5.1.0#~/.yarn/patches/ackee-tracker-npm-5.1.0-0db5cc0193.patch"
     eslint: "npm:9.10.0"
-    eslint-config-prettier: "npm:9.1.0"
     eslint-plugin-react: "npm:7.36.1"
     eslint-plugin-react-hooks: "npm:5.1.0-rc-f2df5694-20240916"
     eslint-plugin-simple-import-sort: "npm:12.1.1"
@@ -3563,7 +3578,6 @@ __metadata:
     js-base64: "npm:3.7.7"
     mutative: "npm:1.0.8"
     pako: "npm:2.1.0"
-    prettier: "npm:3.3.3"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     rxjs: "npm:8.0.0-alpha.14"
@@ -4565,17 +4579,6 @@ __metadata:
     escodegen: bin/escodegen.js
     esgenerate: bin/esgenerate.js
   checksum: 10c0/e1450a1f75f67d35c061bf0d60888b15f62ab63aef9df1901cffc81cffbbb9e8b3de237c5502cf8613a017c1df3a3003881307c78835a1ab54d8c8d2206e01d3
-  languageName: node
-  linkType: hard
-
-"eslint-config-prettier@npm:9.1.0":
-  version: 9.1.0
-  resolution: "eslint-config-prettier@npm:9.1.0"
-  peerDependencies:
-    eslint: ">=7.0.0"
-  bin:
-    eslint-config-prettier: bin/cli.js
-  checksum: 10c0/6d332694b36bc9ac6fdb18d3ca2f6ac42afa2ad61f0493e89226950a7091e38981b66bac2b47ba39d15b73fff2cd32c78b850a9cf9eed9ca9a96bfb2f3a2f10d
   languageName: node
   linkType: hard
 
@@ -7068,15 +7071,6 @@ __metadata:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: 10c0/b00d617431e7886c520a6f498a2e14c75ec58f6d93ba48c3b639cf241b54232d90daa05d83a9e9b9fef6baa63cb7e1e4602c2372fea5bc169668401eb127d0cd
-  languageName: node
-  linkType: hard
-
-"prettier@npm:3.3.3":
-  version: 3.3.3
-  resolution: "prettier@npm:3.3.3"
-  bin:
-    prettier: bin/prettier.cjs
-  checksum: 10c0/b85828b08e7505716324e4245549b9205c0cacb25342a030ba8885aba2039a115dbcf75a0b7ca3b37bc9d101ee61fab8113fc69ca3359f2a226f1ecc07ad2e26
   languageName: node
   linkType: hard
 

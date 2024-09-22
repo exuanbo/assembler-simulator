@@ -26,7 +26,6 @@ interface TokenRule {
   pattern: RegExp
 }
 
-// prettier-ignore
 const tokenRules: readonly TokenRule[] = [
   { type: TokenType.Whitespace, pattern: /\s+/ },
   { type: TokenType.Comment,    pattern: /;.*/ },

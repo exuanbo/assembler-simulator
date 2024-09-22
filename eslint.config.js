@@ -1,7 +1,7 @@
 // @ts-check
 
 import eslint from '@eslint/js'
-import configPrettier from 'eslint-config-prettier'
+import stylistic from '@stylistic/eslint-plugin'
 import pluginReact from 'eslint-plugin-react'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
@@ -58,7 +58,9 @@ export default tseslint.config(
     },
     rules: {
       '@typescript-eslint/consistent-type-exports': 'error',
-      '@typescript-eslint/consistent-type-imports': ['error', { fixStyle: 'inline-type-imports' }],
+      '@typescript-eslint/consistent-type-imports': ['error', {
+        fixStyle: 'inline-type-imports',
+      }],
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-import-type-side-effects': 'error',
@@ -67,12 +69,14 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-enum-comparison': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
+      '@typescript-eslint/no-unused-expressions': ['error', {
+        allowShortCircuit: true,
+      }],
     },
   },
   {
     name: 'exuanbo/react',
-    files: ['**/*.{j,t}sx'],
+    files: ['**/*.{j,t}s?(x)'],
     extends: [
       {
         name: 'react/recommended',
@@ -118,7 +122,27 @@ export default tseslint.config(
     },
   },
   {
-    name: 'config-prettier',
-    ...configPrettier,
+    name: 'stylistic',
+    ...stylistic.configs['recommended-flat'],
+    rules: {
+      ...stylistic.configs['recommended-flat'].rules,
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/jsx-closing-bracket-location': ['error', {
+        nonEmpty: 'after-props',
+        selfClosing: 'tag-aligned',
+      }],
+      '@stylistic/jsx-one-expression-per-line': 'off',
+      '@stylistic/key-spacing': ['error', {
+        mode: 'minimum',
+      }],
+      '@stylistic/no-multi-spaces': ['error', {
+        exceptions: { ObjectExpression: true },
+      }],
+      '@stylistic/quote-props': ['error', 'consistent-as-needed'],
+      '@stylistic/quotes': ['error', 'single', {
+        avoidEscape: true,
+        allowTemplateLiterals: true,
+      }],
+    },
   },
 )

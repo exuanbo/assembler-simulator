@@ -12,7 +12,6 @@ type TypeofResult =
   | 'object'
   | 'function'
 
-// prettier-ignore
 type TypeofResultToType<T extends TypeofResult> =
   T extends 'string'    ? string :
   T extends 'number'    ? number :
