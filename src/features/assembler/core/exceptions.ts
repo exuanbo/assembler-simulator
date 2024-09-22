@@ -116,12 +116,12 @@ export class OperandTypeError extends ParseError {
       .map((type) => type.replace(/[A-Z]/g, (char) => ` ${char.toLowerCase()}`).trimStart())
       .reduce((acc, cur, idx) => {
         switch (idx) {
-          case 0:
-            return cur
-          case expectedTypes.length - 1:
-            return `${acc} or ${cur}`
-          default:
-            return `${acc}, ${cur}`
+        case 0:
+          return cur
+        case expectedTypes.length - 1:
+          return `${acc} or ${cur}`
+        default:
+          return `${acc}, ${cur}`
         }
       }, '')
     super(`Expected ${types}, got '${source}'.`, range)

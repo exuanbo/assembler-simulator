@@ -42,20 +42,20 @@ const ControlButtons: FC = () => {
       <ControlButton disabled={isSuspended} onClick={controller.runOrStop}>
         {isRunning
           ? (
-              <>
-                <Stop />
-                <span>Stop</span>
-              </>
-            )
+            <>
+              <Stop />
+              <span>Stop</span>
+            </>
+          )
           : (
-              <>
-                <Play />
-                <span>
-                  Run
-                  {NO_BREAK_SPACE}
-                </span>
-              </>
-            )}
+            <>
+              <Play />
+              <span>
+                Run
+                {NO_BREAK_SPACE}
+              </span>
+            </>
+          )}
       </ControlButton>
     )
   }

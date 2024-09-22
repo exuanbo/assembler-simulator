@@ -7,12 +7,12 @@ import { useMessage } from './hooks'
 
 const getClassNameFrom = (type: MessageType): string => {
   switch (type) {
-    case MessageType.Error:
-      return 'bg-red-500'
-    case MessageType.Warning:
-      return 'bg-yellow-500'
-    case MessageType.Info:
-      return 'bg-blue-500'
+  case MessageType.Error:
+    return 'bg-red-500'
+  case MessageType.Warning:
+    return 'bg-yellow-500'
+  case MessageType.Info:
+    return 'bg-blue-500'
   }
 }
 

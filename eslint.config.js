@@ -88,9 +88,11 @@ export default tseslint.config(
       },
       {
         name: 'react-hooks',
-        ...pluginReactHooks.configs.recommended,
         plugins: {
           'react-hooks': pluginReactHooks,
+        },
+        rules: {
+          'react-hooks/exhaustive-deps': 'error',
         },
       },
     ],
@@ -127,6 +129,9 @@ export default tseslint.config(
     rules: {
       ...stylistic.configs['recommended-flat'].rules,
       '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/indent': ['error', 2, {
+        SwitchCase: 0,
+      }],
       '@stylistic/jsx-closing-bracket-location': ['error', {
         nonEmpty: 'after-props',
         selfClosing: 'tag-aligned',

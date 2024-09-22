@@ -67,19 +67,19 @@ const SimulatedKeyboard: FC = () => {
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (event) => {
     // handle special keys
     switch (event.key) {
-      case 'Backspace':
-        dispatchInputData(Ascii.BS)
-        break
-      case 'Tab':
-        event.preventDefault()
-        dispatchInputData(Ascii.TAB)
-        break
-      case 'Enter':
-        dispatchInputData(Ascii.CR)
-        break
-      case 'Escape':
-        dispatchInputData(SKIP)
-        break
+    case 'Backspace':
+      dispatchInputData(Ascii.BS)
+      break
+    case 'Tab':
+      event.preventDefault()
+      dispatchInputData(Ascii.TAB)
+      break
+    case 'Enter':
+      dispatchInputData(Ascii.CR)
+      break
+    case 'Escape':
+      dispatchInputData(SKIP)
+      break
     }
   }
 

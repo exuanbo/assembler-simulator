@@ -51,15 +51,15 @@ export interface Token {
 const createToken = (type: TokenType, source: string, index: number): Token => {
   const value = call((): string => {
     switch (type) {
-      case TokenType.Register:
-      case TokenType.Unknown:
-        return source.toUpperCase()
-      case TokenType.Address:
-        return trimBrackets(source).trim().toUpperCase()
-      case TokenType.String:
-        return parseString(source)
-      default:
-        return source
+    case TokenType.Register:
+    case TokenType.Unknown:
+      return source.toUpperCase()
+    case TokenType.Address:
+      return trimBrackets(source).trim().toUpperCase()
+    case TokenType.String:
+      return parseString(source)
+    default:
+      return source
     }
   })
   const from = index
@@ -102,18 +102,18 @@ const createTokenStream = (source: string): TokenStream => {
       const range: SourceRange = { from: startIndex, to: startIndex + 1 }
       const char = source[startIndex]
       switch (char) {
-        case '[': {
-          const [value] = source.slice(startIndex).match(/^\[\s*\w*/)!
-          range.to += value.length - 1
-          throw new UnterminatedAddressError(value, range)
-        }
-        case '"': {
-          const [value] = source.slice(startIndex).match(/^".*/)!
-          range.to += value.length - 1
-          throw new UnterminatedStringError(value, range)
-        }
-        case "'":
-          throw new NotAllowedSingleQuoteError(range)
+      case '[': {
+        const [value] = source.slice(startIndex).match(/^\[\s*\w*/)!
+        range.to += value.length - 1
+        throw new UnterminatedAddressError(value, range)
+      }
+      case '"': {
+        const [value] = source.slice(startIndex).match(/^".*/)!
+        range.to += value.length - 1
+        throw new UnterminatedStringError(value, range)
+      }
+      case "'":
+        throw new NotAllowedSingleQuoteError(range)
       }
       throw new UnexpectedCharacterError(char, range)
     },

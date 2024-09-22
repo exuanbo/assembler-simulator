@@ -189,12 +189,12 @@ export class Controller {
 
   private stepFrom = (lastStepResult: StepResult | null): void => {
     switch (true) {
-      case store.getState(selectEditorInput) !== store.getState(selectAssembledSource):
-        store.dispatch(setEditorMessage(sourceChangedMessage))
-        break
-      case store.getState(selectEditorMessage) === sourceChangedMessage:
-        store.dispatch(clearEditorMessage())
-        break
+    case store.getState(selectEditorInput) !== store.getState(selectAssembledSource):
+      store.dispatch(setEditorMessage(sourceChangedMessage))
+      break
+    case store.getState(selectEditorMessage) === sourceChangedMessage:
+      store.dispatch(clearEditorMessage())
+      break
     }
     const { fault, halted } = store.getState(selectCpuStatus)
     if (fault !== null || halted) {
@@ -286,9 +286,9 @@ export class Controller {
           }
           store.dispatch(setSuspended(true))
           switch (expectedInputPort) {
-            case InputPort.SimulatedKeyboard:
-              store.dispatch(setWaitingForKeyboardInput(true))
-              break
+          case InputPort.SimulatedKeyboard:
+            store.dispatch(setWaitingForKeyboardInput(true))
+            break
           }
           this.unsubscribeSetSuspended = observe(
             store.onAction(setSuspended).pipe(first()),
@@ -316,10 +316,10 @@ export class Controller {
         const { content: outputDataContent, port: outputPort } = outputData
         const ioDeviceName = call(() => {
           switch (outputPort) {
-            case OutputPort.TrafficLights:
-              return IoDeviceName.TrafficLights
-            case OutputPort.SevenSegmentDisplay:
-              return IoDeviceName.SevenSegmentDisplay
+          case OutputPort.TrafficLights:
+            return IoDeviceName.TrafficLights
+          case OutputPort.SevenSegmentDisplay:
+            return IoDeviceName.SevenSegmentDisplay
           }
         })
         if (ioDeviceName !== undefined) {

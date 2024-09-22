@@ -68,17 +68,17 @@ export interface Operand<T extends OperandType = OperandType> extends BaseNode {
 const createOperand = <T extends OperandType>(type: T, token: Token): Operand<T> => {
   const code = call((): Operand['code'] => {
     switch (type) {
-      case OperandType.Number:
-      case OperandType.Address:
-        return hexToDec(token.value)
-      case OperandType.Register:
-      case OperandType.RegisterAddress:
-        invariant(isIn(token.value, GeneralPurposeRegister))
-        return GeneralPurposeRegister[token.value]
-      case OperandType.String:
-        return stringToAscii(token.value)
-      case OperandType.Label:
-        return undefined
+    case OperandType.Number:
+    case OperandType.Address:
+      return hexToDec(token.value)
+    case OperandType.Register:
+    case OperandType.RegisterAddress:
+      invariant(isIn(token.value, GeneralPurposeRegister))
+      return GeneralPurposeRegister[token.value]
+    case OperandType.String:
+      return stringToAscii(token.value)
+    case OperandType.Label:
+      return undefined
     }
   })
   return {
@@ -177,47 +177,47 @@ const parseSingleOperand = (tokenizer: Tokenizer) =>
       (<OperandType[]>expectedTypes).includes(type)
 
     switch (token.type) {
-      case TokenType.Digits:
-        if (isExpectedType((t = OperandType.Number))) {
+    case TokenType.Digits:
+      if (isExpectedType((t = OperandType.Number))) {
+        return createOperand(t, validateNumber(token))
+      }
+      break
+    case TokenType.Register:
+      if (isExpectedType((t = OperandType.Register))) {
+        return createOperand(t, token)
+      }
+      break
+    case TokenType.Address:
+      if (isExpectedType(OperandType.Address) || isExpectedType(OperandType.RegisterAddress)) {
+        if (isExpectedType((t = OperandType.Address))) {
+          if (NUMBER_REGEXP.test(token.value)) {
+            return createOperand(t, validateNumber(token))
+          }
+        }
+        if (isExpectedType((t = OperandType.RegisterAddress))) {
+          if (REGISTER_REGEXP.test(token.value)) {
+            return createOperand(t, token)
+          }
+        }
+        throw new AddressError(token)
+      }
+      break
+    case TokenType.String:
+      if (isExpectedType((t = OperandType.String))) {
+        return createOperand(t, validateString(token))
+      }
+      break
+    case TokenType.Unknown:
+      switch (true) {
+      case isExpectedType((t = OperandType.Number)):
+        if (NUMBER_REGEXP.test(token.value)) {
           return createOperand(t, validateNumber(token))
         }
         break
-      case TokenType.Register:
-        if (isExpectedType((t = OperandType.Register))) {
-          return createOperand(t, token)
-        }
-        break
-      case TokenType.Address:
-        if (isExpectedType(OperandType.Address) || isExpectedType(OperandType.RegisterAddress)) {
-          if (isExpectedType((t = OperandType.Address))) {
-            if (NUMBER_REGEXP.test(token.value)) {
-              return createOperand(t, validateNumber(token))
-            }
-          }
-          if (isExpectedType((t = OperandType.RegisterAddress))) {
-            if (REGISTER_REGEXP.test(token.value)) {
-              return createOperand(t, token)
-            }
-          }
-          throw new AddressError(token)
-        }
-        break
-      case TokenType.String:
-        if (isExpectedType((t = OperandType.String))) {
-          return createOperand(t, validateString(token))
-        }
-        break
-      case TokenType.Unknown:
-        switch (true) {
-          case isExpectedType((t = OperandType.Number)):
-            if (NUMBER_REGEXP.test(token.value)) {
-              return createOperand(t, validateNumber(token))
-            }
-            break
-          case isExpectedType((t = OperandType.Label)):
-            return createOperand(t, validateLabel(token))
-        }
-        break
+      case isExpectedType((t = OperandType.Label)):
+        return createOperand(t, validateLabel(token))
+      }
+      break
     }
     throw new OperandTypeError(token, expectedTypes)
   }
@@ -269,280 +269,280 @@ const parseStatement = (tokenizer: Tokenizer): Statement => {
   const operandCount = MnemonicToOperandCountMap[mnemonic]
 
   switch (operandCount) {
-    case 0: {
-      setOpcode(Opcode[<MnemonicWithNoOperand>mnemonic])
+  case 0: {
+    setOpcode(Opcode[<MnemonicWithNoOperand>mnemonic])
+    break
+  }
+  case 1: {
+    let opcode, operand
+    const parseOperand = parseSingleOperand(tokenizer)
+
+    switch (<MnemonicWithOneOperand>mnemonic) {
+    case Mnemonic.INC:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.INC_REG
+      break
+    case Mnemonic.DEC:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.DEC_REG
+      break
+    case Mnemonic.NOT:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.NOT_REG
+      break
+    case Mnemonic.ROL:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.ROL_REG
+      break
+    case Mnemonic.ROR:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.ROR_REG
+      break
+    case Mnemonic.SHL:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.SHL_REG
+      break
+    case Mnemonic.SHR:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.SHR_REG
+      break
+    case Mnemonic.JMP:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JMP
+      break
+    case Mnemonic.JZ:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JZ
+      break
+    case Mnemonic.JNZ:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JNZ
+      break
+    case Mnemonic.JS:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JS
+      break
+    case Mnemonic.JNS:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JNS
+      break
+    case Mnemonic.JO:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JO
+      break
+    case Mnemonic.JNO:
+      operand = parseOperand(OperandType.Label)
+      opcode = Opcode.JNO
+      break
+    case Mnemonic.PUSH:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.PUSH_FROM_REG
+      break
+    case Mnemonic.POP:
+      operand = parseOperand(OperandType.Register)
+      opcode = Opcode.POP_TO_REG
+      break
+    case Mnemonic.CALL:
+      operand = parseOperand(OperandType.Number)
+      opcode = Opcode.CALL_ADDR
+      break
+    case Mnemonic.INT:
+      operand = parseOperand(OperandType.Number)
+      opcode = Opcode.INT_ADDR
+      break
+    case Mnemonic.IN:
+      operand = parseOperand(OperandType.Number)
+      opcode = Opcode.IN_FROM_PORT_TO_AL
+      break
+    case Mnemonic.OUT:
+      operand = parseOperand(OperandType.Number)
+      opcode = Opcode.OUT_FROM_AL_TO_PORT
+      break
+    case Mnemonic.ORG:
+      operand = parseOperand(OperandType.Number)
+      opcode = null
+      break
+    case Mnemonic.DB:
+      operand = parseOperand(OperandType.Number, OperandType.String)
+      opcode = null
       break
     }
-    case 1: {
-      let opcode, operand
-      const parseOperand = parseSingleOperand(tokenizer)
 
-      switch (<MnemonicWithOneOperand>mnemonic) {
-        case Mnemonic.INC:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.INC_REG
-          break
-        case Mnemonic.DEC:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.DEC_REG
-          break
-        case Mnemonic.NOT:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.NOT_REG
-          break
-        case Mnemonic.ROL:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.ROL_REG
-          break
-        case Mnemonic.ROR:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.ROR_REG
-          break
-        case Mnemonic.SHL:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.SHL_REG
-          break
-        case Mnemonic.SHR:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.SHR_REG
-          break
-        case Mnemonic.JMP:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JMP
-          break
-        case Mnemonic.JZ:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JZ
-          break
-        case Mnemonic.JNZ:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JNZ
-          break
-        case Mnemonic.JS:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JS
-          break
-        case Mnemonic.JNS:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JNS
-          break
-        case Mnemonic.JO:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JO
-          break
-        case Mnemonic.JNO:
-          operand = parseOperand(OperandType.Label)
-          opcode = Opcode.JNO
-          break
-        case Mnemonic.PUSH:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.PUSH_FROM_REG
-          break
-        case Mnemonic.POP:
-          operand = parseOperand(OperandType.Register)
-          opcode = Opcode.POP_TO_REG
-          break
-        case Mnemonic.CALL:
-          operand = parseOperand(OperandType.Number)
-          opcode = Opcode.CALL_ADDR
-          break
-        case Mnemonic.INT:
-          operand = parseOperand(OperandType.Number)
-          opcode = Opcode.INT_ADDR
-          break
-        case Mnemonic.IN:
-          operand = parseOperand(OperandType.Number)
-          opcode = Opcode.IN_FROM_PORT_TO_AL
-          break
-        case Mnemonic.OUT:
-          operand = parseOperand(OperandType.Number)
-          opcode = Opcode.OUT_FROM_AL_TO_PORT
-          break
-        case Mnemonic.ORG:
-          operand = parseOperand(OperandType.Number)
-          opcode = null
-          break
-        case Mnemonic.DB:
-          operand = parseOperand(OperandType.Number, OperandType.String)
-          opcode = null
-          break
+    setOpcode(opcode)
+    setOperands(operand)
+    break
+  }
+  case 2: {
+    let opcode, firstOperand, secondOperand
+    const parseOperands = parseDoubleOperands(tokenizer)
+
+    switch (<MnemonicWithTwoOperands>mnemonic) {
+    case Mnemonic.ADD:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.ADD_REG_TO_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.ADD_IMM_TO_REG
+        break
       }
-
-      setOpcode(opcode)
-      setOperands(operand)
       break
-    }
-    case 2: {
-      let opcode, firstOperand, secondOperand
-      const parseOperands = parseDoubleOperands(tokenizer)
-
-      switch (<MnemonicWithTwoOperands>mnemonic) {
-        case Mnemonic.ADD:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.ADD_REG_TO_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.ADD_IMM_TO_REG
-              break
-          }
-          break
-        case Mnemonic.SUB:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.SUB_REG_FROM_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.SUB_IMM_FROM_REG
-              break
-          }
-          break
-        case Mnemonic.MUL:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.MUL_REG_BY_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.MUL_REG_BY_IMM
-              break
-          }
-          break
-        case Mnemonic.DIV:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.DIV_REG_BY_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.DIV_REG_BY_IMM
-              break
-          }
-          break
-        case Mnemonic.MOD:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.MOD_REG_BY_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.MOD_REG_BY_IMM
-              break
-          }
-          break
-        case Mnemonic.AND:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.AND_REG_WITH_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.AND_REG_WITH_IMM
-              break
-          }
-          break
-        case Mnemonic.OR:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.OR_REG_WITH_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.OR_REG_WITH_IMM
-              break
-          }
-          break
-        case Mnemonic.XOR:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.XOR_REG_WITH_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.XOR_REG_WITH_IMM
-              break
-          }
-          break
-        case Mnemonic.MOV:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Number],
-            [OperandType.Register, OperandType.Address],
-            [OperandType.Address, OperandType.Register],
-            [OperandType.Register, OperandType.RegisterAddress],
-            [OperandType.RegisterAddress, OperandType.Register],
-          ])
-          switch (firstOperand.type) {
-            case OperandType.Register:
-              invariant(secondOperand.type !== OperandType.Register)
-              switch (secondOperand.type) {
-                case OperandType.Number:
-                  opcode = Opcode.MOV_IMM_TO_REG
-                  break
-                case OperandType.Address:
-                  opcode = Opcode.MOV_VAL_FROM_ADDR_TO_REG
-                  break
-                case OperandType.RegisterAddress:
-                  opcode = Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG
-                  break
-              }
-              break
-            case OperandType.Address:
-              opcode = Opcode.MOV_REG_TO_ADDR
-              break
-            case OperandType.RegisterAddress:
-              opcode = Opcode.MOV_REG_TO_REG_ADDR
-          }
-          break
-        case Mnemonic.CMP:
-          ;[firstOperand, secondOperand] = parseOperands([
-            [OperandType.Register, OperandType.Register],
-            [OperandType.Register, OperandType.Number],
-            [OperandType.Register, OperandType.Address],
-          ])
-          switch (secondOperand.type) {
-            case OperandType.Register:
-              opcode = Opcode.CMP_REG_WITH_REG
-              break
-            case OperandType.Number:
-              opcode = Opcode.CMP_REG_WITH_IMM
-              break
-            case OperandType.Address:
-              opcode = Opcode.CMP_REG_WITH_VAL_FROM_ADDR
-              break
-          }
-          break
+    case Mnemonic.SUB:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.SUB_REG_FROM_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.SUB_IMM_FROM_REG
+        break
       }
-
-      setOpcode(opcode)
-      setOperands(firstOperand, secondOperand)
+      break
+    case Mnemonic.MUL:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.MUL_REG_BY_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.MUL_REG_BY_IMM
+        break
+      }
+      break
+    case Mnemonic.DIV:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.DIV_REG_BY_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.DIV_REG_BY_IMM
+        break
+      }
+      break
+    case Mnemonic.MOD:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.MOD_REG_BY_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.MOD_REG_BY_IMM
+        break
+      }
+      break
+    case Mnemonic.AND:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.AND_REG_WITH_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.AND_REG_WITH_IMM
+        break
+      }
+      break
+    case Mnemonic.OR:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.OR_REG_WITH_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.OR_REG_WITH_IMM
+        break
+      }
+      break
+    case Mnemonic.XOR:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.XOR_REG_WITH_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.XOR_REG_WITH_IMM
+        break
+      }
+      break
+    case Mnemonic.MOV:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Number],
+        [OperandType.Register, OperandType.Address],
+        [OperandType.Address, OperandType.Register],
+        [OperandType.Register, OperandType.RegisterAddress],
+        [OperandType.RegisterAddress, OperandType.Register],
+      ])
+      switch (firstOperand.type) {
+      case OperandType.Register:
+        invariant(secondOperand.type !== OperandType.Register)
+        switch (secondOperand.type) {
+        case OperandType.Number:
+          opcode = Opcode.MOV_IMM_TO_REG
+          break
+        case OperandType.Address:
+          opcode = Opcode.MOV_VAL_FROM_ADDR_TO_REG
+          break
+        case OperandType.RegisterAddress:
+          opcode = Opcode.MOV_VAL_FROM_REG_ADDR_TO_REG
+          break
+        }
+        break
+      case OperandType.Address:
+        opcode = Opcode.MOV_REG_TO_ADDR
+        break
+      case OperandType.RegisterAddress:
+        opcode = Opcode.MOV_REG_TO_REG_ADDR
+      }
+      break
+    case Mnemonic.CMP:
+      ;[firstOperand, secondOperand] = parseOperands([
+        [OperandType.Register, OperandType.Register],
+        [OperandType.Register, OperandType.Number],
+        [OperandType.Register, OperandType.Address],
+      ])
+      switch (secondOperand.type) {
+      case OperandType.Register:
+        opcode = Opcode.CMP_REG_WITH_REG
+        break
+      case OperandType.Number:
+        opcode = Opcode.CMP_REG_WITH_IMM
+        break
+      case OperandType.Address:
+        opcode = Opcode.CMP_REG_WITH_VAL_FROM_ADDR
+        break
+      }
       break
     }
+
+    setOpcode(opcode)
+    setOperands(firstOperand, secondOperand)
+    break
+  }
   }
 
   return createStatement(label, instruction, operands)
