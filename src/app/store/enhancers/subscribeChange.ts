@@ -16,7 +16,8 @@ export const subscribeChange = injectStoreExtension<{ subscribeChange: Subscribe
       snapshot = store.getState()
       try {
         return store.dispatch(action)
-      } finally {
+      }
+      finally {
         snapshot = NIL
       }
     }

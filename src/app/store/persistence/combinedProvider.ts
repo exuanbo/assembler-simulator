@@ -4,11 +4,10 @@ import type { PersistenceProvider, PersistenceProviderCreator, PersistenceValida
 
 const defaultProviderCreators = [createLocalStorageProvider, createQueryParamProvider]
 
-export const createCombinedProvider =
-  <State>(
-    combine: (a: State, b: State) => State,
-    providerCreators: PersistenceProviderCreator[] = defaultProviderCreators,
-  ) =>
+export const createCombinedProvider = <State>(
+  combine: (a: State, b: State) => State,
+  providerCreators: PersistenceProviderCreator[] = defaultProviderCreators,
+) =>
   (validate: PersistenceValidator<State>, fallback: State): PersistenceProvider<State> => {
     const providers = providerCreators.map((createProvider) => createProvider(validate, fallback))
     return {

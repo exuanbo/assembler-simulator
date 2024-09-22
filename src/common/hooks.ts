@@ -52,9 +52,9 @@ export const useOutsideClick = <T extends Element = Element>(
     }
     const handleClick = (event: MouseEvent): void => {
       if (
-        event.target instanceof Element &&
-        event.target !== current &&
-        !current.contains(event.target)
+        event.target instanceof Element
+        && event.target !== current
+        && !current.contains(event.target)
       ) {
         handler(event)
       }
@@ -89,7 +89,8 @@ export const useHover = <T extends Element = Element>(
       if (delay === undefined) {
         handler(/* isHovered: */ true)
         mutableState.isHovered = true
-      } else {
+      }
+      else {
         mutableState.timeoutId = window.setTimeout(() => {
           handler(/* isHovered: */ true)
           mutableState.isHovered = true

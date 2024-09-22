@@ -59,7 +59,7 @@ export const ioSlice = createSlice({
   name: 'io',
   initialState,
   reducers: {
-    setInputData: (state, action: PayloadAction<{ content: number; port: InputPort }>) => {
+    setInputData: (state, action: PayloadAction<{ content: number, port: InputPort }>) => {
       const { content, port } = action.payload
       state.inputSignals.data.content = content
       state.inputSignals.data.port = port
@@ -81,7 +81,7 @@ export const ioSlice = createSlice({
       const memoryData = action.payload
       state.devices[IoDeviceName.VisualDisplayUnit].data = getVduDataFrom(memoryData)
     },
-    setDeviceData: (state, action: PayloadAction<{ name: IoDeviceName; data: number }>) => {
+    setDeviceData: (state, action: PayloadAction<{ name: IoDeviceName, data: number }>) => {
       const { name, data } = action.payload
       state.devices[name].data = decTo8bitBinDigits(data)
     },

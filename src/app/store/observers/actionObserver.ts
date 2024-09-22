@@ -18,8 +18,7 @@ interface ActionObserver {
   enhancer: StoreEnhancer<{ onAction: ObserveAction }>
 }
 
-const matchType =
-  <Payload>(actionCreator: PayloadActionCreator<Payload>) =>
+const matchType = <Payload>(actionCreator: PayloadActionCreator<Payload>) =>
   (action: Action): action is PayloadAction<Payload> =>
     action.type === actionCreator.type
 

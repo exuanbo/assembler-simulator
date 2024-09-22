@@ -32,9 +32,9 @@ const highlightLineField = StateField.define<DecorationSet>({
     const updatedDecorations = reduceRangeSet(
       decorations,
       (resultDecorations, decoration, decorationFrom) => {
-        const hasNewOverlappedSelection =
-          transaction.selection !== undefined &&
-          hasNonEmptySelectionAtLine(
+        const hasNewOverlappedSelection
+          = transaction.selection !== undefined
+          && hasNonEmptySelectionAtLine(
             transaction.state.doc.lineAt(decorationFrom),
             transaction.selection.ranges,
           )
@@ -44,9 +44,9 @@ const highlightLineField = StateField.define<DecorationSet>({
         return decoration.eq(expectedLineDecoration)
           ? resultDecorations
           : resultDecorations.update({
-              add: [expectedLineDecoration.range(decorationFrom)],
-              filter: (from) => from !== decorationFrom,
-            })
+            add: [expectedLineDecoration.range(decorationFrom)],
+            filter: (from) => from !== decorationFrom,
+          })
       },
       decorations,
     )

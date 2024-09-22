@@ -17,8 +17,8 @@ const mergeRec = (target: unknown, source: PlainObject): PlainObject => {
     const assignTargetProperty = (key: string | symbol): void => {
       const isKeySymbol = typeof key === 'symbol'
       if (
-        (!isKeySymbol && !sourcePropertyNames.includes(key)) ||
-        (isKeySymbol && !sourcePropertySymbols.includes(key))
+        (!isKeySymbol && !sourcePropertyNames.includes(key))
+        || (isKeySymbol && !sourcePropertySymbols.includes(key))
       ) {
         Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(target, key)!)
       }
@@ -35,7 +35,8 @@ const mergeRec = (target: unknown, source: PlainObject): PlainObject => {
         ...Object.getOwnPropertyDescriptor(source, key),
         value: mergeRec(targetPropertyValue, sourcePropertyValue),
       })
-    } else {
+    }
+    else {
       Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(source, key)!)
     }
   }

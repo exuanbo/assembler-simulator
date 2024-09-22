@@ -59,7 +59,8 @@ export const parseString = (str: string): string => parseStringRecursively(str.r
 const parseStringRecursively = (str: string): string => {
   try {
     return JSON.parse(str)
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof SyntaxError) {
       const charIndex = Number(error.message.split(' ').slice(-1)[0])
       // invalid escape character or number
@@ -118,19 +119,16 @@ export const noop = (): void => {}
 
 export const call = <T>(fn: () => T): T => fn()
 
-export const ary =
-  <T extends unknown[], R>(fn: (...args: T) => R, arity: number) =>
+export const ary = <T extends unknown[], R>(fn: (...args: T) => R, arity: number) =>
   (...args: T): R =>
     fn(...(<T>args.slice(0, arity)))
 
-export const curryRight2 =
-  <T1, T2, R>(fn: (arg1: T1, arg2: T2) => R) =>
+export const curryRight2 = <T1, T2, R>(fn: (arg1: T1, arg2: T2) => R) =>
   (arg2: T2) =>
-  (arg1: T1): R =>
-    fn(arg1, arg2)
+    (arg1: T1): R =>
+      fn(arg1, arg2)
 
-export const pipe =
-  <T>(...fns: ((value: T) => T)[]) =>
+export const pipe = <T>(...fns: ((value: T) => T)[]) =>
   (value: T): T =>
     fns.reduce((acc, fn) => fn(acc), value)
 
@@ -148,7 +146,8 @@ export const throttle = <T extends unknown[]>(
     if (lastTime === undefined || currentTime - lastTime >= wait) {
       fn(...args)
       lastTime = currentTime
-    } else {
+    }
+    else {
       queuedTimeoutId = window.setTimeout(
         () => {
           invokeFn(...args)

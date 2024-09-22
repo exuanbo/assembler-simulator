@@ -42,7 +42,8 @@ describe('cpu', () => {
       })
       try {
         step(memoryData, initialRegisters)
-      } catch (error) {
+      }
+      catch (error) {
         expect(error).toBeInstanceOf(RuntimeError)
       }
       expect.assertions(1)

@@ -18,7 +18,8 @@ export const classNames = (...items: ClassItem[]): string => {
     if (typeof item === 'string') {
       className && (className += ' ')
       className += item
-    } else {
+    }
+    else {
       for (const key in item) {
         if (item[key]) {
           className && (className += ' ')

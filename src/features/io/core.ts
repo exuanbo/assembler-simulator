@@ -11,13 +11,13 @@ export enum InputPort {
 
 export type InputData =
   | {
-      content: number
-      port: InputPort
-    }
+    content: number
+    port: InputPort
+  }
   | {
-      content: null
-      port: null
-    }
+    content: null
+    port: null
+  }
 
 export interface InputSignals {
   data: InputData

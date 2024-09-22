@@ -15,7 +15,8 @@ export const exceptionSlice = createSlice({
       prepare: (exception: unknown) => {
         if (exception instanceof Error) {
           return { payload: errorToPlainObject(exception) }
-        } else {
+        }
+        else {
           const error = new Error(`Uncaught ${JSON.stringify(exception)}`)
           return { payload: errorToPlainObject(error) }
         }

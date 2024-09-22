@@ -71,17 +71,17 @@ describe('merge', () => {
     expect(res).toEqual({ nested: { a: 4 } }) // not linked
   })
   test('1. works with multiple levels | 2. overwrites entire object with null', () => {
-    const origin = { body: '', head: null, toes: { big: true }, fingers: { '12': false } }
+    const origin = { body: '', head: null, toes: { big: true }, fingers: { 12: false } }
     const target = { body: {}, head: {}, toes: {}, fingers: null }
     const res = merge(origin, target)
     expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
   })
   test('origin and target are not AsAny', () => {
-    const origin = { body: '', head: null, toes: { big: true }, fingers: { '12': false } }
+    const origin = { body: '', head: null, toes: { big: true }, fingers: { 12: false } }
     const target = { body: {}, head: {}, toes: {}, fingers: null }
     const res = merge(origin, target)
     expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
-    expect(origin).toEqual({ body: '', head: null, toes: { big: true }, fingers: { '12': false } })
+    expect(origin).toEqual({ body: '', head: null, toes: { big: true }, fingers: { 12: false } })
     expect(target).toEqual({ body: {}, head: {}, toes: {}, fingers: null })
     origin.body = 'a'
     const originAsAny: any = origin
@@ -94,7 +94,7 @@ describe('merge', () => {
     targetAsAny.toes = 'b'
     targetAsAny.fingers = 'b'
     expect(res).toEqual({ body: {}, head: {}, toes: { big: true }, fingers: null })
-    expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { '12': 'a' } })
+    expect(originAsAny).toEqual({ body: 'a', head: 'a', toes: { big: 'a' }, fingers: { 12: 'a' } })
     expect(targetAsAny).toEqual({ body: 'b', head: 'b', toes: 'b', fingers: 'b' })
   })
   test('Overwrite arrays', () => {

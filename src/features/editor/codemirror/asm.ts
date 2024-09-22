@@ -20,7 +20,7 @@ const TokenRegExp = {
   REGISTER:           /^[a-dA-D][lL]\b/,
   STRING:             /^"(?:(?:[^\\]|\\.)*?"|.*)/,
   UNKNOWN:            /^[^\s;:,["]+/,
-  NON_WHITESPACE:     /^\S+/
+  NON_WHITESPACE:     /^\S+/,
 } as const
 
 interface State {
@@ -76,7 +76,8 @@ const asmLanguage = StreamLanguage.define<State>({
         return 'labelName'
       }
       state.operandsLeft = 0
-    } else if (stream.match(TokenRegExp.UNKNOWN)) {
+    }
+    else if (stream.match(TokenRegExp.UNKNOWN)) {
       const upperCaseToken = stream.current().toUpperCase()
       if (isIn(upperCaseToken, Mnemonic)) {
         const mnemonic = upperCaseToken
@@ -86,7 +87,8 @@ const asmLanguage = StreamLanguage.define<State>({
         state.operandsLeft = MnemonicToOperandCountMap[mnemonic]
         state.expectingLabel = mnemonic.startsWith('J')
         return 'keyword'
-      } else {
+      }
+      else {
         return null
       }
     }

@@ -215,12 +215,14 @@ export class Controller {
           },
           store.getState(selectInputSignals),
         )
-      } catch (exception) {
+      }
+      catch (exception) {
         this.stopIfRunning()
         if (exception instanceof RuntimeError) {
           const runtimeErrorObject = exception.toPlainObject()
           store.dispatch(setCpuFault(runtimeErrorObject))
-        } else {
+        }
+        else {
           store.dispatch(setException(exception))
         }
         resolve(null)
@@ -252,7 +254,8 @@ export class Controller {
             if (!this.isInterruptIntervalSet) {
               this.setInterruptInterval()
             }
-          } else {
+          }
+          else {
             if (this.isInterruptIntervalSet) {
               this.clearInterruptInterval()
             }
@@ -298,11 +301,13 @@ export class Controller {
               this.step()
             },
           )
-        } else {
+        }
+        else {
           // wrong port
           store.dispatch(clearInputData())
         }
-      } else if (store.getState(selectIsWaitingForInput)) {
+      }
+      else if (store.getState(selectIsWaitingForInput)) {
         // `step` called from actionListener
         store.dispatch(setWaitingForInput(false))
         store.dispatch(clearInputData())

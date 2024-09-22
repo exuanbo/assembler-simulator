@@ -109,7 +109,8 @@ const createStatement = (
     if (operand.code !== undefined) {
       if (typeof operand.code === 'number') {
         codes.push(operand.code)
-      } else {
+      }
+      else {
         codes.push(...operand.code)
       }
     }
@@ -167,8 +168,7 @@ const validateString = (token: Token): Token => {
 const NUMBER_REGEXP = /^[\dA-F]+$/
 const REGISTER_REGEXP = /^[A-D]L$/
 
-const parseSingleOperand =
-  (tokenizer: Tokenizer) =>
+const parseSingleOperand = (tokenizer: Tokenizer) =>
   <T extends OperandType>(...expectedTypes: T[]): Operand<T> => {
     const token = tokenizer.consume()
     let t: OperandType
@@ -222,8 +222,7 @@ const parseSingleOperand =
     throw new OperandTypeError(token, expectedTypes)
   }
 
-const parseDoubleOperands =
-  (tokenizer: Tokenizer) =>
+const parseDoubleOperands = (tokenizer: Tokenizer) =>
   <T1 extends OperandType, T2 extends OperandType>(
     expectedTypePairs: Array<[firstOperandType: T1, secondOperandType: T2]>,
   ): [firstOperand: Operand<T1>, secondOperand: Operand<T2>] => {
@@ -559,7 +558,8 @@ export const parse = (source: string): Statement[] => {
       if (statement.instruction.mnemonic === Mnemonic.END) {
         break
       }
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof EndOfTokenStreamError) {
         throw new MissingEndError()
       }
@@ -567,8 +567,8 @@ export const parse = (source: string): Statement[] => {
     }
   }
   if (
-    statements.length > 0 &&
-    statements[statements.length - 1].instruction.mnemonic !== Mnemonic.END
+    statements.length > 0
+    && statements[statements.length - 1].instruction.mnemonic !== Mnemonic.END
   ) {
     throw new MissingEndError()
   }

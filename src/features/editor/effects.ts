@@ -152,7 +152,8 @@ const syncBreakpointsToState = defineViewEffect((view) => {
         )
         store.dispatch(setBreakpoints(breakpoints))
       }
-    } else {
+    }
+    else {
       // only consider the first transaction
       const transaction = update.transactions[0] as Transaction | undefined
       if (!transaction || isSyncFromState(transaction)) {
@@ -174,8 +175,8 @@ const initialSyncBreakpointsFromState = defineViewEffect((view) => {
   // persisted state might not be in sync with codemirror
   const validBreakpoints = breakpoints.filter(
     (lineLoc) =>
-      lineLoc.to <= view.state.doc.length &&
-      lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from)),
+      lineLoc.to <= view.state.doc.length
+      && lineRangesEqual(lineLoc, lineLocAt(view.state.doc, lineLoc.from)),
   )
   if (validBreakpoints.length < breakpoints.length) {
     store.dispatch(setBreakpoints(validBreakpoints))

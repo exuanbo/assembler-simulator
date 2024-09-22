@@ -40,17 +40,22 @@ const ControlButtons: FC = () => {
     const isSuspended = useSelector(selectIsSuspended)
     return (
       <ControlButton disabled={isSuspended} onClick={controller.runOrStop}>
-        {isRunning ? (
-          <>
-            <Stop />
-            <span>Stop</span>
-          </>
-        ) : (
-          <>
-            <Play />
-            <span>Run{NO_BREAK_SPACE}</span>
-          </>
-        )}
+        {isRunning
+          ? (
+              <>
+                <Stop />
+                <span>Stop</span>
+              </>
+            )
+          : (
+              <>
+                <Play />
+                <span>
+                  Run
+                  {NO_BREAK_SPACE}
+                </span>
+              </>
+            )}
       </ControlButton>
     )
   }

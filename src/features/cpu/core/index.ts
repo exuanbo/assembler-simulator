@@ -261,8 +261,7 @@ export const step = (lastStepResult: StepResult, inputSignals: InputSignals): St
 
     /* ------------------------------------------------------------------------------------------ */
 
-    const shouldTrapHardwareInterrupt =
-      getInterruptSignal() && getSrFlag(StatusRegisterFlag.Interrupt)
+    const shouldTrapHardwareInterrupt = getInterruptSignal() && getSrFlag(StatusRegisterFlag.Interrupt)
 
     const opcode = shouldTrapHardwareInterrupt ? Opcode.INT_ADDR : loadFromMemory(getIp())
 

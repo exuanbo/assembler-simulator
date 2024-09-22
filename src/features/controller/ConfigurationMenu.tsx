@@ -59,11 +59,9 @@ const ClockSpeedMenu: FC = () => {
                     store.dispatch(setClockSpeed(ClockSpeed[clockSpeedOptionName]))
                   }}>
                   <MenuButton>
-                    {clockSpeed === ClockSpeed[clockSpeedOptionName] ? (
-                      <CheckMark />
-                    ) : (
-                      <span className="w-4" />
-                    )}
+                    {clockSpeed === ClockSpeed[clockSpeedOptionName]
+                      ? <CheckMark />
+                      : <span className="w-4" />}
                     <span>{clockSpeedOptionName}</span>
                   </MenuButton>
                 </MenuItem>
@@ -96,11 +94,9 @@ const TimerIntervalMenu: FC = () => {
                     store.dispatch(setTimerInterval(TimerInterval[timerIntervalOptionName]))
                   }}>
                   <MenuButton>
-                    {timerInterval === TimerInterval[timerIntervalOptionName] ? (
-                      <CheckMark />
-                    ) : (
-                      <span className="w-4" />
-                    )}
+                    {timerInterval === TimerInterval[timerIntervalOptionName]
+                      ? <CheckMark />
+                      : <span className="w-4" />}
                     <span>{timerIntervalOptionName}</span>
                   </MenuButton>
                 </MenuItem>

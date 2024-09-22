@@ -26,7 +26,8 @@ export const createQueryParamProvider: PersistenceProviderCreator = (validate, f
           if (validate(state)) {
             return state
           }
-        } catch {
+        }
+        catch {
           // ignore error
         }
       }

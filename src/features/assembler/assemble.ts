@@ -9,11 +9,13 @@ export const assemble = (source: string): void => {
   let assembleResult: AssembleResult
   try {
     assembleResult = assemblePure(source)
-  } catch (exception) {
+  }
+  catch (exception) {
     if (exception instanceof AssemblerError) {
       const assemblerErrorObject = exception.toPlainObject()
       store.dispatch(setAssemblerError(assemblerErrorObject))
-    } else {
+    }
+    else {
       store.dispatch(setException(exception))
       store.dispatch(resetAssemblerState())
     }

@@ -8,7 +8,7 @@ import { ClassName } from './classNames'
 import type { RangeSetUpdateFilter } from './rangeSet'
 
 export const WavyUnderlineEffect = StateEffect.define<{
-  range: Maybe<{ from: number; to: number }>
+  range: Maybe<{ from: number, to: number }>
   filter?: RangeSetUpdateFilter<Decoration>
 }>({
   map({ range: maybeRange, filter }, change) {

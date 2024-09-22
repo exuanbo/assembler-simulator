@@ -40,13 +40,15 @@ export const getSourceFrom = (map: Partial<AddressToStatementMap>): string[] => 
       // OperandType.Number
       if (typeof operand.code === 'number') {
         source[address] = operand.value
-      } else {
+      }
+      else {
         // OperandType.String
         operand.value.split('').forEach((char, charIndex) => {
           source[Number(address) + charIndex] = char
         })
       }
-    } else {
+    }
+    else {
       source[address] = instruction.mnemonic
       const nextAddress = Number(address) + 1
       operands.forEach((operand, operandIndex) => {

@@ -85,7 +85,8 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
       resetLeftChildWidth()
       window.clearTimeout(clickTimeoutIdRef.current)
       clickCountRef.current = 0
-    } else {
+    }
+    else {
       clickTimeoutIdRef.current = window.setTimeout(() => {
         clickCountRef.current = 0
       }, DOUBLE_CLICK_DELAY_MS)

@@ -36,7 +36,7 @@ export const editorSlice = createSlice({
       reducer: (state, action: PayloadAction<{ value: string }>) => {
         state.input = action.payload.value
       },
-      prepare: (payload: { value: string; isFromFile?: boolean }) => {
+      prepare: (payload: { value: string, isFromFile?: boolean }) => {
         const { value, isFromFile = false } = payload
         return {
           payload: { value, isFromFile },
@@ -53,7 +53,8 @@ export const editorSlice = createSlice({
       )
       if (targetIndex === -1) {
         state.breakpoints.push(targetLineLoc)
-      } else {
+      }
+      else {
         state.breakpoints.splice(targetIndex, 0, targetLineLoc)
       }
     },
@@ -91,5 +92,4 @@ export const {
   clearMessage: clearEditorMessage,
 } = editorSlice.actions
 
-export const { selectEditorInput, selectEditorBreakpoints, selectEditorMessage } =
-  editorSlice.selectors
+export const { selectEditorInput, selectEditorBreakpoints, selectEditorMessage } = editorSlice.selectors

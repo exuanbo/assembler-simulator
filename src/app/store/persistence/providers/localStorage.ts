@@ -15,7 +15,8 @@ export const createLocalStorageProvider: PersistenceProviderCreator = (validate,
             return state
           }
         }
-      } catch {
+      }
+      catch {
         // ignore error
       }
       return fallbackState
@@ -25,7 +26,8 @@ export const createLocalStorageProvider: PersistenceProviderCreator = (validate,
       try {
         const serializedState = JSON.stringify(state)
         localStorage.setItem(LOCAL_STORAGE_KEY, serializedState)
-      } catch {
+      }
+      catch {
         // ignore write error
       }
     },

@@ -16,8 +16,8 @@ const mergeSafeRec = <Target>(target: Target, source: unknown): Target => {
   const assignTargetProperty = (key: string | symbol): void => {
     const isKeySymbol = typeof key === 'symbol'
     if (
-      (!isKeySymbol && !sourcePropertyNames.includes(key)) ||
-      (isKeySymbol && !sourcePropertySymbols.includes(key))
+      (!isKeySymbol && !sourcePropertyNames.includes(key))
+      || (isKeySymbol && !sourcePropertySymbols.includes(key))
     ) {
       Object.defineProperty(result, key, Object.getOwnPropertyDescriptor(target, key)!)
     }
@@ -27,8 +27,8 @@ const mergeSafeRec = <Target>(target: Target, source: unknown): Target => {
   const assignSourceProperty = (key: string | symbol): void => {
     const isKeySymbol = typeof key === 'symbol'
     if (
-      (!isKeySymbol && targetPropertyNames.includes(key)) ||
-      (isKeySymbol && targetPropertySymbols.includes(key))
+      (!isKeySymbol && targetPropertyNames.includes(key))
+      || (isKeySymbol && targetPropertySymbols.includes(key))
     ) {
       const targetPropertyValue = target[key]
       const sourcePropertyValue: unknown = source[key]

@@ -34,7 +34,8 @@ const getLabelToAddressMap = (statements: Statement[]): LabelToAddressMap => {
     if (instruction.mnemonic === Mnemonic.ORG) {
       invariant(typeof firstOperand?.code === 'number')
       address = firstOperand.code
-    } else {
+    }
+    else {
       // label value has not been calculated yet
       address += codes.length + (firstOperand?.type === OperandType.Label ? 1 : 0)
       if (address > 0xff && statementIndex !== statementCount - 1) {

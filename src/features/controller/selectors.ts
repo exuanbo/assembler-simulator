@@ -11,9 +11,9 @@ export const selectCurrentStatementRange = createSelector(
   (address, addressToStatementMap, memoryData) => {
     const statement = addressToStatementMap[address]
     if (
-      statement &&
-      statement.codes.length &&
-      statement.codes.every((code, offset) => code === memoryData[address + offset])
+      statement
+      && statement.codes.length
+      && statement.codes.every((code, offset) => code === memoryData[address + offset])
     ) {
       return statement.range
     }
