@@ -15,9 +15,9 @@ const Anchor: FC<Props> = ({ href, className = DEFAULT_CLASSNAME, children }) =>
       href={href}
       {...(isExternal
         ? {
-          rel: 'noopener noreferrer',
-          target: '_blank',
-        }
+            rel: 'noopener noreferrer',
+            target: '_blank',
+          }
         : {})}>
       {children}
     </a>
