@@ -1,7 +1,7 @@
 // @ts-check
 
 import eslint from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
+import pluginStylistic from '@stylistic/eslint-plugin'
 import pluginReact from 'eslint-plugin-react'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
@@ -125,10 +125,11 @@ export default tseslint.config(
     },
   },
   {
-    name: 'stylistic',
-    ...stylistic.configs['recommended-flat'],
-    rules: {
-      ...stylistic.configs['recommended-flat'].rules,
+    name: 'exuanbo/stylistic',
+    plugins: {
+      '@stylistic': pluginStylistic,
+    },
+    rules: extendRules(pluginStylistic.configs['recommended-flat'].rules, {
       '@stylistic/arrow-parens': ['error', 'always'],
       '@stylistic/indent': ['error', 2, {
         SwitchCase: 0,
@@ -141,18 +142,55 @@ export default tseslint.config(
       '@stylistic/key-spacing': ['error', {
         mode: 'minimum',
       }],
+      '@stylistic/max-statements-per-line': ['error', {
+        max: 2,
+      }],
       '@stylistic/no-multi-spaces': ['error', {
         exceptions: {
           ObjectExpression: true,
           TSEnumMember: true,
         },
       }],
-      '@stylistic/quote-props': ['error', 'consistent-as-needed'],
       '@stylistic/quotes': ['error', 'single', {
         avoidEscape: true,
         allowTemplateLiterals: true,
       }],
       '@stylistic/yield-star-spacing': ['error', 'after'],
-    },
+    }),
   },
 )
+
+function extendRules(rules, record) {
+  return Object.entries(record).reduce(
+    (extendedRules, [name, entry]) =>
+      Object.assign(extendedRules, extendRule(name, entry)),
+    rules,
+  )
+
+  function extendRule(name, entry) {
+    if (!Array.isArray(entry)) {
+      return { [name]: entry }
+    }
+    const defaultEntry = rules[name]
+    if (!Array.isArray(defaultEntry)) {
+      return { [name]: entry }
+    }
+    const [, ...defaultOptions] = defaultEntry
+    const [level, ...options] = entry
+    const extendedOptions = options.map((option, i) => {
+      if (typeof option !== 'object') {
+        return option
+      }
+      const defaultOption = defaultOptions[i]
+      if (typeof defaultOption !== 'object') {
+        return option
+      }
+      return {
+        ...defaultOption,
+        ...option,
+      }
+    })
+    const extendedEntry = [level, ...extendedOptions]
+    return { [name]: extendedEntry }
+  }
+}
