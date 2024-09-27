@@ -19,22 +19,28 @@ type HasIdentifier<Values extends any[]> =
         : HasIdentifier<Rest>
     : false
 
+const some = Array.prototype.some
+
 export function hasIdentifier<Node extends AssemblyNode>(node: Node): node is WithIdentifier<Node> {
-  return Array.from(node.children).some(aux)
+  return some.call(node.children, aux)
 
   function aux(value: AssemblyNodeValue) {
     return (typeof value === 'object')
-      && ((value.type === AST.NodeType.Identifier)
-        || Array.from(value.children).some(aux))
+      && (
+        (value.type === AST.NodeType.Identifier)
+        || some.call(value.children, aux)
+      )
   }
 }
 
-export function getSize(node: AssemblyNode) {
+const reduce = Array.prototype.reduce<number>
+
+export function getSize(node: AssemblyNode): number {
   return aux(0, node)
 
-  function aux(acc: number, cur: AssemblyNodeValue): number {
+  function aux(acc: number, cur: AssemblyNodeValue) {
     return (typeof cur !== 'object')
       ? (acc + 1)
-      : Array.from(cur.children).reduce(aux, acc)
+      : reduce.call(cur.children, aux, acc)
   }
 }
