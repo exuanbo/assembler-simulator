@@ -29,7 +29,7 @@ export function createTokenStream(iter: Iterator<Token, void>): TokenStream {
         tokens.push(value)
       }
       const token = tokens[position]
-      return onToken?.(token), token
+      return (onToken?.(token), token)
     },
     hasMore() {
       const token = stream.peek()
@@ -41,7 +41,7 @@ export function createTokenStream(iter: Iterator<Token, void>): TokenStream {
         throw new ParserError(ErrorCode.UnexpectedEndOfInput, end.loc)
       }
       const token = tokens[position++]
-      return onToken?.(token), token
+      return (onToken?.(token), token)
     },
     expect(type) {
       const token = stream.peek()
