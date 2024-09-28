@@ -1,8 +1,9 @@
 export function parseHexNumber(text: string): number {
+  // TODO: explain in comment
   return Number('0x' + text)
 }
 
-const escapeMap: Record<string, string> = {
+const escapeChars: Record<string, string> = {
   '0': '\0',
   't': '\t',
   'n': '\n',
@@ -20,7 +21,7 @@ export function parseString(text: string): string {
     const char = text[i]
     if (char === '\\') {
       const nextChar = text[++i]
-      result += (escapeMap[nextChar] || nextChar)
+      result += (escapeChars[nextChar] || nextChar)
     }
     else {
       result += char
