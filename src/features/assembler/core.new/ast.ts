@@ -1,3 +1,5 @@
+import * as Type from 'ts-brand'
+
 import { invariant } from '@/common/utils/invariant'
 
 export interface Node {
@@ -256,7 +258,9 @@ export interface Org extends BaseDirective {
 }
 
 export interface Db extends BaseDirective {
-  children: [Immediate | StringLiteral]
+  children: [
+    value: Immediate | StringLiteral,
+  ]
   name: DirectiveName.DB
 }
 
@@ -272,15 +276,21 @@ export interface Register extends Node {
 
 export interface Identifier extends Node {
   type: NodeType.Identifier
-  children: [IdentifierValue]
+  children: [IdentifierName]
 }
 
-export type IdentifierValue = string
+export type IdentifierName = Type.Brand<string, 'IdentifierName'>
+
+export const IdentifierName = Type.make<IdentifierName>()
 
 export interface Immediate extends Node {
   type: NodeType.Immediate
-  children: [number]
+  children: [ImmediateValue]
 }
+
+export type ImmediateValue = Type.Brand<number, 'ImmediateValue'>
+
+export const ImmediateValue = Type.make<ImmediateValue>()
 
 export interface StringLiteral extends Node {
   type: NodeType.StringLiteral

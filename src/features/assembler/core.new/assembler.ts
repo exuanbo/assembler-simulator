@@ -166,11 +166,11 @@ class AssemblerImpl implements Assembler {
     }
   }
 
-  private processLabel({ children: [id] }: AST.Identifier): void {
+  private processLabel({ children: [name] }: AST.Identifier): void {
     const state = useAssemblerState()
     const context = useParserContext()
-    const label = context.labels.get(id)
-    invariant(label?.loc, `Label '${id}' is undefined`)
+    const label = context.labels.get(name)
+    invariant(label?.loc, `Label '${name}' is undefined`)
     label.address = state.address
   }
 
@@ -251,16 +251,17 @@ function unsafe_resolve(nodes: ResolvableNode[]): number[] {
   })
 }
 
-function resolveIdentifier({ children: [id], loc }: AST.Identifier): number {
+function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
   const state = useAssemblerState()
   const context = useParserContext()
-  const label = context.labels.get(id)
-  invariant(label, `Label '${id}' is not added`)
-  invariant(!Number.isNaN(label.address), `Label '${id}' is not processed`)
+  const label = context.labels.get(name)
+  invariant(label, `Label '${name}' is not added`)
+  invariant(!Number.isNaN(label.address), `Label '${name}' is not processed`)
   const distance = label.address - state.address
   if ((distance < -0x80) || (distance > 0x7f)) {
     throw new AssemblerError(ErrorCode.JumpOutOfRange, loc, { distance })
   }
+  // TODO: maybe use Uint8Array
   return unsign8(distance)
 }
 

@@ -25,7 +25,7 @@ export function hasIdentifier<Node extends AssemblyNode>(node: Node): node is Wi
   return some.call(node.children, aux)
 
   function aux(value: AssemblyNodeValue) {
-    return (typeof value === 'object')
+    return Object.hasOwn(value, 'type')
       && (
         (value.type === AST.NodeType.Identifier)
         || some.call(value.children, aux)
@@ -39,7 +39,7 @@ export function getSize(node: AssemblyNode): number {
   return aux(0, node)
 
   function aux(acc: number, cur: AssemblyNodeValue) {
-    return (typeof cur !== 'object')
+    return !Object.hasOwn(cur, 'children')
       ? (acc + 1)
       : reduce.call(cur.children, aux, acc)
   }

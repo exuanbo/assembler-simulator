@@ -19,5 +19,5 @@ function match(operand: AST.Operand, pattern: InstrSet.OperandPattern): boolean 
 function matchs(values: (AST.Operand | AST.OperandValue)[], patterns: InstrSet.OperandPattern[]) {
   return (values.length === patterns.length)
     && values.every((value, i) =>
-      (typeof value === 'object') && match(value, patterns[i]))
+      Object.hasOwn(value, 'type') && match(value, patterns[i]))
 }

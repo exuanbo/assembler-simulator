@@ -446,7 +446,9 @@ function parseDb(): AST.Db {
   const value = tryParsers([parseStringLiteral, parseImmediate])
   return {
     type: AST.NodeType.Directive,
-    children: [value],
+    children: [
+      value,
+    ],
     name: AST.DirectiveName.DB,
     loc: {
       start: token.loc.start,
@@ -491,11 +493,11 @@ const parseIdentifier = registerType((): AST.Identifier => {
   const token = stream.next((token) =>
     guard((token.type === TokenType.Identifier)
       || (token.type === TokenType.LabelIdentifier)))
-  const value = token.value.toUpperCase()
-  guard(Number.isNaN(parseInt(value)))
+  const name = token.value.toUpperCase()
+  guard(Number.isNaN(parseInt(name)))
   return {
     type: AST.NodeType.Identifier,
-    children: [value],
+    children: [AST.IdentifierName(name)],
     loc: token.loc,
   }
 }, AST.NodeType.Identifier)
@@ -509,7 +511,7 @@ const parseImmediate = registerType((): AST.Immediate => {
   guard(!Number.isNaN(value))
   return {
     type: AST.NodeType.Immediate,
-    children: [value],
+    children: [AST.ImmediateValue(value)],
     loc: token.loc,
   }
 }, AST.NodeType.Immediate)

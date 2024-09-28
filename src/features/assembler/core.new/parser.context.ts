@@ -9,7 +9,7 @@ export interface LabelInfo {
   loc: AST.SourceLocation | null
 }
 
-export type LabelMap = ReadonlyMap<AST.IdentifierValue, LabelInfo>
+export type LabelMap = ReadonlyMap<AST.IdentifierName, LabelInfo>
 
 export interface ParserContext {
   get labels(): LabelMap
@@ -22,43 +22,43 @@ export interface ParserContext {
 }
 
 export function createParserContext(): ParserContext {
-  const labelMap = new Map<AST.IdentifierValue, LabelInfo>()
+  const labelMap = new Map<AST.IdentifierName, LabelInfo>()
   const errors: ParserDiagnostic[] = []
 
   return {
     get labels() {
       return labelMap
     },
-    refLabel({ children: [id], loc }) {
-      const label = labelMap.get(id)
+    refLabel({ children: [name], loc }) {
+      const label = labelMap.get(name)
       if (label) {
         label.refs.push(loc)
       }
       else {
-        labelMap.set(id, { address: NaN, refs: [loc], loc: null })
+        labelMap.set(name, { address: NaN, refs: [loc], loc: null })
       }
     },
-    addLabel({ children: [id], loc }) {
-      const label = labelMap.get(id)
+    addLabel({ children: [name], loc }) {
+      const label = labelMap.get(name)
       if (label) {
         if (label.loc) {
-          errors.push(new ParserError(ErrorCode.DuplicateLabel, loc, { id }))
+          errors.push(new ParserError(ErrorCode.DuplicateLabel, loc, { name }))
         }
         label.loc = loc
       }
       else {
-        labelMap.set(id, { address: NaN, refs: [], loc })
+        labelMap.set(name, { address: NaN, refs: [], loc })
       }
     },
     checkLabels() {
-      labelMap.forEach((label, id) => {
+      labelMap.forEach((label, name) => {
         if (label.loc) {
           if (!label.refs.length) {
-            errors.push(new ParserWarning(ErrorCode.UnreferencedLabel, label.loc, { id }))
+            errors.push(new ParserWarning(ErrorCode.UnreferencedLabel, label.loc, { name }))
           }
         }
         else {
-          errors.push(new ParserError(ErrorCode.UndefinedLabel, label.refs, { id }))
+          errors.push(new ParserError(ErrorCode.UndefinedLabel, label.refs, { name }))
         }
       })
     },
