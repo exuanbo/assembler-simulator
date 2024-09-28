@@ -156,7 +156,7 @@ export const parseInstruction = registerType((): AST.Instruction => {
   }
 }, AST.NodeType.Instruction)
 
-function parseUnaryArithmetic(mnemonic: AST.UnaryArithmetic['mnemonic']): AST.UnaryArithmetic {
+function parseUnaryArithmetic(mnemonic: AST.Mnemonic.UnaryArithmetic): AST.UnaryArithmetic {
   const stream = useTokenStream()
   const token = stream.next()
   const destination = tryParsers([parseRegister])
@@ -174,7 +174,7 @@ function parseUnaryArithmetic(mnemonic: AST.UnaryArithmetic['mnemonic']): AST.Un
   }
 }
 
-function parseBinaryArithmetic(mnemonic: AST.BinaryArithmetic['mnemonic']): AST.BinaryArithmetic {
+function parseBinaryArithmetic(mnemonic: AST.Mnemonic.BinaryArithmetic): AST.BinaryArithmetic {
   const stream = useTokenStream()
   const token = stream.next()
   const destination = tryParsers([parseRegister])
@@ -195,7 +195,7 @@ function parseBinaryArithmetic(mnemonic: AST.BinaryArithmetic['mnemonic']): AST.
   }
 }
 
-function parseJump(mnemonic: AST.Jump['mnemonic']): AST.Jump {
+function parseJump(mnemonic: AST.Mnemonic.Jump): AST.Jump {
   const context = useParserContext()
   const stream = useTokenStream()
   const token = stream.next()
@@ -271,7 +271,7 @@ function parseCompare(): AST.Compare {
   }
 }
 
-function parseGeneralStack(mnemonic: AST.GeneralStack['mnemonic']): AST.GeneralStack {
+function parseGeneralStack(mnemonic: AST.Mnemonic.GeneralStack): AST.GeneralStack {
   const stream = useTokenStream()
   const token = stream.next()
   const register = tryParsers([parseRegister])
@@ -289,7 +289,7 @@ function parseGeneralStack(mnemonic: AST.GeneralStack['mnemonic']): AST.GeneralS
   }
 }
 
-function parseFlagStack(mnemonic: AST.FlagStack['mnemonic']): AST.FlagStack {
+function parseFlagStack(mnemonic: AST.Mnemonic.FlagStack): AST.FlagStack {
   const stream = useTokenStream()
   const token = stream.next()
   return {
@@ -368,7 +368,7 @@ function parseReturnInterrupt(): AST.ReturnInterrupt {
   }
 }
 
-function parseInputOutput(mnemonic: AST.InputOutput['mnemonic']): AST.InputOutput {
+function parseInputOutput(mnemonic: AST.Mnemonic.InputOutput): AST.InputOutput {
   const stream = useTokenStream()
   const token = stream.next()
   const port = tryParsers([parseImmediate])
@@ -386,7 +386,7 @@ function parseInputOutput(mnemonic: AST.InputOutput['mnemonic']): AST.InputOutpu
   }
 }
 
-function parseControl(mnemonic: AST.Control['mnemonic']): AST.Control {
+function parseControl(mnemonic: AST.Mnemonic.Control): AST.Control {
   const stream = useTokenStream()
   const token = stream.next()
   return {

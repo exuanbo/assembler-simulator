@@ -102,54 +102,32 @@ export type Arithmetic = UnaryArithmetic | BinaryArithmetic
 
 export interface UnaryArithmetic extends BaseInstruction {
   children: [
-    UnaryArithmetic['mnemonic'],
+    Mnemonic.UnaryArithmetic,
     destination: Register,
   ]
-  mnemonic:
-    | Mnemonic.INC
-    | Mnemonic.DEC
-    | Mnemonic.NOT
-    | Mnemonic.ROL
-    | Mnemonic.ROR
-    | Mnemonic.SHL
-    | Mnemonic.SHR
+  mnemonic: Mnemonic.UnaryArithmetic
 }
 
 export interface BinaryArithmetic extends BaseInstruction {
   children: [
-    BinaryArithmetic['mnemonic'],
+    Mnemonic.BinaryArithmetic,
     destination: Register,
     source: Register | Immediate,
   ]
-  mnemonic:
-    | Mnemonic.ADD
-    | Mnemonic.SUB
-    | Mnemonic.MUL
-    | Mnemonic.DIV
-    | Mnemonic.MOD
-    | Mnemonic.AND
-    | Mnemonic.OR
-    | Mnemonic.XOR
+  mnemonic: Mnemonic.BinaryArithmetic
 }
 
 export interface Jump extends BaseInstruction {
   children: [
-    Jump['mnemonic'],
+    Mnemonic.Jump,
     label: Identifier,
   ]
-  mnemonic:
-    | Mnemonic.JMP
-    | Mnemonic.JZ
-    | Mnemonic.JNZ
-    | Mnemonic.JS
-    | Mnemonic.JNS
-    | Mnemonic.JO
-    | Mnemonic.JNO
+  mnemonic: Mnemonic.Jump
 }
 
 export interface Move extends BaseInstruction {
   children: [
-    Move['mnemonic'],
+    Mnemonic.MOV,
     destination: Register | MemoryOperand,
     source: Immediate | MemoryOperand | Register,
   ]
@@ -158,46 +136,43 @@ export interface Move extends BaseInstruction {
 
 export interface Compare extends BaseInstruction {
   children: [
-    Compare['mnemonic'],
+    Mnemonic.CMP,
     left: Register,
     right: Register | Immediate | MemoryOperand,
   ]
   mnemonic: Mnemonic.CMP
-
 }
 
 export type Stack = GeneralStack | FlagStack
 
 export interface GeneralStack extends BaseInstruction {
   children: [
-    GeneralStack['mnemonic'],
+    Mnemonic.GeneralStack,
     register: Register,
   ]
-  mnemonic: Mnemonic.PUSH | Mnemonic.POP
-
+  mnemonic: Mnemonic.GeneralStack
 }
 
 export interface FlagStack extends BaseInstruction {
   children: [
-    FlagStack['mnemonic'],
+    Mnemonic.FlagStack,
   ]
-  mnemonic: Mnemonic.PUSHF | Mnemonic.POPF
+  mnemonic: Mnemonic.FlagStack
 }
 
 export type Procedure = CallProcedure | ReturnProcedure
 
 export interface CallProcedure extends BaseInstruction {
   children: [
-    CallProcedure['mnemonic'],
+    Mnemonic.CALL,
     address: Immediate,
   ]
   mnemonic: Mnemonic.CALL
-
 }
 
 export interface ReturnProcedure extends BaseInstruction {
   children: [
-    ReturnProcedure['mnemonic'],
+    Mnemonic.RET,
   ]
   mnemonic: Mnemonic.RET
 }
@@ -206,39 +181,32 @@ export type Interrupt = TrapInterrupt | ReturnInterrupt
 
 export interface TrapInterrupt extends BaseInstruction {
   children: [
-    TrapInterrupt['mnemonic'],
+    Mnemonic.INT,
     vector: Immediate,
   ]
   mnemonic: Mnemonic.INT
-
 }
 
 export interface ReturnInterrupt extends BaseInstruction {
   children: [
-    ReturnInterrupt['mnemonic'],
+    Mnemonic.IRET,
   ]
   mnemonic: Mnemonic.IRET
 }
 
 export interface InputOutput extends BaseInstruction {
   children: [
-    InputOutput['mnemonic'],
+    Mnemonic.InputOutput,
     port: Immediate,
   ]
-  mnemonic: Mnemonic.IN | Mnemonic.OUT
-
+  mnemonic: Mnemonic.InputOutput
 }
 
 export interface Control extends BaseInstruction {
   children: [
-    Control['mnemonic'],
+    Mnemonic.Control,
   ]
-  mnemonic:
-    | Mnemonic.HALT
-    | Mnemonic.STI
-    | Mnemonic.CLI
-    | Mnemonic.CLO
-    | Mnemonic.NOP
+  mnemonic: Mnemonic.Control
 }
 
 export type Directive = End | Org | Db
@@ -337,6 +305,55 @@ export enum Mnemonic {
   CLI   = 'CLI',
   CLO   = 'CLO',
   NOP   = 'NOP',
+}
+
+export declare namespace Mnemonic {
+  export type UnaryArithmetic =
+    | Mnemonic.INC
+    | Mnemonic.DEC
+    | Mnemonic.NOT
+    | Mnemonic.ROL
+    | Mnemonic.ROR
+    | Mnemonic.SHL
+    | Mnemonic.SHR
+
+  export type BinaryArithmetic =
+    | Mnemonic.ADD
+    | Mnemonic.SUB
+    | Mnemonic.MUL
+    | Mnemonic.DIV
+    | Mnemonic.MOD
+    | Mnemonic.AND
+    | Mnemonic.OR
+    | Mnemonic.XOR
+
+  export type Jump =
+    | Mnemonic.JMP
+    | Mnemonic.JZ
+    | Mnemonic.JNZ
+    | Mnemonic.JS
+    | Mnemonic.JNS
+    | Mnemonic.JO
+    | Mnemonic.JNO
+
+  export type GeneralStack =
+    | Mnemonic.PUSH
+    | Mnemonic.POP
+
+  export type FlagStack =
+    | Mnemonic.PUSHF
+    | Mnemonic.POPF
+
+  export type InputOutput =
+    | Mnemonic.IN
+    | Mnemonic.OUT
+
+  export type Control =
+    | Mnemonic.HALT
+    | Mnemonic.STI
+    | Mnemonic.CLI
+    | Mnemonic.CLO
+    | Mnemonic.NOP
 }
 
 export enum DirectiveName {
