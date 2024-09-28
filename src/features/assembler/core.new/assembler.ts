@@ -180,7 +180,7 @@ class AssemblerImpl implements Assembler {
     const state = useAssemblerState()
     const buffer = new Uint8Array(getSize(node))
     const baseChunk = {
-      address: state.address,
+      offset: state.address,
       buffer,
     }
     if (hasIdentifier(node)) {
@@ -199,7 +199,7 @@ class AssemblerImpl implements Assembler {
     const state = useAssemblerState()
     const buffer = new Uint8Array(this.resolve(node.children))
     this.unit.chunks.push({
-      address: state.address,
+      offset: state.address,
       buffer,
       node,
     })
@@ -207,7 +207,7 @@ class AssemblerImpl implements Assembler {
 
   private processPendings(): void {
     this.pendings.forEach((chunk) => {
-      const state = createAssemblerState(chunk.address)
+      const state = createAssemblerState(chunk.offset)
       AssemblerState.Provider({
         value: state,
         callback: () => this.encodePending(chunk),
