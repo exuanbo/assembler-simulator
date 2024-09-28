@@ -1,3 +1,7 @@
+export function parseHexNumber(text: string): number {
+  return Number('0x' + text)
+}
+
 const escapeMap: Record<string, string> = {
   '0': '\0',
   't': '\t',

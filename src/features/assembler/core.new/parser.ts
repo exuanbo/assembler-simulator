@@ -8,7 +8,7 @@ import { useParserContext } from './parser.context'
 import { expectType, guard, registerType, tryParsers } from './parser.utils'
 import { TokenType } from './token'
 import { useTokenStream } from './token.stream'
-import { parseString } from './utils'
+import { parseHexNumber, parseString } from './utils'
 
 export type Parser = Generator<AST.Statement, AST.Program>
 
@@ -507,7 +507,7 @@ const parseImmediate = registerType((): AST.Immediate => {
   const token = stream.next((token) =>
     guard((token.type === TokenType.Number)
       || (token.type === TokenType.Identifier)))
-  const value = Number('0x' + token.value)
+  const value = parseHexNumber(token.value)
   guard(!Number.isNaN(value))
   return {
     type: AST.NodeType.Immediate,
