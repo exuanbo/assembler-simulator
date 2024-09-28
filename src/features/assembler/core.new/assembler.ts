@@ -42,11 +42,11 @@ type ResolvableNode =
     : never
 
 class AssemblerImpl implements Assembler {
-  private pending!: PendingChunk[]
+  private pendings!: PendingChunk[]
   private unit!: AssemblyUnit
 
   private setup(): AssemblyUnit {
-    this.pending = []
+    this.pendings = []
     return (this.unit = initUnit())
   }
 
@@ -176,16 +176,19 @@ class AssemblerImpl implements Assembler {
 
   private processInstruction(node: AST.Instruction): void {
     const state = useAssemblerState()
-    const chunk = {
+    const baseChunk = {
       address: state.address,
       codes: [],
     }
     if (hasIdentifier(node)) {
-      this.pending.push({ ...chunk, node })
+      const pending = Object.assign(baseChunk, { node })
+      this.pendings.push(pending)
+      this.unit.chunks.push(pending)
     }
     else {
+      const chunk = Object.assign(baseChunk, { node })
       this.encodeInstruction(node, chunk.codes)
-      this.unit.chunks.push({ ...chunk, node })
+      this.unit.chunks.push(chunk)
     }
   }
 
@@ -200,12 +203,12 @@ class AssemblerImpl implements Assembler {
   }
 
   private processPendings(): void {
-    this.pending.forEach((chunk) => {
+    this.pendings.forEach((chunk) => {
+      const state = createAssemblerState(chunk.address)
       AssemblerState.Provider({
-        value: createAssemblerState(chunk.address),
+        value: state,
         callback: () => this.encodePending(chunk),
       })
-      this.unit.chunks.push(chunk)
     })
   }
 
