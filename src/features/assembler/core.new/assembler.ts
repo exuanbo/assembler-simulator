@@ -21,9 +21,6 @@ import { createParser } from './parser'
 import { createParserContext, ParserContext, useParserContext } from './parser.context'
 import { createTokenStream, TokenStream } from './token.stream'
 
-// TODO: move to somewhere
-const MAX_NUMBER = 0xff
-
 export interface Assembler {
   run(input: string): AssemblyUnit
 }
@@ -260,8 +257,7 @@ function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
   invariant(label, `Label '${name}' is not added`)
   invariant(!Number.isNaN(label.address), `Label '${name}' is not processed`)
   const distance = label.address - state.address
-  // TODO: extract constants
-  if ((distance < -0x80) || (distance > 0x7f)) {
+  if ((distance < MIN_SIGNED8) || (distance > MAX_SIGNED8)) {
     throw new AssemblerError(ErrorCode.JumpOutOfRange, loc, { distance })
   }
   return distance
@@ -272,7 +268,7 @@ function resolveRegister({ children: [name] }: AST.Register): number {
 }
 
 function resolveImmediate({ children: [value], loc }: AST.Immediate): number {
-  if (value > MAX_NUMBER) {
+  if (value > MAX_UNSIGNED8) {
     throw new AssemblerError(ErrorCode.ImmediateOutOfRange, loc, { value })
   }
   return value
@@ -281,9 +277,14 @@ function resolveImmediate({ children: [value], loc }: AST.Immediate): number {
 function resolveStringLiteral({ children: chars, loc }: AST.StringLiteral): number[] {
   return Array.from(chars, (char, i) => {
     const value = chars.charCodeAt(i)
-    if (value > MAX_NUMBER) {
+    if (value > MAX_UNSIGNED8) {
       throw new AssemblerError(ErrorCode.CharacterOutOfRange, loc, { char, value })
     }
     return value
   })
 }
+
+// TODO: move to separate file
+const MIN_SIGNED8 =  -0b10000000
+const MAX_SIGNED8 =   0b01111111
+const MAX_UNSIGNED8 = 0b11111111
