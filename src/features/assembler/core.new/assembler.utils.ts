@@ -35,8 +35,15 @@ export function hasIdentifier<Node extends AssemblyNode>(node: Node): node is Wi
 
 const reduce = Array.prototype.reduce<number>
 
+const sizeCache = new WeakMap<AssemblyNode, number>()
+
 export function getSize(node: AssemblyNode): number {
-  return aux(0, node)
+  const cached = sizeCache.get(node)
+  if (cached) {
+    return cached
+  }
+  const size = aux(0, node)
+  return (sizeCache.set(node, size), size)
 
   function aux(acc: number, cur: AssemblyNodeValue) {
     return !Object.hasOwn(cur, 'children')

@@ -4,7 +4,7 @@ import { ComposeProvider } from '@/common/utils/context'
 import { invariant } from '@/common/utils/invariant'
 
 import { AssemblerState, createAssemblerState, useAssemblerState } from './assembler.state'
-import { hasIdentifier, type WithIdentifier } from './assembler.utils'
+import { getSize, hasIdentifier, type WithIdentifier } from './assembler.utils'
 import {
   type AssemblyNode,
   type AssemblyUnit,
@@ -178,9 +178,10 @@ class AssemblerImpl implements Assembler {
 
   private processInstruction(node: AST.Instruction): void {
     const state = useAssemblerState()
+    const buffer = new Uint8Array(getSize(node))
     const baseChunk = {
       address: state.address,
-      codes: [],
+      buffer,
     }
     if (hasIdentifier(node)) {
       const pending = Object.assign(baseChunk, { node })
@@ -189,17 +190,17 @@ class AssemblerImpl implements Assembler {
     }
     else {
       const chunk = Object.assign(baseChunk, { node })
-      this.encodeInstruction(node, chunk.codes)
+      this.encodeInstruction(node, chunk.buffer)
       this.unit.chunks.push(chunk)
     }
   }
 
   private processDataByte(node: AST.Db): void {
     const state = useAssemblerState()
-    const codes = this.resolve(node.children)
+    const buffer = new Uint8Array(this.resolve(node.children))
     this.unit.chunks.push({
       address: state.address,
-      codes,
+      buffer,
       node,
     })
   }
@@ -214,20 +215,20 @@ class AssemblerImpl implements Assembler {
     })
   }
 
-  private encodePending({ codes, node }: PendingChunk): void {
+  private encodePending({ buffer, node }: PendingChunk): void {
     switch (node.type) {
     case AST.NodeType.Instruction:
-      this.encodeInstruction(node, codes)
+      this.encodeInstruction(node, buffer)
       break
     default:
       expectNever(node.type)
     }
   }
 
-  private encodeInstruction(node: AST.Instruction, codes: number[]): void {
+  private encodeInstruction(node: AST.Instruction, buffer: Uint8Array): void {
     const [mnemonic, ...operands] = node.children
     const opcode = resolveOpcode(mnemonic, operands)
-    codes.push(opcode, ...this.resolve(operands))
+    buffer.set([opcode, ...this.resolve(operands)])
   }
 
   private resolve(nodes: ResolvableNode[]): number[] {
@@ -259,16 +260,11 @@ function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
   invariant(label, `Label '${name}' is not added`)
   invariant(!Number.isNaN(label.address), `Label '${name}' is not processed`)
   const distance = label.address - state.address
+  // TODO: extract constants
   if ((distance < -0x80) || (distance > 0x7f)) {
     throw new AssemblerError(ErrorCode.JumpOutOfRange, loc, { distance })
   }
-  // TODO: maybe use Uint8Array
-  return unsign8(distance)
-}
-
-// TODO: move to utils
-function unsign8(value: number): number {
-  return (value < 0) ? (value + MAX_NUMBER + 1) : value
+  return distance
 }
 
 function resolveRegister({ children: [name] }: AST.Register): number {

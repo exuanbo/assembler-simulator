@@ -11,8 +11,9 @@ export interface AssemblyUnit {
 }
 
 export interface CodeChunk {
+  // TODO: rename to offset
   address: number
-  codes: number[]
+  buffer: Uint8Array
   node: AssemblyNode
 }
 
