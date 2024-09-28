@@ -256,11 +256,11 @@ function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
   const label = context.labels.get(name)
   invariant(label, `Label '${name}' is not added`)
   invariant(!Number.isNaN(label.address), `Label '${name}' is not processed`)
-  const distance = label.address - state.address
-  if ((distance < MIN_SIGNED8) || (distance > MAX_SIGNED8)) {
-    throw new AssemblerError(ErrorCode.JumpOutOfRange, loc, { distance })
+  const offset = label.address - state.address
+  if ((offset < MIN_SIGNED8) || (offset > MAX_SIGNED8)) {
+    throw new AssemblerError(ErrorCode.JumpOutOfRange, loc, { offset })
   }
-  return distance
+  return offset
 }
 
 function resolveRegister({ children: [name] }: AST.Register): number {

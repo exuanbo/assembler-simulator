@@ -39,7 +39,7 @@ describe('Assembler', () => {
     const unit = assembler.run('jmp label org 81 label: end')
     expect(unit.errors).toHaveLength(1)
     expect(unit.errors[0]).toMatchInlineSnapshot(
-      `[AssemblerError: Jump distance 129 out of range (0 to 127 forward, 128 to 255 backward)]`,
+      `[AssemblerError: Jump offset 129 out of range (-128 to -1 backward, 0 to 127 forward)]`,
     )
   })
 

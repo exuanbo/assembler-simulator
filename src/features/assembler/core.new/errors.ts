@@ -41,7 +41,7 @@ const errormessages: Record<AssemblyErrorCode, string> = {
   [ErrorCode.UnreferencedLabel]:    "Unreferenced label '{name}'",
   [ErrorCode.UndefinedLabel]:       "Undefined label '{name}'",
   [ErrorCode.MemoryOverflow]:       'Memory address exceeds maximum of 255',
-  [ErrorCode.JumpOutOfRange]:       'Jump distance {distance} out of range (0 to 127 forward, 128 to 255 backward)',
+  [ErrorCode.JumpOutOfRange]:       'Jump offset {offset} out of range (-128 to -1 backward, 0 to 127 forward)',
   [ErrorCode.ImmediateOutOfRange]:  'Immediate value {value} exceeds maximum of 255',
   [ErrorCode.CharacterOutOfRange]:  "Character '{char}' has UTF-16 code {value} exceeds maximum of 255",
 }
