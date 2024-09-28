@@ -2,17 +2,17 @@ import type { AssemblyNode, AssemblyNodeValue } from './assemblyunit'
 import * as AST from './ast'
 
 export type WithIdentifier<Node> =
-  Node extends { children: infer Values extends any[] }
+  Node extends { children: infer Values extends unknown[] }
     ? HasIdentifier<Values> extends true
       ? Node
       : never
     : never
 
-type HasIdentifier<Values extends any[]> =
+type HasIdentifier<Values extends unknown[]> =
   Values extends [infer First, ...infer Rest]
     ? First extends AST.Identifier
       ? true
-      : First extends { children: infer FirstValues extends any[] }
+      : First extends { children: infer FirstValues extends unknown[] }
         ? HasIdentifier<FirstValues> extends true
           ? true
           : HasIdentifier<Rest>

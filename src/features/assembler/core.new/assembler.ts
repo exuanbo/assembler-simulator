@@ -1,3 +1,5 @@
+import { expectNever } from 'ts-expect'
+
 import { ComposeProvider } from '@/common/utils/context'
 import { invariant } from '@/common/utils/invariant'
 
@@ -218,8 +220,7 @@ class AssemblerImpl implements Assembler {
       this.encodeInstruction(node, codes)
       break
     default:
-      // @ts-expect-error: never
-      throw new Error(`Node '${node.type.toString()}' is not processed`)
+      expectNever(node.type)
     }
   }
 
