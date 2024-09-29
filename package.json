@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint . --cache --fix",
     "lint:ci": "eslint . --cache --cache-location ./node_modules/.cache/eslint/.eslintcache --max-warnings 0",
-    "test": "run build && jest",
+    "test": "run build && jest && vitest run",
     "all": "run lint && run test"
   },
   "dependencies": {
