@@ -4,10 +4,11 @@ import { promisify } from 'node:util'
 
 import react from '@vitejs/plugin-react'
 import unocss from 'unocss/vite'
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import { defineConfig } from 'vite'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
+import split from './scripts/splitVendorChunk'
 
 export const baseConfig = defineConfig({
   base: './',
@@ -19,7 +20,7 @@ export const baseConfig = defineConfig({
   plugins: [
     unocss(),
     react(),
-    splitVendorChunkPlugin(),
+    split(),
     pwa({
       manifestFilename: 'app.webmanifest',
       registerType: 'prompt',

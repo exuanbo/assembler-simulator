@@ -3586,6 +3586,7 @@ __metadata:
     pako: "npm:2.1.0"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
+    rollup: "npm:4.22.5"
     rxjs: "npm:8.0.0-alpha.14"
     ts-jest: "npm:29.2.5"
     ts-toolbelt: "npm:9.6.0"
@@ -7419,21 +7420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.43.1":
-  version: 2.79.2
-  resolution: "rollup@npm:2.79.2"
-  dependencies:
-    fsevents: "npm:~2.3.2"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 10c0/bc3746c988d903c2211266ddc539379d53d92689b9cc5c2b4e3ae161689de9af491957a567c629b6cc81f48d0928a7591fc4c383fba68a48d2966c9fb8a2bce9
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^4.20.0":
+"rollup@npm:4.22.5, rollup@npm:^4.20.0":
   version: 4.22.5
   resolution: "rollup@npm:4.22.5"
   dependencies:
@@ -7493,6 +7480,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: 10c0/9b9432206ecc2f68edca965f8cf119eccd5346c86c392f733a8062b7c6a309b70c35e8448024146bd0e3444d8b3797758c8e29248b273d1433de94a4ea265246
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^2.43.1":
+  version: 2.79.2
+  resolution: "rollup@npm:2.79.2"
+  dependencies:
+    fsevents: "npm:~2.3.2"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 10c0/bc3746c988d903c2211266ddc539379d53d92689b9cc5c2b4e3ae161689de9af491957a567c629b6cc81f48d0928a7591fc4c383fba68a48d2966c9fb8a2bce9
   languageName: node
   linkType: hard
 

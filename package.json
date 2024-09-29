@@ -58,6 +58,7 @@
     "globals": "15.9.0",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
+    "rollup": "4.22.5",
     "ts-jest": "29.2.5",
     "ts-toolbelt": "9.6.0",
     "typescript": "5.5.4",
