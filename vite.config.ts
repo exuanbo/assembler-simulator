@@ -9,6 +9,72 @@ import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
 
+export const baseConfig = defineConfig({
+  base: './',
+  build: {
+    // TODO: use `rollupOptions.output.manualChunks`
+    chunkSizeWarningLimit: 1000,
+  },
+  define: {},
+  plugins: [
+    unocss(),
+    react(),
+    splitVendorChunkPlugin(),
+    pwa({
+      manifestFilename: 'app.webmanifest',
+      registerType: 'prompt',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'Assembler Simulator',
+        short_name: 'AssemblerSimulator',
+        description,
+        id: `/${name}/`,
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 10,
+              },
+            },
+          },
+        ],
+      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': join(__dirname, 'src'),
+    },
+  },
+  server: {
+    watch: {
+      ignored: [/coverage/, /dist/],
+    },
+  },
+})
+
 export default defineConfig(async () => {
   const exec = promisify(child_process.exec)
 
@@ -22,77 +88,17 @@ export default defineConfig(async () => {
     return new Date(stdout).toISOString()
   }
 
-  const globalConstants = await forkJoin({
+  const buildInfo = await forkJoin({
     __VERSION__: JSON.stringify(version),
     __COMMIT_HASH__: getCommitHash().then(JSON.stringify),
     __COMMIT_DATE__: getCommitDate().then(JSON.stringify),
   })
 
   return {
-    base: './',
-    build: {
-      // TODO: use `rollupOptions.output.manualChunks`
-      chunkSizeWarningLimit: 1000,
-    },
+    ...baseConfig,
     define: {
-      ...globalConstants,
-    },
-    plugins: [
-      unocss(),
-      react(),
-      splitVendorChunkPlugin(),
-      pwa({
-        manifestFilename: 'app.webmanifest',
-        registerType: 'prompt',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
-        manifest: {
-          name: 'Assembler Simulator',
-          short_name: 'AssemblerSimulator',
-          description,
-          id: `/${name}/`,
-          theme_color: '#ffffff',
-          icons: [
-            {
-              src: 'pwa-192x192.png',
-              sizes: '192x192',
-              type: 'image/png',
-            },
-            {
-              src: 'pwa-512x512.png',
-              sizes: '512x512',
-              type: 'image/png',
-            },
-          ],
-        },
-        workbox: {
-          runtimeCaching: [
-            {
-              urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'google-fonts-webfonts',
-                cacheableResponse: {
-                  statuses: [0, 200],
-                },
-                expiration: {
-                  maxAgeSeconds: 60 * 60 * 24 * 365,
-                  maxEntries: 10,
-                },
-              },
-            },
-          ],
-        },
-      }),
-    ],
-    resolve: {
-      alias: {
-        '@': join(__dirname, 'src'),
-      },
-    },
-    server: {
-      watch: {
-        ignored: [/coverage/, /dist/],
-      },
+      ...baseConfig.define,
+      ...buildInfo,
     },
   }
 })
