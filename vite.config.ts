@@ -12,10 +12,6 @@ import split from './scripts/splitVendorChunk'
 
 export const baseConfig = defineConfig({
   base: './',
-  build: {
-    // TODO: use `rollupOptions.output.manualChunks`
-    chunkSizeWarningLimit: 1000,
-  },
   define: {},
   plugins: [
     unocss(),

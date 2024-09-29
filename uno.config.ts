@@ -4,6 +4,8 @@ import transformerDirectives from '@unocss/transformer-directives'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import { defineConfig } from 'unocss'
 
+// TODO: self-host fonts
+
 export default defineConfig({
   blocklist: ['?', 'px', 'static'],
   presets: [
