@@ -11,6 +11,7 @@ export default defineConfig({
   presets: [
     presetWind(),
     presetWebFonts({
+      provider: 'bunny',
       fonts: {
         mono: {
           name: 'JetBrains Mono',
