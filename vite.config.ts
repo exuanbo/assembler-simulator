@@ -9,14 +9,6 @@ import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
 
-interface ImportMetaEnvDefinition {
-  [key: `import.meta.env.${string}`]: string | boolean
-}
-
-const importMetaEnv: ImportMetaEnvDefinition = {
-  'import.meta.env.NEVER': false,
-}
-
 export default defineConfig(async () => {
   const exec = promisify(child_process.exec)
 
@@ -43,7 +35,6 @@ export default defineConfig(async () => {
       chunkSizeWarningLimit: 1000,
     },
     define: {
-      ...importMetaEnv,
       ...globalConstants,
     },
     plugins: [
