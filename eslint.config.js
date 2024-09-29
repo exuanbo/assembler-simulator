@@ -10,27 +10,13 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    name: 'exuanbo/languages-node',
-    files: ['**/*.?(c|m)js', '*.?(c|m)ts'],
+    name: 'exuanbo/languages',
     languageOptions: {
-      // https://vitejs.dev/blog/announcing-vite5.html#node-js-support
-      // https://node.green/#ES2022
       ecmaVersion: 2022,
       globals: {
+        ...globals.browser,
         ...globals.es2022,
         ...globals.node,
-      },
-    },
-  },
-  {
-    name: 'exuanbo/languages-browser',
-    files: ['src/**/*.?(c|m){j,t}s?(x)'],
-    languageOptions: {
-      // https://vitejs.dev/guide/build.html#browser-compatibility
-      ecmaVersion: 2021,
-      globals: {
-        ...globals.browser,
-        ...globals.es2021,
       },
     },
   },
@@ -61,19 +47,21 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-imports': ['error', {
         fixStyle: 'inline-type-imports',
       }],
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+      '@typescript-eslint/no-namespace': ['error', {
+        allowDeclarations: true,
+      }],
+      '@typescript-eslint/no-unused-expressions': ['error', {
+        allowShortCircuit: true,
+      }],
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-import-type-side-effects': 'error',
-      '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-enum-comparison': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unused-expressions': ['error', {
-        allowShortCircuit: true,
-      }],
     },
   },
   {
