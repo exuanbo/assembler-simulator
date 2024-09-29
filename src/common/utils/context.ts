@@ -1,4 +1,4 @@
-// Modifed from "在 JavaScript 中实现和使用 Context | Sukka's Blog"
+// Modifed from Sukka's vanilla context implementation
 // https://blog.skk.moe/post/context-in-javascript/
 // CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh
 
@@ -27,7 +27,7 @@ export function createContext<T>(defaultValue: ContextValue<T> = NO_VALUE_DEFAUL
 
   const Provider = <R>({ value, callback }: { value: T, callback?: () => R }) => {
     if (!callback) {
-      return (fn: () => R) => Provider({ value, callback: fn })
+      return (fn: typeof callback) => Provider({ value, callback: fn })
     }
     const currentValue = contextValue
     contextValue = value
@@ -41,9 +41,7 @@ export function createContext<T>(defaultValue: ContextValue<T> = NO_VALUE_DEFAUL
 
   const Consumer = <R>(callback?: (value: T) => R) => {
     if (contextValue === NO_VALUE_DEFAULT) {
-      throw new TypeError(
-        'You should only use useContext inside a Provider, or provide a default value!',
-      )
+      throw new TypeError('Missing context: use within Provider or set default value.')
     }
     if (!callback) {
       return contextValue
@@ -57,8 +55,8 @@ export function createContext<T>(defaultValue: ContextValue<T> = NO_VALUE_DEFAUL
   }
 }
 
-export function useContext<T>(contextRef: Context<T>): T {
-  return contextRef.Consumer()
+export function useContext<T>(Context: Context<T>): T {
+  return Context.Consumer()
 }
 
 export interface ContextComposeProviderProps<R> {
