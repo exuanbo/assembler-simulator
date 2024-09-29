@@ -1,0 +1,58 @@
+program = statement_list, comment_list ;
+
+statement_list = { statement } ;
+statement = [ label ], ( instruction | directive ) ;
+
+comment_list = { comment } ;
+comment = ';', { character - newline }, newline ;
+
+label = identifier, ':' ;
+
+instruction = arithmetic | jump | move | compare | stack | procedure | interrupt | input_output | control ;
+
+arithmetic = unary_arithmetic | binary_arithmetic ;
+unary_arithmetic = ('INC' | 'DEC' | 'NOT' | 'ROL' | 'ROR' | 'SHL' | 'SHR'), register ;
+binary_arithmetic = ('ADD' | 'SUB' | 'MUL' | 'DIV' | 'MOD' | 'AND' | 'OR' | 'XOR'), register, ',', (register | immediate) ;
+
+jump = ('JMP' | 'JZ' | 'JNZ' | 'JS' | 'JNS' | 'JO' | 'JNO'), identifier ;
+
+move = 'MOV', (register | memory_operand), ',', (register | immediate | memory_operand) ;
+
+compare = 'CMP', register, ',', (register | immediate | memory_operand) ;
+
+stack = general_stack | flag_stack ;
+general_stack = ('PUSH' | 'POP'), register ;
+flag_stack = 'PUSHF' | 'POPF' ;
+
+procedure = call_procedure | return_procedure ;
+call_procedure = 'CALL', immediate ;
+return_procedure = 'RET' ;
+
+interrupt = trap_interrupt | return_interrupt ;
+trap_interrupt = 'INT', immediate ;
+return_interrupt = 'IRET' ;
+
+input_output = ('IN' | 'OUT'), immediate ;
+
+control = 'HALT' | 'STI' | 'CLI' | 'CLO' | 'NOP' ;
+
+directive = end_directive | org_directive | db_directive ;
+end_directive = 'END' ;
+org_directive = 'ORG', immediate ;
+db_directive = 'DB', (string_literal | immediate) ;
+
+memory_operand = '[', (register | immediate), ']' ;
+
+register = 'AL' | 'BL' | 'CL' | 'DL' ;
+
+identifier = (letter | '_'), { letter | digit | '_' } ;
+
+immediate = digit, { digit | 'A'..'F' } ;
+
+string_literal = '"', { character - '"' }, '"' ;
+
+letter = 'A'..'Z' | 'a'..'z' ;
+digit = '0'..'9' ;
+character = ? any ASCII character ? ;
+
+newline = ? ASCII newline character ? ;

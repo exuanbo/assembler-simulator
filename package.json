@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint . --cache --fix",
     "lint:ci": "eslint . --cache --cache-location ./node_modules/.cache/eslint/.eslintcache --max-warnings 0",
-    "test": "run build && jest",
+    "test": "run build && jest && vitest run",
     "all": "run lint && run test"
   },
   "dependencies": {
@@ -34,6 +34,9 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rxjs": "8.0.0-alpha.14",
+    "ts-brand": "0.2.0",
+    "ts-enum-utilx": "0.3.0",
+    "ts-expect": "1.3.0",
     "use-external-store": "0.2.2"
   },
   "devDependencies": {
@@ -51,6 +54,8 @@
     "@unocss/transformer-directives": "0.63.1",
     "@unocss/transformer-variant-group": "0.63.1",
     "@vitejs/plugin-react": "4.3.1",
+    "@vitest/coverage-v8": "2.1.1",
+    "@vitest/ui": "2.1.1",
     "eslint": "9.11.1",
     "eslint-plugin-react": "7.37.0",
     "eslint-plugin-react-hooks": "5.1.0-rc-3edc000d-20240926",
@@ -65,7 +70,8 @@
     "typescript-eslint": "8.7.0",
     "unocss": "0.63.1",
     "vite": "5.4.8",
-    "vite-plugin-pwa": "0.20.5"
+    "vite-plugin-pwa": "0.20.5",
+    "vitest": "2.1.1"
   },
   "resolutions": {
     "immer": "npm:mutative-compat@^0.1.0"

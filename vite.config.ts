@@ -4,7 +4,7 @@ import { promisify } from 'node:util'
 
 import react from '@vitejs/plugin-react'
 import unocss from 'unocss/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, mergeConfig, type UserConfig } from 'vite'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 
 import { description, name, version } from './package.json'
@@ -12,11 +12,9 @@ import split from './scripts/splitVendorChunk'
 
 export const baseConfig = defineConfig({
   base: './',
-  define: {},
   plugins: [
     unocss(),
     react(),
-    split(),
     pwa({
       manifestFilename: 'app.webmanifest',
       registerType: 'prompt',
@@ -40,24 +38,6 @@ export const baseConfig = defineConfig({
           },
         ],
       },
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-webfonts',
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-              expiration: {
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-                maxEntries: 10,
-              },
-            },
-          },
-        ],
-      },
     }),
   ],
   resolve: {
@@ -65,14 +45,34 @@ export const baseConfig = defineConfig({
       '@': join(__dirname, 'src'),
     },
   },
-  server: {
-    watch: {
-      ignored: [/coverage/, /dist/],
-    },
-  },
 })
 
-export default defineConfig(async () => {
+export default defineConfig(async (env) => {
+  const config = env.command === 'serve'
+    ? await getServeConfig()
+    : await getBuildConfig()
+  return mergeConfig(baseConfig, config)
+})
+
+async function getServeConfig(): Promise<UserConfig> {
+  return {
+    define: await getGlobalReplacements(),
+    server: {
+      watch: {
+        ignored: [/coverage/],
+      },
+    },
+  }
+}
+
+async function getBuildConfig(): Promise<UserConfig> {
+  return {
+    define: await getGlobalReplacements(),
+    plugins: [split()],
+  }
+}
+
+async function getGlobalReplacements() {
   const exec = promisify(child_process.exec)
 
   async function getCommitHash() {
@@ -85,22 +85,14 @@ export default defineConfig(async () => {
     return new Date(stdout).toISOString()
   }
 
-  const buildInfo = await forkJoin({
+  return forkJoin({
     __VERSION__: JSON.stringify(version),
     __COMMIT_HASH__: getCommitHash().then(JSON.stringify),
     __COMMIT_DATE__: getCommitDate().then(JSON.stringify),
   })
+}
 
-  return {
-    ...baseConfig,
-    define: {
-      ...baseConfig.define,
-      ...buildInfo,
-    },
-  }
-})
-
-type Joined<T extends Record<string, unknown>> = {
+type Joined<T> = {
   [K in keyof T]: Awaited<T[K]>
 }
 
