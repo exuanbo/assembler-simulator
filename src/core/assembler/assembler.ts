@@ -41,7 +41,7 @@ export class Assembler {
     return (this.unit = initUnit())
   }
 
-  run(input: string): AssemblyUnit {
+  assemble(input: string): AssemblyUnit {
     const lexer = createLexer(input)
     const stream = createTokenStream(lexer)
     const context = createParserContext()
