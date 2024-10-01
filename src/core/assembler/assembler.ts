@@ -9,7 +9,7 @@ import {
   type AssemblyNode,
   type AssemblyUnit,
   type CodeChunk,
-  finish,
+  finalize,
   initUnit,
 } from './assemblyunit'
 import * as AST from './ast'
@@ -64,8 +64,8 @@ class AssemblerImpl implements Assembler {
         const unit = this.setup()
         const ast = this.parse()
         return this.hasError()
-          ? finish(unit, { chunks: [] })
-          : finish(unit, { ast, labels: context.labels })
+          ? finalize(unit, { chunks: [] })
+          : finalize(unit, { ast, labels: context.labels })
       },
     })
   }

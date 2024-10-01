@@ -40,10 +40,10 @@ export function initUnit(): AssemblyUnit {
   }
 }
 
-export function finish(unit: AssemblyUnit, partial: Partial<AssemblyUnit>): AssemblyUnit {
+export function finalize(unit: AssemblyUnit, updates: Partial<AssemblyUnit>): AssemblyUnit {
   const updated: AssemblyUnit = {
     ...unit,
-    ...partial,
+    ...updates,
   }
   mergeErrors(updated.warnings)
   mergeErrors(updated.errors)
