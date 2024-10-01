@@ -21,14 +21,6 @@ import { createParser } from './parser'
 import { createParserContext, ParserContext, useParserContext } from './parser.context'
 import { createTokenStream, TokenStream } from './token.stream'
 
-export interface Assembler {
-  run(input: string): AssemblyUnit
-}
-
-export function createAssembler(): Assembler {
-  return new AssemblerImpl()
-}
-
 interface PendingChunk extends CodeChunk {
   node: WithIdentifier<ProcessableNode>
 }
@@ -40,7 +32,7 @@ type ResolvableNode =
     ? Exclude<Values, AST.Mnemonic>
     : never
 
-class AssemblerImpl implements Assembler {
+export class Assembler {
   private pendings!: PendingChunk[]
   private unit!: AssemblyUnit
 
