@@ -6,7 +6,7 @@ import {
   type PayloadActionCreator,
   type StoreEnhancer,
 } from '@reduxjs/toolkit'
-import { filter, map, type Observable, Subject } from 'rxjs'
+import { filter, map, type Observable, share, Subject } from 'rxjs'
 
 import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { weakMemo } from './weakMemo'
@@ -36,7 +36,11 @@ export const createActionObserver = (): ActionObserver => {
   }
 
   const onAction: ObserveAction = weakMemo((actionCreator) =>
-    action$.pipe(filter(matchType(actionCreator)), map(getPayload)),
+    action$.pipe(
+      filter(matchType(actionCreator)),
+      map(getPayload),
+      share(),
+    ),
   )
 
   const enhancer = injectStoreExtension(() => ({ onAction }))

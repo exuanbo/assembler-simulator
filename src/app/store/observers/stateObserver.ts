@@ -1,7 +1,5 @@
 import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
-import { BehaviorSubject, distinctUntilChanged, map, type Observable } from 'rxjs'
-
-import { invariant } from '@/common/utils'
+import { distinctUntilChanged, map, type Observable, ReplaySubject, share, shareReplay } from 'rxjs'
 
 import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { weakMemo } from './weakMemo'
@@ -13,17 +11,19 @@ interface StateObserver<State> {
   enhancer: StoreEnhancer<{ onState: ObserveState<State> }>
 }
 
+const BUFFER_SIZE = 1 // latest state only
+
 export const createStateObserver = <State>(): StateObserver<State> => {
-  const NIL = Symbol('NIL')
-  const state$ = new BehaviorSubject<State | typeof NIL>(NIL)
+  const state$ = new ReplaySubject<State>(BUFFER_SIZE)
 
   const distinctState$ = state$.pipe(
-    map((state) => (invariant(state !== NIL), state)),
     distinctUntilChanged(),
+    shareReplay(BUFFER_SIZE),
   )
 
   const middleware: Middleware<{}, State> = (api) => {
-    state$.next(api.getState())
+    const initialState = api.getState()
+    state$.next(initialState)
 
     return (next) => (action) => {
       const result = next(action)
@@ -33,7 +33,11 @@ export const createStateObserver = <State>(): StateObserver<State> => {
   }
 
   const onState: ObserveState<State> = weakMemo((selector) =>
-    distinctState$.pipe(map(selector), distinctUntilChanged()),
+    distinctState$.pipe(
+      map(selector),
+      distinctUntilChanged(),
+      share(),
+    ),
   )
 
   const enhancer = injectStoreExtension(() => ({ onState }))
