@@ -1,52 +1,41 @@
-import { asapScheduler, BehaviorSubject, filter, observeOn, shareReplay, skipWhile } from 'rxjs'
+import { BehaviorSubject, filter, type Observable, share } from 'rxjs'
 
-export const enum Control {
-  CLOCK_IDLE   = 0b0000,
-  MEMORY_READ  = 0b1000,
-  IO_READ      = 0b1001,
-  MEMORY_WRITE = 0b1010,
-  IO_WRITE     = 0b1011,
-  INTERRUPT    = 0b1100,
+export type Signal = 0b0 | 0b1
+
+export interface ControlLines {
+  RD:   Signal
+  WR:   Signal
+  MREQ: Signal
+  IORQ: Signal
+  CLK:  Signal
+  WAIT: Signal
+  IRQ:  Signal
+  HALT: Signal
 }
 
-export interface Signals {
-  data: number
-  address: number
-  control: Control
-}
-
-const initialSignals: Signals = {
-  data: 0x00,
-  address: 0x00,
-  control: Control.CLOCK_IDLE,
+const initialControlLines: ControlLines = {
+  RD:   0b0,
+  WR:   0b0,
+  MREQ: 0b0,
+  IORQ: 0b0,
+  CLK:  0b0,
+  WAIT: 0b0,
+  IRQ:  0b0,
+  HALT: 0b0,
 }
 
 export class Bus {
-  private readonly source$ = new BehaviorSubject(initialSignals)
+  readonly data$ = new BehaviorSubject(0x00)
+  readonly address$ = new BehaviorSubject(0x00)
+  readonly control$ = new BehaviorSubject(initialControlLines)
 
-  private readonly shared$ = this.source$.pipe(
-    observeOn(asapScheduler),
-    shareReplay(1),
+  readonly controlOnClockRise$: Observable<ControlLines> = this.control$.pipe(
+    filter((control, index) => (index && control.CLK)),
+    share(),
   )
 
-  get signals$() {
-    return this.shared$
-  }
-
-  get idle$() {
-    return this.shared$.pipe(
-      filter((signals) => (signals.control === Control.CLOCK_IDLE)),
-    )
-  }
-
-  put(next: Partial<Signals>) {
-    const nextSignals = {
-      ...this.source$.getValue(),
-      ...next,
-    }
-    this.source$.next(nextSignals)
-    return this.shared$.pipe(
-      skipWhile((signals) => (signals !== nextSignals)),
-    )
+  setControl(lines: Partial<ControlLines>): void {
+    const control = this.control$.getValue()
+    this.control$.next(Object.assign(control, lines))
   }
 }

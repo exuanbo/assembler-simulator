@@ -138,6 +138,7 @@ export default tseslint.config(
         exceptions: {
           ObjectExpression: true,
           TSEnumMember: true,
+          TSTypeAnnotation: true,
           VariableDeclarator: true,
         },
       }],

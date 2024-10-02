@@ -1,43 +1,46 @@
-import { filter, firstValueFrom, map, skipUntil } from 'rxjs'
+import { type Observable, take } from 'rxjs'
 
-import { type Bus, Control, type Signals } from '../bus/bus'
+import type { Bus, ControlLines } from '../bus/bus'
+
+type AsyncControlGenerator<T> = Generator<Observable<ControlLines>, T, ControlLines>
 
 export class Cpu {
   constructor(
     private readonly bus: Bus,
-  ) {
-    this.bus.signals$.pipe(
-      filter((signals) => (signals.control === Control.INTERRUPT)),
-    ).subscribe(this.handleInterrupt)
+  ) {}
+
+  *step(): AsyncControlGenerator<void> {
+    const x = yield* this.readMemory(0x00)
+    const y = yield* this.readMemory(0x01)
+    const result = x + y
+    yield* this.writeMemory(result, 0x02)
   }
 
-  async step() {
-    // TODO: implement step
-    // const opcode = await this.readMemory(...)
-  }
-
-  private readMemory(address: number) {
-    const data$ = this.bus.put({
-      address,
-      control: Control.MEMORY_READ,
-    }).pipe(
-      skipUntil(this.bus.idle$),
-      map((signals) => signals.data),
-    )
-    return firstValueFrom(data$)
-  }
-
-  private writeMemory(address: number, data: number) {
-    const complete$ = this.bus.put({
-      data,
-      address,
-      control: Control.MEMORY_WRITE,
+  *readMemory(address: number): AsyncControlGenerator<number> {
+    this.bus.address$.next(address)
+    this.bus.setControl({
+      RD:   0b1,
+      MREQ: 0b1,
     })
-    return firstValueFrom(complete$)
+    yield this.bus.controlOnClockRise$.pipe(take(1))
+    this.bus.setControl({
+      RD:   0b0,
+      MREQ: 0b0,
+    })
+    return this.bus.data$.getValue()
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private handleInterrupt = (_signals: Signals) => {
-    // TODO: implement interrupt handling
+  *writeMemory(data: number, address: number): AsyncControlGenerator<void> {
+    this.bus.data$.next(data)
+    this.bus.address$.next(address)
+    this.bus.setControl({
+      WR:   0b1,
+      MREQ: 0b1,
+    })
+    yield this.bus.controlOnClockRise$.pipe(take(1))
+    this.bus.setControl({
+      WR:   0b0,
+      MREQ: 0b0,
+    })
   }
 }

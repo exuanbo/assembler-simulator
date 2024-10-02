@@ -1,26 +1,42 @@
-import { filter, map, type Observable, share, tap } from 'rxjs'
+import { filter, map, type Observable, share } from 'rxjs'
 
-import { type Bus, Control, type Signals } from '../bus/bus'
+import type { Bus } from '../bus/bus'
+
+export enum MemoryOperationType {
+  READ  = 'READ',
+  WRITE = 'WRITE',
+}
+
+export interface MemoryOperation {
+  type: MemoryOperationType
+  data: number
+  address: number
+}
 
 export class Memory {
   // TODO: use shared constants
   private readonly data = new Uint8Array(0x100)
 
-  private readonly read$: Observable<Signals>
-  private readonly write$: Observable<Signals>
+  readonly read$: Observable<MemoryOperation>
+  readonly write$: Observable<MemoryOperation>
 
   constructor(
     private readonly bus: Bus,
   ) {
-    this.read$ = this.bus.signals$.pipe(
-      filter((signals) => signals.control === Control.MEMORY_READ),
-      tap(this.read),
+    const control$ = this.bus.control$.pipe(
+      filter((control) => control.MREQ),
       share(),
     )
 
-    this.write$ = this.bus.signals$.pipe(
-      filter((signals) => signals.control === Control.MEMORY_WRITE),
-      tap(this.write),
+    this.read$ = control$.pipe(
+      filter((control) => control.RD),
+      map(this.read),
+      share(),
+    )
+
+    this.write$ = control$.pipe(
+      filter((control) => control.WR),
+      map(this.write),
       share(),
     )
 
@@ -28,33 +44,42 @@ export class Memory {
     this.write$.subscribe()
   }
 
-  private read = (signals: Signals) => {
-    this.bus.put({
-      data: this.data[signals.address],
-      control: Control.CLOCK_IDLE,
-    })
+  private read = (): MemoryOperation => {
+    const address = this.bus.address$.getValue()
+    const data = this.data[address]
+    this.bus.data$.next(data)
+    return {
+      type: MemoryOperationType.READ,
+      data,
+      address,
+    }
   }
 
-  private write = (signals: Signals) => {
-    this.data[signals.address] = signals.data
-    this.bus.put({
-      control: Control.CLOCK_IDLE,
-    })
+  private write = (): MemoryOperation => {
+    const address = this.bus.address$.getValue()
+    const data = this.bus.data$.getValue()
+    this.data[address] = data
+    return {
+      type: MemoryOperationType.WRITE,
+      data,
+      address,
+    }
   }
 
-  get data$() {
-    return this.write$.pipe(map(() => this.getData()))
-  }
-
-  getData() {
+  getData = (): number[] => {
     return Array.from(this.data)
   }
 
-  load(data: Uint8Array, offset: number) {
+  subscribeData = (onDataChange: (() => void)): (() => void) => {
+    const subscription = this.write$.subscribe(onDataChange)
+    return () => subscription.unsubscribe()
+  }
+
+  load(data: Uint8Array, offset: number): void {
     this.data.set(data, offset)
   }
 
-  reset() {
+  reset(): void {
     this.data.fill(0)
   }
 }
