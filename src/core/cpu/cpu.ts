@@ -22,7 +22,7 @@ export class Cpu {
       RD:   0b1,
       MREQ: 0b1,
     })
-    yield this.bus.controlOnClockRise$.pipe(take(1))
+    yield this.bus.clockRise$.pipe(take(1))
     this.bus.setControl({
       RD:   0b0,
       MREQ: 0b0,
@@ -37,7 +37,7 @@ export class Cpu {
       WR:   0b1,
       MREQ: 0b1,
     })
-    yield this.bus.controlOnClockRise$.pipe(take(1))
+    yield this.bus.clockRise$.pipe(take(1))
     this.bus.setControl({
       WR:   0b0,
       MREQ: 0b0,

@@ -29,7 +29,7 @@ export class Bus {
   readonly address$ = new BehaviorSubject(0x00)
   readonly control$ = new BehaviorSubject(initialControlLines)
 
-  readonly controlOnClockRise$: Observable<ControlLines> = this.control$.pipe(
+  readonly clockRise$: Observable<ControlLines> = this.control$.pipe(
     filter((control, index) => (index && control.CLK)),
     share(),
   )
