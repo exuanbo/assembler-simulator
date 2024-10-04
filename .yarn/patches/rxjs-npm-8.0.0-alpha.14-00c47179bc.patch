@@ -1,0 +1,34 @@
+diff --git a/dist/types/internal/operators/filter.d.ts b/dist/types/internal/operators/filter.d.ts
+index 01089a216c3214a5d2db80d6ce3867212d6278e4..ccc6db28c58f78e2d6c4699c70c3dbfc42863cac 100644
+--- a/dist/types/internal/operators/filter.d.ts
++++ b/dist/types/internal/operators/filter.d.ts
+@@ -5,5 +5,5 @@ export declare function filter<T, S extends T>(predicate: (value: T, index: numb
+ export declare function filter<T>(predicate: BooleanConstructor): OperatorFunction<T, TruthyTypesOf<T>>;
+ /** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+ export declare function filter<T, A>(predicate: (this: A, value: T, index: number) => boolean, thisArg: A): MonoTypeOperatorFunction<T>;
+-export declare function filter<T>(predicate: (value: T, index: number) => boolean): MonoTypeOperatorFunction<T>;
++export declare function filter<T>(predicate: (value: T, index: number) => unknown): MonoTypeOperatorFunction<T>;
+ //# sourceMappingURL=filter.d.ts.map
+\ No newline at end of file
+diff --git a/src/internal/operators/filter.ts b/src/internal/operators/filter.ts
+index 4c99edfdcacab7fcbd563fe9634ef6beeeae0a71..9aaf2262c9fa71c9d8e86ee07bfec2d4889973a7 100644
+--- a/src/internal/operators/filter.ts
++++ b/src/internal/operators/filter.ts
+@@ -7,7 +7,7 @@ export function filter<T, S extends T>(predicate: (value: T, index: number) => v
+ export function filter<T>(predicate: BooleanConstructor): OperatorFunction<T, TruthyTypesOf<T>>;
+ /** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+ export function filter<T, A>(predicate: (this: A, value: T, index: number) => boolean, thisArg: A): MonoTypeOperatorFunction<T>;
+-export function filter<T>(predicate: (value: T, index: number) => boolean): MonoTypeOperatorFunction<T>;
++export function filter<T>(predicate: (value: T, index: number) => unknown): MonoTypeOperatorFunction<T>;
+ 
+ /**
+  * Filter items emitted by the source Observable by only emitting those that
+@@ -57,7 +57,7 @@ export function filter<T>(predicate: (value: T, index: number) => boolean): Mono
+  * @return A function that returns an Observable that emits items from the
+  * source Observable that satisfy the specified `predicate`.
+  */
+-export function filter<T>(predicate: (value: T, index: number) => boolean, thisArg?: any): MonoTypeOperatorFunction<T> {
++export function filter<T>(predicate: (value: T, index: number) => unknown, thisArg?: any): MonoTypeOperatorFunction<T> {
+   return (source) =>
+     new Observable((destination) => {
+       // An index passed to our predicate function on each call.

@@ -3714,7 +3714,7 @@ __metadata:
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     rollup: "npm:4.22.5"
-    rxjs: "npm:8.0.0-alpha.14"
+    rxjs: "patch:rxjs@npm%3A8.0.0-alpha.14#~/.yarn/patches/rxjs-npm-8.0.0-alpha.14-00c47179bc.patch"
     ts-brand: "npm:0.2.0"
     ts-enum-utilx: "npm:0.3.0"
     ts-expect: "npm:1.3.0"
@@ -7736,6 +7736,13 @@ __metadata:
   version: 8.0.0-alpha.14
   resolution: "rxjs@npm:8.0.0-alpha.14"
   checksum: 10c0/14e4b487455c0940e3d87985cc3f2917ec88ce8cd3ede06071eb071a841d729549d43cab198757863838a4e22c1d7d3e9816f08d37357fa7e3506bdd6f8af56e
+  languageName: node
+  linkType: hard
+
+"rxjs@patch:rxjs@npm%3A8.0.0-alpha.14#~/.yarn/patches/rxjs-npm-8.0.0-alpha.14-00c47179bc.patch":
+  version: 8.0.0-alpha.14
+  resolution: "rxjs@patch:rxjs@npm%3A8.0.0-alpha.14#~/.yarn/patches/rxjs-npm-8.0.0-alpha.14-00c47179bc.patch::version=8.0.0-alpha.14&hash=184baf"
+  checksum: 10c0/f9c3e22009488df2e1f1baaf05eed80e55c2d1fb1313862838ec9c1ce4e945238dbdf7154ffe9438ba2fd075aa350155f29374bcdbe2c04472094b63395bb5dd
   languageName: node
   linkType: hard
 
