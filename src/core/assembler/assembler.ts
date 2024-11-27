@@ -69,6 +69,7 @@ export class Assembler {
       while (true) {
         const { done, value: node } = parser.next()
         if (done) {
+          this.processPendingChunks()
           return node
         }
         this.collectErrors(context)
@@ -84,7 +85,6 @@ export class Assembler {
     finally {
       context.checkLabels()
       this.collectErrors(context)
-      this.processPendings()
     }
     return null
   }
@@ -194,7 +194,7 @@ export class Assembler {
     })
   }
 
-  private processPendings(): void {
+  private processPendingChunks(): void {
     this.pendings.forEach((chunk) => {
       const state = createAssemblerState(chunk.offset)
       AssemblerState.Provider({
