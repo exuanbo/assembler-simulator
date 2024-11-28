@@ -7746,17 +7746,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-buffer@npm:^5.1.0":
-  version: 5.2.1
-  resolution: "safe-buffer@npm:5.2.1"
-  checksum: 10c0/6501914237c0a86e9675d4e51d89ca3c21ffd6a31642efeba25ad65720bce6921c9e7e974e5be91a786b25aa058b5303285d3c15dbabf983a919f5f630d349f3
+"safe-buffer@npm:@nolyfill/safe-buffer@latest":
+  version: 1.0.41
+  resolution: "@nolyfill/safe-buffer@npm:1.0.41"
+  checksum: 10c0/d75b87a66bc178dc08528d12094c73236d0c1b0e38a2680ace0c8f24c36ce9ed14bf90faf5e85e8643dbcbb0f312f04ea60e7a3cd6a54074b6b63127900f9274
   languageName: node
   linkType: hard
 
-"safer-buffer@npm:>= 2.1.2 < 3.0.0":
-  version: 2.1.2
-  resolution: "safer-buffer@npm:2.1.2"
-  checksum: 10c0/7e3c8b2e88a1841c9671094bbaeebd94448111dd90a81a1f606f3f67708a6ec57763b3b47f06da09fc6054193e0e6709e77325415dc8422b04497a8070fa02d4
+"safer-buffer@npm:@nolyfill/safer-buffer@latest":
+  version: 1.0.41
+  resolution: "@nolyfill/safer-buffer@npm:1.0.41"
+  checksum: 10c0/af82b6589dcd7304e28d3ba82ec13684dc00325847972d5948f0c6240f43a5818ce2b120001011cb6faa9eba2136ca6fcdf52d4dad5ccbc6f1678b6d5d9cec3f
   languageName: node
   linkType: hard
 
