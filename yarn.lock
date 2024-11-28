@@ -3700,6 +3700,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:2.1.1"
     "@vitest/ui": "npm:2.1.1"
     ackee-tracker: "patch:ackee-tracker@npm%3A5.1.0#~/.yarn/patches/ackee-tracker-npm-5.1.0-0db5cc0193.patch"
+    di-wise: "npm:0.2.7"
     eslint: "npm:9.11.1"
     eslint-plugin-react: "npm:7.37.0"
     eslint-plugin-react-hooks: "npm:5.1.0-rc-3edc000d-20240926"
@@ -4409,6 +4410,13 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 10c0/c38cfc8eeb9fda09febb44bcd85e467c970d4e3bf526095394e5a4f18bc26dd0cf6b22c69c1fa9969261521c593836db335c2795218f6d781a512aea2fb8209d
+  languageName: node
+  linkType: hard
+
+"di-wise@npm:0.2.7":
+  version: 0.2.7
+  resolution: "di-wise@npm:0.2.7"
+  checksum: 10c0/01cd9aa9c7600c57bbac388004c65b183ce395b209fdd212b5870c36e8b322bcc148d7ca03ebc889a515223efca9de2e895e1fdf9c6edda7f2b9de436cd9c69d
   languageName: node
   linkType: hard
 

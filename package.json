@@ -27,6 +27,7 @@
     "@replit/codemirror-vim": "6.2.1",
     "@unocss/reset": "0.63.1",
     "ackee-tracker": "patch:ackee-tracker@npm%3A5.1.0#~/.yarn/patches/ackee-tracker-npm-5.1.0-0db5cc0193.patch",
+    "di-wise": "0.2.7",
     "immer": "npm:mutative-compat@0.1.2",
     "js-base64": "3.7.7",
     "mutative": "1.0.11",

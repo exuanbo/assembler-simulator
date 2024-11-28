@@ -1,13 +1,12 @@
+import { inject } from 'di-wise'
 import { type Observable, take } from 'rxjs'
 
-import type { Bus, ControlLines } from '../bus/bus'
+import { Bus, type ControlLines } from '../bus/bus'
 
 type AsyncControlGenerator<T> = Generator<Observable<ControlLines>, T, ControlLines>
 
 export class Cpu {
-  constructor(
-    private readonly bus: Bus,
-  ) {}
+  private bus = inject(Bus);
 
   *step(): AsyncControlGenerator<void> {
     const x = yield* this.readMemory(0x00)

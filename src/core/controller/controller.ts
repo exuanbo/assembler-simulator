@@ -1,17 +1,16 @@
+import { inject } from 'di-wise'
 import { Observable, type Subscription } from 'rxjs'
 
-import type { Bus } from '../bus/bus'
-import type { Clock } from '../clock/clock'
-import type { Cpu } from '../cpu/cpu'
-import type { Memory } from '../memory/memory'
+import { Bus } from '../bus/bus'
+import { Clock } from '../clock/clock'
+import { Cpu } from '../cpu/cpu'
+import { Memory } from '../memory/memory'
 
 export class Controller {
-  constructor(
-    private readonly bus: Bus,
-    private readonly cpu: Cpu,
-    private readonly clock: Clock,
-    private readonly memory: Memory,
-  ) {}
+  private bus = inject(Bus)
+  private cpu = inject(Cpu)
+  private clock = inject(Clock)
+  private memory = inject(Memory)
 
   step = (): Observable<void> => {
     return new Observable<void>((subscriber) => {

@@ -1,6 +1,7 @@
+import { inject } from 'di-wise'
 import { filter, map, type Observable, share } from 'rxjs'
 
-import type { Bus } from '../bus/bus'
+import { Bus } from '../bus/bus'
 
 export enum MemoryOperationType {
   READ  = 'READ',
@@ -20,9 +21,9 @@ export class Memory {
   readonly read$: Observable<MemoryOperation>
   readonly write$: Observable<MemoryOperation>
 
-  constructor(
-    private readonly bus: Bus,
-  ) {
+  private bus = inject(Bus)
+
+  constructor() {
     const control$ = this.bus.control$.pipe(
       filter((control) => control.MREQ),
       share(),

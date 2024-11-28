@@ -1,9 +1,9 @@
-import type { Bus } from '../bus/bus'
+import { inject } from 'di-wise'
+
+import { Bus } from '../bus/bus'
 
 export class Clock {
-  constructor(
-    private readonly bus: Bus,
-  ) {}
+  private bus = inject(Bus)
 
   tick = (): void => {
     this.bus.setControl({ CLK: 0b1 })
