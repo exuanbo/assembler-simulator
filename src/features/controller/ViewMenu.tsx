@@ -81,7 +81,7 @@ const ViewMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main innerRef={hoverRef}>
+        <MenuButton.Main ref={hoverRef}>
           <ViewIcon />
           <span>View</span>
         </MenuButton.Main>

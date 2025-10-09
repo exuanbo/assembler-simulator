@@ -9,11 +9,11 @@ const MenuButton: FC<PropsWithChildren> = ({ children }) => (
 )
 
 type Props = PropsWithChildren<{
-  innerRef?: Ref<HTMLDivElement>
+  ref?: Ref<HTMLDivElement>
 }>
 
-const Main: FC<Props> = ({ innerRef, children }) => (
-  <div ref={innerRef} className={classNames(className, 'py-1 px-2 hover:active:bg-gray-300')}>
+const Main: FC<Props> = ({ ref, children }) => (
+  <div ref={ref} className={classNames(className, 'py-1 px-2 hover:active:bg-gray-300')}>
     {children}
   </div>
 )

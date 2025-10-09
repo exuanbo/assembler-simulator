@@ -161,7 +161,7 @@ const FileMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main innerRef={hoverRef}>
+        <MenuButton.Main ref={hoverRef}>
           <FileIcon />
           <span>File</span>
         </MenuButton.Main>

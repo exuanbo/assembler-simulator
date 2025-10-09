@@ -115,7 +115,7 @@ const HelpMenu: FC = () => {
     <Menu>
       {(isOpen, hoverRef, menuElement) => (
         <>
-          <MenuButton.Main innerRef={hoverRef}>
+          <MenuButton.Main ref={hoverRef}>
             <Help />
           </MenuButton.Main>
           {isOpen && (

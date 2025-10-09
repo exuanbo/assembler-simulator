@@ -130,7 +130,7 @@ const ConfigurationMenu: FC = () => (
   <Menu>
     {(isOpen, hoverRef, menuElement) => (
       <>
-        <MenuButton.Main innerRef={hoverRef}>
+        <MenuButton.Main ref={hoverRef}>
           <Wrench />
           <span>Configuration</span>
         </MenuButton.Main>
