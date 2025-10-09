@@ -38,6 +38,9 @@ export const baseConfig = defineConfig({
           },
         ],
       },
+      workbox: {
+        sourcemap: false,
+      },
     }),
   ],
   resolve: {
