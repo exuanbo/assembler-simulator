@@ -17,7 +17,6 @@
 
     // Interop Constraints
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
 
@@ -26,9 +25,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "target": "ESNext",
     "useDefineForClassFields": true,
-
-    // Output Formatting
-    "noErrorTruncation": true,
 
     // Completeness
     "skipLibCheck": true
