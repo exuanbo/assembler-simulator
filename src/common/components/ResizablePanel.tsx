@@ -23,7 +23,7 @@ interface ResizablePanelProps {
   className?: string
 }
 
-const getOffsetWidth = (ref: React.RefObject<HTMLElement>) => ref.current!.offsetWidth
+const getOffsetWidth = (ref: React.RefObject<HTMLElement | null>) => ref.current!.offsetWidth
 
 const ResizablePanel: FC<ResizablePanelProps> = ({
   children: [leftChild, rightChild],
@@ -75,7 +75,7 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
   const [isDragging, setDragging] = useState(false)
 
   const clickCountRef = useRef(0)
-  const clickTimeoutIdRef = useRef<number>()
+  const clickTimeoutIdRef = useRef<number>(undefined)
 
   const handleMouseDown = (): void => {
     setDragging(true)
