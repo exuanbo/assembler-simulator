@@ -10,7 +10,7 @@ import { isCSSRequest } from 'vite'
 
 /**
  * Modified from Vite deprecated splitVendorChunk plugin
- * @see {@link https://github.com/vitejs/vite/blob/main/packages/vite/src/node/plugins/splitVendorChunk.ts}
+ * @see {@link https://github.com/vitejs/vite/blob/3f337c5e24504e51188d29c970de1416ee523dbb/packages/vite/src/node/plugins/splitVendorChunk.ts}
  * @license {@link https://github.com/vitejs/vite/blob/main/LICENSE | MIT}
  *
  * @returns {Vite.Plugin}
@@ -26,7 +26,7 @@ export default function splitVendorChunk() {
       !isCSSRequest(id)
       && isInNodeModules(id)
       && isStaticImported(id)) {
-      if (frameworkPaths.some((path) => id.includes(path))) {
+      if (frameworkPaths.some((path) => id.startsWith(path))) {
         return 'framework'
       }
       return 'vendor'
