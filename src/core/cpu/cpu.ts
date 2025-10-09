@@ -8,14 +8,14 @@ type AsyncControlGenerator<T> = Generator<Observable<ControlLines>, T, ControlLi
 export class Cpu {
   private bus = inject(Bus);
 
-  *step(): AsyncControlGenerator<void> {
+  * step(): AsyncControlGenerator<void> {
     const x = yield* this.readMemory(0x00)
     const y = yield* this.readMemory(0x01)
     const result = x + y
     yield* this.writeMemory(result, 0x02)
   }
 
-  *readMemory(address: number): AsyncControlGenerator<number> {
+  * readMemory(address: number): AsyncControlGenerator<number> {
     this.bus.address$.next(address)
     this.bus.setControl({
       RD:   0b1,
@@ -29,7 +29,7 @@ export class Cpu {
     return this.bus.data$.getValue()
   }
 
-  *writeMemory(data: number, address: number): AsyncControlGenerator<void> {
+  * writeMemory(data: number, address: number): AsyncControlGenerator<void> {
     this.bus.data$.next(data)
     this.bus.address$.next(address)
     this.bus.setControl({

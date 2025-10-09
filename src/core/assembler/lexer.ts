@@ -38,7 +38,7 @@ class LexerImpl implements Lexer {
     return this.iter.next()
   }
 
-  private *parse(): Generator<Token, void> {
+  private* parse(): Generator<Token, void> {
     const len = this.buffer.length
     while (this.index < len) {
       const c = this.buffer.charCodeAt(this.index)
@@ -104,7 +104,7 @@ class LexerImpl implements Lexer {
     }
   }
 
-  private *stateDefault(c: number) {
+  private* stateDefault(c: number) {
     if (isWhitespace(c)) {
       // skip
     }
@@ -138,7 +138,7 @@ class LexerImpl implements Lexer {
     }
   }
 
-  private *stateInIdentifier(c: number) {
+  private* stateInIdentifier(c: number) {
     if (isWord(c)) {
       return
     }
@@ -154,7 +154,7 @@ class LexerImpl implements Lexer {
     }
   }
 
-  private *stateInNumber(c: number) {
+  private* stateInNumber(c: number) {
     if (isDigit(c)) {
       return
     }
@@ -168,14 +168,14 @@ class LexerImpl implements Lexer {
     }
   }
 
-  private *stateInComment(c: number) {
+  private* stateInComment(c: number) {
     if (c === CharCode.NewLine) {
       yield this.create(TokenType.Comment, this.selectionStart, this.index)
       this.state = State.Default
     }
   }
 
-  private *stateInString(c: number) {
+  private* stateInString(c: number) {
     if (c === CharCode.DoubleQuote) {
       yield this.create(TokenType.String, this.selectionStart, this.index + 1)
       this.state = State.Default
@@ -188,7 +188,7 @@ class LexerImpl implements Lexer {
     }
   }
 
-  private *stateFinal() {
+  private* stateFinal() {
     if (this.state !== State.Default) {
       switch (this.state) {
       case State.InString:

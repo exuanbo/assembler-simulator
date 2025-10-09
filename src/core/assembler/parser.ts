@@ -12,7 +12,7 @@ import { parseHexNumber, parseString } from './utils'
 
 export type Parser = Generator<AST.Statement, AST.Program>
 
-export function *createParser(): Parser {
+export function* createParser(): Parser {
   const stream = useTokenStream()
 
   const statements: AST.Statement[] = []

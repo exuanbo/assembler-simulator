@@ -2,13 +2,14 @@
 
 import eslint from '@eslint/js'
 import pluginStylistic from '@stylistic/eslint-plugin'
+import { defineConfig } from 'eslint/config'
 import pluginReact from 'eslint-plugin-react'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+export default defineConfig(
   {
     name: 'exuanbo/languages',
     languageOptions: {
@@ -77,6 +78,7 @@ export default tseslint.config(
         ...pluginReact.configs.flat['jsx-runtime'],
       },
       {
+        // TODO: enable more rules
         name: 'react-hooks',
         plugins: {
           'react-hooks': pluginReactHooks,
@@ -118,10 +120,11 @@ export default tseslint.config(
     plugins: {
       '@stylistic': pluginStylistic,
     },
-    rules: extendRules(pluginStylistic.configs['recommended-flat'].rules, {
+    rules: extendRules(pluginStylistic.configs.recommended.rules, {
       '@stylistic/arrow-parens': ['error', 'always'],
       '@stylistic/indent': ['error', 2, {
         SwitchCase: 0,
+        flatTernaryExpressions: true,
       }],
       '@stylistic/jsx-closing-bracket-location': ['error', {
         nonEmpty: 'after-props',
@@ -144,7 +147,7 @@ export default tseslint.config(
       }],
       '@stylistic/quotes': ['error', 'single', {
         avoidEscape: true,
-        allowTemplateLiterals: true,
+        allowTemplateLiterals:  'always',
       }],
       '@stylistic/yield-star-spacing': ['error', 'after'],
     }),
@@ -154,7 +157,7 @@ export default tseslint.config(
 function extendRules(rules, record) {
   return Object.entries(record).reduce(
     (extendedRules, [name, entry]) =>
-      Object.assign(extendedRules, extendRule(name, entry)),
+      ({ ...extendedRules, ...extendRule(name, entry) }),
     rules,
   )
 

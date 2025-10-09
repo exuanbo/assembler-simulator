@@ -13,8 +13,8 @@ type UnionToFunctionIntersectionWithUnionMemberAsArg<Union> = (
 // Modified from a comment in the issue
 // "Type manipulations: union to tuple #13298"
 // https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381
-export type UnionToTuple<Union> =
-  UnionToFunctionIntersectionWithUnionMemberAsArg<Union> extends (
+export type UnionToTuple<Union>
+  = UnionToFunctionIntersectionWithUnionMemberAsArg<Union> extends (
     arg: infer ArgAsLastUnionMember,
   ) => void
     ? [...UnionToTuple<Exclude<Union, ArgAsLastUnionMember>>, ArgAsLastUnionMember]

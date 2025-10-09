@@ -66,16 +66,16 @@ export interface Label extends Node {
   identifier: Identifier
 }
 
-export type Instruction =
-  | Arithmetic
-  | Jump
-  | Move
-  | Compare
-  | Stack
-  | Procedure
-  | Interrupt
-  | InputOutput
-  | Control
+export type Instruction
+  = | Arithmetic
+    | Jump
+    | Move
+    | Compare
+    | Stack
+    | Procedure
+    | Interrupt
+    | InputOutput
+    | Control
 
 interface BaseInstruction extends Node {
   type: NodeType.Instruction
@@ -88,13 +88,13 @@ interface BaseInstruction extends Node {
 
 export type Operand = MemoryOperand | Register | Identifier | Immediate
 
-export type OperandType<TOperand = Operand> =
-  TOperand extends { type: infer Type, children: (infer Value)[] }
+export type OperandType<TOperand = Operand>
+  = TOperand extends { type: infer Type, children: (infer Value)[] }
     ? Type | OperandType<Value>
     : never
 
-export type OperandValue<TOperand = Operand> =
-  TOperand extends { children: (infer Value)[] }
+export type OperandValue<TOperand = Operand>
+  = TOperand extends { children: (infer Value)[] }
     ? Value | OperandValue<Value>
     : never
 
@@ -308,52 +308,52 @@ export enum Mnemonic {
 }
 
 export declare namespace Mnemonic {
-  export type UnaryArithmetic =
-    | Mnemonic.INC
-    | Mnemonic.DEC
-    | Mnemonic.NOT
-    | Mnemonic.ROL
-    | Mnemonic.ROR
-    | Mnemonic.SHL
-    | Mnemonic.SHR
+  export type UnaryArithmetic
+    = | Mnemonic.INC
+      | Mnemonic.DEC
+      | Mnemonic.NOT
+      | Mnemonic.ROL
+      | Mnemonic.ROR
+      | Mnemonic.SHL
+      | Mnemonic.SHR
 
-  export type BinaryArithmetic =
-    | Mnemonic.ADD
-    | Mnemonic.SUB
-    | Mnemonic.MUL
-    | Mnemonic.DIV
-    | Mnemonic.MOD
-    | Mnemonic.AND
-    | Mnemonic.OR
-    | Mnemonic.XOR
+  export type BinaryArithmetic
+    = | Mnemonic.ADD
+      | Mnemonic.SUB
+      | Mnemonic.MUL
+      | Mnemonic.DIV
+      | Mnemonic.MOD
+      | Mnemonic.AND
+      | Mnemonic.OR
+      | Mnemonic.XOR
 
-  export type Jump =
-    | Mnemonic.JMP
-    | Mnemonic.JZ
-    | Mnemonic.JNZ
-    | Mnemonic.JS
-    | Mnemonic.JNS
-    | Mnemonic.JO
-    | Mnemonic.JNO
+  export type Jump
+    = | Mnemonic.JMP
+      | Mnemonic.JZ
+      | Mnemonic.JNZ
+      | Mnemonic.JS
+      | Mnemonic.JNS
+      | Mnemonic.JO
+      | Mnemonic.JNO
 
-  export type GeneralStack =
-    | Mnemonic.PUSH
-    | Mnemonic.POP
+  export type GeneralStack
+    = | Mnemonic.PUSH
+      | Mnemonic.POP
 
-  export type FlagStack =
-    | Mnemonic.PUSHF
-    | Mnemonic.POPF
+  export type FlagStack
+    = | Mnemonic.PUSHF
+      | Mnemonic.POPF
 
-  export type InputOutput =
-    | Mnemonic.IN
-    | Mnemonic.OUT
+  export type InputOutput
+    = | Mnemonic.IN
+      | Mnemonic.OUT
 
-  export type Control =
-    | Mnemonic.HALT
-    | Mnemonic.STI
-    | Mnemonic.CLI
-    | Mnemonic.CLO
-    | Mnemonic.NOP
+  export type Control
+    = | Mnemonic.HALT
+      | Mnemonic.STI
+      | Mnemonic.CLI
+      | Mnemonic.CLO
+      | Mnemonic.NOP
 }
 
 export enum DirectiveName {

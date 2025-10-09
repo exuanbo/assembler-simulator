@@ -27,8 +27,8 @@ interface PendingChunk extends CodeChunk {
 
 type ProcessableNode = Extract<AST.Statement, AssemblyNode>
 
-type ResolvableNode =
-  ProcessableNode extends { children: (infer Values)[] }
+type ResolvableNode
+  = ProcessableNode extends { children: (infer Values)[] }
     ? Exclude<Values, AST.Mnemonic>
     : never
 
