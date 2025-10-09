@@ -24,19 +24,20 @@ export const useSingleton = <T extends {}>(instance: T | (() => T)): T => {
   return instanceRef.current
 }
 
+// TODO: investigate
 export const useRefCallback = <T>(): [T | null, RefCallback<T>] => useState<T | null>(null)
 
-// https://github.com/SukkaW/foxact/blob/master/src/use-stable-handler-only-when-you-know-what-you-are-doing-or-you-will-be-fired/index.ts
+// https://github.com/SukkaW/foxact/blob/0ffd3afe281b177dff85286470d8e0166e039bc9/packages/foxact/src/use-stable-handler-only-when-you-know-what-you-are-doing-or-you-will-be-fired/index.ts
 export const useStableHandler = <A extends unknown[], R>(
   callback: (...args: A) => R,
 ): typeof callback => {
-  const callbackRef = useRef<typeof callback>(null!)
+  const ref = useRef<typeof callback>(null!)
   useInsertionEffect(() => {
-    callbackRef.current = callback
+    ref.current = callback
   }, [callback])
 
   return useCallback<typeof callback>((...args) => {
-    const fn = callbackRef.current
+    const fn = ref.current
     return fn(...args)
   }, [])
 }
