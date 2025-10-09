@@ -7,6 +7,7 @@
     // Modules
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -16,13 +17,12 @@
     "noEmit": true,
 
     // Interop Constraints
-    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
 
     // Language and Environment
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["DOM", "ESNext"],
     "target": "ESNext",
     "useDefineForClassFields": true,
 
