@@ -14,20 +14,20 @@ export const enum ErrorCode {
   CharacterOutOfRange,
 }
 
-export type ParserErrorCode
-  = | ErrorCode.UnexpectedCharacter
-    | ErrorCode.UnterminatedString
-    | ErrorCode.UnexpectedEndOfInput
-    | ErrorCode.UnexpectedToken
-    | ErrorCode.DuplicateLabel
-    | ErrorCode.UnreferencedLabel
-    | ErrorCode.UndefinedLabel
+export type ParserErrorCode =
+  | ErrorCode.UnexpectedCharacter
+  | ErrorCode.UnterminatedString
+  | ErrorCode.UnexpectedEndOfInput
+  | ErrorCode.UnexpectedToken
+  | ErrorCode.DuplicateLabel
+  | ErrorCode.UnreferencedLabel
+  | ErrorCode.UndefinedLabel
 
-export type AssemblerErrorCode
-  = | ErrorCode.MemoryOverflow
-    | ErrorCode.JumpOutOfRange
-    | ErrorCode.ImmediateOutOfRange
-    | ErrorCode.CharacterOutOfRange
+export type AssemblerErrorCode =
+  | ErrorCode.MemoryOverflow
+  | ErrorCode.JumpOutOfRange
+  | ErrorCode.ImmediateOutOfRange
+  | ErrorCode.CharacterOutOfRange
 
 // use to check exhaustiveness
 type AssemblyErrorCode = ParserErrorCode | AssemblerErrorCode

@@ -116,8 +116,11 @@ export default defineConfig(
           VariableDeclarator: true,
         },
       }],
-      // TODO
-      // '@stylistic/operator-linebreak': 'error',
+      '@stylistic/operator-linebreak': ['error', 'before', {
+        overrides: {
+          '=': 'after',
+        },
+      }],
       '@stylistic/quotes': ['error', 'single', {
         avoidEscape: true,
         allowTemplateLiterals:  'always',

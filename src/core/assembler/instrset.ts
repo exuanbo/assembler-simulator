@@ -1,11 +1,11 @@
 import * as AST from './ast'
 
-export type OperandPattern
-  = | AST.OperandType
-    | {
-      type: AST.OperandType
-      children: OperandPattern[]
-    }
+export type OperandPattern =
+  | AST.OperandType
+  | {
+    type: AST.OperandType
+    children: OperandPattern[]
+  }
 
 export const patterns: Record<AST.Mnemonic, [number, OperandPattern[]][]> = {
   ADD: [

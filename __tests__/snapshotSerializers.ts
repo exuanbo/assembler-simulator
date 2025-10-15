@@ -2,18 +2,18 @@ import { chunk, decToHex } from '@/common/utils'
 
 const SEPARATOR = ', '
 
-type TypeofResult
-  = | 'string'
-    | 'number'
-    | 'bigint'
-    | 'boolean'
-    | 'symbol'
-    | 'undefined'
-    | 'object'
-    | 'function'
+type TypeofResult =
+  | 'string'
+  | 'number'
+  | 'bigint'
+  | 'boolean'
+  | 'symbol'
+  | 'undefined'
+  | 'object'
+  | 'function'
 
-type TypeofResultToType<T extends TypeofResult>
-  = T extends 'string' ? string
+type TypeofResultToType<T extends TypeofResult> =
+  T extends 'string' ? string
   : T extends 'number' ? number
   : T extends 'bigint' ? bigint
   : T extends 'boolean' ? boolean

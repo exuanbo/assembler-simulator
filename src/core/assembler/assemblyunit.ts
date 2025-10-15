@@ -20,12 +20,12 @@ export interface AssemblyNode extends AST.Node {
   children: ArrayLike<AssemblyNodeValue>
 }
 
-export type AssemblyNodeValue
-  = | AssemblyNode
-    | (
-      | AST.Mnemonic
-      | AST.OperandValue
-      | AST.StringLiteral
+export type AssemblyNodeValue =
+  | AssemblyNode
+  | (
+    | AST.Mnemonic
+    | AST.OperandValue
+    | AST.StringLiteral
   )
 
 const nil: LabelMap = new Map()

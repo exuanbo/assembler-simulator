@@ -32,12 +32,12 @@ const highlightLineField = StateField.define<DecorationSet>({
     const updatedDecorations = reduceRangeSet(
       decorations,
       (resultDecorations, decoration, decorationFrom) => {
-        const hasNewOverlappedSelection
-          = transaction.selection !== undefined
-            && hasNonEmptySelectionAtLine(
-              transaction.state.doc.lineAt(decorationFrom),
-              transaction.selection.ranges,
-            )
+        const hasNewOverlappedSelection =
+          transaction.selection !== undefined
+          && hasNonEmptySelectionAtLine(
+            transaction.state.doc.lineAt(decorationFrom),
+            transaction.selection.ranges,
+          )
         const expectedLineDecoration = hasNewOverlappedSelection
           ? lineDecorationTransparent
           : lineDecoration
