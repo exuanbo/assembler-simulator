@@ -32,32 +32,3 @@ export const classNames = (...items: ClassItem[]): string => {
   }
   return className
 }
-
-const stringToRecord = (item: string) => {
-  const record: Record<string, true> = {}
-  const keys = item.split(' ')
-  const count = keys.length
-  for (let index = 0; index < count; index++) {
-    const key = keys[index]
-    if (key) {
-      record[key] = true
-    }
-  }
-  return record
-}
-
-export const mergeClassNames = (target: ClassItem, source: ClassItem): string => {
-  if (!target) {
-    return classNames(source)
-  }
-  if (!source) {
-    return classNames(target)
-  }
-  if (typeof target === 'string') {
-    return mergeClassNames(stringToRecord(target), source)
-  }
-  if (typeof source === 'string') {
-    return mergeClassNames(target, stringToRecord(source))
-  }
-  return classNames({ ...target, ...source })
-}

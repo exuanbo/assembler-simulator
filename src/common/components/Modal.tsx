@@ -1,7 +1,7 @@
 import { type FC, type PropsWithChildren, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { type ClassItem, mergeClassNames } from '../utils'
+import { type ClassItem, classNames } from '../utils'
 
 const modalContainer = document.getElementById('modal-root')!
 
@@ -21,7 +21,7 @@ const Modal: FC<Props> = ({ className, isOpen = false, children }) => {
       return
     }
     const modal = Object.assign(document.createElement('div'), {
-      className: mergeClassNames(modalClassName, className),
+      className: classNames(modalClassName, className),
     })
     modalContainer.appendChild(modal)
     // eslint-disable-next-line react-hooks/set-state-in-effect
