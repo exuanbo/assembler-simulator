@@ -6,37 +6,22 @@ import { defineConfig } from 'eslint/config'
 import pluginReact from 'eslint-plugin-react'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
-import globals from 'globals'
 import tseslint from 'typescript-eslint'
+
+import { extendRules } from './scripts/eslint.js'
 
 export default defineConfig(
   {
-    name: 'exuanbo/languages',
-    languageOptions: {
-      ecmaVersion: 2022,
-      globals: {
-        ...globals.browser,
-        ...globals.es2022,
-        ...globals.node,
-      },
-    },
-  },
-  {
-    name: 'exuanbo/ignores',
-    ignores: ['.yarn', 'coverage', 'dist'],
-  },
-  {
-    name: 'exuanbo/files',
-    files: ['**/*.?(c|m){j,t}s?(x)'],
+    name: 'eslint/ignores',
+    ignores: ['.yarn/', 'coverage/', 'dist/'],
   },
   {
     name: 'eslint/recommended',
     ...eslint.configs.recommended,
   },
+  ...tseslint.configs.recommendedTypeChecked,
   {
-    name: 'exuanbo/typescript',
-    files: ['**/*.?(c|m)ts?(x)'],
-    extends: tseslint.configs.recommendedTypeChecked,
+    name: 'exuanbo/typescript-eslint',
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -52,9 +37,6 @@ export default defineConfig(
       '@typescript-eslint/no-namespace': ['error', {
         allowDeclarations: true,
       }],
-      '@typescript-eslint/no-unused-expressions': ['error', {
-        allowShortCircuit: true,
-      }],
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
@@ -62,58 +44,51 @@ export default defineConfig(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-enum-comparison': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
     },
   },
   {
     name: 'exuanbo/react',
-    files: ['**/*.{j,t}s?(x)'],
+    basePath: 'src',
+    ignores: ['core/**'],
     extends: [
       {
-        name: 'react/recommended',
-        ...pluginReact.configs.flat.recommended,
-      },
-      {
-        name: 'react/jsx-runtime',
-        ...pluginReact.configs.flat['jsx-runtime'],
-      },
-      {
-        // TODO: enable more rules
-        name: 'react-hooks',
+        name: 'react/jsx',
+        files: ['**/*.tsx'],
+        languageOptions: {
+          parserOptions: {
+            ecmaFeatures: {
+              jsx: true,
+            },
+            jsxPragma: null,
+          },
+        },
         plugins: {
-          'react-hooks': pluginReactHooks,
+          react: pluginReact,
         },
         rules: {
-          'react-hooks/exhaustive-deps': 'error',
+          'react/jsx-sort-props': [
+            'error',
+            {
+              callbacksLast: true,
+              shorthandFirst: true,
+              reservedFirst: true,
+            },
+          ],
         },
+        settings: {
+          react: {
+            version: 'detect',
+          },
+        },
+      },
+      {
+        name: 'react-hooks/recommended',
+        files: ['**/*.ts', '**/*.tsx'],
+        ...pluginReactHooks.configs.flat.recommended,
       },
     ],
-    rules: {
-      'react/prop-types': 'off',
-      'react/jsx-sort-props': [
-        'error',
-        {
-          callbacksLast: true,
-          shorthandFirst: true,
-          reservedFirst: true,
-        },
-      ],
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-  },
-  {
-    name: 'simple-import-sort',
-    plugins: {
-      'simple-import-sort': pluginSimpleImportSort,
-    },
-    rules: {
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-    },
   },
   {
     name: 'exuanbo/stylistic',
@@ -128,14 +103,10 @@ export default defineConfig(
       }],
       '@stylistic/jsx-closing-bracket-location': ['error', {
         nonEmpty: 'after-props',
-        selfClosing: 'tag-aligned',
       }],
       '@stylistic/jsx-one-expression-per-line': 'off',
       '@stylistic/key-spacing': ['error', {
         mode: 'minimum',
-      }],
-      '@stylistic/max-statements-per-line': ['error', {
-        max: 2,
       }],
       '@stylistic/no-multi-spaces': ['error', {
         exceptions: {
@@ -145,46 +116,22 @@ export default defineConfig(
           VariableDeclarator: true,
         },
       }],
+      // TODO
+      // '@stylistic/operator-linebreak': 'error',
       '@stylistic/quotes': ['error', 'single', {
         avoidEscape: true,
         allowTemplateLiterals:  'always',
       }],
-      '@stylistic/yield-star-spacing': ['error', 'after'],
     }),
   },
+  {
+    name: 'simple-import-sort/all',
+    plugins: {
+      'simple-import-sort': pluginSimpleImportSort,
+    },
+    rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+    },
+  },
 )
-
-function extendRules(rules, record) {
-  return Object.entries(record).reduce(
-    (extendedRules, [name, entry]) =>
-      ({ ...extendedRules, ...extendRule(name, entry) }),
-    rules,
-  )
-
-  function extendRule(name, entry) {
-    if (!Array.isArray(entry)) {
-      return { [name]: entry }
-    }
-    const defaultEntry = rules[name]
-    if (!Array.isArray(defaultEntry)) {
-      return { [name]: entry }
-    }
-    const [, ...defaultOptions] = defaultEntry
-    const [level, ...options] = entry
-    const extendedOptions = options.map((option, i) => {
-      if (typeof option !== 'object') {
-        return option
-      }
-      const defaultOption = defaultOptions[i]
-      if (typeof defaultOption !== 'object') {
-        return option
-      }
-      return {
-        ...defaultOption,
-        ...option,
-      }
-    })
-    const extendedEntry = [level, ...extendedOptions]
-    return { [name]: extendedEntry }
-  }
-}

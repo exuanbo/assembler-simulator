@@ -24,6 +24,7 @@ const Modal: FC<Props> = ({ className, isOpen = false, children }) => {
       className: mergeClassNames(modalClassName, className),
     })
     modalContainer.appendChild(modal)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentModal(modal)
     return () => {
       modalContainer.removeChild(modal)

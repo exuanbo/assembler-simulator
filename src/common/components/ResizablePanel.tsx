@@ -39,11 +39,6 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
     [],
   )
 
-  const resetLeftChildWidth = useCallback(
-    () => setLeftChildWidth(getTotalWidth() / 2),
-    [getTotalWidth],
-  )
-
   const getAvailableWidth = useCallback(
     () => getTotalWidth() - getOffsetWidth(rightChildRef),
     [getTotalWidth],
@@ -57,8 +52,14 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
     __setLeftChildWidth(roundedWidth)
   }
 
+  const resetLeftChildWidth = useCallback(
+    () => setLeftChildWidth(getTotalWidth() / 2),
+    [getTotalWidth],
+  )
+
   useLayoutEffect(() => {
     if (!isReady) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       resetLeftChildWidth()
     }
   }, [isReady, resetLeftChildWidth])
@@ -67,6 +68,7 @@ const ResizablePanel: FC<ResizablePanelProps> = ({
     if (leftChildWidth !== undefined) {
       const availableWidth = getAvailableWidth()
       if (leftChildWidth > availableWidth) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setLeftChildWidth(availableWidth)
       }
     }

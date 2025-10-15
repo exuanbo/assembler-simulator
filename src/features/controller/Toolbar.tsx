@@ -16,6 +16,7 @@ const ToolBar: FC = () => {
 
   const setOpenMenu = useStableHandler((element: HTMLDivElement | null) => {
     __setOpenMenu(element)
+    // eslint-disable-next-line react-hooks/immutability
     outsideClickRef(element)
   })
 

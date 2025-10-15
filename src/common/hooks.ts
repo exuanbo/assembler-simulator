@@ -21,6 +21,7 @@ export const useSingleton = <T extends {}>(instance: T | (() => T)): T => {
     // https://github.com/microsoft/TypeScript/issues/37663
     instanceRef.current = isFunction(instance) ? instance() : instance
   }
+  // eslint-disable-next-line react-hooks/refs
   return instanceRef.current
 }
 

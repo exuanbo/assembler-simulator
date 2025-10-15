@@ -16,6 +16,9 @@
     // Emit
     "noEmit": true,
 
+    // JavaScript Support
+    "allowJs": true,
+
     // Interop Constraints
     "isolatedModules": true,
     "verbatimModuleSyntax": true,

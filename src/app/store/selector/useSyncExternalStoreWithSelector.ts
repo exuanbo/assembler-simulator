@@ -27,6 +27,7 @@ export function useSyncExternalStoreWithSelector<Snapshot, Selection>(
     const memoizedSelector = (nextSnapshot: Snapshot) => {
       if (!hasMemo) {
         // The first time the hook is called, there is no memoized result.
+        // eslint-disable-next-line react-hooks/immutability
         hasMemo = true
         memoizedSnapshot = nextSnapshot
         const nextSelection = selector(nextSnapshot)
