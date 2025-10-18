@@ -15,7 +15,12 @@ const config = {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/__tests__/**/*.test.ts?(x)'],
   transform: {
-    '\\.tsx?$': 'ts-jest',
+    '\\.tsx?$': [
+      'ts-jest',
+      {
+        diagnostics: { ignoreCodes: ['TS151001'] },
+      },
+    ],
     '\\.asm$': '<rootDir>/__tests__/rawTransformer.js',
   },
 }
