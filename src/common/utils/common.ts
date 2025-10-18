@@ -62,9 +62,12 @@ const parseStringRecursively = (str: string): string => {
   }
   catch (error) {
     if (error instanceof SyntaxError) {
-      const charIndex = Number(error.message.split(' ').slice(-1)[0])
+      // Node.js 20: Bad escaped character in JSON at position 3
+      // Node.js 22: Bad escaped character in JSON at position 3 (line 1 column 4)
+      const positionMatch = error.message.match(/at position (\d+)/)
+      const charIndex = positionMatch && Number(positionMatch[1])
       // invalid escape character or number
-      if (str[charIndex - 1] === '\\') {
+      if (charIndex && str[charIndex - 1] === '\\') {
         return parseStringRecursively(str.slice(0, charIndex - 1) + str.slice(charIndex))
       }
     }
