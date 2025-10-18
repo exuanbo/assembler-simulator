@@ -2,72 +2,52 @@
 // https://blog.skk.moe/post/context-in-javascript/
 // CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh
 
-export type ApplyProvider = <R>(callback: () => R) => R
-
-export interface ContextProvider<T> {
-  <R>(props: { value: T, callback: () => R }): R
-  (props: { value: T }): ApplyProvider
-}
-
-export interface ContextConsumer<T> {
-  <R>(callback: (value: T) => R): R
-  (): T
-}
+import { invariant } from './invariant'
 
 export interface Context<T> {
-  Provider: ContextProvider<T>
-  Consumer: ContextConsumer<T>
+  get(): T
+  run<R>(value: T, fn: () => R): R
+  run(value: T): <R>(fn: () => R) => R
 }
 
-const NO_VALUE_DEFAULT = Symbol('NO_VALUE_DEFAULT')
-type ContextValue<T> = T | typeof NO_VALUE_DEFAULT
+const NIL = Symbol('NIL')
 
-export function createContext<T>(defaultValue: ContextValue<T> = NO_VALUE_DEFAULT): Context<T> {
-  let contextValue = defaultValue
+export function createContext<T>(defaultValue: T | typeof NIL = NIL): Context<T> {
+  let value = defaultValue
 
-  const Provider = <R>({ value, callback }: { value: T, callback?: () => R }) => {
-    if (!callback) {
-      return (fn: typeof callback) => Provider({ value, callback: fn })
-    }
-    const currentValue = contextValue
-    contextValue = value
-    try {
-      return callback()
-    }
-    finally {
-      contextValue = currentValue
-    }
+  function get() {
+    invariant(value != NIL)
+    return value
   }
 
-  const Consumer = <R>(callback?: (value: T) => R) => {
-    if (contextValue === NO_VALUE_DEFAULT) {
-      throw new TypeError('Missing context: use within Provider or set default value.')
+  function run<R>(next: T, cb?: () => R) {
+    if (!cb) {
+      return (fn: typeof cb) => run(next, fn)
     }
-    if (!callback) {
-      return contextValue
+    const prev = value
+    value = next
+    try {
+      return cb()
     }
-    return callback(contextValue)
+    finally {
+      value = prev
+    }
   }
 
   return {
-    Provider,
-    Consumer,
+    get,
+    run,
   }
 }
 
-export function useContext<T>(Context: Context<T>): T {
-  return Context.Consumer()
-}
+export type Executor = <R>(fn: () => R) => R
 
-export interface ContextComposeProviderProps<R> {
-  contexts: ApplyProvider[]
-  callback: () => R
-}
+export function compose<R>(executors: Executor[], fn: () => R): R
 
-export function ComposeProvider<R>({ contexts, callback }: ContextComposeProviderProps<R>): R {
-  const applyProviders = contexts.reduceRight(
+export function compose<R>(executors: Executor[], cb: () => R) {
+  const execute = executors.reduceRight(
     (composed, current) => (fn) => current(() => composed(fn)),
     (fn) => fn(),
   )
-  return applyProviders(callback)
+  return execute(cb)
 }

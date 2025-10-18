@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { ComposeProvider } from '@/common/utils/context'
+import { compose } from '@/common/utils/context'
 import { examples } from '@/features/editor/examples'
 
 import * as AST from './ast'
@@ -33,13 +33,13 @@ function applyParser<Node extends AST.Node>(
 ) {
   const lexer = createLexer(input)
   const stream = createTokenStream(lexer)
-  return ComposeProvider({
-    contexts: [
-      ParserContext.Provider({ value: context }),
-      TokenStream.Provider({ value: stream }),
+  return compose(
+    [
+      ParserContext.run(context),
+      TokenStream.run(stream),
     ],
-    callback: parse,
-  })
+    parse,
+  )
 }
 
 describe('Parser', () => {

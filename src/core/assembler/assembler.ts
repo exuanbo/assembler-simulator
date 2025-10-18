@@ -1,9 +1,9 @@
 import { expectNever } from 'ts-expect'
 
-import { ComposeProvider } from '@/common/utils/context'
+import { compose } from '@/common/utils/context'
 import { invariant } from '@/common/utils/invariant'
 
-import { AssemblerState, createAssemblerState, useAssemblerState } from './assembler.state'
+import { AssemblerState, createAssemblerState } from './assembler.state'
 import { getSize, hasIdentifier, type WithIdentifier } from './assembler.utils'
 import {
   type AssemblyNode,
@@ -18,7 +18,7 @@ import * as InstrSet from './instrset'
 import { resolveOpcode } from './instrset.utils'
 import { createLexer } from './lexer'
 import { createParser } from './parser'
-import { createParserContext, ParserContext, useParserContext } from './parser.context'
+import { createParserContext, ParserContext } from './parser.context'
 import { createTokenStream, TokenStream } from './token.stream'
 
 interface PendingChunk extends CodeChunk {
@@ -44,26 +44,27 @@ export class Assembler {
   assemble(input: string): AssemblyUnit {
     const lexer = createLexer(input)
     const stream = createTokenStream(lexer)
+
     const context = createParserContext()
     const initialState = createAssemblerState()
-    return ComposeProvider({
-      contexts: [
-        AssemblerState.Provider({ value: initialState }),
-        ParserContext.Provider({ value: context }),
-        TokenStream.Provider({ value: stream }),
+    return compose(
+      [
+        AssemblerState.run(initialState),
+        ParserContext.run(context),
+        TokenStream.run(stream),
       ],
-      callback: () => {
+      () => {
         const unit = this.setup()
         const ast = this.parse()
         return this.hasError()
           ? finalize(unit, { chunks: [] })
           : finalize(unit, { ast, labels: context.labels })
       },
-    })
+    )
   }
 
   private parse(): AST.Program | null {
-    const context = useParserContext()
+    const context = ParserContext.get()
     const parser = createParser()
     try {
       while (true) {
@@ -125,7 +126,7 @@ export class Assembler {
   }
 
   private updateAddress(node: AST.Immediate | ProcessableNode): void {
-    const state = useAssemblerState()
+    const state = AssemblerState.get()
     if (node.type === AST.NodeType.Immediate) {
       this.catchError(() => state.setAddress(node))
     }
@@ -158,15 +159,15 @@ export class Assembler {
   }
 
   private processLabel({ children: [name] }: AST.Identifier): void {
-    const state = useAssemblerState()
-    const context = useParserContext()
+    const state = AssemblerState.get()
+    const context = ParserContext.get()
     const label = context.labels.get(name)
     invariant(label?.loc, `Label '${name}' is undefined`)
     label.address = state.address
   }
 
   private processInstruction(node: AST.Instruction): void {
-    const state = useAssemblerState()
+    const state = AssemblerState.get()
     const buffer = new Uint8Array(getSize(node))
     const baseChunk = {
       offset: state.address,
@@ -185,7 +186,7 @@ export class Assembler {
   }
 
   private processDataByte(node: AST.Db): void {
-    const state = useAssemblerState()
+    const state = AssemblerState.get()
     const buffer = new Uint8Array(this.resolve(node.children))
     this.unit.chunks.push({
       offset: state.address,
@@ -197,10 +198,7 @@ export class Assembler {
   private processPendingChunks(): void {
     this.pendings.forEach((chunk) => {
       const state = createAssemblerState(chunk.offset)
-      AssemblerState.Provider({
-        value: state,
-        callback: () => this.encodePending(chunk),
-      })
+      AssemblerState.run(state, () => this.encodePending(chunk))
     })
   }
 
@@ -243,8 +241,8 @@ function unsafe_resolve(nodes: ResolvableNode[]): number[] {
 }
 
 function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
-  const state = useAssemblerState()
-  const context = useParserContext()
+  const state = AssemblerState.get()
+  const context = ParserContext.get()
   const label = context.labels.get(name)
   invariant(label, `Label '${name}' is not added`)
   invariant(!Number.isNaN(label.address), `Label '${name}' is not processed`)

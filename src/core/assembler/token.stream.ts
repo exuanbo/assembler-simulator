@@ -1,4 +1,4 @@
-import { createContext, useContext } from '@/common/utils/context'
+import { createContext } from '@/common/utils/context'
 import { invariant } from '@/common/utils/invariant'
 
 import { ErrorCode, ParserError } from './errors'
@@ -61,7 +61,3 @@ export function createTokenStream(iter: Iterator<Token, void>): TokenStream {
 }
 
 export const TokenStream = createContext<TokenStream>()
-
-export function useTokenStream(): TokenStream {
-  return useContext(TokenStream)
-}

@@ -1,4 +1,4 @@
-import { createContext, useContext } from '@/common/utils/context'
+import { createContext } from '@/common/utils/context'
 
 import { getSize } from './assembler.utils'
 import type { AssemblyNode } from './assemblyunit'
@@ -36,7 +36,3 @@ export function createAssemblerState(initialAddress = 0): AssemblerState {
 }
 
 export const AssemblerState = createContext<AssemblerState>()
-
-export function useAssemblerState(): AssemblerState {
-  return useContext(AssemblerState)
-}

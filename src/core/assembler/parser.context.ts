@@ -1,4 +1,4 @@
-import { createContext, useContext } from '@/common/utils/context'
+import { createContext } from '@/common/utils/context'
 
 import type * as AST from './ast'
 import { ErrorCode, type ParserDiagnostic, ParserError, ParserWarning } from './errors'
@@ -80,7 +80,3 @@ export function createParserContext(): ParserContext {
 }
 
 export const ParserContext = createContext<ParserContext>()
-
-export function useParserContext(): ParserContext {
-  return useContext(ParserContext)
-}

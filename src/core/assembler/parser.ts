@@ -4,16 +4,16 @@ import { invariant } from '@/common/utils/invariant'
 
 import * as AST from './ast'
 import { ErrorCode, ParserError } from './errors'
-import { useParserContext } from './parser.context'
+import { ParserContext } from './parser.context'
 import { expectType, guard, registerType, tryParsers } from './parser.utils'
 import { TokenType } from './token'
-import { useTokenStream } from './token.stream'
+import { TokenStream } from './token.stream'
 import { parseHexNumber, parseString } from './utils'
 
 export type Parser = Generator<AST.Statement, AST.Program>
 
 export function* createParser(): Parser {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
 
   const statements: AST.Statement[] = []
   const comments: AST.Comment[] = []
@@ -49,7 +49,7 @@ export function* createParser(): Parser {
 }
 
 export function parseComment(): AST.Comment {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next((token) =>
     guard(token.type === TokenType.Comment))
   return {
@@ -64,8 +64,8 @@ export function parseStatement(): AST.Statement {
 }
 
 export const parseLabel = registerType((): AST.Label => {
-  const context = useParserContext()
-  const stream = useTokenStream()
+  const context = ParserContext.get()
+  const stream = TokenStream.get()
   stream.peek((token) =>
     guard(token.type === TokenType.LabelIdentifier))
   const identifier = tryParsers([parseIdentifier])
@@ -83,7 +83,7 @@ export const parseLabel = registerType((): AST.Label => {
 }, AST.NodeType.Label)
 
 export const parseInstruction = registerType((): AST.Instruction => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.peek((token) =>
     guard(token.type === TokenType.Identifier))
   const mnemonic = token.value.toUpperCase()
@@ -157,7 +157,7 @@ export const parseInstruction = registerType((): AST.Instruction => {
 }, AST.NodeType.Instruction)
 
 function parseUnaryArithmetic(mnemonic: AST.Mnemonic.UnaryArithmetic): AST.UnaryArithmetic {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const destination = tryParsers([parseRegister])
   return {
@@ -175,7 +175,7 @@ function parseUnaryArithmetic(mnemonic: AST.Mnemonic.UnaryArithmetic): AST.Unary
 }
 
 function parseBinaryArithmetic(mnemonic: AST.Mnemonic.BinaryArithmetic): AST.BinaryArithmetic {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const destination = tryParsers([parseRegister])
   stream.expect(TokenType.Comma)
@@ -196,8 +196,8 @@ function parseBinaryArithmetic(mnemonic: AST.Mnemonic.BinaryArithmetic): AST.Bin
 }
 
 function parseJump(mnemonic: AST.Mnemonic.Jump): AST.Jump {
-  const context = useParserContext()
-  const stream = useTokenStream()
+  const context = ParserContext.get()
+  const stream = TokenStream.get()
   const token = stream.next()
   const label = tryParsers([parseIdentifier])
   context.refLabel(label)
@@ -217,7 +217,7 @@ function parseJump(mnemonic: AST.Mnemonic.Jump): AST.Jump {
 
 function parseMove(): AST.Move {
   const mnemonic = AST.Mnemonic.MOV
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const destination = tryParsers([parseRegister, parseMemoryOperand])
   stream.expect(TokenType.Comma)
@@ -245,8 +245,8 @@ function parseMove(): AST.Move {
 
 function parseCompare(): AST.Compare {
   const mnemonic = AST.Mnemonic.CMP
-  const context = useParserContext()
-  const stream = useTokenStream()
+  const context = ParserContext.get()
+  const stream = TokenStream.get()
   const token = stream.next()
   const left = tryParsers([parseRegister])
   stream.expect(TokenType.Comma)
@@ -272,7 +272,7 @@ function parseCompare(): AST.Compare {
 }
 
 function parseGeneralStack(mnemonic: AST.Mnemonic.GeneralStack): AST.GeneralStack {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const register = tryParsers([parseRegister])
   return {
@@ -290,7 +290,7 @@ function parseGeneralStack(mnemonic: AST.Mnemonic.GeneralStack): AST.GeneralStac
 }
 
 function parseFlagStack(mnemonic: AST.Mnemonic.FlagStack): AST.FlagStack {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   return {
     type: AST.NodeType.Instruction,
@@ -304,7 +304,7 @@ function parseFlagStack(mnemonic: AST.Mnemonic.FlagStack): AST.FlagStack {
 
 function parseCallProcedure(): AST.CallProcedure {
   const mnemonic = AST.Mnemonic.CALL
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const address = tryParsers([parseImmediate])
   return {
@@ -323,7 +323,7 @@ function parseCallProcedure(): AST.CallProcedure {
 
 function parseReturnProcedure(): AST.ReturnProcedure {
   const mnemonic = AST.Mnemonic.RET
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   return {
     type: AST.NodeType.Instruction,
@@ -337,7 +337,7 @@ function parseReturnProcedure(): AST.ReturnProcedure {
 
 function parseTrapInterrupt(): AST.TrapInterrupt {
   const mnemonic = AST.Mnemonic.INT
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const vector = tryParsers([parseImmediate])
   return {
@@ -356,7 +356,7 @@ function parseTrapInterrupt(): AST.TrapInterrupt {
 
 function parseReturnInterrupt(): AST.ReturnInterrupt {
   const mnemonic = AST.Mnemonic.IRET
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   return {
     type: AST.NodeType.Instruction,
@@ -369,7 +369,7 @@ function parseReturnInterrupt(): AST.ReturnInterrupt {
 }
 
 function parseInputOutput(mnemonic: AST.Mnemonic.InputOutput): AST.InputOutput {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const port = tryParsers([parseImmediate])
   return {
@@ -387,7 +387,7 @@ function parseInputOutput(mnemonic: AST.Mnemonic.InputOutput): AST.InputOutput {
 }
 
 function parseControl(mnemonic: AST.Mnemonic.Control): AST.Control {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   return {
     type: AST.NodeType.Instruction,
@@ -400,7 +400,7 @@ function parseControl(mnemonic: AST.Mnemonic.Control): AST.Control {
 }
 
 export const parseDirective = registerType((): AST.Directive => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.peek((token) =>
     guard(token.type === TokenType.Identifier))
   const name = token.value.toUpperCase()
@@ -416,7 +416,7 @@ export const parseDirective = registerType((): AST.Directive => {
 }, AST.NodeType.Directive)
 
 function parseEnd(): AST.End {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   return {
     type: AST.NodeType.Directive,
@@ -426,7 +426,7 @@ function parseEnd(): AST.End {
 }
 
 function parseOrg(): AST.Org {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const address = tryParsers([parseImmediate])
   return {
@@ -441,7 +441,7 @@ function parseOrg(): AST.Org {
 }
 
 function parseDb(): AST.Db {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next()
   const value = tryParsers([parseStringLiteral, parseImmediate])
   return {
@@ -460,7 +460,7 @@ function parseDb(): AST.Db {
 // ---
 
 const parseMemoryOperand = registerType((): AST.MemoryOperand => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const left = stream.next((token) =>
     guard(token.type === TokenType.LeftSquare))
   const value = tryParsers([parseRegister, parseImmediate])
@@ -476,7 +476,7 @@ const parseMemoryOperand = registerType((): AST.MemoryOperand => {
 }, AST.NodeType.MemoryOperand)
 
 const parseRegister = registerType((): AST.Register => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next((token) =>
     guard(token.type === TokenType.Identifier))
   const name = token.value.toUpperCase()
@@ -489,7 +489,7 @@ const parseRegister = registerType((): AST.Register => {
 }, AST.NodeType.Register)
 
 const parseIdentifier = registerType((): AST.Identifier => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next((token) =>
     guard((token.type === TokenType.Identifier)
       || (token.type === TokenType.LabelIdentifier)))
@@ -503,7 +503,7 @@ const parseIdentifier = registerType((): AST.Identifier => {
 }, AST.NodeType.Identifier)
 
 const parseImmediate = registerType((): AST.Immediate => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next((token) =>
     guard((token.type === TokenType.Number)
       || (token.type === TokenType.Identifier)))
@@ -517,7 +517,7 @@ const parseImmediate = registerType((): AST.Immediate => {
 }, AST.NodeType.Immediate)
 
 const parseStringLiteral = registerType((): AST.StringLiteral => {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   const token = stream.next((token) =>
     guard(token.type === TokenType.String))
   const chars = parseString(token.value)

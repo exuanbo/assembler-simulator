@@ -51,7 +51,6 @@ export default defineConfig(
   {
     name: 'exuanbo/react',
     basePath: 'src',
-    ignores: ['core/**'],
     extends: [
       {
         name: 'react/jsx',

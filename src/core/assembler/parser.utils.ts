@@ -2,7 +2,7 @@ import { invariant } from '@/common/utils/invariant'
 
 import * as AST from './ast'
 import { ErrorCode, ParserError } from './errors'
-import { useTokenStream } from './token.stream'
+import { TokenStream } from './token.stream'
 
 export type ParserFn<Node extends AST.Node> = (() => Node)
 
@@ -27,7 +27,7 @@ export function guard(condition: unknown): asserts condition {
 }
 
 export function tryParsers<Fn extends ParserFn<any>>(fns: Fn[]): ReturnType<Fn> {
-  const stream = useTokenStream()
+  const stream = TokenStream.get()
   for (const fn of fns) {
     const restore = stream.snapshot()
     try {
