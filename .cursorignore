@@ -1,5 +1,3 @@
-.yarn/
-__snapshots__/
+public/
 
 LICENSE
-yarn.lock
