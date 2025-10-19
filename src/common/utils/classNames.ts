@@ -16,14 +16,12 @@ export const classNames = (...items: ClassItem[]): string => {
       continue
     }
     if (typeof item === 'string') {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       className && (className += ' ')
       className += item
     }
     else {
       for (const key in item) {
         if (item[key]) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           className && (className += ' ')
           className += key
         }
