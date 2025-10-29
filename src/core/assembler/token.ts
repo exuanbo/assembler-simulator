@@ -2,7 +2,7 @@ import { invariant } from '@/common/utils/invariant'
 
 import type * as AST from './ast'
 
-export const enum TokenType {
+export enum TokenType {
   Colon,
   Comma,
   LeftSquare,

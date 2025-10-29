@@ -1,6 +1,6 @@
 import type * as AST from './ast'
 
-export const enum ErrorCode {
+export enum ErrorCode {
   UnexpectedCharacter,
   UnterminatedString,
   UnexpectedEndOfInput,
@@ -46,7 +46,7 @@ const errormessages: Record<AssemblyErrorCode, string> = {
   [ErrorCode.CharacterOutOfRange]:  "Character '{char}' has UTF-16 code {value} exceeds maximum of 255",
 }
 
-export const enum Severity {
+export enum Severity {
   Error,
   Warning,
 }

@@ -7,7 +7,7 @@ export interface Node {
   loc: SourceLocation
 }
 
-export const enum NodeType {
+export enum NodeType {
   Program,
   Comment,
   Label,
