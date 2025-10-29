@@ -11,7 +11,10 @@ export const getStateWithSelector = injectStoreExtension<{ getState: GetStateWit
   <State>(store: Store<State>) => {
     const getState = function <Result>(selector?: Selector<State, Result>) {
       const state = store.getState()
-      return selector ? selector(state) : state
+      if (selector) {
+        return selector(state)
+      }
+      return state
     }
     return { getState }
   },
