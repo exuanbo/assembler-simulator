@@ -1,3 +1,4 @@
+import { Opcode } from '../code'
 import * as AST from './ast'
 
 export type OperandPattern =
@@ -7,158 +8,151 @@ export type OperandPattern =
     children: OperandPattern[]
   }
 
-export const patterns: Record<AST.Mnemonic, [number, OperandPattern[]][]> = {
+export const patterns: Record<AST.Mnemonic, [Opcode, OperandPattern[]][]> = {
+  HALT: [
+    [Opcode.HALT, []],
+  ],
   ADD: [
-    [0xa0, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xb0, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.ADD_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.ADD_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   SUB: [
-    [0xa1, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xb1, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.SUB_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.SUB_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   MUL: [
-    [0xa2, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xb2, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.MUL_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.MUL_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   DIV: [
-    [0xa3, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xb3, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.DIV_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.DIV_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   INC: [
-    [0xa4, [AST.NodeType.Register]],
+    [Opcode.INC_REG, [AST.NodeType.Register]],
   ],
   DEC: [
-    [0xa5, [AST.NodeType.Register]],
+    [Opcode.DEC_REG, [AST.NodeType.Register]],
   ],
   MOD: [
-    [0xa6, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xb6, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.MOD_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.MOD_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   AND: [
-    [0xaa, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xba, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.AND_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.AND_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   OR: [
-    [0xab, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xbb, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.OR_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.OR_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   XOR: [
-    [0xac, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xbc, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.XOR_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.XOR_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
   ],
   NOT: [
-    [0xad, [AST.NodeType.Register]],
+    [Opcode.NOT_REG, [AST.NodeType.Register]],
   ],
   ROL: [
-    [0x9a, [AST.NodeType.Register]],
+    [Opcode.ROL_REG, [AST.NodeType.Register]],
   ],
   ROR: [
-    [0x9b, [AST.NodeType.Register]],
+    [Opcode.ROR_REG, [AST.NodeType.Register]],
   ],
   SHL: [
-    [0x9c, [AST.NodeType.Register]],
+    [Opcode.SHL_REG, [AST.NodeType.Register]],
   ],
   SHR: [
-    [0x9d, [AST.NodeType.Register]],
+    [Opcode.SHR_REG, [AST.NodeType.Register]],
   ],
   JMP: [
-    [0xc0, [AST.NodeType.Identifier]],
+    [Opcode.JMP, [AST.NodeType.Identifier]],
   ],
   JZ: [
-    [0xc1, [AST.NodeType.Identifier]],
+    [Opcode.JZ, [AST.NodeType.Identifier]],
   ],
   JNZ: [
-    [0xc2, [AST.NodeType.Identifier]],
+    [Opcode.JNZ, [AST.NodeType.Identifier]],
   ],
   JS: [
-    [0xc3, [AST.NodeType.Identifier]],
+    [Opcode.JS, [AST.NodeType.Identifier]],
   ],
   JNS: [
-    [0xc4, [AST.NodeType.Identifier]],
+    [Opcode.JNS, [AST.NodeType.Identifier]],
   ],
   JO: [
-    [0xc5, [AST.NodeType.Identifier]],
+    [Opcode.JO, [AST.NodeType.Identifier]],
   ],
   JNO: [
-    [0xc6, [AST.NodeType.Identifier]],
+    [Opcode.JNO, [AST.NodeType.Identifier]],
   ],
   MOV: [
-    [0xd0, [AST.NodeType.Register, AST.NodeType.Immediate]],
-    [0xd1, [
+    [Opcode.MOV_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.MOV_REG_ADDR, [
       AST.NodeType.Register,
       { type: AST.NodeType.MemoryOperand, children: [AST.NodeType.Immediate] },
     ]],
-    [0xd2, [
+    [Opcode.MOV_ADDR_REG, [
       { type: AST.NodeType.MemoryOperand, children: [AST.NodeType.Immediate] },
       AST.NodeType.Register,
     ]],
-    [0xd3, [
+    [Opcode.MOV_REG_REG_ADDR, [
       AST.NodeType.Register,
       { type: AST.NodeType.MemoryOperand, children: [AST.NodeType.Register] },
     ]],
-    [0xd4, [
+    [Opcode.MOV_REG_ADDR_REG, [
       { type: AST.NodeType.MemoryOperand, children: [AST.NodeType.Register] },
       AST.NodeType.Register,
     ]],
   ],
   CMP: [
-    [0xda, [AST.NodeType.Register, AST.NodeType.Register]],
-    [0xdb, [AST.NodeType.Register, AST.NodeType.Immediate]],
-    [0xdc, [
+    [Opcode.CMP_REG_REG, [AST.NodeType.Register, AST.NodeType.Register]],
+    [Opcode.CMP_REG_IMM, [AST.NodeType.Register, AST.NodeType.Immediate]],
+    [Opcode.CMP_REG_ADDR, [
       AST.NodeType.Register,
       { type: AST.NodeType.MemoryOperand, children: [AST.NodeType.Immediate] },
     ]],
   ],
   PUSH: [
-    [0xe0, [AST.NodeType.Register]],
+    [Opcode.PUSH_REG, [AST.NodeType.Register]],
   ],
   POP: [
-    [0xe1, [AST.NodeType.Register]],
+    [Opcode.POP_REG, [AST.NodeType.Register]],
   ],
   PUSHF: [
-    [0xea, []],
+    [Opcode.PUSHF, []],
   ],
   POPF: [
-    [0xeb, []],
+    [Opcode.POPF, []],
   ],
   CALL: [
-    [0xca, [AST.NodeType.Immediate]],
+    [Opcode.CALL_ADDR, [AST.NodeType.Immediate]],
   ],
   RET: [
-    [0xcb, []],
+    [Opcode.RET, []],
   ],
   INT: [
-    [0xcc, [AST.NodeType.Immediate]],
+    [Opcode.INT_ADDR, [AST.NodeType.Immediate]],
   ],
   IRET: [
-    [0xcd, []],
+    [Opcode.IRET, []],
   ],
   IN: [
-    [0xf0, [AST.NodeType.Immediate]],
+    [Opcode.IN_IMM, [AST.NodeType.Immediate]],
   ],
   OUT: [
-    [0xf1, [AST.NodeType.Immediate]],
-  ],
-  HALT: [
-    [0x00, []],
+    [Opcode.OUT_IMM, [AST.NodeType.Immediate]],
   ],
   STI: [
-    [0xfc, []],
+    [Opcode.STI, []],
   ],
   CLI: [
-    [0xfd, []],
+    [Opcode.CLI, []],
   ],
   CLO: [
-    [0xfe, []],
+    [Opcode.CLO, []],
   ],
   NOP: [
-    [0xff, []],
+    [Opcode.NOP, []],
   ],
-}
-
-export enum Register {
-  AL = 0x00,
-  BL = 0x01,
-  CL = 0x02,
-  DL = 0x03,
 }

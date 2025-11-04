@@ -3,6 +3,7 @@ import { expectNever } from 'ts-expect'
 import { compose } from '@/common/utils/context'
 import { invariant } from '@/common/utils/invariant'
 
+import { Register } from '../code'
 import { AssemblerState, createAssemblerState } from './assembler.state'
 import { getSize, hasIdentifier, type WithIdentifier } from './assembler.utils'
 import {
@@ -14,7 +15,6 @@ import {
 } from './assemblyunit'
 import * as AST from './ast'
 import { AssemblerError, type AssemblyError, ErrorCode, ParserError, Severity } from './errors'
-import * as InstrSet from './instrset'
 import { resolveOpcode } from './instrset.utils'
 import { createLexer } from './lexer'
 import { createParser } from './parser'
@@ -254,7 +254,7 @@ function resolveIdentifier({ children: [name], loc }: AST.Identifier): number {
 }
 
 function resolveRegister({ children: [name] }: AST.Register): number {
-  return InstrSet.Register[name]
+  return Register[name]
 }
 
 function resolveImmediate({ children: [value], loc }: AST.Immediate): number {
