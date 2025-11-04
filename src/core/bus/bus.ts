@@ -25,6 +25,7 @@ const initialControlLines: ControlLines = {
 }
 
 export class Bus {
+  // TODO: validate data and address
   readonly data$ = new BehaviorSubject(0x00)
   readonly address$ = new BehaviorSubject(0x00)
   readonly control$ = new BehaviorSubject(initialControlLines)

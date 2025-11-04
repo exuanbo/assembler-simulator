@@ -15,7 +15,6 @@ export interface MemoryOperation {
 }
 
 export class Memory {
-  // TODO: use shared constants
   private readonly data = new Uint8Array(0x100)
 
   readonly read$: Observable<MemoryOperation>

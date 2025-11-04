@@ -274,7 +274,6 @@ function resolveStringLiteral({ children: chars, loc }: AST.StringLiteral): numb
   })
 }
 
-// TODO: move to separate file
 const MIN_SIGNED8 =  -0b10000000
 const MAX_SIGNED8 =   0b01111111
 const MAX_UNSIGNED8 = 0b11111111
