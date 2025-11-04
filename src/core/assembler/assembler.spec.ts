@@ -1,16 +1,23 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, type SnapshotSerializer } from 'vitest'
 
 import { examples } from '@/features/editor/examples'
 
 import { Assembler } from './assembler'
 
+const uint8ArraySerializer: SnapshotSerializer = {
+  test: (value) => value instanceof Uint8Array,
+  serialize: (arr: Uint8Array) => `Uint8Array [${arr.join(', ')}]`,
+}
+
 describe('Assembler', () => {
+  expect.addSnapshotSerializer(uint8ArraySerializer)
+
   examples.forEach(({ title, content }) => {
     it(`should assemble example ${title}`, () => {
       const assembler = new Assembler()
       const unit = assembler.assemble(content)
       expect(unit.ast).not.toBeNull()
-      expect(unit.chunks.length).toBeGreaterThan(0)
+      expect(unit.chunks.map(({ node, ...rest }) => rest)).toMatchSnapshot()
       expect(unit.warnings).toHaveLength(0)
       expect(unit.errors).toHaveLength(0)
     })

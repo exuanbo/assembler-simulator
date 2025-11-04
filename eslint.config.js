@@ -40,6 +40,9 @@ export default defineConfig(
       '@typescript-eslint/no-unused-expressions': ['error', {
         allowShortCircuit: true,
       }],
+      '@typescript-eslint/no-unused-vars': ['error', {
+        ignoreRestSiblings: true,
+      }],
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',

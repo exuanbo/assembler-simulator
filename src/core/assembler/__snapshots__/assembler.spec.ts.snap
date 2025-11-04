@@ -1,0 +1,408 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Assembler > should assemble example Hardware Interrupts 1`] = `
+[
+  {
+    "buffer": Uint8Array [192, 3],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [80],
+    "offset": 2,
+  },
+  {
+    "buffer": Uint8Array [252],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [208, 0, 48],
+    "offset": 4,
+  },
+  {
+    "buffer": Uint8Array [210, 192, 0],
+    "offset": 7,
+  },
+  {
+    "buffer": Uint8Array [164, 0],
+    "offset": 10,
+  },
+  {
+    "buffer": Uint8Array [192, 251],
+    "offset": 12,
+  },
+  {
+    "buffer": Uint8Array [208, 0, 48],
+    "offset": 80,
+  },
+  {
+    "buffer": Uint8Array [205],
+    "offset": 83,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Keyboard Input 1`] = `
+[
+  {
+    "buffer": Uint8Array [208, 1, 192],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [240, 0],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [219, 0, 13],
+    "offset": 5,
+  },
+  {
+    "buffer": Uint8Array [193, 9],
+    "offset": 8,
+  },
+  {
+    "buffer": Uint8Array [212, 1, 0],
+    "offset": 10,
+  },
+  {
+    "buffer": Uint8Array [164, 1],
+    "offset": 13,
+  },
+  {
+    "buffer": Uint8Array [194, 244],
+    "offset": 15,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Procedures 1`] = `
+[
+  {
+    "buffer": Uint8Array [208, 0, 224],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [173, 0],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [241, 1],
+    "offset": 5,
+  },
+  {
+    "buffer": Uint8Array [208, 1, 1],
+    "offset": 7,
+  },
+  {
+    "buffer": Uint8Array [202, 48],
+    "offset": 10,
+  },
+  {
+    "buffer": Uint8Array [173, 0],
+    "offset": 12,
+  },
+  {
+    "buffer": Uint8Array [241, 1],
+    "offset": 14,
+  },
+  {
+    "buffer": Uint8Array [208, 1, 4],
+    "offset": 16,
+  },
+  {
+    "buffer": Uint8Array [202, 48],
+    "offset": 19,
+  },
+  {
+    "buffer": Uint8Array [173, 0],
+    "offset": 21,
+  },
+  {
+    "buffer": Uint8Array [241, 1],
+    "offset": 23,
+  },
+  {
+    "buffer": Uint8Array [208, 1, 8],
+    "offset": 25,
+  },
+  {
+    "buffer": Uint8Array [202, 48],
+    "offset": 28,
+  },
+  {
+    "buffer": Uint8Array [192, 229],
+    "offset": 30,
+  },
+  {
+    "buffer": Uint8Array [165, 1],
+    "offset": 48,
+  },
+  {
+    "buffer": Uint8Array [194, 254],
+    "offset": 50,
+  },
+  {
+    "buffer": Uint8Array [203],
+    "offset": 52,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Seven-segment Display 1`] = `
+[
+  {
+    "buffer": Uint8Array [192, 13],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [250],
+    "offset": 2,
+  },
+  {
+    "buffer": Uint8Array [96],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [182],
+    "offset": 4,
+  },
+  {
+    "buffer": Uint8Array [158],
+    "offset": 5,
+  },
+  {
+    "buffer": Uint8Array [78],
+    "offset": 6,
+  },
+  {
+    "buffer": Uint8Array [220],
+    "offset": 7,
+  },
+  {
+    "buffer": Uint8Array [252],
+    "offset": 8,
+  },
+  {
+    "buffer": Uint8Array [138],
+    "offset": 9,
+  },
+  {
+    "buffer": Uint8Array [254],
+    "offset": 10,
+  },
+  {
+    "buffer": Uint8Array [222],
+    "offset": 11,
+  },
+  {
+    "buffer": Uint8Array [0],
+    "offset": 12,
+  },
+  {
+    "buffer": Uint8Array [208, 1, 2],
+    "offset": 13,
+  },
+  {
+    "buffer": Uint8Array [211, 0, 1],
+    "offset": 16,
+  },
+  {
+    "buffer": Uint8Array [241, 2],
+    "offset": 19,
+  },
+  {
+    "buffer": Uint8Array [164, 0],
+    "offset": 21,
+  },
+  {
+    "buffer": Uint8Array [255],
+    "offset": 23,
+  },
+  {
+    "buffer": Uint8Array [255],
+    "offset": 24,
+  },
+  {
+    "buffer": Uint8Array [255],
+    "offset": 25,
+  },
+  {
+    "buffer": Uint8Array [241, 2],
+    "offset": 26,
+  },
+  {
+    "buffer": Uint8Array [164, 1],
+    "offset": 28,
+  },
+  {
+    "buffer": Uint8Array [211, 0, 1],
+    "offset": 30,
+  },
+  {
+    "buffer": Uint8Array [219, 0, 0],
+    "offset": 33,
+  },
+  {
+    "buffer": Uint8Array [194, 239],
+    "offset": 36,
+  },
+  {
+    "buffer": Uint8Array [192, 231],
+    "offset": 38,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Software Interrupts 1`] = `
+[
+  {
+    "buffer": Uint8Array [192, 4],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [81],
+    "offset": 2,
+  },
+  {
+    "buffer": Uint8Array [113],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [204, 2],
+    "offset": 4,
+  },
+  {
+    "buffer": Uint8Array [204, 3],
+    "offset": 6,
+  },
+  {
+    "buffer": Uint8Array [192, 252],
+    "offset": 8,
+  },
+  {
+    "buffer": Uint8Array [224],
+    "offset": 80,
+  },
+  {
+    "buffer": Uint8Array [209, 0, 80],
+    "offset": 81,
+  },
+  {
+    "buffer": Uint8Array [173, 0],
+    "offset": 84,
+  },
+  {
+    "buffer": Uint8Array [210, 80, 0],
+    "offset": 86,
+  },
+  {
+    "buffer": Uint8Array [241, 1],
+    "offset": 89,
+  },
+  {
+    "buffer": Uint8Array [205],
+    "offset": 91,
+  },
+  {
+    "buffer": Uint8Array [254],
+    "offset": 112,
+  },
+  {
+    "buffer": Uint8Array [209, 0, 112],
+    "offset": 113,
+  },
+  {
+    "buffer": Uint8Array [173, 0],
+    "offset": 116,
+  },
+  {
+    "buffer": Uint8Array [186, 0, 254],
+    "offset": 118,
+  },
+  {
+    "buffer": Uint8Array [210, 112, 0],
+    "offset": 121,
+  },
+  {
+    "buffer": Uint8Array [241, 2],
+    "offset": 124,
+  },
+  {
+    "buffer": Uint8Array [205],
+    "offset": 126,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Traffic Lights 1`] = `
+[
+  {
+    "buffer": Uint8Array [208, 0, 128],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [241, 1],
+    "offset": 3,
+  },
+  {
+    "buffer": Uint8Array [155, 0],
+    "offset": 5,
+  },
+  {
+    "buffer": Uint8Array [192, 252],
+    "offset": 7,
+  },
+]
+`;
+
+exports[`Assembler > should assemble example Visual Display Unit 1`] = `
+[
+  {
+    "buffer": Uint8Array [192, 15],
+    "offset": 0,
+  },
+  {
+    "buffer": Uint8Array [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33],
+    "offset": 2,
+  },
+  {
+    "buffer": Uint8Array [0],
+    "offset": 14,
+  },
+  {
+    "buffer": Uint8Array [208, 0, 192],
+    "offset": 15,
+  },
+  {
+    "buffer": Uint8Array [208, 1, 2],
+    "offset": 18,
+  },
+  {
+    "buffer": Uint8Array [211, 2, 1],
+    "offset": 21,
+  },
+  {
+    "buffer": Uint8Array [212, 0, 2],
+    "offset": 24,
+  },
+  {
+    "buffer": Uint8Array [164, 0],
+    "offset": 27,
+  },
+  {
+    "buffer": Uint8Array [164, 1],
+    "offset": 29,
+  },
+  {
+    "buffer": Uint8Array [211, 2, 1],
+    "offset": 31,
+  },
+  {
+    "buffer": Uint8Array [219, 2, 0],
+    "offset": 34,
+  },
+  {
+    "buffer": Uint8Array [194, 243],
+    "offset": 37,
+  },
+]
+`;
