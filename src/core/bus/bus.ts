@@ -35,8 +35,8 @@ export class Bus {
     share(),
   )
 
-  setControl(lines: Partial<ControlLines>): void {
+  setControl(signals: Partial<ControlLines>): void {
     const control = this.control$.getValue()
-    this.control$.next(Object.assign(control, lines))
+    this.control$.next(Object.assign(control, signals))
   }
 }
