@@ -13,22 +13,21 @@ export interface ControlLines {
   HALT: Signal
 }
 
-const initialControlLines: ControlLines = {
-  RD:   0b0,
-  WR:   0b0,
-  MREQ: 0b0,
-  IORQ: 0b0,
-  CLK:  0b0,
-  WAIT: 0b0,
-  IRQ:  0b0,
-  HALT: 0b0,
-}
-
 export class Bus {
   // TODO: validate data and address
   readonly data$ = new BehaviorSubject(0x00)
   readonly address$ = new BehaviorSubject(0x00)
-  readonly control$ = new BehaviorSubject(initialControlLines)
+
+  readonly control$ = new BehaviorSubject<ControlLines>({
+    RD:   0b0,
+    WR:   0b0,
+    MREQ: 0b0,
+    IORQ: 0b0,
+    CLK:  0b0,
+    WAIT: 0b0,
+    IRQ:  0b0,
+    HALT: 0b0,
+  })
 
   readonly clockRise$: Observable<ControlLines> = this.control$.pipe(
     filter((control, index) => (index && control.CLK)),
