@@ -1,6 +1,5 @@
 // @ts-check
 
-/** @import * as Rollup from 'rollup' */
 /** @import * as Vite from 'vite' */
 
 import { createRequire } from 'node:module'
@@ -19,7 +18,7 @@ export default function splitVendorChunk() {
   const frameworkPaths = getTopLevelFrameworkPaths(['react', 'react-dom'])
 
   /**
-   * @type {Rollup.GetManualChunk}
+   * @type {Vite.Rollup.GetManualChunk}
    */
   const manualChunks = (id, { getModuleInfo }) => {
     if (
