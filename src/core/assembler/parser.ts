@@ -221,13 +221,9 @@ function parseMove(): AST.Move {
   const token = stream.next()
   const destination = tryParsers([parseRegister, parseMemoryOperand])
   stream.expect(TokenType.Comma)
-  let source: AST.Immediate | AST.MemoryOperand | AST.Register
-  if (destination.type === AST.NodeType.Register) {
-    source = tryParsers([parseImmediate, parseMemoryOperand])
-  }
-  else {
-    source = tryParsers([parseRegister])
-  }
+  const source = (destination.type === AST.NodeType.Register)
+    ? tryParsers([parseImmediate, parseMemoryOperand])
+    : tryParsers([parseRegister])
   return {
     type: AST.NodeType.Instruction,
     children: [
