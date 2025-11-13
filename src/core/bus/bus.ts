@@ -1,4 +1,4 @@
-import { BehaviorSubject, filter, type Observable, share } from 'rxjs'
+import { BehaviorSubject, filter, type Observable } from 'rxjs'
 
 export type Signal = 0b0 | 0b1
 
@@ -31,7 +31,6 @@ export class Bus {
 
   readonly clockRise$: Observable<ControlLines> = this.control$.pipe(
     filter((control, index) => (index && control.CLK)),
-    share(),
   )
 
   setControl(signals: Partial<ControlLines>): void {

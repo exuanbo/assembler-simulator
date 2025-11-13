@@ -1,5 +1,5 @@
 import type { Middleware, Selector, StoreEnhancer } from '@reduxjs/toolkit'
-import { distinctUntilChanged, map, type Observable, ReplaySubject, share, shareReplay } from 'rxjs'
+import { distinctUntilChanged, map, type Observable, ReplaySubject, shareReplay } from 'rxjs'
 
 import { injectStoreExtension } from '../enhancers/injectStoreExtension'
 import { weakMemo } from './weakMemo'
@@ -36,7 +36,6 @@ export const createStateObserver = <State>(): StateObserver<State> => {
     distinctState$.pipe(
       map(selector),
       distinctUntilChanged(),
-      share(),
     ),
   )
 
