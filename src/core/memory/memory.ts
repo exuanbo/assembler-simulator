@@ -1,5 +1,5 @@
 import { inject } from 'di-wise'
-import { filter, map, type Observable, share } from 'rxjs'
+import { filter, map, type Observable } from 'rxjs'
 
 import { Bus } from '../bus/bus'
 
@@ -15,7 +15,13 @@ export interface MemoryOperation {
 }
 
 export class Memory {
-  private readonly data = new Uint8Array(0x100)
+  private readonly buffer = new Uint8Array(0x100)
+
+  private dataChangeHandlers = new Set<() => void>()
+
+  private notifyDataChange = () => {
+    this.dataChangeHandlers.forEach((handler) => handler())
+  }
 
   readonly read$: Observable<MemoryOperation>
   readonly write$: Observable<MemoryOperation>
@@ -23,30 +29,21 @@ export class Memory {
   private bus = inject(Bus)
 
   constructor() {
-    const control$ = this.bus.control$.pipe(
-      filter((control) => control.MREQ),
-      share(),
-    )
-
-    this.read$ = control$.pipe(
-      filter((control) => control.RD),
+    this.read$ = this.bus.control$.pipe(
+      filter((control) => control.MREQ && control.RD),
       map(this.read),
-      share(),
     )
-
-    this.write$ = control$.pipe(
-      filter((control) => control.WR),
-      map(this.write),
-      share(),
-    )
-
     this.read$.subscribe()
-    this.write$.subscribe()
+    this.write$ = this.bus.control$.pipe(
+      filter((control) => control.MREQ && control.WR),
+      map(this.write),
+    )
+    this.write$.subscribe(this.notifyDataChange)
   }
 
   private read = (): MemoryOperation => {
     const address = this.bus.address$.getValue()
-    const data = this.data[address]
+    const data = this.buffer[address]
     this.bus.data$.next(data)
     return {
       type: MemoryOperationType.READ,
@@ -58,7 +55,7 @@ export class Memory {
   private write = (): MemoryOperation => {
     const address = this.bus.address$.getValue()
     const data = this.bus.data$.getValue()
-    this.data[address] = data
+    this.buffer[address] = data
     return {
       type: MemoryOperationType.WRITE,
       data,
@@ -67,19 +64,21 @@ export class Memory {
   }
 
   getData = (): number[] => {
-    return Array.from(this.data)
+    return Array.from(this.buffer)
   }
 
-  subscribeData = (onDataChange: (() => void)): (() => void) => {
-    const subscription = this.write$.subscribe(onDataChange)
-    return () => subscription.unsubscribe()
+  subscribe = (onDataChange: (() => void)): (() => void) => {
+    this.dataChangeHandlers.add(onDataChange)
+    return () => this.dataChangeHandlers.delete(onDataChange)
   }
 
-  load(data: Uint8Array, offset: number): void {
-    this.data.set(data, offset)
+  load(data: ArrayLike<number>, offset: number): void {
+    this.buffer.set(data, offset)
+    this.notifyDataChange()
   }
 
   reset(): void {
-    this.data.fill(0)
+    this.buffer.fill(0)
+    this.notifyDataChange()
   }
 }
