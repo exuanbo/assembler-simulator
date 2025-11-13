@@ -97,7 +97,6 @@ export const parseInstruction = registerType((): AST.Instruction => {
   case AST.Mnemonic.SHL:
   case AST.Mnemonic.SHR:
     return parseUnaryArithmetic(mnemonic)
-
   case AST.Mnemonic.ADD:
   case AST.Mnemonic.SUB:
   case AST.Mnemonic.MUL:
@@ -107,7 +106,6 @@ export const parseInstruction = registerType((): AST.Instruction => {
   case AST.Mnemonic.OR:
   case AST.Mnemonic.XOR:
     return parseBinaryArithmetic(mnemonic)
-
   case AST.Mnemonic.JMP:
   case AST.Mnemonic.JZ:
   case AST.Mnemonic.JNZ:
@@ -116,37 +114,27 @@ export const parseInstruction = registerType((): AST.Instruction => {
   case AST.Mnemonic.JO:
   case AST.Mnemonic.JNO:
     return parseJump(mnemonic)
-
   case AST.Mnemonic.MOV:
     return parseMove()
-
   case AST.Mnemonic.CMP:
     return parseCompare()
-
   case AST.Mnemonic.PUSH:
   case AST.Mnemonic.POP:
     return parseGeneralStack(mnemonic)
-
   case AST.Mnemonic.PUSHF:
   case AST.Mnemonic.POPF:
     return parseFlagStack(mnemonic)
-
   case AST.Mnemonic.CALL:
     return parseCallProcedure()
-
   case AST.Mnemonic.RET:
     return parseReturnProcedure()
-
   case AST.Mnemonic.INT:
     return parseTrapInterrupt()
-
   case AST.Mnemonic.IRET:
     return parseReturnInterrupt()
-
   case AST.Mnemonic.IN:
   case AST.Mnemonic.OUT:
     return parseInputOutput(mnemonic)
-
   case AST.Mnemonic.HALT:
   case AST.Mnemonic.STI:
   case AST.Mnemonic.CLI:
