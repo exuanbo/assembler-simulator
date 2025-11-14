@@ -1,5 +1,7 @@
 import { inject } from 'di-wise'
-import { filter, map, type Observable } from 'rxjs'
+import { BehaviorSubject, filter, map, type Observable } from 'rxjs'
+
+import { asObservable } from '@/common/asObservable'
 
 import { Bus } from '../bus/bus'
 
@@ -15,12 +17,15 @@ export interface MemoryOperation {
 }
 
 export class Memory {
-  private readonly buffer = new Uint8Array(0x100)
+  private _buffer$ = new BehaviorSubject(new Uint8Array(0x100))
+  readonly buffer$ = asObservable(this._buffer$)
 
-  private dataChangeHandlers = new Set<() => void>()
+  private get buffer() {
+    return this._buffer$.getValue()
+  }
 
   private notifyDataChange = () => {
-    this.dataChangeHandlers.forEach((handler) => handler())
+    this._buffer$.next(this.buffer)
   }
 
   readonly read$: Observable<MemoryOperation>
@@ -61,15 +66,6 @@ export class Memory {
       data,
       address,
     }
-  }
-
-  getData = (): number[] => {
-    return Array.from(this.buffer)
-  }
-
-  subscribe = (onDataChange: (() => void)): (() => void) => {
-    this.dataChangeHandlers.add(onDataChange)
-    return () => this.dataChangeHandlers.delete(onDataChange)
   }
 
   load(data: ArrayLike<number>, offset: number): void {
